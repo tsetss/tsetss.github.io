@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>mysql 编译时增加字符集的配置 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started
+^G/usr/local/mysql/libexec/mysqld: File &lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf&rsquo; not found (Errcode: 2)
+^G/usr/local/mysql/libexec/mysqld: Character set &lsquo;gb2312′ is not a compiled character set and is not specified in the &lsquo;/usr/local/mysql/share/mysql/charsets/Index&rsquo; file
+060625 01:37:00 mysqld ended 错误的时候，
+目前我的解决方法是重新编译mysql，在编译的参数中加入&ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。
+解决方法参考： MYSQL完全安装使用指南
+下面付上原文
+[quote]
+mysql安装笔记
+cloud/2003.10.10
+mail:flashc@21cn.com
+欢迎转载，转载请保留上述信息，谢谢
+学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。
+因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.
+●安装mysql
+tar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure &ndash;prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="mysql 编译时增加字符集的配置" />
+<meta property="og:description" content="如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started
+^G/usr/local/mysql/libexec/mysqld: File &lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf&rsquo; not found (Errcode: 2)
+^G/usr/local/mysql/libexec/mysqld: Character set &lsquo;gb2312′ is not a compiled character set and is not specified in the &lsquo;/usr/local/mysql/share/mysql/charsets/Index&rsquo; file
+060625 01:37:00 mysqld ended 错误的时候，
+目前我的解决方法是重新编译mysql，在编译的参数中加入&ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。
+解决方法参考： MYSQL完全安装使用指南
+下面付上原文
+[quote]
+mysql安装笔记
+cloud/2003.10.10
+mail:flashc@21cn.com
+欢迎转载，转载请保留上述信息，谢谢
+学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。
+因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.
+●安装mysql
+tar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure &ndash;prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-06-25T03:04:35+00:00" />
+<meta property="article:modified_time" content="2006-06-25T03:04:35+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mysql 编译时增加字符集的配置"/>
+<meta name="twitter:description" content="如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started
+^G/usr/local/mysql/libexec/mysqld: File &lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf&rsquo; not found (Errcode: 2)
+^G/usr/local/mysql/libexec/mysqld: Character set &lsquo;gb2312′ is not a compiled character set and is not specified in the &lsquo;/usr/local/mysql/share/mysql/charsets/Index&rsquo; file
+060625 01:37:00 mysqld ended 错误的时候，
+目前我的解决方法是重新编译mysql，在编译的参数中加入&ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。
+解决方法参考： MYSQL完全安装使用指南
+下面付上原文
+[quote]
+mysql安装笔记
+cloud/2003.10.10
+mail:flashc@21cn.com
+欢迎转载，转载请保留上述信息，谢谢
+学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。
+因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.
+●安装mysql
+tar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure &ndash;prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "mysql 编译时增加字符集的配置",
+      "item": "http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "mysql 编译时增加字符集的配置",
+  "name": "mysql 编译时增加字符集的配置",
+  "description": "如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started\n^G/usr/local/mysql/libexec/mysqld: File \u0026lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf\u0026rsquo; not found (Errcode: 2)\n^G/usr/local/mysql/libexec/mysqld: Character set \u0026lsquo;gb2312′ is not a compiled character set and is not specified in the \u0026lsquo;/usr/local/mysql/share/mysql/charsets/Index\u0026rsquo; file\n060625 01:37:00 mysqld ended 错误的时候，\n目前我的解决方法是重新编译mysql，在编译的参数中加入\u0026ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。\n解决方法参考： MYSQL完全安装使用指南\n下面付上原文\n[quote]\nmysql安装笔记\ncloud/2003.10.10\nmail:flashc@21cn.com\n欢迎转载，转载请保留上述信息，谢谢\n学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。\n因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.\n●安装mysql\ntar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure \u0026ndash;prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium.",
+  "keywords": [
+    
+  ],
+  "articleBody": "如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started\n^G/usr/local/mysql/libexec/mysqld: File ‘/usr/local/mysql/share/mysql/charsets/gb2312.conf’ not found (Errcode: 2)\n^G/usr/local/mysql/libexec/mysqld: Character set ‘gb2312′ is not a compiled character set and is not specified in the ‘/usr/local/mysql/share/mysql/charsets/Index’ file\n060625 01:37:00 mysqld ended 错误的时候，\n目前我的解决方法是重新编译mysql，在编译的参数中加入–with-extra-charsets=gbk,gb2312 便可解决此问题。\n解决方法参考： MYSQL完全安装使用指南\n下面付上原文\n[quote]\nmysql安装笔记\ncloud/2003.10.10\nmail:flashc@21cn.com\n欢迎转载，转载请保留上述信息，谢谢\n学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。\n因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.\n●安装mysql\ntar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure –prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium.cnf /etc/my.cnf copy配置文件,有large,medium,small三个环境下的,根据机器性能选择,如果负荷比较大,可修改里面的一些变量的内存使用值 cp support-files/mysql.server /etc/init.d/mysqld copy启动的mysqld文件 chmod 700 /etc/init.d/mysqld cd /web chmod 750 mysql -R chgrp mysql mysql -R chown mysql mysql/var -R cd /web/mysql/libexec cp mysqld mysqld.old strip mysqld chkconfig –add mysqld chkconfig –level 345 mysqld on service mysqld start netstat -atln 看看有没有3306的端口打开,如果mysqld不能启动,看看/web/mysql/var下的出错日志,一般都是目录权限没有设置好的问题\nln -s /web/mysql/bin/mysql /sbin/mysql ln -s /web/mysql/bin/mysqladmin /sbin/mysqladmin mysqladmin -uroot password “youpassword” #设置root帐户的密码 mysql -uroot -p 输入你设置的密码 mysql\u003e;use mysql;\nmysql\u003e;delete from user where password=\"\"; #删除用于本机匿名连接的空密码帐号\nmysql\u003e;flush privileges;\nmysql\u003e;quit\n●安装DBI和DBD for mysql 用于提供perl访问mysql数据库的接口规范,请确认你已经安装了perl,一般默认系统都装上了\ncd /setup tar zxvf DBD-mysql-2.9002.tar.gz -C /setup tar zxvf DBI-1.38.tar.gz -C /setup cd DBI-1.38 perl Makefile.PL make make test make install 因为有的perl程序中perl的路径是/usr/local/bin/perl,而红帽系统默认是/usr/bin/perl,所以最好做一个连接,保证兼容性\nln -s /usr/bin/perl /usr/local/bin/perl cd ../DBD-mysql-2.9002 生成安装配置文件需要在perl Makefile.PL后添加一些参数,比较麻烦,我们可以通过添加一个到/web/mysql/bin/mysql_config这个程序的连接解决问题\n系统会自动寻找这个命令生成安装所需要的数据库参数\nln -s /web/mysql/bin/mysql_config /sbin/mysql_config perl Makefile.PL make make instll (这里make test我总是运行一半就出错，但是安装后是可以运行mysql目录下的测试脚本,不知道3.x的mysql如何) 现在你可以运行测试脚本了,不过速度很慢,挂在后台好了\nperl /web/mysql/sql-bench/run-all-tests –user=root –password=“youpassword” 附:\n●mysql常见的一些有用的选项和命令\nmysqld —–开启日志支持\n–log\n–log-update\n–log-long-formart\n●mysql\ngrant all on database.* to user identified by “password” 新建一user用户,赋予其database数据库的所有权限\nrevoke all on database from user 移除user用户在database数据库上的所有权限\nmysql -uroot -p –one-database databasename ●mysqladmin\nmysqladmin flush-logs 命令mysqld重新打开一个新的日志文件,就是清空老日志文件,相当于轮回了\n●mysqldump\n–add-drop-table 导出sql语句时添加droptable if exists语句\n–quick 快速导出\n–opt 优化选项(推荐)\n●myisamchk\n检查表选项\n–extend-check 扩展检查\n–medium-check 速度比较折中的一个检查选项\n修复表选项\n–recover 修复表文件\n–safe-recover 安全修复表文件,比–recover要慢\n修饰修复表项\n–force 强制清除上次的临时文件\n–quick 只根据素引文件的内容进行修复\n●mysql的管理\n可以使用phpmyadmin(需要php的环境支持)和mysqlcc(linux图形界面支持,WINDOWS系统支持)\n[/quote]\n",
+  "wordCount" : "285",
+  "inLanguage": "en",
+  "datePublished": "2006-06-25T03:04:35Z",
+  "dateModified": "2006-06-25T03:04:35Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      mysql 编译时增加字符集的配置
+    </h1>
+    <div class="post-meta"><span title='2006-06-25 03:04:35 +0000 UTC'>June 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00  mysqld started</p>
+<p>^G/usr/local/mysql/libexec/mysqld: File &lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf&rsquo; not found (Errcode: 2)</p>
+<p>^G/usr/local/mysql/libexec/mysqld: Character set &lsquo;gb2312′ is not a compiled character set and is not specified in the &lsquo;/usr/local/mysql/share/mysql/charsets/Index&rsquo; file</p>
+<p>060625 01:37:00  mysqld ended 错误的时候，</p>
+<p>目前我的解决方法是重新编译mysql，在编译的参数中加入&ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。</p>
+<p>解决方法参考： <a href="http://www.chinaunix.net/jh/17/178508.html">MYSQL完全安装使用指南</a></p>
+<p>下面付上原文</p>
+<p>[quote]</p>
+<p>mysql安装笔记</p>
+<p>cloud/2003.10.10</p>
+<p>mail:flashc@21cn.com</p>
+<p>欢迎转载，转载请保留上述信息，谢谢</p>
+<p>学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。</p>
+<p>因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.</p>
+<p>●安装mysql</p>
+<h1 id="tar-zxvf-mysql-4014targz--c-setup">tar zxvf mysql-4.0.14.tar.gz -C /setup<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-mysql-4014targz--c-setup">#</a></h1>
+<h1 id="cd-setupmysql-4014">cd /setup/mysql-4.0.14<a hidden class="anchor" aria-hidden="true" href="#cd-setupmysql-4014">#</a></h1>
+<h1 id="groupadd-mysql">groupadd mysql<a hidden class="anchor" aria-hidden="true" href="#groupadd-mysql">#</a></h1>
+<h1 id="useradd-mysql--g-mysql--m--s-binfalse">useradd mysql -g mysql -M -s /bin/false<a hidden class="anchor" aria-hidden="true" href="#useradd-mysql--g-mysql--m--s-binfalse">#</a></h1>
+<h1 id="configure---prefixwebmysql--指定安装目录">./configure &ndash;prefix=/web/mysql  指定安装目录<a hidden class="anchor" aria-hidden="true" href="#configure---prefixwebmysql--指定安装目录">#</a></h1>
+<pre><code>  --without-debug 去除debug模式  
+
+  --with-extra-charsets=gb2312 添加gb2312中文字符支持  
+
+  --enable-assembler 使用一些字符函数的汇编版本  
+
+  --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表  
+
+  --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用  
+
+  --with-pthread 强制使用pthread库(posix线程库)  
+
+  --enable-thread-safe-client 以线程方式编译客户端  
+
+  --with-client-ldflags=-all-static   
+
+  --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端       --with-raid 激活raid支持 
+</code></pre>
+<h1 id="make">make<a hidden class="anchor" aria-hidden="true" href="#make">#</a></h1>
+<h1 id="make-install">make install<a hidden class="anchor" aria-hidden="true" href="#make-install">#</a></h1>
+<h1 id="scriptsmysql_install_db-生成mysql用户数据库和表文件">scripts/mysql_install_db 生成mysql用户数据库和表文件<a hidden class="anchor" aria-hidden="true" href="#scriptsmysql_install_db-生成mysql用户数据库和表文件">#</a></h1>
+<h1 id="cp-support-filesmy-mediumcnf-etcmycnf-copy配置文件有largemediumsmall三个环境下的根据机器性能选择如果负荷比较大可修改里面的一些变量的内存使用值">cp support-files/my-medium.cnf /etc/my.cnf copy配置文件,有large,medium,small三个环境下的,根据机器性能选择,如果负荷比较大,可修改里面的一些变量的内存使用值<a hidden class="anchor" aria-hidden="true" href="#cp-support-filesmy-mediumcnf-etcmycnf-copy配置文件有largemediumsmall三个环境下的根据机器性能选择如果负荷比较大可修改里面的一些变量的内存使用值">#</a></h1>
+<h1 id="cp-support-filesmysqlserver-etcinitdmysqld--copy启动的mysqld文件">cp support-files/mysql.server /etc/init.d/mysqld  copy启动的mysqld文件<a hidden class="anchor" aria-hidden="true" href="#cp-support-filesmysqlserver-etcinitdmysqld--copy启动的mysqld文件">#</a></h1>
+<h1 id="chmod-700-etcinitdmysqld">chmod 700 /etc/init.d/mysqld<a hidden class="anchor" aria-hidden="true" href="#chmod-700-etcinitdmysqld">#</a></h1>
+<h1 id="cd-web">cd /web<a hidden class="anchor" aria-hidden="true" href="#cd-web">#</a></h1>
+<h1 id="chmod-750-mysql--r">chmod 750 mysql -R<a hidden class="anchor" aria-hidden="true" href="#chmod-750-mysql--r">#</a></h1>
+<h1 id="chgrp-mysql-mysql--r">chgrp mysql mysql -R<a hidden class="anchor" aria-hidden="true" href="#chgrp-mysql-mysql--r">#</a></h1>
+<h1 id="chown-mysql-mysqlvar--r">chown mysql mysql/var -R<a hidden class="anchor" aria-hidden="true" href="#chown-mysql-mysqlvar--r">#</a></h1>
+<h1 id="cd-webmysqllibexec">cd /web/mysql/libexec<a hidden class="anchor" aria-hidden="true" href="#cd-webmysqllibexec">#</a></h1>
+<h1 id="cp-mysqld-mysqldold">cp mysqld mysqld.old<a hidden class="anchor" aria-hidden="true" href="#cp-mysqld-mysqldold">#</a></h1>
+<h1 id="strip-mysqld">strip mysqld<a hidden class="anchor" aria-hidden="true" href="#strip-mysqld">#</a></h1>
+<h1 id="chkconfig---add-mysqld">chkconfig &ndash;add mysqld<a hidden class="anchor" aria-hidden="true" href="#chkconfig---add-mysqld">#</a></h1>
+<h1 id="chkconfig---level-345-mysqld-on">chkconfig &ndash;level 345 mysqld on<a hidden class="anchor" aria-hidden="true" href="#chkconfig---level-345-mysqld-on">#</a></h1>
+<h1 id="service-mysqld-start">service mysqld start<a hidden class="anchor" aria-hidden="true" href="#service-mysqld-start">#</a></h1>
+<h1 id="netstat--atln">netstat -atln<a hidden class="anchor" aria-hidden="true" href="#netstat--atln">#</a></h1>
+<p>看看有没有3306的端口打开,如果mysqld不能启动,看看/web/mysql/var下的出错日志,一般都是目录权限没有设置好的问题</p>
+<h1 id="ln--s-webmysqlbinmysql-sbinmysql">ln -s /web/mysql/bin/mysql /sbin/mysql<a hidden class="anchor" aria-hidden="true" href="#ln--s-webmysqlbinmysql-sbinmysql">#</a></h1>
+<h1 id="ln--s-webmysqlbinmysqladmin-sbinmysqladmin">ln -s /web/mysql/bin/mysqladmin /sbin/mysqladmin<a hidden class="anchor" aria-hidden="true" href="#ln--s-webmysqlbinmysqladmin-sbinmysqladmin">#</a></h1>
+<h1 id="mysqladmin--uroot-password-youpassword-设置root帐户的密码">mysqladmin -uroot password &ldquo;youpassword&rdquo; #设置root帐户的密码<a hidden class="anchor" aria-hidden="true" href="#mysqladmin--uroot-password-youpassword-设置root帐户的密码">#</a></h1>
+<h1 id="mysql--uroot--p">mysql -uroot -p<a hidden class="anchor" aria-hidden="true" href="#mysql--uroot--p">#</a></h1>
+<h1 id="输入你设置的密码">输入你设置的密码<a hidden class="anchor" aria-hidden="true" href="#输入你设置的密码">#</a></h1>
+<p>mysql&gt;;use mysql;</p>
+<p>mysql&gt;;delete from user where password=&quot;&quot;; #删除用于本机匿名连接的空密码帐号</p>
+<p>mysql&gt;;flush privileges;</p>
+<p>mysql&gt;;quit</p>
+<p>●安装DBI和DBD for mysql 用于提供perl访问mysql数据库的接口规范,请确认你已经安装了perl,一般默认系统都装上了</p>
+<h1 id="cd-setup">cd /setup<a hidden class="anchor" aria-hidden="true" href="#cd-setup">#</a></h1>
+<h1 id="tar-zxvf-dbd-mysql-29002targz--c-setup">tar zxvf DBD-mysql-2.9002.tar.gz -C /setup<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-dbd-mysql-29002targz--c-setup">#</a></h1>
+<h1 id="tar-zxvf-dbi-138targz--c-setup">tar zxvf DBI-1.38.tar.gz -C /setup<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-dbi-138targz--c-setup">#</a></h1>
+<h1 id="cd-dbi-138">cd DBI-1.38<a hidden class="anchor" aria-hidden="true" href="#cd-dbi-138">#</a></h1>
+<h1 id="perl-makefilepl">perl Makefile.PL<a hidden class="anchor" aria-hidden="true" href="#perl-makefilepl">#</a></h1>
+<h1 id="make-1">make<a hidden class="anchor" aria-hidden="true" href="#make-1">#</a></h1>
+<h1 id="make-test">make test<a hidden class="anchor" aria-hidden="true" href="#make-test">#</a></h1>
+<h1 id="make-install-1">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-1">#</a></h1>
+<p>因为有的perl程序中perl的路径是/usr/local/bin/perl,而红帽系统默认是/usr/bin/perl,所以最好做一个连接,保证兼容性</p>
+<h1 id="ln--s-usrbinperl-usrlocalbinperl">ln -s /usr/bin/perl /usr/local/bin/perl<a hidden class="anchor" aria-hidden="true" href="#ln--s-usrbinperl-usrlocalbinperl">#</a></h1>
+<h1 id="cd-dbd-mysql-29002">cd ../DBD-mysql-2.9002<a hidden class="anchor" aria-hidden="true" href="#cd-dbd-mysql-29002">#</a></h1>
+<p>生成安装配置文件需要在perl Makefile.PL后添加一些参数,比较麻烦,我们可以通过添加一个到/web/mysql/bin/mysql_config这个程序的连接解决问题</p>
+<p>系统会自动寻找这个命令生成安装所需要的数据库参数</p>
+<h1 id="ln--s-webmysqlbinmysql_config--sbinmysql_config">ln -s /web/mysql/bin/mysql_config  /sbin/mysql_config<a hidden class="anchor" aria-hidden="true" href="#ln--s-webmysqlbinmysql_config--sbinmysql_config">#</a></h1>
+<h1 id="perl-makefilepl-1">perl Makefile.PL<a hidden class="anchor" aria-hidden="true" href="#perl-makefilepl-1">#</a></h1>
+<h1 id="make-2">make<a hidden class="anchor" aria-hidden="true" href="#make-2">#</a></h1>
+<h1 id="make-instll-这里make-test我总是运行一半就出错但是安装后是可以运行mysql目录下的测试脚本不知道3x的mysql如何">make instll (这里make test我总是运行一半就出错，但是安装后是可以运行mysql目录下的测试脚本,不知道3.x的mysql如何)<a hidden class="anchor" aria-hidden="true" href="#make-instll-这里make-test我总是运行一半就出错但是安装后是可以运行mysql目录下的测试脚本不知道3x的mysql如何">#</a></h1>
+<p>现在你可以运行测试脚本了,不过速度很慢,挂在后台好了</p>
+<h1 id="perl-webmysqlsql-benchrun-all-tests---userroot---passwordyoupassword">perl /web/mysql/sql-bench/run-all-tests &ndash;user=root &ndash;password=&ldquo;youpassword&rdquo;<a hidden class="anchor" aria-hidden="true" href="#perl-webmysqlsql-benchrun-all-tests---userroot---passwordyoupassword">#</a></h1>
+<p>附:</p>
+<p>●mysql常见的一些有用的选项和命令</p>
+<p>mysqld &mdash;&ndash;开启日志支持</p>
+<p>&ndash;log</p>
+<p>&ndash;log-update</p>
+<p>&ndash;log-long-formart</p>
+<p>●mysql</p>
+<p>grant all on database.* to user identified by &ldquo;password&rdquo; 新建一user用户,赋予其database数据库的所有权限</p>
+<p>revoke all on database from user 移除user用户在database数据库上的所有权限</p>
+<p>mysql -uroot -p &ndash;one-database databasename
+●mysqladmin</p>
+<p>mysqladmin flush-logs 命令mysqld重新打开一个新的日志文件,就是清空老日志文件,相当于轮回了</p>
+<p>●mysqldump</p>
+<p>&ndash;add-drop-table 导出sql语句时添加droptable if exists语句</p>
+<p>&ndash;quick 快速导出</p>
+<p>&ndash;opt  优化选项(推荐)</p>
+<p>●myisamchk</p>
+<p>检查表选项</p>
+<p>&ndash;extend-check 扩展检查</p>
+<p>&ndash;medium-check 速度比较折中的一个检查选项</p>
+<p>修复表选项</p>
+<p>&ndash;recover 修复表文件</p>
+<p>&ndash;safe-recover 安全修复表文件,比&ndash;recover要慢</p>
+<p>修饰修复表项</p>
+<p>&ndash;force 强制清除上次的临时文件</p>
+<p>&ndash;quick 只根据素引文件的内容进行修复</p>
+<p>●mysql的管理</p>
+<p>可以使用phpmyadmin(需要php的环境支持)和mysqlcc(linux图形界面支持,WINDOWS系统支持)</p>
+<p>[/quote]</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

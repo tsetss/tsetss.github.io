@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>FastCgi 翻译文档 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。
+IdleTimeout n (300 seconds)
+An idle fastcgi application will be terminated after IdleTimeout seconds.
+空闲线程将在 n 秒后被终止。
+IdleScanInterval n (120 seconds)
+The scan interval for idle fastcgi applications.
+扫描空闲线程的时间间隔。
+BusyTimeout n (300 seconds)
+a fastcgi application will be terminated if handing a single request longer than busy timeout.
+一个线程被单独占用 n 秒后将被终止。
+BusyScanInterval n (120 seconds)
+The scan interval for busy timeout fastcgi applications.
+扫描繁忙线程的时间间隔。
+ErrorScanInterval n (3 seconds)
+The scan interval for exit pending fastcgi applications.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="FastCgi 翻译文档" />
+<meta property="og:description" content="同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。
+IdleTimeout n (300 seconds)
+An idle fastcgi application will be terminated after IdleTimeout seconds.
+空闲线程将在 n 秒后被终止。
+IdleScanInterval n (120 seconds)
+The scan interval for idle fastcgi applications.
+扫描空闲线程的时间间隔。
+BusyTimeout n (300 seconds)
+a fastcgi application will be terminated if handing a single request longer than busy timeout.
+一个线程被单独占用 n 秒后将被终止。
+BusyScanInterval n (120 seconds)
+The scan interval for busy timeout fastcgi applications.
+扫描繁忙线程的时间间隔。
+ErrorScanInterval n (3 seconds)
+The scan interval for exit pending fastcgi applications." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-07-16T16:25:04+00:00" />
+<meta property="article:modified_time" content="2009-07-16T16:25:04+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FastCgi 翻译文档"/>
+<meta name="twitter:description" content="同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。
+IdleTimeout n (300 seconds)
+An idle fastcgi application will be terminated after IdleTimeout seconds.
+空闲线程将在 n 秒后被终止。
+IdleScanInterval n (120 seconds)
+The scan interval for idle fastcgi applications.
+扫描空闲线程的时间间隔。
+BusyTimeout n (300 seconds)
+a fastcgi application will be terminated if handing a single request longer than busy timeout.
+一个线程被单独占用 n 秒后将被终止。
+BusyScanInterval n (120 seconds)
+The scan interval for busy timeout fastcgi applications.
+扫描繁忙线程的时间间隔。
+ErrorScanInterval n (3 seconds)
+The scan interval for exit pending fastcgi applications."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "FastCgi 翻译文档",
+      "item": "http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FastCgi 翻译文档",
+  "name": "FastCgi 翻译文档",
+  "description": "同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。\nIdleTimeout n (300 seconds)\nAn idle fastcgi application will be terminated after IdleTimeout seconds.\n空闲线程将在 n 秒后被终止。\nIdleScanInterval n (120 seconds)\nThe scan interval for idle fastcgi applications.\n扫描空闲线程的时间间隔。\nBusyTimeout n (300 seconds)\na fastcgi application will be terminated if handing a single request longer than busy timeout.\n一个线程被单独占用 n 秒后将被终止。\nBusyScanInterval n (120 seconds)\nThe scan interval for busy timeout fastcgi applications.\n扫描繁忙线程的时间间隔。\nErrorScanInterval n (3 seconds)\nThe scan interval for exit pending fastcgi applications.",
+  "keywords": [
+    
+  ],
+  "articleBody": "同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。\nIdleTimeout n (300 seconds)\nAn idle fastcgi application will be terminated after IdleTimeout seconds.\n空闲线程将在 n 秒后被终止。\nIdleScanInterval n (120 seconds)\nThe scan interval for idle fastcgi applications.\n扫描空闲线程的时间间隔。\nBusyTimeout n (300 seconds)\na fastcgi application will be terminated if handing a single request longer than busy timeout.\n一个线程被单独占用 n 秒后将被终止。\nBusyScanInterval n (120 seconds)\nThe scan interval for busy timeout fastcgi applications.\n扫描繁忙线程的时间间隔。\nErrorScanInterval n (3 seconds)\nThe scan interval for exit pending fastcgi applications. fastcgi applications will be terminated within this scanning.\n扫描意外退出线程的时间间隔。该线程在此次扫描中将被终止。\nZombieScanInterval n (3 seconds)\nThe scan interval for zombie process.\n扫描僵尸进程的时间间隔。\nProcessLifeTime n (3600 seconds)\nA fastcgi application will be terminated if lifetime expired, even no error is detected.\n进程存活时间。到 n 秒后，即使没有发生错误也会被终止。\nSocketPath path (logs/fcgidsock)\nThe directory to put the UNIX domain socket. (UNIX only)\nUNIX接口日志存放目录。\nSpawnScoreUpLimit n (10)\nThe spawn-speed control score up water limit. Score increases while a process is spawned or terminated, and decreases as time progresses; while the score is higher than SpawnScoreUpLimit, the spawning will be held for a while. The higher this number is, the higher speed of the spawning can be.\n生成速度控制值。当一个进程产生或终止，此数值会增加，并且随着时间的推移而减少增加的程度；当此数值高于SpawnScoreUpLimit 时，正在产生的进程会稍停一会。此数据越高，生成进程的速度将越快。\nSpawnScore n (1)\nThe weight of spawning. This weight will be plused to the spawn-control score on every spawn. The higher this number is, the lower speed of spawning can be.\n生成速度权重。对每一个进程来讲，这个数值会加上生成速度控制值。但是这个值越大，生成速度越慢。\nTerminationScore n (2)\nThe weight of termination. This weight will be plused to the score while fastcgi process terminates. The higher this number is, the lower speed of spawning can be.\n消亡权重。这个值越大，生成速度越慢。\nMaxProcessCount n (1000)\nThe max count of total fastcgi process count.\n进程最大值。\nDefaultMaxClassProcessCount n (100)\nThe maximum number of fastcgi application instances allowed to run for any one fastcgi application.\nfastcgi可以运行fastcgi程序的最大值。\nDefaultMinClassProcessCount n (3)\nThe minimum number of fastcgi application instances for any one fastcgi application.\nfastcgi可以运行fastcgi程序的最小值。\nDefaultInitEnv env_name env_value\nThe default environment variables before a fastcgi application is spawned. You can set this configuration more than once.\nNote: If you get: Can’t create TCP/IP socket (10106) error while running PHP script(on Win32 only), you will have to set these(Please modify the values if necessary): DefaultInitEnv PHPRC “c:/php/” DefaultInitEnv PATH “c:/php;C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem;” DefaultInitEnv SystemRoot “C:/Windows” DefaultInitEnv SystemDrive “C:” DefaultInitEnv TEMP “C:/WINDOWS/TEMP” DefaultInitEnv TMP “C:/WINDOWS/TEMP” DefaultInitEnv windir “C:/WINDOWS”\n(Thank Steffen of apachelounge.com for this note)\nFastcgi程序运行前的默认环境变量。此变量可以被多次设置。\nIPCConnectTimeout n (3 seconds)\nThe connect timeout to a fastcgi application.\nFastcgi程序连接超时时间。\nIPCCommTimeout n (20 seconds)\nThe communication timeout to a fastcgi application. Please increase this value if your CGI have a slow initialization or slow respond.\nFastcgi程序通讯超时时间。如果你的CGI初始化或反应较慢，请适当增加些数值。\nOutputBufferSize n (64k bytes)\nCGI output cache buffer size.\nCGI输出缓存大小。\nPHP_Fix_Pathinfo_Enable n(n=0/1, default 0)\nIf you are using PHP and set cgi.fix_pathinfo=1 in php.ini, set PHP_Fix_Pathinfo_Enable 1.\nMaxRequestsPerProcess n (-1)\n(Added in version 1.11, patch from Robert L Mathews)\nAdds a MaxRequestsPerProcess parameter that allows mod_fcgid to exit after handling a certain number of requests, similar to the existing ProcessLifeTime option.\nThis solves a problem with PHP in FastCGI mode. By default, PHP stops accepting new FastCGI connections after handling 500 requests; unfortunately, there is a potential race condition during the PHP cleanup code in which PHP can be shutting down but still have the socket open, so mod_fcgid under heavy load can send request number 501 to PHP and have it “accepted”, but then PHP appears to simply exit, causing errors.\nIf you are using PHP, you should set it to 500. -1 mean fastcgi process will not exit no matter how many requests it has handled.\nMaxRequestsPerProcess允许mod_fcgid处理了指定数量的请求以后退出，有点像进程存活时间。\nPHP在FastCGI模式的缺省情况下，PHP处理了500个请求以后会拒绝接受新的FastCGI连接而直接退出。然而实际情况是：PHP停止了，但通讯仍然没有结束，这种看似正常退出PHP的情况就可能产生错误。mod_fcgid可以在高负载的情况下发送第501个请求给PHP并且能保证PHP接受了这个请求，而后PHP才安全退出。 PHP应该把这个设置成500，-1代表fastcgi永远不会退出 。\nhttp://weblog.mywww.biz/arnold/read.php?51\n",
+  "wordCount" : "575",
+  "inLanguage": "en",
+  "datePublished": "2009-07-16T16:25:04Z",
+  "dateModified": "2009-07-16T16:25:04Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      FastCgi 翻译文档
+    </h1>
+    <div class="post-meta"><span title='2009-07-16 16:25:04 +0000 UTC'>July 16, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。</p>
+<p><strong>IdleTimeout n (300 seconds)</strong></p>
+<p>An idle fastcgi application will be terminated after IdleTimeout seconds.</p>
+<p>空闲线程将在 n 秒后被终止。</p>
+<p><strong>IdleScanInterval n (120 seconds)</strong></p>
+<p>The scan interval for idle fastcgi applications.</p>
+<p>扫描空闲线程的时间间隔。</p>
+<p><strong>BusyTimeout n (300 seconds)</strong></p>
+<p>a fastcgi application will be terminated if handing a single request longer than busy timeout.</p>
+<p>一个线程被单独占用 n 秒后将被终止。</p>
+<p><strong>BusyScanInterval n (120 seconds)</strong></p>
+<p>The scan interval for busy timeout fastcgi applications.</p>
+<p>扫描繁忙线程的时间间隔。</p>
+<p><strong>ErrorScanInterval n (3 seconds)</strong></p>
+<p>The scan interval for exit pending fastcgi applications. fastcgi applications will be terminated within this scanning.</p>
+<p>扫描意外退出线程的时间间隔。该线程在此次扫描中将被终止。</p>
+<p><strong>ZombieScanInterval n (3 seconds)</strong></p>
+<p>The scan interval for zombie process.</p>
+<p>扫描僵尸进程的时间间隔。</p>
+<p><strong>ProcessLifeTime n (3600 seconds)</strong></p>
+<p>A fastcgi application will be terminated if lifetime expired, even no error is detected.</p>
+<p>进程存活时间。到 n 秒后，即使没有发生错误也会被终止。</p>
+<p><strong>SocketPath path (logs/fcgidsock)</strong></p>
+<p>The directory to put the UNIX domain socket. (UNIX only)</p>
+<p>UNIX接口日志存放目录。</p>
+<p><strong>SpawnScoreUpLimit n (10)</strong></p>
+<p>The spawn-speed control score up water limit. Score increases while a process is spawned or terminated, and decreases as time progresses; while the score is higher than SpawnScoreUpLimit, the spawning will be held for a while. The higher this number is, the higher speed of the spawning can be.</p>
+<p>生成速度控制值。当一个进程产生或终止，此数值会增加，并且随着时间的推移而减少增加的程度；当此数值高于SpawnScoreUpLimit 时，正在产生的进程会稍停一会。此数据越高，生成进程的速度将越快。</p>
+<p><strong>SpawnScore n (1)</strong></p>
+<p>The weight of spawning.  This weight will be plused to the spawn-control score on every spawn. The higher this number is, the lower speed of spawning can be.</p>
+<p>生成速度权重。对每一个进程来讲，这个数值会加上生成速度控制值。但是这个值越大，生成速度越慢。</p>
+<p><strong>TerminationScore n (2)</strong></p>
+<p>The weight of termination. This weight will be plused to the score while fastcgi process terminates. The higher this number is, the lower speed of spawning can be.</p>
+<p>消亡权重。这个值越大，生成速度越慢。</p>
+<p><strong>MaxProcessCount n (1000)</strong></p>
+<p>The max count of total fastcgi process count.</p>
+<p>进程最大值。</p>
+<p><strong>DefaultMaxClassProcessCount n (100)</strong></p>
+<p>The maximum number of fastcgi application instances allowed to run for any one fastcgi application.</p>
+<p>fastcgi可以运行fastcgi程序的最大值。</p>
+<p><strong>DefaultMinClassProcessCount n (3)</strong></p>
+<p>The minimum number of fastcgi application instances for any one fastcgi application.</p>
+<p>fastcgi可以运行fastcgi程序的最小值。</p>
+<p><strong>DefaultInitEnv  env_name env_value</strong></p>
+<p>The default environment variables before a fastcgi application is spawned. You can set this configuration more than once.</p>
+<p>Note: If you get:
+Can&rsquo;t create TCP/IP socket (10106) error while running PHP script(on Win32 only), you will have to set these(Please modify the values if necessary):
+DefaultInitEnv PHPRC &ldquo;c:/php/&rdquo;
+DefaultInitEnv PATH &ldquo;c:/php;C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem;&rdquo;
+DefaultInitEnv SystemRoot &ldquo;C:/Windows&rdquo;
+DefaultInitEnv SystemDrive &ldquo;C:&rdquo;
+DefaultInitEnv TEMP &ldquo;C:/WINDOWS/TEMP&rdquo;
+DefaultInitEnv TMP &ldquo;C:/WINDOWS/TEMP&rdquo;
+DefaultInitEnv windir &ldquo;C:/WINDOWS&rdquo;</p>
+<p>(Thank Steffen of apachelounge.com for this note)</p>
+<p>Fastcgi程序运行前的默认环境变量。此变量可以被多次设置。</p>
+<p><strong>IPCConnectTimeout n (3 seconds)</strong></p>
+<p>The connect timeout to a fastcgi application.</p>
+<p>Fastcgi程序连接超时时间。</p>
+<p><strong>IPCCommTimeout n (20 seconds)</strong></p>
+<p>The communication timeout to a fastcgi application. Please increase this value if your CGI have a slow initialization or slow respond.</p>
+<p>Fastcgi程序通讯超时时间。如果你的CGI初始化或反应较慢，请适当增加些数值。</p>
+<p><strong>OutputBufferSize n (64k bytes)</strong></p>
+<p>CGI output cache buffer size.</p>
+<p>CGI输出缓存大小。</p>
+<p><strong>PHP_Fix_Pathinfo_Enable n(n=0/1, default 0)</strong></p>
+<p>If you are using PHP and set cgi.fix_pathinfo=1 in php.ini, set PHP_Fix_Pathinfo_Enable 1.</p>
+<p><strong>MaxRequestsPerProcess n (-1)</strong></p>
+<p>(Added in version 1.11, patch from Robert L Mathews)</p>
+<p>Adds a MaxRequestsPerProcess parameter that allows mod_fcgid to exit after handling a certain number of requests, similar to the existing ProcessLifeTime option.</p>
+<p>This solves a problem with PHP in FastCGI mode. By default, PHP stops accepting new FastCGI connections after handling 500 requests; unfortunately, there is a potential race condition during the PHP cleanup code in which PHP can be shutting down but still have the socket open, so mod_fcgid under heavy load can send request number 501 to PHP and have it &ldquo;accepted&rdquo;, but then PHP appears to simply exit, causing errors.</p>
+<p>If you are using PHP, you should set it to 500. -1 mean fastcgi process will not exit no matter how many requests it has handled.</p>
+<p>MaxRequestsPerProcess允许mod_fcgid处理了指定数量的请求以后退出，有点像进程存活时间。</p>
+<p>PHP在FastCGI模式的缺省情况下，PHP处理了500个请求以后会拒绝接受新的FastCGI连接而直接退出。然而实际情况是：PHP停止了，但通讯仍然没有结束，这种看似正常退出PHP的情况就可能产生错误。mod_fcgid可以在高负载的情况下发送第501个请求给PHP并且能保证PHP接受了这个请求，而后PHP才安全退出。
+PHP应该把这个设置成500，-1代表fastcgi永远不会退出 。</p>
+<p> </p>
+<p><a href="http://weblog.mywww.biz/arnold/read.php?51">http://weblog.mywww.biz/arnold/read.php?51</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

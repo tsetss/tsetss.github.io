@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+freebsd
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/freebsd/</link>
+    <description>Recent content in 
+freebsd
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 Oct 2012 10:49:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/freebsd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>freebsd6升级到freebsd7</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</link>
+      <pubDate>Mon, 22 Oct 2012 10:49:26 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd7升级到freebsd8</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:44:22 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd8升级到freebsd9</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:38:30 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd无线配置静态ip</title>
+      <link>http://example.org/2012/09/28/freebsd-wifi-staticip/</link>
+      <pubDate>Fri, 28 Sep 2012 17:06:25 +0000</pubDate>
+      
+      <guid>http://example.org/2012/09/28/freebsd-wifi-staticip/</guid>
+      <description>修改 /etc/rc.conf 写入
+静态ip
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA inet 192.168.1.100 netmask 255.255.255.0&amp;quot; dhcp 获取
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA DHCP&amp;quot; wpa 配置 /etc/wpa_supplicant.conf
+network={ ssid=&amp;quot;YourAPssid&amp;quot; psk=&amp;quot;YourAPpassword&amp;quot; } 完成，可以上网喽</description>
+    </item>
+    
+    <item>
+      <title>apache 403 错误 client denied by server</title>
+      <link>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</link>
+      <pubDate>Fri, 27 Jul 2012 10:24:35 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</guid>
+      <description>由于前段时间给一台服务器在前加了个 nginx 做代理，今天大量用户反应网站出现 403 服务器日志显示 client denied by server 看一下访问日志都是 127.0.0.1 这才想起应该是 apache 防 ddos 模块的问题，把每个 vhost 的链接都当做 一个链接了，先去掉 mod_evasive ,恢复正常，为了上 apache 得到真实 ip 要安装 mod_rpaf 这个模块就 OK 了，
+cd /usr/ports/www/mod_rpaf make install clean 安装模块， freebsd 就是让人偷懒呀。编译完成 修改 httpd.conf 打开 mod_rpaf 模块 ，去掉 mod_rpaf 的 # 号, 添加
+RPAFenable On RPAFsethostname On RPAFproxy_ips 127.0.0.1 RPAFheader X-Forwarded-For 重起 apache ,终于一切正常了,收工回家.</description>
+    </item>
+    
+    <item>
+      <title>nginx freebsd 官方网站优化</title>
+      <link>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</link>
+      <pubDate>Sun, 31 May 2009 22:13:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</guid>
+      <description>OS &amp;amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp;amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from &amp;ldquo;http://wiki.nginx.org/FreeBSDOptimizations&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>freebsd下 nginx 日志每天分割</title>
+      <link>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</link>
+      <pubDate>Wed, 13 May 2009 18:42:06 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</guid>
+      <description>#!/bin/sh date today=date +&amp;quot;%Y_%m_%d&amp;quot; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &amp;gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime +$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </description>
+    </item>
+    
+    <item>
+      <title>freebsd下在一块网卡下增加删除ip</title>
+      <link>http://example.org/2009/04/01/freebsd-inc-add-ip-del-ip/</link>
+      <pubDate>Wed, 01 Apr 2009 10:21:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/01/freebsd-inc-add-ip-del-ip/</guid>
+      <description>在bge0网卡上增加ip别名：
+ifconfig bge0 add alias xxx.xxx.xxx.xxx netmask xxx.xxx.xxx.xxx up 说明：这里掩码的设定是这样的，同一个网断的第一个ip掩码按照真实的掩码设置。在这个网段下面再增加ip时，掩码就是255.255.255.255了！切记！
+在bge0网卡上删除ip别名：
+ifconfig bge0 -alias xxx.xxx.xxx.xxx 下路由配置
+配置路由 在同一个局域网上的计算机是直接连通的，但是不同的网络上的计算机并没有直接相连，只能通过一台特殊的专用计算机 -路由器来完成连通。路由器连接有多个网络界面，每一个网络界面连接到一个相应的网络上，具有一个这个网络上的IP地址，因此，网络内部的计算机可以和路由器本身相互通信。 当网络内部的计算机要向外连接的时候，数据包实际是交给路由器的，路由器再将数据包从连接外部网络的网络界面上转发出去，数据包经过这样一个一个的转发过程，直到到达目的地。对于网络内部的计算机来讲，没有必要了解数据包的整个转发的路径和经过的所有路由器的信息，只需要知道第一步需要将数据包交给哪一个路由器就可以了。因此，计算机必须知道与它直接相连接的路由器的有关信息，这个过程就是路由配置的过程。 进行路由配置有两种途径，一种是由管理员设置所有的路由信息，由于数据是手工设置，因此称为静态路由设置。另一个是启动一个支持路由交换协议的进程，自动侦测网络上的所有路由器及其相关信息，这称为动态路由设置。 在 FreeBSD系统不用做专门路由器的情况下，一般地说使用静态路由设置足够满足网络通信的需要。
+缺省网关 在最简单的情况下，一个网络向外通过一个路由器完成向外连接，这个路由器被称为缺省网关，它负责几乎所有的向外连接任务。假设缺省网关的地址为 192.168.1.254， 则设置缺省网关的命令为：
+freebsd# route add default 192.168.1.254 add net default: gateway 192.168.1.254 //成功配置缺省网关 add net default: gateway 192.168.1.254: File exists //如果系统已经设置了缺省网关，那么系统会报告错误 freebsd# route delete default delete net default //成功删除缺省网关 freebsd# route flush //清除所有路由 default 192.168.1.254 done
+上述命令执行之后立即生效，因此，可能会影响已经建立的连接。为了保存缺省网关的配置，同样也需要将配置写入系统配置文件 rc.conf。 defaultrouter=&amp;ldquo;192.168.1.254&amp;rdquo; 仅仅配置缺省网关的大部分情况是在计算机处于整个互联网的边缘，网络中仅仅需要一个路由器接入互联网就可以了。 2) 其他静态路由设置 更复杂的情况下，计算机所处的网络与多个网络相连接，网络中存在多个路由器，每个路由器负责到一些网络的转发任务，而不负责到全部网络的转发任务。这种情况下，如果将所有的数据都发给一个路由器，那么原则上它只能正确转发目的是它自己负责的网络的数据。实际使用当中，路由器将使用 ICMP协议，向发送数据的主机报告路由错误。 因此，应该在计算机中配置这个网络上所有路由器及这些路由器负责的相应网络的路由数据，以便计算机选择正确的路由器转发数据包。同样，也必须使用 route命令增加到各个网络的静态路由数据。</description>
+    </item>
+    
+    <item>
+      <title>Find 指令用法教學</title>
+      <link>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</link>
+      <pubDate>Thu, 19 Mar 2009 13:47:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</guid>
+      <description>筆記一下自己常用的 find 指令，適用於 FreeBSD 或者是 Linux 各大 distribution，系統管理這個指令就相當重要了，在搭配 grep，sed，awk，perl 可以快速找到自己要的檔案。我自己本身很常用到 grep，find，awk 這些撰寫 shell script。
+底下先來介紹一下 find：
+找出 . 底下的 php 檔案
+find . -name &amp;ldquo;*.php&amp;rdquo;
+找出 . 底下非 php 副檔名檔案
+find . -not -name &amp;ldquo;*.php&amp;rdquo;
+刪除 . 底下 php 檔案，有兩種作法
+系統詢問之後才刪除 先把 -exec 後面的東西先清掉， 用 -print 來先確認輸出 rm 可以多用 -i 的參數來加以確認 find . -name &amp;ldquo;*.php&amp;rdquo; -exec rm -i {} ;
+系統直接刪除 find . -delete -name &amp;ldquo;.php&amp;rdquo; find . -name &amp;ldquo;.php&amp;rdquo; | xargs /bin/rm -rf</description>
+    </item>
+    
+    <item>
+      <title>利用 portmaster 升級 PHP 5.26 -&gt; 5.28</title>
+      <link>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</link>
+      <pubDate>Thu, 19 Mar 2009 13:12:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</guid>
+      <description>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5.</description>
+    </item>
+    
+    <item>
+      <title>Webalizer-利用ApacheLog達成流量統計圖表化</title>
+      <link>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</link>
+      <pubDate>Sat, 30 Jun 2007 19:56:15 +0000</pubDate>
+      
+      <guid>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;【前言】&lt;/strong&gt;&lt;a href=&#34;http://www.mrunix.net/webalizer/&#34;&gt;[webalizer]&lt;/a&gt; - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【作業環境】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FreeBSD 5.2、6.2-RELEASE&lt;/p&gt;
+&lt;p&gt;webalizer-2.01-10、2.1.10_12&lt;/p&gt;
+&lt;p&gt;libiconv-1.9.2_2&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【安裝及設定】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step1.安裝 webalizer 及 libiconv 套件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;將&lt;a href=&#34;http://www.weithenn.idv.tw/cgi-bin/wiki.pl/%e9%a1%8f%e5%9c%8b%e9%9b%84%e8%80%81%e5%b8%ab%e4%b8%ad%e6%96%87%e4%ba%82%e7%a2%bc%e4%bf%ae%e6%ad%a3%e6%aa%94-webalizer_patch.pl&#34;&gt;顏國雄老師中文亂碼修正檔-webalizer patch.pl&lt;/a&gt; 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FreeBSD 下的TOP的使用方法</title>
+      <link>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</link>
+      <pubDate>Wed, 18 Oct 2006 03:46:13 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</guid>
+      <description>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (+ selects all users) 顺序显示下面三个常规的信息</description>
+    </item>
+    
+    <item>
+      <title>freebsd命令大全</title>
+      <link>http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/</link>
+      <pubDate>Mon, 16 Oct 2006 01:33:39 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/</guid>
+      <description>1 man 在线查询 man ls
+2 ls 查看目录与档案 ls -la 3 ln 建立链接文件 ln -fs /usr/local/apache/etc/httpd.conf /etc/httpd.conf
+4 more 分页显示 more 文件名称
+5 cd 切换目录 cd /usr/local/apache
+6 mkdir 建立新的目录 mkdir /usr/temp
+7 rmdir 删除目录 rmdir /usr/temp
+8 rm 删除目录或档案 rm -f 文件名称
+9 cp 复制目录或档案 cp 来源档案 目标档案
+10 pwd 显示目前的工作目录 Pwd
+11 mv 目录或档案更名或搬移 mv 来源档案 目标档案
+12 find 寻找目录或档案 find /etc -name 文件名称
+13 fetch 取得档案 fetch ftp://ftp.</description>
+    </item>
+    
+    <item>
+      <title>阿新FreeBSD服务器安装流程</title>
+      <link>http://example.org/2006/05/16/e998bfe696b0freebsde69c8de58aa1e599a8e5ae89e8a385e6b581e7a88b/</link>
+      <pubDate>Tue, 16 May 2006 12:42:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/16/e998bfe696b0freebsde69c8de58aa1e599a8e5ae89e8a385e6b581e7a88b/</guid>
+      <description>如果简单安装一个web服务器 FreeBSD 安装是非常傻瓜和友好的
+1，安装系统 我的分区 120G为例 256M / 2048M swap (1G内存) 10240M /var 4096M /usr 1024M /home 1025M /tmp 剩下的 /pub 实验证明 这种分区目前美掉过数据 选择MINI安装，FreeBSD安装可能是所有系统中最快的，大概 4-5分钟 2，系通更新 cvsup down回来最新的源代码 cd /usr/src make buildworld 修改内核 make buildkernel KERNCONF=NEWKERNEL make installkernel KERNCONF=NEWKERNEL make installworld mergemaster -cv 输入 i 安装新的 reboot 正常启动 系统更新ok 这是个漫长的过程，这段时间我一般都在CS 3，安装应用程序 cvsup down回最新的ports库 1,perl cd /usr/ports/lang/perl5.8 make install clean 2,apache cd /usr/ports/lang/apache13-modssl make APACHE_HARD_SERVER_LIMIT=1024 install clean APACHE_HARD_SERVER_LIMIT=1024 apache最大连接数 3,mysql cd /usr/ports/databases/mysql40-server make WITH_CHARSET=gbk WITH_XCHARSET=all WITH_OPENSSL=yes WITH_PROC_SCOPE_PTH=yes BUILD_OPTIMIZED=yes install clean 进站了 在火车上再写 继续 4.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+升级
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E5%8D%87%E7%BA%A7/</link>
+    <description>Recent content in 
+升级
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Mar 2009 13:12:10 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E5%8D%87%E7%BA%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>利用 portmaster 升級 PHP 5.26 -&gt; 5.28</title>
+      <link>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</link>
+      <pubDate>Thu, 19 Mar 2009 13:12:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</guid>
+      <description>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5.</description>
+    </item>
+    
+  </channel>
+</rss>

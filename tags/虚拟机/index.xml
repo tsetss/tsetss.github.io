@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+虚拟机
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
+    <description>Recent content in 
+虚拟机
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2013 07:48:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debian 下安装 lxc</title>
+      <link>http://example.org/2013/11/23/lxc-on-debian-squeeze/</link>
+      <pubDate>Sat, 23 Nov 2013 07:48:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-on-debian-squeeze/</guid>
+      <description>本文安装环境 debian 6.0
+安装 lxc debootstrap 工具
+aptitude install lxc bridge-utils debootstrap 设置网络
+auto eth1 iface eth1 inet manual auto br0 iface br0 inet static bridge_ports eth1 #根据自己实际网卡设置 bridge_fd 0 address 10.0.0.100 netmask 255.255.255.0 gateway 10.100.0.1 dns-nameservers 10.20.0.2 加载 cgroup 编辑 /etc/fstab
+cgroup /sys/fs/cgroup cgroup defaults 0 0 立即加载
+mount /sys/fs/cgroup 接下来创建一下虚拟机
+#下载 squeeze 64位 debootstrap --verbose --variant=minbase --arch=amd64 --include ifupdown,locales,libui-dialog-perl,\ dialog,netbase,net-tools,iproute,openssh-server,vim,apt-utils,proxychains \ squeeze /var/cache/lxc/debian/rootfs-amd64 http://mirrors.163.com/debian/ mkdir -p /lxc/vm0 #存放目录 /usr/lib/lxc/templates/lxc-debian -p /lxc/vm0/ # 创建虚拟机 配置虚拟机网络,在 /lxc/vm0/config 文件填加些文本</description>
+    </item>
+    
+  </channel>
+</rss>

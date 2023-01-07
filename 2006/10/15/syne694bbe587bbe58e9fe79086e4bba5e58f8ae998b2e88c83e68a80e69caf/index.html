@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>SYN攻击原理以及防范技术 | 白天’s Blog</title>
+<meta name="keywords" content="
+syn
+      ">
+<meta name="description" content="本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……
+据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。
+一、TCP握手协议
+在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。
+第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
+第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j&#43;1），同时自己也发送一个SYN包（syn=k），即SYN&#43;ACK包，此时服务器进入SYN_RECV状态；
+第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k&#43;1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
+完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：
+未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。
+SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。
+半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。
+二、SYN攻击原理
+SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j&#43;1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。
+三、SYN攻击工具
+SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。
+1、windows系统下的SYN工具
+以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。
+四、检测SYN攻击
+检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：
+# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="SYN攻击原理以及防范技术" />
+<meta property="og:description" content="本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……
+据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。
+一、TCP握手协议
+在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。
+第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
+第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j&#43;1），同时自己也发送一个SYN包（syn=k），即SYN&#43;ACK包，此时服务器进入SYN_RECV状态；
+第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k&#43;1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
+完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：
+未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。
+SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。
+半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。
+二、SYN攻击原理
+SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j&#43;1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。
+三、SYN攻击工具
+SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。
+1、windows系统下的SYN工具
+以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。
+四、检测SYN攻击
+检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：
+# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-10-15T10:31:42+00:00" />
+<meta property="article:modified_time" content="2006-10-15T10:31:42+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SYN攻击原理以及防范技术"/>
+<meta name="twitter:description" content="本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……
+据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。
+一、TCP握手协议
+在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。
+第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
+第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j&#43;1），同时自己也发送一个SYN包（syn=k），即SYN&#43;ACK包，此时服务器进入SYN_RECV状态；
+第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k&#43;1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
+完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：
+未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。
+SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。
+半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。
+二、SYN攻击原理
+SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j&#43;1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。
+三、SYN攻击工具
+SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。
+1、windows系统下的SYN工具
+以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。
+四、检测SYN攻击
+检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：
+# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "SYN攻击原理以及防范技术",
+      "item": "http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SYN攻击原理以及防范技术",
+  "name": "SYN攻击原理以及防范技术",
+  "description": "本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……\n据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。\n一、TCP握手协议\n在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。\n第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；\n第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；\n第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。\n完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：\n未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。\nSYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。\n半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。\n二、SYN攻击原理\nSYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j+1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。\n三、SYN攻击工具\nSYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。\n1、windows系统下的SYN工具\n以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。\n四、检测SYN攻击\n检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：\n# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10.",
+  "keywords": [
+    "\nsyn\n      "
+  ],
+  "articleBody": "本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……\n据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。\n一、TCP握手协议\n在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。\n第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；\n第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；\n第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。\n完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：\n未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。\nSYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。\n半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。\n二、SYN攻击原理\nSYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j+1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。\n三、SYN攻击工具\nSYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。\n1、windows系统下的SYN工具\n以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。\n四、检测SYN攻击\n检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：\n# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10.11.11.11:23　239.116.95.96:5122　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.219.139.207:49162 SYN_RECV　- …\n上面是在LINUX系统中看到的，很多连接处于SYN_RECV状态（在WINDOWS系统中是SYN_RECEIVED状态），源IP地址都是随机的，表明这是一种带有IP欺骗的SYN攻击。\n我们也可以通过下面的命令直接查看在LINUX环境下某个端囗的未连接队列的条目数：\n＃netstat -n -p TCP | grep SYN_RECV | grep :22 | wc -l 324\n显示TCP端囗22的未连接数有324个，虽然还远达不到系统极限，但应该引起管理员的注意。\n五、SYN攻击防范技术\n关于SYN攻击防范技术，人们研究得比较早。归纳起来，主要有两大类，一类是通过防火墙、路由器等过滤网关防护，另一类是通过加固TCP/IP协议栈防范.但必须清楚的是，SYN攻击不能完全被阻止，我们所做的是尽可能的减轻SYN攻击的危害，除非将TCP协议重新设计。\n1、过滤网关防护\n这里，过滤网关主要指明防火墙，当然路由器也能成为过滤网关。防火墙部署在不同网络之间，防范外来非法攻击和防止保密信息外泄，它处于客户端和服务器之间，利用它来防护SYN攻击能起到很好的效果。过滤网关防护主要包括超时设置，SYN网关和SYN代理三种。\n■网关超时设置：防火墙设置SYN转发超时参数（状态检测的防火墙可在状态表里面设置），该参数远小于服务器的timeout时间。当客户端发送完SYN包，服务端发送确认包后（SYN＋ACK），防火墙如果在计数器到期时还未收到客户端的确认包（ACK），则往服务器发送RST包，以使服务器从队列中删去该半连接。值得注意的是，网关超时参数设置不宜过小也不宜过大，超时参数设置过小会影响正常的通讯，设置太大，又会影响防范SYN攻击的效果，必须根据所处的网络应用环境来设置此参数。\n■SYN网关：SYN网关收到客户端的SYN包时，直接转发给服务器；SYN网关收到服务器的SYN/ACK包后，将该包转发给客户端，同时以客户端的名义给服务器发ACK确认包。此时服务器由半连接状态进入连接状态。当客户端确认包到达时，如果有数据则转发，否则丢弃。事实上，服务器除了维持半连接队列外，还要有一个连接队列，如果发生SYN攻击时，将使连接队列数目增加，但一般服务器所能承受的连接数量比半连接数量大得多，所以这种方法能有效地减轻对服务器的攻击。\n　■SYN代理：当客户端SYN包到达过滤网关时，SYN代理并不转发SYN包，而是以服务器的名义主动回复SYN/ACK包给客户，如果收到客户的ACK包，表明这是正常的访问，此时防火墙向服务器发送ACK包并完成三次握手。SYN代理事实上代替了服务器去处理SYN攻击，此时要求过滤网关自身具有很强的防范SYN攻击能力。\n2、加固tcp/ip协议栈\n防范SYN攻击的另一项主要技术是调整tcp/ip协议栈，修改tcp协议实现。主要方法有SynAttackProtect保护机制、SYN cookies技术、增加最大半连接和缩短超时时间等。tcp/ip协议栈的调整可能会引起某些功能的受限，管理员应该在进行充分了解和测试的前提下进行此项工作。\n■SynAttackProtect机制\n为防范SYN攻击，win2000系统的tcp/ip协议栈内嵌了SynAttackProtect机制，Win2003系统也采用此机制。SynAttackProtect机制是通过关闭某些socket选项，增加额外的连接指示和减少超时时间，使系统能处理更多的SYN连接，以达到防范SYN攻击的目的。默认情况下，Win2000操作系统并不支持SynAttackProtect保护机制，需要在注册表以下位置增加SynAttackProtect键值：\nHKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\n当SynAttackProtect值（如无特别说明，本文提到的注册表键值都为十六进制）为0或不设置时，系统不受SynAttackProtect保护。\n当SynAttackProtect值为1时，系统通过减少重传次数和延迟未连接时路由缓冲项（route cache entry）防范SYN攻击。\n当SynAttackProtect值为2时（Microsoft推荐使用此值），系统不仅使用backlog队列，还使用附加的半连接指示，以此来处理更多的SYN连接，使用此键值时，tcp/ip的TCPInitialRTT、window size和可滑动窗囗将被禁止。\n我们应该知道，平时，系统是不启用SynAttackProtect机制的，仅在检测到SYN攻击时，才启用，并调整tcp/ip协议栈。那么系统是如何检测SYN攻击发生的呢？事实上，系统根据TcpMaxHalfOpen,TcpMaxHalfOpenRetried 和TcpMaxPortsExhausted三个参数判断是否遭受SYN攻击。\nTcpMaxHalfOpen 表示能同时处理的最大半连接数，如果超过此值，系统认为正处于SYN攻击中。Win2000　server默认值为100，Win2000　Advanced server为500。\nTcpMaxHalfOpenRetried定义了保存在backlog队列且重传过的半连接数，如果超过此值，系统自动启动SynAttackProtect机制。Win2000　server默认值为80，Win2000 Advanced server为400。\nTcpMaxPortsExhausted　是指系统拒绝的SYN请求包的数量，默认是5。\n如果想调整以上参数的默认值，可以在注册表里修改（位置与SynAttackProtect相同）\n■ SYN cookies技术\n我们知道，TCP协议开辟了一个比较大的内存空间backlog队列来存储半连接条目，当SYN请求不断增加，并这个空间，致使系统丢弃SYN连接。为使半连接队列被塞满的情况下，服务器仍能处理新到的SYN请求，SYN cookies技术被设计出来。\nSYN cookies应用于linux、FreeBSD等操作系统，当半连接队列满时，SYN　cookies并不丢弃SYN请求，而是通过加密技术来标识半连接状态。\n在TCP实现中，当收到客户端的SYN请求时，服务器需要回复SYN＋ACK包给客户端，客户端也要发送确认包给服务器。通常，服务器的初始序列号由服务器按照一定的规律计算得到或采用随机数，但在SYN cookies中，服务器的初始序列号是通过对客户端IP地址、客户端端囗、服务器IP地址和服务器端囗以及其他一些安全数值等要素进行hash运算，加密得到的，称之为cookie。当服务器遭受SYN攻击使得backlog队列满时，服务器并不拒绝新的SYN请求，而是回复cookie（回复包的SYN序列号）给客户端， 如果收到客户端的ACK包，服务器将客户端的ACK序列号减去1得到cookie比较值，并将上述要素进行一次hash运算，看看是否等于此cookie。如果相等，直接完成三次握手（注意：此时并不用查看此连接是否属于backlog队列）。\n在RedHat linux中，启用SYN cookies是通过在启动环境中设置以下命令来完成：\n# echo 1 \u003e /proc/sys/net/ipv4/tcp_syncookies\n■ 增加最大半连接数\n大量的SYN请求导致未连接队列被塞满，使正常的TCP连接无法顺利完成三次握手，通过增大未连接队列空间可以缓解这种压力。当然backlog队列需要占用大量的内存资源，不能被无限的扩大。\nWIN2000：除了上面介绍的TcpMaxHalfOpen, TcpMaxHalfOpenRetried参数外，WIN2000操作系统可以通过设置动态backlog(dynamic backlog)来增大系统所能容纳的最大半连接数，配置动态backlog由AFD.SYS驱动完成，AFD.SYS是一种内核级的驱动，用于支持基于window socket的应用程序，比如ftp、telnet等。AFD.SYS在注册表的位置： HKLM\\System\\CurrentControlSet\\Services\\AFD\\ParametersEnableDynamicBacklog值为1时，表示启用动态backlog，可以修改最大半连接数。　MinimumDynamicBacklog表示半连接队列为单个TCP端囗分配的最小空闲连接数，当该TCP端囗在backlog队列的空闲连接小于此临界值时，系统为此端囗自动启用扩展的空闲连接（DynamicBacklogGrowthDelta），Microsoft推荐该值为20。\nMaximumDynamicBacklog是当前活动的半连接和空闲连接的和，当此和超过某个临界值时，系统拒绝SYN包，Microsoft推荐MaximumDynamicBacklog值不得超过2000。\nDynamicBacklogGrowthDelta值是指扩展的空闲连接数，此连接数并不计算在MaximumDynamicBacklog内，当半连接队列为某个TCP端囗分配的空闲连接小于MinimumDynamicBacklog时，系统自动分配DynamicBacklogGrowthDelta所定义的空闲连接空间，以使该TCP端囗能处理更多的半连接。Microsoft推荐该值为10。\nLINUX：Linux用变量tcp_max_syn_backlog定义backlog队列容纳的最大半连接数。在Redhat 7.3中，该变量的值默认为256，这个值是远远不够的，一次强度不大的SYN攻击就能使半连接队列占满。我们可以通过以下命令修改此变量的值：\n# sysctl -w net.ipv4.tcp_max_syn_backlog=“2048”\nSun Solaris Sun Solaris用变量tcp_conn_req_max_q0来定义最大半连接数，在Sun Solaris 8中，该值默认为1024，可以通过add命令改变这个值：\n# ndd -set /dev/tcp tcp_conn_req_max_q0 2048\nHP-UX：HP-UX用变量tcp_syn_rcvd_max来定义最大半连接数，在HP-UX　11.00中，该值默认为500，可以通过ndd命令改变默认值：\n＃ndd -set /dev/tcp tcp_syn_rcvd_max 2048\n■缩短超时时间\n上文提到，通过增大backlog队列能防范SYN攻击；另外减少超时时间也使系统能处理更多的SYN请求。我们知道，timeout超时时间，也即半连接存活时间，是系统所有重传次数等待的超时时间总和，这个值越大，半连接数占用backlog队列的时间就越长，系统能处理的SYN请求就越少。为缩短超时时间，可以通过缩短重传超时时间（一般是第一次重传超时时间）和减少重传次数来实现。\nWin2000第一次重传之前等待时间默认为3秒，为改变此默认值，可以通过修改网络接囗在注册表里的TcpInitialRtt注册值来完成。重传次数由TcpMaxConnectResponseRetransmissions 来定义，注册表的位置是：HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters registry key。\n当然我们也可以把重传次数设置为0次，这样服务器如果在3秒内还未收到ack确认包就自动从backlog队列中删除该连接条目。\nLINUX：Redhat使用变量tcp_synack_retries定义重传次数，其默认值是5次，总超时时间需要3分钟。\nSun Solaris Solaris　默认的重传次数是3次，总超时时间为3分钟，可以通过ndd命令修改这些默认值。\n",
+  "wordCount" : "205",
+  "inLanguage": "en",
+  "datePublished": "2006-10-15T10:31:42Z",
+  "dateModified": "2006-10-15T10:31:42Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      SYN攻击原理以及防范技术
+    </h1>
+    <div class="post-meta"><span title='2006-10-15 10:31:42 +0000 UTC'>October 15, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……</p>
+<p>据统计，在所 TCP握手协议
+有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。</p>
+<p>　　一、TCP握手协议</p>
+<p>　　在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。</p>
+<p>　　第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；</p>
+<p>　　第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</p>
+<p>　　第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。</p>
+<p>　　完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：</p>
+<p>　　未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。
+Backlog参数：表示未连接队列的最大容纳数目。</p>
+<p>　　SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。</p>
+<p>　　半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。</p>
+<p>二、SYN攻击原理</p>
+<p>　　SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j+1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。</p>
+<p>　　三、SYN攻击工具</p>
+<p>　　SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。</p>
+<p>　　1、windows系统下的SYN工具</p>
+<p>　　以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。</p>
+<p>　　四、检测SYN攻击</p>
+<p>　　检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：</p>
+<p>　　# netstat -n -p TCP
+　　tcp　0　 0 10.11.11.11:23　　124.173.152.8:25882　 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　236.15.133.204:2577　 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　127.160.6.129:51748　 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　222.220.13.25:47393　 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　212.200.204.182:60427 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　232.115.18.38:278　　 SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　239.116.95.96:5122　　SYN_RECV　-
+　　tcp　0　 0 10.11.11.11:23　　236.219.139.207:49162 SYN_RECV　-
+　　&hellip;</p>
+<p>　　上面是在LINUX系统中看到的，很多连接处于SYN_RECV状态（在WINDOWS系统中是SYN_RECEIVED状态），源IP地址都是随机的，表明这是一种带有IP欺骗的SYN攻击。</p>
+<p>　　我们也可以通过下面的命令直接查看在LINUX环境下某个端囗的未连接队列的条目数：</p>
+<p>　　＃netstat -n -p TCP | grep SYN_RECV | grep :22 | wc -l
+　　324</p>
+<p>　　显示TCP端囗22的未连接数有324个，虽然还远达不到系统极限，但应该引起管理员的注意。</p>
+<p>五、SYN攻击防范技术</p>
+<p>　　关于SYN攻击防范技术，人们研究得比较早。归纳起来，主要有两大类，一类是通过防火墙、路由器等过滤网关防护，另一类是通过加固TCP/IP协议栈防范.但必须清楚的是，SYN攻击不能完全被阻止，我们所做的是尽可能的减轻SYN攻击的危害，除非将TCP协议重新设计。</p>
+<p>　　1、过滤网关防护</p>
+<p>　　这里，过滤网关主要指明防火墙，当然路由器也能成为过滤网关。防火墙部署在不同网络之间，防范外来非法攻击和防止保密信息外泄，它处于客户端和服务器之间，利用它来防护SYN攻击能起到很好的效果。过滤网关防护主要包括超时设置，SYN网关和SYN代理三种。</p>
+<p>　　■网关超时设置：防火墙设置SYN转发超时参数（状态检测的防火墙可在状态表里面设置），该参数远小于服务器的timeout时间。当客户端发送完SYN包，服务端发送确认包后（SYN＋ACK），防火墙如果在计数器到期时还未收到客户端的确认包（ACK），则往服务器发送RST包，以使服务器从队列中删去该半连接。值得注意的是，网关超时参数设置不宜过小也不宜过大，超时参数设置过小会影响正常的通讯，设置太大，又会影响防范SYN攻击的效果，必须根据所处的网络应用环境来设置此参数。</p>
+<p>　　■SYN网关：SYN网关收到客户端的SYN包时，直接转发给服务器；SYN网关收到服务器的SYN/ACK包后，将该包转发给客户端，同时以客户端的名义给服务器发ACK确认包。此时服务器由半连接状态进入连接状态。当客户端确认包到达时，如果有数据则转发，否则丢弃。事实上，服务器除了维持半连接队列外，还要有一个连接队列，如果发生SYN攻击时，将使连接队列数目增加，但一般服务器所能承受的连接数量比半连接数量大得多，所以这种方法能有效地减轻对服务器的攻击。</p>
+<p>　■SYN代理：当客户端SYN包到达过滤网关时，SYN代理并不转发SYN包，而是以服务器的名义主动回复SYN/ACK包给客户，如果收到客户的ACK包，表明这是正常的访问，此时防火墙向服务器发送ACK包并完成三次握手。SYN代理事实上代替了服务器去处理SYN攻击，此时要求过滤网关自身具有很强的防范SYN攻击能力。</p>
+<p>　　2、加固tcp/ip协议栈</p>
+<p>　　防范SYN攻击的另一项主要技术是调整tcp/ip协议栈，修改tcp协议实现。主要方法有SynAttackProtect保护机制、SYN cookies技术、增加最大半连接和缩短超时时间等。tcp/ip协议栈的调整可能会引起某些功能的受限，管理员应该在进行充分了解和测试的前提下进行此项工作。</p>
+<p>　　■SynAttackProtect机制</p>
+<p>　　为防范SYN攻击，win2000系统的tcp/ip协议栈内嵌了SynAttackProtect机制，Win2003系统也采用此机制。SynAttackProtect机制是通过关闭某些socket选项，增加额外的连接指示和减少超时时间，使系统能处理更多的SYN连接，以达到防范SYN攻击的目的。默认情况下，Win2000操作系统并不支持SynAttackProtect保护机制，需要在注册表以下位置增加SynAttackProtect键值：</p>
+<p>　　HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters</p>
+<p>　　当SynAttackProtect值（如无特别说明，本文提到的注册表键值都为十六进制）为0或不设置时，系统不受SynAttackProtect保护。</p>
+<p>　　当SynAttackProtect值为1时，系统通过减少重传次数和延迟未连接时路由缓冲项（route cache entry）防范SYN攻击。</p>
+<p>　　当SynAttackProtect值为2时（Microsoft推荐使用此值），系统不仅使用backlog队列，还使用附加的半连接指示，以此来处理更多的SYN连接，使用此键值时，tcp/ip的TCPInitialRTT、window size和可滑动窗囗将被禁止。</p>
+<p>　　我们应该知道，平时，系统是不启用SynAttackProtect机制的，仅在检测到SYN攻击时，才启用，并调整tcp/ip协议栈。那么系统是如何检测SYN攻击发生的呢？事实上，系统根据TcpMaxHalfOpen,TcpMaxHalfOpenRetried 和TcpMaxPortsExhausted三个参数判断是否遭受SYN攻击。</p>
+<p>　　TcpMaxHalfOpen 表示能同时处理的最大半连接数，如果超过此值，系统认为正处于SYN攻击中。Win2000　server默认值为100，Win2000　Advanced server为500。</p>
+<p>　　TcpMaxHalfOpenRetried定义了保存在backlog队列且重传过的半连接数，如果超过此值，系统自动启动SynAttackProtect机制。Win2000　server默认值为80，Win2000 Advanced server为400。</p>
+<p>　　TcpMaxPortsExhausted　是指系统拒绝的SYN请求包的数量，默认是5。</p>
+<p>　　如果想调整以上参数的默认值，可以在注册表里修改（位置与SynAttackProtect相同）</p>
+<p>　　■ SYN cookies技术</p>
+<p>　　我们知道，TCP协议开辟了一个比较大的内存空间backlog队列来存储半连接条目，当SYN请求不断增加，并这个空间，致使系统丢弃SYN连接。为使半连接队列被塞满的情况下，服务器仍能处理新到的SYN请求，SYN cookies技术被设计出来。</p>
+<p>　　SYN cookies应用于linux、FreeBSD等操作系统，当半连接队列满时，SYN　cookies并不丢弃SYN请求，而是通过加密技术来标识半连接状态。</p>
+<p>　　在TCP实现中，当收到客户端的SYN请求时，服务器需要回复SYN＋ACK包给客户端，客户端也要发送确认包给服务器。通常，服务器的初始序列号由服务器按照一定的规律计算得到或采用随机数，但在SYN cookies中，服务器的初始序列号是通过对客户端IP地址、客户端端囗、服务器IP地址和服务器端囗以及其他一些安全数值等要素进行hash运算，加密得到的，称之为cookie。当服务器遭受SYN攻击使得backlog队列满时，服务器并不拒绝新的SYN请求，而是回复cookie（回复包的SYN序列号）给客户端， 如果收到客户端的ACK包，服务器将客户端的ACK序列号减去1得到cookie比较值，并将上述要素进行一次hash运算，看看是否等于此cookie。如果相等，直接完成三次握手（注意：此时并不用查看此连接是否属于backlog队列）。</p>
+<p>　　在RedHat linux中，启用SYN cookies是通过在启动环境中设置以下命令来完成：</p>
+<p>　　# echo 1 &gt; /proc/sys/net/ipv4/tcp_syncookies</p>
+<p>　　■ 增加最大半连接数</p>
+<p>　　大量的SYN请求导致未连接队列被塞满，使正常的TCP连接无法顺利完成三次握手，通过增大未连接队列空间可以缓解这种压力。当然backlog队列需要占用大量的内存资源，不能被无限的扩大。</p>
+<p>　　WIN2000：除了上面介绍的TcpMaxHalfOpen, TcpMaxHalfOpenRetried参数外，WIN2000操作系统可以通过设置动态backlog(dynamic backlog)来增大系统所能容纳的最大半连接数，配置动态backlog由AFD.SYS驱动完成，AFD.SYS是一种内核级的驱动，用于支持基于window socket的应用程序，比如ftp、telnet等。AFD.SYS在注册表的位置：
+HKLM\System\CurrentControlSet\Services\AFD\ParametersEnableDynamicBacklog值为1时，表示启用动态backlog，可以修改最大半连接数。　</p>
+<p>　　MinimumDynamicBacklog表示半连接队列为单个TCP端囗分配的最小空闲连接数，当该TCP端囗在backlog队列的空闲连接小于此临界值时，系统为此端囗自动启用扩展的空闲连接（DynamicBacklogGrowthDelta），Microsoft推荐该值为20。</p>
+<p>　　MaximumDynamicBacklog是当前活动的半连接和空闲连接的和，当此和超过某个临界值时，系统拒绝SYN包，Microsoft推荐MaximumDynamicBacklog值不得超过2000。</p>
+<p>　　DynamicBacklogGrowthDelta值是指扩展的空闲连接数，此连接数并不计算在MaximumDynamicBacklog内，当半连接队列为某个TCP端囗分配的空闲连接小于MinimumDynamicBacklog时，系统自动分配DynamicBacklogGrowthDelta所定义的空闲连接空间，以使该TCP端囗能处理更多的半连接。Microsoft推荐该值为10。</p>
+<p>　　LINUX：Linux用变量tcp_max_syn_backlog定义backlog队列容纳的最大半连接数。在Redhat 7.3中，该变量的值默认为256，这个值是远远不够的，一次强度不大的SYN攻击就能使半连接队列占满。我们可以通过以下命令修改此变量的值：</p>
+<p>　　# sysctl -w net.ipv4.tcp_max_syn_backlog=&ldquo;2048&rdquo;</p>
+<p>　　Sun Solaris Sun Solaris用变量tcp_conn_req_max_q0来定义最大半连接数，在Sun Solaris 8中，该值默认为1024，可以通过add命令改变这个值：</p>
+<p>　　# ndd -set /dev/tcp tcp_conn_req_max_q0 2048</p>
+<p>　　HP-UX：HP-UX用变量tcp_syn_rcvd_max来定义最大半连接数，在HP-UX　11.00中，该值默认为500，可以通过ndd命令改变默认值：</p>
+<p>　　＃ndd -set /dev/tcp tcp_syn_rcvd_max 2048</p>
+<p>　　■缩短超时时间</p>
+<p>　　上文提到，通过增大backlog队列能防范SYN攻击；另外减少超时时间也使系统能处理更多的SYN请求。我们知道，timeout超时时间，也即半连接存活时间，是系统所有重传次数等待的超时时间总和，这个值越大，半连接数占用backlog队列的时间就越长，系统能处理的SYN请求就越少。为缩短超时时间，可以通过缩短重传超时时间（一般是第一次重传超时时间）和减少重传次数来实现。</p>
+<p>　　Win2000第一次重传之前等待时间默认为3秒，为改变此默认值，可以通过修改网络接囗在注册表里的TcpInitialRtt注册值来完成。重传次数由TcpMaxConnectResponseRetransmissions 来定义，注册表的位置是：HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters registry key。</p>
+<p>　　当然我们也可以把重传次数设置为0次，这样服务器如果在3秒内还未收到ack确认包就自动从backlog队列中删除该连接条目。</p>
+<p>　　LINUX：Redhat使用变量tcp_synack_retries定义重传次数，其默认值是5次，总超时时间需要3分钟。</p>
+<p>　　Sun Solaris Solaris　默认的重传次数是3次，总超时时间为3分钟，可以通过ndd命令修改这些默认值。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/syn/">
+syn
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

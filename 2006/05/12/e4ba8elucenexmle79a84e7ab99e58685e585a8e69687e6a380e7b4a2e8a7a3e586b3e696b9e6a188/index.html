@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>于Lucene/XML的站内全文检索解决方案 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能
+提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；
+MySQL \ / JSP Oracle - DB - ==&gt; XML ==&gt; (Lucene Index) ==&gt; XML - ASP MSSQL / - PHP MS Word / \ / XHTML PDF / =XSLT=&gt; - TEXT \ XML \_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性
+虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：
+数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建
+下载： http://sourceforge.net/projects/weblucene/
+XML数据源的导入：
+只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：
+比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 &hellip; IndexRunner -i news_dump.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="于Lucene/XML的站内全文检索解决方案" />
+<meta property="og:description" content="关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能
+提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；
+MySQL \ / JSP Oracle - DB - ==&gt; XML ==&gt; (Lucene Index) ==&gt; XML - ASP MSSQL / - PHP MS Word / \ / XHTML PDF / =XSLT=&gt; - TEXT \ XML \_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性
+虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：
+数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建
+下载： http://sourceforge.net/projects/weblucene/
+XML数据源的导入：
+只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：
+比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 &hellip; IndexRunner -i news_dump." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-12T13:04:36+00:00" />
+<meta property="article:modified_time" content="2006-05-12T13:04:36+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="于Lucene/XML的站内全文检索解决方案"/>
+<meta name="twitter:description" content="关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能
+提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；
+MySQL \ / JSP Oracle - DB - ==&gt; XML ==&gt; (Lucene Index) ==&gt; XML - ASP MSSQL / - PHP MS Word / \ / XHTML PDF / =XSLT=&gt; - TEXT \ XML \_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性
+虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：
+数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建
+下载： http://sourceforge.net/projects/weblucene/
+XML数据源的导入：
+只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：
+比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 &hellip; IndexRunner -i news_dump."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "于Lucene/XML的站内全文检索解决方案",
+      "item": "http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "于Lucene/XML的站内全文检索解决方案",
+  "name": "于Lucene\/XML的站内全文检索解决方案",
+  "description": "关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能\n提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；\nMySQL \\ / JSP Oracle - DB - ==\u0026gt; XML ==\u0026gt; (Lucene Index) ==\u0026gt; XML - ASP MSSQL / - PHP MS Word / \\ / XHTML PDF / =XSLT=\u0026gt; - TEXT \\ XML \\_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性\n虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：\n数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建\n下载： http://sourceforge.net/projects/weblucene/\nXML数据源的导入：\n只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：\n比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 \u0026hellip; IndexRunner -i news_dump.",
+  "keywords": [
+    
+  ],
+  "articleBody": "关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能\n提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；\nMySQL \\ / JSP Oracle - DB - ==\u003e XML ==\u003e (Lucene Index) ==\u003e XML - ASP MSSQL / - PHP MS Word / \\ / XHTML PDF / =XSLT=\u003e - TEXT \\ XML \\_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性\n虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：\n数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建\n下载： http://sourceforge.net/projects/weblucene/\nXML数据源的导入：\n只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：\n比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 … IndexRunner -i news_dump.xml -o c:\\index -t Title,Content -n Author -i news_dump.xml: 以news_dump.xml为数据源 -o c:\\index 索引库建立在c:\\index目录下 索引建立Title Author Content PubTime这几个字段外，按以下规则建立索引： -t Title,Content 一个进行分词的全文索引TokenIndex：数据是Title Content这2个字段 -n Author 一个不分词的索引：NoTokenIndex：数据源是Author这个字段。\n对于RSS数据源：\nAmazon: Books Arts \u0026 Photography\nhttp://www.lockergnome.com/ Amazon RSS Feed Sun, 29 Jun 2003 01:05:01 GMT http://www.lockergnome.com/ amazonfeed@lockergnome.com (Lockergnome RSS Generator)\nThe Artist’s Way: A Spiritual Path to Higher Creativity - $11.17\nhttp://www.amazon.com/exec/obidos/ASIN/1585421464/lockergnomedigit/?ref=nosim\u0026dev-it;=D34HUVGKB34YFX http://www.lockergnome.com/\n…\nIndexRunner -i http://www.example.com/rss.xml -o c:\\index -t title,description -n link -l 4 -l 4 表示拿第4层节点作为字段映射，\nIndexRunner还提供了-a -m这两个选项：用于增量索引和批量索引优化。 -a 增量索引，表示在原有索引的基础上扩展 -m mergeFactor 在Lucene中mergeFactor是一个针对批量索引的优化参数，控制多少条处理完多少条记录（Document）后，写入一次索引，写入频率越高，内存使用越少，但索引速度越慢，所以在大批量数据导入时需要增大文件写入的间隔，多让索引在内存中操作。\n搜索结果输出：\n以下是系统设计过程中一些设计的思路：\n做为工业标准的XML\n记得以前有关于肯德基的炸薯条断顿的报道。从这个事件报道中我们可以看到一种更高效的管理体系：对于快餐店这样全球性的企业来说，要保证各地提供的薯条品质，成本最低的方法肯定是依靠机器而不是厨师，如果要求薯条机能够处理各种形状不一的土豆，机器的复杂程度和维护成本都会很高。所以土豆必须严格符合工业标准才能让结构比较简单的薯条机生产出符合标准的薯条，因此，薯条的加工机械会严格按照土豆协会的土豆工业标准设计。高质量的原料可以大大降低后期加工设备的成本，因此从总体成本上讲还是合算的。对于软件应用开发者来说：应用和应用之间，企业和企业之间交换的数据好比就是土豆，白菜，按照严格的XML标准设计的接口作为企业之间后台数据交换的工业标准，虽然不如简单的CSV格式高效，但缺能大大简化下游工序的后期加工成本。 不难想象为什么处理HTML的浏览器：IE和Mozilla等浏览器软件大小都在10M以上，但一般处理XML的解析器一般都在几百K。除了没有界面外，HTML浏览器需要为太多不规范的HTML代码提供大量容错处理也是一个很重要的原因，而语法严格，规则简单的XML处理器就可以做的很简短，高效，体积越“小”就意味着适应性越广：这点在手机这样的硬件配置比较低的设备环境中显得尤其重要。\n虽然XML在后台数据交换方面，有着巨大的潜力。在前台表现方面，XML并不会马上代替HTML，很多通过XSLT输出的HTML仍然需要结合CSS来进行表现。XML ==XSLT==\u003e HTML + CSS。但是由于太多的网页都是用HTML做的，相信XML没有必要马上代替这些已有的机制。\n此外在应用的国际化支持方面XML和Java简直是绝配：XML数据源用Java解析后是UNICODE，这样无论是日文，繁体中文还是德文的内容我们都可以在一个索引库中同时进行搜索。这样针对其他语言的支持只是设计各种语言界面的问题了。\nGBK \\ / BIG5 BIG5 - UNICODE ====\u003e Unicode - GB2312 SJIS - (XML) (XML) - SJIS ISO-8859-1 / \\ ISO-8859-1 使用XML的另外一个额外好处在于：开发人员一般都没有仔细理解Java的字符集（其实上是JVM的缺省file.encoding属性）受系统本地化设置的影响，基于XML的输入使得数据的字符解码过程变得透明：不用再和用户解释需要如何解码，编码数据源。不过，XML的学习成本还是比较高的，假设你HTML的学习成本是1，XML则可能为10，而XSLT的学习成本则可能高达100。\n传统数据库应用的全文检索加速\n让数据库负责精确匹配，将模糊匹配用独立的系统实现\n一个站点内容积累在万级以上，站内全文检索就会是用户定位最主要的手段，而关键词检索是用户最熟悉的方法。因此基于数据库的传统WEB应用在全文检索需求还是很大的。\n但是可怕的%like%数据库操作可能会吃掉数据库服务器90%以上的CPU。Oracle MSSQL等数据库服务器中数据库内置的全文检索基本上都不太适合WEB应用。而数据库另外一个的弊端在于对于条件简单的查询返回结果集非常大：数据库并不知道如何面向用户最关心的的头100条结果进行优化。根据以前的统计：头100条结果往往已经可以满足95％以上用户需求。\n需要缓存设计：根据我们的经验，在应用设计中没有必要进行内置的结果缓存设计：让前台的应用服务器内置的缓存机制或者反相代理缓存服务器进行缓存就够了。\n数据同步策略\n总体上讲，全文检索和数据库其实是2种根本不同的应用模式，全文检索系统其实往往也没有必要和数据库那么高的实时同步机制，如果按照：低更新，高缓存的模式进行设计：数据库数据到全文索引的同步过程一般都可以通过脚本定期将数据库的数据导出成XML，然后进入Lucene的全文索引。而针对原有数据记录的更新和删除，其实一般可以通过定期的重建索引解决。WebLucene其中索引部分是一个IndexRunner的命令行程序实现的。\n结果排序策略\n站内全文索引另外一个很重要的需求是可定制的排序：按时间，按价格，按点击量……Lucene全文索引缺省只提供了根据关键词在原文中的匹配度排序，而任何根据某个字段的值进行排序的都无法避免再次遍历数据，从而导致性能有数量级的下降（等于又是做%Like%检索），而在索引中，除了匹配度SCORE外，唯一能用来排序的就是索引记录的ID，所以一个比较高效率实现定制排序的方法时：在索引时，让进入Lucene全文的顺序对应着一定规则：比如时间，然后在搜索时，让搜索结果按照索引记录的ID进行排序（或倒排）。\n搜索结果关键词标引的实现\n搜索结果中关键词通过红色或者黑体字标记出来，为了能够更恰当的显示相关上下文的问题，标引是通过限制了一个扫描范围，然后根据一个分析器将指定的词流式的读取出来，然后\n全文检索和其他应用的集成\n其实核心的是一个Lucene的XML接口：SAX方式的数据导入和DOM方式的结果输出。\nXML的数据源定义： 只要是能够映射成表＝》记录＝》字段这样层次结构的都可以。因此WebLucene索引的设计比较灵活，甚至可以直接用来索引RSS。\nXML结果定义：参考了Google的XML接口的设计\n如果没有SERVLET界面，提供XML输出的DOMSearcher也可以很方便集成到各种应用系统中。\n参考资料：\n系统设计中使用的一些模块： Jakarta Lucene: http://jakarta.apache.org/lucene/\nXerces / Xalan http://xml.apache.org/ Log4j http://jakarta.apache.org/log4j/ Google的XML接口定义： http://www.google.com/google.dtd\n",
+  "wordCount" : "219",
+  "inLanguage": "en",
+  "datePublished": "2006-05-12T13:04:36Z",
+  "dateModified": "2006-05-12T13:04:36Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      于Lucene/XML的站内全文检索解决方案
+    </h1>
+    <div class="post-meta"><span title='2006-05-12 13:04:36 +0000 UTC'>May 12, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>关键词：Lucene xml xslt web site search engine
+内容摘要：
+为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能</p>
+<p>提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性；
+通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；</p>
+<pre><code>MySQL  \                                                  / JSP
+Oracle - DB      -  ==&gt;   XML ==&gt; (Lucene Index) ==&gt; XML  -  ASP
+MSSQL  /                                                  -  PHP
+MS Word /                                        \         / XHTML
+PDF /                                         =XSLT=&gt; -  TEXT
+\ XML
+\_________WebLucene__________/
+</code></pre>
+<p>使用过程如下：
+将数据用脚本导出成XML格式；
+将XML数据源导入LUCENE索引；
+从WEB界面得到XML结果输出，并通过XSLT生成HTML页面
+站内全文检索的必要性</p>
+<p>虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：</p>
+<p>数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃；
+更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右；
+内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的；
+无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等
+系统的搭建</p>
+<p>下载：
+<a href="http://sourceforge.net/projects/weblucene/">http://sourceforge.net/projects/weblucene/</a></p>
+<p>XML数据源的导入：</p>
+<p>只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：</p>
+<p>比如从数据库导出：news_dump.xml
+标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 &hellip;
+IndexRunner -i news_dump.xml -o c:\index -t Title,Content -n Author
+-i news_dump.xml: 以news_dump.xml为数据源
+-o c:\index 索引库建立在c:\index目录下
+索引建立Title Author Content PubTime这几个字段外，按以下规则建立索引：
+-t Title,Content 一个进行分词的全文索引TokenIndex：数据是Title Content这2个字段
+-n Author 一个不分词的索引：NoTokenIndex：数据源是Author这个字段。</p>
+<p>对于RSS数据源：</p>
+<p>Amazon: Books Arts &amp; Photography</p>
+<p><a href="http://www.lockergnome.com/">http://www.lockergnome.com/</a> Amazon RSS Feed
+Sun, 29 Jun 2003 01:05:01 GMT
+<a href="http://www.lockergnome.com/">http://www.lockergnome.com/</a>
+<a href="mailto:amazonfeed@lockergnome.com">amazonfeed@lockergnome.com</a> (Lockergnome RSS Generator)</p>
+<p>The Artist&rsquo;s Way: A Spiritual Path to Higher Creativity - $11.17</p>
+<p><a href="http://www.amazon.com/exec/obidos/ASIN/1585421464/lockergnomedigit/?ref=nosim&amp;dev-it;=D34HUVGKB34YFX">http://www.amazon.com/exec/obidos/ASIN/1585421464/lockergnomedigit/?ref=nosim&amp;dev-it;=D34HUVGKB34YFX</a> <a href="http://www.lockergnome.com/">http://www.lockergnome.com/</a></p>
+<p>&hellip;</p>
+<p>IndexRunner -i <a href="http://www.example.com/rss.xml">http://www.example.com/rss.xml</a> -o c:\index -t title,description -n link -l 4
+-l 4 表示拿第4层节点作为字段映射，</p>
+<p>IndexRunner还提供了-a -m这两个选项：用于增量索引和批量索引优化。
+-a 增量索引，表示在原有索引的基础上扩展
+-m mergeFactor 在Lucene中mergeFactor是一个针对批量索引的优化参数，控制多少条处理完多少条记录（Document）后，写入一次索引，写入频率越高，内存使用越少，但索引速度越慢，所以在大批量数据导入时需要增大文件写入的间隔，多让索引在内存中操作。</p>
+<p>搜索结果输出：</p>
+<p>以下是系统设计过程中一些设计的思路：</p>
+<p>做为工业标准的XML</p>
+<p>记得以前有关于肯德基的炸薯条断顿的报道。从这个事件报道中我们可以看到一种更高效的管理体系：对于快餐店这样全球性的企业来说，要保证各地提供的薯条品质，成本最低的方法肯定是依靠机器而不是厨师，如果要求薯条机能够处理各种形状不一的土豆，机器的复杂程度和维护成本都会很高。所以土豆必须严格符合工业标准才能让结构比较简单的薯条机生产出符合标准的薯条，因此，薯条的加工机械会严格按照土豆协会的土豆工业标准设计。高质量的原料可以大大降低后期加工设备的成本，因此从总体成本上讲还是合算的。对于软件应用开发者来说：应用和应用之间，企业和企业之间交换的数据好比就是土豆，白菜，按照严格的XML标准设计的接口作为企业之间后台数据交换的工业标准，虽然不如简单的CSV格式高效，但缺能大大简化下游工序的后期加工成本。
+不难想象为什么处理HTML的浏览器：IE和Mozilla等浏览器软件大小都在10M以上，但一般处理XML的解析器一般都在几百K。除了没有界面外，HTML浏览器需要为太多不规范的HTML代码提供大量容错处理也是一个很重要的原因，而语法严格，规则简单的XML处理器就可以做的很简短，高效，体积越“小”就意味着适应性越广：这点在手机这样的硬件配置比较低的设备环境中显得尤其重要。</p>
+<p>虽然XML在后台数据交换方面，有着巨大的潜力。在前台表现方面，XML并不会马上代替HTML，很多通过XSLT输出的HTML仍然需要结合CSS来进行表现。XML ==XSLT==&gt; HTML + CSS。但是由于太多的网页都是用HTML做的，相信XML没有必要马上代替这些已有的机制。</p>
+<p>此外在应用的国际化支持方面XML和Java简直是绝配：XML数据源用Java解析后是UNICODE，这样无论是日文，繁体中文还是德文的内容我们都可以在一个索引库中同时进行搜索。这样针对其他语言的支持只是设计各种语言界面的问题了。</p>
+<pre><code>GBK          \                                       / BIG5
+BIG5          -  UNICODE        ====&gt;       Unicode -  GB2312
+SJIS          -   (XML)                     (XML)   -  SJIS
+ISO-8859-1   /                                       \ ISO-8859-1
+</code></pre>
+<p>使用XML的另外一个额外好处在于：开发人员一般都没有仔细理解Java的字符集（其实上是JVM的缺省file.encoding属性）受系统本地化设置的影响，基于XML的输入使得数据的字符解码过程变得透明：不用再和用户解释需要如何解码，编码数据源。不过，XML的学习成本还是比较高的，假设你HTML的学习成本是1，XML则可能为10，而XSLT的学习成本则可能高达100。</p>
+<p>传统数据库应用的全文检索加速</p>
+<p>让数据库负责精确匹配，将模糊匹配用独立的系统实现</p>
+<p>一个站点内容积累在万级以上，站内全文检索就会是用户定位最主要的手段，而关键词检索是用户最熟悉的方法。因此基于数据库的传统WEB应用在全文检索需求还是很大的。</p>
+<p>但是可怕的%like%数据库操作可能会吃掉数据库服务器90%以上的CPU。Oracle MSSQL等数据库服务器中数据库内置的全文检索基本上都不太适合WEB应用。而数据库另外一个的弊端在于对于条件简单的查询返回结果集非常大：数据库并不知道如何面向用户最关心的的头100条结果进行优化。根据以前的统计：头100条结果往往已经可以满足95％以上用户需求。</p>
+<p>需要缓存设计：根据我们的经验，在应用设计中没有必要进行内置的结果缓存设计：让前台的应用服务器内置的缓存机制或者反相代理缓存服务器进行缓存就够了。</p>
+<p>数据同步策略</p>
+<p>总体上讲，全文检索和数据库其实是2种根本不同的应用模式，全文检索系统其实往往也没有必要和数据库那么高的实时同步机制，如果按照：低更新，高缓存的模式进行设计：数据库数据到全文索引的同步过程一般都可以通过脚本定期将数据库的数据导出成XML，然后进入Lucene的全文索引。而针对原有数据记录的更新和删除，其实一般可以通过定期的重建索引解决。WebLucene其中索引部分是一个IndexRunner的命令行程序实现的。</p>
+<p>结果排序策略</p>
+<p>站内全文索引另外一个很重要的需求是可定制的排序：按时间，按价格，按点击量……Lucene全文索引缺省只提供了根据关键词在原文中的匹配度排序，而任何根据某个字段的值进行排序的都无法避免再次遍历数据，从而导致性能有数量级的下降（等于又是做%Like%检索），而在索引中，除了匹配度SCORE外，唯一能用来排序的就是索引记录的ID，所以一个比较高效率实现定制排序的方法时：在索引时，让进入Lucene全文的顺序对应着一定规则：比如时间，然后在搜索时，让搜索结果按照索引记录的ID进行排序（或倒排）。</p>
+<p>搜索结果关键词标引的实现</p>
+<p>搜索结果中关键词通过红色或者黑体字标记出来，为了能够更恰当的显示相关上下文的问题，标引是通过限制了一个扫描范围，然后根据一个分析器将指定的词流式的读取出来，然后</p>
+<p>全文检索和其他应用的集成</p>
+<p>其实核心的是一个Lucene的XML接口：SAX方式的数据导入和DOM方式的结果输出。</p>
+<p>XML的数据源定义：
+只要是能够映射成表＝》记录＝》字段这样层次结构的都可以。因此WebLucene索引的设计比较灵活，甚至可以直接用来索引RSS。</p>
+<p>XML结果定义：参考了Google的XML接口的设计</p>
+<p>如果没有SERVLET界面，提供XML输出的DOMSearcher也可以很方便集成到各种应用系统中。</p>
+<p>参考资料：</p>
+<p>系统设计中使用的一些模块：
+Jakarta Lucene:
+<a href="http://jakarta.apache.org/lucene/">http://jakarta.apache.org/lucene/</a></p>
+<p>Xerces / Xalan
+<a href="http://xml.apache.org/">http://xml.apache.org/</a>
+Log4j
+<a href="http://jakarta.apache.org/log4j/">http://jakarta.apache.org/log4j/</a>
+Google的XML接口定义：
+<a href="http://www.google.com/google.dtd">http://www.google.com/google.dtd</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

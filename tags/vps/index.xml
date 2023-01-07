@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+vps
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/vps/</link>
+    <description>Recent content in 
+vps
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Jan 2014 05:37:38 +0000</lastBuildDate><atom:link href="http://example.org/tags/vps/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debian openvz vps 优化</title>
+      <link>http://example.org/2014/01/08/debian-openvz-vps-optimize/</link>
+      <pubDate>Wed, 08 Jan 2014 05:37:38 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/08/debian-openvz-vps-optimize/</guid>
+      <description>比较喜欢 debian vps ，系统比较简洁，而且很省内存，但大部分的 vps 商都使用的标准模版，带了不少垃圾东西。
+首先进行系统更新
+apt-get update &amp;amp;&amp;amp; apt-get upgrade 安装sysv-rc-conf做为开机管理项
+apt-get install sysv-rc-conf 先删除 apache 相关，使用 nginx 代替
+apt-get remove --purge apache* 删除sendmail 相关
+apt-get remove --purge sendmail* sasl2-bin 删除bind9相关
+apt-get remove --purge bind9-* 删除xinetd 相关
+apt-get remove --purge xinetd 删除samba相关
+apt-get remove --purge samba-* 删除rpcbind相关
+apt-get remove --purge rpcbind </description>
+    </item>
+    
+    <item>
+      <title>bae开如启用域名备案白名单了</title>
+      <link>http://example.org/2014/01/07/bae-domain-beian-white-list/</link>
+      <pubDate>Tue, 07 Jan 2014 05:57:10 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/07/bae-domain-beian-white-list/</guid>
+      <description>前几天百度已经发过邮箱，昨天下午百度正式删除了没有备案的域名。
+国内唯一没有强制要求备案的云计算就这样结束了，白天的博客也是没有备案的，开始计划寻找海外便宜的vps 做反向代理。</description>
+    </item>
+    
+    <item>
+      <title>阿里云(aliyun)青岛节点挂载硬盘io测试</title>
+      <link>http://example.org/2013/12/06/aliyun-shandong-mount-disk-io-test/</link>
+      <pubDate>Fri, 06 Dec 2013 12:24:36 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/06/aliyun-shandong-mount-disk-io-test/</guid>
+      <description>杭州节点已经停售了，在青岛订购了一台，贴上测试结果。
+fdisk -l Disk /dev/xvda: 21.5 GB, 21474754560 bytes 255 heads, 63 sectors/track, 2610 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00090497 Device Boot Start End Blocks Id System /dev/xvda1 * 1 2611 20969472 83 Linux Disk /dev/xvdb: 53.7 GB, 53687091200 bytes 255 heads, 63 sectors/track, 6527 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00000000 Disk /dev/xvdb doesn&#39;t contain a valid partition table 分区</description>
+    </item>
+    
+    <item>
+      <title>debian 下安装 lxc</title>
+      <link>http://example.org/2013/11/23/lxc-on-debian-squeeze/</link>
+      <pubDate>Sat, 23 Nov 2013 07:48:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-on-debian-squeeze/</guid>
+      <description>本文安装环境 debian 6.0
+安装 lxc debootstrap 工具
+aptitude install lxc bridge-utils debootstrap 设置网络
+auto eth1 iface eth1 inet manual auto br0 iface br0 inet static bridge_ports eth1 #根据自己实际网卡设置 bridge_fd 0 address 10.0.0.100 netmask 255.255.255.0 gateway 10.100.0.1 dns-nameservers 10.20.0.2 加载 cgroup 编辑 /etc/fstab
+cgroup /sys/fs/cgroup cgroup defaults 0 0 立即加载
+mount /sys/fs/cgroup 接下来创建一下虚拟机
+#下载 squeeze 64位 debootstrap --verbose --variant=minbase --arch=amd64 --include ifupdown,locales,libui-dialog-perl,\ dialog,netbase,net-tools,iproute,openssh-server,vim,apt-utils,proxychains \ squeeze /var/cache/lxc/debian/rootfs-amd64 http://mirrors.163.com/debian/ mkdir -p /lxc/vm0 #存放目录 /usr/lib/lxc/templates/lxc-debian -p /lxc/vm0/ # 创建虚拟机 配置虚拟机网络,在 /lxc/vm0/config 文件填加些文本</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>jsonp 后 ie 下 cookie 还是不能跨域问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在非 ie 都 直用 jsonp cookie 是没问题，但是在 ie 下不能生效，还是得靠 p3p 解决
+header(&#39;P3P:CP=&#34;IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT&#34;&#39;); </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-04-16 10:14:26 +0000 UTC'>April 16, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to jsonp 后 ie 下 cookie 还是不能跨域问题" href="http://example.org/2013/04/16/jsonp-ie-dot-cookie-domain/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>godaddy 2013年2月2.95美元域名优惠码可以国内信用卡付款！
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>godaddy的超级优惠码已经很久都不支持国内的信用卡付款了，今天终于有一枚支持国内信用卡的godaddy域名优惠码吧！
+godaddy 2013年2月2.95美元域名优惠码
+iap295f
+说明：点击即可享受优惠，无需在输入优惠码！结账时自然优惠！新购买/转移.com域名仅需2.95美元首年！每人限购一个！
+有效期：未知 2013年2月27日验证有效！
+付款方式：只能信用卡付款！支持国内信用卡购买！
+[drpcoupon name=“iap295f” exclude=“name,expiration,description,rss”]</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-02-28 03:25:31 +0000 UTC'>February 28, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to godaddy 2013年2月2.95美元域名优惠码可以国内信用卡付款！" href="http://example.org/2013/02/28/2013-02-godaddy-domain-295-cost/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2013年2月GODADDY主机5折优惠码
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>godaddy主机2013年2月5折最新优惠码：
+godaddy主机2013年2月5折优惠链接
+说明：点击即可优惠，无需输入优惠码！
+有效期：2013年3月1日前！
+或者你也可以使用以下优惠码：
+[drpcoupon name=“cjcwd50h” exclude=“name,expiration,description,rss”]
+说明：点击即可优惠，无需输入优惠码！</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-02-22 07:45:13 +0000 UTC'>February 22, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 2013年2月GODADDY主机5折优惠码" href="http://example.org/2013/02/22/2013-02-godaddy-host-50-cost/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>今天把blog迁到了 phpcloud 试用中
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前已经介绍过 phpcloud 空间了，也试用过一个站，不过好像被封了，可能是太占资源了哈哈，把 blog 移过过看看会不会被封掉，转移 blog 还是有点麻类的， phpcloud 的 git 权限和apache 权限不致， wordpress 在线更新是比烦的事，改成 777 可以解决，费力呀。。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-02-21 09:39:12 +0000 UTC'>February 21, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天把blog迁到了 phpcloud 试用中" href="http://example.org/2013/02/21/blog-move-to-phpcloud/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>在次走进教室
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>很早之前就想过回到学校在学点什么，可是自己一直没下定过决心，这次在老婆的一再坚持下，已经托了一周了。。终于帮我报了名，下个月开学，希望顺利毕业</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-29 05:32:38 +0000 UTC'>October 29, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 在次走进教室" href="http://example.org/2012/10/29/again-into-classroom/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd6升级到freebsd7
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-22 10:49:26 +0000 UTC'>October 22, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd6升级到freebsd7" href="http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd7升级到freebsd8
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-22 10:44:22 +0000 UTC'>October 22, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd7升级到freebsd8" href="http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd8升级到freebsd9
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-22 10:38:30 +0000 UTC'>October 22, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd8升级到freebsd9" href="http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>godaddy开始限制中国用户？
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近 godaddy 2.95优惠码 ,5.95优惠码，中国用户支付的时候都会提示
+Unfortunately, we are unable to process your purchase using this form of payment. Please utilize another form of payment, or contact (480) 505-8855 for further assistance.
+包括刚刚活动的 2.95优惠码还是同样提示。希望这几次只是误伤，不过有同学打电话过去，注册成功，如果你口语还不错，可以试一下。。</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-20 06:50:04 +0000 UTC'>October 20, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to godaddy开始限制中国用户？" href="http://example.org/2012/10/20/godaddy-limit-china/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>openshift集成了 zend server
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天收到邮 openshift 已经开始支持 zend server 了，这是 openshift 对 php 支持另一种试，强大呀，有兴趣的同学可以去试试，在创建 app 的时候选择 zend server 就可以了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-10-13 09:19:08 +0000 UTC'>October 13, 2012</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to openshift集成了 zend server" href="http://example.org/2012/10/13/openshift-zend-server/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/3/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/5/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

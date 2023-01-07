@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+性能
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E6%80%A7%E8%83%BD/</link>
+    <description>Recent content in 
+性能
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Apr 2009 14:50:25 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E6%80%A7%E8%83%BD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[译]Innodb 性能优化基础</title>
+      <link>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</link>
+      <pubDate>Sun, 19 Apr 2009 14:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</guid>
+      <description>Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).</description>
+    </item>
+    
+  </channel>
+</rss>

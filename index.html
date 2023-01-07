@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="first-entry"> 
+  <header class="entry-header">
+    <h2>Debian下安装Shadowsocks, supervisor守候进程
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Debian下安装配置ShadowSocks的方法
+1.系统更新并安装pip Shadowsocks
+aptitude update aptitude install python-pip pip install shadowsocks 2.创建配置文件 /etc/shadowsocks.json
+{ &#34;server&#34;:&#34;0.0.0.0&#34;, &#34;server_port&#34;:1080, &#34;password&#34;:&#34;password&#34;, &#34;timeout&#34;:600, &#34;method&#34;:&#34;aes-256-cfb&#34; } 配置的说明： Name Explanation server the address your server listens（服务器IP） local_address the address your local listens（本地代理地址） local_port local port（本地代理端口） port_password password used for encryption(自己设定的服务器端口和密码) timeout in seconds（超时断开，以秒为单位） method default: “aes-256-cfb”, see Encryption（加密方式） fast_open use TCP_FASTOPEN, true / false（是否使用TCP） workers number of workers, available on Unix/Linux（这个只在Unix和Linux下有用，可不设置）
+3.启动 ssserver
+ssserver -c /etc/shadowsocks.json start 4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2017-06-16 02:17:34 +0000 UTC'>June 16, 2017</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Debian下安装Shadowsocks, supervisor守候进程" href="http://example.org/2017/06/16/debian-install-shadowsocks-ss-supervisor/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>使用openssl申请apple 开发证书
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>首选需要生成privkey在生成csr文件用于上传到apple
+openssl genrsa -out privkey.key 2048 生成 csr
+openssl req -new -key privkey.key -out privkey.csr 将apple开发者中心得到的cer文件转换为p12
+首先需要装cer转换为pem
+openssl x509 -in ios_distribution.cer -inform DER -out ios_distribution.cer.pem -outform PEM 然后在转换为p12，过程需要一个密码，在导入的时候使用
+openssl pkcs12 -export -inkey privkey.key -in ios_distribution.cer.pem -out ios_distribution.p12 </p>
+  </div>
+  <footer class="entry-footer"><span title='2016-07-08 09:20:35 +0000 UTC'>July 8, 2016</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用openssl申请apple 开发证书" href="http://example.org/2016/07/08/opnessl-apple-cer-to-p12/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql innodb myisam 表格式互转
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>innodb 转换为 myisam
+SELECT CONCAT(&#39;ALTER TABLE &#39;, table_name, &#39; ENGINE=MyISAM;&#39;) AS sql_statements INTO OUTFILE &#39;/tmp/result.txt&#39; FROM information_schema.tables AS tb WHERE table_schema = &#39;TableName&#39; AND `ENGINE` = &#39;InnoDB&#39; AND `TABLE_TYPE` = &#39;BASE TABLE&#39; ORDER BY table_name DESC; source /tmp/result.txt; myisam 转换为 innodb
+SELECT CONCAT(&#39;ALTER TABLE &#39;, table_name, &#39; ENGINE=InnoDB;&#39;) AS sql_statements INTO OUTFILE &#39;/tmp/result.txt&#39; FROM information_schema.tables AS tb WHERE table_schema = &#39;TableName&#39; AND `ENGINE` = &#39;MyISAM&#39; AND `TABLE_TYPE` = &#39;BASE TABLE&#39; ORDER BY table_name DESC; source /tmp/result....</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-11-19 08:30:44 +0000 UTC'>November 19, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql innodb myisam 表格式互转" href="http://example.org/2014/11/19/mysql-innodb-myisam-exchange/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>升级到4.0并转移到腾讯运，速度真是爽爽的
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>真心便宜</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-10-15 06:22:47 +0000 UTC'>October 15, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 升级到4.0并转移到腾讯运，速度真是爽爽的" href="http://example.org/2014/10/15/upgrade-40-move-qcloud/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>namecheap 大象节活动 ,转移7.88优惠
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>15 号结束，优惠码 SAVEDUMBO ，有需要的同学上吧。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-08-15 03:25:24 +0000 UTC'>August 15, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to namecheap 大象节活动 ,转移7.88优惠" href="http://example.org/2014/08/15/namecheap-world-elephant-day-transfer-788/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>基于 Quercus 的手游项目终于上线了
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>经过半年的开发，我们第一款手游戏终于开发完毕，架构使用了 netty &#43; Quercus 实现用 php 通过 websocket 与客户端通信。
+项目上线近一个月，基本稳定。而且不存在性能方面问题，之前在内网测试，pc 机 4G 内存，在线 1000 人，没有卡动感觉。 这个数
+字足以满足我们的需求， 想用 Quercus 大胆的用吧，到 4.0.39 应该会更完美，希望支持 Quercus 的多起来，与 hhvm 的火爆程度
+真是是没法比。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-01-27 06:41:53 +0000 UTC'>January 27, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 基于 Quercus 的手游项目终于上线了" href="http://example.org/2014/01/27/quercus-php-ngame/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>debian openvz vps 优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>比较喜欢 debian vps ，系统比较简洁，而且很省内存，但大部分的 vps 商都使用的标准模版，带了不少垃圾东西。
+首先进行系统更新
+apt-get update &amp;&amp; apt-get upgrade 安装sysv-rc-conf做为开机管理项
+apt-get install sysv-rc-conf 先删除 apache 相关，使用 nginx 代替
+apt-get remove --purge apache* 删除sendmail 相关
+apt-get remove --purge sendmail* sasl2-bin 删除bind9相关
+apt-get remove --purge bind9-* 删除xinetd 相关
+apt-get remove --purge xinetd 删除samba相关
+apt-get remove --purge samba-* 删除rpcbind相关
+apt-get remove --purge rpcbind </p>
+  </div>
+  <footer class="entry-footer"><span title='2014-01-08 05:37:38 +0000 UTC'>January 8, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to debian openvz vps 优化" href="http://example.org/2014/01/08/debian-openvz-vps-optimize/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>bae开如启用域名备案白名单了
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前几天百度已经发过邮箱，昨天下午百度正式删除了没有备案的域名。
+国内唯一没有强制要求备案的云计算就这样结束了，白天的博客也是没有备案的，开始计划寻找海外便宜的vps 做反向代理。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-01-07 05:57:10 +0000 UTC'>January 7, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to bae开如启用域名备案白名单了" href="http://example.org/2014/01/07/bae-domain-beian-white-list/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>debain OpenVZ 删除 apache
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>debain 系统的 vps ,如 directspace 一般初始都安装了 apache 而我要用 nginx ，但直接用 aptitude 删除，竟然删不掉
+aptitude remove apache2 在次使用 aptitude
+aptitude remove apache2-doc apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common 还是没删掉，始用 dpkg
+dpkg --purge apache2-doc apache2.2-common 终于清附掉了..</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-01-06 13:39:35 +0000 UTC'>January 6, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to debain OpenVZ 删除 apache" href="http://example.org/2014/01/06/debain-openvz-vps-remove-apache/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2013年最后一个月 12月 全球Web服务器份额iis狂升
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2013年12月，Netcraft从全球861,023,217家网站调查数据统计
+Apache 相比 11月份 下滑 3 个点，占有率跌到 41.26% IIS 上升明显，比 11 月份上升 4 个点， 占有率升到 28.08% Nginx 稳步上升，占有率达到 14.69% Google 下跌至 4.44%</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-01-02 07:08:43 +0000 UTC'>January 2, 2014</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 2013年最后一个月 12月 全球Web服务器份额iis狂升" href="http://example.org/2014/01/02/2013-12-web-server-survey/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

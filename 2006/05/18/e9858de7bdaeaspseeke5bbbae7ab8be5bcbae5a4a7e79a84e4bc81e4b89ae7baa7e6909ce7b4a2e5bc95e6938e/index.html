@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>配置aspseek建立强大的企业级搜索引擎 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。
+我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。
+ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。
+相关链接：
+Google的搜索引擎软件目录
+参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/
+另一个搜索引擎软件目录：
+Search Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html
+ASPseek 网站
+ASPseek.org：http://www.aspseek.org/
+ASPseek论坛
+关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。
+2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：
+root&gt;; tar zxvf aspseek-1.2.10.tar.gz root&gt;; cd aspseek-1.2.10 root&gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root&gt;; make &amp;&amp; make install root&gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root&gt;; cp /usr/local/aspseek/bin/s.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="配置aspseek建立强大的企业级搜索引擎" />
+<meta property="og:description" content="建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。
+我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。
+ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。
+相关链接：
+Google的搜索引擎软件目录
+参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/
+另一个搜索引擎软件目录：
+Search Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html
+ASPseek 网站
+ASPseek.org：http://www.aspseek.org/
+ASPseek论坛
+关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。
+2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：
+root&gt;; tar zxvf aspseek-1.2.10.tar.gz root&gt;; cd aspseek-1.2.10 root&gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root&gt;; make &amp;&amp; make install root&gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root&gt;; cp /usr/local/aspseek/bin/s." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-18T11:43:17+00:00" />
+<meta property="article:modified_time" content="2006-05-18T11:43:17+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="配置aspseek建立强大的企业级搜索引擎"/>
+<meta name="twitter:description" content="建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。
+我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。
+ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。
+相关链接：
+Google的搜索引擎软件目录
+参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/
+另一个搜索引擎软件目录：
+Search Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html
+ASPseek 网站
+ASPseek.org：http://www.aspseek.org/
+ASPseek论坛
+关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。
+2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：
+root&gt;; tar zxvf aspseek-1.2.10.tar.gz root&gt;; cd aspseek-1.2.10 root&gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root&gt;; make &amp;&amp; make install root&gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root&gt;; cp /usr/local/aspseek/bin/s."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "配置aspseek建立强大的企业级搜索引擎",
+      "item": "http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "配置aspseek建立强大的企业级搜索引擎",
+  "name": "配置aspseek建立强大的企业级搜索引擎",
+  "description": "建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。\n我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。\nASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。\n相关链接：\nGoogle的搜索引擎软件目录\n参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/\n另一个搜索引擎软件目录：\nSearch Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html\nASPseek 网站\nASPseek.org：http://www.aspseek.org/\nASPseek论坛\n关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。\n2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：\nroot\u0026gt;; tar zxvf aspseek-1.2.10.tar.gz root\u0026gt;; cd aspseek-1.2.10 root\u0026gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root\u0026gt;; make \u0026amp;\u0026amp; make install root\u0026gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root\u0026gt;; cp /usr/local/aspseek/bin/s.",
+  "keywords": [
+    
+  ],
+  "articleBody": "建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。\n我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。\nASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。\n相关链接：\nGoogle的搜索引擎软件目录\n参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/\n另一个搜索引擎软件目录：\nSearch Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html\nASPseek 网站\nASPseek.org：http://www.aspseek.org/\nASPseek论坛\n关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。\n2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：\nroot\u003e; tar zxvf aspseek-1.2.10.tar.gz root\u003e; cd aspseek-1.2.10 root\u003e; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root\u003e; make \u0026\u0026 make install root\u003e; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root\u003e; cp /usr/local/aspseek/bin/s.cgi ;/cgi-bin/ root\u003e; useadd aspseek root\u003e; su – aspseek aspseek\u003e; /usr/local/aspseek/sbin/index aspseek\u003e; /usr/local/aspseek/sbin/searchd -D 指出 mysql 的安装路径和设置 ASPseek 的安装路径\n初始化 ASPseek 数据库设置。创建数据库 aspseek12，访问该数据库的用户名和口令保存在配置文件 /usr/local/aspseek/etc/db.conf 中\n将cgi程序 s.cgi 程序拷贝到WEB服务器的cgi-bin目录中\n为确保系统安全，创建用户 aspseek，并使用该用户的身份，进行数据索引的维护和启动搜索引擎服务程序\n以 aspseek 用户的身份，进行数据索引的维护\n以 aspseek 用户的身份，启动搜索引擎服务程序 2.2. 数据库维护 index 程序完成的功能包括网站爬虫、网页下载、解析、数据库维护。\n2.2.1. 配置文件: aspseek.conf aspseek.conf 是 index 程序的配置文件，告诉 index 程序为哪个网址建立索引，如果建立索引等等。\nInclude db.conf UtfStorage yes Include ucharset.conf\nPeriod 1d Server URL\n包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12ASSWOR-IS-HERE@localhost/aspseek12/\n设定网页重建索引的间隔，作用域到下一个 Period 命令或者文件结尾。对作用域内的 Server 指定的网站有效，因此可以对不同的网站设置不同的更新频率\n以 UTF-8 格式存储 MySQL 数据库中信息\n配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置\n最重要的设置。告诉 index 为哪些网站建立索引，可通过多个 Server 配置设置多个服务器。注意：如果在URL中包含路径并不能将索引限制在该目录下，仍然会对整个网站建立索引。如果想限制某些路径，使用 Disallow 配置，例如下面的配置将对网站的索引限制在 url: http://members.aol.com/midlandsda 下。Server http://www.aol.com/ Allow ^http://members.aol.com/midlandsda Disallow ^http://www.aol.com/\n2.2.2. 用 index 程序定期更新搜索引擎数据库\nindex -a\n为所有网页重新建立索引。不使用该参数，则参考配置中的 Period 参数，只对早于这个时间的网页重建索引。\nindex -S\n显示数据库的统计信息\n通过 crontab 设置定时启动 index 重建检索\n0 0 * * * su -c ‘/usr/local/aspseek/sbin/index’ aspseek 注意要以 aspseek 用户身份执行。\n2.3. searchd 后台数据库检索 searchd 是 ASPseek 的守护进程，用来接收 cgi 程序(s.cgi)的查询请求，执行查询动作（搜索由 index 程序创建的数据库），将结果反馈给 cgi 程序(s.cgi)。\n2.3.1. searchd.conf searchd 程序的配置文件。\nPort 12345 Include db.conf UtfStorage yes Include ucharset.conf\n设置 searchd 侦听的端口。确省为 12345\n包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12ASSWOR-IS-HERE@localhost/aspseek12/\n以 UTF-8 格式存储 MySQL 数据库中信息\n配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置 2.3.2. 运行 searchd 配置开机自动执行 searchd。\n#!/bin/sh # FileName: /etc/rc.d/rc3.d/S99aspseek # Script to control aspseek # case \"$1\" in ’start’) echo \"starting aspseek server … \" su aspseek -c \"/usr/local/aspseek/sbin/searchd -D -R\" echo done ;; ’stop’) echo \"stopping news server … \" killall -9 searchd echo done ;; *) echo \"usage: news.sh {start | stop}\" ;; esac 2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序 搜索引擎的界面是由 CGI 提供的。ASPseek 的CGI程序叫做 s.cgi，当然可以改成其它名字。配置则非常简单，除了要将 Apache 配置为支持 cgi 外，只需要将 s.cgi 从 /usr/local/aspseek/bin/ 目录下拷贝到 Apache 的 cgi-bin 目录下即可。配置 Apache 可能非常简单，也许一句 “ScriptAlias /cgi-bin/ /PATH/cgi-bin/” 就足够了。\n我感打赌，s.cgi 一下子就会抓住你的眼球，因为 s.cgi 程序提供的一流的查询界面，和伟大的 Google 太类似了，尤其是那一排字母 “e”。\nASPseek 查询界面\ns.cgi 还提供了定制界面的方案：只需要修改模板文件 /usr/local/aspseek/etc/s.htm 即可。下面是 s.htm 定制的示例（只显示重要的改动）：\n注意：如果将 s.cgi 改名，相应的模板也需要改名。例如 cgi 改名为 search.cgi，则相应的模板文件为 search.htm。\n; ; ; ; ; ;ASPseek: $Q; ; ; ; ; ; ; ;;; ; ; 搜索 ; ; ; ; ; ; ; ; … … … … ; ; ; ; ; ;;; ; ; ; 将cgi查询的输出界面（HTML）的语言编码设置为中文\n引用外部的样式表文件，这样可以根据需要改变查询界面而尽量少的修改模板文件。一个简单的样式表示例：\np {font-size:9pt} h1 {font-size:20pt;line-height:130%;font-weight:\"bold\";align:\"center\";} td,li,select,input {font-size:9pt} .sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;} .datetime {font-size:9pt;color=\"red\"} .star {font-size:9pt;color=\"red\"} .gray {font-size:9pt;color=\"gray\"} .cvskw {font-size:9pt} .footer {font-size:9pt;font-weight:bolder} .footer A:link {font-size:9pt;font-weight:bolder} .footer A:active {font-size:9pt;font-weight:bolder} .footer A:visited {font-size:9pt;font-weight:bolder} .footer A:hover {font-size:9pt;font-weight:bolder} A:link {color: #000000;} A:visited {color: #000000;} A:active,A:hover {color : #000000} HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 } UL { list-style-image: url(\"/images/dot.gif\") } .em {font-size:\"9pt\";color=\"red\";font-weight:\"bolder\";font-style:\"normal\";letter-spacing:\"2px\";} .em A:link {color: \"red\";letter-spacing:\"4px\";} .em A:active {color: \"red\";letter-spacing:\"4px\";} .em A:visited {color: \"red\";letter-spacing:\"4px\";} .em A:hover {color: \"red\";letter-spacing:\"4px\";font-size:\"12pt\";} 引用外部 javascript，显示头部信息，避免过多对该模板的修改。一个 header.js 示例：;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;;;Johnson’s Homepage;;;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;;\"); document.write(\" ;\"); //–\u003e; 通过设置cgi的cs字段，用以支持中文查询 q 是真正的查询字段。看看 GOOGLE 的查询网页，看看是不是非常类似？ 引用外部 javascript，显示脚注信息，避免过多对该模板的修改。一个 footer.js 示例：;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;\"); if ($str) document.write(\";\" + $str + \";\n;\"); document.write(\" ;CopyLeft 2003, ;Johnson;;\n;\"); document.write(\" ;\"); document.write(\" ;\"); document.write(\" ;\"); } //–\u003e; 2.5. ASPseek对中文的支持 中文、日文、韩文等多字节文字不同于英文等单字节语言，是多字节语言。我们都知道英文是依靠空格和标点符号将单词分割开，搜索引擎只要依据空格和标点就可以分割出词表。对一些检索意义不大的单词，则将这些词列在所谓 stopwords 词表（又称为 badwords中），如: “a, an, and, the, …\"，避免因为对这些词建立检索而耗费过多的资源。这些 stopwords 保存在目录 /usr/local/aspseek/etc/stopwords/ 中。\n而中文则不能造此办理，没有空格开区分词和词组，因此需要建立相应的词表。这些词表保存在目录 /usr/local/aspseek/etc/tables/ 中。\n为能够对中文文档进行检索，需要检查是否在配置文件 aspseek.conf 和 searchd.conf 配置了 “CharsetTableU2” 和 “Dictionary2\"选项。这两个选项是在配置文件 ucharset.conf 中定义的，用语句 “Include ucharset.conf” 包含入配置文件 aspseek.conf 和 searchd.conf。 ucharset.conf 中\"CharsetTableU2” 和 “Dictionary2\"的配置如下：\n########################################################################\nUnicode charset definition for multibyte charsets (please comment all not needed charsets): CharsetTableU2 ; ; ; [;] CharsetTableU2 big5 ch tables/big5.txt CharsetTableU2 gb2312 ch tables/gb2312.txt\n########################################################################\nDictionary for tokenizing of text in Chinese, Japanese and Korean languages Dictionary2 ; ; [;] If file encoding is omitted, then file is assumed to be in unicode Must be set after encoding definition (CharsetTableU2) ; parameter must match ; in CharsetTableU2 directive. Dictionary2 ch tables/chinese.txt big5\n",
+  "wordCount" : "703",
+  "inLanguage": "en",
+  "datePublished": "2006-05-18T11:43:17Z",
+  "dateModified": "2006-05-18T11:43:17Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      配置aspseek建立强大的企业级搜索引擎
+    </h1>
+    <div class="post-meta"><span title='2006-05-18 11:43:17 +0000 UTC'>May 18, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>建立搜索引擎
+没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。</p>
+<p>我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。</p>
+<p>ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。</p>
+<p>相关链接：</p>
+<p>Google的搜索引擎软件目录</p>
+<p>参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/</p>
+<p>另一个搜索引擎软件目录：</p>
+<p>Search Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html</p>
+<p>ASPseek 网站</p>
+<p>ASPseek.org：http://www.aspseek.org/</p>
+<p>ASPseek论坛</p>
+<p>关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。</p>
+<p>2.1. 安装 ASPSeek
+ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：</p>
+<pre><code>root&gt;; tar zxvf aspseek-1.2.10.tar.gz
+root&gt;; cd aspseek-1.2.10
+root&gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek 
+root&gt;; make &amp;&amp; make install
+root&gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall 
+root&gt;; cp /usr/local/aspseek/bin/s.cgi &lt;wwwroot&gt;;/cgi-bin/ 
+root&gt;; useadd aspseek 
+root&gt;; su – aspseek
+aspseek&gt;; /usr/local/aspseek/sbin/index  
+aspseek&gt;; /usr/local/aspseek/sbin/searchd -D  
+</code></pre>
+<p>指出 mysql 的安装路径和设置 ASPseek 的安装路径</p>
+<p>初始化 ASPseek 数据库设置。创建数据库 aspseek12，访问该数据库的用户名和口令保存在配置文件 /usr/local/aspseek/etc/db.conf 中</p>
+<p>将cgi程序 s.cgi 程序拷贝到WEB服务器的cgi-bin目录中</p>
+<p>为确保系统安全，创建用户 aspseek，并使用该用户的身份，进行数据索引的维护和启动搜索引擎服务程序</p>
+<p>以 aspseek 用户的身份，进行数据索引的维护</p>
+<p>以 aspseek 用户的身份，启动搜索引擎服务程序
+2.2. 数据库维护
+index 程序完成的功能包括网站爬虫、网页下载、解析、数据库维护。</p>
+<p>2.2.1. 配置文件: aspseek.conf
+aspseek.conf 是 index 程序的配置文件，告诉 index 程序为哪个网址建立索引，如果建立索引等等。</p>
+<p>Include db.conf
+UtfStorage yes
+Include ucharset.conf<br>
+Period 1d
+Server        URL</p>
+<p>包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12ASSWOR-IS-HERE@localhost/aspseek12/</p>
+<p>设定网页重建索引的间隔，作用域到下一个 Period 命令或者文件结尾。对作用域内的 Server 指定的网站有效，因此可以对不同的网站设置不同的更新频率</p>
+<p>以 UTF-8 格式存储 MySQL 数据库中信息</p>
+<p>配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置</p>
+<p>最重要的设置。告诉 index 为哪些网站建立索引，可通过多个 Server 配置设置多个服务器。注意：如果在URL中包含路径并不能将索引限制在该目录下，仍然会对整个网站建立索引。如果想限制某些路径，使用 Disallow 配置，例如下面的配置将对网站的索引限制在 url: <a href="http://members.aol.com/midlandsda">http://members.aol.com/midlandsda</a> 下。Server <a href="http://www.aol.com/">http://www.aol.com/</a>
+Allow ^http://members.aol.com/midlandsda
+Disallow ^http://www.aol.com/</p>
+<p>2.2.2. 用 index 程序定期更新搜索引擎数据库</p>
+<p>index -a</p>
+<p>为所有网页重新建立索引。不使用该参数，则参考配置中的 Period 参数，只对早于这个时间的网页重建索引。</p>
+<p>index -S</p>
+<p>显示数据库的统计信息</p>
+<p>通过 crontab 设置定时启动 index 重建检索</p>
+<pre><code>0 0 * * * su -c ‘/usr/local/aspseek/sbin/index’ aspseek 
+</code></pre>
+<p>注意要以 aspseek 用户身份执行。</p>
+<p>2.3. searchd 后台数据库检索
+searchd 是 ASPseek 的守护进程，用来接收 cgi 程序(s.cgi)的查询请求，执行查询动作（搜索由 index 程序创建的数据库），将结果反馈给 cgi 程序(s.cgi)。</p>
+<p>2.3.1. searchd.conf
+searchd 程序的配置文件。</p>
+<h1 id="port-12345">Port 12345<a hidden class="anchor" aria-hidden="true" href="#port-12345">#</a></h1>
+<p>Include db.conf
+UtfStorage yes
+Include ucharset.conf</p>
+<p>设置 searchd 侦听的端口。确省为 12345</p>
+<p>包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12ASSWOR-IS-HERE@localhost/aspseek12/</p>
+<p>以 UTF-8 格式存储 MySQL 数据库中信息</p>
+<p>配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置
+2.3.2. 运行 searchd
+配置开机自动执行 searchd。</p>
+<pre><code>#!/bin/sh
+# FileName: /etc/rc.d/rc3.d/S99aspseek
+# Script to control aspseek
+#
+
+case &quot;$1&quot; in
+’start’)
+        echo &quot;starting aspseek server …  &quot;
+        su aspseek -c &quot;/usr/local/aspseek/sbin/searchd -D -R&quot;
+        echo done
+        ;;
+’stop’)
+        echo &quot;stopping news server …  &quot;
+        killall -9 searchd
+        echo done
+        ;;
+*)
+        echo &quot;usage: news.sh {start | stop}&quot;
+        ;;
+esac
+</code></pre>
+<p>2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序
+搜索引擎的界面是由 CGI 提供的。ASPseek 的CGI程序叫做 s.cgi，当然可以改成其它名字。配置则非常简单，除了要将 Apache 配置为支持 cgi 外，只需要将 s.cgi 从 /usr/local/aspseek/bin/ 目录下拷贝到 Apache 的 cgi-bin 目录下即可。配置 Apache 可能非常简单，也许一句 &ldquo;ScriptAlias /cgi-bin/ /PATH/cgi-bin/&rdquo; 就足够了。</p>
+<p>我感打赌，s.cgi 一下子就会抓住你的眼球，因为 s.cgi 程序提供的一流的查询界面，和伟大的 Google 太类似了，尤其是那一排字母 &ldquo;e&rdquo;。</p>
+<p>ASPseek 查询界面</p>
+<p>s.cgi 还提供了定制界面的方案：只需要修改模板文件 /usr/local/aspseek/etc/s.htm 即可。下面是 s.htm 定制的示例（只显示重要的改动）：</p>
+<p>注意：如果将 s.cgi 改名，相应的模板也需要改名。例如 cgi 改名为 search.cgi，则相应的模板文件为 search.htm。</p>
+<pre><code>;
+&lt;html&gt;;
+&lt;head&gt;;
+  &lt;meta content=&quot;text/html; charset=gb2312&quot; http-equiv=&quot;Content-Type&quot;&gt;;  
+  &lt;link href=&quot;/inc/css/main.css&quot; type=&quot;text/css&quot; rel=&quot;STYLESHEET&quot;&gt;&lt;/link&gt;; 
+&lt;title&gt;;ASPseek: $Q&lt;/title&gt;;
+&lt;/head&gt;;
+&lt;body bgcolor=&quot;#FFFFFF&quot;&gt;;
+  &lt;script src=&quot;/inc/jscript/header.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;;&lt;/script&gt;;  
+
+&lt;form action=&quot;$A&quot; method=&quot;GET&quot;&gt;;
+&lt;table width=&quot;100%&quot; align=&quot;center&quot; valign=&quot;center&quot;&gt;;
+&lt;tr&gt;;
+  &lt;td valign=&quot;bottom&quot;&gt;;&lt;img src=&quot;/img/aspseek-big.png&quot; hspace=&quot;0&quot; align=&quot;left&quot; height=&quot;66&quot; width=&quot;168&quot; alt=&quot;ASPseek&quot; border=&quot;0&quot;&gt;;&lt;/td&gt;;
+  &lt;td width=&quot;*&quot; align=&quot;center&quot; valign=&quot;center&quot;&gt;;
+   &lt;input type=&quot;hidden&quot; name=&quot;cs&quot; value=&quot;gb2312&quot;&gt;;  
+   搜索 
+   &lt;input type=&quot;text&quot; name=&quot;q&quot; value=&quot;&quot; size=&quot;30&quot;&gt;; 
+   &lt;input type=&quot;submit&quot; value=&quot;查询知识库&quot;&gt;;
+  &lt;/td&gt;;
+  &lt;td width=&quot;100&quot;&gt;;
+  &lt;/td&gt;;
+&lt;/tr&gt;;
+&lt;/table&gt;;
+&lt;/form&gt;;
+
+… …
+… …
+
+&lt;center&gt;;
+&lt;script src=&quot;/inc/jscript/footer.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;;&lt;/script&gt;; 
+&lt;script language=&quot;javascript&quot;&gt;; write_footer(&quot;Template: $Id: searchengine.xml,v 1.1 2004/02/03 05:24:10 jiangxin Exp $&quot;); &lt;/script&gt;; 
+&lt;/center&gt;;
+
+&lt;div align=&quot;right&quot;&gt;;
+&lt;a href=&quot;http://www.aspseek.org/&quot;&gt;;&lt;img src=&quot;http://www.aspseek.com/i/pow_aseek.png&quot; alt=&quot;Free search engine software: ASPseek $AV&quot; height=&quot;31&quot; border=&quot;0&quot; width=&quot;88&quot;&gt;;&lt;/a&gt;;
+&lt;/body&gt;;
+&lt;/html&gt;;
+;
+</code></pre>
+<p>将cgi查询的输出界面（HTML）的语言编码设置为中文</p>
+<p>引用外部的样式表文件，这样可以根据需要改变查询界面而尽量少的修改模板文件。一个简单的样式表示例：</p>
+<pre><code>p {font-size:9pt}
+h1 {font-size:20pt;line-height:130%;font-weight:&quot;bold&quot;;align:&quot;center&quot;;}
+td,li,select,input {font-size:9pt}
+.sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;}
+.datetime {font-size:9pt;color=&quot;red&quot;}
+.star  {font-size:9pt;color=&quot;red&quot;}
+.gray {font-size:9pt;color=&quot;gray&quot;}
+.cvskw {font-size:9pt}
+.footer           {font-size:9pt;font-weight:bolder}
+.footer A:link    {font-size:9pt;font-weight:bolder}
+.footer A:active  {font-size:9pt;font-weight:bolder}
+.footer A:visited {font-size:9pt;font-weight:bolder}
+.footer A:hover   {font-size:9pt;font-weight:bolder}
+A:link {color: #000000;}
+A:visited {color: #000000;}
+A:active,A:hover {color : #000000}
+HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 }
+UL { list-style-image: url(&quot;/images/dot.gif&quot;) }
+
+.em           {font-size:&quot;9pt&quot;;color=&quot;red&quot;;font-weight:&quot;bolder&quot;;font-style:&quot;normal&quot;;letter-spacing:&quot;2px&quot;;}
+.em A:link    {color: &quot;red&quot;;letter-spacing:&quot;4px&quot;;}
+.em A:active  {color: &quot;red&quot;;letter-spacing:&quot;4px&quot;;}
+.em A:visited {color: &quot;red&quot;;letter-spacing:&quot;4px&quot;;}
+.em A:hover   {color: &quot;red&quot;;letter-spacing:&quot;4px&quot;;font-size:&quot;12pt&quot;;}
+
+
+
+引用外部 javascript，显示头部信息，避免过多对该模板的修改。一个 header.js 示例：;&quot;);
+document.write(&quot;        &lt;tr valign=&quot;bottom&quot;&gt;;&quot;);
+document.write(&quot;              &lt;td width=&quot;’*'&quot;&gt;;&quot;);
+document.write(&quot;                &lt;table cellpadding=&quot;0&quot; width=&quot;’100%’&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; height=&quot;50&quot;&gt;;&quot;);
+document.write(&quot;            &lt;tr&gt;;&quot;);
+document.write(&quot;              &lt;td align=&quot;’center’&quot; valign=&quot;’center’&quot;&gt;;&lt;h1&gt;;&lt;a href=&quot;’/'&quot;&gt;;Johnson’s Homepage&lt;/a&gt;;&lt;/h1&gt;;&lt;/td&gt;;&quot;);
+document.write(&quot;            &lt;/tr&gt;;&quot;);
+document.write(&quot;                &lt;/table&gt;;&quot;);
+document.write(&quot;        &lt;/td&gt;;&lt;/tr&gt;;&quot;);
+document.write(&quot;      &lt;/table&gt;;&quot;);
+//–&gt;;
+
+
+
+通过设置cgi的cs字段，用以支持中文查询
+
+q 是真正的查询字段。看看 GOOGLE 的查询网页，看看是不是非常类似？
+
+引用外部 javascript，显示脚注信息，避免过多对该模板的修改。一个 footer.js 示例：;&quot;);
+        document.write(&quot;        &lt;tr&gt;;&quot;);
+        document.write(&quot;          &lt;td align=&quot;center&quot;&gt;;&quot;);
+        document.write(&quot;          &lt;hr&gt;;&quot;);
+        if ($str)
+                document.write(&quot;&lt;font class=&quot;’cvskw’&quot;&gt;;&quot; + $str + &quot;&lt;/font&gt;;&lt;br&gt;;&quot;);
+        document.write(&quot;          &lt;font class=&quot;’footer’&quot;&gt;;CopyLeft 2003, &lt;a href=&quot;’mailto:johnson.AT.worldhello.net’&quot;&gt;;Johnson&lt;/a&gt;;&lt;/font&gt;;&lt;br&gt;;&quot;);
+        document.write(&quot;          &lt;/td&gt;;&quot;);
+        document.write(&quot;        &lt;/tr&gt;;&quot;);
+        document.write(&quot;      &lt;/table&gt;;&quot;);
+}
+//–&gt;;
+</code></pre>
+<p>2.5. ASPseek对中文的支持
+中文、日文、韩文等多字节文字不同于英文等单字节语言，是多字节语言。我们都知道英文是依靠空格和标点符号将单词分割开，搜索引擎只要依据空格和标点就可以分割出词表。对一些检索意义不大的单词，则将这些词列在所谓 stopwords 词表（又称为 badwords中），如: &ldquo;a, an, and, the, …&quot;，避免因为对这些词建立检索而耗费过多的资源。这些 stopwords 保存在目录 /usr/local/aspseek/etc/stopwords/ 中。</p>
+<p>而中文则不能造此办理，没有空格开区分词和词组，因此需要建立相应的词表。这些词表保存在目录 /usr/local/aspseek/etc/tables/ 中。</p>
+<p>为能够对中文文档进行检索，需要检查是否在配置文件 aspseek.conf 和 searchd.conf 配置了 &ldquo;CharsetTableU2&rdquo; 和 &ldquo;Dictionary2&quot;选项。这两个选项是在配置文件 ucharset.conf 中定义的，用语句 &ldquo;Include ucharset.conf&rdquo; 包含入配置文件 aspseek.conf 和 searchd.conf。 ucharset.conf 中&quot;CharsetTableU2&rdquo; 和 &ldquo;Dictionary2&quot;的配置如下：</p>
+<p>########################################################################</p>
+<h1 id="unicode-charset-definition-for-multibyte-charsets">Unicode charset definition for multibyte charsets<a hidden class="anchor" aria-hidden="true" href="#unicode-charset-definition-for-multibyte-charsets">#</a></h1>
+<h1 id="please-comment-all-not-needed-charsets">(please comment all not needed charsets):<a hidden class="anchor" aria-hidden="true" href="#please-comment-all-not-needed-charsets">#</a></h1>
+<h1 id="charsettableu2---table--">CharsetTableU2 ; ; <!-- raw HTML omitted -->; [;]<a hidden class="anchor" aria-hidden="true" href="#charsettableu2---table--">#</a></h1>
+<h1 id="heading"><a hidden class="anchor" aria-hidden="true" href="#heading">#</a></h1>
+<p>CharsetTableU2 big5 ch tables/big5.txt
+CharsetTableU2 gb2312 ch tables/gb2312.txt</p>
+<p>########################################################################</p>
+<h1 id="dictionary-for-tokenizing-of-text-in-chinese-japanese-and-korean-languages">Dictionary for tokenizing of text in Chinese, Japanese and Korean languages<a hidden class="anchor" aria-hidden="true" href="#dictionary-for-tokenizing-of-text-in-chinese-japanese-and-korean-languages">#</a></h1>
+<h1 id="dictionary2---">Dictionary2 ; ; [;]<a hidden class="anchor" aria-hidden="true" href="#dictionary2---">#</a></h1>
+<h1 id="if-file-encoding-is-omitted-then-file-is-assumed-to-be-in-unicode">If file encoding is omitted, then file is assumed to be in unicode<a hidden class="anchor" aria-hidden="true" href="#if-file-encoding-is-omitted-then-file-is-assumed-to-be-in-unicode">#</a></h1>
+<h1 id="must-be-set-after-encoding-definition-charsettableu2">Must be set after encoding definition (CharsetTableU2)<a hidden class="anchor" aria-hidden="true" href="#must-be-set-after-encoding-definition-charsettableu2">#</a></h1>
+<h1 id="-parameter-must-match--in-charsettableu2-directive">; parameter must match ; in CharsetTableU2 directive.<a hidden class="anchor" aria-hidden="true" href="#-parameter-must-match--in-charsettableu2-directive">#</a></h1>
+<p>Dictionary2 ch tables/chinese.txt big5</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

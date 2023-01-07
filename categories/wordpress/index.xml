@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+wordpress
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/wordpress/</link>
+    <description>Recent content in 
+wordpress
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Mar 2009 17:03:03 +0000</lastBuildDate><atom:link href="http://example.org/categories/wordpress/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何把wordpress博客搬到Google App Engine</title>
+      <link>http://example.org/2009/03/31/e5a682e4bd95e68a8awordpresse58d9ae5aea2e690ace588b0google-app-engine/</link>
+      <pubDate>Tue, 31 Mar 2009 17:03:03 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/31/e5a682e4bd95e68a8awordpresse58d9ae5aea2e690ace588b0google-app-engine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>文章简介自动截取</title>
+      <link>http://example.org/2009/03/15/e69687e7aba0e7ae80e4bb8be887aae58aa8e688aae58f96/</link>
+      <pubDate>Sun, 15 Mar 2009 12:19:49 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/15/e69687e7aba0e7ae80e4bb8be887aae58aa8e688aae58f96/</guid>
+      <description>修改主题 index.php archive.php
+找到
+替换成
+2.71 生效</description>
+    </item>
+    
+    <item>
+      <title>安装代码高亮插件</title>
+      <link>http://example.org/2009/03/15/e5ae89e8a385e4bba3e7a081e9ab98e4baaee68f92e4bbb6/</link>
+      <pubDate>Sun, 15 Mar 2009 10:25:14 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/15/e5ae89e8a385e4bba3e7a081e9ab98e4baaee68f92e4bbb6/</guid>
+      <description>准备开始转回wp 先装个高亮插件
+下载地址
+http://wordpress.org/extend/plugins/wp-syntax/
+为了更方便把编辑器改一下,看了半天终于找到了
+wp-includes/js/quicktags.js
+我觉得 code 用不到就把 改了,如下
+edButtons[edButtons.length] =&amp;lt;/code&amp;gt; &amp;lt;code&amp;gt;new edButton(&#39;ed_code&#39; ,&#39;code&#39; ,&#39;&amp;lt;pre lang=&amp;quot;php&amp;quot;&amp;gt;&#39; ,&#39;&amp;lt;/pre&amp;gt;&#39; ,&#39;c&#39; ); 来个 php 的呵呵
+&amp;lt; ?php echo &#39;hello world!&#39;;?&amp;gt; </description>
+    </item>
+    
+  </channel>
+</rss>

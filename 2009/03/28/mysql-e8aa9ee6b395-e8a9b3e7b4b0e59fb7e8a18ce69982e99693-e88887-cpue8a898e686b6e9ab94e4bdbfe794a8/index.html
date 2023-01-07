@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>MySQL 語法 詳細執行時間 與 CPU/記憶體使用 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="MySQL 語法 詳細執行時間 與 CPU/記憶體使用" />
+<meta property="og:description" content="查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-28T15:34:23+00:00" />
+<meta property="article:modified_time" content="2009-03-28T15:34:23+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MySQL 語法 詳細執行時間 與 CPU/記憶體使用"/>
+<meta name="twitter:description" content="查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "MySQL 語法 詳細執行時間 與 CPU/記憶體使用",
+      "item": "http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MySQL 語法 詳細執行時間 與 CPU/記憶體使用",
+  "name": "MySQL 語法 詳細執行時間 與 CPU\/記憶體使用",
+  "description": "查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.\n於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.\nMySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)\n效能分析主要分下述三種(轉載自上篇):\nBottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?",
+  "keywords": [
+    
+  ],
+  "articleBody": "查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.\n於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.\nMySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)\n效能分析主要分下述三種(轉載自上篇):\nBottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on? Workload analysis - examines the server and who is logged on to determine the resource usage and activity of each. Ratio-based analysis - utilizes a number of rule-of-thumb ratios to gauge performance of a database, user connection, or piece of code. MySQL Query Profile 使用方法 啟動\nmysql\u003e set profiling=1; # 此命令於 MySQL 會於 information_schema 的 database 建立一個 PROFILING 的 table 來紀錄. SQL profiles show\nmysql\u003e show profiles; # 從啟動之後所有語法及使用時間, 含錯誤語法都會紀錄. ex: (root@localhost) [test]\u003e show profiles; # 注意 Query_ID, 下面執行時間統計等, 都是依 Query_ID 在紀錄\n+----------+------------+---------------------------+ | Query_ID | Duration | Query | +----------+------------+---------------------------+ | 1 | 0.00090400 | show profile for query 1 | | 2 | 0.00008700 | select * from users | | 3 | 0.00183800 | show tables | | 4 | 0.00027600 | mysql\u003e show profiles | +----------+------------+---------------------------+ 查詢所有花費時間加總 mysql\u003e select sum(duration) from information_schema.profiling where query_id=1; # Query ID = 1 +---------------+ | sum(duration) | +---------------+ | 0.000447 | +---------------+ 查詢各執行階段花費多少時間 mysql\u003e show profile for query 1; # Query ID = 1 +--------------------+------------+ | Status | Duration | +--------------------+------------+ | (initialization) | 0.00006300 | | Opening tables | 0.00001400 | | System lock | 0.00000600 | | Table lock | 0.00001000 | | init | 0.00002200 | | optimizing | 0.00001100 | | statistics | 0.00009300 | | preparing | 0.00001700 | | executing | 0.00000700 | | Sending data | 0.00016800 | | end | 0.00000700 | | query end | 0.00000500 | | freeing items | 0.00001200 | | closing tables | 0.00000800 | | logging slow query | 0.00000400 | +--------------------+------------+ 查詢各執行階段花費的各種資源列表 mysql\u003e show profile cpu for query 1; # Query ID = 1 +--------------------------------+----------+----------+------------+ | Status | Duration | CPU_user | CPU_system | +--------------------------------+----------+----------+------------+ | (initialization) | 0.000007 | 0 | 0 | | checking query cache for query | 0.000071 | 0 | 0 | | Opening tables | 0.000024 | 0 | 0 | | System lock | 0.000014 | 0 | 0 | | Table lock | 0.000055 | 0.001 | 0 | | init | 0.000036 | 0 | 0 | | optimizing | 0.000013 | 0 | 0 | | statistics | 0.000021 | 0 | 0 | | preparing | 0.00002 | 0 | 0 | | executing | 0.00001 | 0 | 0 | | Sending data | 0.015072 | 0.011998 | 0 | | end | 0.000021 | 0 | 0 | | query end | 0.000011 | 0 | 0 | | storing result in query cache | 0.00001 | 0 | 0 | | freeing items | 0.000018 | 0 | 0 | | closing tables | 0.000019 | 0 | 0 | | logging slow query | 0.000009 | 0 | 0 | +--------------------------------+----------+----------+------------+ mysql\u003e show profile IPC for query 1; +--------------------------------+----------+---------------+-------------------+ | Status | Duration | Messages_sent | Messages_received | +--------------------------------+----------+---------------+-------------------+ | (initialization) | 0.000007 | 0 | 0 | | checking query cache for query | 0.000071 | 0 | 0 | | Opening tables | 0.000024 | 0 | 0 | | System lock | 0.000014 | 0 | 0 | | Table lock | 0.000055 | 0 | 0 | | init | 0.000036 | 0 | 0 | | optimizing | 0.000013 | 0 | 0 | | statistics | 0.000021 | 0 | 0 | | preparing | 0.00002 | 0 | 0 | | executing | 0.00001 | 0 | 0 | | Sending data | 0.015072 | 0 | 0 | | end | 0.000021 | 0 | 0 | | query end | 0.000011 | 0 | 0 | | storing result in query cache | 0.00001 | 0 | 0 | | freeing items | 0.000018 | 0 | 0 | | closing tables | 0.000019 | 0 | 0 | | logging slow query | 0.000009 | 0 | 0 | +--------------------------------+----------+---------------+-------------------+ 其它屬性列表 ALL - displays all information BLOCK IO - displays counts for block input and output operations CONTEXT SWITCHES - displays counts for voluntary and involuntary context switches IPC - displays counts for messages sent and received MEMORY - is not currently implemented PAGE FAULTS - displays counts for major and minor page faults SOURCE - displays the names of functions from the source code, together with the name and line number of the file in which the function occurs SWAPS - displays swap counts 設定 Profiling 存的 Size\nmysql\u003e show variables where variable_name='profiling_history_size'; # 預設是 15筆 關閉\nmysql\u003e set profiling=0; 原文 http://plog.longwin.com.tw/my_note-unix/2008/10/03/mysql-query-profiler-cpu-ram-time-2008\n",
+  "wordCount" : "823",
+  "inLanguage": "en",
+  "datePublished": "2009-03-28T15:34:23Z",
+  "dateModified": "2009-03-28T15:34:23Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      MySQL 語法 詳細執行時間 與 CPU/記憶體使用
+    </h1>
+    <div class="post-meta"><span title='2009-03-28 15:34:23 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler
+MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.</p>
+<p>於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.</p>
+<p>MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)</p>
+<p>效能分析主要分下述三種(轉載自上篇):</p>
+<p>Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?
+Workload analysis - examines the server and who is logged on to determine the resource usage and activity of each.
+Ratio-based analysis - utilizes a number of rule-of-thumb ratios to gauge performance of a database, user connection, or piece of code.
+MySQL Query Profile 使用方法
+啟動</p>
+<pre><code>mysql&gt; set profiling=1; # 此命令於 MySQL 會於 information_schema 的 database 建立一個 PROFILING 的 table 來紀錄. 
+</code></pre>
+<p>SQL profiles show</p>
+<pre><code>mysql&gt; show profiles; # 從啟動之後所有語法及使用時間, 含錯誤語法都會紀錄. 
+</code></pre>
+<p>ex: (root@localhost) [test]&gt; show profiles; # 注意 Query_ID, 下面執行時間統計等, 都是依 Query_ID 在紀錄</p>
+<pre><code>    +----------+------------+---------------------------+
+    | Query_ID | Duration   | Query                     |
+    +----------+------------+---------------------------+
+    |        1 | 0.00090400 | show profile for query 1  |
+    |        2 | 0.00008700 | select * from users       |
+    |        3 | 0.00183800 | show tables               |
+    |        4 | 0.00027600 | mysql&gt; show profiles      |
+    +----------+------------+---------------------------+
+    查詢所有花費時間加總 
+
+
+mysql&gt; select sum(duration) from information_schema.profiling where query_id=1; # Query ID = 1
+
+
+
+    +---------------+
+    | sum(duration) |
+    +---------------+
+    |      0.000447 |
+    +---------------+
+    查詢各執行階段花費多少時間 
+
+
+mysql&gt; show profile for query 1; # Query ID = 1
+
+        +--------------------+------------+
+        | Status             | Duration   |
+        +--------------------+------------+
+        | (initialization)   | 0.00006300 |
+        | Opening tables     | 0.00001400 |
+        | System lock        | 0.00000600 |
+        | Table lock         | 0.00001000 |
+        | init               | 0.00002200 |
+        | optimizing         | 0.00001100 |
+        | statistics         | 0.00009300 |
+        | preparing          | 0.00001700 |
+        | executing          | 0.00000700 |
+        | Sending data       | 0.00016800 |
+        | end                | 0.00000700 |
+        | query end          | 0.00000500 |
+        | freeing items      | 0.00001200 |
+        | closing tables     | 0.00000800 |
+        | logging slow query | 0.00000400 |
+        +--------------------+------------+
+
+
+    查詢各執行階段花費的各種資源列表 
+
+
+mysql&gt; show profile cpu for query 1; # Query ID = 1
+
+        +--------------------------------+----------+----------+------------+
+        | Status                         | Duration | CPU_user | CPU_system |
+        +--------------------------------+----------+----------+------------+
+        | (initialization)               | 0.000007 | 0        | 0          |
+        | checking query cache for query | 0.000071 | 0        | 0          |
+        | Opening tables                 | 0.000024 | 0        | 0          |
+        | System lock                    | 0.000014 | 0        | 0          |
+        | Table lock                     | 0.000055 | 0.001    | 0          |
+        | init                           | 0.000036 | 0        | 0          |
+        | optimizing                     | 0.000013 | 0        | 0          |
+        | statistics                     | 0.000021 | 0        | 0          |
+        | preparing                      | 0.00002  | 0        | 0          |
+        | executing                      | 0.00001  | 0        | 0          |
+        | Sending data                   | 0.015072 | 0.011998 | 0          |
+        | end                            | 0.000021 | 0        | 0          |
+        | query end                      | 0.000011 | 0        | 0          |
+        | storing result in query cache  | 0.00001  | 0        | 0          |
+        | freeing items                  | 0.000018 | 0        | 0          |
+        | closing tables                 | 0.000019 | 0        | 0          |
+        | logging slow query             | 0.000009 | 0        | 0          |
+        +--------------------------------+----------+----------+------------+
+
+
+    
+
+mysql&gt; show profile IPC for query 1;
+
+        +--------------------------------+----------+---------------+-------------------+
+        | Status                         | Duration | Messages_sent | Messages_received |
+        +--------------------------------+----------+---------------+-------------------+
+        | (initialization)               | 0.000007 |             0 |                 0 |
+        | checking query cache for query | 0.000071 |             0 |                 0 |
+        | Opening tables                 | 0.000024 |             0 |                 0 |
+        | System lock                    | 0.000014 |             0 |                 0 |
+        | Table lock                     | 0.000055 |             0 |                 0 |
+        | init                           | 0.000036 |             0 |                 0 |
+        | optimizing                     | 0.000013 |             0 |                 0 |
+        | statistics                     | 0.000021 |             0 |                 0 |
+        | preparing                      | 0.00002  |             0 |                 0 |
+        | executing                      | 0.00001  |             0 |                 0 |
+        | Sending data                   | 0.015072 |             0 |                 0 |
+        | end                            | 0.000021 |             0 |                 0 |
+        | query end                      | 0.000011 |             0 |                 0 |
+        | storing result in query cache  | 0.00001  |             0 |                 0 |
+        | freeing items                  | 0.000018 |             0 |                 0 |
+        | closing tables                 | 0.000019 |             0 |                 0 |
+        | logging slow query             | 0.000009 |             0 |                 0 |
+        +--------------------------------+----------+---------------+-------------------+
+
+
+    其它屬性列表 
+</code></pre>
+<p>ALL - displays all information
+BLOCK IO - displays counts for block input and output operations
+CONTEXT SWITCHES - displays counts for voluntary and involuntary context switches
+IPC - displays counts for messages sent and received
+MEMORY - is not currently implemented
+PAGE FAULTS - displays counts for major and minor page faults
+SOURCE - displays the names of functions from the source code, together with the name and line number of the file in which the function occurs
+SWAPS - displays swap counts
+設定 Profiling 存的 Size</p>
+<pre><code>mysql&gt; show variables where variable_name='profiling_history_size'; # 預設是 15筆 
+</code></pre>
+<p>關閉</p>
+<pre><code>mysql&gt; set profiling=0; 
+</code></pre>
+<p>原文 <a href="http://plog.longwin.com.tw/my_note-unix/2008/10/03/mysql-query-profiler-cpu-ram-time-2008">http://plog.longwin.com.tw/my_note-unix/2008/10/03/mysql-query-profiler-cpu-ram-time-2008</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

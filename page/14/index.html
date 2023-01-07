@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd7.x安装vmware-tools
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>刚开始搞freebsd，先在vmware里试试。 先要安装compat6x 在/usr/ports/misc/compat6x 然后执行
+ln -s /usr/local/lib/compat/libc.so.6 /lib 原文 http://bbs3.chinaunix.net/thread-1364897-1-5.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-13 16:11:37 +0000 UTC'>April 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd7.x安装vmware-tools" href="http://example.org/2009/04/13/freebsd7x-install-vmware-tools/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows Server 2003 Enterprise x64 Edition  更新到sp2的郁闷
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>更新完没有重起,过一阵子远程弹出 An error occurred while the wizard was checking the current Windows product license. Error Code: 0x8007007f
+比较郁闷,没办法只能机房重起,解决了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-13 02:29:10 +0000 UTC'>April 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows Server 2003 Enterprise x64 Edition  更新到sp2的郁闷" href="http://example.org/2009/04/13/windows-server-2003-enterprise-x64-edition-e69bb4e696b0e588b0sp2e79a84e98381e997b7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>查看免激活版序列号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>打开光盘到i386文件夹里找winnt.sif文件</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 19:44:35 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 查看免激活版序列号" href="http://example.org/2009/04/12/e69fa5e79c8be5858de6bf80e6b4bbe78988e5ba8fe58897e58fb7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>windows2003不能上网更新及注册码更换问题解决
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>先打开注册表，在 HKEY_LOCAL_MACHINE\Software\Microsoft\WindowsNT\CurrentVersion\WPAEvents
+随便修改一个字，并保存退出regedit。 然后到c:\windows\system32\oobe下
+运行msoobe /a 打开激活程序。
+选择电话，
+更换密钥为
+JCGMJ-TC669-KCBG7-HB8X2-FXG7M 或 JK6JC-P7P7H-4HRFC-3XM7P-G33HM
+然后关掉窗口不要管那个什么四个步骤
+update即可 然后重启。 点击“Windows Update”，连接到更新网站，试一下是否可以在线升级和更新了。
+以上方法就可以更换cd key了。。注册码写错了的可以改。。。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 19:30:53 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to windows2003不能上网更新及注册码更换问题解决" href="http://example.org/2009/04/12/windows2003e4b88de883bde4b88ae7bd91e69bb4e696b0e58f8ae6b3a8e5868ce7a081e69bb4e68da2e997aee9a298e8a7a3e586b3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>windows远程登陆端口的修改方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Windows终端服务原始端口是3389 一、服务器端： 1、第一处 运行RegEdit，打开注册表编辑器。找到[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp]，看到右边的 PortNumber 了吗？在十进制状态下改成你想要的端口号吧，比如 7126 之类的，只要不与其它冲突即可。 2、第二处 运行RegEdit，打开注册表编辑器。找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp，方法同上，记得改的端口号和上面改的一样就行了。 二、客户端： 最简洁的方法就是拷贝WindowsXP的终端服务客户端程序，不用安装，只有1M多，登录只需在地址栏输入IP&#43;:&#43;端口号。 另，Windows2000 也可作如下修改： 打开客户端管理连接器，单击已经建好的某个连接，单击“文件(File)”→“导出(Export)”…… 用记录本或其它文本编辑软件找开刚导出的这个.cns文件，找到“Server Port=3389”这一行了吗？ 把这个默认的 3389 改成与服务器一样的端口号就行了。 Windows XP/2003 下的修改办法 使用WindowsXP或Windows2003的客户端，它可以显示多彩，还可以有声音，功能更强大。但终端客户端连接端口的修改方法与Windows2000有一定区别： 按照原来更改Windows2000的客户端的思路，把WindowsXP、Windows2003的默认配置另存(在连接界面上单击“另存为”)，和Windows2000不一样的是：WindowsXP、Windows2003的配置文件后缀是.rdp，Windows2000的是.cns 用记事本打开这个default.rdp文件，在里面没有发现什么3389的东东(Windows2000的配置文件是有的)，没有这句端口的配置我们就给它加上，假定现在的端口为8933，如下： server port:i:8933 保存，退出即可。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 19:26:03 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to windows远程登陆端口的修改方法" href="http://example.org/2009/04/12/windowse8bf9ce7a88be799bbe99986e7abafe58fa3e79a84e4bfaee694b9e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows Server 2003企业版 Enterprise Edition VOL(VLK) 简体中文企业正式版原版光盘镜像
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>企业版（64bit）Version: Microsoft Windows Server 2003, Enterprise Edition (64-bit)Filename: x09-45916.iso
+Product Key: CTQTP-3XXXX-YT7JT-DVMH7-46Q2J</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 19:22:58 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows Server 2003企业版 Enterprise Edition VOL(VLK) 简体中文企业正式版原版光盘镜像" href="http://example.org/2009/04/12/windows-server-2003e4bc81e4b89ae78988-enterprise-edition-volvlk-e7ae80e4bd93e4b8ade69687e4bc81e4b89ae6ada3e5bc8fe78988e58e9fe78988e58589e79b98/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>[MSDN]Windows Server 2003 R2, Enterprise Edition with SP2 - VL (简体中文)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Windows Server 2003 SP2是针对Windows Server 2003和Windows XP 64位专业版而设计，它集成了最新的升级、安全与稳定性增强包和最新功能。据微软透露，SP2的采用率从发布以来直线上升，它表示自推出不到一周，总下载次数就已经超过400，000次。 参考KEY: VB96B-VFG8F-74XWJ-W67Q7-8X82B M6F6D-VFQWH-CGWRB-RC7JR-VCV4W C49DP-CPHCB-MDGP3-MG334-W2V4W DR4B3-66VPQ-CK3VB-Y3BPY-2CJ2G J YCJX-CHTJX-RGH97-86WM9-RB6B6 MVDYF-X7FBW-H29XT-TCKWW-RBYRT BXJXT-9F88V-XXQWV-3MWMG-FYDJT MHFT3-YGHV4-G86P4-KQXJ3-GYH4W MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG QV9XT-CV22K-D8MGR-4MD86-8MYR6
+MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG
+btr9t-8bjjm-k9dh8-w8grh-7qbqy btvtj-8jdph-6r8xk-6xhyq-6qrdy btr9x-4x8ty-2y3w2-jyw3c-tbpmb btt8k-djkyj-x2m9c-kd6rj-db6bb bt3by-cmdtc-twyx3-kfqqq-g3kvm btyqc-347pg-9kb4h-dphh4-rdwyb btv3w-xyb3j-rj9mf-qbkdw-4qbqy btrfk-m749t-f6my2-8mc6w-g2fdy btv4w-jqx3w-y6wkp-dxjc7-7qbqy btrrd-kpkh6-v9jfq-c7dv9-9kg7m btqhd-kmr67-36m66-8kcrr-fxtbb btq8x-6mj6m-vrjvq-c7x82-v2fdy btw6c-6tjmw-3rmw7-3d2vd-pfcmb bt2h3-kwt84-cxvxm-wdgqx-7tpmb btqdm-vpch2-vfcpk-4696j-yv2mb btxy7-tth4f-7jjmm-q4gmg-x7fdy bttdh-rt9bp-6c38g-v6bp9-pxmqy
+安装序列号 CD-KEY：JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY 安装序列号：JCGMJ-TC669-KCBG7-HB8X2-FXG7M 使用这个序列号 Windows Server 2003 可在线升级! 如果已经安装了 Windows Server 2003 Enterprise Edition 3790 操作系统，安装时使用了
+JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY 这个安装序列号或其他的号，正常激活系统但不能在线升级的，
+你可以不需要卸载掉原来的操作系统重新使用 JCGMJ-TC669-KCBG7-HB8X2-FXG7M 进行安装了，
+就立即可以实现在线升级了！</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 18:07:23 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [MSDN]Windows Server 2003 R2, Enterprise Edition with SP2 - VL (简体中文)" href="http://example.org/2009/04/12/msdnwindows-server-2003-r2-enterprise-edition-with-sp2-vl-e7ae80e4bd93e4b8ade69687/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows Server 2003 R2 with SP2 x32/x64 MSDN简体官方企业/标准版[附真正激活KEY]
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>附上KEY，通用于windows2003 标准版，企业版，SP1，SP2，R2(此KEY网上基本未公开)
+附32位KEY T274Y-RT6TY-QYXJC-H6K66-3MT7M H32XR-3KT6X-B83DT-YWM3T-8Q3JG DF33F-WMT84-KDPKT-FQBRG-7YH4T BYR7R-QTCG2-JRJWJ-BJPGP-XDKWG RW89D-BPHQ9-Y77PD-FPYHP-JJ3JG G9DRJ-PBH7J-KQFCF-9PCJG-3VV4T GXJ7R-PDJKW-7TMRK-VT6JC-G4XWG 附64位KEY MM72Q-QBVRW-JGDB6-94C22-GR8YJ HFKHT-CF86J-KFM6F-34RXX-HYYQ8 RYCR6-T7Y6M-2TVHK-C2YW3-7TYQ8 BTXT2-YJ7CH-6MH2Q-X2WD7-77FDY</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 17:26:07 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows Server 2003 R2 with SP2 x32/x64 MSDN简体官方企业/标准版[附真正激活KEY]" href="http://example.org/2009/04/12/windows-server-2003-r2-with-sp2-x32x64-msdne7ae80e4bd93e5ae98e696b9e4bc81e4b89ae6a087e58786e78988e99984e79c9fe6ada3e6bf80e6b4bbkey/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>win2003英文版系统显示中文的方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Control Panel -&gt; Regional and Language Options -&gt; Advanced non-unicode 下拉菜单选择Chinese(PRC) 就行了。装系统时，没装亚太语言支持的，自动就会提示你放入系统安装盘安装。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 17:17:39 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to win2003英文版系统显示中文的方法" href="http://example.org/2009/04/12/win2003e88bb1e69687e78988e7b3bbe7bb9fe698bee7a4bae4b8ade69687e79a84e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>补32bitWindows 2003 R2 With Sp2序列号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>中文版： 标准版 V9RX3-3GMKQ-M23KP-FYTQX-KQP8B M7V9W-W8GBT-3R8WT-G24V7-YKKJB P8TMF-WW9GT-XVQJ4-43V9D-69KJB WP226-BBDF3-WP2R3-HM2CY-82C8B PQ93W-D2H8Y-VVY2M-H7K99-MTXJB BQ24G-R7CHM-FR9D6-2VRRY-Y2C8B KKM7F-PB4GC-7DMH2-KKYXB-RG34M B6DCT-R2XG2-3KQPW-XV937-BJ6WB GTKQM-MQ87D-QGXW6-BDTQ7-4TRYY QH9MW-4T4KW-FBJ97-MPJCF-3C4YY TGK6W-VFP28-46KGK-8FTFW-9QJMY KHD69-H8BHX-7KC9K-624CT-V3VRM WDRWF-4PXTG-4CGMJ-4MCC4-G6MFM RWH86-PYQJ7-XMWJG-TRHQF-XM8MY 企业版 MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG 英文版： 企业版 RHBX7-YVMY6-2QHM8-CHYHR-JMPPB M4B8J-DQP9R-PY6J4-TJG78-FRCPB HP6YG-KKQV7-GCV3T-C3WRD-QJBRY G4W9P-Q2DQC-224X9-RQ7TM-PDGCB QKQQB-PV8W3-3PBJF-RC4DM-9QRFY PR86X-KWMQK-6CJVG-RCXFX-WWKWM PGCFX-RGRGX-VFHRX-WT6TJ-QVFFY F8QV3-BTYMR-V4GHX-B43FM-DY6CB MXC6T-JW7WQ-DY7H3-F8JV7-V9XWM DR7QV-WQDC8-G4DP9-9TY2P-Y9CPB HWX9H-KVPMC-3W2DJ-P2392-K9G8M 标准版 PCGCG-MP77F-9DBC9-QHW44-TDBRD KT3YM-JRM8T-JWV6Q-RQMG9-BBT73 PBJM7-PC3FJ-MDF66-G7FX9-DTH4D KCHH3-W4FT6-DKRVY-MR9R6-2MDH3 J43D2-G6Y7K-R3HPY-673T9-8XMRD H7DT2-WV3MM-V4RY6-6JM6W-9P673 M67V8-RYXPT-F23TR-M6YBY-47673 WGHD9-C7368-B8MF9-J8FP4-4BDH3 FJ6GG-XR424-6C7JB-HHVMC-RWWYQ RFHCQ-7GY3J-W336Y-FFYVC-9D3H3 TP2TD-KPYGJ-D82HX-FR82W-KBH4D VD2BM-TP2KK-CBXDQ-7B7FQ-4M9V3 HGX39-BVTG6-MKMWX-JWRYC-FPFFD
+原文 http://bbs.pcbeta.com/archiver/tid-427973.html
+Windows Server 2003 Standard x64 Edition BTQHD-KMR67-36M66-8KCRR-FXTBB BTQ8X-6MJ6M-VRJVQ-C7X82-V2FDY BTW6C-6TJMW-3RMW7-3D2VD-PFCMB BT2H3-KWT84-CXVXM-WDGQX-7TPMB
+windows 2003 server r2 EE (64BIT) PCGCG-MP77F-9DBC9-QHW44-TDBRD KT3YM-JRM8T-JWV6Q-RQMG9-BBT73 PBJM7-PC3FJ-MDF66-G7FX9-DTH4D KCHH3-W4FT6-DKRVY-MR9R6-2MDH3
+Microsoft Windows Server 2003 R2 Datacenter Edition VLK...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 17:00:39 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 补32bitWindows 2003 R2 With Sp2序列号" href="http://example.org/2009/04/12/e8a1a532bitwindows-2003-r2-with-sp2e5ba8fe58897e58fb7/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/13/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/15/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

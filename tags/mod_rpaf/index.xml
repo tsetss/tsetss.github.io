@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+mod_rpaf
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/mod_rpaf/</link>
+    <description>Recent content in 
+mod_rpaf
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Jul 2012 10:24:35 +0000</lastBuildDate><atom:link href="http://example.org/tags/mod_rpaf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>apache 403 错误 client denied by server</title>
+      <link>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</link>
+      <pubDate>Fri, 27 Jul 2012 10:24:35 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</guid>
+      <description>由于前段时间给一台服务器在前加了个 nginx 做代理，今天大量用户反应网站出现 403 服务器日志显示 client denied by server 看一下访问日志都是 127.0.0.1 这才想起应该是 apache 防 ddos 模块的问题，把每个 vhost 的链接都当做 一个链接了，先去掉 mod_evasive ,恢复正常，为了上 apache 得到真实 ip 要安装 mod_rpaf 这个模块就 OK 了，
+cd /usr/ports/www/mod_rpaf make install clean 安装模块， freebsd 就是让人偷懒呀。编译完成 修改 httpd.conf 打开 mod_rpaf 模块 ，去掉 mod_rpaf 的 # 号, 添加
+RPAFenable On RPAFsethostname On RPAFproxy_ips 127.0.0.1 RPAFheader X-Forwarded-For 重起 apache ,终于一切正常了,收工回家.</description>
+    </item>
+    
+  </channel>
+</rss>

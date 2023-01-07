@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>python运算符与表达式 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="1.1. 数值操作 所有数值类型都提供下列运算:
+运算 描述 x &#43; y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 &#43;x 什么也不做 ~x ~x=-(x&#43;1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y ).">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="python运算符与表达式" />
+<meta property="og:description" content="1.1. 数值操作 所有数值类型都提供下列运算:
+运算 描述 x &#43; y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 &#43;x 什么也不做 ~x ~x=-(x&#43;1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y )." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2010-03-08T09:38:01+00:00" />
+<meta property="article:modified_time" content="2010-03-08T09:38:01+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="python运算符与表达式"/>
+<meta name="twitter:description" content="1.1. 数值操作 所有数值类型都提供下列运算:
+运算 描述 x &#43; y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 &#43;x 什么也不做 ~x ~x=-(x&#43;1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y )."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "python运算符与表达式",
+      "item": "http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "python运算符与表达式",
+  "name": "python运算符与表达式",
+  "description": "1.1. 数值操作 所有数值类型都提供下列运算:\n运算 描述 x + y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 +x 什么也不做 ~x ~x=-(x+1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y ).",
+  "keywords": [
+    
+  ],
+  "articleBody": "1.1. 数值操作 所有数值类型都提供下列运算:\n运算 描述 x + y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 +x 什么也不做 ~x ~x=-(x+1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y ).real ) * y。\n下列列出的位运算符只能用于整数或长整数:\n操作 描述 x \u003c\u003c y 左移 x \u003e\u003e y 右移 x \u0026 y 按位与 x | y 按位或 x ^ y 按位异或 (exclusive or) ~x 按位翻转 这些都是相当原始的运算，操作的是操作数的每一个位。所有的操作数都假定是以二进制补码形式表示。对于长整数，按位运算符假定符号位可以被无限地向左扩展。\n除了这些以外，下边这些内建函数支持所有的数值类型:\n函数 描述 abs(x ) 绝对值 divmod(x ,y ) 返回 (int(x / y ), x % y ) pow(x ,y [,modulo ]) 返回 (x ** y ) x % modulo round(x ,[n]) 四舍五入，n为小数点位数 abs()函数返回一个数的绝对值。divmod()函数返回一个包含商和余数的元组。pow()函数可以用于代替 ** 运算，但它还支持三重取模运算(经常用于密码运算)。 round函数总是返回一个浮点数。Python的四舍五入规则不是银行家四舍五入规则，这一点请大家注意。\n下列比较操作有标准的数学解释,返回一个布尔值True,或者False:\n运算符 描述 x \u003c y 小于 x \u003e y 大于 x == y 等于 x != y 不等于(与\u003c\u003e相同) x \u003e= y 大于等于 x \u003c= y 小于等于 Python的比较运算可以连结在一起，如w \u003c x \u003c y \u003c z 。这个表达式等价于 w \u003c x and x \u003c y and y \u003c z 。\nx \u003c y \u003e z这个表达式也是合法的，(注意,这个表达式中 x 和 z 并没有比较操作)。不建议这样的写法，因为这会造成代码的阅读困难。\n只可以对复数进行等于(==)及不等于(!=)比较，任何对复数进行其他比较的操作都会引发 TypeError异常。\n数值操作要求操作数必须是同一类型，若Python发现操作数类型不一致，就会自动进行类型的强制转换，转换规则如下:\n1.如果操作数中有一个是复数，另一个也将被转换为复数 2.如果操作数中有一个是浮点数，另一个将被转换为浮点数 3.如果操作数中有一个是长整数数，另一个将被转换为长整数数 4.如果以上都不符合，则这两个数字必然都是整数，不需进行强制转换。 1.2. 序列运算 序列支持以下操作：\n操作 描述 s + r 序列连接 s * n , n * s s的 n 次拷贝,n为整数 s % d 字符串格式化(仅字符串) s[i] 索引 s[i :j ] 切片 x in s , x not in s 从属关系 for x in s : 迭代 len(s) 长度 min(s) 最小元素 max(s) 最大元素 运算符将两个相同类型的序列连结成一个。 s * n 运算符给出一个序列的 n 次浅拷贝。下边的例子可以帮助你理解这点: Toggle line numbersToggle line numbers\n1 a = [3,4,5] # 一个列表 2 b = [a] # 包含a的列表 3 c = 4*b # b的四次拷贝 4 5 # 修改 a 6 a[0] == -7 7 8 # 打印出 c 9 print c 程序将会输出:\n[[-7, 4, 5], [-7, 4, 5], [-7, 4, 5], [-7, 4, 5]]\n这种情况下,列表b中放置了到列表a的引用,当b被重复的时候,仅创建了4个额外的引用。所以,当a被修改的时候,这个变化也影响到所有a的引用。这种情况通常是大多程序员不愿意看到的。你可以通过复制a中的所有元素来解决这种问题。如：\na = [3, 4, 5 ] c = [a[:] for j in range((4)] # [:]代表a的副本而不是到a的引用 注:a[:]这种方式也仅仅是创建列表a所有元素的浅拷贝，如果a中有元素为可变元素，仍然可能会有潜在问题。 --WeiZhong 标准库中的copy模块也可以用于一个对象的浅复制，另外它还支持深复制。\n索引操作符 s[n] 返回序列中的第 n个对象(s[0]是第一个),如果 n 是负数，在求值之前，就先执行 n+=len(s)。如果尝试读取一个不存在的元素则会引发 IndexError异常。\n切片操作符s[i:j]返回一个子序列。i 和 j 必须是整数或长整数。如果被省略,那么它们的默认值分别为序列的开始或结束。切片操作同样允许负数索引。你只要记住这个公式：s[n]=s[n-len (s)] (n为正数) 或者 s[n]=s[len(s)+n] (n为负数)就行了。\nToggle line numbersToggle line numbers\n1 s=[1,2,3,4] # S 上界为 0 下界为 4 2 print s[-100:100] #返回 [1,2,3,4] -100超出了上界，100超出了下界：等价于 s[0:4] 3 print s[-100:-200] #返回 [] -100,-200均超出了上界，自动取上界：等价于s[0:0] 4 print s[100:200] #返回 [] 100,200均超出了下界，自动取下界值：等价于s[4:4] x in s 运算符检验对象 x 是否是 s 的子对象，并返回True或False。 not in 运算符刚好与 in 相反。for x in s 操作顺序迭代序列中的全部元素，这将在第五章–控制流中详细介绍。len(s)返回一个序列中的元素个数。 min(s)和max(s)返回一个序列的最小值和最大值，这两个函数只有序列中的元素可排序时返回值才有意义。(如果对一个文件对象的列表取最大值或最小值，就毫无意义)\n字符串和元组是不可变对象，不能在创建之后对原始对象修改。列表则可以进行以下操作:\n操作 描述 s[i ] = x 为s[i]重新赋值 s[i :j ] = r 将列表片段重新赋值 del s[i ] 删除列表中一个元素 del s[i :j ] 删除列表中一个片段 s[i] = x操作将列表索引为 i 的元素重新赋值为对象 x ，并增加 x 的引用记数。如果i是负数，在求值之前，就先执行 i+=len(s)，计算结果必须是一个小于len(s)的非负整数。尝试给一个不存在的索引赋值会引发 IndexError 异常. 切片分配操作符 s[i:j] = r 将列表片段s[i:j]替换为序列 r。如:\nToggle line numbersToggle line numbers\n1 a = [1,2,3,4,5] 2 a[1] = 6 # a = [1,6,3,4,5] 3 a[2:4] = [10,11] # a = [1,6,10,11,5] 4 a[3:4] = [-1,-2,-3] # a = [1,6,10,-1,-2,-3,5] 5 a[2:] = [0] # a = [1,6,0] del s[i]语句从列表s中删除元素i,并将它的引用记数减1。del s[i:j]语句删除一个切片。\n序列可以使用\u003c, \u003e, \u003c=, \u003e=, == 和 != 来进行比较。当比较两个序列的时候,首先比较序列的第一个元素。如果它们不同,就马上得出结论.如果它们相同,就继续比较第二个元素，直到找到两个不同的元素或者两个序列都没有多余元素为止。字符串通过比较每个字符的内部编码决定大小(如ASCII或Unicode)。\n字符串取模运算 s % d 返回一个格式化后的字符串。 需要一个格式字符串 s 作为左操作数，一个独立对象或一个元组或一个映射对象 d 作为右操作数。格式字符串 s 可以是ASCII字符串，也可以是一个Unicode字符串。这个运算符和 C 语言中的 sprintf() 函数类似。格式字符串包含两种对象类型:普通字符(不改变它的值)和转换符 (% + 转换字符)– 在输出结果中，转换符将格式化 d 中的相应元素，然后用格式化后的结果填充自身。如果 s 内只有一个转换符，则允许一个 d 是一个独立的非tuple对象。否则 d 就必须是一个tuple或映射对象。如果 d 是一个tuple,则转换表示符的个数必须和d的长度相等；如果d是一个映射,每个转换表示符的 % 字符之后必须有一个小括号括起来的映射对象中的key值.表Table 4.1详细列出了转换符的使用．\n表 4.1. 字符串格式转换\n字符 输出格式 d,i 十进制整数或长整数 u 无符号十进制整数或长整数 o 八进制整数或长整数 x 十六进制整数或长整数 X 十六进制整数或长整数(大写字母) f 浮点数如 [-]m.dddddd e 浮点数如 [-]m .dddddde ±xx . E 浮点数如 [-]m .ddddddE ±xx . g,G 指数小于-4或者更高精确度使用 %e 或 %E; 否则,使用 %f s 字符串或其他对象,使用str()来产生字符串 r 与 repr() 返回的字符串相同 c 单个字符 % 转换符标识 % 在 % 和转换字符串之间,允许出现以下修饰符,并且只能按以下顺序:\n1.映射对象的 key,如果被格式化对象是一个映射对象却没有这个成分,会引发KeyError异常. 2.下面所列的一个或多个: 左对齐标志 +,数值指示必须包含 0,指示一个零填充 3.指示最小栏宽的数字.转换值会被打印在指定了最小宽度的栏中并且填充在(或者右边). 4. 一个小数点用来分割浮点数 5. A number specifying the maximum number of characters to be printed from a string, the number of digits following the decimal point in a floating-point number, or the minimum number of digits for an integer. 另外,形标(*)字符用于在任意宽度的栏中代替数字. If present, the width will be read from the next item in the tuple.下边的代码给出了几个例子: Toggle line numbersToggle line numbers\n1 a = 42 2 b = 13.142783 3 c = \"hello\" 4 d = {'x':13, 'y':1.54321, 'z':'world'} 5 e = 5628398123741234L 6 7 print 'a is %d' % a # \"a is 42\" 8 print '%10d %f' % (a,b) # \" 42 13.142783\" 9 print '%+010d %E' % (a,b) # \"+000000042 1.314278E+01\" 10 print '%(x)-10d %(y)0.3g' % d # \"13 1.54\" 11 print '%0.4s %s' % (c, d['z']) # \"hell world\" 12 print '%*.*f' % (5,3,b) # \"13.143\" 13 print 'e = %d' % e # \"e = 5628398123741234\" 1.3. 字典的操作 字典用来在名字与对象之间建立映射。对一个字典可进行以下操作:\n操作 描述 x = d[k ] 通过 key 访问字典元素 d [k ] = x 通过 key 对字典元素进行赋值 del d[k ] 通过 key 删除某个字典元素 len(d ) 字典的元素个数 key 可以是任意不可变对象,如字符串,数字,和元组。另外,字典的关键字也可以是用逗号分隔的多个值。例如:\nToggle line numbersToggle line numbers\n1 d = {} 2 d[1,2,3] = \"foo\" 3 d[1,0,3] = \"bar\" 在这种情况下,关键字的值其实是一个元组,下面的代码和上面的代码作用是一样的:\nd[(1,2,3)] = \"foo\" d[(1,0,3)] = \"bar\" 1.4. 增量赋值语句 Python提供以下的增量赋值操作:\n操作 等价表达式 x += y x = x + y x -= y x = x - y x *= y x = x * y x /= y x = x / y x **= y x = x ** y x %= y x = x % y x \u0026= y x = x \u0026 y x |= y x = x | y x ^= y x = x ^ y x \u003e\u003e= y x = x \u003e\u003e y x \u003c\u003c= y x = x \u003c\u003c y 应用举例:\nToggle line numbersToggle line numbers\n1 a = 3 2 a += 1 # a = 4 3 b = [1,2] 4 b[1] += 10 # b = [1, 12] 5 c = \"%s %s\" 6 c %= (\"Douglas\", \"Adams\") # c = \"Douglas Adams\" 需要指出的是，增量赋值语句并不对对象进行原地修改，因此也不会改变对象的性质。x += y语句创建了一个值为x + y的新对象，并将这个对象赋给 x。用户自定义类可通过定义特殊方法重载增量赋值操作符.(参见第三章,类型和对象)\n1.5. 属性(.)操作符 点(.)操作符用来访问一个对象的属性,例如:\nToggle line numbersToggle line numbers\n1 foo.x = 3 2 print foo.y 3 a = foo.bar(3,4,5) 4 del foo.x 点操作符并不仅仅可以用于单个表达式,例如foo.y.a.b . 它还可以用于函数的中间结果,例如a = foo.bar(3,4,5).spam .属性可以使用del语句来删除,例如del foo.x .\n1.6. 类型转换 经常对内建类型进行类型转换的需要。下列内建函数提供了显式的的类型转换操作:\n函数 描述 int(x [,base ]) 将x转换为一个整数 long(x [,base ]) 将x转换为一个长整数 float(x ) 将x转换到一个浮点数 complex(real [,imag ]) 创建一个复数 str(x ) 将对象 x 转换为字符串 repr(x ) 将对象 x 转换为表达式字符串 eval(str ) 用来计算在字符串中的有效Python表达式,并返回一个对象 tuple(s ) 将序列 s 转换为一个元组 list(s ) 将序列 s 转换为一个列表 chr(x ) 将一个整数转换为一个字符 unichr(x ) 将一个整数转换为Unicode字符 ord(x ) 将一个字符转换为它的整数值 hex(x ) 将一个整数转换为一个十六进制字符串 oct(x ) 将一个整数转换为一个八进制字符串 repr(x)函数也可写为 x .注意str()函数和repr()函数返回的结果经常是不同的. repr()函数取得对象的表达式字符串表示,通常可以使用eval()函数来重新得到这个对象.而str()产生一个对象的简洁格式表示(用于 print语句). ord()函数返回字符在ascii或Unicode字符编码中的整数顺序值. chr()和unichr()函数将一个整数分别转换为ascii或Unicode字符.\n将一个字符串转换为数字或其他对象,使用int(), long(),和 float()函数. eval()函数也可以将一个包含有效表达式的字符转换为一个对象,例如:\nToggle line numbersToggle line numbers\n1 a = int(\"34\") # a = 34 2 b = long(\"0xfe76214\", 16) # b = 266822164L (0xfe76214L) 3 b = float(\"3.1415926\") # b = 3.1415926 4 c = eval(\"3, 5, 6\") # c = (3,5,6) 1.7. Unicode字符串 在同一个程序中使用标准字符串和Unicode字符串会有一点点复杂.这是因为对字符串有太多种操作,包括字符串连结,比较,字典关键字查询,以及在函数中用做参数.\n内建函数unicode(s [, encoding [,errors ]])可以把一个标准字符串转换为一个Unicode字符串.字符串方法u.encode([encoding [, errors ]])可以把一个Unicode字符串转换为一个标准字符串.这些转换操作需要特殊编码规则来指定16位Unicode字符串与标准8位字符来相互映射. 编码参数是一个由如下值组成的特定字符串:\n值 描述 'ascii' 7-bit ASCII 'latin-1' or 'iso-8859-1' ISO 8859-1 Latin-1 'utf-8' 8-位可变长度编码 'utf-16' 16-位可变长度编码(可能是 little endian或 big endian) 'utf-16-le' UTF-16, little-endian 编码 'utf-16-be' UTF-16, big-endian 编码 'unicode-escape' 与Unicode文字 u\"string\" 相同 'raw-unicode-escape' 与原始 Unicode文字 ur\"string\"相同 默认编码在site模块中设置,可以通过sys.getdefaultencoding()来读取.在多数情况下,默认编码是’ascii’,即就是 ASCII字符,它的值在区间[0x00,0x7f]内,直接映射到Unicode字符的[U+0000, U+007F].其他关于编码的内容在第九章–输入与输出.\n当转换字符串时,如果有一个字符不能被转换,那么就会引起一个UnicodeError异常.比如,如果编码规则为’ascii’, Unicode字符U+1F28 就不能被转换,因为它的值太大. 同样地,字符串 “\\xfc” 也不能被转换到Unicode,因为它也超出了ASCII字符范围. errors参数决定如何处理编码错误.它是一个包含下列值的字符串:\n值 描述 'strict' 编码错误时引起一个UnicodeError异常 'ignore' 忽略不可转换字符 'replace' 将不可转换字符用U+FFFD替代(Unicode中的U+FFFD 是标准字符串中的'?') 默认错误处理是 ‘strict’.\n当标准字符串和Unicode字符串在表达式中混用时,标准字符串将被自动转换为Unicode字符串.例如:\nToggle line numbersToggle line numbers\n1 s = \"hello\" 2 t = u\"world\" 3 w = s + t # w = unicode(s) + t 当一个字符串方法(第三章中讲到)中使用到Unicode字符串时,结果也将总是Unicode字符串,例如:\nToggle line numbersToggle line numbers\n1 a = \"Hello World\" 2 b = a.replace(\"World\", u\"Bob\") # b = u\"Hello Bob\" 此外,即使使用replace()方法进行零替换(替换结果仍是原始字符串)时,结果仍然会是Unicode字符串.\n如果一个Unicode字符串使用 % 操作符做格式字符串,所有参数在一开始都将强制转换为Unicode字符串,然后再根据格式规则连结在一起.如果一个Unicode对象被用做 % 操作符的一个参数,整个结果也将是Unicode字符串(Unicode对象被扩充),例如:\nToggle line numbersToggle line numbers\n1 c = \"%s %s\" % (\"Hello\", u\"World\") # c = \"Hello \" + u\"World\" 2 d = u\"%s %s\" % (\"Hello\", \"World\") # d = u\"Hello \" + u\"World\" 当使用Unicode字符串时, str()和repr()函数会自动使用默认编码将Unicode字符串转换为标准字符串.对于一个Unicode字符串u, str(u)相当于u.encode(), repr(u)相当于u\"%s\" % repr(u.encode(‘unicode-escape’)).\n另外,许多库和内建函数只能用于操作标准字符串, Unicode字符串将会被自动使用默认编码转换为标准字符串.如果转换不可执行,会引发UnicodeError异常.\n标准字符串和Unicode字符串可以比较.在这种情况下,标准字符串首先会使用默认编码强制转换为Unicode字符串.这个规则在列表和字典元素的比较操作中也同样适用.例如 ‘x’ in [u’x’, u’y’, u’z’] 强制将’x’转换为Unicode,并返回True. 对于从属测试, ‘W’ in u’Hello World’ 也同理(‘W’被转换为Unicode).\n当使用 hash() 函数计算哈希值时,标准字符串和Unicode字符串返回同一个值(当Unicode字符串只包含[U+0000, U+007F]中的字符时).这样就可以使标准字符串和Unicode字符串在用做字典关键字时可以互换(但条件还是Unicode字符串只包含[U+ 0000, U+007F]中的字符),例如:\nToggle line numbersToggle line numbers\n1 a = { } 2 a[u\"foo\"] = 1234 3 print a[\"foo\"] # Prints 1234 但是,应该注意在默认编码被改变为非acsii或者Unicode字符串包含非ASCII字符时，字典关键字不具有这种可以互换的行为.比如,如果’utf-8’被用做默认编码,字符串比较会返回相等,但哈希值不同:\n#python a = u\"M\\u00fcller\" # Unicode字符串 b = \"M\\303\\274ller\" # utf-8 编码格式的 a print a == b # Prints True print hash(a)==hash(b) # Prints False 注意，上面的例子在python2.4中会引发异常.所以上面这些言论可能已经过时. --WeiZhong 1.8. 布尔表达式 and, or,和 not关键字可以组成布尔表达式.这些操作符的特性如下:\n操作符 描述 x or y 如果 x 为假,返回 y ; 否则,返回 x x and y 如果 x 为假,返回 x ; 否则,返回 y not x 如果 x 为假,返回 True ; 否则,返回 False 当你使用一个表达式用来判断True 或 False时，任何非零的数字或非空列表,元组,字典,都返回True。零,None,以及空列表,元组,字典返回False. 布尔表达式从左至右进行计算,而且具有短路行为，也就是说只有需要时才会进行右边表达式的计算.例如表达式 a and b 只有当a为True时才计算b.\n注： 0 and 10/0 这样的表达式不会引发 除0错误，因为 10/0 这个表达式被短路了。 --WeiZhong 1.9. 对象的比较与身份 相等运算符 x== y 检验x和y的值是否相等.在比较列表或元组,只有当所有的元素都相等时这两个对象才是相等的.对于字典,只有当x和y有相同的关键字和相同的对应值时,才会返回相等.\n身份运算符 x is y 和 x is not y 检验两个对象在内存中否指向同一个对象.通常情况下, x==y,但 x is not y.\n比较操作也可以在两个不兼容的对象类型之间进行,比如一个文件和一个浮点数,不过返回的结果是任意的,这样的比较也没有任何意义.另外,比较两个不兼容的对象有可能会引发异常.\n1.10. 运算优先级 Table 4.2列出了Python运算符的运算顺序(优先级).除乘方(**)外的所有运算符都是从左至右进行运算.表中靠前的运算符优先级要比后边的高些,也就是说,靠前的运算符在一个表达式中会先运算.(注:同一栏的运算符,如 x * y , x / y , x % y 有相同的优先级)\nTable 4.2. 运算优先级 (由高到低)\n运算 名称 -------------------------------------------------------------------- (...), [...], {...} 创建元组,列表,字典 -------------------------------------------------------------------- `...` 字符串转换 -------------------------------------------------------------------- s[i ], s[i:j ], .attr 索引,切片,属性 -------------------------------------------------------------------- f(...) 函数调用s -------------------------------------------------------------------- +x , -x , ~x 一元运算符 -------------------------------------------------------------------- x ** y 乘方(从右至左运算) -------------------------------------------------------------------- x * y , x / y , x % y 乘,除,取模 -------------------------------------------------------------------- x + y , x - y 加,减 -------------------------------------------------------------------- x \u003c\u003c y , x \u003e\u003e y 移位 -------------------------------------------------------------------- x \u0026 y 按位与 -------------------------------------------------------------------- x ^ y 按位异或 -------------------------------------------------------------------- x | y 按位或 -------------------------------------------------------------------- x \u003c y , x \u003c= y , x \u003e y , x \u003e= y , x == y , x != y 比较,身份,序列成员检测 x \u003c\u003e y x is y , x is not y x in s , x not in s -------------------------------------------------------------------- not x 逻辑非 -------------------------------------------------------------------- x and y 逻辑与 -------------------------------------------------------------------- x or y 逻辑或 -------------------------------------------------------------------- lambda args : expr lambda函数表达式 转自 http://blog.163.com/sea_haitao/blog/static/7756216200962753857568/ ",
+  "wordCount" : "1556",
+  "inLanguage": "en",
+  "datePublished": "2010-03-08T09:38:01Z",
+  "dateModified": "2010-03-08T09:38:01Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      python运算符与表达式
+    </h1>
+    <div class="post-meta"><span title='2010-03-08 09:38:01 +0000 UTC'>March 8, 2010</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="11-数值操作">1.1. 数值操作<a hidden class="anchor" aria-hidden="true" href="#11-数值操作">#</a></h2>
+<p>所有数值类型都提供下列运算:</p>
+<pre><code>运算                    描述
+x + y                   加
+x - y                   减
+x * y                   乘
+x / y                   常规除
+x // y                  地板除
+x ** y                  乘方 (xy )
+x % y                   取模 (x mod y )
+-x                      改变操作数的符号位
++x                      什么也不做
+~x                      ~x=-(x+1)
+</code></pre>
+<p> </p>
+<pre><code>        关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。
+        常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 
+        如果有一个操作数为浮点数，情形就不同了：
+        对于 / ，会返回一个双精度浮点数
+        对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃
+</code></pre>
+<p>取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y ).real ) * y。</p>
+<p>下列列出的位运算符只能用于整数或长整数:</p>
+<pre><code>操作                    描述
+x &lt;&lt; y                  左移
+x &gt;&gt; y                  右移
+x &amp; y                   按位与
+x | y                   按位或
+x ^ y                   按位异或 (exclusive or)
+~x                      按位翻转
+</code></pre>
+<p>这些都是相当原始的运算，操作的是操作数的每一个位。所有的操作数都假定是以二进制补码形式表示。对于长整数，按位运算符假定符号位可以被无限地向左扩展。</p>
+<p>除了这些以外，下边这些内建函数支持所有的数值类型:</p>
+<pre><code>函数                    描述
+abs(x )                 绝对值
+divmod(x ,y )           返回 (int(x / y ), x % y )
+pow(x ,y [,modulo ])    返回 (x ** y ) x % modulo
+round(x ,[n])           四舍五入，n为小数点位数
+</code></pre>
+<p>abs()函数返回一个数的绝对值。divmod()函数返回一个包含商和余数的元组。pow()函数可以用于代替 ** 运算，但它还支持三重取模运算(经常用于密码运算)。 round函数总是返回一个浮点数。Python的四舍五入规则不是银行家四舍五入规则，这一点请大家注意。</p>
+<p>下列比较操作有标准的数学解释,返回一个布尔值True,或者False:</p>
+<pre><code>运算符                  描述
+x &lt; y                   小于
+x &gt; y                   大于
+x == y                  等于
+x != y                  不等于(与&lt;&gt;相同)
+x &gt;= y                  大于等于
+x &lt;= y                  小于等于
+</code></pre>
+<p>Python的比较运算可以连结在一起，如w &lt; x &lt; y &lt; z 。这个表达式等价于 w &lt; x and x &lt; y and y &lt; z 。</p>
+<p>x &lt; y &gt; z这个表达式也是合法的，(注意,这个表达式中 x 和 z 并没有比较操作)。不建议这样的写法，因为这会造成代码的阅读困难。</p>
+<p>只可以对复数进行等于(==)及不等于(!=)比较，任何对复数进行其他比较的操作都会引发 TypeError异常。</p>
+<p>数值操作要求操作数必须是同一类型，若Python发现操作数类型不一致，就会自动进行类型的强制转换，转换规则如下:</p>
+<pre><code>1.如果操作数中有一个是复数，另一个也将被转换为复数
+2.如果操作数中有一个是浮点数，另一个将被转换为浮点数
+3.如果操作数中有一个是长整数数，另一个将被转换为长整数数
+4.如果以上都不符合，则这两个数字必然都是整数，不需进行强制转换。
+</code></pre>
+<p> </p>
+<h2 id="12-序列运算">1.2. 序列运算<a hidden class="anchor" aria-hidden="true" href="#12-序列运算">#</a></h2>
+<p><strong>序列支持以下操作：</strong></p>
+<pre><code>操作                      描述
+s + r                   序列连接
+s * n , n * s           s的 n 次拷贝,n为整数
+s % d                   字符串格式化(仅字符串)
+s[i]                    索引
+s[i :j ]                切片
+x in s , x not in s     从属关系
+for x in s :            迭代
+len(s)                  长度
+min(s)                  最小元素
+max(s)                  最大元素
+</code></pre>
+<ul>
+<li>运算符将两个相同类型的序列连结成一个。 s * n 运算符给出一个序列的 n 次浅拷贝。下边的例子可以帮助你理解这点:</li>
+</ul>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = [3,4,5]        # 一个列表
+   2 b = [a]            # 包含a的列表
+   3 c = 4*b            # b的四次拷贝
+   4 
+   5 # 修改 a
+   6 a[0] == -7
+   7 
+   8 # 打印出 c
+   9 print c
+</code></pre>
+<p>程序将会输出:</p>
+<p>[[-7, 4, 5], [-7, 4, 5], [-7, 4, 5], [-7, 4, 5]]</p>
+<p>这种情况下,列表b中放置了到列表a的引用,当b被重复的时候,仅创建了4个额外的引用。所以,当a被修改的时候,这个变化也影响到所有a的引用。这种情况通常是大多程序员不愿意看到的。你可以通过复制a中的所有元素来解决这种问题。如：</p>
+<pre><code>a = [3, 4, 5 ]
+c = [a[:] for j in range((4)]  # [:]代表a的副本而不是到a的引用
+</code></pre>
+<p> </p>
+<pre><code>        注:a[:]这种方式也仅仅是创建列表a所有元素的浅拷贝，如果a中有元素为可变元素，仍然可能会有潜在问题。 --WeiZhong
+</code></pre>
+<p>标准库中的copy模块也可以用于一个对象的浅复制，另外它还支持深复制。</p>
+<p>索引操作符 s[n] 返回序列中的第 n个对象(s[0]是第一个),如果 n 是负数，在求值之前，就先执行 n+=len(s)。如果尝试读取一个不存在的元素则会引发 IndexError异常。</p>
+<p>切片操作符s[i:j]返回一个子序列。i 和 j 必须是整数或长整数。如果被省略,那么它们的默认值分别为序列的开始或结束。切片操作同样允许负数索引。你只要记住这个公式：s[n]=s[n-len (s)] (n为正数) 或者 s[n]=s[len(s)+n] (n为负数)就行了。</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 s=[1,2,3,4]             # S 上界为 0 下界为 4 
+   2 print s[-100:100]       #返回 [1,2,3,4] -100超出了上界，100超出了下界：等价于 s[0:4]
+   3 print s[-100:-200]      #返回 [] -100,-200均超出了上界，自动取上界：等价于s[0:0]
+   4 print s[100:200]        #返回 [] 100,200均超出了下界，自动取下界值：等价于s[4:4]
+</code></pre>
+<p>x in s 运算符检验对象 x 是否是 s 的子对象，并返回True或False。 not in 运算符刚好与 in 相反。for x in s 操作顺序迭代序列中的全部元素，这将在第五章&ndash;控制流中详细介绍。len(s)返回一个序列中的元素个数。 min(s)和max(s)返回一个序列的最小值和最大值，这两个函数只有序列中的元素可排序时返回值才有意义。(如果对一个文件对象的列表取最大值或最小值，就毫无意义)</p>
+<p>字符串和元组是不可变对象，不能在创建之后对原始对象修改。列表则可以进行以下操作:</p>
+<pre><code>操作                      描述
+s[i ] = x               为s[i]重新赋值
+s[i :j ] = r            将列表片段重新赋值
+del s[i ]               删除列表中一个元素
+del s[i :j ]            删除列表中一个片段
+</code></pre>
+<p>s[i] = x操作将列表索引为 i 的元素重新赋值为对象 x ，并增加 x 的引用记数。如果i是负数，在求值之前，就先执行 i+=len(s)，计算结果必须是一个小于len(s)的非负整数。尝试给一个不存在的索引赋值会引发 IndexError 异常. 切片分配操作符 s[i:j] = r 将列表片段s[i:j]替换为序列 r。如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = [1,2,3,4,5]
+   2 a[1] = 6            # a = [1,6,3,4,5]
+   3 a[2:4] = [10,11]    # a = [1,6,10,11,5]
+   4 a[3:4] = [-1,-2,-3] # a = [1,6,10,-1,-2,-3,5]
+   5 a[2:] = [0]         # a = [1,6,0]
+</code></pre>
+<p>del s[i]语句从列表s中删除元素i,并将它的引用记数减1。del s[i:j]语句删除一个切片。</p>
+<p>序列可以使用&lt;, &gt;, &lt;=, &gt;=, == 和 != 来进行比较。当比较两个序列的时候,首先比较序列的第一个元素。如果它们不同,就马上得出结论.如果它们相同,就继续比较第二个元素，直到找到两个不同的元素或者两个序列都没有多余元素为止。字符串通过比较每个字符的内部编码决定大小(如ASCII或Unicode)。</p>
+<p><strong>字符串取模运算</strong> s % d 返回一个格式化后的字符串。 需要一个格式字符串 s 作为左操作数，一个独立对象或一个元组或一个映射对象 d 作为右操作数。格式字符串 s 可以是ASCII字符串，也可以是一个Unicode字符串。这个运算符和 C 语言中的 sprintf() 函数类似。格式字符串包含两种对象类型:普通字符(不改变它的值)和转换符 (% + 转换字符)&ndash; 在输出结果中，转换符将格式化 d 中的相应元素，然后用格式化后的结果填充自身。如果 s 内只有一个转换符，则允许一个 d 是一个独立的非tuple对象。否则 d 就必须是一个tuple或映射对象。如果 d 是一个tuple,则转换表示符的个数必须和d的长度相等；如果d是一个映射,每个转换表示符的 % 字符之后必须有一个小括号括起来的映射对象中的key值.表Table 4.1详细列出了转换符的使用．</p>
+<p><strong>表 4.1. 字符串格式转换</strong></p>
+<pre><code>字符              输出格式
+d,i             十进制整数或长整数
+u               无符号十进制整数或长整数
+o               八进制整数或长整数
+x               十六进制整数或长整数
+X               十六进制整数或长整数(大写字母)
+f               浮点数如 [-]m.dddddd
+e               浮点数如 [-]m .dddddde ±xx .
+E               浮点数如 [-]m .ddddddE ±xx .
+g,G             指数小于-4或者更高精确度使用 %e 或 %E; 否则,使用 %f
+s               字符串或其他对象,使用str()来产生字符串
+r               与 repr() 返回的字符串相同
+c               单个字符
+%               转换符标识 %
+</code></pre>
+<p>在 % 和转换字符串之间,允许出现以下修饰符,并且只能按以下顺序:</p>
+<pre><code>1.映射对象的 key,如果被格式化对象是一个映射对象却没有这个成分,会引发KeyError异常.
+2.下面所列的一个或多个:
+    左对齐标志
+    +,数值指示必须包含
+    0,指示一个零填充
+3.指示最小栏宽的数字.转换值会被打印在指定了最小宽度的栏中并且填充在(或者右边).
+4. 一个小数点用来分割浮点数
+5. A number specifying the maximum number of characters to be printed from a string, the number of digits following the decimal point in a floating-point number, or the minimum number of digits for an integer.
+另外,形标(*)字符用于在任意宽度的栏中代替数字. If present, the width will be read from the next item in the tuple.下边的代码给出了几个例子:
+</code></pre>
+<p> </p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = 42
+   2 b = 13.142783
+   3 c = &quot;hello&quot;
+   4 d = {'x':13, 'y':1.54321, 'z':'world'}
+   5 e = 5628398123741234L
+   6 
+   7 print 'a is %d' % a             #  &quot;a is 42&quot;
+   8 print '%10d %f' % (a,b)         #  &quot; 42 13.142783&quot;
+   9 print '%+010d %E' % (a,b)       #  &quot;+000000042 1.314278E+01&quot;
+  10 print '%(x)-10d %(y)0.3g' % d   #  &quot;13         1.54&quot;
+  11 print '%0.4s %s' % (c, d['z'])  #  &quot;hell world&quot;
+  12 print '%*.*f' % (5,3,b)         #  &quot;13.143&quot;
+  13 print 'e = %d' % e              #  &quot;e = 5628398123741234&quot;
+</code></pre>
+<p> </p>
+<h2 id="13-字典的操作">1.3. 字典的操作<a hidden class="anchor" aria-hidden="true" href="#13-字典的操作">#</a></h2>
+<p>字典用来在名字与对象之间建立映射。对一个字典可进行以下操作:</p>
+<pre><code>操作              描述
+x = d[k ]       通过 key 访问字典元素
+d [k ] = x      通过 key 对字典元素进行赋值
+del d[k ]       通过 key 删除某个字典元素
+len(d )         字典的元素个数
+</code></pre>
+<p>key 可以是任意不可变对象,如字符串,数字,和元组。另外,字典的关键字也可以是用逗号分隔的多个值。例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 d = {}
+   2 d[1,2,3] = &quot;foo&quot;
+   3 d[1,0,3] = &quot;bar&quot;
+</code></pre>
+<p>在这种情况下,关键字的值其实是一个元组,下面的代码和上面的代码作用是一样的:</p>
+<pre><code>d[(1,2,3)] = &quot;foo&quot;
+d[(1,0,3)] = &quot;bar&quot;
+</code></pre>
+<p> </p>
+<h2 id="14-增量赋值语句">1.4. 增量赋值语句<a hidden class="anchor" aria-hidden="true" href="#14-增量赋值语句">#</a></h2>
+<p>Python提供以下的增量赋值操作:</p>
+<pre><code>操作            等价表达式
+x += y          x = x + y
+x -= y          x = x - y
+x *= y          x = x * y
+x /= y          x = x / y
+x **= y         x = x ** y
+x %= y          x = x % y
+x &amp;= y          x = x &amp; y
+x |= y          x = x | y
+x ^= y          x = x ^ y
+x &gt;&gt;= y         x = x &gt;&gt; y
+x &lt;&lt;= y         x = x &lt;&lt; y
+</code></pre>
+<p>应用举例:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = 3
+   2 a += 1                      # a = 4
+   3 b = [1,2]
+   4 b[1] += 10                  # b = [1, 12]
+   5 c = &quot;%s %s&quot;
+   6 c %= (&quot;Douglas&quot;, &quot;Adams&quot;)   # c = &quot;Douglas Adams&quot;
+</code></pre>
+<p>需要指出的是，增量赋值语句并不对对象进行原地修改，因此也不会改变对象的性质。x += y语句创建了一个值为x + y的新对象，并将这个对象赋给 x。用户自定义类可通过定义特殊方法重载增量赋值操作符.(参见第三章,类型和对象)</p>
+<p> </p>
+<h2 id="15-属性操作符">1.5. 属性(.)操作符<a hidden class="anchor" aria-hidden="true" href="#15-属性操作符">#</a></h2>
+<p>点(.)操作符用来访问一个对象的属性,例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 foo.x = 3
+   2 print foo.y
+   3 a = foo.bar(3,4,5)
+   4 del foo.x
+</code></pre>
+<p>点操作符并不仅仅可以用于单个表达式,例如foo.y.a.b . 它还可以用于函数的中间结果,例如a = foo.bar(3,4,5).spam .属性可以使用del语句来删除,例如del foo.x .</p>
+<p> </p>
+<h2 id="16-类型转换">1.6. 类型转换<a hidden class="anchor" aria-hidden="true" href="#16-类型转换">#</a></h2>
+<p>经常对内建类型进行类型转换的需要。下列内建函数提供了显式的的类型转换操作:</p>
+<pre><code>函数                      描述
+int(x [,base ])         将x转换为一个整数
+long(x [,base ])        将x转换为一个长整数
+float(x )               将x转换到一个浮点数
+complex(real [,imag ])  创建一个复数
+str(x )                 将对象 x 转换为字符串
+repr(x )                将对象 x 转换为表达式字符串
+eval(str )              用来计算在字符串中的有效Python表达式,并返回一个对象
+tuple(s )               将序列 s 转换为一个元组
+list(s )                将序列 s 转换为一个列表
+chr(x )                 将一个整数转换为一个字符
+unichr(x )              将一个整数转换为Unicode字符
+ord(x )                 将一个字符转换为它的整数值
+hex(x )                 将一个整数转换为一个十六进制字符串
+oct(x )                 将一个整数转换为一个八进制字符串
+</code></pre>
+<p>repr(x)函数也可写为 x .注意str()函数和repr()函数返回的结果经常是不同的. repr()函数取得对象的表达式字符串表示,通常可以使用eval()函数来重新得到这个对象.而str()产生一个对象的简洁格式表示(用于 print语句). ord()函数返回字符在ascii或Unicode字符编码中的整数顺序值. chr()和unichr()函数将一个整数分别转换为ascii或Unicode字符.</p>
+<p>将一个字符串转换为数字或其他对象,使用int(), long(),和 float()函数. eval()函数也可以将一个包含有效表达式的字符转换为一个对象,例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = int(&quot;34&quot;)             # a = 34
+   2 b = long(&quot;0xfe76214&quot;, 16) # b = 266822164L (0xfe76214L)
+   3 b = float(&quot;3.1415926&quot;)    # b = 3.1415926
+   4 c = eval(&quot;3, 5, 6&quot;)       # c = (3,5,6)
+</code></pre>
+<p> </p>
+<h2 id="17-unicode字符串">1.7. Unicode字符串<a hidden class="anchor" aria-hidden="true" href="#17-unicode字符串">#</a></h2>
+<p>在同一个程序中使用标准字符串和Unicode字符串会有一点点复杂.这是因为对字符串有太多种操作,包括字符串连结,比较,字典关键字查询,以及在函数中用做参数.</p>
+<p>内建函数unicode(s [, encoding [,errors ]])可以把一个标准字符串转换为一个Unicode字符串.字符串方法u.encode([encoding [, errors ]])可以把一个Unicode字符串转换为一个标准字符串.这些转换操作需要特殊编码规则来指定16位Unicode字符串与标准8位字符来相互映射. 编码参数是一个由如下值组成的特定字符串:</p>
+<pre><code>值                               描述
+'ascii'                         7-bit ASCII
+'latin-1' or 'iso-8859-1'       ISO 8859-1 Latin-1
+'utf-8'                         8-位可变长度编码
+'utf-16'                        16-位可变长度编码(可能是 little endian或 big endian)
+'utf-16-le'                     UTF-16, little-endian 编码
+'utf-16-be'                     UTF-16, big-endian 编码
+'unicode-escape'                与Unicode文字 u&quot;string&quot; 相同
+'raw-unicode-escape'            与原始 Unicode文字 ur&quot;string&quot;相同
+</code></pre>
+<p>默认编码在site模块中设置,可以通过sys.getdefaultencoding()来读取.在多数情况下,默认编码是&rsquo;ascii&rsquo;,即就是 ASCII字符,它的值在区间[0x00,0x7f]内,直接映射到Unicode字符的[U+0000, U+007F].其他关于编码的内容在第九章&ndash;输入与输出.</p>
+<p>当转换字符串时,如果有一个字符不能被转换,那么就会引起一个<a href="http://wiki.woodpecker.org.cn/moin/UnicodeError">UnicodeError</a>异常.比如,如果编码规则为&rsquo;ascii&rsquo;, Unicode字符U+1F28 就不能被转换,因为它的值太大. 同样地,字符串 &ldquo;\xfc&rdquo; 也不能被转换到Unicode,因为它也超出了ASCII字符范围. errors参数决定如何处理编码错误.它是一个包含下列值的字符串:</p>
+<pre><code>值                       描述
+'strict'                编码错误时引起一个UnicodeError异常
+'ignore'                忽略不可转换字符
+'replace'               将不可转换字符用U+FFFD替代(Unicode中的U+FFFD 是标准字符串中的'?')
+</code></pre>
+<p>默认错误处理是 &lsquo;strict&rsquo;.</p>
+<p>当标准字符串和Unicode字符串在表达式中混用时,标准字符串将被自动转换为Unicode字符串.例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 s = &quot;hello&quot;
+   2 t = u&quot;world&quot;
+   3 w = s + t          # w = unicode(s) + t
+</code></pre>
+<p>当一个字符串方法(第三章中讲到)中使用到Unicode字符串时,结果也将总是Unicode字符串,例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = &quot;Hello World&quot;
+   2 b = a.replace(&quot;World&quot;, u&quot;Bob&quot;)  # b = u&quot;Hello Bob&quot;
+</code></pre>
+<p>此外,即使使用replace()方法进行零替换(替换结果仍是原始字符串)时,结果仍然会是Unicode字符串.</p>
+<p>如果一个Unicode字符串使用 % 操作符做格式字符串,所有参数在一开始都将强制转换为Unicode字符串,然后再根据格式规则连结在一起.如果一个Unicode对象被用做 % 操作符的一个参数,整个结果也将是Unicode字符串(Unicode对象被扩充),例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 c = &quot;%s %s&quot; % (&quot;Hello&quot;, u&quot;World&quot;) # c = &quot;Hello &quot; + u&quot;World&quot;
+   2 d = u&quot;%s %s&quot; % (&quot;Hello&quot;, &quot;World&quot;) # d = u&quot;Hello &quot; + u&quot;World&quot;
+</code></pre>
+<p>当使用Unicode字符串时, str()和repr()函数会自动使用默认编码将Unicode字符串转换为标准字符串.对于一个Unicode字符串u, str(u)相当于u.encode(), repr(u)相当于u&quot;%s&quot; % repr(u.encode(&lsquo;unicode-escape&rsquo;)).</p>
+<p>另外,许多库和内建函数只能用于操作标准字符串, Unicode字符串将会被自动使用默认编码转换为标准字符串.如果转换不可执行,会引发<a href="http://wiki.woodpecker.org.cn/moin/UnicodeError">UnicodeError</a>异常.</p>
+<p>标准字符串和Unicode字符串可以比较.在这种情况下,标准字符串首先会使用默认编码强制转换为Unicode字符串.这个规则在列表和字典元素的比较操作中也同样适用.例如 &lsquo;x&rsquo; in [u&rsquo;x&rsquo;, u&rsquo;y&rsquo;, u&rsquo;z&rsquo;] 强制将&rsquo;x&rsquo;转换为Unicode,并返回True. 对于从属测试, &lsquo;W&rsquo; in u&rsquo;Hello World&rsquo; 也同理(&lsquo;W&rsquo;被转换为Unicode).</p>
+<p>当使用 hash() 函数计算哈希值时,标准字符串和Unicode字符串返回同一个值(当Unicode字符串只包含[U+0000, U+007F]中的字符时).这样就可以使标准字符串和Unicode字符串在用做字典关键字时可以互换(但条件还是Unicode字符串只包含[U+ 0000, U+007F]中的字符),例如:</p>
+<p><a href="http://www.cnitblog.com/lzzzing/archive/2008/04/05/41975.aspx#">Toggle line numbers</a><a href="http://wiki.woodpecker.org.cn/moin/PythonEssentialRef4#">Toggle line numbers</a></p>
+<pre><code>   1 a = { }
+   2 a[u&quot;foo&quot;] = 1234
+   3 print a[&quot;foo&quot;]        # Prints 1234
+</code></pre>
+<p>但是,应该注意在默认编码被改变为非acsii或者Unicode字符串包含非ASCII字符时，字典关键字不具有这种可以互换的行为.比如,如果&rsquo;utf-8&rsquo;被用做默认编码,字符串比较会返回相等,但哈希值不同:</p>
+<pre><code>#python 
+a = u&quot;M\u00fcller&quot;       # Unicode字符串
+b = &quot;M\303\274ller&quot;      # utf-8 编码格式的 a
+print a == b             # Prints True
+print hash(a)==hash(b)   # Prints False
+</code></pre>
+<p> </p>
+<pre><code>        注意，上面的例子在python2.4中会引发异常.所以上面这些言论可能已经过时. --WeiZhong
+</code></pre>
+<p> </p>
+<h2 id="18-布尔表达式">1.8. 布尔表达式<a hidden class="anchor" aria-hidden="true" href="#18-布尔表达式">#</a></h2>
+<p>and, or,和 not关键字可以组成布尔表达式.这些操作符的特性如下:</p>
+<pre><code>操作符             描述
+x or y          如果 x 为假,返回 y ; 否则,返回 x
+x and y         如果 x 为假,返回 x ; 否则,返回 y
+not x           如果 x 为假,返回 True ; 否则,返回 False
+</code></pre>
+<p>当你使用一个表达式用来判断True 或 False时，任何非零的数字或非空列表,元组,字典,都返回True。零,None,以及空列表,元组,字典返回False. 布尔表达式从左至右进行计算,而且具有短路行为，也就是说只有需要时才会进行右边表达式的计算.例如表达式 a and b 只有当a为True时才计算b.</p>
+<pre><code>      注：  0 and 10/0 这样的表达式不会引发 除0错误，因为 10/0 这个表达式被短路了。 --WeiZhong
+</code></pre>
+<p> </p>
+<h2 id="19-对象的比较与身份">1.9. 对象的比较与身份<a hidden class="anchor" aria-hidden="true" href="#19-对象的比较与身份">#</a></h2>
+<p>相等运算符 x== y 检验x和y的值是否相等.在比较列表或元组,只有当所有的元素都相等时这两个对象才是相等的.对于字典,只有当x和y有相同的关键字和相同的对应值时,才会返回相等.</p>
+<p>身份运算符 x is y 和 x is not y 检验两个对象在内存中否指向同一个对象.通常情况下, x==y,但 x is not y.</p>
+<p>比较操作也可以在两个不兼容的对象类型之间进行,比如一个文件和一个浮点数,不过返回的结果是任意的,这样的比较也没有任何意义.另外,比较两个不兼容的对象有可能会引发异常.</p>
+<p> </p>
+<h2 id="110-运算优先级">1.10. 运算优先级<a hidden class="anchor" aria-hidden="true" href="#110-运算优先级">#</a></h2>
+<p>Table 4.2列出了Python运算符的运算顺序(优先级).除乘方(**)外的所有运算符都是从左至右进行运算.表中靠前的运算符优先级要比后边的高些,也就是说,靠前的运算符在一个表达式中会先运算.(注:同一栏的运算符,如 x * y , x / y , x % y 有相同的优先级)</p>
+<p><strong>Table 4.2. 运算优先级 (由高到低)</strong></p>
+<pre><code>运算                                      名称
+--------------------------------------------------------------------
+(...), [...], {...}                     创建元组,列表,字典
+--------------------------------------------------------------------
+`...`                                   字符串转换
+--------------------------------------------------------------------
+s[i ], s[i:j ],  .attr                  索引,切片,属性
+--------------------------------------------------------------------
+f(...)                                  函数调用s
+--------------------------------------------------------------------
++x , -x , ~x                            一元运算符
+--------------------------------------------------------------------
+x ** y                                  乘方(从右至左运算)
+--------------------------------------------------------------------
+x * y , x / y , x % y                   乘,除,取模
+--------------------------------------------------------------------
+x + y , x - y                           加,减
+--------------------------------------------------------------------
+x &lt;&lt; y , x &gt;&gt; y                         移位
+--------------------------------------------------------------------
+x &amp; y                                   按位与
+--------------------------------------------------------------------
+x ^ y                                   按位异或
+--------------------------------------------------------------------
+x | y                                   按位或
+--------------------------------------------------------------------
+x &lt; y , x &lt;= y ,
+x &gt; y , x &gt;= y ,
+x == y , x != y                         比较,身份,序列成员检测
+x &lt;&gt; y
+x is y , x is not y
+x in s , x not in s
+--------------------------------------------------------------------
+not x                                   逻辑非
+--------------------------------------------------------------------
+x and y                                 逻辑与
+--------------------------------------------------------------------
+x or y                                  逻辑或
+--------------------------------------------------------------------
+lambda args : expr                      lambda函数表达式
+
+
+
+
+转自 &lt;a href=&quot;http://blog.163.com/sea_haitao/blog/static/7756216200962753857568/&quot;&gt;http://blog.163.com/sea_haitao/blog/static/7756216200962753857568/&lt;/a&gt;</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

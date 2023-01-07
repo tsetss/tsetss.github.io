@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+linux
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/linux/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/linux/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+linux
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/linux/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+linux
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+linux
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>使用rsync来实现文件同步
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -»&gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单
+./configure –prefix=/usr/local/rsync &amp;&amp; make &amp;&amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-30 08:57:06 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用rsync来实现文件同步" href="http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Linux常用命令简介
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>su su命令是最基本的命令之一，常用于不同用户间切换。例如，如果登录为 user1，要切换为user2，只要用如下命令： $su user2 然后系统提示输入user2口令，输入正确的口令之后就可以切换到user2。完成之后就可以用exit命令返回到user1。 su命令的常见用法是变成根用户或超级用户。如果发出不带用户名的su命令 ，则系统提示输入根口令，输入之后则可切换为根用户。 如果登录为根用户，则可以用su命令成为系统上任何用户而不需要口令。
+pwd pwd命令也是最常用最基本的命令之一，用于显示用户当前所在的目录。
+cd cd命令不仅显示当前状态，还改变当前状态，它的用发跟dos下的cd命令基本一致。 cd ..可进入上一层目录 cd -可进入上一个进入的目录 cd ~可进入用户的home目录
+ls ls命令跟dos下的dir命令一样，用于显示当前目录的内容。 如果想取得详细的信息，可用ls -l命令， 这样就可以显示目录内容的详细信息。 如果目录下的文件太多，用一屏显示不了，可以用ls -l |more分屏显示 。
+find find命令用于查找文件。这个命令可以按文件名、建立或修改日期、所有者(通常是建立文件的用户)、文件长度或文件类型进行搜索。 find命令的基本结构如下： $find 其中指定从哪个目录开始搜索。指定搜索条件。表示找到文件怎么处理。一般来说，要用-print动作，显示 整个文件路径和名称。如果没有这个动作，则find命令进行所要搜索而不显示结果，等于白费劲。 例如，要搜索系统上所有名称为ye的文件，可用如下命令： $find / -name ye -print 这样就可以显示出系统上所有名称为ye的文件。
+tar tar最初用于建立磁带备份系统，目前广泛用于建立文件发布档案。可用如下方法建立tar档案： $tar cvf 例如，如果要将当前目录中所有文件存档到ye.tar中，可用如下命令： $tar cvf ye.tar . 要浏览档案内容，将c选项变成t。如果要浏览ye.tar档案中的内容，可用如下命令： $tar tvf ye.tar 要取出档案内的内容，将c选项变成x。如果要将ye.tar档案中的内容取到当前目录中，可用如下命令： $tar xvf ye.tar
+gzip gzip命令用于压缩文件。 例如，如果要将ye.txt文件压缩，可用如下命令： $gzip ye.txt 这样就可以压缩文件并在文件名后面加上gz扩展名，变成文件ye.txt.gz。 解压缩文件可用gzip -d命令实现： $gzip -d ye.txt.gz 这样就可以解压缩文件并删除gz扩展名。除此之外还可以用gunzip命令来解 压缩文件，效果跟用gzip -d命令一样。 旧版的tar命令不压缩档案，可用gzip压缩。例如： $tar cvf ye....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 22:33:38 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux常用命令简介" href="http://example.org/2006/04/22/linuxe5b8b8e794a8e591bde4bba4e7ae80e4bb8b/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi … t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi … r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n … pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:48:37 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合" href="http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>lamp,weblucene,awstats
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2005-12-31 18:19:50 +0000 UTC'>December 31, 2005</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to lamp,weblucene,awstats" href="http://example.org/2005/12/31/lampwebluceneawstats/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/linux/page/3/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+php
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/tags/php/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/php/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+php
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/tags/php/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+php
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+php
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>利用 portmaster 升級 PHP 5.26 -&gt; 5.28
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 13:12:10 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 利用 portmaster 升級 PHP 5.26 -&gt; 5.28" href="http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php &#43; xapian extension的安装
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C&#43;&#43;编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd &#43; apache 2.2 &#43; php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &lt;a href=&#34;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&#34;&gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&lt;/a&gt; wget &lt;a href=&#34;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&#34;&gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&lt;/a&gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-12-11 05:56:16 +0000 UTC'>December 11, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php &#43; xapian extension的安装" href="http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>今天使用HessianPHP
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &#34;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&#34;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &#34;club&#34;; $conn = mysql_connect(&#34;localhost&#34;,&#34;club&#34;, &#34;club_test&#34;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;new; HessianService(); $service-&gt;registerObject(new bbs_api); $service-&gt;displayInfo = true; $service-&gt;service(); ?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-30 09:26:43 +0000 UTC'>October 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天使用HessianPHP" href="http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>PHP静态类
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-31 12:05:00 +0000 UTC'>May 31, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP静态类" href="http://example.org/2006/05/31/phpe99d99e68081e7b1bb/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>生成静态页面的PHP类
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-31 11:54:57 +0000 UTC'>May 31, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 生成静态页面的PHP类" href="http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>PHP 将 HTML 转化为 WML2005
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-24 06:13:57 +0000 UTC'>May 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP 将 HTML 转化为 WML2005" href="http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mysql转义字符的问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在php.ini中设置了 magic_quotes_gpc = On
+或者在程序运行时进行了转义字符
+那么存入mysql数据表中的 ‘ 将会变成 ’
+反过来显示的时候
+将会用到下面的函数进行处理。
+function un_magic_quote($value) { $value = is_array($value) ? array_map(&#34;un_magic_quote&#34;, $value) : stripslashes($value); return $value; } 参数$value的类型可以是数组或者字符串
+这样得出来的值就会变成 ‘ 而不是 ’ 了。
+在用SELECT … LIKE … 这个字段的时候，
+要这样写
+SELECT * FROM TABLE_NAME WHERE TABLE_FIELD LIKE “%\’%”
+这样可以把带有 ’ 的数据搜索出来，注意这里是”而非’</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-22 07:54:15 +0000 UTC'>May 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql转义字符的问题" href="http://example.org/2006/05/22/mysqle8bdace4b989e5ad97e7aca6e79a84e997aee9a298/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/tags/php/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

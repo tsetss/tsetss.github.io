@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Linux常用命令简介
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>su su命令是最基本的命令之一，常用于不同用户间切换。例如，如果登录为 user1，要切换为user2，只要用如下命令： $su user2 然后系统提示输入user2口令，输入正确的口令之后就可以切换到user2。完成之后就可以用exit命令返回到user1。 su命令的常见用法是变成根用户或超级用户。如果发出不带用户名的su命令 ，则系统提示输入根口令，输入之后则可切换为根用户。 如果登录为根用户，则可以用su命令成为系统上任何用户而不需要口令。
+pwd pwd命令也是最常用最基本的命令之一，用于显示用户当前所在的目录。
+cd cd命令不仅显示当前状态，还改变当前状态，它的用发跟dos下的cd命令基本一致。 cd ..可进入上一层目录 cd -可进入上一个进入的目录 cd ~可进入用户的home目录
+ls ls命令跟dos下的dir命令一样，用于显示当前目录的内容。 如果想取得详细的信息，可用ls -l命令， 这样就可以显示目录内容的详细信息。 如果目录下的文件太多，用一屏显示不了，可以用ls -l |more分屏显示 。
+find find命令用于查找文件。这个命令可以按文件名、建立或修改日期、所有者(通常是建立文件的用户)、文件长度或文件类型进行搜索。 find命令的基本结构如下： $find 其中指定从哪个目录开始搜索。指定搜索条件。表示找到文件怎么处理。一般来说，要用-print动作，显示 整个文件路径和名称。如果没有这个动作，则find命令进行所要搜索而不显示结果，等于白费劲。 例如，要搜索系统上所有名称为ye的文件，可用如下命令： $find / -name ye -print 这样就可以显示出系统上所有名称为ye的文件。
+tar tar最初用于建立磁带备份系统，目前广泛用于建立文件发布档案。可用如下方法建立tar档案： $tar cvf 例如，如果要将当前目录中所有文件存档到ye.tar中，可用如下命令： $tar cvf ye.tar . 要浏览档案内容，将c选项变成t。如果要浏览ye.tar档案中的内容，可用如下命令： $tar tvf ye.tar 要取出档案内的内容，将c选项变成x。如果要将ye.tar档案中的内容取到当前目录中，可用如下命令： $tar xvf ye.tar
+gzip gzip命令用于压缩文件。 例如，如果要将ye.txt文件压缩，可用如下命令： $gzip ye.txt 这样就可以压缩文件并在文件名后面加上gz扩展名，变成文件ye.txt.gz。 解压缩文件可用gzip -d命令实现： $gzip -d ye.txt.gz 这样就可以解压缩文件并删除gz扩展名。除此之外还可以用gunzip命令来解 压缩文件，效果跟用gzip -d命令一样。 旧版的tar命令不压缩档案，可用gzip压缩。例如： $tar cvf ye....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 22:33:38 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux常用命令简介" href="http://example.org/2006/04/22/linuxe5b8b8e794a8e591bde4bba4e7ae80e4bb8b/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Linux主机重编译（升级）PHP支持GD库
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Linux主机重编译PHP支持GD库
+*注意：请确认以下您服务器中Apache的安装路径，如果不是 /usr/local/apache2，则在进行以下安装操作时， 注意修改Apache的安装路径！
+1、以root身份登录Linux主机；
+2、停止Web Server服务，如果使用的是Apache可以通过以下命令停止： shell&gt; /usr/local/apache2/bin/apachectl stop
+3、卸载当前PHP和Zend Optimizer： shell&gt; rm -rf /usr/local/php shell&gt; rm -rf /usr/local/Zend shell&gt; vi /usr/local/apache2/conf/httpd.conf 找到LoadModule phpX_module modules/libphpX.so 其中X是PHP版本（4或者5）一行，并将此行删除，保存退出。
+4、下载安装Discuz! GD库安装包： shell&gt; cd /usr/local/src shell&gt; wget -c http://download.discuz.net/gdinstaller.tar.gz shell&gt; tar xzvf gdinstaller.tar.gz shell&gt; cd GDInstaller shell&gt; ./install.sh
+4、下载PHP 5.1.2： shell&gt; cd /usr/local/src shell&gt; wget -c http://download.discuz.net/php-5.1.2.tar.bz2
+5、解压缩并安装PHP 5.1.2： shell&gt; tar xjvf php-5.1.2.tar.bz2 shell&gt; cd php-5.1.2 shell&gt; ./configure –prefix=/usr/local/php –with-apxs2=/usr/local/apache2/bin/apxs –with-zlib-dir –with-bz2 –with-tiff-dir –with-libxml-dir –with-gd –with-freetype-dir –with-jpeg-dir –with-png-dir –with-ttf –enable-mbstring –with-mysql –with-config-file-path=/etc –disable-ipv6 –enable-gd-native-ttf *注意：如果MySQL不是以RPM包方式安装的，则需要将上述参数中的–with-mysql 改为–with-mysql=/usr/local/mysql shell&gt; make shell&gt; make install shell&gt; cp php....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:54:15 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux主机重编译（升级）PHP支持GD库" href="http://example.org/2006/04/22/linuxe4b8bbe69cbae9878de7bc96e8af91efbc88e58d87e7baa7efbc89phpe694afe68c81gde5ba93/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi … t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi … r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n … pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:48:37 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合" href="http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>phpMyAdmin 2.8.0.3 安装配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装好新的服务器要装pma 看别人都用这个版本了也装个试试吧
+找开一看和以前的有点不一样
+config.inc.php
+这个文件没了
+看了一下安装说明才知道
+要把./libraries/config.default.php 复制到phpMyAdmin根目录并重命名为config.inc.php
+才可以
+配置如下
+$cfg[‘PmaAbsoluteUri’] = ‘http://www.yourdomain.com/phpMyAdmin&#39;; （写出访问phpMyAdmin的绝对URL）／／其实绑了多个不填也可以的
+$cfg[‘blowfish_secret’] = ‘cookie’; （使用cookie加密）
+$cfg[‘Servers’][$i][‘connect_type’] = ‘socket’; （以socket方式连接MySQL）
+$cfg[‘Servers’][$i][‘compress’] = TRUE; （启用压缩以提高速度，如果访问不正常请改回FALSE）
+$cfg[‘Servers’][$i][‘auth_type’] = ‘cookie’; （使用cookie进行身份验证）
+在linux下要设置文件755
+要不然可能不能运行
+还有就是运行安装程序，看了一下麻烦的很
+在浏览器中运行http://…./phpMyAdmin/libraries/dbg/setup.php 以向导模式进行安装</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:38:29 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to phpMyAdmin 2.8.0.3 安装配置" href="http://example.org/2006/04/22/phpmyadmin-2803-e5ae89e8a385e9858de7bdae/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>文件权限
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>检查　ls -laZ　文件或目录
+改变 chcon -t httpd_sys_content_t 文件或目录</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-20 16:40:08 +0000 UTC'>April 20, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 文件权限" href="http://example.org/2006/04/20/e69687e4bbb6e69d83e99990/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FTP命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 05:58:08 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FTP命令详解" href="http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>一个完整的ftp远程批量shell
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>单位有30多台远程主机须不定期升级程序，为了方便传送文件，整理如下FTP批量处理程式，主文件为main.sh内容格式固定，调用程序autopro.sh文件可根据传送文件及目录随时更改 main.sh文件内容如下：
+hostlist=&#39;198.1.1.1 198.1.1.2 198.1.1.3 .......................&#39; ＃有多少主机IP，就一起写上吧！ echo echo &#34;-----远程FTP批量数据传送------&#34; echo -n &#34;\n 请输入登录用户名:&#34;;read username echo -n &#34; 请输入用户口令 :&#34; stty -echo　＃将输入的口令隐起来 read userpwd stty echo echo &#34;\n 发往以下主机：[用户名:$username]&#34; echo &#34; $hostlist&#34; echo &#34;\n 开始传送程序，按回车键开始 ..........&#34; read goenter for host in $hostlist ＃所有主机IP循环语句 do echo &#34;正在向服务器　$host 正在传送数据 ..........&#34; sh autopro.sh $host $username $userpwd #参数一为主机IP，参数二为用户名，参数三为口令 echo &#34;服务器　$host 传送数据完成!!&#34; echo &#34;OK&#34; sleep 2 done echo &#34;\n全部数据传送完毕\n&#34; autopro.sh　文件内容如下： ftp -niv $1 &lt; </p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 05:55:03 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一个完整的ftp远程批量shell" href="http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>一个完整的ftp远程批量shell
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>单位有30多台远程主机须不定期升级程序，为了方便传送文件，整理如下FTP批量处理程式，主文件为main.sh内容格式固定，调用程序autopro.sh文件可根据传送文件及目录随时更改 main.sh文件内容如下：
+hostlist=‘198.1.1.1 198.1.1.2 198.1.1.3 …………………..’ ＃有多少主机IP，就一起写上吧！ echo echo “—–远程FTP批量数据传送——” echo -n “\n 请输入登录用户名:&#34;;read username echo -n &#34; 请输入用户口令 :” stty -echo　＃将输入的口令隐起来 read userpwd stty echo echo “\n 发往以下主机：[用户名:$username]” echo &#34; $hostlist&#34; echo “\n 开始传送程序，按回车键开始 ……….” read goenter
+for host in $hostlist ＃所有主机IP循环语句 do echo “正在向服务器　$host 正在传送数据 ……….” sh autopro.sh $host $username $userpwd #参数一为主机IP，参数二为用户名，参数三为口令 echo “服务器　$host 传送数据完成!!” echo “OK” sleep 2 done echo “\n全部数据传送完毕\n”
+autopro.sh　文件内容如下：
+ftp -niv $1 &lt;</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 05:54:34 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一个完整的ftp远程批量shell" href="http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>VSFTP＋MySQL虚拟用户配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。
+一、VSFTPD的安装
+目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：
+VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists
+VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory ‘/usr/share/empty’: File exists
+VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp
+以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install
+上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 02:42:42 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VSFTP＋MySQL虚拟用户配置" href="http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>vsftp配置大全
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>超完整版 wordpress_id: 56 categories:
+“\n技术文章\n &#34; 如果不做说明，一般安装命令均使用ROOT权限，用 # 表示
+特别说明：无
+以下文章介绍Liunx 环境下vsftpd的三种实现方法
+一、前言 Vsftp(Very Secure FTP)是一种在Unix/Linux中非常安全且快速稳定的FTP服务器，目前已经被许多大型站点所采用，如ftp.redhat.com,ftp.kde.org,ftp.gnome.org.等。Vsftpd的实现有三种方式 1、匿名用户形式：在默认安装的情况下，系统只提供匿名用户访问 2、本地用户形式：以/etc/passwd中的用户名为认证方式 3、虚拟用户形式：支持将用户名和口令保存在数据库文件或数据库服务器中。相对于FTP的本地用户形式来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的 FTP站点来说，虚拟用户是一种极好的解决方案。
+二、获取最新版的Vsftp程序 Vsftp官方下载：[url=ftp://vsftpd.beasts.org/users/cevans/vsftpd- 2.0.3.tar.gz]ftp://vsftpd.beasts.org/users/cevans/vsftpd-2.0.3.tar.gz，目前已经到2.0.3版本。假设我们已经将vsftpd-2.0.3.tar.gz文件下载到服务器的/home/xuchen目录
+cd /home/xuchen tar xzvf vsftpd-2.0.3.tar.gz //解压缩程序 cd vsftpd-2.0.3 初学vb 回复于：2005-06-13 13:30:17
+三、三种方式的实现 1、匿名用户形式实现
+vi builddefs.h \编辑builddefs.h 文件，文件内容如下： #ifndef VSF_BUILDDEFS_H
+#define VSF_BUILDDEFS_H #undef VSF_BUILD_TCPWRAPPERS #define VSF_BUILD_PAM #undef VSF_BUILD_SSL
+#endif /* VSF_BUILDDEFS_H */ 将以上undef的都改为define，支持tcp_wrappers，支持PAM认证方式，支持SSL
+make //直接在vsftpd-2.0.3里用make编译 ls -l vsftpd -rwxr-xr-x 1 root root 86088 Jun 6 12:29 vsftpd //可执行程序已被编译成功...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 02:25:27 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to vsftp配置大全" href="http://example.org/2006/04/17/vsftpe9858de7bdaee5a4a7e585a8-e8b685e5ae8ce695b4e78988/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/30/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/32/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

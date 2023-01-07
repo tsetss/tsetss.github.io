@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>vsftp安装配置 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.
+1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=&quot;YES&quot; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd &amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="vsftp安装配置" />
+<meta property="og:description" content="公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.
+1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=&quot;YES&quot; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd &amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-26T04:08:38+00:00" />
+<meta property="article:modified_time" content="2006-04-26T04:08:38+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="vsftp安装配置"/>
+<meta name="twitter:description" content="公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.
+1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=&quot;YES&quot; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd &amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "vsftp安装配置",
+      "item": "http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "vsftp安装配置",
+  "name": "vsftp安装配置",
+  "description": "公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.\n1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=\u0026quot;YES\u0026quot; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd \u0026amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc.",
+  "keywords": [
+    
+  ],
+  "articleBody": "公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.\n1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=\"YES\" 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd \u0026 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc.d/目录里增加一个sh脚本： # vi vsftpd_start.sh # ! /bin/sh /usr/local/libexec/vsftpd \u0026 保存退出,再chmod 755 vsftpd_start.sh 。 (4)添加用户 # pw groupadd vsftpd –g 1001 # pw useradd test –g 1001–d /home/test –s /sbin/nologin # mkdir /home/test # passwd test 设密码 Changing local password for test New Password: Retype New Password: # 在vsftpd.chroot_list文件里增加test一行，把test用户所在其自家目录下。 # killall －HUP inetd，(如果是独立进程则执行上面写的那个脚本即可)测试一下： # ftp localhost 如果成功会提示你输入用户名和密码 如果不成功，请查看一下你上面的配置 (5)用户功能权限配置 以下是一些用户的配置： Anonymous_enable=yes (允许匿名登陆) Dirmessage_enable=yes (切换目录时，显示目录下.message的内容) Local_umask=022 (FTP上本地的文件权限，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Ftpd_banner=XXXXX (欢迎信息) Pam_service_name=vsftpd (验证方式) Listen=yes (独立的VSFTPD服务器) Anon_upload_enable=yes (开放上传权限) Anon_mkdir_write_enable=yes (可创建目录的同时可以在此目录中上传文件) Write_enable=yes (开放本地用户写的权限) Anon_other_write_enable=yes (匿名帐号可以有删除的权限) Anon_world_readable_only=no (放开匿名用户浏览权限) Idle_session_timeout=600(秒) (用户会话空闲后10分钟) Data_connection_timeout=120(秒) (将数据连接空闲2分钟断) Accept_timeout=60(秒) (将客户端空闲1分钟后断) Connect_timeout=60(秒) (中断1分钟后又重新连接) Ascii_upload_enable=yes (启用上传的ASCII传输方式) Ascii_download_enable=yes (启用下载的ASCII传输方式) Chroot_local_user=yes (本地所有帐户都只能在自家目录) Chroot_list_enable=yes (文件中的名单可以调用) Chroot_list_file=/任意指定的路径/vsftpd.chroot_list (前提是chroot_local_user=no) Banner_file=/var/vsftpd_banner_file (用户连接后欢迎信息使用的是此文件中的相关信息) Local_max_rate=50000(bite) (本地用户传输率50K) Anon_max_rate=30000(bite) (匿名用户传输率30K) Chown_uploads=yes (改变上传文件的所有者为root) Chown_username=root Pasv_min_port=50000 }(将客户端的数据连接端口改在50000—60000之间) Pasv_max_port=60000 Max_clients=200 (FTP的最大连接数) Max_per_ip=4 (每IP的最大连接数) Listen_port=5555 (从5555端口进行数据连接) Local_enble=yes (本地帐户能够登陆) Write_enable=no (本地帐户登陆后无权删除和修改文件) Userlist_enable=yes (在指定的文件中的用户不可以访问) Userlist_deny=yes Userlist_file=/指定的路径/vsftpd.user_list Banner_fail=/路径/文件名 (连接失败时显示文件中的内容) Ls_recurse_enable=no Async_abor_enable=yes one_process_model=yes Listen_address=10.2.2.2 (将虚拟服务绑定到某端口) Guest_enable=yes (虚拟用户可以登陆) Guest_username=所设的用户名 (将虚拟用户映射为本地用户) User_config_dir=/任意指定的路径/为用户策略自己所建的文件夹 (指定不同虚拟用户配置文件的路径) Deny_email_enable=yes (是否允许禁止匿名用户使用某些邮件地址) Banned_email_file=//任意指定的路径/xx/ Pasv_enable=yes ( 服务器端用被动模式) User_config_dir=/任意指定的路径//任意文件目录 (指定虚拟用户存放配置文件的路径) ",
+  "wordCount" : "224",
+  "inLanguage": "en",
+  "datePublished": "2006-04-26T04:08:38Z",
+  "dateModified": "2006-04-26T04:08:38Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      vsftp安装配置
+    </h1>
+    <div class="post-meta"><span title='2006-04-26 04:08:38 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点.
+配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.</p>
+<pre><code>1、安装
+通过ports安装，这个方式比较简单。
+# cd /usr/ports/ftp/vsftp
+# make install
+
+2、配置
+(1)编辑/usr/local/etc/vsftpd.conf
+# ee /usr/local/etc/vsftpd.conf
+Anonymous_enable=NO (禁止匿名登陆)
+Local_enable=YES (允许本地用户登陆)
+Local_umask=022 (FTP上本地的文件权限755，默认是077)
+Connect_form_port_20=yes (启用FTP数据端口的数据连接)
+Xferlog_enable=yes (激活上传和下传的日志)
+Xferlog_std_format=yes (使用标准的日志格式)
+Idle_session_timeout=120(秒) (用户会话空闲后2分钟)
+Data_connection_timeout=300(秒) (将数据连接空闲5分钟断)
+Ascii_upload_enable=YES (起用ASCII方式上传)
+Ascii_download_enable=YES帮带(起用ASCII方式下载)
+Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息)
+Chroot_list_enable=YES (开启锁定用户目录)
+Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行)
+注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样
+Chroot_local_user＝YES
+保存退出
+
+(2)编辑/etc/inetd.conf
+# ee /etc/inetd.conf
+增加这一行并去掉前面的注释(#号)
+#ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd
+保存退出
+
+(3)编辑/etc/rc.conf
+# ee /etc/rc.conf
+增加下面内容：
+inetd_enable=&quot;YES&quot;
+注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下：
+a、注释掉inetd里面的vsftpd这一行。
+b、在vsftpd.conf文件里增加listen＝YES这句。
+c、进入/usr/local/libexec/目录，执行./vsftpd &amp; 。
+d、想要让vsftp随系统启动，可在/usr/local/etc/rc.d/目录里增加一个sh脚本：
+# vi vsftpd_start.sh
+# ! /bin/sh
+/usr/local/libexec/vsftpd &amp;
+保存退出,再chmod 755 vsftpd_start.sh 。
+
+(4)添加用户
+# pw groupadd vsftpd –g 1001
+# pw useradd test –g 1001–d /home/test –s /sbin/nologin
+# mkdir /home/test
+# passwd test 设密码
+Changing local password for test
+New Password:
+Retype New Password:
+#
+在vsftpd.chroot_list文件里增加test一行，把test用户所在其自家目录下。
+# killall －HUP inetd，(如果是独立进程则执行上面写的那个脚本即可)测试一下：
+# ftp localhost
+如果成功会提示你输入用户名和密码
+如果不成功，请查看一下你上面的配置
+
+(5)用户功能权限配置
+以下是一些用户的配置：
+Anonymous_enable=yes (允许匿名登陆)
+Dirmessage_enable=yes (切换目录时，显示目录下.message的内容)
+Local_umask=022 (FTP上本地的文件权限，默认是077)
+Connect_form_port_20=yes (启用FTP数据端口的数据连接)
+Xferlog_enable=yes (激活上传和下传的日志)
+Xferlog_std_format=yes (使用标准的日志格式)
+Ftpd_banner=XXXXX (欢迎信息)
+Pam_service_name=vsftpd (验证方式)
+Listen=yes (独立的VSFTPD服务器)
+Anon_upload_enable=yes (开放上传权限)
+Anon_mkdir_write_enable=yes (可创建目录的同时可以在此目录中上传文件)
+Write_enable=yes (开放本地用户写的权限)
+Anon_other_write_enable=yes (匿名帐号可以有删除的权限)
+Anon_world_readable_only=no (放开匿名用户浏览权限)
+Idle_session_timeout=600(秒) (用户会话空闲后10分钟)
+Data_connection_timeout=120(秒) (将数据连接空闲2分钟断)
+Accept_timeout=60(秒) (将客户端空闲1分钟后断)
+Connect_timeout=60(秒) (中断1分钟后又重新连接)
+Ascii_upload_enable=yes (启用上传的ASCII传输方式)
+Ascii_download_enable=yes (启用下载的ASCII传输方式)
+Chroot_local_user=yes (本地所有帐户都只能在自家目录)
+Chroot_list_enable=yes (文件中的名单可以调用)
+Chroot_list_file=/任意指定的路径/vsftpd.chroot_list
+(前提是chroot_local_user=no)
+Banner_file=/var/vsftpd_banner_file (用户连接后欢迎信息使用的是此文件中的相关信息)
+Local_max_rate=50000(bite) (本地用户传输率50K)
+Anon_max_rate=30000(bite) (匿名用户传输率30K)
+Chown_uploads=yes (改变上传文件的所有者为root)
+Chown_username=root
+Pasv_min_port=50000
+}(将客户端的数据连接端口改在50000—60000之间)
+Pasv_max_port=60000
+Max_clients=200 (FTP的最大连接数)
+Max_per_ip=4 (每IP的最大连接数)
+Listen_port=5555 (从5555端口进行数据连接)
+Local_enble=yes (本地帐户能够登陆)
+Write_enable=no (本地帐户登陆后无权删除和修改文件)
+Userlist_enable=yes (在指定的文件中的用户不可以访问)
+Userlist_deny=yes
+Userlist_file=/指定的路径/vsftpd.user_list
+Banner_fail=/路径/文件名 (连接失败时显示文件中的内容)
+Ls_recurse_enable=no
+Async_abor_enable=yes
+one_process_model=yes
+Listen_address=10.2.2.2 (将虚拟服务绑定到某端口)
+Guest_enable=yes (虚拟用户可以登陆)
+Guest_username=所设的用户名 (将虚拟用户映射为本地用户)
+User_config_dir=/任意指定的路径/为用户策略自己所建的文件夹
+(指定不同虚拟用户配置文件的路径)
+Deny_email_enable=yes (是否允许禁止匿名用户使用某些邮件地址)
+Banned_email_file=//任意指定的路径/xx/
+Pasv_enable=yes ( 服务器端用被动模式)
+User_config_dir=/任意指定的路径//任意文件目录 (指定虚拟用户存放配置文件的路径)
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

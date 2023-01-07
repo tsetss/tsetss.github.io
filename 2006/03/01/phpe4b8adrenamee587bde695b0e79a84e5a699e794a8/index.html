@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>php中rename()函数的妙用 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。
+熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。 例如：
+$oldpath &mdash;-文件或目录原来路径
+$newpath &mdash;-新定义路径
+那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作
+经过我的测试，win32和unix的php4版本都支持这个功能。
+另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：
+$path &mdash;- 文件或目录路径
+$tmp &mdash;- tmp目录（/tmp)
+用rename($path,$tmp) 将文件移动到tmp目录.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/03/01/phpe4b8adrenamee587bde695b0e79a84e5a699e794a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="php中rename()函数的妙用" />
+<meta property="og:description" content="大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。
+熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。 例如：
+$oldpath &mdash;-文件或目录原来路径
+$newpath &mdash;-新定义路径
+那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作
+经过我的测试，win32和unix的php4版本都支持这个功能。
+另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：
+$path &mdash;- 文件或目录路径
+$tmp &mdash;- tmp目录（/tmp)
+用rename($path,$tmp) 将文件移动到tmp目录." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/03/01/phpe4b8adrenamee587bde695b0e79a84e5a699e794a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-03-01T17:06:18+00:00" />
+<meta property="article:modified_time" content="2006-03-01T17:06:18+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="php中rename()函数的妙用"/>
+<meta name="twitter:description" content="大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。
+熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。 例如：
+$oldpath &mdash;-文件或目录原来路径
+$newpath &mdash;-新定义路径
+那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作
+经过我的测试，win32和unix的php4版本都支持这个功能。
+另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：
+$path &mdash;- 文件或目录路径
+$tmp &mdash;- tmp目录（/tmp)
+用rename($path,$tmp) 将文件移动到tmp目录."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "php中rename()函数的妙用",
+      "item": "http://example.org/2006/03/01/phpe4b8adrenamee587bde695b0e79a84e5a699e794a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "php中rename()函数的妙用",
+  "name": "php中rename()函数的妙用",
+  "description": "大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。\n熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。 例如：\n$oldpath \u0026mdash;-文件或目录原来路径\n$newpath \u0026mdash;-新定义路径\n那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作\n经过我的测试，win32和unix的php4版本都支持这个功能。\n另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：\n$path \u0026mdash;- 文件或目录路径\n$tmp \u0026mdash;- tmp目录（/tmp)\n用rename($path,$tmp) 将文件移动到tmp目录.",
+  "keywords": [
+    
+  ],
+  "articleBody": "大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。\n熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。 例如：\n$oldpath —-文件或目录原来路径\n$newpath —-新定义路径\n那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作\n经过我的测试，win32和unix的php4版本都支持这个功能。\n另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：\n$path —- 文件或目录路径\n$tmp —- tmp目录（/tmp)\n用rename($path,$tmp) 将文件移动到tmp目录.\n",
+  "wordCount" : "19",
+  "inLanguage": "en",
+  "datePublished": "2006-03-01T17:06:18Z",
+  "dateModified": "2006-03-01T17:06:18Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/03/01/phpe4b8adrenamee587bde695b0e79a84e5a699e794a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      php中rename()函数的妙用
+    </h1>
+    <div class="post-meta"><span title='2006-03-01 17:06:18 +0000 UTC'>March 1, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>大家都知道，rename()函数可以对文件或目录进行重命名的操作。其实它还可以做很多事情。</p>
+<p>熟悉unix的朋友应该知道shell命令mv，它相当与win32的移动，而且移动的同时可进行重命名。我发现，php的rename()函数就相当于mv，它不仅仅只有简单的重命名的功能，同样可以改变文件甚至整个目录的路径。
+例如：</p>
+<p>$oldpath &mdash;-文件或目录原来路径</p>
+<p>$newpath &mdash;-新定义路径</p>
+<p>那么 rename($oldpath,$newpath)就可以完成文件/目录移动的操作</p>
+<p>经过我的测试，win32和unix的php4版本都支持这个功能。</p>
+<p>另外，好象php4的win32版取消了unlink()函数。那么还可以巧用rename()函数来完成删除的操作，例如：</p>
+<p>$path &mdash;- 文件或目录路径</p>
+<p>$tmp &mdash;- tmp目录（/tmp)</p>
+<p>用rename($path,$tmp) 将文件移动到tmp目录.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

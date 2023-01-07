@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Xtrabackup备份和恢复MySQL | 白天’s Blog</title>
+<meta name="keywords" content="
+innodb
+      , 
+mysql
+      , 
+Xtrabackup
+      ">
+<meta name="description" content="Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&quot;innodb innodb2&quot; /bak/ 压缩备份（不加&ndash;databases，默认全部数据库） innobackupex-1.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Xtrabackup备份和恢复MySQL" />
+<meta property="og:description" content="Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&quot;innodb innodb2&quot; /bak/ 压缩备份（不加&ndash;databases，默认全部数据库） innobackupex-1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-11-24T05:21:29+00:00" />
+<meta property="article:modified_time" content="2009-11-24T05:21:29+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Xtrabackup备份和恢复MySQL"/>
+<meta name="twitter:description" content="Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&quot;innodb innodb2&quot; /bak/ 压缩备份（不加&ndash;databases，默认全部数据库） innobackupex-1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Xtrabackup备份和恢复MySQL",
+      "item": "http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Xtrabackup备份和恢复MySQL",
+  "name": "Xtrabackup备份和恢复MySQL",
+  "description": "Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：\n* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么\n* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的\n* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点\n* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装\ntar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：\ncd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1\n制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=\u0026quot;innodb innodb2\u0026quot; /bak/ 压缩备份（不加\u0026ndash;databases，默认全部数据库） innobackupex-1.",
+  "keywords": [
+    "\ninnodb\n      ", "\nmysql\n      ", "\nXtrabackup\n      "
+  ],
+  "articleBody": "Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：\n* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么\n* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的\n* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点\n* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装\ntar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：\ncd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1\n制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=\"innodb innodb2\" /bak/ 压缩备份（不加–databases，默认全部数据库） innobackupex-1.5.1 --user=root --stream=tar /bak/ | gzip \u003e /bak/bak.tar.gz （解压缩必须加i。innobackupex: You must use -i (–ignore-zeros) option for extraction of the tar stream.）\n远程备份到192.168.1.200的/bak目录下。 innobackupex-1.5.1 --user=root --stream=tar /bak | ssh root@192.168.1.200 cat \"\u003e\" /bak/backup.tar 恢复\n# innobackup-1.5.1 --apply-log /bak/2009_0929/ # innobackup-1.5.1 --copy-back /bak/2009_0929/ # chown -R mysql:mysql /usr/local/mysql/data/* # mysqladmin -uroot -p123456 shutdown # mysqld_safe --user=mysql \u0026 ",
+  "wordCount" : "127",
+  "inLanguage": "en",
+  "datePublished": "2009-11-24T05:21:29Z",
+  "dateModified": "2009-11-24T05:21:29Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Xtrabackup备份和恢复MySQL
+    </h1>
+    <div class="post-meta"><span title='2009-11-24 05:21:29 +0000 UTC'>November 24, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：</p>
+<pre><code>* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。
+* innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 
+</code></pre>
+<p>Xtrabackup可以做什么</p>
+<pre><code>* 在线(热)备份整个库的InnoDB, XtraDB表
+* 在xtrabackup的上一次整库备份基础上做增量备份（innodb only）
+* 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） 
+</code></pre>
+<p>Xtrabackup如何工作的</p>
+<pre><code>* xtrabackup - 具体原理有待研究。。。
+* innobackupex整库备份
+     1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。
+     2. 锁所有库。
+     3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。
+     4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。
+     5. 解锁所有库。
+     6. 终止挂起，备份完毕。 
+</code></pre>
+<p>注意要点</p>
+<pre><code>* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。
+* 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。
+* 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 
+</code></pre>
+<p>安装</p>
+<pre><code>tar zxf xtrabackup-0.7.tar.gz
+cd xtrabackup-0.7
+./configure
+make
+</code></pre>
+<p>进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：</p>
+<pre><code>cd innobase/xtrabackup/
+make
+make install
+</code></pre>
+<p>然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1</p>
+<h1 id="制定备份多个数据库">制定备份多个数据库<a hidden class="anchor" aria-hidden="true" href="#制定备份多个数据库">#</a></h1>
+<pre><code>innobackupex-1.5.1 --user=root --databases=&quot;innodb innodb2&quot; /bak/
+</code></pre>
+<h1 id="压缩备份不加--databases默认全部数据库">压缩备份（不加&ndash;databases，默认全部数据库）<a hidden class="anchor" aria-hidden="true" href="#压缩备份不加--databases默认全部数据库">#</a></h1>
+<pre><code>innobackupex-1.5.1 --user=root --stream=tar /bak/ | gzip &gt; /bak/bak.tar.gz
+</code></pre>
+<p>（解压缩必须加i。innobackupex: You must use -i (&ndash;ignore-zeros) option for extraction of the tar stream.）</p>
+<h1 id="远程备份到1921681200的bak目录下">远程备份到192.168.1.200的/bak目录下。<a hidden class="anchor" aria-hidden="true" href="#远程备份到1921681200的bak目录下">#</a></h1>
+<pre><code>innobackupex-1.5.1 --user=root --stream=tar /bak | ssh root@192.168.1.200 cat &quot;&gt;&quot; /bak/backup.tar
+</code></pre>
+<p>恢复</p>
+<pre><code># innobackup-1.5.1 --apply-log  /bak/2009_0929/
+# innobackup-1.5.1 --copy-back  /bak/2009_0929/
+# chown -R mysql:mysql /usr/local/mysql/data/*
+# mysqladmin -uroot -p123456 shutdown
+# mysqld_safe --user=mysql &amp;
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/innodb/">
+innodb
+      </a></li>
+      <li><a href="http://example.org/tags/mysql/">
+mysql
+      </a></li>
+      <li><a href="http://example.org/tags/xtrabackup/">
+Xtrabackup
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

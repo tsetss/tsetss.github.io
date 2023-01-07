@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>开源或免费虚拟主机管理系统 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104
+web-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095
+VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/
+其他的：
+http://sourceforge.net/search/?words=hosting
+webmin的虚拟主机管理模块virtualmin- -
+webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块
+而virtualmin则是它的一个虚拟主机管理模块，功能如下图：
+webmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/
+基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -
+PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows
+安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：
+MySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting
+官方站上有基于各平台详细的安装说明 http://www.ladse.de
+phpmywebhosting下载：http://www.ladse.de/index.php/Files
+SysCP虚拟主机管理系统[全php版]- -
+1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)
+是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的
+用户界面：
+管理员界面：
+具有以下特性：
+Customer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing .">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="开源或免费虚拟主机管理系统" />
+<meta property="og:description" content="ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104
+web-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095
+VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/
+其他的：
+http://sourceforge.net/search/?words=hosting
+webmin的虚拟主机管理模块virtualmin- -
+webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块
+而virtualmin则是它的一个虚拟主机管理模块，功能如下图：
+webmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/
+基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -
+PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows
+安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：
+MySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting
+官方站上有基于各平台详细的安装说明 http://www.ladse.de
+phpmywebhosting下载：http://www.ladse.de/index.php/Files
+SysCP虚拟主机管理系统[全php版]- -
+1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)
+是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的
+用户界面：
+管理员界面：
+具有以下特性：
+Customer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-30T04:28:14+00:00" />
+<meta property="article:modified_time" content="2006-04-30T04:28:14+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="开源或免费虚拟主机管理系统"/>
+<meta name="twitter:description" content="ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104
+web-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095
+VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/
+其他的：
+http://sourceforge.net/search/?words=hosting
+webmin的虚拟主机管理模块virtualmin- -
+webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块
+而virtualmin则是它的一个虚拟主机管理模块，功能如下图：
+webmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/
+基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -
+PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows
+安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：
+MySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting
+官方站上有基于各平台详细的安装说明 http://www.ladse.de
+phpmywebhosting下载：http://www.ladse.de/index.php/Files
+SysCP虚拟主机管理系统[全php版]- -
+1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)
+是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的
+用户界面：
+管理员界面：
+具有以下特性：
+Customer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing ."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "开源或免费虚拟主机管理系统",
+      "item": "http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "开源或免费虚拟主机管理系统",
+  "name": "开源或免费虚拟主机管理系统",
+  "description": "ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/\n中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104\nweb-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/\n中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095\nVHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/\n其他的：\nhttp://sourceforge.net/search/?words=hosting\nwebmin的虚拟主机管理模块virtualmin- -\nwebmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块\n而virtualmin则是它的一个虚拟主机管理模块，功能如下图：\nwebmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/\n基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -\nPHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows\n安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：\nMySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting\n官方站上有基于各平台详细的安装说明 http://www.ladse.de\nphpmywebhosting下载：http://www.ladse.de/index.php/Files\nSysCP虚拟主机管理系统[全php版]- -\n1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)\n是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的\n用户界面：\n管理员界面：\n具有以下特性：\nCustomer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing .",
+  "keywords": [
+    
+  ],
+  "articleBody": " ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/\n中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104\nweb-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/\n中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095\nVHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/\n其他的：\nhttp://sourceforge.net/search/?words=hosting\nwebmin的虚拟主机管理模块virtualmin- -\nwebmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块\n而virtualmin则是它的一个虚拟主机管理模块，功能如下图：\nwebmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/\n基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -\nPHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows\n安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：\nMySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting\n官方站上有基于各平台详细的安装说明 http://www.ladse.de\nphpmywebhosting下载：http://www.ladse.de/index.php/Files\nSysCP虚拟主机管理系统[全php版]- -\n1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)\n是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的\n用户界面：\n管理员界面：\n具有以下特性：\nCustomer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing .htaccess password protections for directories managing path options for example directorylisting Admin Interface: managing of customers: you can define exactly what kind of resources your customers get (e.g. amount of pop accounts, amount of mysql databases etc.) manage domains: you can individualy edit zone files and directory index per domain 支持以下配套服务器或引擎：\nwebserver: [Apache 1.3] with [PHP4] (apache2.0.x也可以) mail transfer agent: [Postfix] pop/imap server: [Courier] ftp server: [ProFTPd] database server: [MySQL] nameserver: [Bind9] traffic accounting and statistics: [Webalizer]\n官方站：http://www.syscp.de/ 下载：http://www.syscp.de/wiki/EnDownloads 模块下载：http://modules.syscp.de/ 在线演示：http://www.syscp.de/onlinedemo/index.php\n现在最新版是Version 1.2.7, 2005.2.11推出的\n",
+  "wordCount" : "170",
+  "inLanguage": "en",
+  "datePublished": "2006-04-30T04:28:14Z",
+  "dateModified": "2006-04-30T04:28:14Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      开源或免费虚拟主机管理系统
+    </h1>
+    <div class="post-meta"><span title='2006-04-30 04:28:14 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><ol>
+<li>ZPanel - 在Windows下的免费Hosting Panel</li>
+</ol>
+<p>网址：
+<a href="http://sourceforge.net/projects/zpanel/">http://sourceforge.net/projects/zpanel/</a>
+<a href="http://www.thezpanel.com/">http://www.thezpanel.com/</a></p>
+<p>中文讨论：
+<a href="http://www.twftp.org/phpbb/viewtopic.php?t=3104">http://www.twftp.org/phpbb/viewtopic.php?t=3104</a></p>
+<ol start="2">
+<li>web-cp - *nix的虚拟主机管理</li>
+</ol>
+<p>网址：
+<a href="http://sourceforge.net/projects/webcp/">http://sourceforge.net/projects/webcp/</a>
+<a href="http://www.web-cp.net/">http://www.web-cp.net/</a></p>
+<p>中文讨论：
+<a href="http://www.twftp.org/phpbb/viewtopic.php?t=5095">http://www.twftp.org/phpbb/viewtopic.php?t=5095</a></p>
+<ol start="3">
+<li>VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔</li>
+</ol>
+<p>网址：
+<a href="http://sourceforge.net/projects/vhcs/">http://sourceforge.net/projects/vhcs/</a>
+<a href="http://www.vhcs.net/">http://www.vhcs.net/</a></p>
+<p>其他的：</p>
+<p><a href="http://sourceforge.net/search/?words=hosting">http://sourceforge.net/search/?words=hosting</a></p>
+<p>webmin的虚拟主机管理模块virtualmin- -</p>
+<p>webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块</p>
+<p>而virtualmin则是它的一个虚拟主机管理模块，功能如下图：</p>
+<p>webmin官方站： <a href="http://www.webmin.com/">http://www.webmin.com/</a>
+virtaulmin站点： <a href="http://www.swelltech.com/virtualmin/">http://www.swelltech.com/virtualmin/</a></p>
+<p>基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -</p>
+<p>PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机
+它须建立在Linux/freebsd之上，不支持windows</p>
+<p>安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：</p>
+<p>MySQL
+Apache and PHP
+Postfix
+Maildrop
+Courier
+ProFTPd
+PHPMyWebHosting</p>
+<p>官方站上有基于各平台详细的安装说明 <a href="http://www.ladse.de">http://www.ladse.de</a></p>
+<p>phpmywebhosting下载：http://www.ladse.de/index.php/Files</p>
+<p>SysCP虚拟主机管理系统[全php版]- -</p>
+<p>1.有中文包
+2.admin,reseller,client 三级管理
+3.全部为php代码构成
+4.有不少模块(modules)供选择安装
+5.开源，免费（基于GPL）
+6.Linux/bsd环境，特别是debian(最初是专为它开发的)</p>
+<p>是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的</p>
+<p>用户界面：</p>
+<p>管理员界面：</p>
+<p>具有以下特性：</p>
+<p>Customer Interface
+managing email accounts
+managing email forwarders
+managing subdomains
+managing mysql databases
+managing additional ftp account
+managing .htaccess password protections for directories
+managing path options for example directorylisting
+Admin Interface:
+managing of customers: you can define exactly what kind of resources your customers get (e.g. amount of pop accounts, amount of mysql databases etc.)
+manage domains: you can individualy edit zone files and directory index per domain
+支持以下配套服务器或引擎：</p>
+<p>webserver: [Apache 1.3] with [PHP4] (apache2.0.x也可以)
+mail transfer agent: [Postfix]
+pop/imap server: [Courier]
+ftp server: [ProFTPd]
+database server: [MySQL]
+nameserver: [Bind9]
+traffic accounting and statistics: [Webalizer]</p>
+<p>官方站：http://www.syscp.de/
+下载：http://www.syscp.de/wiki/EnDownloads
+模块下载：http://modules.syscp.de/
+在线演示：http://www.syscp.de/onlinedemo/index.php</p>
+<p>现在最新版是Version 1.2.7, 2005.2.11推出的</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

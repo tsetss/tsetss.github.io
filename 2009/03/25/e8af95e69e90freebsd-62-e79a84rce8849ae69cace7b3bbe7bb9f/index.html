@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>试析FreeBSD 6.2 的rc脚本系统 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&quot;YES&quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to &ldquo;NO&rdquo; by default.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="试析FreeBSD 6.2 的rc脚本系统" />
+<meta property="og:description" content="杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&quot;YES&quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to &ldquo;NO&rdquo; by default." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-25T11:20:52+00:00" />
+<meta property="article:modified_time" content="2009-03-25T11:20:52+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="试析FreeBSD 6.2 的rc脚本系统"/>
+<meta name="twitter:description" content="杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&quot;YES&quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to &ldquo;NO&rdquo; by default."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "试析FreeBSD 6.2 的rc脚本系统",
+      "item": "http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "试析FreeBSD 6.2 的rc脚本系统",
+  "name": "试析FreeBSD 6.2 的rc脚本系统",
+  "description": "杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html\n一、从mysql的启动脚本说起\n配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：\nmysql_enable=\u0026quot;YES\u0026quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.\n如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：\n停止mysqlserver: shell\u0026gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell\u0026gt;/usr/local/etc/rc.d/mysql-server restart\n其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护\n这属于FreeBSD系统rc脚本系统的具体应用。\nFreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。\n服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。\n二、mysql-server 启动脚本的说明\n下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！\n#!/bin/sh\n$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。\nPROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to \u0026ldquo;NO\u0026rdquo; by default.",
+  "keywords": [
+    
+  ],
+  "articleBody": "杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html\n一、从mysql的启动脚本说起\n配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：\nmysql_enable=\"YES\" 这样在重新启动系统的时候，就可以自动运行 mysqlserver.\n如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：\n停止mysqlserver: shell\u003e/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell\u003e/usr/local/etc/rc.d/mysql-server restart\n其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护\n这属于FreeBSD系统rc脚本系统的具体应用。\nFreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。\n服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。\n二、mysql-server 启动脚本的说明\n下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！\n#!/bin/sh\n$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。\nPROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to “NO” by default. Set it to “YES” to enable MySQL. mysql_limits (bool): Set to “NO” by default. Set it to yes to run limits -e -U mysql just before mysql starts. mysql_dbdir (str): Default to “/var/db/mysql” Base database directory. mysql_args (str): Custom additional arguments to be passed to mysqld_safe (default empty). 下面的这行代码非常重要，作用是在mysql-server的脚本代码中插入 /etc/rc.subr 文件的代码！ 在 /etc/rc.subr 文件中，提供了 mysql-server 调用的函数的实现，也提供了很多rc脚本系统中用到的函数。 mysql-server 中能够使用的 start,stop,restart,rcvar等参数的具体运作，也是在 /etc/rc.subr 中提供的。 . /etc/rc.subr\n在 /etc/rc.subr 中，首先运行一些初始化命令，跟踪运行，执行了以下命令： if [ -z \"${_rc_subr_loaded}\" ]; then _rc_subr_loaded=\"YES\" SYSCTL=\"/sbin/sysctl\" SYSCTL_N=\"${SYSCTL} -n\" CMD_OSTYPE=\"${SYSCTL_N} kern.ostype\" OSTYPE=`${CMD_OSTYPE}` ID=\"/usr/bin/id\" JID=`ps -p $$ -o jid=` IDCMD=\"if [ -x $ID ]; then $ID -un; fi\" case ${OSTYPE} in FreeBSD) SYSCTL_W=\"${SYSCTL}\" ;; NetBSD) SYSCTL_W=\"${SYSCTL} -w\" ;; esac 定义name变量 name=“mysql”\n调用 /etc/rc.subr 文件中定义的 set_rcvar 函数 函数的执行结果是给几个变量赋值 rcvar=set_rcvar\nset_rcvar的执行结果 base_var=mysql echo mysql_enable rcvar=mysql_enable 调用 /etc/rc.subr 文件中定义的 load_rc_config 函数，参数是 name 变量的值。 这个函数会装载 /etc/defaults/rc.conf文件的内容，并且运行它，之后运行 /etc/rc.conf 的内容，具体的作用就是按照这两个rc.conf的内容设置必要的变量，通过加载运行的顺序上看，因为 /etc/rc.conf运行在后 所以 /etc/rc.conf 定义的变量会覆盖 /etc/defaults/rc.conf中定义的变量。 load_rc_config $name\n定义一些变量 : ${mysql_enable=“NO”} ${mysql_limits=“NO”} ${mysql_dbdir=\"/var/db/mysql\"} ${mysql_args=\"\"} 定义一些变量，通过这些变量，能够组合出mysqlserver启动的具体参数。涉及mysqlserver的一些具体工具的使用。 mysql_user=“mysql” # 启动用帐户 mysql_limits_args=\"-e -U ${mysql_user}\" # 启动参数 pidfile=\"${mysql_dbdir}//bin/hostname.pid\"\ncommand=\"/usr/local/bin/mysqld_safe\" # 启动命令 command_args=\"–defaults-extra-file=${mysql_dbdir}/my.cnf –user=${mysql_user} –datadir=${mysql_dbdir} –pid-file=${pidfile} ${mysql_args} \u003e /dev/null \u0026\" procname=\"/usr/local/libexec/mysqld\"\nstart_precmd=\"${name}_prestart\" # 定义一个函数接口，关联到本脚本文件中定义的 mysql_prestart()函数\nmysql_install_db=\"/usr/local/bin/mysql_install_db\" mysql_install_db_args=\"–ldata=${mysql_dbdir}\"\n下面这个函数用来建立mysql数据苦，初始化授权表，并且建立一个test数据库 mysql_create_auth_tables() { eval $mysql_install_db $mysql_install_db_args \u003e/dev/null [ $? -eq 0 ] \u0026\u0026 chown -R ${mysql_user}:${mysql_user} ${mysql_dbdir} }\n下面这个函数用来定义程序启动前的一些动作。 检查mysql数据库目录是否存在，如果没有存在，运行建立数据库，初始化授权表。 mysql_prestart() { if [ ! -d “${mysql_dbdir}/mysql/.” ]; then mysql_create_auth_tables || return 1 fi if checkyesno mysql_limits; then eval /usr/bin/limits ${mysql_limits_args} 2\u003e/dev/null else return 0 fi }\n下面的一行代码是运行 /etc/rc.subr 中的 run_rc_command 函数 如果我们执行 /usr/local/etc/rc.d/mysql-server start 那么执行的就是 run_rc_command “start” run_rc_command “$1”\n######## mysql-server 脚本到此结束\n余下运行的都是根据本脚本运行过程中定义的各种变量来执行 /etc/rc.subr 中的run_rc_command 函数。\n三、/etc/rc.subr中的run_rc_command 函数\n这个函数中提供了很多参数的处理过程，诸如start,stop,restart,rcvar,pull等过程。\n也提供了可选参数fast,force,one的具体执行代码。具体的代码就不作解释了，\n如果这些参数的处理过程没有在服务程序的脚本中进行定义，那么运行的就是函数中定义的处理过程。\n通过脚本分析获知使用rc脚本系统中一些细节。\n1、如果运行具体服务程序的rc脚本没有带参数，rc_rc_command会打印出帮助信息\nUsage: ./mysql-server fast|force|one\n2、对于mysql-server这个脚本，如果没有在 /etc/rc.conf 中加入 mysql_enable=“YES”，并且在运行脚本时 没有使用[force][one]选项，start,stop,restart,status是没有运行结果的。\n[force]的作用是强制 {rcvar} 有效，使得 mysql_enable=“yes\"临时有效\n这样在 /etc/rc.conf 中不添加 mysql_enable=“YES\"的情况下，运行服务程序的管理，例如：\nshell\u003e /usr/local/etc/rc.d/mysql-server forcestart shell\u003e /usr/local/etc/rc.d/mysql-server forcerestart\nrcvar参数是不需要上面的限制，因为rcvar参数的主要作用就是判断/etc/rc.conf 中是否有mysql_enable=“YES\"的设置。\n[one]的作用和[force]类似，不同的是one 只是设置 {$rcvar}有效。\n四、阶段性小结\n通过上面的代码分析，以及参考更多的服务程序的rc脚本，大致可以理出rc脚本系统中服务程序管理的大致原理。\nfreebsd系统提供的 rc.subr 是整个rc脚本系统的核心，它提供了系统利用rc脚本管理服务程序的基石。\n在这个基础上，实现了服务程序rc脚本的框架结构。定义了统一的运行规则。并且为服务程序诸如mysqlserver提供了很大的灵活性。\n但rc.subr的作用不只如此，从rc.subr的代码可知，它提供的功能实际是架构起了FreeBSD整个系统的rc脚本系统。\n五、系统启动自动运行服务程序的机制\n前面提到，mysqlserver要实现随系统启动运行所要作的工作就是把 mysql_enable=“YES\"添加到 /etc/rc.conf之中即可。泛泛的理解是系统启动完内核后，在启动init之后有个rc脚本启动过程。而这些服务程序就是在这个过程中自动加载的。但具体的加载过程很少资料提到。本文在上面对mysql-server分析的基础上，试着分析一下rc脚本系统的启动原理。\n1、rc脚本系统什么时候启动\n按照《FreeBSD操作系统设计与实现》中的说法，rc脚本系统是在加载完系统内核，出现freebsd启动模式选择界面，选择运行方式，启动init之后开始运行。在多用户模式启动系统的情况下，init首先产生一个shell，默认的是 /bin/sh，所有的rc脚本都是用这个shell来解释执行。\n选择不同的启动模式会导致下面的变量被赋值：\n_boot\n如果系统是自动运行，_boot=faststart\n如果系统不是自动运行，_boot=start\n这个变量的值会影响到后续的启动过程\n2、rc脚本系统的始祖 /etc/rc\n初始化设置 stty status ‘^T’\nSet shell to ignore SIGINT (2), but not children; shell catches SIGQUIT (3) and returns to single user. trap : 2 trap “echo ‘Boot interrupted’; exit 1” 3\nHOME=/ PATH=/sbin:/bin:/usr/sbin:/usr/bin export HOME PATH\n设置 _boot 变量的值 if [ “$1” = autoboot ]; then autoboot=yes _boot=“faststart” rc_fast=yes # run_rc_command(): do fast booting else autoboot=no _boot=“start” fi\ndlv=/sbin/sysctl -n vfs.nfs.diskless_valid 2\u003e /dev/null if [ ${dlv:=0} -ne 0 -o -f /etc/diskless ]; then sh /etc/rc.initdiskless fi\nRun these after determining whether we are booting diskless in order to minimize the number of files that are needed on a diskless system, and to make the configuration file variables available to rc itself. 包含 /etc/rc.subr,又见到“rc.subr“的踪迹 :-) . /etc/rc.subr\n显示提示信息，表示开始启动系统rc脚本 echo “Loading configuration files.”\n调用 /etc/rc.subr 中的 load_rc_confg 参数是 XXX 调用 /etc/rc.subr 文件中定义的 load_rc_config 函数，参数是 name 变量的值。 这个函数会装载 /etc/defaults/rc.conf文件的内容，并且运行它，之后运行 /etc/rc.conf 的内容，具体的作用就是按照这两个rc.conf的内容设置必要的变量，通过加载运行的顺序上看，因为 /etc/rc.conf运行在后 所以 /etc/rc.conf 定义的变量会覆盖 /etc/defaults/rc.conf中定义的变量。 load_rc_config ‘XXX’\nskip=\"-s nostart”\njailed相关，目前还不太了解 if [ /sbin/sysctl -n security.jail.jailed -eq 1 ]; then skip=\"$skip -s nojail” if [ “$early_late_divider” = “mountcritlocal” ]; then early_late_divider=NETWORKING fi fi\nDo a first pass to get everything up to $early_late_divider so that we can do a second pass that includes $local_startup directories 用rcorder这个工具程序按照/etc/defaults/rc.conf /etc/rc.conf中的变量定义访问 /etc/rc.d/目录下的所需文件 rcorder根据这些脚本文件的关联进行排序，为后面的循环加载 /etc/rc.d/目录下脚本文件作准备 files=rcorder ${skip} /etc/rc.d/* 2\u003e/dev/null\n进入一个循环，对排序后的脚本文件，使用 _boot 变量的值（start,faststart）运行每一个rc脚本 跟踪这个循环，可知服务程序的加载顺序。 for _rc_elem in ${files}; do run_rc_script ${_rc_elem} ${_boot}\ncase \"$_rc_elem\" in */${early_late_divider}) break ;; esac done\nunset files local_rc\nNow that disks are mounted, for each dir in $local_startup search for init scripts that use the new rc.d semantics. 当分区加载成功后，搜索 /usr/local/etc/rc.d目录下的文件，根据 /etc/rc.conf中的具体设置，运行对应的脚本文件。 参数是 _boot变量的值（start,faststart） case ${local_startup} in [Nn][Oo] | ‘’) ;; *) find_local_scripts_new ;; esac\nfiles=rcorder ${skip} /etc/rc.d/* ${local_rc} 2\u003e/dev/null _skip_early=1 for _rc_elem in ${files}; do case “$_skip_early” in 1) case “$_rc_elem” in */${early_late_divider}) _skip_early=0 ;; esac continue ;; esac\nrun_rc_script ${_rc_elem} ${_boot} done\necho ’’ date exit 0\n3、小结：\nFreeBSD系统提供的rc脚本系统由以下的部分组成\nshell /etc/rc /etc/defaults/rc.conf /etc/rc.conf /etc/rc.d/ /usr/local/etc/rc.d/\n整个rc脚本系统的核心是 /etc/rc.subr 和 rcorder 组成，籍由这个机制，很多的系统功能都是通过rc脚本运行起来的，例如 login 等等\n《freebsd操作系统设计与实现》中文版中所提到的reorder应该就是rcorder,估计是排版错误。\n系统启动时自动运行特定的服务程序的大致流程是：\n由 /etc/rc 脚本运行 /etc/rc.conf ,对应的 mysql_enable=“YES\"所起的作用就是设置rcvar变量\n通过/etc/rc.subr提供的函数，使用 faststart或者start参数运行诸如 mysql-server这样的脚本，启动相关服务\n六、FreeBSD的rc脚本系统总结\n通过跟踪整个rc脚本系统的运作，给我一个特殊的印象，一个不太恰当的比喻，rc脚本系统相当于系统内核和具体服务程序的黏合剂和管理中枢。有了rc脚本系统，磁盘检查，用户登录等等服务才得以在系统中运行。\n",
+  "wordCount" : "693",
+  "inLanguage": "en",
+  "datePublished": "2009-03-25T11:20:52Z",
+  "dateModified": "2009-03-25T11:20:52Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      试析FreeBSD 6.2 的rc脚本系统
+    </h1>
+    <div class="post-meta"><span title='2009-03-25 11:20:52 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>杜比环绕声
+<a href="http://blog.chinaunix.net/u/12258/showart_292352.html">http://blog.chinaunix.net/u/12258/showart_292352.html</a></p>
+<p>一、从mysql的启动脚本说起</p>
+<p>配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：</p>
+<pre><code>mysql_enable=&quot;YES&quot;
+</code></pre>
+<p>这样在重新启动系统的时候，就可以自动运行 mysqlserver.</p>
+<p>如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：</p>
+<p>停止mysqlserver:          shell&gt;/usr/local/etc/rc.d/mysql-server  stop
+重新启动mysqlserver:       shell&gt;/usr/local/etc/rc.d/mysql-server  restart</p>
+<p>其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护</p>
+<p>这属于FreeBSD系统rc脚本系统的具体应用。</p>
+<p>FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。</p>
+<p>服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。</p>
+<p>二、mysql-server 启动脚本的说明</p>
+<p>下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！</p>
+<p>#!/bin/sh</p>
+<h1 id="heading"><a hidden class="anchor" aria-hidden="true" href="#heading">#</a></h1>
+<h1 id="freebsd-portsdatabasesmysql50-serverfilesmysql-servershinv-13-20060307-162500-ale-exp-">$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $<a hidden class="anchor" aria-hidden="true" href="#freebsd-portsdatabasesmysql50-serverfilesmysql-servershinv-13-20060307-162500-ale-exp-">#</a></h1>
+<h1 id="heading-1"><a hidden class="anchor" aria-hidden="true" href="#heading-1">#</a></h1>
+<p>#下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。</p>
+<h1 id="provide-mysql">PROVIDE: mysql<a hidden class="anchor" aria-hidden="true" href="#provide-mysql">#</a></h1>
+<h1 id="require-login">REQUIRE: LOGIN<a hidden class="anchor" aria-hidden="true" href="#require-login">#</a></h1>
+<h1 id="keyword-shutdown">KEYWORD: shutdown<a hidden class="anchor" aria-hidden="true" href="#keyword-shutdown">#</a></h1>
+<h1 id="heading-2"><a hidden class="anchor" aria-hidden="true" href="#heading-2">#</a></h1>
+<h1 id="add-the-following-line-to-etcrcconf-to-enable-mysql">Add the following line to /etc/rc.conf to enable mysql:<a hidden class="anchor" aria-hidden="true" href="#add-the-following-line-to-etcrcconf-to-enable-mysql">#</a></h1>
+<h1 id="mysql_enable-bool----set-to-no-by-default">mysql_enable (bool):    Set to &ldquo;NO&rdquo; by default.<a hidden class="anchor" aria-hidden="true" href="#mysql_enable-bool----set-to-no-by-default">#</a></h1>
+<h1 id="set-it-to-yes-to-enable-mysql">Set it to &ldquo;YES&rdquo; to enable MySQL.<a hidden class="anchor" aria-hidden="true" href="#set-it-to-yes-to-enable-mysql">#</a></h1>
+<h1 id="mysql_limits-bool----set-to-no-by-default">mysql_limits (bool):    Set to &ldquo;NO&rdquo; by default.<a hidden class="anchor" aria-hidden="true" href="#mysql_limits-bool----set-to-no-by-default">#</a></h1>
+<h1 id="set-it-to-yes-to-run-limits--e--u-mysql">Set it to yes to run <code>limits -e -U mysql</code><a hidden class="anchor" aria-hidden="true" href="#set-it-to-yes-to-run-limits--e--u-mysql">#</a></h1>
+<h1 id="just-before-mysql-starts">just before mysql starts.<a hidden class="anchor" aria-hidden="true" href="#just-before-mysql-starts">#</a></h1>
+<h1 id="mysql_dbdir-str----default-to-vardbmysql">mysql_dbdir (str):    Default to &ldquo;/var/db/mysql&rdquo;<a hidden class="anchor" aria-hidden="true" href="#mysql_dbdir-str----default-to-vardbmysql">#</a></h1>
+<h1 id="base-database-directory">Base database directory.<a hidden class="anchor" aria-hidden="true" href="#base-database-directory">#</a></h1>
+<h1 id="mysql_args-str----custom-additional-arguments-to-be-passed">mysql_args (str):    Custom additional arguments to be passed<a hidden class="anchor" aria-hidden="true" href="#mysql_args-str----custom-additional-arguments-to-be-passed">#</a></h1>
+<h1 id="to-mysqld_safe-default-empty">to mysqld_safe (default empty).<a hidden class="anchor" aria-hidden="true" href="#to-mysqld_safe-default-empty">#</a></h1>
+<h1 id="heading-3"><a hidden class="anchor" aria-hidden="true" href="#heading-3">#</a></h1>
+<h1 id="下面的这行代码非常重要作用是在mysql-server的脚本代码中插入-etcrcsubr-文件的代码">下面的这行代码非常重要，作用是在mysql-server的脚本代码中插入 /etc/rc.subr 文件的代码！<a hidden class="anchor" aria-hidden="true" href="#下面的这行代码非常重要作用是在mysql-server的脚本代码中插入-etcrcsubr-文件的代码">#</a></h1>
+<h1 id="在-etcrcsubr-文件中提供了-mysql-server-调用的函数的实现也提供了很多rc脚本系统中用到的函数">在 /etc/rc.subr 文件中，提供了 mysql-server 调用的函数的实现，也提供了很多rc脚本系统中用到的函数。<a hidden class="anchor" aria-hidden="true" href="#在-etcrcsubr-文件中提供了-mysql-server-调用的函数的实现也提供了很多rc脚本系统中用到的函数">#</a></h1>
+<h1 id="mysql-server-中能够使用的-startstoprestartrcvar等参数的具体运作也是在-etcrcsubr-中提供的">mysql-server 中能够使用的 start,stop,restart,rcvar等参数的具体运作，也是在 /etc/rc.subr 中提供的。<a hidden class="anchor" aria-hidden="true" href="#mysql-server-中能够使用的-startstoprestartrcvar等参数的具体运作也是在-etcrcsubr-中提供的">#</a></h1>
+<p>. /etc/rc.subr</p>
+<h1 id="在-etcrcsubr-中首先运行一些初始化命令跟踪运行执行了以下命令">在 /etc/rc.subr 中，首先运行一些初始化命令，跟踪运行，执行了以下命令：<a hidden class="anchor" aria-hidden="true" href="#在-etcrcsubr-中首先运行一些初始化命令跟踪运行执行了以下命令">#</a></h1>
+<pre><code>if [ -z &quot;${_rc_subr_loaded}&quot; ]; then
+
+_rc_subr_loaded=&quot;YES&quot;
+
+SYSCTL=&quot;/sbin/sysctl&quot;
+SYSCTL_N=&quot;${SYSCTL} -n&quot;
+CMD_OSTYPE=&quot;${SYSCTL_N} kern.ostype&quot;
+OSTYPE=`${CMD_OSTYPE}`
+ID=&quot;/usr/bin/id&quot;
+JID=`ps -p $$ -o jid=`
+IDCMD=&quot;if [ -x $ID ]; then $ID -un; fi&quot;
+
+case ${OSTYPE} in
+FreeBSD)
+SYSCTL_W=&quot;${SYSCTL}&quot;
+;;
+NetBSD)
+SYSCTL_W=&quot;${SYSCTL} -w&quot;
+;;
+esac
+</code></pre>
+<h1 id="定义name变量">定义name变量<a hidden class="anchor" aria-hidden="true" href="#定义name变量">#</a></h1>
+<p>name=&ldquo;mysql&rdquo;</p>
+<h1 id="调用-etcrcsubr-文件中定义的-set_rcvar-函数">调用 /etc/rc.subr 文件中定义的 set_rcvar 函数<a hidden class="anchor" aria-hidden="true" href="#调用-etcrcsubr-文件中定义的-set_rcvar-函数">#</a></h1>
+<h1 id="函数的执行结果是给几个变量赋值">函数的执行结果是给几个变量赋值<a hidden class="anchor" aria-hidden="true" href="#函数的执行结果是给几个变量赋值">#</a></h1>
+<p>rcvar=<code>set_rcvar</code></p>
+<h1 id="set_rcvar的执行结果">set_rcvar的执行结果<a hidden class="anchor" aria-hidden="true" href="#set_rcvar的执行结果">#</a></h1>
+<pre><code>base_var=mysql
+echo mysql_enable
+rcvar=mysql_enable
+</code></pre>
+<h1 id="调用-etcrcsubr-文件中定义的-load_rc_config-函数参数是-name-变量的值">调用 /etc/rc.subr 文件中定义的 load_rc_config 函数，参数是 name 变量的值。<a hidden class="anchor" aria-hidden="true" href="#调用-etcrcsubr-文件中定义的-load_rc_config-函数参数是-name-变量的值">#</a></h1>
+<h1 id="这个函数会装载-etcdefaultsrcconf文件的内容并且运行它之后运行-etcrcconf">这个函数会装载 /etc/defaults/rc.conf文件的内容，并且运行它，之后运行 /etc/rc.conf<a hidden class="anchor" aria-hidden="true" href="#这个函数会装载-etcdefaultsrcconf文件的内容并且运行它之后运行-etcrcconf">#</a></h1>
+<h1 id="的内容具体的作用就是按照这两个rcconf的内容设置必要的变量通过加载运行的顺序上看因为-etcrcconf运行在后">的内容，具体的作用就是按照这两个rc.conf的内容设置必要的变量，通过加载运行的顺序上看，因为 /etc/rc.conf运行在后<a hidden class="anchor" aria-hidden="true" href="#的内容具体的作用就是按照这两个rcconf的内容设置必要的变量通过加载运行的顺序上看因为-etcrcconf运行在后">#</a></h1>
+<h1 id="所以-etcrcconf-定义的变量会覆盖-etcdefaultsrcconf中定义的变量">所以 /etc/rc.conf 定义的变量会覆盖 /etc/defaults/rc.conf中定义的变量。<a hidden class="anchor" aria-hidden="true" href="#所以-etcrcconf-定义的变量会覆盖-etcdefaultsrcconf中定义的变量">#</a></h1>
+<p>load_rc_config $name</p>
+<h1 id="定义一些变量">定义一些变量<a hidden class="anchor" aria-hidden="true" href="#定义一些变量">#</a></h1>
+<dl>
+<dt>: ${mysql_enable=&ldquo;NO&rdquo;}</dt>
+<dd>${mysql_limits=&ldquo;NO&rdquo;}</dd>
+<dd>${mysql_dbdir=&quot;/var/db/mysql&quot;}</dd>
+<dd>${mysql_args=&quot;&quot;}</dd>
+</dl>
+<h1 id="定义一些变量通过这些变量能够组合出mysqlserver启动的具体参数涉及mysqlserver的一些具体工具的使用">定义一些变量，通过这些变量，能够组合出mysqlserver启动的具体参数。涉及mysqlserver的一些具体工具的使用。<a hidden class="anchor" aria-hidden="true" href="#定义一些变量通过这些变量能够组合出mysqlserver启动的具体参数涉及mysqlserver的一些具体工具的使用">#</a></h1>
+<p>mysql_user=&ldquo;mysql&rdquo;                        # 启动用帐户
+mysql_limits_args=&quot;-e -U ${mysql_user}&quot;   # 启动参数
+pidfile=&quot;${mysql_dbdir}/<code>/bin/hostname</code>.pid&quot;<br>
+command=&quot;/usr/local/bin/mysqld_safe&quot;      # 启动命令
+command_args=&quot;&ndash;defaults-extra-file=${mysql_dbdir}/my.cnf &ndash;user=${mysql_user} &ndash;datadir=${mysql_dbdir} &ndash;pid-file=${pidfile} ${mysql_args} &gt; /dev/null &amp;&quot;
+procname=&quot;/usr/local/libexec/mysqld&quot;</p>
+<p>start_precmd=&quot;${name}_prestart&quot;      # 定义一个函数接口，关联到本脚本文件中定义的 mysql_prestart()函数</p>
+<p>mysql_install_db=&quot;/usr/local/bin/mysql_install_db&quot;
+mysql_install_db_args=&quot;&ndash;ldata=${mysql_dbdir}&quot;</p>
+<h1 id="下面这个函数用来建立mysql数据苦初始化授权表并且建立一个test数据库">下面这个函数用来建立mysql数据苦，初始化授权表，并且建立一个test数据库<a hidden class="anchor" aria-hidden="true" href="#下面这个函数用来建立mysql数据苦初始化授权表并且建立一个test数据库">#</a></h1>
+<p>mysql_create_auth_tables()
+{
+eval $mysql_install_db $mysql_install_db_args &gt;/dev/null
+[ $? -eq 0 ] &amp;&amp; chown -R ${mysql_user}:${mysql_user} ${mysql_dbdir}
+}</p>
+<h1 id="下面这个函数用来定义程序启动前的一些动作">下面这个函数用来定义程序启动前的一些动作。<a hidden class="anchor" aria-hidden="true" href="#下面这个函数用来定义程序启动前的一些动作">#</a></h1>
+<h1 id="检查mysql数据库目录是否存在如果没有存在运行建立数据库初始化授权表">检查mysql数据库目录是否存在，如果没有存在，运行建立数据库，初始化授权表。<a hidden class="anchor" aria-hidden="true" href="#检查mysql数据库目录是否存在如果没有存在运行建立数据库初始化授权表">#</a></h1>
+<p>mysql_prestart()
+{
+if [ ! -d &ldquo;${mysql_dbdir}/mysql/.&rdquo; ]; then
+mysql_create_auth_tables || return 1
+fi
+if checkyesno mysql_limits; then
+eval <code>/usr/bin/limits ${mysql_limits_args}</code> 2&gt;/dev/null
+else
+return 0
+fi
+}</p>
+<h1 id="下面的一行代码是运行-etcrcsubr-中的-run_rc_command-函数">下面的一行代码是运行 /etc/rc.subr 中的 run_rc_command 函数<a hidden class="anchor" aria-hidden="true" href="#下面的一行代码是运行-etcrcsubr-中的-run_rc_command-函数">#</a></h1>
+<h1 id="如果我们执行-usrlocaletcrcdmysql-server-start">如果我们执行 /usr/local/etc/rc.d/mysql-server start<a hidden class="anchor" aria-hidden="true" href="#如果我们执行-usrlocaletcrcdmysql-server-start">#</a></h1>
+<h1 id="那么执行的就是--run_rc_command-start">那么执行的就是  run_rc_command &ldquo;start&rdquo;<a hidden class="anchor" aria-hidden="true" href="#那么执行的就是--run_rc_command-start">#</a></h1>
+<p>run_rc_command &ldquo;$1&rdquo;</p>
+<p>######## mysql-server 脚本到此结束</p>
+<p>余下运行的都是根据本脚本运行过程中定义的各种变量来执行 /etc/rc.subr 中的run_rc_command 函数。</p>
+<p>三、/etc/rc.subr中的run_rc_command 函数</p>
+<p>这个函数中提供了很多参数的处理过程，诸如start,stop,restart,rcvar,pull等过程。</p>
+<p>也提供了可选参数fast,force,one的具体执行代码。具体的代码就不作解释了，</p>
+<p>如果这些参数的处理过程没有在服务程序的脚本中进行定义，那么运行的就是函数中定义的处理过程。</p>
+<p>通过脚本分析获知使用rc脚本系统中一些细节。</p>
+<p>1、如果运行具体服务程序的rc脚本没有带参数，rc_rc_command会打印出帮助信息</p>
+<p>Usage: ./mysql-server <a href="start%7Cstop%7Crestart%7Crcvar%7Cstatus%7Cpoll">fast|force|one</a></p>
+<p>2、对于mysql-server这个脚本，如果没有在 /etc/rc.conf 中加入  mysql_enable=&ldquo;YES&rdquo;，并且在运行脚本时
+没有使用[force][one]选项，start,stop,restart,status是没有运行结果的。</p>
+<p>[force]的作用是强制  {rcvar} 有效，使得 mysql_enable=&ldquo;yes&quot;临时有效</p>
+<p>这样在 /etc/rc.conf 中不添加  mysql_enable=&ldquo;YES&quot;的情况下，运行服务程序的管理，例如：</p>
+<p>shell&gt; /usr/local/etc/rc.d/mysql-server forcestart
+shell&gt; /usr/local/etc/rc.d/mysql-server forcerestart</p>
+<p>rcvar参数是不需要上面的限制，因为rcvar参数的主要作用就是判断/etc/rc.conf 中是否有mysql_enable=&ldquo;YES&quot;的设置。</p>
+<p>[one]的作用和[force]类似，不同的是one 只是设置 {$rcvar}有效。</p>
+<p>四、阶段性小结</p>
+<p>通过上面的代码分析，以及参考更多的服务程序的rc脚本，大致可以理出rc脚本系统中服务程序管理的大致原理。</p>
+<p>freebsd系统提供的 rc.subr 是整个rc脚本系统的核心，它提供了系统利用rc脚本管理服务程序的基石。</p>
+<p>在这个基础上，实现了服务程序rc脚本的框架结构。定义了统一的运行规则。并且为服务程序诸如mysqlserver提供了很大的灵活性。</p>
+<p>但rc.subr的作用不只如此，从rc.subr的代码可知，它提供的功能实际是架构起了FreeBSD整个系统的rc脚本系统。</p>
+<p>五、系统启动自动运行服务程序的机制</p>
+<p>前面提到，mysqlserver要实现随系统启动运行所要作的工作就是把 mysql_enable=&ldquo;YES&quot;添加到 /etc/rc.conf之中即可。泛泛的理解是系统启动完内核后，在启动init之后有个rc脚本启动过程。而这些服务程序就是在这个过程中自动加载的。但具体的加载过程很少资料提到。本文在上面对mysql-server分析的基础上，试着分析一下rc脚本系统的启动原理。</p>
+<p>1、rc脚本系统什么时候启动</p>
+<p>按照《FreeBSD操作系统设计与实现》中的说法，rc脚本系统是在加载完系统内核，出现freebsd启动模式选择界面，选择运行方式，启动init之后开始运行。在多用户模式启动系统的情况下，init首先产生一个shell，默认的是 /bin/sh，所有的rc脚本都是用这个shell来解释执行。</p>
+<p>选择不同的启动模式会导致下面的变量被赋值：</p>
+<p>_boot</p>
+<p>如果系统是自动运行，_boot=faststart</p>
+<p>如果系统不是自动运行，_boot=start</p>
+<p>这个变量的值会影响到后续的启动过程</p>
+<p>2、rc脚本系统的始祖 /etc/rc</p>
+<h1 id="初始化设置">初始化设置<a hidden class="anchor" aria-hidden="true" href="#初始化设置">#</a></h1>
+<p>stty status &lsquo;^T&rsquo;</p>
+<h1 id="set-shell-to-ignore-sigint-2-but-not-children">Set shell to ignore SIGINT (2), but not children;<a hidden class="anchor" aria-hidden="true" href="#set-shell-to-ignore-sigint-2-but-not-children">#</a></h1>
+<h1 id="shell-catches-sigquit-3-and-returns-to-single-user">shell catches SIGQUIT (3) and returns to single user.<a hidden class="anchor" aria-hidden="true" href="#shell-catches-sigquit-3-and-returns-to-single-user">#</a></h1>
+<h1 id="heading-4"><a hidden class="anchor" aria-hidden="true" href="#heading-4">#</a></h1>
+<p>trap : 2
+trap &ldquo;echo &lsquo;Boot interrupted&rsquo;; exit 1&rdquo; 3</p>
+<p>HOME=/
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+export HOME PATH</p>
+<h1 id="设置-_boot-变量的值">设置 _boot 变量的值<a hidden class="anchor" aria-hidden="true" href="#设置-_boot-变量的值">#</a></h1>
+<p>if [ &ldquo;$1&rdquo; = autoboot ]; then
+autoboot=yes
+_boot=&ldquo;faststart&rdquo;
+rc_fast=yes        # run_rc_command(): do fast booting
+else
+autoboot=no
+_boot=&ldquo;start&rdquo;
+fi</p>
+<p>dlv=<code>/sbin/sysctl -n vfs.nfs.diskless_valid 2&gt; /dev/null</code>
+if [ ${dlv:=0} -ne 0 -o -f /etc/diskless ]; then
+sh /etc/rc.initdiskless
+fi</p>
+<h1 id="run-these-after-determining-whether-we-are-booting-diskless-in-order">Run these after determining whether we are booting diskless in order<a hidden class="anchor" aria-hidden="true" href="#run-these-after-determining-whether-we-are-booting-diskless-in-order">#</a></h1>
+<h1 id="to-minimize-the-number-of-files-that-are-needed-on-a-diskless-system">to minimize the number of files that are needed on a diskless system,<a hidden class="anchor" aria-hidden="true" href="#to-minimize-the-number-of-files-that-are-needed-on-a-diskless-system">#</a></h1>
+<h1 id="and-to-make-the-configuration-file-variables-available-to-rc-itself">and to make the configuration file variables available to rc itself.<a hidden class="anchor" aria-hidden="true" href="#and-to-make-the-configuration-file-variables-available-to-rc-itself">#</a></h1>
+<h1 id="包含-etcrcsubr又见到rcsubr的踪迹--">包含 /etc/rc.subr,又见到“rc.subr“的踪迹 :-)<a hidden class="anchor" aria-hidden="true" href="#包含-etcrcsubr又见到rcsubr的踪迹--">#</a></h1>
+<p>. /etc/rc.subr</p>
+<h1 id="显示提示信息表示开始启动系统rc脚本">显示提示信息，表示开始启动系统rc脚本<a hidden class="anchor" aria-hidden="true" href="#显示提示信息表示开始启动系统rc脚本">#</a></h1>
+<p>echo &ldquo;Loading configuration files.&rdquo;</p>
+<h1 id="调用-etcrcsubr-中的-load_rc_confg--参数是-xxx">调用 /etc/rc.subr 中的 load_rc_confg  参数是 XXX<a hidden class="anchor" aria-hidden="true" href="#调用-etcrcsubr-中的-load_rc_confg--参数是-xxx">#</a></h1>
+<h1 id="调用-etcrcsubr-文件中定义的-load_rc_config-函数参数是-name-变量的值-1">调用 /etc/rc.subr 文件中定义的 load_rc_config 函数，参数是 name 变量的值。<a hidden class="anchor" aria-hidden="true" href="#调用-etcrcsubr-文件中定义的-load_rc_config-函数参数是-name-变量的值-1">#</a></h1>
+<h1 id="这个函数会装载-etcdefaultsrcconf文件的内容并且运行它之后运行-etcrcconf-1">这个函数会装载 /etc/defaults/rc.conf文件的内容，并且运行它，之后运行 /etc/rc.conf<a hidden class="anchor" aria-hidden="true" href="#这个函数会装载-etcdefaultsrcconf文件的内容并且运行它之后运行-etcrcconf-1">#</a></h1>
+<h1 id="的内容具体的作用就是按照这两个rcconf的内容设置必要的变量通过加载运行的顺序上看因为-etcrcconf运行在后-1">的内容，具体的作用就是按照这两个rc.conf的内容设置必要的变量，通过加载运行的顺序上看，因为 /etc/rc.conf运行在后<a hidden class="anchor" aria-hidden="true" href="#的内容具体的作用就是按照这两个rcconf的内容设置必要的变量通过加载运行的顺序上看因为-etcrcconf运行在后-1">#</a></h1>
+<h1 id="所以-etcrcconf-定义的变量会覆盖-etcdefaultsrcconf中定义的变量-1">所以 /etc/rc.conf 定义的变量会覆盖 /etc/defaults/rc.conf中定义的变量。<a hidden class="anchor" aria-hidden="true" href="#所以-etcrcconf-定义的变量会覆盖-etcdefaultsrcconf中定义的变量-1">#</a></h1>
+<p>load_rc_config &lsquo;XXX&rsquo;</p>
+<p>skip=&quot;-s nostart&rdquo;</p>
+<h1 id="jailed相关目前还不太了解">jailed相关，目前还不太了解<a hidden class="anchor" aria-hidden="true" href="#jailed相关目前还不太了解">#</a></h1>
+<p>if [ <code>/sbin/sysctl -n security.jail.jailed</code> -eq 1 ]; then
+skip=&quot;$skip -s nojail&rdquo;
+if [ &ldquo;$early_late_divider&rdquo; = &ldquo;mountcritlocal&rdquo; ]; then
+early_late_divider=NETWORKING
+fi
+fi</p>
+<h1 id="do-a-first-pass-to-get-everything-up-to-early_late_divider-so-that">Do a first pass to get everything up to $early_late_divider so that<a hidden class="anchor" aria-hidden="true" href="#do-a-first-pass-to-get-everything-up-to-early_late_divider-so-that">#</a></h1>
+<h1 id="we-can-do-a-second-pass-that-includes-local_startup-directories">we can do a second pass that includes $local_startup directories<a hidden class="anchor" aria-hidden="true" href="#we-can-do-a-second-pass-that-includes-local_startup-directories">#</a></h1>
+<h1 id="heading-5"><a hidden class="anchor" aria-hidden="true" href="#heading-5">#</a></h1>
+<h1 id="用rcorder这个工具程序按照etcdefaultsrcconf-etcrcconf中的变量定义访问-etcrcd目录下的所需文件">用rcorder这个工具程序按照/etc/defaults/rc.conf /etc/rc.conf中的变量定义访问 /etc/rc.d/目录下的所需文件<a hidden class="anchor" aria-hidden="true" href="#用rcorder这个工具程序按照etcdefaultsrcconf-etcrcconf中的变量定义访问-etcrcd目录下的所需文件">#</a></h1>
+<h1 id="rcorder根据这些脚本文件的关联进行排序为后面的循环加载-etcrcd目录下脚本文件作准备">rcorder根据这些脚本文件的关联进行排序，为后面的循环加载 /etc/rc.d/目录下脚本文件作准备<a hidden class="anchor" aria-hidden="true" href="#rcorder根据这些脚本文件的关联进行排序为后面的循环加载-etcrcd目录下脚本文件作准备">#</a></h1>
+<p>files=<code>rcorder ${skip} /etc/rc.d/* 2&gt;/dev/null</code></p>
+<h1 id="进入一个循环对排序后的脚本文件使用-_boot-变量的值startfaststart运行每一个rc脚本">进入一个循环，对排序后的脚本文件，使用 _boot 变量的值（start,faststart）运行每一个rc脚本<a hidden class="anchor" aria-hidden="true" href="#进入一个循环对排序后的脚本文件使用-_boot-变量的值startfaststart运行每一个rc脚本">#</a></h1>
+<h1 id="跟踪这个循环可知服务程序的加载顺序">跟踪这个循环，可知服务程序的加载顺序。<a hidden class="anchor" aria-hidden="true" href="#跟踪这个循环可知服务程序的加载顺序">#</a></h1>
+<p>for _rc_elem in ${files}; do
+run_rc_script ${_rc_elem} ${_boot}</p>
+<pre><code>case &quot;$_rc_elem&quot; in
+*/${early_late_divider})    break ;;
+esac
+</code></pre>
+<p>done</p>
+<p>unset files local_rc</p>
+<h1 id="now-that-disks-are-mounted-for-each-dir-in-local_startup">Now that disks are mounted, for each dir in $local_startup<a hidden class="anchor" aria-hidden="true" href="#now-that-disks-are-mounted-for-each-dir-in-local_startup">#</a></h1>
+<h1 id="search-for-init-scripts-that-use-the-new-rcd-semantics">search for init scripts that use the new rc.d semantics.<a hidden class="anchor" aria-hidden="true" href="#search-for-init-scripts-that-use-the-new-rcd-semantics">#</a></h1>
+<h1 id="当分区加载成功后搜索-usrlocaletcrcd目录下的文件根据-etcrcconf中的具体设置运行对应的脚本文件">当分区加载成功后，搜索 /usr/local/etc/rc.d目录下的文件，根据 /etc/rc.conf中的具体设置，运行对应的脚本文件。<a hidden class="anchor" aria-hidden="true" href="#当分区加载成功后搜索-usrlocaletcrcd目录下的文件根据-etcrcconf中的具体设置运行对应的脚本文件">#</a></h1>
+<h1 id="参数是-_boot变量的值startfaststart">参数是 _boot变量的值（start,faststart）<a hidden class="anchor" aria-hidden="true" href="#参数是-_boot变量的值startfaststart">#</a></h1>
+<p>case ${local_startup} in
+[Nn][Oo] | &lsquo;&rsquo;) ;;
+*)    find_local_scripts_new ;;
+esac</p>
+<p>files=<code>rcorder ${skip} /etc/rc.d/* ${local_rc} 2&gt;/dev/null</code>
+_skip_early=1
+for _rc_elem in ${files}; do
+case &ldquo;$_skip_early&rdquo; in
+1)    case &ldquo;$_rc_elem&rdquo; in
+*/${early_late_divider})    _skip_early=0 ;;
+esac
+continue
+;;
+esac</p>
+<pre><code>run_rc_script ${_rc_elem} ${_boot}
+</code></pre>
+<p>done</p>
+<p>echo &rsquo;&rsquo;
+date
+exit 0</p>
+<p>3、小结：</p>
+<p>FreeBSD系统提供的rc脚本系统由以下的部分组成</p>
+<p>shell
+/etc/rc
+/etc/defaults/rc.conf
+/etc/rc.conf
+/etc/rc.d/
+/usr/local/etc/rc.d/</p>
+<p>整个rc脚本系统的核心是 /etc/rc.subr 和 rcorder 组成，籍由这个机制，很多的系统功能都是通过rc脚本运行起来的，例如 login 等等</p>
+<p>《freebsd操作系统设计与实现》中文版中所提到的reorder应该就是rcorder,估计是排版错误。</p>
+<p>系统启动时自动运行特定的服务程序的大致流程是：</p>
+<p>由 /etc/rc 脚本运行 /etc/rc.conf ,对应的 mysql_enable=&ldquo;YES&quot;所起的作用就是设置rcvar变量</p>
+<p>通过/etc/rc.subr提供的函数，使用 faststart或者start参数运行诸如 mysql-server这样的脚本，启动相关服务</p>
+<p>六、FreeBSD的rc脚本系统总结</p>
+<p>通过跟踪整个rc脚本系统的运作，给我一个特殊的印象，一个不太恰当的比喻，rc脚本系统相当于系统内核和具体服务程序的黏合剂和管理中枢。有了rc脚本系统，磁盘检查，用户登录等等服务才得以在系统中运行。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

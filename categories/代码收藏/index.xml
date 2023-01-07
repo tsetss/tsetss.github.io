@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+代码收藏
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/%E4%BB%A3%E7%A0%81%E6%94%B6%E8%97%8F/</link>
+    <description>Recent content in 
+代码收藏
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Oct 2006 09:23:53 +0000</lastBuildDate><atom:link href="http://example.org/categories/%E4%BB%A3%E7%A0%81%E6%94%B6%E8%97%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>test</title>
+      <link>http://example.org/2006/10/18/test-2/</link>
+      <pubDate>Wed, 18 Oct 2006 09:23:53 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/18/test-2/</guid>
+      <description>function all () { global $HTTP_GET_VARS, $HTTP_POST_VARS;
+$args = func_get_args(); while (list(,$key) = each ($args)) { if (isset($HTTP_GET_VARS[$key])) $value = $HTTP_GET_VARS[$key]; if (isset($HTTP_POST_VARS[$key])) $value = $HTTP_POST_VARS[$key]; if (isset($value)) { if (!ini_get (&#39;magic_quotes_gpc&#39;)) { if (!is_array($value)) $value = addslashes($value); else $value = ary($value); } $GLOBALS[$key] = $value; unset($value); } } } function ary ($a) { while (list($k,$v) = each($a)) { if (!is_array($v)) $a[$k] = addslashes($v); else $a[$k] = ary($v); } reset ($a); return ($a); } </description>
+    </item>
+    
+    <item>
+      <title>php通用检测函数集</title>
+      <link>http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/</link>
+      <pubDate>Fri, 25 Aug 2006 09:14:58 +0000</pubDate>
+      
+      <guid>http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/</guid>
+      <description>//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=&amp;quot;&amp;quot;,$C_getOther=&amp;quot;&amp;quot;) PHP中的window.location函数 //&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; &amp;mdash;&amp;mdash;-
+//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!</description>
+    </item>
+    
+    <item>
+      <title>GET</title>
+      <link>http://example.org/2006/07/24/get/</link>
+      <pubDate>Mon, 24 Jul 2006 05:45:08 +0000</pubDate>
+      
+      <guid>http://example.org/2006/07/24/get/</guid>
+      <description>$v) { $foo .= $k; } echo $foo; ?&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>叁石乱发</title>
+      <link>http://example.org/2006/07/20/e38080e58f81e79fb3e4b9b1e58f91/</link>
+      <pubDate>Thu, 20 Jul 2006 10:28:25 +0000</pubDate>
+      
+      <guid>http://example.org/2006/07/20/e38080e58f81e79fb3e4b9b1e58f91/</guid>
+      <description>function getimg() { //obj = document.getElementById(&amp;lsquo;my&amp;rsquo;); obj = document.all.pic; if(obj.readyState!=&amp;ldquo;complete&amp;rdquo;){ return false; } if(obj.offsetWidth &amp;gt; 500) { obj.width=500; } //alert(obj.offsetHeight); //alert(obj.offsetWidth); }
+判断加载</description>
+    </item>
+    
+    <item>
+      <title>PHP判断浏览器类型和系统语言</title>
+      <link>http://example.org/2006/06/05/phpe588a4e696ade6b58fe8a788e599a8e7b1bbe59e8be5928ce7b3bbe7bb9fe8afade8a880/</link>
+      <pubDate>Mon, 05 Jun 2006 00:52:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/06/05/phpe588a4e696ade6b58fe8a788e599a8e7b1bbe59e8be5928ce7b3bbe7bb9fe8afade8a880/</guid>
+      <description>判断浏览器类型 echo $_SERVER[&amp;ldquo;HTTP_USER_AGENT&amp;rdquo;]; ?&amp;gt; 判断系统语言 echo $_SERVER[&amp;ldquo;HTTP_ACCEPT_LANGUAGE&amp;rdquo;]; ?&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>PHP静态类</title>
+      <link>http://example.org/2006/05/31/phpe99d99e68081e7b1bb/</link>
+      <pubDate>Wed, 31 May 2006 12:05:00 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/31/phpe99d99e68081e7b1bb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>生成静态页面的PHP类</title>
+      <link>http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/</link>
+      <pubDate>Wed, 31 May 2006 11:54:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>strnzhcpy 中文处理（c防止汉字截断）</title>
+      <link>http://example.org/2006/05/24/strnzhcpy-e4b8ade69687e5a484e79086efbc88ce998b2e6ada2e6b189e5ad97e688aae696adefbc89/</link>
+      <pubDate>Wed, 24 May 2006 06:15:51 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/24/strnzhcpy-e4b8ade69687e5a484e79086efbc88ce998b2e6ada2e6b189e5ad97e688aae696adefbc89/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHP 将 HTML 转化为 WML2005</title>
+      <link>http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/</link>
+      <pubDate>Wed, 24 May 2006 06:13:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

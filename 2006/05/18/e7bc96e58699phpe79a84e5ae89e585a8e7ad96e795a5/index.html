@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>编写PHP的安全策略 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。 PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。 一、安全从开始编译PHP开始。 在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3 相关链接：http://security.e-matters.de/advisories/012002.html 安装编译PHP过程中要注意的3个问题： 1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。 #Addhadler cgi-script .cgi ScriptAlias /cgi-bin/ &ldquo;/usr/local/apache/cgi-bin/&rdquo;
+AllowOverride None Options None Order allow,deny Allow from all
+AllowOverride None Options ExecCGI Order allow,deny Allow from all
+SriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录 别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。 Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己 CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。 2．把PHP解析器放在web目录外 把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是 不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。 如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样： ( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。 ( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。 (3)脚本必须在文件头包括PHP解析器的路径。 你可用下面命令使PHP脚本为可执行： #chmod &#43;x test.php4 这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。 #!/usr/local/bin/php echo &ldquo;This is a my small cgi program” 3.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/18/e7bc96e58699phpe79a84e5ae89e585a8e7ad96e795a5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="编写PHP的安全策略" />
+<meta property="og:description" content="PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。 PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。 一、安全从开始编译PHP开始。 在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3 相关链接：http://security.e-matters.de/advisories/012002.html 安装编译PHP过程中要注意的3个问题： 1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。 #Addhadler cgi-script .cgi ScriptAlias /cgi-bin/ &ldquo;/usr/local/apache/cgi-bin/&rdquo;
+AllowOverride None Options None Order allow,deny Allow from all
+AllowOverride None Options ExecCGI Order allow,deny Allow from all
+SriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录 别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。 Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己 CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。 2．把PHP解析器放在web目录外 把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是 不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。 如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样： ( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。 ( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。 (3)脚本必须在文件头包括PHP解析器的路径。 你可用下面命令使PHP脚本为可执行： #chmod &#43;x test.php4 这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。 #!/usr/local/bin/php echo &ldquo;This is a my small cgi program” 3." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/18/e7bc96e58699phpe79a84e5ae89e585a8e7ad96e795a5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-18T12:26:33+00:00" />
+<meta property="article:modified_time" content="2006-05-18T12:26:33+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="编写PHP的安全策略"/>
+<meta name="twitter:description" content="PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。 PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。 一、安全从开始编译PHP开始。 在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3 相关链接：http://security.e-matters.de/advisories/012002.html 安装编译PHP过程中要注意的3个问题： 1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。 #Addhadler cgi-script .cgi ScriptAlias /cgi-bin/ &ldquo;/usr/local/apache/cgi-bin/&rdquo;
+AllowOverride None Options None Order allow,deny Allow from all
+AllowOverride None Options ExecCGI Order allow,deny Allow from all
+SriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录 别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。 Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己 CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。 2．把PHP解析器放在web目录外 把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是 不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。 如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样： ( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。 ( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。 (3)脚本必须在文件头包括PHP解析器的路径。 你可用下面命令使PHP脚本为可执行： #chmod &#43;x test.php4 这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。 #!/usr/local/bin/php echo &ldquo;This is a my small cgi program” 3."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "编写PHP的安全策略",
+      "item": "http://example.org/2006/05/18/e7bc96e58699phpe79a84e5ae89e585a8e7ad96e795a5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "编写PHP的安全策略",
+  "name": "编写PHP的安全策略",
+  "description": "PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。 PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。 一、安全从开始编译PHP开始。 在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3 相关链接：http://security.e-matters.de/advisories/012002.html 安装编译PHP过程中要注意的3个问题： 1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。 #Addhadler cgi-script .cgi ScriptAlias /cgi-bin/ \u0026ldquo;/usr/local/apache/cgi-bin/\u0026rdquo;\nAllowOverride None Options None Order allow,deny Allow from all\nAllowOverride None Options ExecCGI Order allow,deny Allow from all\nSriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录 别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。 Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己 CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。 2．把PHP解析器放在web目录外 把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是 不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。 如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样： ( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。 ( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。 (3)脚本必须在文件头包括PHP解析器的路径。 你可用下面命令使PHP脚本为可执行： #chmod +x test.php4 这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。 #!/usr/local/bin/php echo \u0026ldquo;This is a my small cgi program” 3.",
+  "keywords": [
+    
+  ],
+  "articleBody": "PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。 PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。 一、安全从开始编译PHP开始。 在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3 相关链接：http://security.e-matters.de/advisories/012002.html 安装编译PHP过程中要注意的3个问题： 1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。 #Addhadler cgi-script .cgi ScriptAlias /cgi-bin/ “/usr/local/apache/cgi-bin/”\nAllowOverride None Options None Order allow,deny Allow from all\nAllowOverride None Options ExecCGI Order allow,deny Allow from all\nSriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录 别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。 Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己 CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。 2．把PHP解析器放在web目录外 把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是 不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。 如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样： ( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。 ( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。 (3)脚本必须在文件头包括PHP解析器的路径。 你可用下面命令使PHP脚本为可执行： #chmod +x test.php4 这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。 #!/usr/local/bin/php echo “This is a my small cgi program” 3. 按Apache模块方式安装: 当将PHP作为Apache模块使用时，它将继承Apche的用户权限(一般情况下用户为“nobody”)。这一点对于安全性和 验证有不少影响。例如，使用PHP访问数据库，除非数据库支持内建的访问控制，将不得不设置数据库对于用户“nobody” 的可访问权限。这将意味着恶意的脚本在没有访问用户名和密码，也能访问并修改数据库。通过Apache验证来保护数据不被暴露，或者也可使用LDAP、．htaccess文件等设计自己的访问控制模型，并在PHP脚本中将此代码作为其中部分引入。 通常，一旦安全性建立，此处PHP用户(此情形即Apache用户)就风险大大降低了，会发现PHP护现在已被封禁了将可能的染毒文件写入用户目录的能力。 此处最常犯的安全性错误是赋予Apache服务器根(root)权限。 将Apache用户权限提升到根权限是极端危险的。可能会危及整个系统，因此要小心使用sudo，chroot安全隐患大的命令等。除非你对安全有绝对的掌握，否则不要让其以ROOT权限运行。 二、让PHP的使用更安全。 1、以安全模式运行PHP 以安全模式运行PHP是使PHP脚本安全使用的好方法，特别是在允许用户使用自己开发的PHP脚本时。使用安全模式会使PHP在运行函数时检查是否存在安全问题。 include、readfile、fopen、file、unlink、rmdir等等：被包含的文件或者该文件所在目录的所有者必须是正在运行的脚本的所有者； Exec、System、Passthm等等：要执行的程序必须位于特定的目录(默认为／usr/local／php/bin)。编译PHP时可以用—with-exe-dir选项设定这个值。 Mysql—Connect：这个函数用可选的用户名连接MySQL数据库。在安全模式下，用户名必须是当前被执行的脚本的所有者，或运行httpd的用户名(通常是nobody)。 HTTP Authentication：包含HTTP验证代码脚本所有者的用户ID(数字型)会自动加到验证域。这样可以防止有人通过抓取密码的程序来欺骗同一个服务器上的HTTP验证脚本。 2、使用 用户识别和验证 有时需要唯一地确认一个用户。用户通常由请求和响应系统确认。用户名／口令组合就是这种系统的一个很好的例子，比如系统要求给出A1i的口令，响应的是Ali的口令。这样验证是因为只有Ali才知道这个口令。 （1）服务器端用户验征 这是用于服务端上对PHP程序要求最小的验证方法。只要让Apache来管理对用户的验证就行了。 AuthName “Secret page” # The realm AuthType Basic\nThe password file has been placed outside the web tree AuthUserFile /home/car2002/website.pw require valid-user\n你需要把上述文件(文件名为.htaccess)放在需要保护的地方。用Apache的htpasswd程序，可以建立包含用户名和口令组合的文件。把这个文件放在Web目录树之外，只让该文件的拥有者查看和修改这个文件。当然，Web服务器必须能够读取这个文件。 如果想读取被保护的目录，Web服务器要求浏览器提供用户名和密码。浏览器弹出对话框，用户可以输入他们的用户名和密码。如果用户名和密码与口令文件中相符合，就允许用户读取被保护的页面；反之，将得到错误页面，告诉用户没有通过验证。被保护的域会显示出来以便用户知道输入那个用户名和密码。 （2）在PHP中进行用户识别和验证 和在Apache服务器端进行用户识别和验证相比，在PHP进行用户识别和验证有以下优点： A、可注销。 B、可失效。如用户登录后40分钟没有浏览你的网站，你可强制他们重新通过验证。 C、可定制。 D、可基于数据库。你可以用保存在各种各样的数据库里的数据来验证用户，并且记录访问者访问网站的详细日志。 E、可用于每个页面。你可在每个页面上决定是否需要验证。 F、你也可以使浏览器弹出对话框。下面的例子显示了怎样从，MySQL数据库中检索用名和口令：让用户填人用户名和口令。\nOnly users with a working username/password combination can see this (3) 检测IP地址 一般人们普遍认为一个IP地址唯一地确定一个访问者。但实际上并不是这样的。代理服务器可用相同的IP地址发送不同用户的请求。另外IP地址的盗用也普遍存在。检测 IP地址有它们的用处，但相当有限。例如你是一个论坛版主，你发现某个用户粘贴一些不健康的、违法的内容。你可以找到他的IP地址，把从这个IP连进来的用户逐出论坛。使用下面一行命令将会得到某个特定请求的源IP地址：\nip = $REMOTE_ADDR 4、使用PHP加密技术 在PHP中，加密技术主要用来加密信息、产生校验和和摘要。使用加密技术可大大地增强安全性能。 这里只讲述使用加密技术的一些概念。如果你想进一步了解，应参考一些好的加密技术资料。加密技术的标准是Bmce Schneier的应用加密技术，非常值得一读。他的网站(www.counterpane.com/labs.html )是在互联网上查找加密技术资料的好起点。数据加密是一个非常复杂的话题，这里只简单介绍一下。 PHP中大多数的加密函数由mcrypt库和mhash库提供。你需要在系统中装上这两个库，在编译时加上–ith-mcrypt和–ith-hash选项。PHP从 3．013版本开始支持mcrypt库。 5、使用具有SSL技术 SSI是英文Server Side Includes的缩写。使用具有SSL(安全套接字协议层)功能的web服务器，可以不用改变一行代码而提高网站的安全性能。SSI使用加密方法来保护web服务器和浏览器之间的信息流。SSL不仅用于加密在互联网上传递的数据流，而且还提供双方身份验证。这样，你就可以安全地在线购物而不必担心别人矢随你的信用卡的信息。这种特性使得SSL适用于那些交换重要信息的地方，像电子商务和基于Web的邮件。 SSL使用公共密钥加密技术，服务器在连接结束时给客户端发送公用密钥用来加密信息，而加密的信息只有服务器用它自己持有的专用密钥才能解开。客户端用公用密钥加密数据，并且发送给服务端自己的密钥，以唯一确定自己，防止在系统两端之间有人冒充服务端或客户端进行欺骗。 加密的HTTP连接用443端口号代替80端口号，以区别于普通的不加密的HTTP。客户端使用加密HTTP连接时会自动使用443端口而不是80端口。这使得服务端更容易作出相应的响应。 在Apache服务器下，可以通过直接编辑服务器配置文件或者在需要使用SSI的目录中创建.htaccess文件来启动SSI。登录到服务器，找到配置文件的存放目录，使用文字编辑器打开文件srm.conf，找到以下几行：\nIf you want to use server side includes, or CGI outside ScriptAliased directories, uncomment the following lines. #AddType text/x-server-parsed-html .shtml #AddType application/x-httpd-CGI .CGI 将以AddType开头的两行并且去掉每一行最前面的”#“符号即可。保存所做的修改，然后再打开文件access.conf。 ＜Directory /usr/local/etc/httpd/htdocs＞ # This may also be “None”, “All”, or any combination of “Indexes”, # “Includes”, or “FollowSymLinks” Options Indexes FollowSymLinks ＜/Directory＞ 将其中的Options Indexes FollowSymLinks改为:Options Indexes FollowSymLinks Includes 即可。 6、使用Apache的suEXEC机制 通常CGI程序或PHP脚本只能以启动web服务器的用户权限来运行(通常为www或nobody)，这样会出现的情况之一是可以读写和修改由另一个用户的CGI和PHP脚本生成的文件(如脚本和密码文件)。也可能使用户可以连接到其他用户的数据库，但这与数据库的配置有关。如MySQL的默认配置便是允许的，但可以通过强制数据库进行口令验证来弥补此不足。PHP的safe—mode减少了这些问题，但所有的脚本仍然以相同的用户标识运行。Apache可以解决这个问题。suEXEC(在执行前改变用户标识)是一个小工具，允许以任意用户标识运行CGI程序，当然也包括PHP脚本，但根用户除外。而且可以和UseDir和VirtualHost项一起使用。 所以suEXEC也叫CGI封装。这意味着在脚本运行之前它需要通过一系列规定的安全检查。随Apache2。0版发布的suEXEC有26个检查点。suEXEC能解决一些安全问题，同时允许用户开发和更安全地执行自己的脚本。但是suEXEC会降低服务性能，因为suEXEC只能运行在CGI版本的PHP上，而CGI版本比模块版本运行速度慢。原因是模块版本使用了线程，而使用CGI版本的是进程。在不同线程之间的环境转换和访问公用的存储区域显然要比在不同的进程之间要快得多。使用suEXEC的另外一个问题是它增加了编写和使用PHP脚本的难度。你要确保脚本能通过suEXEC的检验。否则，你的脚本不会被执行。我们建议在你对安全性能要求比较高时使用suEXEC ,为此你还要以牺牲速度为代价。 7、创建安全的PHP脚本 有很多编程技巧使PHP脚本更安全地运行。其中最重要的一条是使用一些安全常识。运行PHP比运行CGI脚本更安全，但它仍然有许多出现错误的地方。转换到安全运行模式能够限制出错所产生的结果。如果你的PHP脚本中有错误，可能会被人找到并且利用它来破坏站点甚至数据库。所以经常备份也是必要的。 （1）安全设置软件 基于Web的应用程序，如在线目录，通常都在无人密切监视的情况下运行。如果发生错误时，你不可能立即采取行动。通常访问者最先注意到所发生的问题，你应该使他们很容易地报告所发生的问题。更进一步，可以由构成这个网站的脚本来跟踪这些问题。例如，你的访问者可能做一些你想不到的事情。也可能你对于重要函数所返回值没有检查，脚本可能会以不可预料的方式运行。 写出更加安全的程序，就可以避免这些问题。例如你应该检查数据库函数的返回值，如果数据库崩溃，显示给用户的应该是出错的信息页面而不是满屏幕的错误。你甚至可以让脚本在发生严重问题，如数据库崩溃、硬盘空间已满的时候自动通知你。你也应该检查从用户传来的所有数据。显然后者更重要。 如果你的程序能够应付各种错误，那么你的程序不仅更加可靠，而且可以花更少的时间来维护。这些时间可大大弥补你开发程序时所花的额外时间。 （2）存储和交换敏感信息 显然，你应尽量避免在互联网上以GET、POST、cookie或URL编码的形式传递敏感信息，这样使信息很容易被窃取。使用支持SSL的web服务器能够做到这一点，因为它加密站点和访问者浏览器之间所有的信息流。 如果你没有支持SSL的Web服务器，那么你需要其他的办法。比如没有必要总是发送数据到浏览器；把数据保存在数据库中，只向浏览器发送关键字，这样也很容易查找到所需要的数据；并以加密的形式发送所有的数据等等。实现这种功能的最简单的办法是使用Session。 PHP4支持本地化的Session功能，PHP3则要使用PHPMB库。 HTTP 协议是一种无状态协议，它不负责为好连接的状态信息，因此无法跟踪客户端的各种信息，Session的出现改变这一状况。当用户浏览一个支持Session功能的CGI脚本时，在他离开这个网页前可以将用户信息保存在同意Session ID之下，也就是可以在不同的网页之间偕同存取用户信息。 如果不使用PHP的安全模式或在suEXEC下以CGI方式运行PHP，那么监视你的文件的内容就不可能实现。此时唯一防止别人读取数据的方法是尽快把数据保存到数据库中。 （3）检查用户输入 Per1语言有个特性叫污点检测(taint checking)。当污点检测生效时，即使没有发生重大错误，你也不能运行含有可疑变量的函数。一个变量，当它的值是用户提供数据的一部分或全部时就变成可疑的了，因为这些数据被认为是不安全的。这样可提高系统安性。 PHP没有这个特性，但PHP有escapeshellcmd函数，可以达到同样的效果。另一个不让用户滥用脚本的方法是只允许使用经过严格检查的输入。 （4）使用最新的PHP版本 4.2.xx 在很长一段时间内，PHP作为服务器端脚本语言的最大卖点之一就是会为从表单提交的值自动建立一个全局变量。在PHP 4.1中，PHP的制作者们推荐了一个访问提交数据的替代手段。在PHP 4.2中，他们取消了那种老的做法。在PHP 4.1中，添加了一组特殊数据以访问外部数据。这些数组可以在任何范围内调用，这使得外部数据的访问更方便。在PHP 4.2中，register_globals被默认关闭以鼓励使用这些数组以避免无经验的开发者编写出不安全的PHP代码。作出这样的变化是出于安全性的考虑的。 三、总结 彻底安全的系统从理论上讲不可能，因此我们所指安全性只是在代价与可用性间作平衡。若是用户提交的每一个变量都要求有生物学验证(如指纹鉴定)，则将获得极高水平的可靠性。但是也会造成用户填写一个表格就要几十分钟。这时用户就会采取绕过安全验证的方法。一个系统的可靠性只能由整个链条中最薄弱的环节来决定。在任何安全系统里面，人是最脆弱的连接，单单技术本身不能让系统安全。 PHP 还处在不断发展的过程中，你需要经常关注他的安全信息。这里笔者推荐你经常关注安全焦点(www.security-focus.com )和Packetstorm(www.packetstorm.com )。\n",
+  "wordCount" : "250",
+  "inLanguage": "en",
+  "datePublished": "2006-05-18T12:26:33Z",
+  "dateModified": "2006-05-18T12:26:33Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/18/e7bc96e58699phpe79a84e5ae89e585a8e7ad96e795a5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      编写PHP的安全策略
+    </h1>
+    <div class="post-meta"><span title='2006-05-18 12:26:33 +0000 UTC'>May 18, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>PHP最初是被称作Personal Home Page，后来随着PHP成为一种非常流行的脚本语言，名称也随之改变了，叫做Professional HyperText PreProcessor。以PHP4.2为例支持它的WEB服务器有：Apache, Microsoft Internet information Sereve, Microsoft Personal web Server,AOLserver,Netscape Enterprise 等等。
+PHP是一种功能强大的语言和解释器，无论是作为模块方式包含到web服务器里安装的还是作为单独的CGI程序程序安装的，都能访问文件、执行命令或者在服务器上打开链接。而这些特性都使得PHP运行时带来安全问题。虽然PH P是特意设计成一种比用Perl或C语言所编写的CGI程序要安全的语言，但正确使用编译时和运行中的一些配置选项以及恰当的应用编码将会保证其运行的安全性。
+一、安全从开始编译PHP开始。
+在编译PHP之前，首先确保操作系统的版本是最新的，必要的补丁程序必须安装过。另外使用编译的PHP也应当是最新的版本，关于PHP的安全漏洞也常有发现，请使用最新版本，如果已经安装过PHP请升级为最新版本：4.2.3
+相关链接：http://security.e-matters.de/advisories/012002.html
+安装编译PHP过程中要注意的3个问题：
+1、只容许CGI文件从特定的目录下执行：首先把处理CGI脚本的默认句柄删除，然后在要执行CGI脚本的目录在http.conf 文件中加入ScriptAlias指令。
+#Addhadler cgi-script .cgi
+ScriptAlias /cgi-bin/ &ldquo;/usr/local/apache/cgi-bin/&rdquo;</p>
+<p>AllowOverride None
+Options None
+Order allow,deny
+Allow from all</p>
+<p>AllowOverride None
+Options ExecCGI
+Order allow,deny
+Allow from all</p>
+<p>SriptAlias的第一个参数指明在Web中的可用相对路径，第二个参数指明脚本放在服务器的目录。应该对每个目录
+别名都用Directory，这样可使得除系统管理员之外的人不知道Web服务器上CGI脚本的清单。
+Directory允许用户创建自己的CGI脚本。也可用SriptAliasMatch，但Directory更容易使用。 允许用户创建自己
+CGI脚本可能会导致安全问题，你可能不希望用户创建自己的CGI。 Apache默认配置是注释掉cgi—script的处理句柄，但有／cgi-bin目录使用SriptAlias和Directory指令。 你也可禁止CGI执行，但仍允许执行PHP脚本。
+2．把PHP解析器放在web目录外
+把PHP解析器放在Web目录树外是非常重要的做法。这样可以防止web服务器对PHP的解析器的滥用。特别是
+不要把PHP解析器放在cgi－bin或允许执行CGI程序的目录下。然而，使用Action解析脚本是不可能的，因为用Action指令时，PHP解析器大多数要放在能够执行CGI的目录下只有当PHP脚本作为CGI程序执行时，才能把PHP解析器放在Web目录树之外。
+如果希望PHP脚本作为CGI程序执行(这们可以把PHP解析器放在Web目录树之外)，可以这样：
+( 1)所有的PHP脚本必须位于能执行CGI程序的目录里。
+( 2)脚本必须是可执行的(仅在UNIX/Linux机器里)。
+(3)脚本必须在文件头包括PHP解析器的路径。
+你可用下面命令使PHP脚本为可执行：
+#chmod +x test.php4
+这样使在当前目录下的文件名为test．PhP4的脚本变为可执行。 下面是一个能作为CGI程序运行的PHP脚的小例子。
+#!/usr/local/bin/php
+echo &ldquo;This is a my small cgi program”
+3. 按Apache模块方式安装:
+当将PHP作为Apache模块使用时，它将继承Apche的用户权限(一般情况下用户为“nobody”)。这一点对于安全性和
+验证有不少影响。例如，使用PHP访问数据库，除非数据库支持内建的访问控制，将不得不设置数据库对于用户“nobody”
+的可访问权限。这将意味着恶意的脚本在没有访问用户名和密码，也能访问并修改数据库。通过Apache验证来保护数据不被暴露，或者也可使用LDAP、．htaccess文件等设计自己的访问控制模型，并在PHP脚本中将此代码作为其中部分引入。 通常，一旦安全性建立，此处PHP用户(此情形即Apache用户)就风险大大降低了，会发现PHP护现在已被封禁了将可能的染毒文件写入用户目录的能力。 此处最常犯的安全性错误是赋予Apache服务器根(root)权限。 将Apache用户权限提升到根权限是极端危险的。可能会危及整个系统，因此要小心使用sudo，chroot安全隐患大的命令等。除非你对安全有绝对的掌握，否则不要让其以ROOT权限运行。
+二、让PHP的使用更安全。
+1、以安全模式运行PHP
+以安全模式运行PHP是使PHP脚本安全使用的好方法，特别是在允许用户使用自己开发的PHP脚本时。使用安全模式会使PHP在运行函数时检查是否存在安全问题。 include、readfile、fopen、file、unlink、rmdir等等：被包含的文件或者该文件所在目录的所有者必须是正在运行的脚本的所有者； Exec、System、Passthm等等：要执行的程序必须位于特定的目录(默认为／usr/local／php/bin)。编译PHP时可以用—with-exe-dir选项设定这个值。
+Mysql—Connect：这个函数用可选的用户名连接MySQL数据库。在安全模式下，用户名必须是当前被执行的脚本的所有者，或运行httpd的用户名(通常是nobody)。
+HTTP Authentication：包含HTTP验证代码脚本所有者的用户ID(数字型)会自动加到验证域。这样可以防止有人通过抓取密码的程序来欺骗同一个服务器上的HTTP验证脚本。
+2、使用 用户识别和验证
+有时需要唯一地确认一个用户。用户通常由请求和响应系统确认。用户名／口令组合就是这种系统的一个很好的例子，比如系统要求给出A1i的口令，响应的是Ali的口令。这样验证是因为只有Ali才知道这个口令。
+（1）服务器端用户验征
+这是用于服务端上对PHP程序要求最小的验证方法。只要让Apache来管理对用户的验证就行了。
+AuthName &ldquo;Secret page&rdquo; # The realm
+AuthType Basic</p>
+<h1 id="the-password-file-has-been-placed-outside-the-web-tree">The password file has been placed outside the web tree<a hidden class="anchor" aria-hidden="true" href="#the-password-file-has-been-placed-outside-the-web-tree">#</a></h1>
+<p>AuthUserFile /home/car2002/website.pw
+require valid-user</p>
+<p>你需要把上述文件(文件名为.htaccess)放在需要保护的地方。用Apache的htpasswd程序，可以建立包含用户名和口令组合的文件。把这个文件放在Web目录树之外，只让该文件的拥有者查看和修改这个文件。当然，Web服务器必须能够读取这个文件。
+如果想读取被保护的目录，Web服务器要求浏览器提供用户名和密码。浏览器弹出对话框，用户可以输入他们的用户名和密码。如果用户名和密码与口令文件中相符合，就允许用户读取被保护的页面；反之，将得到错误页面，告诉用户没有通过验证。被保护的域会显示出来以便用户知道输入那个用户名和密码。
+（2）在PHP中进行用户识别和验证
+和在Apache服务器端进行用户识别和验证相比，在PHP进行用户识别和验证有以下优点：
+A、可注销。
+B、可失效。如用户登录后40分钟没有浏览你的网站，你可强制他们重新通过验证。
+C、可定制。
+D、可基于数据库。你可以用保存在各种各样的数据库里的数据来验证用户，并且记录访问者访问网站的详细日志。
+E、可用于每个页面。你可在每个页面上决定是否需要验证。
+F、你也可以使浏览器弹出对话框。下面的例子显示了怎样从，MySQL数据库中检索用名和口令：让用户填人用户名和口令。</p>
+<p>Only users with a working username/password combination can see this
+(3) 检测IP地址
+一般人们普遍认为一个IP地址唯一地确定一个访问者。但实际上并不是这样的。代理服务器可用相同的IP地址发送不同用户的请求。另外IP地址的盗用也普遍存在。检测 IP地址有它们的用处，但相当有限。例如你是一个论坛版主，你发现某个用户粘贴一些不健康的、违法的内容。你可以找到他的IP地址，把从这个IP连进来的用户逐出论坛。使用下面一行命令将会得到某个特定请求的源IP地址：</p>
+<h1 id="ip--remote_addr">ip = $REMOTE_ADDR<a hidden class="anchor" aria-hidden="true" href="#ip--remote_addr">#</a></h1>
+<p>4、使用PHP加密技术
+在PHP中，加密技术主要用来加密信息、产生校验和和摘要。使用加密技术可大大地增强安全性能。 这里只讲述使用加密技术的一些概念。如果你想进一步了解，应参考一些好的加密技术资料。加密技术的标准是Bmce Schneier的应用加密技术，非常值得一读。他的网站(<a href="https://www.counterpane.com/labs.html">www.counterpane.com/labs.html</a> )是在互联网上查找加密技术资料的好起点。数据加密是一个非常复杂的话题，这里只简单介绍一下。
+PHP中大多数的加密函数由mcrypt库和mhash库提供。你需要在系统中装上这两个库，在编译时加上&ndash;ith-mcrypt和&ndash;ith-hash选项。PHP从 3．013版本开始支持mcrypt库。
+5、使用具有SSL技术
+SSI是英文Server Side Includes的缩写。使用具有SSL(安全套接字协议层)功能的web服务器，可以不用改变一行代码而提高网站的安全性能。SSI使用加密方法来保护web服务器和浏览器之间的信息流。SSL不仅用于加密在互联网上传递的数据流，而且还提供双方身份验证。这样，你就可以安全地在线购物而不必担心别人矢随你的信用卡的信息。这种特性使得SSL适用于那些交换重要信息的地方，像电子商务和基于Web的邮件。
+SSL使用公共密钥加密技术，服务器在连接结束时给客户端发送公用密钥用来加密信息，而加密的信息只有服务器用它自己持有的专用密钥才能解开。客户端用公用密钥加密数据，并且发送给服务端自己的密钥，以唯一确定自己，防止在系统两端之间有人冒充服务端或客户端进行欺骗。
+加密的HTTP连接用443端口号代替80端口号，以区别于普通的不加密的HTTP。客户端使用加密HTTP连接时会自动使用443端口而不是80端口。这使得服务端更容易作出相应的响应。
+在Apache服务器下，可以通过直接编辑服务器配置文件或者在需要使用SSI的目录中创建.htaccess文件来启动SSI。登录到服务器，找到配置文件的存放目录，使用文字编辑器打开文件srm.conf，找到以下几行：</p>
+<h1 id="if-you-want-to-use-server-side-includes-or-cgi-outside">If you want to use server side includes, or CGI outside<a hidden class="anchor" aria-hidden="true" href="#if-you-want-to-use-server-side-includes-or-cgi-outside">#</a></h1>
+<h1 id="scriptaliased-directories-uncomment-the-following-lines">ScriptAliased directories, uncomment the following lines.<a hidden class="anchor" aria-hidden="true" href="#scriptaliased-directories-uncomment-the-following-lines">#</a></h1>
+<p>#AddType text/x-server-parsed-html .shtml
+#AddType application/x-httpd-CGI .CGI
+将以AddType开头的两行并且去掉每一行最前面的&rdquo;#&ldquo;符号即可。保存所做的修改，然后再打开文件access.conf。
+　　　　＜Directory /usr/local/etc/httpd/htdocs＞
+　　　　# This may also be &ldquo;None&rdquo;, &ldquo;All&rdquo;, or any combination of &ldquo;Indexes&rdquo;,
+　　　　# &ldquo;Includes&rdquo;, or &ldquo;FollowSymLinks&rdquo;
+　　　　Options Indexes FollowSymLinks
+　　　　＜/Directory＞
+　　　　将其中的Options Indexes FollowSymLinks改为:Options Indexes FollowSymLinks Includes 即可。
+6、使用Apache的suEXEC机制
+通常CGI程序或PHP脚本只能以启动web服务器的用户权限来运行(通常为www或nobody)，这样会出现的情况之一是可以读写和修改由另一个用户的CGI和PHP脚本生成的文件(如脚本和密码文件)。也可能使用户可以连接到其他用户的数据库，但这与数据库的配置有关。如MySQL的默认配置便是允许的，但可以通过强制数据库进行口令验证来弥补此不足。PHP的safe—mode减少了这些问题，但所有的脚本仍然以相同的用户标识运行。Apache可以解决这个问题。suEXEC(在执行前改变用户标识)是一个小工具，允许以任意用户标识运行CGI程序，当然也包括PHP脚本，但根用户除外。而且可以和UseDir和VirtualHost项一起使用。
+所以suEXEC也叫CGI封装。这意味着在脚本运行之前它需要通过一系列规定的安全检查。随Apache2。0版发布的suEXEC有26个检查点。suEXEC能解决一些安全问题，同时允许用户开发和更安全地执行自己的脚本。但是suEXEC会降低服务性能，因为suEXEC只能运行在CGI版本的PHP上，而CGI版本比模块版本运行速度慢。原因是模块版本使用了线程，而使用CGI版本的是进程。在不同线程之间的环境转换和访问公用的存储区域显然要比在不同的进程之间要快得多。使用suEXEC的另外一个问题是它增加了编写和使用PHP脚本的难度。你要确保脚本能通过suEXEC的检验。否则，你的脚本不会被执行。我们建议在你对安全性能要求比较高时使用suEXEC ,为此你还要以牺牲速度为代价。
+7、创建安全的PHP脚本
+有很多编程技巧使PHP脚本更安全地运行。其中最重要的一条是使用一些安全常识。运行PHP比运行CGI脚本更安全，但它仍然有许多出现错误的地方。转换到安全运行模式能够限制出错所产生的结果。如果你的PHP脚本中有错误，可能会被人找到并且利用它来破坏站点甚至数据库。所以经常备份也是必要的。
+（1）安全设置软件
+基于Web的应用程序，如在线目录，通常都在无人密切监视的情况下运行。如果发生错误时，你不可能立即采取行动。通常访问者最先注意到所发生的问题，你应该使他们很容易地报告所发生的问题。更进一步，可以由构成这个网站的脚本来跟踪这些问题。例如，你的访问者可能做一些你想不到的事情。也可能你对于重要函数所返回值没有检查，脚本可能会以不可预料的方式运行。
+写出更加安全的程序，就可以避免这些问题。例如你应该检查数据库函数的返回值，如果数据库崩溃，显示给用户的应该是出错的信息页面而不是满屏幕的错误。你甚至可以让脚本在发生严重问题，如数据库崩溃、硬盘空间已满的时候自动通知你。你也应该检查从用户传来的所有数据。显然后者更重要。 如果你的程序能够应付各种错误，那么你的程序不仅更加可靠，而且可以花更少的时间来维护。这些时间可大大弥补你开发程序时所花的额外时间。
+（2）存储和交换敏感信息
+显然，你应尽量避免在互联网上以GET、POST、cookie或URL编码的形式传递敏感信息，这样使信息很容易被窃取。使用支持SSL的web服务器能够做到这一点，因为它加密站点和访问者浏览器之间所有的信息流。
+如果你没有支持SSL的Web服务器，那么你需要其他的办法。比如没有必要总是发送数据到浏览器；把数据保存在数据库中，只向浏览器发送关键字，这样也很容易查找到所需要的数据；并以加密的形式发送所有的数据等等。实现这种功能的最简单的办法是使用Session。 PHP4支持本地化的Session功能，PHP3则要使用PHPMB库。
+HTTP 协议是一种无状态协议，它不负责为好连接的状态信息，因此无法跟踪客户端的各种信息，Session的出现改变这一状况。当用户浏览一个支持Session功能的CGI脚本时，在他离开这个网页前可以将用户信息保存在同意Session ID之下，也就是可以在不同的网页之间偕同存取用户信息。
+如果不使用PHP的安全模式或在suEXEC下以CGI方式运行PHP，那么监视你的文件的内容就不可能实现。此时唯一防止别人读取数据的方法是尽快把数据保存到数据库中。
+（3）检查用户输入
+Per1语言有个特性叫污点检测(taint checking)。当污点检测生效时，即使没有发生重大错误，你也不能运行含有可疑变量的函数。一个变量，当它的值是用户提供数据的一部分或全部时就变成可疑的了，因为这些数据被认为是不安全的。这样可提高系统安性。 PHP没有这个特性，但PHP有escapeshellcmd函数，可以达到同样的效果。另一个不让用户滥用脚本的方法是只允许使用经过严格检查的输入。
+（4）使用最新的PHP版本 4.2.xx
+在很长一段时间内，PHP作为服务器端脚本语言的最大卖点之一就是会为从表单提交的值自动建立一个全局变量。在PHP 4.1中，PHP的制作者们推荐了一个访问提交数据的替代手段。在PHP 4.2中，他们取消了那种老的做法。在PHP 4.1中，添加了一组特殊数据以访问外部数据。这些数组可以在任何范围内调用，这使得外部数据的访问更方便。在PHP 4.2中，register_globals被默认关闭以鼓励使用这些数组以避免无经验的开发者编写出不安全的PHP代码。作出这样的变化是出于安全性的考虑的。
+三、总结
+彻底安全的系统从理论上讲不可能，因此我们所指安全性只是在代价与可用性间作平衡。若是用户提交的每一个变量都要求有生物学验证(如指纹鉴定)，则将获得极高水平的可靠性。但是也会造成用户填写一个表格就要几十分钟。这时用户就会采取绕过安全验证的方法。一个系统的可靠性只能由整个链条中最薄弱的环节来决定。在任何安全系统里面，人是最脆弱的连接，单单技术本身不能让系统安全。
+PHP 还处在不断发展的过程中，你需要经常关注他的安全信息。这里笔者推荐你经常关注安全焦点(<a href="https://www.security-focus.com">www.security-focus.com</a> )和Packetstorm(<a href="https://www.packetstorm.com">www.packetstorm.com</a> )。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

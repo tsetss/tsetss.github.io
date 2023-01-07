@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+Incapsula
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/incapsula/</link>
+    <description>Recent content in 
+Incapsula
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Aug 2012 13:26:52 +0000</lastBuildDate><atom:link href="http://example.org/tags/incapsula/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Incapsula新加坡节不太稳啦</title>
+      <link>http://example.org/2012/08/08/incapsula-gfw/</link>
+      <pubDate>Wed, 08 Aug 2012 13:26:52 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/08/incapsula-gfw/</guid>
+      <description>Incapsula 服务个人觉得非常不错，免费用户都有 50G 的流量 ，一般的小博都够跑了，用了一段时间之后，稳定性方面基本满意，除了发现一次挂了几分钟之外，基本都能正常访问，不过就在今天，打开博客突然无反应了，一想估计是被 gfw 了，但是还想用 Incapsula ，唉， 因为 Incapsula 要检测 cname 所以开始申请的时候直接把域名 cname 到 Incapsula, dns 是用的dnspod 的服务，于是去找了个没有被 gfw 的 ip 直接 A 记录过去，这样的话，国外还是用 cname 国内用 A ，不影响 Incapsula 的检测。。恢复访问。。</description>
+    </item>
+    
+  </channel>
+</rss>

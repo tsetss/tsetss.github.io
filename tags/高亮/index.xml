@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+高亮
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E9%AB%98%E4%BA%AE/</link>
+    <description>Recent content in 
+高亮
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Mar 2009 10:25:14 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E9%AB%98%E4%BA%AE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装代码高亮插件</title>
+      <link>http://example.org/2009/03/15/e5ae89e8a385e4bba3e7a081e9ab98e4baaee68f92e4bbb6/</link>
+      <pubDate>Sun, 15 Mar 2009 10:25:14 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/15/e5ae89e8a385e4bba3e7a081e9ab98e4baaee68f92e4bbb6/</guid>
+      <description>准备开始转回wp 先装个高亮插件
+下载地址
+http://wordpress.org/extend/plugins/wp-syntax/
+为了更方便把编辑器改一下,看了半天终于找到了
+wp-includes/js/quicktags.js
+我觉得 code 用不到就把 改了,如下
+edButtons[edButtons.length] =&amp;lt;/code&amp;gt; &amp;lt;code&amp;gt;new edButton(&#39;ed_code&#39; ,&#39;code&#39; ,&#39;&amp;lt;pre lang=&amp;quot;php&amp;quot;&amp;gt;&#39; ,&#39;&amp;lt;/pre&amp;gt;&#39; ,&#39;c&#39; ); 来个 php 的呵呵
+&amp;lt; ?php echo &#39;hello world!&#39;;?&amp;gt; </description>
+    </item>
+    
+  </channel>
+</rss>

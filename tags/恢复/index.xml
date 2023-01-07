@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+恢复
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E6%81%A2%E5%A4%8D/</link>
+    <description>Recent content in 
+恢复
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2009 17:58:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E6%81%A2%E5%A4%8D/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql中InnoDB的强制恢复</title>
+      <link>http://example.org/2009/04/17/mysql-innodb-force-recover/</link>
+      <pubDate>Fri, 17 Apr 2009 17:58:26 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/mysql-innodb-force-recover/</guid>
+      <description>如果数据库页被破坏，你可能想要用SELECT INTO OUTFILE从从数据库转储你的表，通常以这种方法获取的大多数数据是完好的。即使这样，损坏可能导致SELECT * FROM tbl_name或者InnoDB后台操作崩溃或断言，或者甚至使得InnoDB前滚恢复崩溃。 尽管如此，你可以用它来强制InnoDB存储引擎启动同时阻止后台操作运行，以便你能转储你的表。例如：你可以在重启服务器之前，在选项文件的[mysqld]节添加如下的行：
+[mysqld] innodb_force_recovery = 4 innodb_force_recovery 被允许的非零值如下。一个更大的数字包含所有更小数字的预防措施。如果你能够用一个多数是4的选项值来转储你的表，那么你是比较安全的，只有一些在损坏的单独页面上的数据会丢失。一个为6的值更夸张，因为数据库页被留在一个陈旧的状态，这个状态反过来可以引发对B树和其它数据库结构的更多破坏。
+· 1 (SRV_FORCE_IGNORE_CORRUPT)
+即使服务器检测到一个损坏的页，也让服务器运行着；试着让SELECT * FROM tbl_name 跳过损坏的索引记录和页，这样有助于转储表。
+· 2 (SRV_FORCE_NO_BACKGROUND)
+阻止主线程运行，如果崩溃可能在净化操作过程中发生，这将阻止它。
+· 3 (SRV_FORCE_NO_TRX_UNDO)
+恢复后不运行事务回滚。
+· 4 (SRV_FORCE_NO_IBUF_MERGE)
+也阻止插入缓冲合并操作。如果你可能会导致一个崩溃。最好不要做这些操作，不要计算表统计表。
+· 5 (SRV_FORCE_NO_UNDO_LOG_SCAN)
+启动数据库之时不查看未完成日志：InnoDB把未完成的事务视为已提交的。
+· 6 (SRV_FORCE_NO_LOG_REDO)
+不要在恢复连接中做日志前滚。
+数据库不能另外地带着这些选项中被允许的选项来使用。作为一个安全措施，当innodb_force_recovery被设置为大于0的值时，InnoDB阻止用户执行INSERT, UPDATE或DELETE操作.
+即使强制恢复被使用，你也可以DROP或CREATE表。如果你知道一个给定的表正在导致回滚崩溃，你可以移除它。你也可以用这个来停止由失败的大宗导入或失败的ALTER TABLE导致的失控回滚。你可以杀掉mysqld进程，然后设置innodb_force_recovery为3，使得数据库被挂起而不需要回滚，然后舍弃导致失控回滚的表。
+本文地址：http://www.bhcode.net/article/20090227/4256.html</description>
+    </item>
+    
+  </channel>
+</rss>

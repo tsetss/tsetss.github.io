@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x &#43; PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:54:05 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证" href="http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD环境下的Lighttpd 参数配置与性能优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>简单说一下：Lighttpd是一个轻量级的Web 服务器，支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。它具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。其静态文件的响应能力远高于Apache，可谓Web服务器的后期之秀。
+许多技术专家认为，在Web 服务器中Lighttpd比Apache更小更轻量，却拥有比后者更高的性能。虽然Lighttpd在Web服务器方面只占很小的市场份额，“但它正极速增长，日后必将是Web服务器领域的有力竞争者。” 针对我们的普遍应用情况下，对配置文件进行一些修改。Time per request: 能达到0.65 [ms]左右相对于以前测的0.734[ms]左右，性能有很大提高。如果有大量的时间对每个性能指标进行测试，去掉不必要的模块和特性，应该在性能上还会有所提高，估计最好能到0.61[ms]左右。最近测试如下： lighttpd 配置文件：去掉了很多不必要的特性。
+#######lighttpd.conf. server.port = 7983 , server.modules = (&#34;mod_access&#34;) server.document-root = &#34;/usr/home/yangjian/lighttpd/doc/&#34; server.pid-file = &#34;/usr/home/yangjian/lighttpd/lighttpd.pid&#34; mimetype.assign = ( &#34;.html&#34; =&gt; &#34;text/html&#34;, &#34;.js&#34; =&gt; &#34;text/javascript&#34;, ) server.max-keep-alive-requests =4000 dir-listing.activate = “disable”
+LiteSpeed的测试都是在默认配置下。它的结果不太稳定，最好的记录是0.603ms，这是lighttpd所没有过的好成绩，但大多数情况下都在 0.70左右，有好多次在0.76以上。我这里说的都是LiteSpeed的标准版，pro版是要花钱的性能当然要好些。LiteSpeed是同过web 管理的，这是它的一个比较好的特性。如果经过优化我想它和lighttpd应该还是不差上下的。 我暂时先选择相对稳定点的lighttpd作为我们的web server，然后对它的配置和优化进行说明。Lighttpd配置文件很简单，相信大家配过apache的都能看明白。我就只对影响性能的指标挑出来讨论。参考文章http://www.lighttpd.net/documentation 可以看出我上面的那个配置文件非常简短。我去掉了所有不必要的特性。添加的模块只有mod_access，如果没有它访问是就会出现403错误。除了它之外系统默认启用的模块有 mod_indexfiles ，mod_dirlisting， mod_staticfile。但在默认已经编译进去的模块清单如下： 对于这些已经编译进去的在启用时就非常简单了，enable一下就ok了。Lighttpd想添加一个功能一般情况下只需要添加一两行指令到配置文件中，比apache易配置多了。
+Plugins: enabled: mod_access
+mod_accesslog mod_alias
+mod_auth mod_cgi mod_compress mod_dirlisting mod_evhost mod_expire mod_fastcgi
+mod_indexfiles mod_proxy mod_rrdtool mod_scgi mod_secdownload mod_setenv mod_simple_vhost mod_staticfile mod_status mod_userdir mod_usertrack mod_webdav disabled: mod_cml mod_mysql_vhost mod_redirect mod_rewrite...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:34:24 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD环境下的Lighttpd 参数配置与性能优化" href="http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>使用pkgtools.conf加强portupgrade
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd的ports非常优秀，使用ports安装的软件可以用portupgrade进行升级。 以前一直有一个问题困扰我。那就是：我在用ports安装某个软件，如果指定了一些特殊的编译参数，如安装mysql时指定特殊字符集等
+make WITH_CHARSET=gbk WITH_XCHARSET=all BUILD_OPTIMIZED=yes install clean 这样安装的mysql在使用portupgrade升级的时候，只按照默认的编译，也就是说上面的特殊参数丢失了。使得我在升级mysql的时候不得不手动用make deinstall make install升级。
+其实，有一个文件可以让portupgrade升级的时候加入某些参数。那就是/usr/local/etc/pkgtools.conf 编辑该文件并加入以下内容
+MAKE_ARGS = { &#39;databases/mysql*-server&#39; =&gt; [ &#39;WITH_CHARSET=gbk&#39;, &#39;WITH_XCHARSET=all&#39;, &#39;SKIP_DNS_CHECK=yes&#39;, &#39;BUILD_OPTIMIZED=yes&#39;, &#39;BUILD_STATIC=yes&#39;, ], } 这样portupgrade会在升级mysql的时候应用上述参数。
+原文 http://freebsd.5d6d.com/thread-45-1-1.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:26:12 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用pkgtools.conf加强portupgrade" href="http://example.org/2009/03/25/e4bdbfe794a8pkgtoolsconfe58aa0e5bcbaportupgrade/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>用Mysqlslap压力测试mysql（转）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转自 http://yueliangdao0608.blog.51cto.com/397025/81602
+MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及–help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：
+--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23
+[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 07:59:31 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用Mysqlslap压力测试mysql（转）" href="http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>著名魔术师大卫魔术揭秘
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>大卫穿越长城
+美国超级魔术大师科波菲尔表演的魔术–穿越长城，长城是中国人民智慧的结晶，魔术师是不可能采用钻洞，挖墙来达到魔术神奇的效果，唯有采用魔术的障眼法。让我将这套魔术的表演过程描述一下，也许你可能明白一二。魔术师从木梯登上一个靠墙的舞台，四周立刻围上白布，灯光起，白布上出现魔术师的身影，这时木梯悄悄地移掉，通过大吊车吊到长城另一边，在魔术师从长城钻出来后，木梯靠上去，魔术师从木梯下来。注意我为何大量描述木梯呢？原来机关就在木梯上，木梯是经过特殊设计的，刚好能容下魔术师。其它我不说了，你明白了吗！
+纸牌魔术
+魔术师请一位观众抽一张牌，并在纸牌的任何部分撕下一角，将这一角保存好。然后魔术师把这张牌撕碎、烧成灰，并与火药拌和。另一位观众拿着一根钉子，魔术师请他把火药和钉子装到枪膛里去。接着，他拿过枪，对着墙壁射去。从枪口射出的钉子将被撕碎的纸牌钉在墙上，只是缺了给观众撕掉的一角。将那撕去的一角取来核对，完全吻合。这一奇妙节目的奥秘在于：当魔术师拿到被观众撕掉一只角的纸牌时，同时将另一张纸牌放在上面，也撕掉类似的一个角，他就用这张牌继续表演下去，而原牌由助手拿到后台去了。枪是经过处理的，即魔术师可以偷偷地把钉子重新从枪里拿出来。助手在台后将牌用钉子钉到一小块木板上，这块板用和舞台背墙根同的糊墙纸贴上。墙上有一个孔，小木板从此孔后面椎过去，孔前挂着有线相连的一块墙纸。当魔术师开枪射击时，助手将线一拉，这块墙纸便落到地上，于是小木板出现了，看来好象钉子及纸牌都是射上去的。
+冻不死的魔术师 超级魔术师大卫把自己关在冰窟窿里，几天几夜，不吃不喝，拆掉冰块后， 安然无恙。冰窟窿用巨大的冰块组成，整个过程由摄像机监控，魔术师身上有医学用的监控器，在外面可以看到魔术师的心跳和呼吸变动。原来在冰窟窿的地板下有个开关，正好够一个人爬上爬下，下面是一个很舒适的小屋，魔术师找了一个和自己一样高的人，先睡在下面大吃大喝，等魔术师冷得受不了，那个人就爬上来，站在他背后，魔术师和他换位，像金蝉脱壳一样，换人。反复这样换，观众看见影子一点也没有变，可是人已经换掉了，怎么会冷的受不了呢？监视仪器也可以看见里面的人的心跳。真正的魔术师正在地窖里喝酒
+自由女神的消失 美国超级魔术大师大卫.科波菲尔表演的魔术–自由女神消失，着实让世界大吃一惊。这一魔术谜底至今仍未能揭示。中国魔术界从专业的角度进行了一番研究，终于略知一二，但仍未全部破解。大家都明白，自由女神是不可能消失的，消失的只会是我们短暂的记忆，在这里我不可能手把手地教大家如何表演这套魔术，因为这套魔术耗资几百万美元，国内没有一位魔术大师可以表演。我仅作提示：搭建作为观众席的巨型地板是活动的，它可以与自由女神形成一定角度，由于观众席距离自由女神很远，只要一个小小的倾斜角度，就可足以让自由女神消失。在地板倾斜同时，遮挡自由女神的黑布其实也在同时上升，一切动作都是由电脑控制缓慢运作，观众无法觉察，等黑布掉下来的时候，观众只能看到自由女神上方的空荡荡天空，自由女神也就神奇消失了
+人体三分身
+舞台中摆一只立柜，柜门上绘有一个粗线条的人物轮廓，其头部、左右手及左脚处都开有一个洞。表演者打开柜门，请一位女演员进入柜中，并随手关上柜门，这时，女演员面都对着头部洞口，左右手和左脚也各伸出洞口外。表演者指指柜中女演员手足，女演员的手、脚摇了摇，证明她确实在柜里。接着，表演者取二块薄钢刀，—一插入柜腰中处，随后向右边一推，柜中节被分开了，柜中间还能容表演者的一块手帕挥来挥去，以示柜中节确被移开，显然女演负的确被分成三段了。虽然女演员的头、手和脚各分布于三处，但令人惊奇的是，她的头，手和脚还能自如地活动呢！最后，表演者将柜中节推回原处，拨出薄钢刀片，打开门，女演员仍笑容满面地从柜中走了出来。“人体三分身”是一套现代的外国大型魔术。法国魔术家让 ·罗加尔，１９８２年在法国巴黎举行的世界魔术锦标赛时作了精彩的表演。“人体三分身”它的机关除了道具设计精巧以外。关键是根据色彩学的原理对道具进行绘制，从而使观众产生视觉误差。推开柜中节后，中段和上下段相连的部份看上去很窄狭，似乎人体无法通过，其实它是有一定宽度的。只要女演员腰身苗条，有一定的柔腰基本功，侧身在柜中节是不成问题的。
+火苗穿巾
+表演者右手拿着一块纱巾，左手拿着一只启燃火苗的气体打火机，然后他将纱巾往火苗上一挨，火苗即穿过纱巾顶面。他又把纱巾移来移去，既不曾烧毁纱巾，也没有把火熄灭，颇为离奇有趣。一、表演前，将气体打火机启燃（火苗大小要适中），然后将纱巾从火苗底部一边挨入，并马上用右手来回牵动，这样，纱巾就不会烧坏了。二、由于气体打火机的火苗底都是向上浮起的（与其它火苗不同）。故能穿过薄纱巾上面。因此，只要不断往复牵动纱巾，即可使火苗浮于纱巾上面了
+空中飞人
+1.在舞台X放两張椅子。2.一个人躺在椅子的X，头脚刚好躺在椅子上。3.表演者则拿一張床单，盖在躺卧的人身上，只露出头和脚。4.表演者念咒時，用脚移开躺着的人脚部那张椅子，而躺着的人，依然不动！然后，将头部的椅子也拿开。但是，躺着的人还是丝毫不受影响，仍然可以随着咒语上升或下降。原来睡着的人的腿是假的，他实际上是蹲着的。明白了吧？
+卡车消失
+超级魔术师大卫把一辆巨大的卡车，开到舞台X，用巨大的铁笼罩住，等观众看清楚后，铁笼外面罩上白色幕布。然后请观众手挽手围成一个大圆圈，把白色幕布团团围住。不久，白布从上倒下，卡车消失了。在观众眼前消失了！原来，卡车里装了很多人，幕布下来的时候，观众上台，在观众围圈的过程中，车上的人下来，和观众相对，灯光照出了他们的影子，台下的观众以为是上台的观众的影子，其实是里面人的身影。卡车上其余的赶紧把铁笼与卡车连接，铁笼是可以活动的，在幕布降下的同时，灯光改变，铁笼和里面的人全部收到了车里，卡车被一个巨大的起重机吊到了舞台上方，观众只看见上台的观众手挽手围成一圈，卡车不见了。这个魔术和穿越长城，遮盖自由女神以及遮盖飞机的魔术方式非常接近。但是没有钱是表演不了的，要花很多很多钱来搭建舞台和做道具
+锯人
+超级魔术师大卫 “锯人”是魔术史上令人惊讶不已的传统节目之一。表演时, 表演者让他的助手们把一个长方形木箱抬到一张桌子上。箱子的上面和四周均可打开，向观众交待以后，一位女助手躺进箱子，将头和脚露在箱子两端的小孔外面。于是，表演者拿起锯子，把箱子连同女助手一锯为二，在锯缝中再插入两块板。现在可使箱子的两部分互相脱离了，观众们看到女助手的脚在动、脸在笑。 “戳穿西洋镜，一点不稀奇。”原来，参与表演的有两名女助手，第二名助手事先早就躺在桌子里面了。这位人们看不见的女助手可通过箱子底部的翻板把腿伸进箱子，使脚露在箱外，而当着观众的面进入箱子的女助手却把腿曲了起来。 还有一个锯人魔术，是大卫改装了的，因为不能老表演被识破了的魔术，这回是一个女助手哦！不过这个箱子可以往下凹下去，女助手睡上去以后，屁股陷下去了，腰也陷下去了，魔术师在合拢木板的时候，在女助手的腰上面插了一块钢板，然后他拿电锯开始锯，锯到钢板就停下来，头和身子被锯开了，其实没有锯到啊！</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 15:18:34 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 著名魔术师大卫魔术揭秘" href="http://example.org/2009/03/24/e89197e5908de9ad94e69cafe5b888e5a4a7e58dabe9ad94e69cafe68fade7a798/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>NginxSimplePythonFCGI
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 11:20:53 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to NginxSimplePythonFCGI" href="http://example.org/2009/03/24/nginxsimplepythonfcgi/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Lighttpd中为php加上open_basedir
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>举例说明 一、
+fastcgi.server = ( &#34;.php&#34; =&gt; (( &#34;socket&#34; =&gt; &#34;/tmp/php-fastcgi.socket&#34;, &#34;bin-path&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34;, &#34;max-procs&#34; =&gt; 10, &#34;bin-environment&#34; =&gt; ( &#34;PHP_FCGI_CHILDREN&#34; =&gt; &#34;16&#34;, &#34;PHP_FCGI_MAX_REQUESTS&#34; =&gt; &#34;1000&#34;, ), &#34;broken-scriptfilename&#34; =&gt; &#34;enable&#34; )) ) 二、
+cgi.assign = ( &#34;.php&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34; ) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:58:30 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Lighttpd中为php加上open_basedir" href="http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者:NetSeek http://www.linuxtone.org (IT运维专家网|集群架构|性能调优) 欢迎转载,转载时请务必以超链接形式标明文章原始出处和作者信息及本声明. 首发时间: 2008-11-25 更新时间:2009-1-14
+目 录 一、 Nginx 基础知识 二、 Nginx 安装及调试 三、 Nginx Rewrite 四、 Nginx Redirect 五、 Nginx 目录自动加斜线: 六、 Nginx Location 七、 Nginx expires 八、 Nginx 防盗链 九、 Nginx 访问控制 十、 Nginx日志处理 十一、 Nginx Cache 十二、 Nginx负载均衡 十三、 Nginx简单优化 十四、 如何构建高性能的LEMP环境 十五、 Nginx服务监控 十六、 常见问题与错误处理. 十七、 相关资源下载
+【前言】： 编写此技术指南在于推广普及NGINX在国内的使用，更方便的帮助大家了解和掌握NGINX的一些使用技巧。本指南很多技巧来自于网络和工作中或网络上朋友们问我的问题.在此对网络上愿意分享的朋友们表示感谢和致意！欢迎大家和我一起丰富本技术指南提出更好的建议！请朋友们关注: http://www.linuxtone.org 技术分享社区! 互想学习共同进步!
+一、 Nginx 基础知识 1、简介 Nginx (“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx 是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:18:29 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版" href="http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>使用 Nginx 提升网站访问速度
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文主要介绍如何在 Linux 系统上安装高性能的 HTTP 服务器 —— Nginx、并在不改变原有网站结构的条件下用 Nginx 来提升网站的访问速度。 Nginx 简介 Nginx(“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.ru 站点开发的，它已经在该站点运行超过两年半了。 Igor 将源代码以类BSD 许可证的形式发布。尽管还是测试版，但是，Nginx 已经因为它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名了。 根据最新一期（08 年 6 月份）的 NetCraft 调查报告显示，已经有超过两百万的主机使用了 Nginx，这个数字超过了另外一个轻量级的 HTTP 服务器 lighttpd， 排名第四，并且发展迅速。下面是这份报告的前几名的报表： 产品 网站数 Apache 84,309,103
+IIS 60,987,087
+Google GFE 10,465,178
+Unknown 4,903,174
+nginx 2,125,160
+Oversee 1,953,848
+lighttpd 1,532,952
+关于这期调查报告的更详细信息请看下面链接： http://survey.netcraft.com/Reports/200806/ 下图是最近几个月使用 Nginx 和 lighttpd 的网站数比较 图 1. 最近几个月使用 Nginx 和 lighttpd 的网站数比较 目前官方 Nginx 并不支持 Windows，您只能在包括 Linux、UNIX、BSD 系统下安装和使用； Nginx 本身只是一个 HTTP 和反向代理服务器，它无法像 Apache 一样通过安装各种模块来支持不同的页面脚本，例如 PHP、CGI 等； Nginx 支持简单的负载均衡和容错； 支持作为基本 HTTP 服务器的功能，例如日志、压缩、Byte ranges、Chunked responses、SSL、虚拟主机等等，应有尽有。 在 Linux 下安装 Nginx 为了确保能在 Nginx 中使用正则表达式进行更灵活的配置，安装之前需要确定系统是否安装有 PCRE（Perl Compatible Regular Expressions）包。您可以到 ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 03:23:40 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用 Nginx 提升网站访问速度" href="http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Sphinx Storage Engine in MySQL via FreeBSD Ports
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>系統：FreeBSD 7.1-RELEASE MySQL：5.1.30 Sphinx：0.9.8.1
+mysql51-server.diff diff -Nur /usr/ports/databases/mysql51-server/Makefile mysql51-server/Makefile — /usr/ports/databases/mysql51-server/Makefile 2008-07-27 09:56:19.000000000 &#43;0100 &#43;&#43;&#43; mysql51-server/Makefile 2008-08-06 16:20:51.000000000 &#43;0100 @@ -60,6 &#43;60,16 @@ CONFIGURE_ARGS&#43;=–with-collation=${WITH_COLLATION} .endif &#43;# Sphinx Engine &#43;.if defined(WITH_SPHINXSE) &#43;SPHINX_PORT?= textproc/sphinxsearch &#43;SPHINX_WRKSRC= cd ${PORTSDIR}/${SPHINX_PORT} &amp;&amp; ${MAKE} -V WRKSRC &#43; &#43;EXTRACT_DEPENDS&#43;= ${NONEXISTENT}:${PORTSDIR}/${SPHINX_PORT}:extract &#43;RUN_DEPENDS&#43;= searchd:${PORTSDIR}/${SPHINX_PORT} &#43;USE_AUTOTOOLS&#43;= autoconf:262 automake:110 &#43;.endif &#43; .include .if ${ARCH} == “i386″ @@ -124,8 &#43;134,14 @@ @${ECHO} “ BUILD_STATIC=yes Build a static version of mysqld.” @${ECHO} “ (use it if you need even more speed)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:59:55 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Sphinx Storage Engine in MySQL via FreeBSD Ports" href="http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/18/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/20/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

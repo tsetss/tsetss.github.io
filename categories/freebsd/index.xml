@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+freebsd
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/freebsd/</link>
+    <description>Recent content in 
+freebsd
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 31 Dec 2009 04:00:57 +0000</lastBuildDate><atom:link href="http://example.org/categories/freebsd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql my.cnf 详解</title>
+      <link>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</link>
+      <pubDate>Thu, 31 Dec 2009 04:00:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</guid>
+      <description>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&amp;quot;&amp;ndash;help&amp;quot;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接.</description>
+    </item>
+    
+    <item>
+      <title>psyco 真的很神奇</title>
+      <link>http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/</link>
+      <pubDate>Sat, 19 Dec 2009 12:15:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/</guid>
+      <description>测试代码 http://www.timestretch.com/FractalBenchmark.html#e7142f2f73f8eb4245f1b25aa6340470
+没有使用 psyco 3.4 左右，生成 pyc 3.14 ，用了 psyco 0.34 真是太强大了，
+freebsd 安装 psyco
+cd /usr/ports/devel/py-psyco make install clean 开启
+import psyco psyco.full() </description>
+    </item>
+    
+    <item>
+      <title>VBoxManage命令详解</title>
+      <link>http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/</link>
+      <pubDate>Thu, 17 Dec 2009 06:12:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/</guid>
+      <description>VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&amp;lt;1-4&amp;gt; none|floppy|dvd|disk|net&amp;gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &amp;lt;1-30&amp;gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&amp;lt;1-30&amp;gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&amp;lt;1-4&amp;gt; &amp;lt;1-30&amp;gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&amp;lt;1-N&amp;gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&amp;lt;1-N&amp;gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&amp;lt;1-N&amp;gt; on|off]插入或拔出网线 [-nictrace&amp;lt;1-N&amp;gt; on|off] 开启或关闭网络追踪 [-nictracefile&amp;lt;1-N&amp;gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&amp;lt;1-N&amp;gt; ] 设置网络连接的速度 [-hostifdev&amp;lt;1-N&amp;gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&amp;lt;1-N&amp;gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&amp;lt;1-N&amp;gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10.</description>
+    </item>
+    
+    <item>
+      <title>php tokyo_tyrant扩展安装</title>
+      <link>http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/</link>
+      <pubDate>Sat, 12 Dec 2009 01:29:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/</guid>
+      <description>tokyo_tyrant 还是beta 版，freebsd 的 ports 还没有，有点不爽，用 pecl 安装吧，
+pecl install tokyo_tyrant pecl: Command not found. 先安装 pear 呵呵
+cd /usr/ports/devel/pear make install clean pecl install tokyo_tyrant Failed to download pecl/tokyo_tyrant within preferred state &amp;quot;stable&amp;quot;, latest release is version 0.1.2, stability &amp;quot;beta&amp;quot;, use &amp;quot;channel://pecl.php.net/tokyo_tyrant-0.1.2&amp;quot; to install install failed 还是不行，要加入beta 才行哦
+pecl install tokyo_tyrant-beta ee /usr/local/etc/php/extensions.ini 加入 extension=tokyo_tyrant.so OK 安装完成 重起php进程，用phpinfo 查看一下 freebsd 真是太强大了，喜欢哦!</description>
+    </item>
+    
+    <item>
+      <title>memcachedb</title>
+      <link>http://example.org/2009/12/07/memcachedb/</link>
+      <pubDate>Mon, 07 Dec 2009 16:11:16 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/07/memcachedb/</guid>
+      <description>memcachedb是为了持久化而产生的一个分布式 &amp;ldquo;key-value&amp;quot;存储系统，你可以认为是memcached+berkeley DB+sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他</description>
+    </item>
+    
+    <item>
+      <title>freebsd下python程序打包工具 ── cx_Freeze</title>
+      <link>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</link>
+      <pubDate>Fri, 04 Dec 2009 15:38:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</guid>
+      <description>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </description>
+    </item>
+    
+    <item>
+      <title>进程信号</title>
+      <link>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</link>
+      <pubDate>Mon, 30 Nov 2009 01:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</guid>
+      <description>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时</description>
+    </item>
+    
+    <item>
+      <title>用Python写简单守护进程【转】</title>
+      <link>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</link>
+      <pubDate>Sat, 28 Nov 2009 08:39:42 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</guid>
+      <description>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I&amp;rsquo;ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it&amp;rsquo;s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method.</description>
+    </item>
+    
+    <item>
+      <title>Django and Memcached</title>
+      <link>http://example.org/2009/11/28/django-and-memcached/</link>
+      <pubDate>Sat, 28 Nov 2009 03:50:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/django-and-memcached/</guid>
+      <description>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build.</description>
+    </item>
+    
+    <item>
+      <title>TCP连接状态</title>
+      <link>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</link>
+      <pubDate>Sun, 22 Nov 2009 09:48:51 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</guid>
+      <description>CLOSED: 表示初始状态。
+LISTEN: 表示服务器端的某个SOCKET处于监听状态，可以接受连接。
+SYN_SENT:在服务端监听后，客户端SOCKET执行CONNECT连接时，客户端发送SYN报文，此时客户端就进入SYN_SENT状态，等待服务端的确认
+SYN_RCVD: 表示服务端接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。
+ESTABLISHED：表示连接已经建立了。
+FIN_WAIT_1: 这个是已经建立连接之后，其中一方请求终止连接，等待对方的FIN报文。FIN_WAIT_1状态是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。
+FIN_WAIT_2：实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。
+TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。
+CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到(或同时收到)对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。
+CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。
+LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</description>
+    </item>
+    
+    <item>
+      <title>Setup FreeBSD Jail With ezjail</title>
+      <link>http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/</link>
+      <pubDate>Sat, 24 Oct 2009 06:06:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/</guid>
+      <description>How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I&amp;rsquo;d like to set one jail for mail and another for web server via 2 public IP address.
+Each jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system.</description>
+    </item>
+    
+    <item>
+      <title>Jail: Create</title>
+      <link>http://example.org/2009/10/24/jail-create/</link>
+      <pubDate>Sat, 24 Oct 2009 06:05:22 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/24/jail-create/</guid>
+      <description>Creating a jail with EZJail PrefaceAlthough you can maintain your FreeBSD jails manually and there are quite a few tutorials around, I like the implementation done through EZJails.
+It&amp;rsquo;s assumed you have completed installing FreeBSD and EZJail.
+Creating/Starting a JailTo create the jail we need to create an alias for the network interface, issue the ezjail-admin create command w/flavor, and finally start the jail:
+ifconfig lnc0 192.168.1.50 netmask 255.255.255.255 alias ezjail-admin create -f standard www.</description>
+    </item>
+    
+    <item>
+      <title>django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)</title>
+      <link>http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/</link>
+      <pubDate>Wed, 30 Sep 2009 10:02:50 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/</guid>
+      <description>problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&amp;quot;django.contrib.admin&amp;quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models&amp;hellip; 0 errors found.
+Django version 0.96-pre, using settings &amp;lsquo;mysite.settings&amp;rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C.</description>
+    </item>
+    
+    <item>
+      <title>mydns-ng mydns 的后继版</title>
+      <link>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</link>
+      <pubDate>Wed, 30 Sep 2009 03:33:28 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</guid>
+      <description>无意间在 ports 看到 mydns-ng
+MyDNS-ng is a free DNS server for UNIX. It was implemented from scratch and is designed to serve records directly from an SQL database (currently either MySQL or PostgreSQL).
+MyDNS-ng is based on MyDNS originaly writen by Don Moore bboy@bboy.net Oficial Site http://mydns.bboy.net.
+MyDNS is licensed under the GNU General Public License.
+以后可以用它了</description>
+    </item>
+    
+    <item>
+      <title>nginx做透明代理</title>
+      <link>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</link>
+      <pubDate>Wed, 23 Sep 2009 14:49:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</guid>
+      <description>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</description>
+    </item>
+    
+    <item>
+      <title>BOM--字节序标记</title>
+      <link>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</link>
+      <pubDate>Wed, 23 Sep 2009 02:00:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</guid>
+      <description>读代码的时候看到这样一段 $template_content = str_replace(&amp;quot;\xEF\xBB\xBF&amp;quot;, &amp;lsquo;&amp;rsquo;, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&amp;gt;文件-&amp;gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</description>
+    </item>
+    
+    <item>
+      <title>spawn-fcgi: no fastcgi application given</title>
+      <link>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</link>
+      <pubDate>Sun, 16 Aug 2009 17:32:36 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</guid>
+      <description>刚装完spawn-fcgi 起动会遇到这个错误. 修改 spawn-fcgi 起动脚本 spawn_fcgi_app 加个 php-cgi 地址，或在rc.conf 加上也一样</description>
+    </item>
+    
+    <item>
+      <title>FastCgi 翻译文档</title>
+      <link>http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/</link>
+      <pubDate>Thu, 16 Jul 2009 16:25:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/16/fastcgi-e7bfbbe8af91e69687e6a1a3/</guid>
+      <description>同事业余时间翻译的，我把它整理了出来，其中绿色的是我没有使用默认值的参数。
+IdleTimeout n (300 seconds)
+An idle fastcgi application will be terminated after IdleTimeout seconds.
+空闲线程将在 n 秒后被终止。
+IdleScanInterval n (120 seconds)
+The scan interval for idle fastcgi applications.
+扫描空闲线程的时间间隔。
+BusyTimeout n (300 seconds)
+a fastcgi application will be terminated if handing a single request longer than busy timeout.
+一个线程被单独占用 n 秒后将被终止。
+BusyScanInterval n (120 seconds)
+The scan interval for busy timeout fastcgi applications.
+扫描繁忙线程的时间间隔。
+ErrorScanInterval n (3 seconds)
+The scan interval for exit pending fastcgi applications.</description>
+    </item>
+    
+    <item>
+      <title>Extmail1.1登录显示：Unix::Syslog not found</title>
+      <link>http://example.org/2009/06/23/extmail1-1e799bbe5bd95e698bee7a4baefbc9aunixsyslog-not-found/</link>
+      <pubDate>Tue, 23 Jun 2009 07:28:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/23/extmail1-1e799bbe5bd95e698bee7a4baefbc9aunixsyslog-not-found/</guid>
+      <description>Unix::Syslog not found, please install it first! (in cleanup) Undefined subroutine &amp;amp;Ext;::Logger::do_closelog called at /var/www/extsuite/extmail/libs/Ext/Logger.pm line 87. 没装perl-Unix-Syslog包,
+安装方法
+perl -MCPAN -e shell cpan&amp;gt;install Unix::Syslog </description>
+    </item>
+    
+    <item>
+      <title>nginx freebsd 官方网站优化</title>
+      <link>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</link>
+      <pubDate>Sun, 31 May 2009 22:13:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</guid>
+      <description>OS &amp;amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp;amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from &amp;ldquo;http://wiki.nginx.org/FreeBSDOptimizations&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>freebsd下 nginx 日志每天分割</title>
+      <link>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</link>
+      <pubDate>Wed, 13 May 2009 18:42:06 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</guid>
+      <description>#!/bin/sh date today=date +&amp;quot;%Y_%m_%d&amp;quot; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &amp;gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime +$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </description>
+    </item>
+    
+    <item>
+      <title>如何加密PHP文件</title>
+      <link>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</link>
+      <pubDate>Wed, 06 May 2009 10:54:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</guid>
+      <description>由于安全原因，有些时候需要把PHP文件加密。zend是收费的软件，而且价格不菲，让人望尘莫及。这里介绍另一种加密方法：php-screw。 php-screw是一款开源，免费，自由使用的软件，它不仅使用方便，而且可以自定义加密字符串，字符串的长度不受限制。下面这些操作是在Debian环境下实现的。 1、下载软件包。到http://sourceforge.net/projects/php-screw/下载php-screw。下载得到的是tar包。 2、安装必须的软件环境：apt-get install php5-dev php5 3、把在第一步中得到的软件包解压：tar -zxvf php_screw-1.3.tgz 4、进入解压缩后得到的目录：cd php_screw-1.3，然后执行命令：phpize生成一些配置安装文件。 5、检查编译环境： ./configure　#检查编译环境 自定义加密字符串，你据自己的意愿，修改文件my_screw.h内容，这里面主要记录的是加密字符串。 make　#编译 6、把文件modules/php_screw.so拷贝到/usr/lib/php5/2006*/目录下。 7、修改文件/etc/php5/apache2/php.ini，在需要位置添加如下内容： extension=php_screw.so 8、在WEB服务器的根目录里创建文件phpinfo.php，文件的内容如下： 9、在浏览器里输入http:///phpinfo.php，看看php_screw是否生效。 10、进入tools目录，执行命令： make 生成文件screw。 11、进入需要加密的PHP文件所在的文件夹，执行命令 /full/path/of/screw .php 这时的文件便被加密了，原来的文件被重新命名为：.php.screw。 12、screw这个命令只支持单个文件的加密，不支持/full/path/of/screw .php这种命令格式。如果需要把整个目录下的文件加密需要用如下命令： find . -name &amp;lsquo;.php&amp;rsquo; -exec /full/of/path/of/screw {} ; 以上写的这些是在Debian环境下实现的，如果在window平台下，只要加载了php_screw这个模块，加密的文件也可以正常显示，但不能在windows平台下进行加密。 好了，用php_screw加密php文件介绍完了。如果您对这个工具感兴趣，不防试一试。
+转自 http://afericazebra.blog.163.com/blog/static/300504082008101902427449/
+不错,freebsd 的port 也有,在 /usr/ports/www/php-screw ,正好用一下</description>
+    </item>
+    
+    <item>
+      <title>更新與安裝 - Install Apache 2.2.11 or Upgrade on FreeBSD</title>
+      <link>http://example.org/2009/04/17/install-apache-or-upgrade-on-freebsd/</link>
+      <pubDate>Fri, 17 Apr 2009 08:02:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/install-apache-or-upgrade-on-freebsd/</guid>
+      <description>Apache 2.2.11 主要是更新了個錯誤 步驟如下
+1.更新 FreeBSD 的 src 與 ports 到目前最新版
+cd /usr/src make update 就個人經驗而言,最好是將相關的 apache-, php5- , pear-* , pecl-* , Smarty , eaccelerator , webmail 等都備份後移除 然後再一步一步安裝更新上去 這樣雖然很麻煩,卻最能避免產生問題後無法處理的情況 PS : 都安裝好了,沒有錯誤訊息, Apache 卻開不起來
+2.先備份設定後,然後將相關套件及設定全數移除
+pkg_info |sort &amp;gt; /root/pkg.info.txt tar -zcvf /root/etc.tar.gz /etc tar -zcvf /root/usr.local.etc.tar.gz /usr/local/etc tar -zcvf /root/etc.namedb.tar.gz /var/named/etc/namedb tar -zcvf /root/ports_options.tar.gz /var/db/ports pkg_delete -f /var/db/pkg/apache* pkg_delete -f /var/db/pkg/pecl* pkg_delete -f /var/db/pkg/eaccelerator* pkg_delete -f /var/db/pkg/smarty* pkg_delete -f /var/db/pkg/joomla* pkg_delete -f /var/db/pkg/eGroupware* pkg_delete -f /var/db/pkg/pear* pkg_delete -f /var/db/pkg/php5* 3.</description>
+    </item>
+    
+    <item>
+      <title>freebsd7.x安装vmware-tools</title>
+      <link>http://example.org/2009/04/13/freebsd7x-install-vmware-tools/</link>
+      <pubDate>Mon, 13 Apr 2009 16:11:37 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/13/freebsd7x-install-vmware-tools/</guid>
+      <description>刚开始搞freebsd，先在vmware里试试。 先要安装compat6x 在/usr/ports/misc/compat6x 然后执行
+ln -s /usr/local/lib/compat/libc.so.6 /lib 原文 http://bbs3.chinaunix.net/thread-1364897-1-5.html</description>
+    </item>
+    
+    <item>
+      <title>在FreeBSD中安装虚拟机(使用于BSD)</title>
+      <link>http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/</link>
+      <pubDate>Sat, 11 Apr 2009 13:56:31 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/</guid>
+      <description>原来BSD中也有虚拟机的.速度不亚于VM
+在FreeBSD6.2中,
+#cd /usr/ports/emulators/qemu
+#make WITH_KQEMU=yes install clean
+选项默认
+安装好后，就可以用了
+要重起一下电脑,如不重起,可以
+#rehash
+#kldload kqemu.ko
+速度真的很快！但对我最重要的是，它很简洁.
+原来在xp用VM装了openBSD
+用qemu来运行.
+挂载 mount -t ntfs /dev/ad0s1 /mnt
+然后
+#cd /mnt/OpenBSD #qemu Other.vmdk
+启动成功！
+下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）
+#df -h
+看看自己的硬盘空间，看装在哪里合适
+我的/usr还有很多空间，就装在这里吧
+#mkdir /usr/qemu
+#cd /usr/qemu
+#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)
+#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256
+-hda 指定硬盘
+-cdrom 指定光驱
+/dev/acd0 (iso就是文件路径）
+-boot d a软盘 c 硬盘 d 光驱
+-m 内存大小
+其间可能要出现错误:
+Bad system call (用kldload aio解决）</description>
+    </item>
+    
+    <item>
+      <title>php5.2.9 不能加载 eAccelerator 问题</title>
+      <link>http://example.org/2009/04/11/php529-e4b88de883bde58aa0e8bdbd-eaccelerator-e997aee9a298/</link>
+      <pubDate>Sat, 11 Apr 2009 09:20:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/php529-e4b88de883bde58aa0e8bdbd-eaccelerator-e997aee9a298/</guid>
+      <description>装上php 5.2.9发现不能加载 eAccelerator ,php也没有报错,不知道是什么问题,
+看了一篇文章 在 /usr/local/etc/php/extensions.ini 加上 extension=eaccelerator.so才可以解决,
+[eaccelerator] zend_extension = &amp;quot;/usr/local/lib/php/20060613-zts/eaccelerator.so&amp;quot; eaccelerator.shm_size = &amp;quot;128&amp;quot; eaccelerator.cache_dir = &amp;quot;/tmp/eaccelerator&amp;quot; eaccelerator.enable = &amp;quot;1&amp;quot; eaccelerator.optimizer = &amp;quot;1&amp;quot; eaccelerator.check_mtime = &amp;quot;1&amp;quot; eaccelerator.debug = &amp;quot;0&amp;quot; eaccelerator.log_file = &amp;quot;/var/log/httpd/eaccelerator.log&amp;quot; eaccelerator.filter = &amp;quot;&amp;quot; eaccelerator.shm_max = &amp;quot;0&amp;quot; eaccelerator.shm_ttl = &amp;quot;0&amp;quot; eaccelerator.shm_prune_period = &amp;quot;0&amp;quot; eaccelerator.shm_only = &amp;quot;0&amp;quot; eaccelerator.compress = &amp;quot;1&amp;quot; eaccelerator.compress_level = &amp;quot;9&amp;quot; eaccelerator.keys = &amp;quot;shm&amp;quot; eaccelerator.sessions = &amp;quot;shm&amp;quot; eaccelerator.content = &amp;quot;shm&amp;quot; 原文 http://gary1974tw.pixnet.net/blog/post/26613606 可惜被x了</description>
+    </item>
+    
+    <item>
+      <title>Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)</title>
+      <link>http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/</link>
+      <pubDate>Wed, 08 Apr 2009 17:43:49 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/</guid>
+      <description>cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables.</description>
+    </item>
+    
+    <item>
+      <title>修改时间出现date: can&#39;t reach time daemon, time set locally</title>
+      <link>http://example.org/2009/04/08/e4bfaee694b9e697b6e997b4e587bae78eb0date-cant-reach-time-daemon-time-set-locally/</link>
+      <pubDate>Wed, 08 Apr 2009 14:05:02 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/08/e4bfaee694b9e697b6e997b4e587bae78eb0date-cant-reach-time-daemon-time-set-locally/</guid>
+      <description>kern.securelevel 过高了,郁闷</description>
+    </item>
+    
+    <item>
+      <title>vmware freebsd 时间不准解决办法</title>
+      <link>http://example.org/2009/04/08/vmware-e697b6e997b4e4b88de58786e8a7a3e586b3e58a9ee6b395/</link>
+      <pubDate>Wed, 08 Apr 2009 14:02:24 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/08/vmware-e697b6e997b4e4b88de58786e8a7a3e586b3e58a9ee6b395/</guid>
+      <description>/boot/loader.conf
+加入
+kern.hz=100 hint.apic.0.disabled=1 The default &amp;ldquo;tick&amp;rdquo; on FreeBSD is 1000 Hz, which is far greater than what a virtual machine can keep up with accurately, 100Hz is more reasonable value. APIC has been known to cause issues with FreeBSD, but is required if you are using SMP in your guest (2 or more processors).
+原文 http://peterkieser.com/technical/vmware-server-issues/</description>
+    </item>
+    
+    <item>
+      <title>freebsd下在一块网卡下增加删除ip</title>
+      <link>http://example.org/2009/04/01/freebsd-inc-add-ip-del-ip/</link>
+      <pubDate>Wed, 01 Apr 2009 10:21:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/01/freebsd-inc-add-ip-del-ip/</guid>
+      <description>在bge0网卡上增加ip别名：
+ifconfig bge0 add alias xxx.xxx.xxx.xxx netmask xxx.xxx.xxx.xxx up 说明：这里掩码的设定是这样的，同一个网断的第一个ip掩码按照真实的掩码设置。在这个网段下面再增加ip时，掩码就是255.255.255.255了！切记！
+在bge0网卡上删除ip别名：
+ifconfig bge0 -alias xxx.xxx.xxx.xxx 下路由配置
+配置路由 在同一个局域网上的计算机是直接连通的，但是不同的网络上的计算机并没有直接相连，只能通过一台特殊的专用计算机 -路由器来完成连通。路由器连接有多个网络界面，每一个网络界面连接到一个相应的网络上，具有一个这个网络上的IP地址，因此，网络内部的计算机可以和路由器本身相互通信。 当网络内部的计算机要向外连接的时候，数据包实际是交给路由器的，路由器再将数据包从连接外部网络的网络界面上转发出去，数据包经过这样一个一个的转发过程，直到到达目的地。对于网络内部的计算机来讲，没有必要了解数据包的整个转发的路径和经过的所有路由器的信息，只需要知道第一步需要将数据包交给哪一个路由器就可以了。因此，计算机必须知道与它直接相连接的路由器的有关信息，这个过程就是路由配置的过程。 进行路由配置有两种途径，一种是由管理员设置所有的路由信息，由于数据是手工设置，因此称为静态路由设置。另一个是启动一个支持路由交换协议的进程，自动侦测网络上的所有路由器及其相关信息，这称为动态路由设置。 在 FreeBSD系统不用做专门路由器的情况下，一般地说使用静态路由设置足够满足网络通信的需要。
+缺省网关 在最简单的情况下，一个网络向外通过一个路由器完成向外连接，这个路由器被称为缺省网关，它负责几乎所有的向外连接任务。假设缺省网关的地址为 192.168.1.254， 则设置缺省网关的命令为：
+freebsd# route add default 192.168.1.254 add net default: gateway 192.168.1.254 //成功配置缺省网关 add net default: gateway 192.168.1.254: File exists //如果系统已经设置了缺省网关，那么系统会报告错误 freebsd# route delete default delete net default //成功删除缺省网关 freebsd# route flush //清除所有路由 default 192.168.1.254 done
+上述命令执行之后立即生效，因此，可能会影响已经建立的连接。为了保存缺省网关的配置，同样也需要将配置写入系统配置文件 rc.conf。 defaultrouter=&amp;ldquo;192.168.1.254&amp;rdquo; 仅仅配置缺省网关的大部分情况是在计算机处于整个互联网的边缘，网络中仅仅需要一个路由器接入互联网就可以了。 2) 其他静态路由设置 更复杂的情况下，计算机所处的网络与多个网络相连接，网络中存在多个路由器，每个路由器负责到一些网络的转发任务，而不负责到全部网络的转发任务。这种情况下，如果将所有的数据都发给一个路由器，那么原则上它只能正确转发目的是它自己负责的网络的数据。实际使用当中，路由器将使用 ICMP协议，向发送数据的主机报告路由错误。 因此，应该在计算机中配置这个网络上所有路由器及这些路由器负责的相应网络的路由数据，以便计算机选择正确的路由器转发数据包。同样，也必须使用 route命令增加到各个网络的静态路由数据。</description>
+    </item>
+    
+    <item>
+      <title>freebsd vmstat结果内容的解释</title>
+      <link>http://example.org/2009/03/29/freebsd-vmstate7bb93e69e9ce58685e5aeb9e79a84e8a7a3e9878a/</link>
+      <pubDate>Sun, 29 Mar 2009 03:17:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/29/freebsd-vmstate7bb93e69e9ce58685e5aeb9e79a84e8a7a3e9878a/</guid>
+      <description>top是给Linux设计的。在FreeBSD VM里面的Free概念和其他OS完全不同，使用top查看Free内存对于FreeBSD来说可以说没什么意义。正确的方法是看vmstat。
+作者:南非蜘蛛
+procs memory page disk faults cpu r b w swap free re mf mi po fr de sr f0 s0 s1 s2 in sy cs us sy id 0 0 0 14888 19120 0 4 2 11 10 0 0 0 0 0 8 198 2158 98 11 19 69
+SWAP的单位应该是K，不是M。还有两个比较重要的参数是PI、PO，表示内存的调入、调出页面，单位也是K，但是多大值作为一个衡量标准，我也不清楚，不知道是否有经验值。
+还有，最好使用vmstat t [n]命令，例如 vmstat 5 5,表示在T（5）秒时间内进行N（5）次采样。如果只使用vmstat，无法反映真正的系统情况，试一下，看看结果就知道了。
+procs: r&amp;ndash;&amp;gt;在运行队列中等待的进程数 b&amp;ndash;&amp;gt;在等待io的进程数 w&amp;ndash;&amp;gt;可以进入运行队列但被替换的进程
+memoy swap&amp;ndash;&amp;gt;现时可用的交换内存（k表示） free&amp;ndash;&amp;gt;空闲的内存（k表示）
+pages re－－》回收的页面 mf－－》非严重错误的页面 pi－－》进入页面数（k表示） po－－》出页面数（k表示） fr－－》空余的页面数（k表示） de－－》提前读入的页面中的未命中数 sr－－》通过时钟算法扫描的页面</description>
+    </item>
+    
+    <item>
+      <title>MySQL 語法 詳細執行時間 與 CPU/記憶體使用</title>
+      <link>http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/</link>
+      <pubDate>Sat, 28 Mar 2009 15:34:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/</guid>
+      <description>查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>Installing MySQL 5.1 on FreeBSD</title>
+      <link>http://example.org/2009/03/28/installing-mysql-51-on-freebsd/</link>
+      <pubDate>Sat, 28 Mar 2009 15:14:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/installing-mysql-51-on-freebsd/</guid>
+      <description>This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &amp;quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&amp;quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql</description>
+    </item>
+    
+    <item>
+      <title>tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件</title>
+      <link>http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/</link>
+      <pubDate>Thu, 26 Mar 2009 10:43:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/</guid>
+      <description>版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明。 http://windtear.net/archives/2005/09/22/000777.html
+倒数据当然推荐rsync 不过当文件数超级多 或者网络条件等不具备时 tar 打包就是首选了
+数据运到目的地后 解包时需要注意别覆盖
+tar 工具的 -k 参数就提供干这事 -k,&amp;ndash;keep-old-files 不覆盖已存在文件
+-k, --keep-old-files keep existing files; don&#39;t overwrite them from archive 如: tar zxfk filename.tar.gz</description>
+    </item>
+    
+    <item>
+      <title>tar命令详解 (推荐)</title>
+      <link>http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/</link>
+      <pubDate>Thu, 26 Mar 2009 07:02:17 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/</guid>
+      <description>tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &amp;lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc.</description>
+    </item>
+    
+    <item>
+      <title>cp 命令</title>
+      <link>http://example.org/2009/03/26/cp-e591bde4bba4/</link>
+      <pubDate>Thu, 26 Mar 2009 02:30:03 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/26/cp-e591bde4bba4/</guid>
+      <description>cp [-R [-H | -L | -P]] [-f | -i | -n] [-alpv] source_file target_file cp [-R [-H | -L | -P]] [-f | -i | -n] [-alpv] source_file &amp;hellip; target_directory
+-i 覆盖确认 -n 覆盖不确认 -v 显示详情 -R 全部目录 -p 权限和source_file 一样
+其它的暂时没用到,先写到这里</description>
+    </item>
+    
+    <item>
+      <title>FreeBSD常见问题集合</title>
+      <link>http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/</link>
+      <pubDate>Wed, 25 Mar 2009 22:45:36 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/</guid>
+      <description>1.如何使用脚本获得PID 参见脚本pid.sh, 如下:
+$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk &#39;{print $2}&#39;` echo $pid &amp;lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:
+#!/bin/sh for file in $1; do newfile=`echo &amp;quot;$file&amp;quot; | tr &amp;quot;[:upper:]&amp;quot; &amp;quot;[:lower:]&amp;quot;` mv &amp;quot;$file&amp;quot; &amp;quot;$newfile&amp;quot; done $ mklower.sh *.JPG 子目录按大小排序
+$du -s * | sort -n
+ls显示颜色
+$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG
+快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。
+# setenv PACKAGEROOT ftp://ftp.</description>
+    </item>
+    
+    <item>
+      <title>如何将FreeBSD复制到另一颗硬盘 ?</title>
+      <link>http://example.org/2009/03/25/e5a682e4bd95e5b086freebsde5a48de588b6e588b0e58fa6e4b880e9a297e7a1ace79b98/</link>
+      <pubDate>Wed, 25 Mar 2009 18:51:31 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e5a682e4bd95e5b086freebsde5a48de588b6e588b0e58fa6e4b880e9a297e7a1ace79b98/</guid>
+      <description>如何将Linux或FreeBSD复制到另一颗硬盘 ? Linux上的系统复制很简单，使用cp -ax将partition资料复制过去，重开机後设定lilo就可以了。 FreeBSD也可以用cp来复制文档，但是对于复制整个文档系统并不是好方法。 这里介绍使用dump和restore来做：
+创建新的文档系统 假如你的新硬盘为ad1, 而将来的根分区将是ad1s1a, 你可以先创建文档系统： newfs /dev/ad1s1a mount /dev/ad1s1a /mnt cd /mnt
+复制： dump -f- / | restore -f- -r 这是把老的根文档系统复制输出到管道，restore从管道里读数据，写入当前目录所在的文档系统。
+按部就班复制其他文档系统 复制完後，也许 要修改新硬盘下的/etc/fstab，安装上新的分区，摘下老硬盘就可以了。 再补充一点，如果你要复制的是另外一台机器，可以用rsh，这样就可以通过网络把一个分区数据传送到另外一台机器，不需要NFS，不需SAMBA等就可以解决问题，而cp就很难作到了。 newfs /dev/ad1s1a mount /dev/ad1s1a /mnt cd /mnt rsh -l yourname thathost &amp;lsquo;dump -f- /&amp;rsquo; | restore -f- -r
+http://www.cnblogs.com/znuwcj/archive/2006/08/22/483583.aspx</description>
+    </item>
+    
+    <item>
+      <title>fsck命令详解</title>
+      <link>http://example.org/2009/03/25/fscke591bde4bba4e8afa6e8a7a3/</link>
+      <pubDate>Wed, 25 Mar 2009 18:33:16 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/fscke591bde4bba4e8afa6e8a7a3/</guid>
+      <description>功能说明：检查文件系统并尝试修复错误。 语　法：fsck [-aANPrRsTV][-t &amp;lt;文件系统类型&amp;gt;][文件系统&amp;hellip;] 补充说明：当文件系统发生错误四化，可用fsck指令尝试加以修复。 参　数： -a 自动修复文件系统，不询问任何问题。 -A 依照/etc/fstab配置文件的内容，检查文件内所列的全部文件系统。 -N 不执行指令，仅列出实际执行会进行的动作。 -P 当搭配”-A”参数使用时，则会同时检查所有的文件系统。 -r 采用互动模式，在执行修复时询问问题，让用户得以确认并决定处理方式。 -R 当搭配”-A”参数使用时，则会略过/目录的文件系统不予检查。 -s 依序执行检查作业，而非同时执行。 -t&amp;lt;文件系统类型&amp;gt; 指定要检查的文件系统类型。 -T 执行fsck指令时，不显示标题信息。 -V 显示指令执行过程。 例子 : 检查 msdos 档案系统的 /dev/hda5 是否正常，如果有异常便自动修复 : fsck -t msdos -a /dev/hda5
+注意 :
+此指令可与 /etc/fstab 相互参考操作来加以了解。
+运行fsck命令后产生的文件有什么用？
+当执行fsck命令时，fsck命令如果发现存在孤立的文件或目录，这些孤立的文件或目录对于系统管理员或用户来说，无法访问到它，因为它与它的上级 目录失去了关联，如果用户允许fsck重新把它们找回来的话，fsck命令就会把这些孤立的文件或目录放在文件系统的/lost+found目录下，并用 各自的i-node号来命名，以便用户查找自己需要的文件。Lost+found目录通过它的英文含义我们都可以知道，它是一个失物认领处。
+因此当某个用户发现自己丢失了某个文件，可以在执行fsck之后到/lost+found目录下去查找，这时通过文件名已无法辨认出文件的作用，只能 用file之类的命令来确定文件的类型，如果是数据文件，可以用more或vi命令来查看，如果是二进制文件，可以用dbx命令来调试或者试着执行它(注 意它可能是一个具有破坏性的程序)，知道文件或目录的作用之后，可以对其进行改名。
+如果用户不允许fsck把这些孤立的文件或目录找回来，那么fsck命令就会破坏这些文件或目录，彻底丢失这些文件或目录，用户或系统管理员永远也无法找回它们。
+原文 http://hi.baidu.com/blvm/blog/item/7b7c95c46b61a6ad8226acf4.html</description>
+    </item>
+    
+    <item>
+      <title>freebsd系统一启动就进入单用户模式</title>
+      <link>http://example.org/2009/03/25/freebsde7b3bbe7bb9fe4b880e590afe58aa8e5b0b1e8bf9be585a5e58d95e794a8e688b7e6a8a1e5bc8f/</link>
+      <pubDate>Wed, 25 Mar 2009 18:26:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/freebsde7b3bbe7bb9fe4b880e590afe58aa8e5b0b1e8bf9be585a5e58d95e794a8e688b7e6a8a1e5bc8f/</guid>
+      <description>提示大概和下面一样
+/dev/ad0s1a:File System Clean;Skipping Checks /dev/ados1a:Clean,480970 free(226 frags,60093 blocks,0.0% fragmentation) /dev/ados1e:DEFER FOR BACKGROUND CHECKING /dev/ados1f:DEFER FOR BACKGROUND CHECKING ad0:FAILURE -READ_DMA status=51 error=40 LBA=3306739 /dev/ad0s1d:CANNOT READ BLK:160948 /dev/ad0s1d:UNEXPECTED SOFT UPDATE INCONSISTENCY;RUN fsck MANUALLY. THE FOLLOWING FILE SYSTEM HAD AN UNEXPECTED INCONSISTENCY: usf:/dev/ados1d(/usr) Automatic file system check failed;help! OCT 24 19:18:42 init:/bin/sh on /etc/rc terminated abnormally,going to single use mode Enter full pathname of shell or RETURN for /bin/sh:
+####################
+原因：文件系统崩溃了，各分区损坏
+解决方法：</description>
+    </item>
+    
+    <item>
+      <title>试析FreeBSD 6.2 的rc脚本系统</title>
+      <link>http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/</link>
+      <pubDate>Wed, 25 Mar 2009 11:20:52 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/</guid>
+      <description>杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&amp;quot;YES&amp;quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&amp;gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&amp;gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to &amp;ldquo;NO&amp;rdquo; by default.</description>
+    </item>
+    
+    <item>
+      <title>mysql 压力测试结果</title>
+      <link>http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/</link>
+      <pubDate>Wed, 25 Mar 2009 09:13:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/</guid>
+      <description>freebsd 7.0 amd64
+mysqlslap -a --concurrency=5,10,20,50,150 --number-of-queries 100000 --debug-info Benchmark Average number of seconds to run all queries: 766.733 seconds Minimum number of seconds to run all queries: 766.733 seconds Maximum number of seconds to run all queries: 766.733 seconds Number of clients running queries: 5 Average number of queries per client: 20000 Benchmark Average number of seconds to run all queries: 820.050 seconds Minimum number of seconds to run all queries: 820.</description>
+    </item>
+    
+    <item>
+      <title>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证</title>
+      <link>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</link>
+      <pubDate>Wed, 25 Mar 2009 08:54:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</guid>
+      <description>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x + PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</description>
+    </item>
+    
+    <item>
+      <title>FreeBSD环境下的Lighttpd 参数配置与性能优化</title>
+      <link>http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/</link>
+      <pubDate>Wed, 25 Mar 2009 08:34:24 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/</guid>
+      <description>简单说一下：Lighttpd是一个轻量级的Web 服务器，支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。它具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。其静态文件的响应能力远高于Apache，可谓Web服务器的后期之秀。
+许多技术专家认为，在Web 服务器中Lighttpd比Apache更小更轻量，却拥有比后者更高的性能。虽然Lighttpd在Web服务器方面只占很小的市场份额，“但它正极速增长，日后必将是Web服务器领域的有力竞争者。” 针对我们的普遍应用情况下，对配置文件进行一些修改。Time per request: 能达到0.65 [ms]左右相对于以前测的0.734[ms]左右，性能有很大提高。如果有大量的时间对每个性能指标进行测试，去掉不必要的模块和特性，应该在性能上还会有所提高，估计最好能到0.61[ms]左右。最近测试如下： lighttpd 配置文件：去掉了很多不必要的特性。
+#######lighttpd.conf. server.port = 7983 , server.modules = (&amp;quot;mod_access&amp;quot;) server.document-root = &amp;quot;/usr/home/yangjian/lighttpd/doc/&amp;quot; server.pid-file = &amp;quot;/usr/home/yangjian/lighttpd/lighttpd.pid&amp;quot; mimetype.assign = ( &amp;quot;.html&amp;quot; =&amp;gt; &amp;quot;text/html&amp;quot;, &amp;quot;.js&amp;quot; =&amp;gt; &amp;quot;text/javascript&amp;quot;, ) server.max-keep-alive-requests =4000 dir-listing.activate = &amp;ldquo;disable&amp;rdquo;
+LiteSpeed的测试都是在默认配置下。它的结果不太稳定，最好的记录是0.603ms，这是lighttpd所没有过的好成绩，但大多数情况下都在 0.70左右，有好多次在0.76以上。我这里说的都是LiteSpeed的标准版，pro版是要花钱的性能当然要好些。LiteSpeed是同过web 管理的，这是它的一个比较好的特性。如果经过优化我想它和lighttpd应该还是不差上下的。 我暂时先选择相对稳定点的lighttpd作为我们的web server，然后对它的配置和优化进行说明。Lighttpd配置文件很简单，相信大家配过apache的都能看明白。我就只对影响性能的指标挑出来讨论。参考文章http://www.lighttpd.net/documentation 可以看出我上面的那个配置文件非常简短。我去掉了所有不必要的特性。添加的模块只有mod_access，如果没有它访问是就会出现403错误。除了它之外系统默认启用的模块有 mod_indexfiles ，mod_dirlisting， mod_staticfile。但在默认已经编译进去的模块清单如下： 对于这些已经编译进去的在启用时就非常简单了，enable一下就ok了。Lighttpd想添加一个功能一般情况下只需要添加一两行指令到配置文件中，比apache易配置多了。
+Plugins: enabled: mod_access
+mod_accesslog mod_alias
+mod_auth mod_cgi mod_compress mod_dirlisting mod_evhost mod_expire mod_fastcgi
+mod_indexfiles mod_proxy mod_rrdtool mod_scgi mod_secdownload mod_setenv mod_simple_vhost mod_staticfile mod_status mod_userdir mod_usertrack mod_webdav disabled: mod_cml mod_mysql_vhost mod_redirect mod_rewrite</description>
+    </item>
+    
+    <item>
+      <title>使用pkgtools.conf加强portupgrade</title>
+      <link>http://example.org/2009/03/25/e4bdbfe794a8pkgtoolsconfe58aa0e5bcbaportupgrade/</link>
+      <pubDate>Wed, 25 Mar 2009 08:26:12 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e4bdbfe794a8pkgtoolsconfe58aa0e5bcbaportupgrade/</guid>
+      <description>freebsd的ports非常优秀，使用ports安装的软件可以用portupgrade进行升级。 以前一直有一个问题困扰我。那就是：我在用ports安装某个软件，如果指定了一些特殊的编译参数，如安装mysql时指定特殊字符集等
+make WITH_CHARSET=gbk WITH_XCHARSET=all BUILD_OPTIMIZED=yes install clean 这样安装的mysql在使用portupgrade升级的时候，只按照默认的编译，也就是说上面的特殊参数丢失了。使得我在升级mysql的时候不得不手动用make deinstall make install升级。
+其实，有一个文件可以让portupgrade升级的时候加入某些参数。那就是/usr/local/etc/pkgtools.conf 编辑该文件并加入以下内容
+MAKE_ARGS = { &#39;databases/mysql*-server&#39; =&amp;gt; [ &#39;WITH_CHARSET=gbk&#39;, &#39;WITH_XCHARSET=all&#39;, &#39;SKIP_DNS_CHECK=yes&#39;, &#39;BUILD_OPTIMIZED=yes&#39;, &#39;BUILD_STATIC=yes&#39;, ], } 这样portupgrade会在升级mysql的时候应用上述参数。
+原文 http://freebsd.5d6d.com/thread-45-1-1.html</description>
+    </item>
+    
+    <item>
+      <title>使用 Nginx 提升网站访问速度</title>
+      <link>http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/</link>
+      <pubDate>Tue, 24 Mar 2009 03:23:40 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/</guid>
+      <description>本文主要介绍如何在 Linux 系统上安装高性能的 HTTP 服务器 —— Nginx、并在不改变原有网站结构的条件下用 Nginx 来提升网站的访问速度。 Nginx 简介 Nginx(&amp;ldquo;engine x&amp;rdquo;) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.ru 站点开发的，它已经在该站点运行超过两年半了。 Igor 将源代码以类BSD 许可证的形式发布。尽管还是测试版，但是，Nginx 已经因为它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名了。 根据最新一期（08 年 6 月份）的 NetCraft 调查报告显示，已经有超过两百万的主机使用了 Nginx，这个数字超过了另外一个轻量级的 HTTP 服务器 lighttpd， 排名第四，并且发展迅速。下面是这份报告的前几名的报表： 产品 网站数 Apache 84,309,103
+IIS 60,987,087
+Google GFE 10,465,178
+Unknown 4,903,174
+nginx 2,125,160
+Oversee 1,953,848
+lighttpd 1,532,952
+关于这期调查报告的更详细信息请看下面链接： http://survey.netcraft.com/Reports/200806/ 下图是最近几个月使用 Nginx 和 lighttpd 的网站数比较 图 1. 最近几个月使用 Nginx 和 lighttpd 的网站数比较 目前官方 Nginx 并不支持 Windows，您只能在包括 Linux、UNIX、BSD 系统下安装和使用； Nginx 本身只是一个 HTTP 和反向代理服务器，它无法像 Apache 一样通过安装各种模块来支持不同的页面脚本，例如 PHP、CGI 等； Nginx 支持简单的负载均衡和容错； 支持作为基本 HTTP 服务器的功能，例如日志、压缩、Byte ranges、Chunked responses、SSL、虚拟主机等等，应有尽有。 在 Linux 下安装 Nginx 为了确保能在 Nginx 中使用正则表达式进行更灵活的配置，安装之前需要确定系统是否安装有 PCRE（Perl Compatible Regular Expressions）包。您可以到 ftp://ftp.</description>
+    </item>
+    
+    <item>
+      <title>Sphinx Storage Engine in MySQL via FreeBSD Ports</title>
+      <link>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</link>
+      <pubDate>Mon, 23 Mar 2009 16:59:55 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</guid>
+      <description>系統：FreeBSD 7.1-RELEASE MySQL：5.1.30 Sphinx：0.9.8.1
+mysql51-server.diff diff -Nur /usr/ports/databases/mysql51-server/Makefile mysql51-server/Makefile — /usr/ports/databases/mysql51-server/Makefile 2008-07-27 09:56:19.000000000 +0100 +++ mysql51-server/Makefile 2008-08-06 16:20:51.000000000 +0100 @@ -60,6 +60,16 @@ CONFIGURE_ARGS+=–with-collation=${WITH_COLLATION} .endif +# Sphinx Engine +.if defined(WITH_SPHINXSE) +SPHINX_PORT?= textproc/sphinxsearch +SPHINX_WRKSRC= cd ${PORTSDIR}/${SPHINX_PORT} &amp;amp;&amp;amp; ${MAKE} -V WRKSRC + +EXTRACT_DEPENDS+= ${NONEXISTENT}:${PORTSDIR}/${SPHINX_PORT}:extract +RUN_DEPENDS+= searchd:${PORTSDIR}/${SPHINX_PORT} +USE_AUTOTOOLS+= autoconf:262 automake:110 +.endif + .include .if ${ARCH} == “i386″ @@ -124,8 +134,14 @@ @${ECHO} “ BUILD_STATIC=yes Build a static version of mysqld.” @${ECHO} “ (use it if you need even more speed).</description>
+    </item>
+    
+    <item>
+      <title>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;</title>
+      <link>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</link>
+      <pubDate>Mon, 23 Mar 2009 16:29:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</guid>
+      <description>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &amp;lsquo;default&amp;rsquo;
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &amp;lt;value name=&amp;quot;user&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; Unix group of processes &amp;lt;value name=&amp;quot;group&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</description>
+    </item>
+    
+    <item>
+      <title>PHP 5.2.9 Released!</title>
+      <link>http://example.org/2009/03/19/php-529-released/</link>
+      <pubDate>Thu, 19 Mar 2009 14:36:17 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/php-529-released/</guid>
+      <description>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </description>
+    </item>
+    
+    <item>
+      <title>Find 指令用法教學</title>
+      <link>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</link>
+      <pubDate>Thu, 19 Mar 2009 13:47:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</guid>
+      <description>筆記一下自己常用的 find 指令，適用於 FreeBSD 或者是 Linux 各大 distribution，系統管理這個指令就相當重要了，在搭配 grep，sed，awk，perl 可以快速找到自己要的檔案。我自己本身很常用到 grep，find，awk 這些撰寫 shell script。
+底下先來介紹一下 find：
+找出 . 底下的 php 檔案
+find . -name &amp;ldquo;*.php&amp;rdquo;
+找出 . 底下非 php 副檔名檔案
+find . -not -name &amp;ldquo;*.php&amp;rdquo;
+刪除 . 底下 php 檔案，有兩種作法
+系統詢問之後才刪除 先把 -exec 後面的東西先清掉， 用 -print 來先確認輸出 rm 可以多用 -i 的參數來加以確認 find . -name &amp;ldquo;*.php&amp;rdquo; -exec rm -i {} ;
+系統直接刪除 find . -delete -name &amp;ldquo;.php&amp;rdquo; find . -name &amp;ldquo;.php&amp;rdquo; | xargs /bin/rm -rf</description>
+    </item>
+    
+    <item>
+      <title>Webalizer-利用ApacheLog達成流量統計圖表化</title>
+      <link>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</link>
+      <pubDate>Sat, 30 Jun 2007 19:56:15 +0000</pubDate>
+      
+      <guid>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;【前言】&lt;/strong&gt;&lt;a href=&#34;http://www.mrunix.net/webalizer/&#34;&gt;[webalizer]&lt;/a&gt; - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【作業環境】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FreeBSD 5.2、6.2-RELEASE&lt;/p&gt;
+&lt;p&gt;webalizer-2.01-10、2.1.10_12&lt;/p&gt;
+&lt;p&gt;libiconv-1.9.2_2&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【安裝及設定】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step1.安裝 webalizer 及 libiconv 套件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;將&lt;a href=&#34;http://www.weithenn.idv.tw/cgi-bin/wiki.pl/%e9%a1%8f%e5%9c%8b%e9%9b%84%e8%80%81%e5%b8%ab%e4%b8%ad%e6%96%87%e4%ba%82%e7%a2%bc%e4%bf%ae%e6%ad%a3%e6%aa%94-webalizer_patch.pl&#34;&gt;顏國雄老師中文亂碼修正檔-webalizer patch.pl&lt;/a&gt; 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FreeBSD 下的TOP的使用方法</title>
+      <link>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</link>
+      <pubDate>Wed, 18 Oct 2006 03:46:13 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</guid>
+      <description>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (+ selects all users) 顺序显示下面三个常规的信息</description>
+    </item>
+    
+    <item>
+      <title>freebsd命令大全</title>
+      <link>http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/</link>
+      <pubDate>Mon, 16 Oct 2006 01:33:39 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/</guid>
+      <description>1 man 在线查询 man ls
+2 ls 查看目录与档案 ls -la 3 ln 建立链接文件 ln -fs /usr/local/apache/etc/httpd.conf /etc/httpd.conf
+4 more 分页显示 more 文件名称
+5 cd 切换目录 cd /usr/local/apache
+6 mkdir 建立新的目录 mkdir /usr/temp
+7 rmdir 删除目录 rmdir /usr/temp
+8 rm 删除目录或档案 rm -f 文件名称
+9 cp 复制目录或档案 cp 来源档案 目标档案
+10 pwd 显示目前的工作目录 Pwd
+11 mv 目录或档案更名或搬移 mv 来源档案 目标档案
+12 find 寻找目录或档案 find /etc -name 文件名称
+13 fetch 取得档案 fetch ftp://ftp.</description>
+    </item>
+    
+    <item>
+      <title>SYN攻击原理以及防范技术</title>
+      <link>http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/</link>
+      <pubDate>Sun, 15 Oct 2006 10:31:42 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/</guid>
+      <description>本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……
+据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。
+一、TCP握手协议
+在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。
+第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
+第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；
+第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
+完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：
+未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。
+SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。
+半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。
+二、SYN攻击原理
+SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j+1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。
+三、SYN攻击工具
+SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。
+1、windows系统下的SYN工具
+以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。
+四、检测SYN攻击
+检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：
+# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10.</description>
+    </item>
+    
+  </channel>
+</rss>

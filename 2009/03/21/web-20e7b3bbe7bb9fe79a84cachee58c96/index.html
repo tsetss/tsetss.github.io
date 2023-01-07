@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>web 2.0系统的Cache化 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。
+先来看看新浪的blog首页和我的页面：
+访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: &ldquo;451ed-4d003-469218bf&rdquo; Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html
+访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/21/web-20e7b3bbe7bb9fe79a84cachee58c96/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="web 2.0系统的Cache化" />
+<meta property="og:description" content="已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。
+先来看看新浪的blog首页和我的页面：
+访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: &ldquo;451ed-4d003-469218bf&rdquo; Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html
+访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/21/web-20e7b3bbe7bb9fe79a84cachee58c96/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-21T15:23:16+00:00" />
+<meta property="article:modified_time" content="2009-03-21T15:23:16+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="web 2.0系统的Cache化"/>
+<meta name="twitter:description" content="已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。
+先来看看新浪的blog首页和我的页面：
+访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: &ldquo;451ed-4d003-469218bf&rdquo; Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html
+访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "web 2.0系统的Cache化",
+      "item": "http://example.org/2009/03/21/web-20e7b3bbe7bb9fe79a84cachee58c96/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "web 2.0系统的Cache化",
+  "name": "web 2.0系统的Cache化",
+  "description": "已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。\n先来看看新浪的blog首页和我的页面：\n访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: \u0026ldquo;451ed-4d003-469218bf\u0026rdquo; Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html\n访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html",
+  "keywords": [
+    
+  ],
+  "articleBody": "已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。\n先来看看新浪的blog首页和我的页面：\n访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: “451ed-4d003-469218bf” Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html\n访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html\n这里我们把跟Cache system相关的东东提出来，一个个看看（可以在w3c的HTTP 1.1中查看RFC2616 中的相关定义）。\n首先是Cache-Control。它用来指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache -Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max- stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age、s-maxage。我们来说说响应消息，因为它是服务器发出的，对于客户端和Cache System都有非常重要的意义： Public 指示响应可被任何缓存区缓存。 Private 指示对于单个用户的整个或部分响应消息，不能被共享缓存处理。这允许服务器仅仅描述当用户的部分响应消息，此响应消息对于其他用户的请求无效。 no-cache 指示请求或响应消息不能缓存 no-store 用于防止重要的信息被无意的发布。在请求消息中发送将使得请求和响应消息都不使用缓存 max-age 指示客户机可以接收生存期不大于指定时间（以秒为单位）的响应。 no-transform 不允许转换存储系统 must-revalidate 使得客户端再次浏览当前页时必须发送相关 HTTP 头信息到服务器进行验证，然后才决定是否加载客户端本地 cache\n从上面两个HTTP回应头来看，blog.sina.com.cn显然是一个期望应用cache的页面。它告诉我们可以在600秒内缓存该页面的内容。而我自己的首页是一个非常不欢迎cache的页面，程序员把他能知道的不让客户端和反向代理cache的关键字都用上了。注意，这个程序员还加了post-check=0, pre-check=0这两个IE 5.0才有的防cache声明。汗。。。看来用户和程序员都非常在意，每个个人的blog页面都必需从服务器端取得实时的数据。\n其它的几个HTTP头也非常有意义，一起来看看： Date 表示消息发送的时间，时间的描述格式由rfc822定义 Expires 缓冲存储的页距过期还有多少时间。如果用户在某个页过期之前又回到此页，就会显示缓冲区中的版本 Last-Modified 最后更新网页的时间 ETag 网页的tag校验码\n知道了这几个头信息的意义，就可以了解到blog的首页要比我们个人的页面友好的多。它更容易被cache system所使用。有许多人会说，blog的首页哪是发布系统发布出来的静态页面，当然会好很多。自己写的代码，哪有这样好呀。确实，所有的web服务器在静态页面的输出时对cache system非常友好，这是我本机的lighttpd的输出头： HTTP/1.1 200 OKContent-Type: text/html Accept-Ranges: bytes ETag: “2116784511” Last-Modified: Mon, 09 Jul 2007 17:05:47 GMT Content-Length: 4454 Date: Mon, 09 Jul 2007 17:07:16 GMT Server: lighttpd/1.4.15\n原文 http://blog.sina.com.cn/s/blog_5595d51401000b23.html\n",
+  "wordCount" : "147",
+  "inLanguage": "en",
+  "datePublished": "2009-03-21T15:23:16Z",
+  "dateModified": "2009-03-21T15:23:16Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/21/web-20e7b3bbe7bb9fe79a84cachee58c96/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      web 2.0系统的Cache化
+    </h1>
+    <div class="post-meta"><span title='2009-03-21 15:23:16 +0000 UTC'>March 21, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。</p>
+<p>先来看看新浪的blog首页和我的页面：</p>
+<p>访问http://blog.sina.com.cn的首页，它返回的Header如下：
+HTTP/1.1 200 OK
+Date: Mon, 09 Jul 2007 11:26:19 GMT
+Server: Apache/1.3.37 (Unix)
+Cache-Control: max-age=600
+Expires: Mon, 09 Jul 2007 11:36:19 GMT
+Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT
+ETag: &ldquo;451ed-4d003-469218bf&rdquo;
+Accept-Ranges: bytes
+Content-Length: 315395
+Content-Type: text/html</p>
+<p>访问http://blog.sina.com.cn/hdcola，它返回的Header如下：
+HTTP/1.1 200 OK
+Date: Mon, 09 Jul 2007 11:28:01 GMT
+Server: Apache/1.3.37 (Unix)
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/
+Pragma: no-cache
+Transfer-Encoding: chunked
+Content-Type: text/html</p>
+<p>这里我们把跟Cache system相关的东东提出来，一个个看看（可以在w3c的HTTP 1.1中查看RFC2616 中的相关定义）。</p>
+<p>首先是Cache-Control。它用来指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache -Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max- stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age、s-maxage。我们来说说响应消息，因为它是服务器发出的，对于客户端和Cache System都有非常重要的意义：
+Public    指示响应可被任何缓存区缓存。
+Private    指示对于单个用户的整个或部分响应消息，不能被共享缓存处理。这允许服务器仅仅描述当用户的部分响应消息，此响应消息对于其他用户的请求无效。
+no-cache    指示请求或响应消息不能缓存
+no-store    用于防止重要的信息被无意的发布。在请求消息中发送将使得请求和响应消息都不使用缓存
+max-age    指示客户机可以接收生存期不大于指定时间（以秒为单位）的响应。
+no-transform     不允许转换存储系统
+must-revalidate  使得客户端再次浏览当前页时必须发送相关 HTTP 头信息到服务器进行验证，然后才决定是否加载客户端本地 cache</p>
+<p>从上面两个HTTP回应头来看，blog.sina.com.cn显然是一个期望应用cache的页面。它告诉我们可以在600秒内缓存该页面的内容。而我自己的首页是一个非常不欢迎cache的页面，程序员把他能知道的不让客户端和反向代理cache的关键字都用上了。注意，这个程序员还加了post-check=0, pre-check=0这两个IE 5.0才有的防cache声明。汗。。。看来用户和程序员都非常在意，每个个人的blog页面都必需从服务器端取得实时的数据。</p>
+<p>其它的几个HTTP头也非常有意义，一起来看看：
+Date     表示消息发送的时间，时间的描述格式由rfc822定义
+Expires    缓冲存储的页距过期还有多少时间。如果用户在某个页过期之前又回到此页，就会显示缓冲区中的版本
+Last-Modified 最后更新网页的时间
+ETag 网页的tag校验码</p>
+<p>知道了这几个头信息的意义，就可以了解到blog的首页要比我们个人的页面友好的多。它更容易被cache system所使用。有许多人会说，blog的首页哪是发布系统发布出来的静态页面，当然会好很多。自己写的代码，哪有这样好呀。确实，所有的web服务器在静态页面的输出时对cache system非常友好，这是我本机的lighttpd的输出头：
+HTTP/1.1 200 OKContent-Type: text/html
+Accept-Ranges: bytes
+ETag: &ldquo;2116784511&rdquo;
+Last-Modified: Mon, 09 Jul 2007 17:05:47 GMT
+Content-Length: 4454
+Date: Mon, 09 Jul 2007 17:07:16 GMT
+Server: lighttpd/1.4.15</p>
+<p>原文 <a href="http://blog.sina.com.cn/s/blog_5595d51401000b23.html">http://blog.sina.com.cn/s/blog_5595d51401000b23.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

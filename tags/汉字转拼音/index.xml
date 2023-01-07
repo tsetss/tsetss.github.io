@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+汉字转拼音
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E6%B1%89%E5%AD%97%E8%BD%AC%E6%8B%BC%E9%9F%B3/</link>
+    <description>Recent content in 
+汉字转拼音
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Aug 2012 15:51:20 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E6%B1%89%E5%AD%97%E8%BD%AC%E6%8B%BC%E9%9F%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php 汉字转拼音类 支持音字 声调</title>
+      <link>http://example.org/2012/08/12/php-chinese-characters-to-pinyin/</link>
+      <pubDate>Sun, 12 Aug 2012 15:51:20 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/12/php-chinese-characters-to-pinyin/</guid>
+      <description>&lt;p&gt;突然要用到 utf-8 汉字转拼音 ，网上大多都是先把 utf-8 转成 gbk 在转成拼音，太麻烦了，于是自己整理了一份 utf-8 版的，由于找到到的码表问题，部分多音字及声调得到整理，算是比较全的汉字拼音表了。 当然和大多数转换程序一样，还不支持自动多音转换，如 银行可能会转换成 yinxing ，当然了，可以自己控制输出,需要汉字拼音表的可以在程序中提取。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

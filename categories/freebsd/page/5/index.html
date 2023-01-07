@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+freebsd
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/freebsd/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+freebsd
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/freebsd/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+freebsd
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+freebsd
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd系统一启动就进入单用户模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>提示大概和下面一样
+/dev/ad0s1a:File System Clean;Skipping Checks /dev/ados1a:Clean,480970 free(226 frags,60093 blocks,0.0% fragmentation) /dev/ados1e:DEFER FOR BACKGROUND CHECKING /dev/ados1f:DEFER FOR BACKGROUND CHECKING ad0:FAILURE -READ_DMA status=51 error=40 LBA=3306739 /dev/ad0s1d:CANNOT READ BLK:160948 /dev/ad0s1d:UNEXPECTED SOFT UPDATE INCONSISTENCY;RUN fsck MANUALLY. THE FOLLOWING FILE SYSTEM HAD AN UNEXPECTED INCONSISTENCY: usf:/dev/ados1d(/usr) Automatic file system check failed;help! OCT 24 19:18:42 init:/bin/sh on /etc/rc terminated abnormally,going to single use mode Enter full pathname of shell or RETURN for /bin/sh:
+####################
+原因：文件系统崩溃了，各分区损坏
+解决方法：...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 18:26:34 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd系统一启动就进入单用户模式" href="http://example.org/2009/03/25/freebsde7b3bbe7bb9fe4b880e590afe58aa8e5b0b1e8bf9be585a5e58d95e794a8e688b7e6a8a1e5bc8f/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>试析FreeBSD 6.2 的rc脚本系统
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&#34;YES&#34; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to “NO” by default....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 11:20:52 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 试析FreeBSD 6.2 的rc脚本系统" href="http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mysql 压力测试结果
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd 7.0 amd64
+mysqlslap -a --concurrency=5,10,20,50,150 --number-of-queries 100000 --debug-info Benchmark Average number of seconds to run all queries: 766.733 seconds Minimum number of seconds to run all queries: 766.733 seconds Maximum number of seconds to run all queries: 766.733 seconds Number of clients running queries: 5 Average number of queries per client: 20000 Benchmark Average number of seconds to run all queries: 820.050 seconds Minimum number of seconds to run all queries: 820....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 09:13:57 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql 压力测试结果" href="http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x &#43; PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:54:05 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证" href="http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD环境下的Lighttpd 参数配置与性能优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>简单说一下：Lighttpd是一个轻量级的Web 服务器，支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。它具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。其静态文件的响应能力远高于Apache，可谓Web服务器的后期之秀。
+许多技术专家认为，在Web 服务器中Lighttpd比Apache更小更轻量，却拥有比后者更高的性能。虽然Lighttpd在Web服务器方面只占很小的市场份额，“但它正极速增长，日后必将是Web服务器领域的有力竞争者。” 针对我们的普遍应用情况下，对配置文件进行一些修改。Time per request: 能达到0.65 [ms]左右相对于以前测的0.734[ms]左右，性能有很大提高。如果有大量的时间对每个性能指标进行测试，去掉不必要的模块和特性，应该在性能上还会有所提高，估计最好能到0.61[ms]左右。最近测试如下： lighttpd 配置文件：去掉了很多不必要的特性。
+#######lighttpd.conf. server.port = 7983 , server.modules = (&#34;mod_access&#34;) server.document-root = &#34;/usr/home/yangjian/lighttpd/doc/&#34; server.pid-file = &#34;/usr/home/yangjian/lighttpd/lighttpd.pid&#34; mimetype.assign = ( &#34;.html&#34; =&gt; &#34;text/html&#34;, &#34;.js&#34; =&gt; &#34;text/javascript&#34;, ) server.max-keep-alive-requests =4000 dir-listing.activate = “disable”
+LiteSpeed的测试都是在默认配置下。它的结果不太稳定，最好的记录是0.603ms，这是lighttpd所没有过的好成绩，但大多数情况下都在 0.70左右，有好多次在0.76以上。我这里说的都是LiteSpeed的标准版，pro版是要花钱的性能当然要好些。LiteSpeed是同过web 管理的，这是它的一个比较好的特性。如果经过优化我想它和lighttpd应该还是不差上下的。 我暂时先选择相对稳定点的lighttpd作为我们的web server，然后对它的配置和优化进行说明。Lighttpd配置文件很简单，相信大家配过apache的都能看明白。我就只对影响性能的指标挑出来讨论。参考文章http://www.lighttpd.net/documentation 可以看出我上面的那个配置文件非常简短。我去掉了所有不必要的特性。添加的模块只有mod_access，如果没有它访问是就会出现403错误。除了它之外系统默认启用的模块有 mod_indexfiles ，mod_dirlisting， mod_staticfile。但在默认已经编译进去的模块清单如下： 对于这些已经编译进去的在启用时就非常简单了，enable一下就ok了。Lighttpd想添加一个功能一般情况下只需要添加一两行指令到配置文件中，比apache易配置多了。
+Plugins: enabled: mod_access
+mod_accesslog mod_alias
+mod_auth mod_cgi mod_compress mod_dirlisting mod_evhost mod_expire mod_fastcgi
+mod_indexfiles mod_proxy mod_rrdtool mod_scgi mod_secdownload mod_setenv mod_simple_vhost mod_staticfile mod_status mod_userdir mod_usertrack mod_webdav disabled: mod_cml mod_mysql_vhost mod_redirect mod_rewrite...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:34:24 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD环境下的Lighttpd 参数配置与性能优化" href="http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>使用pkgtools.conf加强portupgrade
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd的ports非常优秀，使用ports安装的软件可以用portupgrade进行升级。 以前一直有一个问题困扰我。那就是：我在用ports安装某个软件，如果指定了一些特殊的编译参数，如安装mysql时指定特殊字符集等
+make WITH_CHARSET=gbk WITH_XCHARSET=all BUILD_OPTIMIZED=yes install clean 这样安装的mysql在使用portupgrade升级的时候，只按照默认的编译，也就是说上面的特殊参数丢失了。使得我在升级mysql的时候不得不手动用make deinstall make install升级。
+其实，有一个文件可以让portupgrade升级的时候加入某些参数。那就是/usr/local/etc/pkgtools.conf 编辑该文件并加入以下内容
+MAKE_ARGS = { &#39;databases/mysql*-server&#39; =&gt; [ &#39;WITH_CHARSET=gbk&#39;, &#39;WITH_XCHARSET=all&#39;, &#39;SKIP_DNS_CHECK=yes&#39;, &#39;BUILD_OPTIMIZED=yes&#39;, &#39;BUILD_STATIC=yes&#39;, ], } 这样portupgrade会在升级mysql的时候应用上述参数。
+原文 http://freebsd.5d6d.com/thread-45-1-1.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:26:12 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用pkgtools.conf加强portupgrade" href="http://example.org/2009/03/25/e4bdbfe794a8pkgtoolsconfe58aa0e5bcbaportupgrade/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>使用 Nginx 提升网站访问速度
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文主要介绍如何在 Linux 系统上安装高性能的 HTTP 服务器 —— Nginx、并在不改变原有网站结构的条件下用 Nginx 来提升网站的访问速度。 Nginx 简介 Nginx(“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.ru 站点开发的，它已经在该站点运行超过两年半了。 Igor 将源代码以类BSD 许可证的形式发布。尽管还是测试版，但是，Nginx 已经因为它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名了。 根据最新一期（08 年 6 月份）的 NetCraft 调查报告显示，已经有超过两百万的主机使用了 Nginx，这个数字超过了另外一个轻量级的 HTTP 服务器 lighttpd， 排名第四，并且发展迅速。下面是这份报告的前几名的报表： 产品 网站数 Apache 84,309,103
+IIS 60,987,087
+Google GFE 10,465,178
+Unknown 4,903,174
+nginx 2,125,160
+Oversee 1,953,848
+lighttpd 1,532,952
+关于这期调查报告的更详细信息请看下面链接： http://survey.netcraft.com/Reports/200806/ 下图是最近几个月使用 Nginx 和 lighttpd 的网站数比较 图 1. 最近几个月使用 Nginx 和 lighttpd 的网站数比较 目前官方 Nginx 并不支持 Windows，您只能在包括 Linux、UNIX、BSD 系统下安装和使用； Nginx 本身只是一个 HTTP 和反向代理服务器，它无法像 Apache 一样通过安装各种模块来支持不同的页面脚本，例如 PHP、CGI 等； Nginx 支持简单的负载均衡和容错； 支持作为基本 HTTP 服务器的功能，例如日志、压缩、Byte ranges、Chunked responses、SSL、虚拟主机等等，应有尽有。 在 Linux 下安装 Nginx 为了确保能在 Nginx 中使用正则表达式进行更灵活的配置，安装之前需要确定系统是否安装有 PCRE（Perl Compatible Regular Expressions）包。您可以到 ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 03:23:40 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用 Nginx 提升网站访问速度" href="http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Sphinx Storage Engine in MySQL via FreeBSD Ports
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>系統：FreeBSD 7.1-RELEASE MySQL：5.1.30 Sphinx：0.9.8.1
+mysql51-server.diff diff -Nur /usr/ports/databases/mysql51-server/Makefile mysql51-server/Makefile — /usr/ports/databases/mysql51-server/Makefile 2008-07-27 09:56:19.000000000 &#43;0100 &#43;&#43;&#43; mysql51-server/Makefile 2008-08-06 16:20:51.000000000 &#43;0100 @@ -60,6 &#43;60,16 @@ CONFIGURE_ARGS&#43;=–with-collation=${WITH_COLLATION} .endif &#43;# Sphinx Engine &#43;.if defined(WITH_SPHINXSE) &#43;SPHINX_PORT?= textproc/sphinxsearch &#43;SPHINX_WRKSRC= cd ${PORTSDIR}/${SPHINX_PORT} &amp;&amp; ${MAKE} -V WRKSRC &#43; &#43;EXTRACT_DEPENDS&#43;= ${NONEXISTENT}:${PORTSDIR}/${SPHINX_PORT}:extract &#43;RUN_DEPENDS&#43;= searchd:${PORTSDIR}/${SPHINX_PORT} &#43;USE_AUTOTOOLS&#43;= autoconf:262 automake:110 &#43;.endif &#43; .include .if ${ARCH} == “i386″ @@ -124,8 &#43;134,14 @@ @${ECHO} “ BUILD_STATIC=yes Build a static version of mysqld.” @${ECHO} “ (use it if you need even more speed)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:59:55 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Sphinx Storage Engine in MySQL via FreeBSD Ports" href="http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool ‘default’
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &lt;value name=&#34;user&#34;&gt;www&lt;/value&gt; Unix group of processes &lt;value name=&#34;group&#34;&gt;www&lt;/value&gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:29:35 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;" href="http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>PHP 5.2.9 Released!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 14:36:17 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP 5.2.9 Released!" href="http://example.org/2009/03/19/php-529-released/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/freebsd/page/4/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/categories/freebsd/page/6/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

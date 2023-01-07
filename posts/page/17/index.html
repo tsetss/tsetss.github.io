@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>[原创] MySQL Proxy 学习笔记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu
+【 测试平台 】
+**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32
+注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】
+$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/
+如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】
+执行 mysql-proxy –help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：
+管理功能选项...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-29 16:25:50 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [原创] MySQL Proxy 学习笔记" href="http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>[转]MySQL与事务
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-29 12:51:33 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [转]MySQL与事务" href="http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd vmstat结果内容的解释
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>top是给Linux设计的。在FreeBSD VM里面的Free概念和其他OS完全不同，使用top查看Free内存对于FreeBSD来说可以说没什么意义。正确的方法是看vmstat。
+作者:南非蜘蛛
+procs memory page disk faults cpu r b w swap free re mf mi po fr de sr f0 s0 s1 s2 in sy cs us sy id 0 0 0 14888 19120 0 4 2 11 10 0 0 0 0 0 8 198 2158 98 11 19 69
+SWAP的单位应该是K，不是M。还有两个比较重要的参数是PI、PO，表示内存的调入、调出页面，单位也是K，但是多大值作为一个衡量标准，我也不清楚，不知道是否有经验值。
+还有，最好使用vmstat t [n]命令，例如 vmstat 5 5,表示在T（5）秒时间内进行N（5）次采样。如果只使用vmstat，无法反映真正的系统情况，试一下，看看结果就知道了。
+procs: r–&gt;在运行队列中等待的进程数 b–&gt;在等待io的进程数 w–&gt;可以进入运行队列但被替换的进程
+memoy swap–&gt;现时可用的交换内存（k表示） free–&gt;空闲的内存（k表示）
+pages re－－》回收的页面 mf－－》非严重错误的页面 pi－－》进入页面数（k表示） po－－》出页面数（k表示） fr－－》空余的页面数（k表示） de－－》提前读入的页面中的未命中数 sr－－》通过时钟算法扫描的页面...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-29 03:17:23 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd vmstat结果内容的解释" href="http://example.org/2009/03/29/freebsd-vmstate7bb93e69e9ce58685e5aeb9e79a84e8a7a3e9878a/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Mysql安装&amp;同步
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&gt; groupadd mysql
+shell&gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&gt; cd /usr/local
+shell&gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&gt; cd mysql
+shell&gt; scripts/mysql_install_db –user=mysql
+/如果你用root运行命令，应当使用–user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略–user选项。/
+shell&gt; chown -R root .
+shell&gt; chown -R mysql data...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 20:59:25 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Mysql安装&amp;同步" href="http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>my.cnf 注释
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>从 hi!admin 抄来的一份配置.注释得非常好.精
+#BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO
+此mysql配置文件例子针对4G内存 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器
+将此文件复制到/etc/my.cnf 作为全局设置, mysql-data-dir/my.cnf 作为服务器指定设置 (@localstatedir@ for this installation) 或者放入 ~/.my.cnf 作为用户设置. 在此配置文件中, 你可以使用所有程序支持的长选项. 如果想获悉程序支持的所有选项 请在程序后加上&#34;–help&#34;参数运行程序. 关于独立选项更多的细节信息可以在手册内找到 以下选项会被MySQL客户端应用读取. 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. 如果你想你自己的MySQL应用程序获取这些值 需要在MySQL客户端库初始化的时候指定这些选项 [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@
+*** 应用定制选项 *** MySQL 服务端 [mysqld]
+一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@
+back_log 是操作系统在监听队列中所能保持的连接数, 队列保存了在MySQL连接管理器线程处理之前的连接. 如果你有非常高的连接率并且出现&#34;connection refused&#34; 报错, 你就应该增加此处的值....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 16:38:29 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to my.cnf 注释" href="http://example.org/2009/03/28/mycnf-e6b3a8e9878a/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>InnoDB行锁特点
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>InnoDB行锁是通过给索引上的索引项加锁来实现的，这一点MySQL与ORACLE不同，后者是通过在数据块中对相应数据行加锁来实现的。InnoDB这种行锁实现特点意味着：只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁！
+在实际应用中，要特别注意InnoDB行锁的这一特性，不然的话，可能导致大量的锁冲突，从而影响并发性能。下面我们通过一些实际例子，来加以说明。
+（1）在不通过索引条件查询的时候，InnoDB确实使用的是表锁，而不是行锁。
+下面的例子中，开始tab_no_index表没有索引：
+mysql&gt; create table tab_no_index(id int,name varchar(10)) engine=innodb; Query OK, 0 rows affected (0.15 sec) mysql&gt; insert into tab_no_index values(1,&#39;1&#39;),(2,&#39;2&#39;),(3,&#39;3&#39;),(4,&#39;4&#39;); Query OK, 4 rows affected (0.00 sec) Records: 4 Duplicates: 0 Warnings: 0 InnoDB存储引擎的表在不使用索引时使用表锁例子 session_1 session_2 mysql&gt; set autocommit=0; Query OK, 0 rows affected (0.00 sec) mysql&gt; select * from tab_no_index where id = 1 ; &#43;------&#43;------&#43; | id | name | &#43;------&#43;------&#43; | 1 | 1 | &#43;------&#43;------&#43; 1 row in set (0....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 16:15:24 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to InnoDB行锁特点" href="http://example.org/2009/03/28/innodbe8a18ce99481e789b9e782b9/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>InnoDB和MyISAM的差别
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>InnoDB和MyISAM是在使用MySQL最常用的两个表类型，各有优缺点，视具体应用而定。基本的差别为：MyISAM类型不支持事务处理等 高级处理，而InnoDB类型支持。MyISAM类型的表强调的是性能，其执行数度比InnoDB类型更快，但是不提供事务支持，而InnoDB提供事务 支持已经外部键等高级数据库功能。 MyIASM是IASM表的新版本，有如下扩展：
+二进制层次的可移植性。
+NULL列索引。
+对变长行比ISAM表有更少的碎片。
+支持大文件。
+更好的索引压缩。
+更好的键吗统计分布。
+更好和更快的auto_increment处理。 每个MyISAM表最大索引数是64。 这可以通过重新编译来改变。每个索引最大的列数是16个。
+以下是一些细节和具体实现的差别： 1.InnoDB不支持FULLTEXT类型的索引。 2.InnoDB 中不保存表的具体行数，也就是说，执行select count() from table时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count()语句包含 where条件时，两种表的操作是一样的。 3.对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。 4.DELETE FROM table时，InnoDB不会重新建立表，而是一行一行的删除。 5.LOAD TABLE FROM MASTER操作对InnoDB是不起作用的，解决方法是首先把InnoDB表改成MyISAM表，导入数据后再改成InnoDB表，但是对于使用的额外的InnoDB特性（例如外键）的表不适用。
+另外，InnoDB表的行锁也不是绝对的，如果在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表，例如update table set num=1 where name like “%aaa%” 任何一种表都不是万能的，只用恰当的针对业务类型来选择合适的表类型，才能最大的发挥MySQL的性能优势。 http://dev.mysql.com/doc/refman/5.1/zh/storage-engines.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 16:11:42 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to InnoDB和MyISAM的差别" href="http://example.org/2009/03/28/innodbe5928cmyisame79a84e5b7aee588ab/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>MySQL 語法 詳細執行時間 與 CPU/記憶體使用
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:34:23 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL 語法 詳細執行時間 與 CPU/記憶體使用" href="http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>If you’re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and “Too many connections” errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a “persistent” connection to the database. From the documentation: “the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect())....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:16:29 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)" href="http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Installing MySQL 5.1 on FreeBSD
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &#34;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&#34; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:14:05 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Installing MySQL 5.1 on FreeBSD" href="http://example.org/2009/03/28/installing-mysql-51-on-freebsd/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/16/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/18/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>FTP命令详解 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="FTP命令详解" />
+<meta property="og:description" content="FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-17T05:58:08+00:00" />
+<meta property="article:modified_time" content="2006-04-17T05:58:08+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FTP命令详解"/>
+<meta name="twitter:description" content="FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "FTP命令详解",
+      "item": "http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FTP命令详解",
+  "name": "FTP命令详解",
+  "description": "FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。\nftp使用的内部命令如下(中括号表示可选项):\n1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.\n2.$ macro-ame[args]：执行宏定义macro-name.\n3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。\n4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。\n5.ascii：使用ascii类型传输方式。\n6.bell：每个命令执行完毕后计算机响铃一次。\n7.bin：使用二进制文件传输方式。\n8.bye：退出ftp会话过程。\n9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。\n10.cd remote-dir：进入远程主机目录。\n11.cdup：进入远程主机目录的父目录。\n12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。\n13.close：中断与远程服务器的ftp会话(与open对应)。\n14.cr：使用asscii方式传输文件时，将回车换行转换为回行。\n15.delete remote-file：删除远程主机文件。\n16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。\n17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。\n18.disconnection：同close。\n19.form format：将文件传输方式设置为format，缺省为file方式。\n20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。\n21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。",
+  "keywords": [
+    
+  ],
+  "articleBody": "FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。\nftp使用的内部命令如下(中括号表示可选项):\n1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.\n2.$ macro-ame[args]：执行宏定义macro-name.\n3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。\n4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。\n5.ascii：使用ascii类型传输方式。\n6.bell：每个命令执行完毕后计算机响铃一次。\n7.bin：使用二进制文件传输方式。\n8.bye：退出ftp会话过程。\n9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。\n10.cd remote-dir：进入远程主机目录。\n11.cdup：进入远程主机目录的父目录。\n12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。\n13.close：中断与远程服务器的ftp会话(与open对应)。\n14.cr：使用asscii方式传输文件时，将回车换行转换为回行。\n15.delete remote-file：删除远程主机文件。\n16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。\n17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。\n18.disconnection：同close。\n19.form format：将文件传输方式设置为format，缺省为file方式。\n20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。\n21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。\n22.hash：每传输1024字节，显示一个hash符号(#)。\n23.help[cmd]：显示ftp内部命令cmd的帮助信息，如：help get。\n24.idle[seconds]：将远程服务器的休眠计时器设为[seconds]秒。\n25.image：设置二进制传输方式(同binary)。\n26.lcd[dir]：将本地工作目录切换至dir。\n27.ls[remote-dir][local-file]：显示远程目录remote-dir， 并存入本 地文件local-file。\n28.macdef macro-name：定义一个宏，遇到macdef下的空行时，宏定义结 束。\n29.mdelete[remote-file]：删除远程主机文件。\n30.mdir remote-files local-file：与dir类似，但可指定多个远程文件， 如： mdir .o..zipoutfile 。\n31.mget remote-files：传输多个远程文件。\n32.mkdir dir-name：在远程主机中建一目录。\n33.mls remote-file local-file：同nlist，但可指定多个文件名。\n34.mode[modename]：将文件传输方式设置为modename， 缺省为stream方 式。\n35.modtime file-name：显示远程主机文件的最后修改时间。\n36.mput local-file：将多个文件传输至远程主机。\n37.newer file-name： 如果远程机中file-name的修改时间比本地硬盘同 名文件的时间更近，则重传该文件。\n38.nlist[remote-dir][local-file]：显示远程主机目录的文件清单，并 存入本地硬盘的local-file。\n39.nmap[inpattern outpattern]：设置文件名映射机制， 使得文件传输 时，文件中的某些字符相互转换，如：nmap $1.$2.$3[$1，$2].[$2，$3]，则 传输文件a1.a2.a3时，文件名变为a1，a2。该命令特别适用于远程主机为非UNIX 机的情况。\n40.ntrans[inchars[outchars]]：设置文件名字符的翻译机制，如ntrans 1R，则文件名LLL将变为RRR。\n41.open host[port]：建立指定ftp服务器连接，可指定连接端口。\n42.passive：进入被动传输方式。\n43.prompt：设置多个文件传输时的交互提示。\n44.proxy ftp-cmd：在次要控制连接中，执行一条ftp命令， 该命令允许 连接两个ftp服务器，以在两个服务器间传输文件。第一条ftp命令必须为open， 以首先建立两个服务器间的连接。\n45.put local-file[remote-file]：将本地文件local-file传送至远程主 机。\n46.pwd：显示远程主机的当前工作目录。\n47.quit：同bye，退出ftp会话。\n48.quote arg1，arg2…：将参数逐字发至远程ftp服务器，如： quote syst.\n49.recv remote-file[local-file]：同get。\n50.reget remote-file[local-file]：类似于get，但若local-file存在， 则从上次传输中断处续传。\n51.rhelp[cmd-name]：请求获得远程主机的帮助。\n52.rstatus[file-name]：若未指定文件名，则显示远程主机的状态，否 则显示文件状态。\n53.rename[from][to]：更改远程主机文件名。\n54.reset：清除回答队列。\n55.restart marker：从指定的标志marker处，重新开始get或put，如： restart 130。\n56.rmdir dir-name：删除远程主机目录。\n57.runique：设置文件名唯一性存储，若文件存在，则在原文件后加后缀 ..1，.2等。\n58.send local-file[remote-file]：同put。\n59.sendport：设置PORT命令的使用。\n60.site arg1，arg2…：将参数作为SITE命令逐字发送至远程ftp主机。\n61.size file-name：显示远程主机文件大小，如：site idle 7200。\n62.status：显示当前ftp状态。\n63.struct[struct-name]：将文件传输结构设置为struct-name， 缺省时 使用stream结构。\n64.sunique：将远程主机文件名存储设置为唯一(与runique对应)。\n65.system：显示远程主机的操作系统类型。\n66.tenex：将文件传输类型设置为TENEX机的所需的类型。\n67.tick：设置传输时的字节计数器。\n68.trace：设置包跟踪。\n69.type[type-name]：设置文件传输类型为type-name，缺省为ascii，如： type binary，设置二进制传输方式。\n70.umask[newmask]：将远程服务器的缺省umask设置为newmask，如： umask 3。\n71.user user-name[password][account]：向远程主机表明自己的身份， 需要口令时，必须输入口令，如：user anonymous my@email。\n72.verbose：同命令行的-v参数，即设置详尽报告方式，ftp服务器的所有 响应都将显示给用户，缺省为on.\n73.?[cmd]：同help.\n",
+  "wordCount" : "187",
+  "inLanguage": "en",
+  "datePublished": "2006-04-17T05:58:08Z",
+  "dateModified": "2006-04-17T05:58:08Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      FTP命令详解
+    </h1>
+    <div class="post-meta"><span title='2006-04-17 05:58:08 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。
+FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。</p>
+<p>ftp使用的内部命令如下(中括号表示可选项):</p>
+<p>1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.</p>
+<p>2.$ macro-ame[args]：执行宏定义macro-name.</p>
+<p>3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。</p>
+<p>4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。</p>
+<p>5.ascii：使用ascii类型传输方式。</p>
+<p>6.bell：每个命令执行完毕后计算机响铃一次。</p>
+<p>7.bin：使用二进制文件传输方式。</p>
+<p>8.bye：退出ftp会话过程。</p>
+<p>9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。</p>
+<p>10.cd remote-dir：进入远程主机目录。</p>
+<p>11.cdup：进入远程主机目录的父目录。</p>
+<p>12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。</p>
+<p>13.close：中断与远程服务器的ftp会话(与open对应)。</p>
+<p>14.cr：使用asscii方式传输文件时，将回车换行转换为回行。</p>
+<p>15.delete remote-file：删除远程主机文件。</p>
+<p>16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。</p>
+<p>17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。</p>
+<p>18.disconnection：同close。</p>
+<p>19.form format：将文件传输方式设置为format，缺省为file方式。</p>
+<p>20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。</p>
+<p>21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。</p>
+<p>22.hash：每传输1024字节，显示一个hash符号(#)。</p>
+<p>23.help[cmd]：显示ftp内部命令cmd的帮助信息，如：help get。</p>
+<p>24.idle[seconds]：将远程服务器的休眠计时器设为[seconds]秒。</p>
+<p>25.image：设置二进制传输方式(同binary)。</p>
+<p>26.lcd[dir]：将本地工作目录切换至dir。</p>
+<p>27.ls[remote-dir][local-file]：显示远程目录remote-dir， 并存入本 地文件local-file。</p>
+<p>28.macdef macro-name：定义一个宏，遇到macdef下的空行时，宏定义结 束。</p>
+<p>29.mdelete[remote-file]：删除远程主机文件。</p>
+<p>30.mdir remote-files local-file：与dir类似，但可指定多个远程文件， 如： mdir <em>.o.</em>.zipoutfile 。</p>
+<p>31.mget remote-files：传输多个远程文件。</p>
+<p>32.mkdir dir-name：在远程主机中建一目录。</p>
+<p>33.mls remote-file local-file：同nlist，但可指定多个文件名。</p>
+<p>34.mode[modename]：将文件传输方式设置为modename， 缺省为stream方 式。</p>
+<p>35.modtime file-name：显示远程主机文件的最后修改时间。</p>
+<p>36.mput local-file：将多个文件传输至远程主机。</p>
+<p>37.newer file-name： 如果远程机中file-name的修改时间比本地硬盘同 名文件的时间更近，则重传该文件。</p>
+<p>38.nlist[remote-dir][local-file]：显示远程主机目录的文件清单，并 存入本地硬盘的local-file。</p>
+<p>39.nmap[inpattern outpattern]：设置文件名映射机制， 使得文件传输 时，文件中的某些字符相互转换，如：nmap $1.$2.$3[$1，$2].[$2，$3]，则 传输文件a1.a2.a3时，文件名变为a1，a2。该命令特别适用于远程主机为非UNIX 机的情况。</p>
+<p>40.ntrans[inchars[outchars]]：设置文件名字符的翻译机制，如ntrans 1R，则文件名LLL将变为RRR。</p>
+<p>41.open host[port]：建立指定ftp服务器连接，可指定连接端口。</p>
+<p>42.passive：进入被动传输方式。</p>
+<p>43.prompt：设置多个文件传输时的交互提示。</p>
+<p>44.proxy ftp-cmd：在次要控制连接中，执行一条ftp命令， 该命令允许 连接两个ftp服务器，以在两个服务器间传输文件。第一条ftp命令必须为open， 以首先建立两个服务器间的连接。</p>
+<p>45.put local-file[remote-file]：将本地文件local-file传送至远程主 机。</p>
+<p>46.pwd：显示远程主机的当前工作目录。</p>
+<p>47.quit：同bye，退出ftp会话。</p>
+<p>48.quote arg1，arg2&hellip;：将参数逐字发至远程ftp服务器，如： quote syst.</p>
+<p>49.recv remote-file[local-file]：同get。</p>
+<p>50.reget remote-file[local-file]：类似于get，但若local-file存在， 则从上次传输中断处续传。</p>
+<p>51.rhelp[cmd-name]：请求获得远程主机的帮助。</p>
+<p>52.rstatus[file-name]：若未指定文件名，则显示远程主机的状态，否 则显示文件状态。</p>
+<p>53.rename[from][to]：更改远程主机文件名。</p>
+<p>54.reset：清除回答队列。</p>
+<p>55.restart marker：从指定的标志marker处，重新开始get或put，如： restart 130。</p>
+<p>56.rmdir dir-name：删除远程主机目录。</p>
+<p>57.runique：设置文件名唯一性存储，若文件存在，则在原文件后加后缀 ..1，.2等。</p>
+<p>58.send local-file[remote-file]：同put。</p>
+<p>59.sendport：设置PORT命令的使用。</p>
+<p>60.site arg1，arg2&hellip;：将参数作为SITE命令逐字发送至远程ftp主机。</p>
+<p>61.size file-name：显示远程主机文件大小，如：site idle 7200。</p>
+<p>62.status：显示当前ftp状态。</p>
+<p>63.struct[struct-name]：将文件传输结构设置为struct-name， 缺省时 使用stream结构。</p>
+<p>64.sunique：将远程主机文件名存储设置为唯一(与runique对应)。</p>
+<p>65.system：显示远程主机的操作系统类型。</p>
+<p>66.tenex：将文件传输类型设置为TENEX机的所需的类型。</p>
+<p>67.tick：设置传输时的字节计数器。</p>
+<p>68.trace：设置包跟踪。</p>
+<p>69.type[type-name]：设置文件传输类型为type-name，缺省为ascii，如： type binary，设置二进制传输方式。</p>
+<p>70.umask[newmask]：将远程服务器的缺省umask设置为newmask，如： umask 3。</p>
+<p>71.user user-name[password][account]：向远程主机表明自己的身份， 需要口令时，必须输入口令，如：user anonymous my@email。</p>
+<p>72.verbose：同命令行的-v参数，即设置详尽报告方式，ftp服务器的所有 响应都将显示给用户，缺省为on.</p>
+<p>73.?[cmd]：同help.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

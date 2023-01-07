@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+c
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/c/</link>
+    <description>Recent content in 
+c
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 Jan 2010 13:21:47 +0000</lastBuildDate><atom:link href="http://example.org/categories/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>c笔记一</title>
+      <link>http://example.org/2010/01/02/ce7ac94e8aeb0e4b880/</link>
+      <pubDate>Sat, 02 Jan 2010 13:21:47 +0000</pubDate>
+      
+      <guid>http://example.org/2010/01/02/ce7ac94e8aeb0e4b880/</guid>
+      <description>c的一些笔记 1:声明数组 ,一定要初始化memset(); eg:char buf[12][10]; memset(buf,&amp;rsquo;\0,sizeof(buf)&amp;rsquo;); 2:声明指针，给了值再用（貌似很简单可我犯错了） eg: struct qiao * P; p=(struct qiao *)maloc(sizeof(struct qiao)); p是可以用的。 3;memcpy函数 memcpy(void desc,voidsrc,int num); desc 和src的空间不能重叠，否则会覆盖src的部分值 4:c中的字符串处理; c的字符串用char数组表示，一定要在数组末尾加个&amp;rsquo;\0&#39;;
+5:字符串和数值的转换
+//把buf的数据放到struct gpsData中 /* *提取年月日 */ gpsData-&amp;gt;year=(int)(atol(buf[8])%100); gpsData-&amp;gt;month=(int)((atol(buf[8])%10000-gpsData-&amp;gt;year)/100); gpsData-&amp;gt;day=(int)(atol(buf[8])/10000); /* *提取时分秒毫秒 */ gpsData-&amp;gt;hour=((int)atof(buf[0]))/10000; gpsData-&amp;gt;second=((int)atof(buf[0]))%100; gpsData-&amp;gt;minute=(((int)atof(buf[0]))%10000-gpsData-&amp;gt;second)/100; gpsData-&amp;gt;minisecond= (int)((long)(atof(buf[0])*1000)%1000); /* *提取经度和纬度 */ char temp[3]; char *tempPoint; memset(temp,&#39;\0&#39;,sizeof(temp)); memcpy(temp,buf[4],2); temp[3]=&#39;\0&#39;; gpsData-&amp;gt;longitude=atoi(temp); tempPoint=buf[4]; gpsData-&amp;gt;m_longitude=atof(tempPoint+2); memcpy(temp,(char *)buf[2],2); temp[3]=&#39;\0&#39;; gpsData-&amp;gt;latitude=atoi(temp); tempPoint=buf[2]; gpsData-&amp;gt;m_latitude=atof(tempPoint+2); 转自 http://kulinglei.javaeye.com/blog/392389</description>
+    </item>
+    
+  </channel>
+</rss>

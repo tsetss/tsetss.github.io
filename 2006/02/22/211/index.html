@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>多表联接 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。
+前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~
+步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。
+●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）
+●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）
+●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）
+●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）
+●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？
+步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。
+●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC
+将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/22/211/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="多表联接" />
+<meta property="og:description" content="多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。
+前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~
+步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。
+●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）
+●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）
+●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）
+●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）
+●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？
+步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。
+●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC
+将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/22/211/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-22T12:55:28+00:00" />
+<meta property="article:modified_time" content="2006-02-22T12:55:28+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="多表联接"/>
+<meta name="twitter:description" content="多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。
+前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~
+步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。
+●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）
+●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）
+●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）
+●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）
+●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？
+步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。
+●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC
+将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "多表联接",
+      "item": "http://example.org/2006/02/22/211/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "多表联接",
+  "name": "多表联接",
+  "description": "多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。\n前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~\n步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。\n●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）\n●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）\n●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）\n●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）\n●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？\n步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。\n●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC\n将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？",
+  "keywords": [
+    
+  ],
+  "articleBody": "多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。\n前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~\n步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。\n●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）\n●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）\n●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）\n●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）\n●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？\n步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。\n●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC\n将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？\n注意事项： ●在输入字母过程中，一定要用英文半角标点符号，单词之间留一半角空格； ●在建立数据表时，如果一个表与多个表联接，那么这一个表中的字段必须是“数字”数据类型，而多个表中的相同字段必须是主键，而且是“自动编号”数据类型。否则，很难联接成功。 ●代码嵌套快速方法：如，想连接五个表，则只要在连接四个表的代码上加一个前后括号（前括号加在FROM的后面，后括号加在代码的末尾即可），然后在后括号后面继续添加“INNER JOIN 表名X ON 表1.字段号=表X.字段号”代码即可，这样就可以无限联接数据表了：）\n语法格式： 其实 INNER JOIN ……ON的语法格式可以概括为： FROM (((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号) INNER JOIN 表X ON Member.字段号=表X.字段号 您只要套用该格式就可以了。\n现成格式范例： 虽然我说得已经比较明白了，但为照顾初学者，我还是以本会员注册系统为例，提供一些现成的语法格式范例，大家只要修改其中的数据表名称和字段名称即可。\n连接两个数据表的用法： FROM Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort 语法格式可以概括为： FROM 表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号\n连接三个数据表的用法： FROM (Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel 语法格式可以概括为： FROM (表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号\n连接四个数据表的用法： FROM ((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity 语法格式可以概括为： FROM ((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号\n连接五个数据表的用法： FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock 语法格式可以概括为： FROM (((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号) INNER JOIN 表5 ON Member.字段号=表5.字段号\n连接六个数据表的用法：略，与上述联接方法类似，大家举一反三吧：）\n就是不知道效率怎么样啊，呼呼\n估计特别慢，呼呼有时间自己去测试下，觉得应该还有其他方法：）\n",
+  "wordCount" : "239",
+  "inLanguage": "en",
+  "datePublished": "2006-02-22T12:55:28Z",
+  "dateModified": "2006-02-22T12:55:28Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/22/211/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      多表联接
+    </h1>
+    <div class="post-meta"><span title='2006-02-22 12:55:28 +0000 UTC'>February 22, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。
+以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。</p>
+<p>前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。
+本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~</p>
+<p>步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。</p>
+<p>●会员信息数据表member：
+MemberID：自动编号，主键（ID号）
+MemberSort：数字（会员类别）
+MemberName：文本，会员姓名
+Password：文本（会员密码）
+MemberLevel：数字（会员权限）
+MemberIdentity：数字（会员身份）
+Wedlock：数字（婚姻状况）
+MemberQQ：文本（QQ号码）
+MemberEmail：文本（会员邮箱）
+MemberDate：日期/时间（会员注册日期）</p>
+<p>●会员身份表MemberIdentity：
+MemberIdentity：自动编号，主键（ID号）
+IdentityName：文本（会员身份名称）</p>
+<p>●会员权限表MemberLevel：
+MemberLevel：自动编号，主键（ID号）
+LevelName：文本（会员权限名称）</p>
+<p>●会员类别表MemberSort：
+MemberSort：自动编号，主键（ID号）
+SortName：文本（会员类别名称）</p>
+<p>●会员婚姻状况表Wedlock
+Wedlock：自动编号，主键（ID号）
+WedlockName：文本（会员婚姻状况类别）
+说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。
+下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？</p>
+<p>步骤二：建DSN数据源，建记录集
+●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。</p>
+<p>●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码：
+原代码为：
+Select *
+FROM Member
+ORDER BY MemberDate DESC</p>
+<p>将代码修改为：
+Select *
+FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock
+ORDER BY MemberDate DESC
+修改完代码后，点击“确定”，大功告成！
+现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？</p>
+<p>注意事项：
+●在输入字母过程中，一定要用英文半角标点符号，单词之间留一半角空格；
+●在建立数据表时，如果一个表与多个表联接，那么这一个表中的字段必须是“数字”数据类型，而多个表中的相同字段必须是主键，而且是“自动编号”数据类型。否则，很难联接成功。
+●代码嵌套快速方法：如，想连接五个表，则只要在连接四个表的代码上加一个前后括号（前括号加在FROM的后面，后括号加在代码的末尾即可），然后在后括号后面继续添加“INNER JOIN 表名X ON 表1.字段号=表X.字段号”代码即可，这样就可以无限联接数据表了：）</p>
+<p>语法格式：
+其实 INNER JOIN ……ON的语法格式可以概括为：
+FROM (((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号) INNER JOIN 表X ON Member.字段号=表X.字段号
+您只要套用该格式就可以了。</p>
+<p>现成格式范例：
+虽然我说得已经比较明白了，但为照顾初学者，我还是以本会员注册系统为例，提供一些现成的语法格式范例，大家只要修改其中的数据表名称和字段名称即可。</p>
+<p>连接两个数据表的用法：
+FROM Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort
+语法格式可以概括为：
+FROM 表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号</p>
+<p>连接三个数据表的用法：
+FROM (Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel
+语法格式可以概括为：
+FROM (表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号</p>
+<p>连接四个数据表的用法：
+FROM ((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity
+语法格式可以概括为：
+FROM ((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号</p>
+<p>连接五个数据表的用法：
+FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock
+语法格式可以概括为：
+FROM (((表1 INNER JOIN 表2 ON 表1.字段号=表2.字段号) INNER JOIN 表3 ON 表1.字段号=表3.字段号) INNER JOIN 表4 ON Member.字段号=表4.字段号) INNER JOIN 表5 ON Member.字段号=表5.字段号</p>
+<p>连接六个数据表的用法：略，与上述联接方法类似，大家举一反三吧：）</p>
+<p>就是不知道效率怎么样啊，呼呼</p>
+<p>估计特别慢，呼呼有时间自己去测试下，觉得应该还有其他方法：）</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

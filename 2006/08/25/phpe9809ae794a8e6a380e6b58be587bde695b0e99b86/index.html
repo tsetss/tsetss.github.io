@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>php通用检测函数集 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;) PHP中的window.location函数 //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;-
+//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="php通用检测函数集" />
+<meta property="og:description" content="//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;) PHP中的window.location函数 //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;-
+//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-08-25T09:14:58+00:00" />
+<meta property="article:modified_time" content="2006-08-25T09:14:58+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="php通用检测函数集"/>
+<meta name="twitter:description" content="//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;) PHP中的window.location函数 //&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;-
+//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "php通用检测函数集",
+      "item": "http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "php通用检测函数集",
+  "name": "php通用检测函数集",
+  "description": "//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=\u0026quot;\u0026quot;,$C_getOther=\u0026quot;\u0026quot;) PHP中的window.location函数 //\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026ndash; \u0026mdash;\u0026mdash;-\n//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!",
+  "keywords": [
+    
+  ],
+  "articleBody": "//转载：arcow的专栏 // ※CheckMoney($C_Money) 检查数据是否是99999.99格式 // ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址 // ※CheckWebAddr($C_weburl) 判断是否为有效网址 // ※CheckEmpty($C_char) 判断字符串是否为空 // ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串 // ※CheckUser($C_user) 判断是否为合法用户名 // ※CheckPassword($C_passwd) 判断是否为合法用户密码 // ※CheckTelephone($C_telephone) 判断是否为合法电话号码 // ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值 // ※CheckPost($C_post) 判断是否为合法邮编（固定长度） // ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名 // ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小 // ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出 // ※Alert($C_alert,$I_goback=0) 非法操作警告 // ※ReplaceSpacialChar($C_char) 特殊字符替换函数 // ※ExchangeMoney($N_money) 资金转换函数 // ※WindowLocation($C_url,$C_get=\"\",$C_getOther=\"\") PHP中的window.location函数 //———————————————————————————– ——-\n//----------------------------------------------------------------------------------- ------- // 函数名：CheckMoney($C_Money) // 作 用：检查数据是否是99999.99格式 // 参 数：$C_Money（待检测的数字） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckMoney($C_Money) { if (!ereg(\"^[0-9][.][0-9]$\", $C_Money)) return false; return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckEmailAddr($C_mailaddr) // 作 用：判断是否为有效邮件地址 // 参 数：$C_mailaddr（待检测的邮件地址） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckEmailAddr($C_mailaddr) { if (!eregi(\"^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*$\", $C_mailaddr)) //(!ereg(\"^[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$\", $c_mailaddr)) { return false; } return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckWebAddr($C_weburl) // 作 用：判断是否为有效网址 // 参 数：$C_weburl（待检测的网址） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckWebAddr($C_weburl) { if (!ereg(\"^http://[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$\", $C_weburl)) { return false; } return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckEmpty($C_char) // 作 用：判断字符串是否为空 // 参 数：$C_char（待检测的字符串） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckEmptyString($C_char) { if (!is_string($C_char)) return false; //是否是字符串类型 if (empty($C_char)) return false; //是否已设定 if ($C_char=='') return false; //是否为空 return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckLengthBetween($C_char, $I_len1, $I_len2=100) // 作 用：判断是否为指定长度内字符串 // 参 数：$C_char（待检测的字符串） // $I_len1 （目标字符串长度的下限） // $I_len2 （目标字符串长度的上限） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckLengthBetween($C_cahr, $I_len1, $I_len2=100) { $C_cahr = trim($C_cahr); if (strlen($C_cahr) \u003c $I_len1) return false; if (strlen($C_cahr) \u003e $I_len2) return false; return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckUser($C_user) // 作 用：判断是否为合法用户名 // 参 数：$C_user（待检测的用户名） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckUser($C_user) { if (!CheckLengthBetween($C_user, 4, 20)) return false; //宽度检验 if (!ereg(\"^[_a-zA-Z0-9]*$\", $C_user)) return false; //特殊字符检验 return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckPassword($C_passwd) // 作 用：判断是否为合法用户密码 // 参 数：$C_passwd（待检测的密码） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckPassword($C_passwd) { if (!CheckLengthBetween($C_passwd, 4, 20)) return false; //宽度检测 if (!ereg(\"^[_a-zA-Z0-9]*$\", $C_passwd)) return false; //特殊字符检测 return true; } //----------------------------------------------------------------------------------- ------- // 函数名：CheckTelephone($C_telephone) // 作 用：判断是否为合法电话号码 // 参 数：$C_telephone（待检测的电话号码） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckTelephone($C_telephone) { if (!ereg(\"^[+]?[0-9]+([xX-][0-9]+)*$\", $C_telephone)) return false; return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckValueBetween($N_var, $N_val1, $N_val2) // 作 用：判断是否是某一范围内的合法值 // 参 数：$N_var 待检测的值 // $N_var1 待检测值的上限 // $N_var2 待检测值的下限 // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckValueBetween($N_var, $N_val1, $N_val2) { if ($N_var \u003c $N_var1 ││ $N_var \u003e $N_var2) { return false; } return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckPost($C_post) // 作 用：判断是否为合法邮编（固定长度） // 参 数：$C_post（待check的邮政编码） // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckPost($C_post) { $C_post=trim($C_post); if (strlen($C_post) == 6) { if(!ereg(\"^[+]?[_0-9]*$\",$C_post)) { return true;; }else { return false; } }else { return false;; } } //----------------------------------------------------------------------------------- ------- // 函数名：CheckExtendName($C_filename,$A_extend) // 作 用：上传文件的扩展名判断 // 参 数：$C_filename 上传的文件名 // $A_extend 要求的扩展名 // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckExtendName($C_filename,$A_extend) { if(strlen(trim($C_filename)) \u003c 5) { return 0; //返回0表示没上传图片 } $lastdot = strrpos($C_filename, \".\"); //取出.最后出现的位置 $extended = substr($C_filename, $lastdot+1); //取出扩展名 for($i=0;$i{ if (trim(strtolower($extended)) == trim(strtolower($A_extend[$i]))) //转换大 小写并检测 { $flag=1; //加成功标志 $i=count($A_extend); //检测到了便停止检测 } } if($flag\u003c\u003e1) { for($j=0;$j{ $alarm .= $A_extend[$j].\" \"; } AlertExit('只能上传'.$alarm.'文件！而你上传的是'.$extended.'类型的文件'); return -1; //返回-1表示上传图片的类型不符 } return 1; //返回1表示图片的类型符合要求 } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：CheckImageSize($ImageFileName,$LimitSize) // 作 用：检验上传图片的大小 // 参 数：$ImageFileName 上传的图片名 // $LimitSize 要求的尺寸 // 返回值：布尔值 // 备 注：无 //----------------------------------------------------------------------------------- ------- function CheckImageSize($ImageFileName,$LimitSize) { $size=GetImageSize($ImageFileName); if ($size[0]\u003e$LimitSize[0] ││ $size[1]\u003e$LimitSize[1]) { AlertExit('图片尺寸过大'); return false; } return true; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：Alert($C_alert,$I_goback=0) // 作 用：非法操作警告 // 参 数：$C_alert（提示的错误信息） // $I_goback（返回到那一页） // 返回值：字符串 // 备 注：无 //----------------------------------------------------------------------------------- ------- function Alert($C_alert,$I_goback=0) { if($I_goback\u003c\u003e0) { echo \" \"; } else { echo \" \"; } } //----------------------------------------------------------------------------------- ------- // 函数名：AlertExit($C_alert,$I_goback=0) // 作 用：非法操作警告 // 参 数：$C_alert（提示的错误信息） // $I_goback（返回到那一页） // 返回值：字符串 // 备 注：无 //----------------------------------------------------------------------------------- ------- function AlertExit($C_alert,$I_goback=0) { if($I_goback\u003c\u003e0) { echo \" \"; exit; } else { echo \" \"; exit; } } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：ReplaceSpacialChar($C_char) // 作 用：特殊字符替换函数 // 参 数：$C_char（待替换的字符串） // 返回值：字符串 // 备 注：无 //----------------------------------------------------------------------------------- ------- function ReplaceSpecialChar($C_char) { $C_char=HTMLSpecialChars($C_char); //将特殊字元转成 HTML 格式。 $C_char=nl2br($C_char); //将回车替换为 $C_char=str_replace(\" \",\" \",$C_char); //替换空格替换为 $C_char=str_replace(\"return $C_char; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------- // 函数名：ExchangeMoney($N_money) // 作 用：资金转换函数 // 参 数：$N_money（待转换的金额数字） // 返回值：字符串 // 备 注：本函数示例：$char=ExchangeMoney(5645132.3155) ==\u003e $char='￥5,645,132.31' //----------------------------------------------------------------------------------- ------- function ExchangeMoney($N_money) { $A_tmp=explode(\".\",$N_money ); //将数字按小数点分成两部分，并存入数组$A_tmp $I_len=strlen($A_tmp[0]); //测出小数点前面位数的宽度 if($I_len%3==0) { $I_step=$I_len/3; //如前面位数的宽度mod 3 = 0 ,可按，分成$I_step 部分 }else { $step=($len-$len%3)/3+1; //如前面位数的宽度mod 3 != 0 ,可按，分成$I_step 部分+1 } $C_cur=\"\"; //对小数点以前的金额数字进行转换 while($I_len\u003c\u003e0) { $I_step--; if($I_step==0) { $C_cur .= substr($A_tmp[0],0,$I_len-($I_step)*3); }else { $C_cur .= substr($A_tmp[0],0,$I_len-($I_step)*3).\",\"; } $A_tmp[0]=substr($A_tmp[0],$I_len-($I_step)*3); $I_len=strlen($A_tmp[0]); } //对小数点后面的金额的进行转换 if($A_tmp[1]==\"\") { $C_cur .= \".00\"; }else { $I_len=strlen($A_tmp[1]); if($I_len\u003c2) { $C_cur .= \".\".$A_tmp[1].\"0\"; }else { $C_cur .= \".\".substr($A_tmp[1],0,2); } } //加上人民币符号并传出 $C_cur=\"￥\".$C_cur; return $C_cur; } //----------------------------------------------------------------------------------- ------- //----------------------------------------------------------------------------------- ------ // 函数名：WindowLocation($C_url,$C_get=\"\",$C_getOther=\"\") // 作 用：PHP中的window.location函数 // 参 数：$C_url 转向窗口的URL // $C_get GET方法参数 // $C_getOther GET方法的其他参数 // 返回值: 字符串 // 备 注：无 //----------------------------------------------------------------------------------- ----- function WindowLocation($C_url,$C_get=\"\",$C_getOther=\"\") { if($C_get == \"\" \u0026\u0026 $C_getOther == \"\") if($C_get == \"\" \u0026\u0026 $C_getOther \u003c\u003e \"\"){$C_target=\"\"window.location='$C_url? $C_getOther='+this.value\"\";} if($C_get \u003c\u003e \"\" \u0026\u0026 $C_getOther == \"\"){$C_target=\"\"window.location='$C_url? $C_get'\"\";} if($C_get \u003c\u003e \"\" \u0026\u0026 $C_getOther \u003c\u003e \"\"){$C_target=\"\"window.location='$C_url? $C_get\u0026$C_getOther='+this.value\"\";} return $C_target; } //----------------------------------------------------------------------------------- ----- ?\u003e ",
+  "wordCount" : "818",
+  "inLanguage": "en",
+  "datePublished": "2006-08-25T09:14:58Z",
+  "dateModified": "2006-08-25T09:14:58Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/08/25/phpe9809ae794a8e6a380e6b58be587bde695b0e99b86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      php通用检测函数集
+    </h1>
+    <div class="post-meta"><span title='2006-08-25 09:14:58 +0000 UTC'>August 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>//转载：arcow的专栏
+// ※CheckMoney($C_Money) 检查数据是否是99999.99格式
+// ※CheckEmailAddr($C_mailaddr) 判断是否为有效邮件地址
+// ※CheckWebAddr($C_weburl) 判断是否为有效网址
+// ※CheckEmpty($C_char) 判断字符串是否为空
+// ※CheckLengthBetween($C_char, $I_len1, $I_len2=100) 判断是否为指定长度内字符串
+// ※CheckUser($C_user) 判断是否为合法用户名
+// ※CheckPassword($C_passwd) 判断是否为合法用户密码
+// ※CheckTelephone($C_telephone) 判断是否为合法电话号码
+// ※CheckValueBetween($N_var, $N_val1, $N_val2) 判断是否是某一范围内的合法值
+// ※CheckPost($C_post) 判断是否为合法邮编（固定长度）
+// ※CheckExtendName($C_filename,$A_extend) 判断上传文件的扩展名
+// ※CheckImageSize($ImageFileName,$LimitSize) 检验上传图片的大小
+// ※AlertExit($C_alert,$I_goback=0) 非法操作警告并退出
+// ※Alert($C_alert,$I_goback=0) 非法操作警告
+// ※ReplaceSpacialChar($C_char) 特殊字符替换函数
+// ※ExchangeMoney($N_money) 资金转换函数
+// ※WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;) PHP中的window.location函数
+//&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
+&mdash;&mdash;-</p>
+<pre><code>//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckMoney($C_Money)
+// 作 用：检查数据是否是99999.99格式
+// 参 数：$C_Money（待检测的数字）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckMoney($C_Money)
+{
+if (!ereg(&quot;^[0-9][.][0-9]$&quot;, $C_Money)) return false;
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckEmailAddr($C_mailaddr)
+// 作 用：判断是否为有效邮件地址
+// 参 数：$C_mailaddr（待检测的邮件地址）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckEmailAddr($C_mailaddr)
+{
+if (!eregi(&quot;^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*$&quot;,
+$C_mailaddr))
+//(!ereg(&quot;^[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$&quot;,
+$c_mailaddr))
+{
+return false;
+}
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckWebAddr($C_weburl)
+// 作 用：判断是否为有效网址
+// 参 数：$C_weburl（待检测的网址）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckWebAddr($C_weburl)
+{
+if (!ereg(&quot;^http://[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$&quot;, $C_weburl))
+{
+return false;
+}
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckEmpty($C_char)
+// 作 用：判断字符串是否为空
+// 参 数：$C_char（待检测的字符串）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckEmptyString($C_char)
+{
+if (!is_string($C_char)) return false; //是否是字符串类型
+if (empty($C_char)) return false; //是否已设定
+if ($C_char=='') return false; //是否为空
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckLengthBetween($C_char, $I_len1, $I_len2=100)
+// 作 用：判断是否为指定长度内字符串
+// 参 数：$C_char（待检测的字符串）
+// $I_len1 （目标字符串长度的下限）
+// $I_len2 （目标字符串长度的上限）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckLengthBetween($C_cahr, $I_len1, $I_len2=100)
+{
+$C_cahr = trim($C_cahr);
+if (strlen($C_cahr) &lt; $I_len1) return false;
+if (strlen($C_cahr) &gt; $I_len2) return false;
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckUser($C_user)
+// 作 用：判断是否为合法用户名
+// 参 数：$C_user（待检测的用户名）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckUser($C_user)
+{
+if (!CheckLengthBetween($C_user, 4, 20)) return false; //宽度检验
+if (!ereg(&quot;^[_a-zA-Z0-9]*$&quot;, $C_user)) return false; //特殊字符检验
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckPassword($C_passwd)
+// 作 用：判断是否为合法用户密码
+// 参 数：$C_passwd（待检测的密码）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckPassword($C_passwd)
+{
+if (!CheckLengthBetween($C_passwd, 4, 20)) return false; //宽度检测
+if (!ereg(&quot;^[_a-zA-Z0-9]*$&quot;, $C_passwd)) return false; //特殊字符检测
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+// 函数名：CheckTelephone($C_telephone)
+// 作 用：判断是否为合法电话号码
+// 参 数：$C_telephone（待检测的电话号码）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckTelephone($C_telephone)
+{
+if (!ereg(&quot;^[+]?[0-9]+([xX-][0-9]+)*$&quot;, $C_telephone)) return false;
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckValueBetween($N_var, $N_val1, $N_val2)
+// 作 用：判断是否是某一范围内的合法值
+// 参 数：$N_var 待检测的值
+// $N_var1 待检测值的上限
+// $N_var2 待检测值的下限
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckValueBetween($N_var, $N_val1, $N_val2)
+{
+if ($N_var &lt; $N_var1 ││ $N_var &gt; $N_var2)
+{
+return false;
+}
+return true;
+
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckPost($C_post)
+// 作 用：判断是否为合法邮编（固定长度）
+// 参 数：$C_post（待check的邮政编码）
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckPost($C_post)
+{
+$C_post=trim($C_post);
+if (strlen($C_post) == 6)
+{
+if(!ereg(&quot;^[+]?[_0-9]*$&quot;,$C_post))
+{
+return true;;
+}else
+{
+return false;
+}
+}else
+{
+return false;;
+}
+}
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckExtendName($C_filename,$A_extend)
+// 作 用：上传文件的扩展名判断
+// 参 数：$C_filename 上传的文件名
+// $A_extend 要求的扩展名
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckExtendName($C_filename,$A_extend)
+{
+if(strlen(trim($C_filename)) &lt; 5)
+{
+return 0; //返回0表示没上传图片
+}
+$lastdot = strrpos($C_filename, &quot;.&quot;); //取出.最后出现的位置
+$extended = substr($C_filename, $lastdot+1); //取出扩展名
+
+for($i=0;$i{
+if (trim(strtolower($extended)) == trim(strtolower($A_extend[$i]))) //转换大
+小写并检测
+{
+$flag=1; //加成功标志
+$i=count($A_extend); //检测到了便停止检测
+}
+}
+
+if($flag&lt;&gt;1)
+{
+for($j=0;$j{
+$alarm .= $A_extend[$j].&quot; &quot;;
+}
+AlertExit('只能上传'.$alarm.'文件！而你上传的是'.$extended.'类型的文件');
+return -1; //返回-1表示上传图片的类型不符
+}
+
+return 1; //返回1表示图片的类型符合要求
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：CheckImageSize($ImageFileName,$LimitSize)
+// 作 用：检验上传图片的大小
+// 参 数：$ImageFileName 上传的图片名
+// $LimitSize 要求的尺寸
+// 返回值：布尔值
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function CheckImageSize($ImageFileName,$LimitSize)
+{
+$size=GetImageSize($ImageFileName);
+if ($size[0]&gt;$LimitSize[0] ││ $size[1]&gt;$LimitSize[1])
+{
+AlertExit('图片尺寸过大');
+return false;
+}
+return true;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：Alert($C_alert,$I_goback=0)
+// 作 用：非法操作警告
+// 参 数：$C_alert（提示的错误信息）
+// $I_goback（返回到那一页）
+// 返回值：字符串
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function Alert($C_alert,$I_goback=0)
+{
+if($I_goback&lt;&gt;0)
+{
+echo &quot; &quot;;
+}
+else
+{
+echo &quot; &quot;;
+}
+}
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：AlertExit($C_alert,$I_goback=0)
+// 作 用：非法操作警告
+// 参 数：$C_alert（提示的错误信息）
+// $I_goback（返回到那一页）
+// 返回值：字符串
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function AlertExit($C_alert,$I_goback=0)
+{
+if($I_goback&lt;&gt;0)
+{
+echo &quot; &quot;;
+exit;
+}
+else
+{
+echo &quot; &quot;;
+exit;
+}
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：ReplaceSpacialChar($C_char)
+// 作 用：特殊字符替换函数
+// 参 数：$C_char（待替换的字符串）
+// 返回值：字符串
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-------
+function ReplaceSpecialChar($C_char)
+{
+$C_char=HTMLSpecialChars($C_char); //将特殊字元转成 HTML 格式。
+$C_char=nl2br($C_char); //将回车替换为
+
+$C_char=str_replace(&quot; &quot;,&quot; &quot;,$C_char); //替换空格替换为
+$C_char=str_replace(&quot;return $C_char;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+-------
+// 函数名：ExchangeMoney($N_money)
+// 作 用：资金转换函数
+// 参 数：$N_money（待转换的金额数字）
+// 返回值：字符串
+// 备 注：本函数示例：$char=ExchangeMoney(5645132.3155) ==&gt;
+$char='￥5,645,132.31'
+//-----------------------------------------------------------------------------------
+-------
+function ExchangeMoney($N_money)
+{
+$A_tmp=explode(&quot;.&quot;,$N_money ); //将数字按小数点分成两部分，并存入数组$A_tmp
+$I_len=strlen($A_tmp[0]); //测出小数点前面位数的宽度
+
+if($I_len%3==0)
+{
+$I_step=$I_len/3; //如前面位数的宽度mod 3 = 0 ,可按，分成$I_step
+部分
+}else
+{
+$step=($len-$len%3)/3+1; //如前面位数的宽度mod 3 != 0 ,可按，分成$I_step
+部分+1
+}
+
+$C_cur=&quot;&quot;;
+//对小数点以前的金额数字进行转换
+while($I_len&lt;&gt;0)
+{
+$I_step--;
+
+if($I_step==0)
+{
+$C_cur .= substr($A_tmp[0],0,$I_len-($I_step)*3);
+}else
+{
+$C_cur .= substr($A_tmp[0],0,$I_len-($I_step)*3).&quot;,&quot;;
+}
+
+$A_tmp[0]=substr($A_tmp[0],$I_len-($I_step)*3);
+$I_len=strlen($A_tmp[0]);
+}
+
+//对小数点后面的金额的进行转换
+if($A_tmp[1]==&quot;&quot;)
+{
+$C_cur .= &quot;.00&quot;;
+}else
+{
+$I_len=strlen($A_tmp[1]);
+if($I_len&lt;2)
+{
+$C_cur .= &quot;.&quot;.$A_tmp[1].&quot;0&quot;;
+}else
+{
+$C_cur .= &quot;.&quot;.substr($A_tmp[1],0,2);
+}
+}
+
+//加上人民币符号并传出
+$C_cur=&quot;￥&quot;.$C_cur;
+return $C_cur;
+}
+//-----------------------------------------------------------------------------------
+-------
+
+
+//-----------------------------------------------------------------------------------
+------
+// 函数名：WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;)
+// 作 用：PHP中的window.location函数
+// 参 数：$C_url 转向窗口的URL
+// $C_get GET方法参数
+// $C_getOther GET方法的其他参数
+// 返回值: 字符串
+// 备 注：无
+//-----------------------------------------------------------------------------------
+-----
+function WindowLocation($C_url,$C_get=&quot;&quot;,$C_getOther=&quot;&quot;)
+{
+if($C_get == &quot;&quot; &amp;&amp; $C_getOther == &quot;&quot;)
+if($C_get == &quot;&quot; &amp;&amp; $C_getOther &lt;&gt; &quot;&quot;){$C_target=&quot;&quot;window.location='$C_url?
+$C_getOther='+this.value&quot;&quot;;}
+if($C_get &lt;&gt; &quot;&quot; &amp;&amp; $C_getOther == &quot;&quot;){$C_target=&quot;&quot;window.location='$C_url?
+$C_get'&quot;&quot;;}
+if($C_get &lt;&gt; &quot;&quot; &amp;&amp; $C_getOther &lt;&gt; &quot;&quot;){$C_target=&quot;&quot;window.location='$C_url?
+$C_get&amp;$C_getOther='+this.value&quot;&quot;;}
+return $C_target;
+}
+//-----------------------------------------------------------------------------------
+-----
+
+?&gt;</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+搜索引擎
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</link>
+    <description>Recent content in 
+搜索引擎
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Jul 2012 14:23:16 +0000</lastBuildDate><atom:link href="http://example.org/categories/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>百度暴风雨之前</title>
+      <link>http://example.org/2012/07/11/e799bee5baa6e69ab4e9a38ee99ba8e4b98be5898d/</link>
+      <pubDate>Wed, 11 Jul 2012 14:23:16 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/11/e799bee5baa6e69ab4e9a38ee99ba8e4b98be5898d/</guid>
+      <description>经过6.22，6.28 百度事件之后，按目前来看，今晚要有大更新， 目前发现百度 site 命令波动相当的大，site:cn0314.com 从几百到几万一直在变化， 测试中华网也是 带 www 了只有几百而已，今天才发现，本 blog 百度排名已经消失，不知道什么时候会回来了，慢慢等待。。 准备洗洗睡了，明早起床看百度</description>
+    </item>
+    
+    <item>
+      <title>Sphinx Storage Engine in MySQL via FreeBSD Ports</title>
+      <link>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</link>
+      <pubDate>Mon, 23 Mar 2009 16:59:55 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</guid>
+      <description>系統：FreeBSD 7.1-RELEASE MySQL：5.1.30 Sphinx：0.9.8.1
+mysql51-server.diff diff -Nur /usr/ports/databases/mysql51-server/Makefile mysql51-server/Makefile — /usr/ports/databases/mysql51-server/Makefile 2008-07-27 09:56:19.000000000 +0100 +++ mysql51-server/Makefile 2008-08-06 16:20:51.000000000 +0100 @@ -60,6 +60,16 @@ CONFIGURE_ARGS+=–with-collation=${WITH_COLLATION} .endif +# Sphinx Engine +.if defined(WITH_SPHINXSE) +SPHINX_PORT?= textproc/sphinxsearch +SPHINX_WRKSRC= cd ${PORTSDIR}/${SPHINX_PORT} &amp;amp;&amp;amp; ${MAKE} -V WRKSRC + +EXTRACT_DEPENDS+= ${NONEXISTENT}:${PORTSDIR}/${SPHINX_PORT}:extract +RUN_DEPENDS+= searchd:${PORTSDIR}/${SPHINX_PORT} +USE_AUTOTOOLS+= autoconf:262 automake:110 +.endif + .include .if ${ARCH} == “i386″ @@ -124,8 +134,14 @@ @${ECHO} “ BUILD_STATIC=yes Build a static version of mysqld.” @${ECHO} “ (use it if you need even more speed).</description>
+    </item>
+    
+    <item>
+      <title>php &#43; xapian extension的安装</title>
+      <link>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Mon, 11 Dec 2006 05:56:16 +0000</pubDate>
+      
+      <guid>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</guid>
+      <description>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C++编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd + apache 2.2 + php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;lt;/a&amp;gt; wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;lt;/a&amp;gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian.</description>
+    </item>
+    
+    <item>
+      <title>Google文件系统</title>
+      <link>http://example.org/2006/05/26/googlee69687e4bbb6e7b3bbe7bb9f/</link>
+      <pubDate>Fri, 26 May 2006 18:22:22 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/26/googlee69687e4bbb6e7b3bbe7bb9f/</guid>
+      <description>转载自互连网 Google文件系统
+GFS是一个可扩展的分布式文件系统，用于大型的、分布式的、对大量数据进行访问的应用。它运行于廉价的普通硬件上，但可以提供容错功能。它可以给大量的用户提供总体性能较高的服务。 1、设计概览 （1）设计想定 GFS与过去的分布式文件系统有很多相同的目标，但GFS的设计受到了当前及预期的应用方面的工作量及技术环境的驱动，这反映了它与早期的文件系统明显不同的设想。这就需要对传统的选择进行重新检验并进行完全不同的设计观点的探索。 GFS与以往的文件系统的不同的观点如下： 1、部件错误不再被当作异常，而是将其作为常见的情况加以处理。因为文件系统由成百上千个用于存储的机器构成，而这些机器是由廉价的普通部件组成并被大量的客户机访问。部件的数量和质量使得一些机器随时都有可能无法工作并且有一部分还可能无法恢复。所以实时地监控、错误检测、容错、自动恢复对系统来说必不可少。 2、按照传统的标准，文件都非常大。长度达几个GB的文件是很平常的。每个文件通常包含很多应用对象。当经常要处理快速增长的、包含数以万计的对象、长度达TB的数据集时，我们很难管理成千上万的KB规模的文件块，即使底层文件系统提供支持。因此，设计中操作的参数、块的大小必须要重新考虑。对大型的文件的管理一定要能做到高效，对小型的文件也必须支持，但不必优化。 3、大部分文件的更新是通过添加新数据完成的，而不是改变已存在的数据。在一个文件中随机的操作在实践中几乎不存在。一旦写完，文件就只可读，很多数据都有这些特性。一些数据可能组成一个大仓库以供数据分析程序扫描。有些是运行中的程序连续产生的数据流。有些是档案性质的数据，有些是在某个机器上产生、在另外一个机器上处理的中间数据。由于这些对大型文件的访问方式，添加操作成为性能优化和原子性保证的焦点。而在客户机中缓存数据块则失去了吸引力。 4、工作量主要由两种读操作构成：对大量数据的流方式的读操作和对少量数据的随机方式的读操作。在前一种读操作中，可能要读几百KB，通常达 1MB和更多。来自同一个客户的连续操作通常会读文件的一个连续的区域。随机的读操作通常在一个随机的偏移处读几个KB。性能敏感的应用程序通常将对少量数据的读操作进行分类并进行批处理以使得读操作稳定地向前推进，而不要让它来来回回的读。 5、工作量还包含许多对大量数据进行的、连续的、向文件添加数据的写操作。所写的数据的规模和读相似。一旦写完，文件很少改动。在随机位置对少量数据的写操作也支持，但不必非常高效。 6、系统必须高效地实现定义完好的大量客户同时向同一个文件的添加操作的语义。 （2）系统接口 GFS提供了一个相似地文件系统界面，虽然它没有向POSIX那样实现标准的API。文件在目录中按层次组织起来并由路径名标识。 （3）体系结构： 一个GFS集群由一个master和大量的chunkserver构成，并被许多客户（Client）访问。如图1所示。Master和 chunkserver通常是运行用户层服务进程的Linux机器。只要资源和可靠性允许，chunkserver和client可以运行在同一个机器上。 文件被分成固定大小的块。每个块由一个不变的、全局唯一的64位的chunk－handle标识，chunk－handle是在块创建时由 master分配的。ChunkServer将块当作Linux文件存储在本地磁盘并可以读和写由chunk－handle和位区间指定的数据。出于可靠性考虑，每一个块被复制到多个chunkserver上。默认情况下，保存3个副本，但这可以由用户指定。 Master维护文件系统所以的元数据（metadata），包括名字空间、访问控制信息、从文件到块的映射以及块的当前位置。它也控制系统范围的活动，如块租约（lease）管理，孤儿块的垃圾收集，chunkserver间的块迁移。Master定期通过HeartBeat消息与每一个 chunkserver通信，给chunkserver传递指令并收集它的状态。 与每个应用相联的GFS客户代码实现了文件系统的API并与master和chunkserver通信以代表应用程序读和写数据。客户与master的交换只限于对元数据（metadata）的操作，所有数据方面的通信都直接和chunkserver联系。 客户和chunkserver都不缓存文件数据。因为用户缓存的益处微乎其微，这是由于数据太多或工作集太大而无法缓存。不缓存数据简化了客户程序和整个系统，因为不必考虑缓存的一致性问题。但用户缓存元数据（metadata）。Chunkserver也不必缓存文件，因为块时作为本地文件存储的。 （4）单master。 只有一个master也极大的简化了设计并使得master可以根据全局情况作出先进的块放置和复制决定。但是我们必须要将master对读和写的参与减至最少，这样它才不会成为系统的瓶颈。Client从来不会从master读和写文件数据。Client只是询问master它应该和哪个 chunkserver联系。Client在一段限定的时间内将这些信息缓存，在后续的操作中Client直接和chunkserver交互。 以图1解释一下一个简单的读操作的交互。 1、client使用固定的块大小将应用程序指定的文件名和字节偏移转换成文件的一个块索引（chunk index）。 2、给master发送一个包含文件名和块索引的请求。 3、master回应对应的chunk handle和副本的位置（多个副本）。 4、client以文件名和块索引为键缓存这些信息。（handle和副本的位置）。 5、Client 向其中一个副本发送一个请求，很可能是最近的一个副本。请求指定了chunk handle（chunkserver以chunk handle标识chunk）和块内的一个字节区间。 6、除非缓存的信息不再有效（cache for a limited time）或文件被重新打开，否则以后对同一个块的读操作不再需要client和master间的交互。 通常Client可以在一个请求中询问多个chunk的地址，而master也可以很快回应这些请求。 （5）块规模： 块规模是设计中的一个关键参数。我们选择的是64MB，这比一般的文件系统的块规模要大的多。每个块的副本作为一个普通的Linux文件存储，在需要的时候可以扩展。 块规模较大的好处有： 1、减少client和master之间的交互。因为读写同一个块只是要在开始时向master请求块位置信息。对于读写大型文件这种减少尤为重要。即使对于访问少量数据的随机读操作也可以很方便的为一个规模达几个TB的工作集缓缓存块位置信息。 2、Client在一个给定的块上很可能执行多个操作，和一个chunkserver保持较长时间的TCP连接可以减少网络负载。 3、这减少了master上保存的元数据（metadata）的规模，从而使得可以将metadata放在内存中。这又会带来一些别的好处。 不利的一面： 一个小文件可能只包含一个块，如果很多Client访问改文件的话，存储这些块的chunkserver将成为访问的热点。但在实际应用中，应用程序通常顺序地读包含多个块的文件，所以这不是一个主要问题。 （6）元数据（metadata）： master存储了三中类型的metadata：文件的名字空间和块的名字空间，从文件到块的映射，块的副本的位置。所有的metadata都放在内存中。前两种类型的metadata通过向操作日志登记修改而保持不变，操作日志存储在master的本地磁盘并在几个远程机器上留有副本。使用日志使得我们可以很简单地、可靠地更新master的状态，即使在master崩溃的情况下也不会有不一致的问题。相反，mater在每次启动以及当有 chuankserver加入的时候询问每个chunkserver的所拥有的块的情况。 A、内存数据结构： 因为metadata存储在内存中，所以master的操作很快。进一步，master可以轻易而且高效地定期在后台扫描它的整个状态。这种定期地扫描被用于实现块垃圾收集、chunkserver出现故障时的副本复制、为平衡负载和磁盘空间而进行的块迁移。 这种方法的一个潜在的问题就是块的数量也即整个系统的容量是否受限与master的内存。实际上，这并不是一个严重的问题。Master为每个 64MB的块维护的metadata不足64个字节。除了最后一块，文件所有的块都是满的。类似的，每个文件的名字空间数据也不足64个字节，因为文件名是以一种事先确定的压缩方式存储的.如果要支持更大的文件系统，那么增加一些内存的方法对于我们将元数据（metadata）保存在内存种所获得的简单性、可靠性、高性能和灵活性来说，这只是一个很小的代价。 B、块位置： master并不为chunkserver所拥有的块的副本的保存一个不变的记录。它在启动时通过简单的查询来获得这些信息。Master可以保持这些信息的更新，因为它控制所有块的放置并通过HeartBeat消息来监控chunkserver的状态。 这样做的好处：因为chunkserver可能加入或离开集群、改变路径名、崩溃、重启等，一个集群重有成百个server，这些事件经常发生，这种方法就排除了master与chunkserver之间的同步问题。 另一个原因是：只有chunkserver才能确定它自己到底有哪些块，由于错误，chunkserver中的一些块可能会很自然的消失，这样在master中就没有必要为此保存一个不变的记录。 C、操作日志： 操作日志包含了对metadata所作的修改的历史记录。它作为逻辑时间线定义了并发操作的执行顺序。文件、块以及它们的版本号都由它们被创建时的逻辑时间而唯一地、永久地被标识。 操作日志是如此的重要，我们必须要将它可靠地保存起来，并且只有在metadata的改变固定下来之后才将变化呈现给用户。所以我们将操作日志复制到数个远程的机器上，并且只有在将相应的日志记录写到本地和远程的磁盘上之后才回答用户的请求。 Master可以用操作日志来恢复它的文件系统的状态。为了将启动时间减至最小，日志就必须要比较小。每当日志的长度增长到超过一定的规模后，master就要检查它的状态，它可以从本地磁盘装入最近的检查点来恢复状态。 创建一个检查点比较费时，master的内部状态是以一种在创建一个检查点时并不耽误即将到来的修改操作的方式来组织的。Master切换到一个新的日子文件并在一个单独的线程中创建检查点。这个新的检查点记录了切换前所有的修改。在一个有数十万文件的集群中用一分钟左右就能完成。创建完后，将它写入本地和远程的磁盘。 （7）数据完整性 名字空间的修改必须是原子性的，它们只能有master处理：名字空间锁保证了操作的原子性和正确性，而master的操作日志在全局范围内定义了这些操作的顺序。 文件区间的状态在修改之后依赖于修改的类型，不论操作成功还是失败，也不论是不是并发操作。如果不论从哪个副本上读，所有的客户都看到同样的数据，那么文件的这个区域就是一致的。如果文件的区域是一致的并且用户可以看到修改操作所写的数据，那么它就是已定义的。如果修改是在没有并发写操作的影响下完成的，那么受影响的区域是已定义的，所有的client都能看到写的内容。成功的并发写操作是未定义但却是一致的。失败的修改将使区间处于不一致的状态。 Write操作在应用程序指定的偏移处写入数据，而record append操作使得数据（记录）即使在有并发修改操作的情况下也至少原子性的被加到GFS指定的偏移处，偏移地址被返回给用户。 在一系列成功的修改操作后，最后的修改操作保证文件区域是已定义的。GFS通过对所有的副本执行同样顺序的修改操作并且使用块版本号检测过时的副本（由于chunkserver退出而导致丢失修改）来做到这一点。 因为用户缓存了会位置信息，所以在更新缓存之前有可能从一个过时的副本中读取数据。但这有缓存的截止时间和文件的重新打开而受到限制。 在修改操作成功后，部件故障仍可以是数据受到破坏。GFS通过master和chunkserver间定期的handshake，借助校验和来检测对数据的破坏。一旦检测到，就从一个有效的副本尽快重新存储。只有在GFS检测前，所有的副本都失效，这个块才会丢失。 2、系统交互 （1）租约（lease）和修改顺序： （2）数据流 我们的目标是充分利用每个机器的网络带宽，避免网络瓶颈和延迟 为了有效的利用网络，我们将数据流和控制流分离。数据是以流水线的方式在选定的chunkerserver链上线性的传递的。每个机器的整个对外带宽都被用作传递数据。为避免瓶颈，每个机器在收到数据后，将它收到数据尽快传递给离它最近的机器。 （3）原子性的record Append： GFS提供了一个原子性的添加操作：record append。在传统的写操作中，client指定被写数据的偏移位置，向同一个区间的并发的写操作是不连续的：区间有可能包含来自多个client的数据碎片。在record append中， client只是指定数据。GFS在其选定的偏移出将数据至少原子性的加入文件一次，并将偏移返回给client。 在分布式的应用中，不同机器上的许多client可能会同时向一个文件执行添加操作，添加操作被频繁使用。如果用传统的write操作，可能需要额外的、复杂的、开销较大的同步，例如通过分布式锁管理。在我们的工作量中，这些文件通常以多个生产者单个消费者队列的方式或包含从多个不同 client的综合结果。 Record append和前面讲的write操作的控制流差不多，只是在primary上多了一些逻辑判断。首先，client将数据发送到文件最后一块的所有副本上。然后向primary发送请求。Primary检查添加操作是否会导致该块超过最大的规模（64M）。如果这样，它将该块扩充到最大规模，并告诉其它副本做同样的事，同时通知client该操作需要在下一个块上重新尝试。如果记录满足最大规模的要求，primary就会将数据添加到它的副本上，并告诉其它的副本在在同样的偏移处写数据，最后primary向client报告写操作成功。如果在任何一个副本上record append操作失败，client将重新尝试该操作。这时候，同一个块的副本可能包含不同的数据，因为有的可能复制了全部的数据，有的可能只复制了部分。GFS不能保证所有的副本每个字节都是一样的。它只保证每个数据作为一个原子单元被写过至少一次。这个是这样得出的：操作要是成功，数据必须在所有的副本上的同样的偏移处被写过。进一步，从这以后，所有的副本至少和记录一样长，所以后续的记录将被指定到更高的偏移处或者一个不同的块上，即使另一个副本成了primary。根据一致性保证，成功的record append操作的区间是已定义的。而受到干扰的区间是不一致的。 （4）快照（snapshot） 快照操作几乎在瞬间构造一个文件和目录树的副本，同时将正在进行的其他修改操作对它的影响减至最小。 我们使用copy-on-write技术来实现snapshot。当master受到一个snapshot请求时，它首先将要snapshot的文件上块上的lease。这使得任何一个向这些块写数据的操作都必须和master交互以找到拥有lease的副本。这就给master一个创建这个块的副本的机会。 副本被撤销或终止后，master在磁盘上登记执行的操作，然后复制源文件或目录树的metadata以对它的内存状态实施登记的操作。这个新创建的snapshot文件和源文件（其metadata）指向相同的块（chunk）。 Snapshot之后，客户第一次向chunk c写的时候，它发一个请求给master以找到拥有lease的副本。Master注意到chunk c的引用记数比1大，它延迟对用户的响应，选择一个chunk handle C’,然后要求每一有chunk c的副本的chunkserver创建一个块C’。每个chunkserver在本地创建chunk C’避免了网络开销。从这以后和对别的块的操作没有什么区别。 3、MASTER操作 MASTER执行所有名字空间的操作，除此之外，他还在系统范围管理数据块的复制：决定数据块的放置方案，产生新数据块并将其备份，和其他系统范围的操作协同来确保数据备份的完整性，在所有的数据块服务器之间平衡负载并收回没有使用的存储空间。 3.</description>
+    </item>
+    
+    <item>
+      <title>相似度的问题</title>
+      <link>http://example.org/2006/05/23/e79bb8e4bcbce5baa6e79a84e997aee9a298/</link>
+      <pubDate>Tue, 23 May 2006 14:20:21 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/23/e79bb8e4bcbce5baa6e79a84e997aee9a298/</guid>
+      <description>贝叶斯算法介绍 一． 贝叶斯过滤算法的基本步骤
+收集大量的垃圾邮件和非垃圾邮件，建立垃圾邮件集和非垃圾邮件集。 提取邮件主题和邮件体中的独立字串例如 ABC32，￥234等作为TOKEN串并统计提取出的TOKEN串出现的次数即字频。按照上述的方法分别处理垃圾邮件集和非垃圾邮件集中的所有邮件。 每一个邮件集对应一个哈希表，hashtable_good对应非垃圾邮件集而hashtable_bad对应垃圾邮件集。表中存储TOKEN串到字频的映射关系。 计算每个哈希表中TOKEN串出现的概率P=（某TOKEN串的字频）/（对应哈希表的长度） 综合考虑hashtable_good和hashtable_bad，推断出当新来的邮件中出现某个TOKEN串时，该新邮件为垃圾邮件的概率。数学表达式为： A事件&amp;mdash;-邮件为垃圾邮件; t1,t2 …….tn代表TOKEN串 则P（A|ti）表示在邮件中出现TOKEN串ti时，该邮件为垃圾邮件的概率。 设 P1（ti）=（ti在hashtable_good中的值） P2（ti）=（ti在hashtable_ bad中的值） 则 P（A|ti）= P1（ti）/[（P1（ti）+ P2（ti）]； 建立新的哈希表 hashtable_probability存储TOKEN串ti到P（A|ti）的映射 至此，垃圾邮件集和非垃圾邮件集的学习过程结束。根据建立的哈希表 hashtable_probability可以估计一封新到的邮件为垃圾邮件的可能性。 当新到一封邮件时，按照步骤2）生成TOKEN串。查询hashtable_probability得到该TOKEN 串的键值。 假设由该邮件共得到N个TOKEN串，t1,t2…….tn, hashtable_probability中对应的值为P1，P2，。。。。。。PN， P(A|t1 ,t2, t3……tn)表示在邮件中同时出现多个TOKEN串t1,t2…….tn时，该邮件为垃圾邮件的概率。 由复合概率公式可得 P(A|t1 ,t2, t3……tn)=（P1P2。。。。PN）/[P1P2。。。。。PN+（1-P1）（1-P2）。。。（1-PN）] 当P(A|t1 ,t2, t3……tn)超过预定阈值时，就可以判断邮件为垃圾邮件。 二． 贝叶斯过滤算法举例
+例如：一封含有“法轮功”字样的垃圾邮件 A 和 一封含有“法律”字样的非垃圾邮件B 根据邮件A生成hashtable_ bad，该哈希表中的记录为 法：1次 轮：1次 功：1次 计算得在本表中： 法出现的概率为0。3 轮出现的概率为0。3 功出现的概率为0。3 根据邮件B生成hashtable_good，该哈希表中的记录为： 法：1 律：1 计算得在本表中： 法出现的概率为0。5 律出现的概率为0。5 综合考虑两个哈希表，共有四个TOKEN串： 法 轮 功 律 当邮件中出现“法”时，该邮件为垃圾邮件的概率为： P=0。3/（0。3+0。5）=0。375 出现“轮”时： P=0。3/（0。3+0）=1 出现“功“时： P=0。3/（0。3+0）=1 出现“律”时 P=0/（0+0。5）=0； 由此可得第三个哈希表：hashtable_probability 其数据为： 法：0。375 轮：1 功：1 律：0</description>
+    </item>
+    
+    <item>
+      <title>配置aspseek建立强大的企业级搜索引擎</title>
+      <link>http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/</link>
+      <pubDate>Thu, 18 May 2006 11:43:17 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/18/e9858de7bdaeaspseeke5bbbae7ab8be5bcbae5a4a7e79a84e4bc81e4b89ae7baa7e6909ce7b4a2e5bc95e6938e/</guid>
+      <description>建立搜索引擎 没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 Google 的搜索引擎软件目录吧。
+我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。
+ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。
+相关链接：
+Google的搜索引擎软件目录
+参见：http://dir.google.com/alpha/Top/ … net/Servers/Search/
+另一个搜索引擎软件目录：
+Search Tools for Web Sites and Intranets ：http://www.searchtools.com/tools/tools.html
+ASPseek 网站
+ASPseek.org：http://www.aspseek.org/
+ASPseek论坛
+关于ASPseek的求助信息，可以访问ASPseek论坛：http://forum.aspseek.org/。
+2.1. 安装 ASPSeek ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：
+root&amp;gt;; tar zxvf aspseek-1.2.10.tar.gz root&amp;gt;; cd aspseek-1.2.10 root&amp;gt;; ./configure –with-mysql=/usr/local/mysql –prefix=/usr/local/aspseek root&amp;gt;; make &amp;amp;&amp;amp; make install root&amp;gt;; /usr/local/aspseek/sbin/aspseek-mysql-postinstall root&amp;gt;; cp /usr/local/aspseek/bin/s.</description>
+    </item>
+    
+    <item>
+      <title>CLUCENE-0.9.10 索引与优化过程</title>
+      <link>http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/</link>
+      <pubDate>Sun, 14 May 2006 02:34:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/</guid>
+      <description>一.文件索引过程 主要流程描述
+IndexWriter writer(&amp;quot;ndx&amp;quot;, &amp;amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-&amp;gt;add(*new Field(&amp;quot;content&amp;quot;, &amp;quot;This is demo content.&amp;quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程
+1.IndexWriter writer(&amp;quot;ndx&amp;quot;, &amp;amp;an;, true); directory = FSDirectory::getDirectory(&amp;quot;ndx&amp;quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-&amp;gt;makeLock(&amp;quot;write.</description>
+    </item>
+    
+    <item>
+      <title>php &#43; clucene extension的安装</title>
+      <link>http://example.org/2006/05/13/php-clucene-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Sat, 13 May 2006 18:21:41 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/13/php-clucene-extensione79a84e5ae89e8a385/</guid>
+      <description>CLucene是SF上面的一个对Lucene(一个用Java写的全文检索引擎工具包)的移植,做为Lucene的C++的重新实现，以带来更快的检索速度,但是一直还不stable.这里仅仅是尝试php+clucene扩展的安装,具体应用先不管.
+安装环境: Freebsd 6.0 + apache 2.2 + php 5.1.2
+apache+php的安装就不说了,网上一抓一大把,注意clucene扩展必须在php5以上才能安装.
+首先安装clucene 1.下载clucene 直奔它的首页–clucene.sourceforge.net,下载clucene 0.9.10 2.编译clucene
+tar xzvf clucene-0.9.10.tar.gz cd clucene-0.9.10 ./autogen.sh ./configure make 这样clucene就安装好了,为了让其它程序可以调用clucene,这里把编译好的lib放到系统lib目录下 cp src/.libs/libclucene.* /usr/local/lib cp src/CLucene.h /usr/local/include/ cp -r src/CLucene /usr/local/include/ 安装clucene php extension 1.下载clucene php extension 在pecl.php.net有下载,拖回来就是 http://pecl.php.net/package/clucene 2.编译clucene php extension tar xzvf clucene-0.0.9.tgz cd clucene-0.0.9 cp -r /usr/local/include/Clucene include/ #编译时要把clucene的include文件弄一份 cp -r /usr/local/include/Clucene.h include/ phpize ./configure make 编译完成,这里会生成一个clucene.so,我们把它放在php的extension目录下(没有就建一个),然后修改php.ini
+加入 extension=clucene.so
+重启apache之后看phpinfo
+php+clucene
+至此安装就算完成了,demo嘛在examples目录下有一个,命令行调用方式(根据已有的index检索): php clucene.</description>
+    </item>
+    
+    <item>
+      <title>于Lucene/XML的站内全文检索解决方案</title>
+      <link>http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/</link>
+      <pubDate>Fri, 12 May 2006 13:04:36 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/12/e4ba8elucenexmle79a84e7ab99e58685e585a8e69687e6a380e7b4a2e8a7a3e586b3e696b9e6a188/</guid>
+      <description>关键词：Lucene xml xslt web site search engine 内容摘要： 为Lucene做一个通用XML接口一直是我最大的心愿：更方便的在WEB应用中嵌入全文检索功能
+提供了XML的数据输入接口：适合将原有基于各种数据库的数据源导入到全文索引中，保证了数据源的平台无关性； 通过了基于XML的搜索结果输出：方便了通过XSLT进行前台的结果显示；
+MySQL \ / JSP Oracle - DB - ==&amp;gt; XML ==&amp;gt; (Lucene Index) ==&amp;gt; XML - ASP MSSQL / - PHP MS Word / \ / XHTML PDF / =XSLT=&amp;gt; - TEXT \ XML \_________WebLucene__________/ 使用过程如下： 将数据用脚本导出成XML格式； 将XML数据源导入LUCENE索引； 从WEB界面得到XML结果输出，并通过XSLT生成HTML页面 站内全文检索的必要性
+虽然大型搜索引擎的功能已经越来越强大了，很多站点都使用了Google的站内检索site:domain.com代替了自己的站内数据库“全文”检索。但依靠GOOGLE这样的大型搜索引擎做站内检索会有以下弊端：
+数量有限：搜索引擎并不会深度遍历一个网站，而将网站所有的内容都索引进去，比如Google就喜欢静态网页，而且是最新更新的，而不喜欢带?的动态网页，Google甚至会定期将缺少入口的网站内容逐渐抛弃； 更新慢：搜索引擎针对站点的更新频率也是有一定周期的，很多内容需要一定时间后才能进入GOOGLE的索引：目前Google Dance的周期是21天左右； 内容不精确：搜索引擎需要通过页面内容提取技术将导航条，页头页尾等内容过滤掉，反而不如直接从后台数据库提取数据来得直接，这种摘要和排重机制是很难实现的； 无法控制输出：也许有更多的输出需求，按时间排序，按价格，按点击量，按类目过滤等 系统的搭建
+下载： http://sourceforge.net/projects/weblucene/
+XML数据源的导入：
+只要数据源可以导出成3层的XML结构，就都可以用IndexRunner这个命令行工具导入：
+比如从数据库导出：news_dump.xml 标题 作者 内容 2003-06-29 My Title chedong abc 2003-06-30 &amp;hellip; IndexRunner -i news_dump.</description>
+    </item>
+    
+    <item>
+      <title>Lucene 全文检索实践</title>
+      <link>http://example.org/2006/05/12/lucene-e585a8e69687e6a380e7b4a2e5ae9ee8b7b5/</link>
+      <pubDate>Fri, 12 May 2006 12:22:24 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/12/lucene-e585a8e69687e6a380e7b4a2e5ae9ee8b7b5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>在应用中加入全文检索功能</title>
+      <link>http://example.org/2006/05/12/e59ca8e5ba94e794a8e4b8ade58aa0e585a5e585a8e69687e6a380e7b4a2e58a9fe883bd/</link>
+      <pubDate>Fri, 12 May 2006 12:16:09 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/12/e59ca8e5ba94e794a8e4b8ade58aa0e585a5e585a8e69687e6a380e7b4a2e58a9fe883bd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>基于Linux的搜索引擎实现</title>
+      <link>http://example.org/2006/04/30/e59fbae4ba8elinuxe79a84e6909ce7b4a2e5bc95e6938ee5ae9ee78eb0/</link>
+      <pubDate>Sun, 30 Apr 2006 08:26:54 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/e59fbae4ba8elinuxe79a84e6909ce7b4a2e5bc95e6938ee5ae9ee78eb0/</guid>
+      <description>搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux + Apache + PHP作为广泛使用Web服务器，与WinNT + IIS + ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache + PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz+QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf+zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK+of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd.</description>
+    </item>
+    
+    <item>
+      <title>RSS搜索引擎集锦</title>
+      <link>http://example.org/2006/04/27/rsse6909ce7b4a2e5bc95e6938ee99b86e994a6/</link>
+      <pubDate>Thu, 27 Apr 2006 06:26:15 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/27/rsse6909ce7b4a2e5bc95e6938ee99b86e994a6/</guid>
+      <description>有些用户将RSS搜索误认为“博客搜索”。虽然很多博客网站提供RSS聚合功能（自动创建聚合是大多数博客软件的特征），但并不是所有博客网站均提供这项服务。此外，理论上RSS可应用于任何基于Web类型的内容。RSS从根本来讲还是一种相对简单的规范，它利用了XML，并遵循一种标准的方式来组织和安排网络内容。
+事实已经证明，博客可以提供大部分RSS内容。此外，新闻网站同样也可以通过RSS实现内容聚合。大部分新闻站点已经实现这一功能。
+并且RSS聚合将被更多地应用于其他类型的内容。譬如，用户可以利用RSS聚合获得天气预报、公司新闻及金融信息、包裹跟踪等等方面的信息。甚至一直以来倍受人们推崇的雅虎目录也已经实现了RSS聚合。
+尽管理论上存在着上百万聚合内容，但要从中找到自己有用的相关的信息却非易事。一方面，主要搜索引擎均开始涉足聚合搜索，但截至目前还未有一家推出完善的聚合搜索服务。另一方面虽然也有一些规模较小、专业的博客和聚合搜索引擎，但由于它们缺少内容资源，同时博客和聚合内容中充斥着大量垃圾信息通常导致他们的搜索结果相关性极低。
+RSS搜索引擎
+互联网上已经诞生并发展起许多专业RSS搜索引擎，以下仅列决几个较为知名的聚合搜索引擎，更多可参考http://allrss.com/rsssearch.html
+Bloglines（http://www.bloglines.com）
+搜索引擎Ask Jeeves旗下的Bloglines，既是一个聚合搜索工具，又是一款聚合阅读器/新闻聚合器。Bloglines主页右上角放置了两个搜索框，用户可在第一个搜索框的下拉菜单中选择搜索范围，比如所有Bloglines索引的博客，个人订阅的博客，全部网站，或添加一个聚合地址至个人订阅；第二个搜索框则输入关键字。
+Bloglines的高级搜索页面，提供有基于表格的简单布尔逻辑搜索功能，还可以按照流行度或日期过滤搜索结果，选择不同的搜索范围（所有博客、个人定制博客或个人定制博客意外的所有博客）。
+Bloglines网站上公布了其已经被收录文章的总量，截至2005年9月8日为701,667,885。
+此外，作为一款阅读器，Bloglines在聚合内容阅读，管理个人订阅等方面还有很多好用的特色功能。它集信息订阅、分享、发布和搜索于一体，相对于其他同类产品极具个性。
+BlogPulse （http://www.blogpulse.com）
+BlogPulse主要作为一卷跟踪博客世界的流行趋势和热门话题的工具而众所周知，实际上它还有一款很不错的聚合搜索引擎，同时它还拥有同类聚合搜索服务中最大的聚合内容索引库之一。BlogPulse网站上目前公布的索引量为，可确认博客网页15,870,290个。
+BlogPulse的高级搜索页面提供有短语搜索，分别按照“包含全部关键字”、“包含任意一个关键字”和“精确关键字”三个选项，此外你还可以在这里创建自己的布尔算子搜索请求。另外，你还可以按照指定时间范围限制搜索结果，以时间或相关性排列搜索结果。
+Daypop（http://www.daypop.com）
+Daypop 是第一代博客/聚合搜索引擎之一，曾在2001年和2002年荣获Search Engine Watch最佳提名（Search Engine Watch每年对所有搜索引擎进行一次分类评选）。Daypop的运作完全依靠其创始人和所有者Dan Chan一人之力，因此较之其他同类工具缺乏一定的发展动力。
+Daypop的高级搜索页面提供有基本的按日期过滤结果，此外还有其他博客/聚合搜索工具未曾推出的按指定语言或国家限制搜索结果。
+Daypop搜索框底部显示了其当前搜索范围，涉及59000个新闻网站、博客网站及RSS 聚合。
+Feedster（http://www.feedster.com）
+Feedster 提供了多种有趣的特色功能，如订阅某个搜索请求并将其保存为一个feed，或通过电子邮件发送新的搜索结果。此外，较之全文本搜索，Feedster还提供有独特的搜索聚合内容内含信息和搜索聚合地址。在搜索聚合地址时，用户可以利用关键字或URL搜索，或者两者结合进行搜索。
+在Feedster高级搜索页面，用户可将搜索范围限制在某个聚合地址，也可以是多个聚合。此外，还能过滤某些聚合，包括你自己的。
+Feedster主页顶部显示其当前搜索量达到14,000,569个feeds（聚合地址）。
+Findory Blogory（http://findory.com/blogs/）
+Findory 是一款新闻搜索工具，同时具有独立的博客搜索功能。Blogory的主页版面看起来与Google新闻主页相似，页面顶部首先列出的是“top blogs”热门博客，接着是按照类别组织的其他博客链接，包括商业、政治、科技、个人、教育、综合、法律、娱乐、世界、地区、运动、艺术、图书、健康、科学。
+Blogory没有提供博客高级搜索，但其具有独特的个性化适应性RSS聚合功能，基于用户的兴趣或其他已经越多的博客自动为用户寻找适当的博客。
+Gigablast 博客搜索（http://blogs.gigablast.com/）
+Gigablast是一个网络搜索引擎，同时提供博客搜索。虽然博客搜索还处于测试版，但搜索结果质量较之其他博客搜索引擎有过之而无不及。Gigablast没有为各个搜索选项分别设置高级搜索页面，但利用共用的高级搜索页面也能够很好地精确搜索结果。
+Gigablast还提供XML搜索服务，基于Gigablast搜索结果创建自己的聚合。虽然此功能稍显多余，但对于希望跟踪Gigablast搜索结果的用户还说，还是值得一用。 Gigablast 还提供其他搜索选项，其中网页索引量达到2,068,530,608，博客索引量达到27,086,736个网页，旅游搜索量达到5,420,820个网页，政府搜索量达到34,367,200个网页。Gigablast除了网页和目录搜索外，其他搜索功能均为测试阶段。
+IceRocket博客搜索（http://www.icerocket.com/?tab=blog）
+与Gigablast类似，IceRocket也提供多种搜索选项，包括网页搜索、新闻搜索、手机图片搜索、图片搜索、多媒体搜索。IceRocket博客高级搜索页面提供有基本的布尔算子搜索和时间区间过滤搜索，并提供有独特的按作者搜索功能。
+IceRocket最近宣布将名称改为BlogScour，但未透露是否保留其他搜索选项。
+PubSub（http://www.pubsub.com）
+本文所列的所有博客和聚合搜索工具中，PubSub显得较为独特。
+第一，PubSub不提供直接搜索。用户必须首先为某个自己感兴趣的关键字创建订阅，然后PubSub将把随时找到的相匹配的最新内容通过预警方式通知用户。预警方式包括电子邮件、SMS、PDA/移动设备及即时通讯工具等。
+PubSub的第二个独特之处在于，它是一款“实时”搜索工具。也就是说，当新内容被发布到网络后，用户几乎马上就能得到预警通知，第一时间获得这些信息。
+目前，PubSub的存储量超过1600万博客，50,000多个互联网新闻组及所有SEC美国证监会（EDGAR，电子数据集中与报告系统）文件。
+Technorati （http://www.technorati.com）
+Technorati提供有网络搜索、标签搜索和博客搜索，并允许用户分别按关键字、URL或标签进行搜索。在Technorati的统一搜索页面上，集合了所有搜索方式，用户只要在恰当的搜索框内输入不同格式的搜索请求，就能获得相匹配的搜索结果。
+Technorati网络搜索当前可跟踪1,680万网站和15亿链接；标签搜索可跟踪实时更新的200万个网络标签；博客搜索目前还是测试版，实际是Technorati按照主题组织的博客目录。
+此外，Technorati的流行列表也值得一看。在这里，Technorat按照新闻、书籍、电影、Top 100博客等，展示了网上用户当前关注的各种热门话题。流行列表中的所有资源都保持实时更新状态。
+主流搜索引擎与RSS
+大量小型但专业的RSS搜索引擎涌现的同时，主流搜索引擎又在作何打算呢？尽管这些主流引擎都在窥觑RSS搜索，但目前还未有任何一家推出较为成熟的RSS搜索服务。
+|. Ask Jeeves已经通过旗下Bloglines推出RSS搜索服务，并承认RSS为其重要发展项目之一。但Bloglines是否继续拓展，集成类似于 Teoma的强大搜索能力，还是Ask公司继续Bloglines现有的RSS搜索能力仍未为可知。最大的可能性是以其他补充功能来增强这两种服务。
+||. Google没有为RSS聚合内容开通独立搜索入口，但自从Google推出可定制个性化首页之后，Google用户就可以通过“创建新的板块” （create a new section）链接，发现寻找聚合内容的搜索框。此外，用户还可以在任意Google搜索框内，使用“filetype:rss”及 “filetype:xml”命令过滤聚合信息。最新推出的Google Desktop 2桌面搜索第二代还增加了专门针对RSS聚合内容的自动搜索功能。</description>
+    </item>
+    
+    <item>
+      <title>中文搜索引擎技术揭密：排序技术</title>
+      <link>http://example.org/2006/04/15/e4b8ade69687e6909ce7b4a2e5bc95e6938ee68a80e69cafe68fade5af86efbc9ae68e92e5ba8fe68a80e69caf/</link>
+      <pubDate>Sat, 15 Apr 2006 18:10:35 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/15/e4b8ade69687e6909ce7b4a2e5bc95e6938ee68a80e69cafe68fade5af86efbc9ae68e92e5ba8fe68a80e69caf/</guid>
+      <description>随着“眼球经济”席卷互联网，成千上万的资金迅速流向最能吸引浏览着眼球的搜索引擎市场。有大量调查显示搜索引擎市场正处在高速发展时期，成为了未来几年内最具发展潜力的产业之一。随着Google、百度、中国搜索等各具特色的搜索引擎逐渐成为人们最常用的网络工具，企业对搜索引擎的注意力也从“观察”升级为“动武”。 随着市场容量和使用者人数的不断激增，如何完善搜索功能使之更加公平、公开、标准和人性化也就随之成为了一个备受关注的话题。但是有一个矛盾体在这其中不断的显现出来：收费可以为搜索引擎公司带来利润，但同时会降低访问者的体验满意度。如何权衡金钱和用户需求之间的天平呢？ Google成功的秘密 到2004年为止，Google（http://www.google.com）已经连续两年被评为全球第一品牌，Google成立仅五年时间，最初只是两个斯坦福大学学生的研究项目。这不能不说是一个奇迹，就像比尔•盖茨创制奇迹一样。比尔•盖茨能创造奇迹，是因为他看准了个人计算机软件市场的趋势，所以创建的公司叫Microsoft（微软）：Micro（小）Soft（软件）。那么Google呢？在 Google出来之前已经有一些很有成就的搜索引擎公司，其实力也很强，看来不只是Google看见了搜索的趋势。Google究竟成功的秘密在哪儿？ Google 的成功有许多因素，最重要的是Google对搜索结果的排序比其它搜索引擎都要好。Google保证让绝大部分用搜索的人，都能在搜索结果的第一页找到他想要的结果。客户得到了满足，下一次还过来，而且会向其他人介绍，这一来一往，使用的人就多了。所以Google在没有做任何广告的前提下，让自己成为了全球最大的品牌。Google究竟采用了哪种排序技术？PageRank，即网页级别。 Google有一个创始人叫Larry Page，据说PageRank的专利是他申请的，于是依据他的名字就有了Page Rank。国内也有一家很成功的搜索引擎公司，叫百度（http://www.baidu.com）。百度的创始人李彦宏说，早在1996年他就申请了名为超链分析的专利，PageRank的原理和超链分析的原理是一样的，而且PageRank目前还在Paten-pending（专利申请中）。言下之意是这里面存在专利所有权的问题。这里不讨论专利所有权，只是从中可看出，成功搜索引擎的排序技术，就其原理上来说都差不多，那就是链接分析。超链分析和 PageRank都属于链接分析。 链接分析到底为何物？由于李彦宏的超链分析没有具体的介绍，笔者唯一看过的就是在美国专利局网站上关于李彦宏的专利介绍。PageRank的介绍倒是不少，而且目前Google毕竟是全球最大的搜索引擎，这里以PageRank为代表，详细介绍链接分析的原理。 PageRank揭密 PageRank 的原理类似于科技论文中的引用机制：谁的论文被引用次数多，谁就是权威。说的更白话一点：张三在谈话中提到了张曼玉，李四在谈话中也提到张曼玉，王五在谈话中还提到张曼玉，这就说明张曼玉一定是很有名的人。在互联网上，链接就相当于“引用”，在B网页中链接了A，相当于B在谈话时提到了A，如果在C、D、 E、F中都链接了A，那么说明A网页是最重要的，A网页的PageRank值也就最高。 如何计算PageRank值有一个简单的公式： 其中：系数为一个大于0，小于1的数。一般设置为0.85。网页1、网页2至网页N表示所有链接指向A的网页。 由以上公式可以看出三点： 1、链接指向A的网页越多，A的级别越高。即A的级别和指向A的网页个数成正比，在公式中表示，N越大， A的级别越高； 2、链接指向A的网页，其网页级别越高， A的级别也越高。即A的级别和指向A的网页自己的网页级别成正比，在公式中表示，网页N级别越高， A的级别也越高； 3、链接指向A的网页，其链出的个数越多，A的级别越低。即A的级别和指向A的网页自己的网页链出个数成反比，在公式中现实，网页N链出个数越多，A的级别越低。 每个网页有一个PageRank值，这样形成一个巨大的方程组，对这个方程组求解，就能得到每个网页的PageRank值。互联网上有上百亿个网页，那么这个方程组就有上百亿个未知数，这个方程虽然是有解，但计算毕竟太复杂了，不可能把这所有的页面放在一起去求解的。对具体的计算方法有兴趣的朋友可以去参考一些数值计算方面的书。 总之，PageRank有效地利用了互联网所拥有的庞大链接构造的特性。从网页A导向网页B的链接，用Google创始人的话讲，是页面A对页面B的支持投票，Google根据这个投票数来判断页面的重要性，但Google除了看投票数（链接数）以外，对投票者（链接的页面）也进行分析。「重要性」高的页面所投的票的评价会更高，因为接受这个投票页面会被理解为「重要的物品」。从新浪、雅虎、微软的首页都有我网页的三个链接的话，可能比我在其他网站找三十个链接还强。如果还有人不理解这个原理，就去想想有句成语叫：三人成虎。如果有三个人都说北京大街上有老虎，那么许多人会认为有老虎，如果这三个人都是国家领导人的话，那么所有人都会认为北京大街上有老虎。 每个网页都会有PageRank值，如果大家想知道自己网站的网页PageRank值是多少，最简单的办法就是下载一个Google的免费工具栏（http://toolbar.google.com/）， 每当你打开一个网页，都可以很清楚的看见此网页的PageRank值。当然这个值是一个大概数字。 据Google技术负责人介绍，Google除了用PageRank衡量网页的重要程度以外，还有其它上百种因素来参与排序。其它搜索引擎也是如此，不可能按照某一种规则来进行搜索结果的排序。 其他方法 HillTop算法： HillTop 同样是一项搜索引擎结果排序的专利，是Google的一个工程师Bharat在2001年获得的专利。Google的排序规则经常在变化，但变化最大的一次也就是基于HillTop算法进行了优化。HillTop究竟原理如何，值得Google如此青睐？ 其实HillTop算法的指导思想和PageRank的是一致的，都是通过网页被链接的数量和质量来确定搜索结果的排序权重。但HillTop认为只计算来自具有相同主题的相关文档链接对于搜索者的价值会更大：即主题相关网页之间的链接对于权重计算的贡献比主题不相关的链接价值要更高。如果网站是介绍“服装”的，有10个链接都是从“服装”相关的网站链接过来，那这10个链接比另外10个从“电器”相关网站链接过来的贡献要大。Bharat称这种对主题有影响的文档为“专家”文档，从这些专家文档页面到目标文档的链接决定了被链接网页“权重得分”的主要部分。 与PageRank结合HillTop算法确定网页与搜索关键词的匹配程度的基本排序过程取代了过份依靠PageRank的值去寻找那些权威页面的方法。这对于两个具有同样主题而且PR相近的网页排序过程中， HillTop算法就显得非常的重要了。HillTop同时也避免了许多想通过增加许多无效链接来提高网页PageRank值的做弊方法。 锚文本（Anchor Text） 锚文本名字听起来难以理解，实际上锚文本就是链接文本。例如，在个人网站上把中央电视台（www.cctv.com）做为新闻频道的链接，访问者通过点击网站上的“新闻频道”就能进入http://www.cctv.com网站，那么“新闻频道”就是中央电视台网站首页的锚文本。 锚文本可以做为锚文本所在的页面的内容的评估。正常来讲，页面中增加的链接都会和页面本身的内容有一定的关系。服装的行业网站上会增加一些同行网站的链接或者一些做服装的知名企业的链接；另一方面，锚文本能做为对所指向页面的评估。锚文本能精确的描述所指向页面的内容，个人网站上增加Google的链接，锚文本为 “搜索引擎”。这样通过锚文本本身就能知道，Google是搜索引擎。 锚文本对搜索引擎起的作用还表现为可以收集一些搜索引擎不能索引的文件。例如，网站上增加了一张张曼玉的照片，格式为jpg文件，搜索引擎目前很难索引（一般只处理文本）。若这张照片链接的锚文本为“张曼玉的照片”，那么搜索引擎就能识别这张图片是张曼玉的照片，以后访问者搜索“张曼玉”的时候，这张图片就能被搜索到。 由此可见，在网页设计中选择合适的锚文本，会让所在网页和所指向网页的重要程度有所提升。 页面版式 每个网页都有版式，包括标题、字体、标签等等。搜索引擎也会利用这些版式来识别搜索词与页面内容的相关程度。以静态的html格式的网页为例，搜索引擎通过网络蜘蛛把网页抓取下来后，需要提取里面的正文内容，过滤其他html代码。在提取内容的时候，搜索引擎就可以记录所有版式信息，包括：哪些词是在标题中出现，哪些词是在正文中出现，哪些词的字体比其他的字体大，哪些词是加粗过，哪些词是用KeyWord标识过的等等。这样在搜索结果中就可以根据这些信息来确定所搜索的结果和搜索词的相关程度。例如搜索“毛泽东”，假如有两个结果，一篇文章标题是《毛泽东的一生》，另一篇文章的标题是《江青的一生》但内容有提到毛泽东，这时搜索引擎会认为前者比较重要，因为“毛泽东”在标题里出现了。 因此，合理的利用网页的页面版式，会提升网页在搜索结果页的排序位置。 收费排名 应该说收费排名并不属于排序技术（这里指的收费排名也包括竞价排名），而是一种搜索引擎的赢利模式。但收费排名已经最直接的影响到了搜索引擎的排序，在此也略做说明。 用户可以购买某个关键词的排名，只要向搜索引擎公司交纳一定的费用，就可以让用户的网站排在搜索结果的前几位，按照不同关键词、不同位置、时间长短来定义价格。价格从几千元到几十万元不等（像“六合彩”在3721上的排名费用大多是几十万）。 收费排名一方面给搜索引擎公司带来收益，一方面给企业带来访问量，另外对访问者也有一定好处。因为访问者想找“西服”，企业想卖“西服”，于是出钱让访问者能找到他，这样，买家和卖家能马上见面。但收费排名给访问者带来更多的却是不真实，结果排序已经失去了公正性，有时候还带来大量垃圾。在百度搜索引擎上搜索“星球”，排在第一位的是一家做石墨的公司，排在第二位的居然是“想找星球？上易趣吧！”（见下图）。真有些让访问者哭笑不得。
+当然，对于企业来说，收费排名是提升网站在搜索引擎中排名的最直接和最简单的办法。如今，如何提升网页在搜索引擎中的排序，已经形成了一门职业，叫SEO （Search Engine Optimization），即搜索引擎优化。SEO是针对搜索引擎排序的技术，通过修改网页（或者网站）结构和主动增加网站链接等方法来让搜索引擎认为这些网页是很重要的，从而提升网页在搜索引擎结果中的排序。 排序技术的发展趋势 各种搜索引擎的技术改进和优化，都直接反应到搜索结果的排序上。许多搜索引擎都在进一步研究新的排序方法，来提升客户的满意度。专业人士认为，目前的搜索引擎排序算法上还存在两大不足。 一、没有真正解决相关性。相关性是指搜索词和页面的相关程度。仅仅通过链接、字体、位置等表面特征，不能真正判断搜索词和文章的相关性，更何况许多时候这些特征不会都同时存在。这也是许多对搜索引擎做弊方法能有效的原因。另外，有些文章中没有出现搜索词，但说的就是和搜索词十分相关的内容，例如搜索“恐怖分子”，但有网页是介绍本拉登的一些破坏行动，文中没有出现“恐怖分子”的子眼，搜索引擎就无法搜索到该网页。表面特征只能治标，不能治本。治本的方法应该是增加语意理解，例如主题词和关键词的提取，从语意上分析，得出搜索词和网页的相关程度，分析的越准，效果就会越好。 中国站长资讯网,中国站长第一门户 二、搜索结果的单一化。在搜索引擎上，任何人搜索同一个词的结果都是一样。这样明显不能满足访问者。科学家搜索“星球”，可能是希望了解星球的知识，但普通人可能是想找“星球大战”电影，但搜索引擎所给的都是一样的结果。如何满足这些不同类型的访问者，需要对搜索结果的个性化。国外vivisimo公司（http://www.vivisimo.com）就是想解决这个问题，他们采用对搜索结果自动聚类的办法来满足不同类型客户的需要。搜索结果排序如果要实现从单一化到个性化，vivisimo已经迈出了一步，但最理想的结果应该是针对每个访问者，排序结果直接和他们的搜索习惯和意愿有关。搜索“体育”，对喜欢足球的人应该把足球的相关结果排在前面，对喜欢篮球的人应该把篮球的相关结果排在前面。 中国站长资讯网,中国站长第一门户 搜索引擎的排序技术应该也会朝着解决这两个不足的方向发展：语意相关性和排序个性化。前者需要完善的自然语言处理技术，后者需要记录庞大访问者信息和复杂的计算，要达到其中任何一个的要求均非易事，如何解决这些难题，任务落在了科学家和工程师们的肩上，哪个搜索引擎解决了这些问题，她可能会称为下一个搜索世界的霸主。</description>
+    </item>
+    
+  </channel>
+</rss>

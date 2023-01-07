@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+android
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/android/</link>
+    <description>Recent content in 
+android
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 21 Dec 2013 04:54:28 +0000</lastBuildDate><atom:link href="http://example.org/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java(android) rsa 实现与 php 服务端通信</title>
+      <link>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</link>
+      <pubDate>Sat, 21 Dec 2013 04:54:28 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</guid>
+      <description>rsa 密钥生成 见 http://blog.andsky.com/js-rsa-use-openssl-make-public-pirvate-key/
+android 客户端用rsa 公钥加密后经 base64 编码发到 服务端，服务端使用私钥解密
+客户端代码
+import java.math.BigInteger; import java.security.KeyFactory; import java.security.PublicKey; import java.security.spec.RSAPublicKeySpec; import javax.crypto.Cipher; import sun.misc.BASE64Encoder; public class rsa { public static void main(String[] args) throws Exception { String modulus = &amp;quot;C34FF1FF9771ED88814C26905297BAEDCEC03B847D8AB5620848FC100AC0564FAD5364E9834E29118E7B5F8B1B9EAB201730C4860E8AF2ED2E028704105A01044501A9EF6DA2968E76273AAE496A0963A2FEA9B6179A86F28ACC61C087FB1AEEA4E1CB0ADBB9B757C303741DE602FD790953C8E2C004A425C7CAF4813F403DCD&amp;quot;; String publicExponent = &amp;quot;010001&amp;quot;; rsa key = new rsa(); PublicKey publicKey = key.getPublicKey(modulus, publicExponent); Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;); //明文 String tString = &amp;quot;aabbsdfsdf&amp;quot;; byte[] plainText = tString.getBytes(&amp;quot;UTF-8&amp;quot;); //加密 cipher.init(Cipher.ENCRYPT_MODE, publicKey); byte[] enBytes = cipher.</description>
+    </item>
+    
+  </channel>
+</rss>

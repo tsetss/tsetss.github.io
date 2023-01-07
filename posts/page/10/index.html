@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>python的logging  [转自python mail list]
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &#34;log.log&#34; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&#34;dddddd&#34;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&#34;%(message)s&#34;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a&#43;&#39;) ... logging.debug(&#34;Line: %s updated...&#34; % (line_ref)) 实际应用时建议使用...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-08 16:55:03 +0000 UTC'>October 8, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to python的logging  [转自python mail list]" href="http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>接收邮件的smtpserver
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一个可以接收邮件的smtpserver. 收到的邮件被存为一个eml格式的文件，可以用outlook打开。 注意： 需要事先配置域名，指向这台机器所在的IP。免费的动态域名（如花生壳）也可。
+#encoding:utf-8 from datetime import datetime import asyncore from smtpd import SMTPServer class EmlServer(SMTPServer): no = 0 def process_message(self, peer, mailfrom, rcpttos, data): filename = &#39;%s-%d.eml&#39; % (datetime.now().strftime(&#39;%Y%m%d%H%M%S&#39;),self.no) f = open(filename, &#39;w&#39;) f.write(data) f.close print mailfrom,rcpttos,&#39;%s saved.&#39; % filename self.no &#43;= 1 def run(): foo = EmlServer((&#39;0.0.0.0&#39;, 25), None) try: asyncore.loop() except KeyboardInterrupt: pass if __name__ == &#39;__main__&#39;: run() 转自 http://www.javaeye.com/topic/382229</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-05 14:12:51 +0000 UTC'>October 5, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 接收邮件的smtpserver" href="http://example.org/2009/10/05/e68ea5e694b6e982aee4bbb6e79a84smtpserver/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&#34;django.contrib.admin&#34;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models… 0 errors found.
+Django version 0.96-pre, using settings ‘mysite.settings’ Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-30 10:02:50 +0000 UTC'>September 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)" href="http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mydns-ng mydns 的后继版
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>无意间在 ports 看到 mydns-ng
+MyDNS-ng is a free DNS server for UNIX. It was implemented from scratch and is designed to serve records directly from an SQL database (currently either MySQL or PostgreSQL).
+MyDNS-ng is based on MyDNS originaly writen by Don Moore bboy@bboy.net Oficial Site http://mydns.bboy.net.
+MyDNS is licensed under the GNU General Public License.
+以后可以用它了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-30 03:33:28 +0000 UTC'>September 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mydns-ng mydns 的后继版" href="http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>在Windows上安装Python&#43;MySQL 的常见问题及解决方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &#34;&lt;stdin&gt;&#34;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&#34;No module named MySQLdb&#34;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-28 13:35:38 +0000 UTC'>September 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 在Windows上安装Python&#43;MySQL 的常见问题及解决方法" href="http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>nginx做透明代理
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 14:49:23 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx做透明代理" href="http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>BOM--字节序标记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>读代码的时候看到这样一段 $template_content = str_replace(&#34;\xEF\xBB\xBF&#34;, ‘’, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&gt;文件-&gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&#34;ZERO WIDTH NO-BREAK SPACE&#34;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 02:00:18 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to BOM--字节序标记" href="http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>VMware server序列号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VMware Workstation4.5.2 Build 8848 for Windows
+ZHDH1-UR90N-W844G-4PTN6
+G1NP0-T88AL-M016F-4P8N2
+VMware-workstation-4.5.2-8848 for Linux
+ZC14J-4U16A-0A04G-4MEZP
+J1WF8-58LDE-881DG-4M8Q3
+VMware Workstation 5 For Windows
+LUXRM-WP0DN-A256U-4M9Q3
+DJXDR-NDT27-Y2NDU-4YTZK
+VMware Workstation 5 for Linux
+DA925-HP80U-Z8HDC-4WXXP
+3KW2W-AYR2C-88M6F-4MDQ2
+VMware.GSX.Server.3.1.0-9089.for.Windows
+98XY4-54VA4-4216V-4PDZ6
+WH0M5-XW50J-WA4FU-4MTZ3
+VMware-gsx-server-3.1.0-9089.for Linux
+N218N-NR66R-F0JDF-4P9NP
+H2W8H-X82DC-J8N6G-4M9Q6
+VMWare ESX Server 2.x
+0VHD0-0P86V-0C0AH-4018N SMP 0KR08-02CAH-0DJ2H-48124
+02M8R-0HA2N-0CK8M-42JAN SMP 0AMDE-0UWFP-0E601-42J84
+VMware Ace 1.0.0
+admin:8H18E-8U505-HA14Z-4P8QL
+RCT0X-XHN8U-H20FY-4W9ZP
+player:WC94X-3H90R-K05DU-4MTN3
+DHHF8-K0P6P-Z25DY-4YENK
+workstation:TKN8T-1UD2Q-70N4C-4YXXQ
+AJMMN-3YUDP-8ANFG-4WWX2
+VMware VirtualCenterV1.2.0
+[attach]1150[/attach]
+VC管理GSX的SN：
+QU9HW-NM5FT-VAJ4G-5W9N3
+VHM05-U0Q27-E0HFA-5WRXL
+virtualcenter 最全和最强的license
+virtualcenter : 921H4-7WR4V-T2NDC-5YDZK
+vmotion : 8VN44-Q8PD9-P0NFY-5PWZL
+esx： XL584-9PH2Z-02H4C-5P9XL
+gsx: EH8M0-5RP8Y-M804F-5MRN3...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-10 06:12:35 +0000 UTC'>September 10, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VMware server序列号" href="http://example.org/2009/09/10/vmware-servere5ba8fe58897e58fb7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Python代码加密 源码保护--pyc文件&#39;字节码&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>内容概要:Python代码加密,源码保护,代码保护,pyc文件 关于python代码保护在网上好像一直没有很好的介绍,可能和PYTHON的设计初衷&#34;开源&#34;有关,但越来越多的兄弟写的加入PYTHON阵营,开发工具用途各异,在商业应用中代码保护就变的重要了. 下面介绍一下发布PYC文件,做简单代码保护 PYC文件是什么? pyc文件是python的二进制编译,pyc文件比py文件拥有更快的装载速度，执行速度没有区别。 因为pyc文件是二进制文件,不是明文显示,利用这一特性,发布PYC文件隐藏源代码.
+命令如下: python -c “import compileall; compileall.compile_dir(‘目录’)”
+该命令可以为一个目录下的py文件生成pyc文件（包含子目录） 在windows平台上的路径书写方式为(‘C:/python26/pyc’)
+下面符一完整命令: 将目录’C:/python26/pyc’下的所有PY文件 转为PYC文件
+python -c &#34;import compileall; compileall.compile_dir(&#39;C:/python26/pyc&#39;)&#34; 如果想实现真正的加密代码,就要改PYTHON源码,做自己的加密模块了,这方面还没深入了解,不便多说. 关于代码加密这块如哪位兄弟还有更好的方法,请多指教.
+Python代码加密,源码保护,代码保护,pyc文件
+转自http://blog.alexa-pro.cn/?p=349</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-09 05:55:39 +0000 UTC'>September 9, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Python代码加密 源码保护--pyc文件&#39;字节码&#39;" href="http://example.org/2009/09/09/pythone4bba3e7a081e58aa0e5af86-e6ba90e7a081e4bf9de68aa4-pyce69687e4bbb6e5ad97e88a82e7a081/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>错误734:PPP链接控制协议终止
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天无聊拿手机和电脑蓝牙连接通过 gprs 上网试一下，不料确遇到这个错误，在网上找了一下
+在硬件设备里面找到手机MODEM的驱动，点属性，找到额外初始化命令，填入
+AT&#43;CGDCONT=1,&#34;IP&#34;,&#34;CMNET&#34; 不错，可以正常上网了,不过我的上网方式不区分 wap 和 net 所以用的 net 呵呵</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-05 15:26:15 +0000 UTC'>September 5, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 错误734:PPP链接控制协议终止" href="http://example.org/2009/09/05/e99499e8afaf734pppe993bee68ea5e68ea7e588b6e58d8fe8aeaee7bb88e6ada2/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/9/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/11/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

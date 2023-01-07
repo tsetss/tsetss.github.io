@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+nginx
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/nginx/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/nginx/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+nginx
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/nginx/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+nginx
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+nginx
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者:NetSeek http://www.linuxtone.org (IT运维专家网|集群架构|性能调优) 欢迎转载,转载时请务必以超链接形式标明文章原始出处和作者信息及本声明. 首发时间: 2008-11-25 更新时间:2009-1-14
+目 录 一、 Nginx 基础知识 二、 Nginx 安装及调试 三、 Nginx Rewrite 四、 Nginx Redirect 五、 Nginx 目录自动加斜线: 六、 Nginx Location 七、 Nginx expires 八、 Nginx 防盗链 九、 Nginx 访问控制 十、 Nginx日志处理 十一、 Nginx Cache 十二、 Nginx负载均衡 十三、 Nginx简单优化 十四、 如何构建高性能的LEMP环境 十五、 Nginx服务监控 十六、 常见问题与错误处理. 十七、 相关资源下载
+【前言】： 编写此技术指南在于推广普及NGINX在国内的使用，更方便的帮助大家了解和掌握NGINX的一些使用技巧。本指南很多技巧来自于网络和工作中或网络上朋友们问我的问题.在此对网络上愿意分享的朋友们表示感谢和致意！欢迎大家和我一起丰富本技术指南提出更好的建议！请朋友们关注: http://www.linuxtone.org 技术分享社区! 互想学习共同进步!
+一、 Nginx 基础知识 1、简介 Nginx (“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx 是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:18:29 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版" href="http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>使用 Nginx 提升网站访问速度
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文主要介绍如何在 Linux 系统上安装高性能的 HTTP 服务器 —— Nginx、并在不改变原有网站结构的条件下用 Nginx 来提升网站的访问速度。 Nginx 简介 Nginx(“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.ru 站点开发的，它已经在该站点运行超过两年半了。 Igor 将源代码以类BSD 许可证的形式发布。尽管还是测试版，但是，Nginx 已经因为它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名了。 根据最新一期（08 年 6 月份）的 NetCraft 调查报告显示，已经有超过两百万的主机使用了 Nginx，这个数字超过了另外一个轻量级的 HTTP 服务器 lighttpd， 排名第四，并且发展迅速。下面是这份报告的前几名的报表： 产品 网站数 Apache 84,309,103
+IIS 60,987,087
+Google GFE 10,465,178
+Unknown 4,903,174
+nginx 2,125,160
+Oversee 1,953,848
+lighttpd 1,532,952
+关于这期调查报告的更详细信息请看下面链接： http://survey.netcraft.com/Reports/200806/ 下图是最近几个月使用 Nginx 和 lighttpd 的网站数比较 图 1. 最近几个月使用 Nginx 和 lighttpd 的网站数比较 目前官方 Nginx 并不支持 Windows，您只能在包括 Linux、UNIX、BSD 系统下安装和使用； Nginx 本身只是一个 HTTP 和反向代理服务器，它无法像 Apache 一样通过安装各种模块来支持不同的页面脚本，例如 PHP、CGI 等； Nginx 支持简单的负载均衡和容错； 支持作为基本 HTTP 服务器的功能，例如日志、压缩、Byte ranges、Chunked responses、SSL、虚拟主机等等，应有尽有。 在 Linux 下安装 Nginx 为了确保能在 Nginx 中使用正则表达式进行更灵活的配置，安装之前需要确定系统是否安装有 PCRE（Perl Compatible Regular Expressions）包。您可以到 ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 03:23:40 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 使用 Nginx 提升网站访问速度" href="http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool ‘default’
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &lt;value name=&#34;user&#34;&gt;www&lt;/value&gt; Unix group of processes &lt;value name=&#34;group&#34;&gt;www&lt;/value&gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:29:35 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;" href="http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx源代码分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i&#43;&#43;) { ngx_modules[i]-&gt;index = ngx_max_module&#43;&#43;; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;ngx;_core_module, &amp;ngx;_errlog_module, &amp;ngx;_conf_module, &amp;ngx;_events_module, &amp;ngx;_event_core_module, &amp;ngx;_epoll_module, &amp;ngx;_http_module, &amp;ngx;_http_core_module, &amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： ....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 15:07:27 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx源代码分析" href="http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/nginx/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用rsync来实现文件同步 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -&raquo;&gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单
+./configure –prefix=/usr/local/rsync &amp;&amp; make &amp;&amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="使用rsync来实现文件同步" />
+<meta property="og:description" content="使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -&raquo;&gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单
+./configure –prefix=/usr/local/rsync &amp;&amp; make &amp;&amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-30T08:57:06+00:00" />
+<meta property="article:modified_time" content="2006-04-30T08:57:06+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用rsync来实现文件同步"/>
+<meta name="twitter:description" content="使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -&raquo;&gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单
+./configure –prefix=/usr/local/rsync &amp;&amp; make &amp;&amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "使用rsync来实现文件同步",
+      "item": "http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用rsync来实现文件同步",
+  "name": "使用rsync来实现文件同步",
+  "description": "使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -\u0026raquo;\u0026gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单\n./configure –prefix=/usr/local/rsync \u0026amp;\u0026amp; make \u0026amp;\u0026amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192.",
+  "keywords": [
+    
+  ],
+  "articleBody": "使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -»\u003e remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单\n./configure –prefix=/usr/local/rsync \u0026\u0026 make \u0026\u0026 make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192.168.0.* ignore errors # 可以忽略一些无关的IO错误 read only = yes # 只读 list = no # 不允许列文件 auth users = rsyncuser # 认证的用户名，如果没有这行，则表明是匿名，多个用户用,分隔 secrets file = /etc/rsyncd.pas # 认证文件名 pid file = /var/run/rsyncd.pid #motd file = /etc/rsyncd.motd #log file = /var/log/rsyncd.log #lock file = /var/run/rsync.lock 然后编辑你上面指定的认证文件，我这里是: /etc/rsyncd.pas\n#vi /etc/rsyncd.pas 格式为： username:password rsyncuser:123456 安全起见，更改认证文件属性 #chmod 0600 /etc/rsyncd.pas ok，现在启动下试试看吧。 #/usr/local/rsync/bin/rsync -daemon 你也可以指定rsync运行的端口 #/usr/local/rsync/bin/rsync -daemon -port=873 如果要在启动时把服务起来，有几种不同的方法，比如：\n加入inetd.conf 编辑/etc/services，加入rsync 873/tcp，指定rsync的服务端口是873 编加/etc/inetd.conf，加入rsync stream tcp nowait root /bin/rsync rsync –daemon 加入rc.local 在各种操作系统中，rc文件存放位置不尽相同，可以修改使系统启动时rsync –daemon加载进去。 我这里是直接加入 /etc/rc.local\n/usr/local/rsync/bin/rsync -daemon -port=873 记得配置防火墙，允许你rsync端口的tcp和udp协议。 下面开始配置客户端 下面这个命令行中-vzrtopg里的v是verbose，z是压缩，r是recursive，topg都是保持文件原有属性如属主、时间的参数。–progress是指显示出详细的进度情况，–delete是指如果服务器端删除了这一文件，那么客户端也相应把文件删除，保持真正的一致。后面的inburst@ip中， inburst是指定密码文件中的用户名，之后的::inburst这一inburst是模块名，也就是在/etc/rsyncd.conf中自定义的名称。最后的/tmp是备份 到本地的目录名。 在这里面，还可以用-e ssh的参数建立起加密的连接。可以用–password-file=/password/path/file来指定密码文件，这样就可以在脚本中使 用而无需交互式地输入验证密码了，这里需要注意的是这份密码文件权限属性要设得只有属主可读。\n#/usr/local/rsync/bin/rsync -vzrtopg -progress -delete inburst@192.168.0.52::inburst /tmp/ Password: 或者你也可以制定password文件 由于需要系统crontab执行，所以这里采用读入密码文件的方式，\n#vi /etc/rsyncd.pas 加入 rsyncuser:123456 更改文件权限: #chmod 0600 /etc/rsyncd.pas #/usr/local/rsync/bin/rsync -vzrtopg –progress –delete –password-file=/etc/rsyncd.pas rsyncuser@192.168.0.6::/root/sync_files /tmp/ 不知道为什么，总是给我报这样的错误: @ERROR: auth failed on module sync_files rsync error: error starting client-server protocol (code 5) at main.c(1171) 不管是加载密码文件还是输入密码，全部都报这个错误，为了节省时间，去掉了如下两行 auth users = rsyncuser # 认证的用户名，如果没有这行，则表明是匿名，多个用户用,分隔 secrets file = /etc/rsyncd.pas # 认证文件名 改为用ip进行限制操作。\n#/usr/local/rsync/bin/rsync -vzrtopg –progress –delete –password-file=/etc/rsyncd.pas rsyncuser@192.168.0.6::/root/sync_files /tmp 这个时候就成功了。 以后有时间再研究认证问题吧，时间紧，任务急，把验证先绕过。\n",
+  "wordCount" : "231",
+  "inLanguage": "en",
+  "datePublished": "2006-04-30T08:57:06Z",
+  "dateModified": "2006-04-30T08:57:06Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      使用rsync来实现文件同步
+    </h1>
+    <div class="post-meta"><span title='2006-04-30 08:57:06 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>使用rsync来实现文件同步
+部分参考 <a href="https://www.xfocus.net/articles/200107/214.html">www.xfocus.net/articles/200107/214.html</a>
+先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了
+那好，这个时候，rsync来了。
+rsync -&raquo;&gt; remote synchronize
+呵呵，不用解释了吧
+第一步，先来下载这个免费的软件。
+rsync.samba.org/ 或者 samba.anu.edu.au/rsync
+解压缩后，编译很简单</p>
+<pre><code>./configure –prefix=/usr/local/rsync &amp;&amp; make &amp;&amp; make install
+然后先来配置服务端吧
+先来编辑服务端配置文件
+
+
+
+#vi /etc/rsyncd.conf
+uid = root
+gid = root
+hosts allow = testhost1
+hosts deny = 192.168.0.*/24
+use chroot = no  # 不使用chroot
+max connections = 10     # 最大连接数为4
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsyncd.log  # 日志记录文件
+[sync_files]     # 这里是认证的模块名，在client端需要指定
+path = /root/sync_files # 需要做镜像的目录
+comment = rsync 192.168.0.*
+ignore errors    # 可以忽略一些无关的IO错误
+read only = yes  # 只读
+list = no        # 不允许列文件
+auth users = rsyncuser   # 认证的用户名，如果没有这行，则表明是匿名，多个用户用,分隔
+secrets file = /etc/rsyncd.pas  # 认证文件名
+pid file = /var/run/rsyncd.pid
+#motd file = /etc/rsyncd.motd
+#log file = /var/log/rsyncd.log
+#lock file = /var/run/rsync.lock
+</code></pre>
+<p>然后编辑你上面指定的认证文件，我这里是: /etc/rsyncd.pas</p>
+<pre><code>#vi /etc/rsyncd.pas
+格式为： username:password
+rsyncuser:123456
+安全起见，更改认证文件属性
+#chmod 0600 /etc/rsyncd.pas
+ok，现在启动下试试看吧。
+#/usr/local/rsync/bin/rsync -daemon
+你也可以指定rsync运行的端口
+#/usr/local/rsync/bin/rsync -daemon -port=873
+</code></pre>
+<p>如果要在启动时把服务起来，有几种不同的方法，比如：</p>
+<pre><code>加入inetd.conf
+编辑/etc/services，加入rsync 873/tcp，指定rsync的服务端口是873
+编加/etc/inetd.conf，加入rsync stream tcp nowait root /bin/rsync rsync –daemon
+</code></pre>
+<p>加入rc.local
+在各种操作系统中，rc文件存放位置不尽相同，可以修改使系统启动时rsync –daemon加载进去。
+我这里是直接加入 /etc/rc.local</p>
+<pre><code>/usr/local/rsync/bin/rsync -daemon -port=873
+</code></pre>
+<p>记得配置防火墙，允许你rsync端口的tcp和udp协议。
+下面开始配置客户端
+下面这个命令行中-vzrtopg里的v是verbose，z是压缩，r是recursive，topg都是保持文件原有属性如属主、时间的参数。–progress是指显示出详细的进度情况，–delete是指如果服务器端删除了这一文件，那么客户端也相应把文件删除，保持真正的一致。后面的inburst@ip中，
+inburst是指定密码文件中的用户名，之后的::inburst这一inburst是模块名，也就是在/etc/rsyncd.conf中自定义的名称。最后的/tmp是备份
+到本地的目录名。
+在这里面，还可以用-e ssh的参数建立起加密的连接。可以用–password-file=/password/path/file来指定密码文件，这样就可以在脚本中使
+用而无需交互式地输入验证密码了，这里需要注意的是这份密码文件权限属性要设得只有属主可读。</p>
+<pre><code>#/usr/local/rsync/bin/rsync -vzrtopg -progress -delete inburst@192.168.0.52::inburst /tmp/
+</code></pre>
+<p>Password:
+或者你也可以制定password文件
+由于需要系统crontab执行，所以这里采用读入密码文件的方式，</p>
+<pre><code>#vi /etc/rsyncd.pas
+加入
+rsyncuser:123456
+更改文件权限:
+#chmod 0600 /etc/rsyncd.pas
+#/usr/local/rsync/bin/rsync -vzrtopg –progress –delete –password-file=/etc/rsyncd.pas rsyncuser@192.168.0.6::/root/sync_files /tmp/
+不知道为什么，总是给我报这样的错误:
+@ERROR: auth failed on module sync_files
+rsync error: error starting client-server protocol (code 5) at main.c(1171)
+不管是加载密码文件还是输入密码，全部都报这个错误，为了节省时间，去掉了如下两行
+auth users = rsyncuser   # 认证的用户名，如果没有这行，则表明是匿名，多个用户用,分隔
+secrets file = /etc/rsyncd.pas  # 认证文件名
+</code></pre>
+<p>改为用ip进行限制操作。</p>
+<pre><code>#/usr/local/rsync/bin/rsync -vzrtopg –progress –delete –password-file=/etc/rsyncd.pas rsyncuser@192.168.0.6::/root/sync_files /tmp
+</code></pre>
+<p>这个时候就成功了。
+以后有时间再研究认证问题吧，时间紧，任务急，把验证先绕过。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

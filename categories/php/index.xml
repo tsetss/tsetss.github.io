@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+php
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/php/</link>
+    <description>Recent content in 
+php
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Dec 2009 01:29:34 +0000</lastBuildDate><atom:link href="http://example.org/categories/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php tokyo_tyrant扩展安装</title>
+      <link>http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/</link>
+      <pubDate>Sat, 12 Dec 2009 01:29:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/</guid>
+      <description>tokyo_tyrant 还是beta 版，freebsd 的 ports 还没有，有点不爽，用 pecl 安装吧，
+pecl install tokyo_tyrant pecl: Command not found. 先安装 pear 呵呵
+cd /usr/ports/devel/pear make install clean pecl install tokyo_tyrant Failed to download pecl/tokyo_tyrant within preferred state &amp;quot;stable&amp;quot;, latest release is version 0.1.2, stability &amp;quot;beta&amp;quot;, use &amp;quot;channel://pecl.php.net/tokyo_tyrant-0.1.2&amp;quot; to install install failed 还是不行，要加入beta 才行哦
+pecl install tokyo_tyrant-beta ee /usr/local/etc/php/extensions.ini 加入 extension=tokyo_tyrant.so OK 安装完成 重起php进程，用phpinfo 查看一下 freebsd 真是太强大了，喜欢哦!</description>
+    </item>
+    
+    <item>
+      <title>用pngencoder php(AMFPHP) 保存图片</title>
+      <link>http://example.org/2009/12/10/e794a8pngencoder-phpamfphp-e4bf9de5ad98e59bbee78987/</link>
+      <pubDate>Thu, 10 Dec 2009 02:01:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/10/e794a8pngencoder-phpamfphp-e4bf9de5ad98e59bbee78987/</guid>
+      <description>转自:http://hi.baidu.com/harry1299/blog/item/d7a64e323ec976f01b4cff3a.html
+1.Flash端,通过adobe的类包,将BitmapData数据Encoder成ByteArray .然后，通过http或者amfphp发送到服务器端。 Code:
+var bd:BitmapData = new BitmapData(canvas.width,canvas.height); bd.draw(canvas); var jpgEncoder : PNGEncoder = new PNGEncoder(); var jpgBytes:ByteArray = PNGEncoder.encode(bd); 2.服务端的工作（针对amfphp而言）：接受ByteArray ，注意，php是直接支持ByteArray类型的，然后通过fwrite或者file_put_contents，写数据，并且输出文件，ok搞定 Code:
+public function createSavePngFile($ba,$savePoint) { date_default_timezone_set(&#39;Asia/Shanghai&#39;); $now = date(&amp;quot;YmdHis&amp;quot;); $path = &amp;quot;resource/shareVideo/&amp;quot;; $fileName = $path.$now.&amp;quot;.png&amp;quot;; $data = $ba-&amp;gt;data; if(!file_exists($path.$now.&amp;quot;.png&amp;quot;)) { $input = file_put_contents( $fileName, $data);//写入二进制数据 if($input != 0 &amp;amp;&amp;amp; $input != -1) { return $this-&amp;gt;serverPoxy-&amp;gt;updateShareInfo($savePoint,$fileName); } else { return false; } } return false; } 注意：file_put_contents( $fileName, $data);中第二个参数是：$ba-&amp;gt;data,而不是$ba,这是php的数据结构的规范。我就是搞错了这个，浪费了大侠我整个一个上午的时间，可恶^_^.</description>
+    </item>
+    
+    <item>
+      <title>进程信号</title>
+      <link>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</link>
+      <pubDate>Mon, 30 Nov 2009 01:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</guid>
+      <description>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时</description>
+    </item>
+    
+    <item>
+      <title>windows下开发并编译PHP扩展(步骤说明)</title>
+      <link>http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/</link>
+      <pubDate>Mon, 02 Nov 2009 06:40:08 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/</guid>
+      <description>开发PHP扩展对于普通程序员来讲可能一直是一件很神秘的工作，其实，只要你对C语言熟悉，了解了开发PHP扩展的步骤和规则，开发PHP扩展也是一件很普通的工作。 现在就简单说一在WINDOWS下开发PHP扩展的步骤： 首先需要准备的软件有： cygwin 安装路径e:\app\cygwin visual studio C++ 6.0, 修改环境变量，把已经安装好的PHP路径设置为环境变量。在这里，假设我的PHP安装目录是：e:\app\php5.2.5,那么我把WINDOWS环境变量后面加上这个安装目录。方便一会儿使用php.exe。 PHP源代码，这里假设为e:\c_source_code\php-5.2.5
+1、修改文件 “PHP源文件目录/ext/ext_skel_win32.php”,在这里就是：E:\c_source_code\php-5.2.5\ext，其中主要是修改其中的cygwin路径。$cygwin_path = &amp;rsquo;e:\app\cygwin\bin&amp;rsquo;; 把$cygwin_path修改为你实际安装cygwin的路径。 2、在源代码ext目录也就是e:\c_source_code\php-5.2.5\ext下，执行 php ext_skel_win32.php &amp;ndash;extname=，此时会在ext目录下生成目录,这个目录就是我们将要进行PHP扩展开发的框架。比如你运行php.exe ext_skel_win32.php &amp;ndash;extname=foo，会在ext目录下生成foo目录。 3、将php-root\dev\php5ts.lib拷贝至 “ext/”中。比如你要开发的PHP扩展名为foo,那么就需要把php-root\dev\php5ts.lib拷贝到PHP源文件目录\ext\foo中。 4、修改foo.c内容，编写我们需要的C代码。 5、进入目录，打开.dsp。 设置VC6工程， 设置菜单“组建”-&amp;gt;“移除工程配置”，选中“Win 32 Release_TS”， 设置菜单“工程”，选中“Win 32 Release_TS” 打开Tab“连接”，设置“输出文件名”中的目录， [可选]打开Tab“C/C++”,增加“预处理器定义”“,COMPILE_DL_”（注意全大写，默认加入的），取消预定义“LIBZEND_EXPORTS”（否则不可引入zend函数）。 6、设置好以后，进行编译，会生成一个dll文件，文件名是.dll，比如在我们的例子中就为foo.dll 把foo.dll拷到e:\app\ext目录下，并在php.ini里加上一行extension=foo.dll，重启一下apache,查看phpinfo();，会发现我们的PHP扩展foo()已经加载进来，已经可以使用这个foo扩展了。
+http://info.codepub.com/2008/08/info-21426.html</description>
+    </item>
+    
+    <item>
+      <title>(转)整理了一份比较全面的PHP开发编码规范</title>
+      <link>http://example.org/2009/11/01/e8bdace695b4e79086e4ba86e4b880e4bbbde6af94e8be83e585a8e99da2e79a84phpe5bc80e58f91e7bc96e7a081e8a784e88c83/</link>
+      <pubDate>Sun, 01 Nov 2009 14:44:30 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/01/e8bdace695b4e79086e4ba86e4b880e4bbbde6af94e8be83e585a8e99da2e79a84phpe5bc80e58f91e7bc96e7a081e8a784e88c83/</guid>
+      <description>这些年来多从事Linux下PHP和C相关的开发，带过很多项目和团队，下面是根据经验整理的PHP编码规范，可以用作给大家的范例和参考，根据需要进行取舍和修改！
+（可能最新的一些php5的规范不够完整，今后有机会保持更新！）
+目录 1 编写目的 2 整体要求 3 安全规范 3.1 包含文件 3.1.1 命名规则 3.1.2 存放规则 3.2 安全规则 3.3 一些针对PHP的规则 3.4 其它处理规则 3.4.1 对输入参数值进行转义处理 3.4.2 操作大HTML文本
+4 编码规范 4.1 命名规范 4.1.1 变量命名 4.1.2 类 4.1.3 方法或函数 4.1.4 缩写词 4.1.5 数据库表名 4.1.6 数据库字段 4.2 书写规则 4.2.1 代码缩进 4.2.2 大括号{ }书写规则 4.2.3 小括号( )和函数、关键词等 4.2.4 ＝符号书写 4.2.5 if else swith for while等书写 4.2.6 类的构造函数 4.2.7 语句断行, 每行控制在80个字符以内 4.2.8 不要不可思议的数字 4.2.9 true/false和0/1判断 4.2.10 避免嵌入式赋值 4.</description>
+    </item>
+    
+    <item>
+      <title>BOM--字节序标记</title>
+      <link>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</link>
+      <pubDate>Wed, 23 Sep 2009 02:00:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</guid>
+      <description>读代码的时候看到这样一段 $template_content = str_replace(&amp;quot;\xEF\xBB\xBF&amp;quot;, &amp;lsquo;&amp;rsquo;, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&amp;gt;文件-&amp;gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</description>
+    </item>
+    
+    <item>
+      <title>spawn-fcgi: no fastcgi application given</title>
+      <link>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</link>
+      <pubDate>Sun, 16 Aug 2009 17:32:36 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</guid>
+      <description>刚装完spawn-fcgi 起动会遇到这个错误. 修改 spawn-fcgi 起动脚本 spawn_fcgi_app 加个 php-cgi 地址，或在rc.conf 加上也一样</description>
+    </item>
+    
+    <item>
+      <title>开始学习python</title>
+      <link>http://example.org/2009/08/16/e5bc80e5a78be5ada6e4b9a0python/</link>
+      <pubDate>Sun, 16 Aug 2009 15:55:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/e5bc80e5a78be5ada6e4b9a0python/</guid>
+      <description>原来一直想学这个，但是没有机会，在新项目中的聊天室，打算用python+flex+socket 来实现，效率还不知道，正好顺便学学 python ,看它的语法，感觉还是很简洁的，不过习惯php 了，老是想以 php 的写法来写，这个比较郁闷了!</description>
+    </item>
+    
+    <item>
+      <title>md5crypt</title>
+      <link>http://example.org/2009/07/06/md5crypt/</link>
+      <pubDate>Mon, 06 Jul 2009 10:33:43 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/06/md5crypt/</guid>
+      <description>php 版 md5crypt postfix extmail 使用
+function md5crypt ($pw) { $MAGIC = &amp;quot;$1$&amp;quot;; $rand = substr (md5 (mt_rand ()), 0, 8); return crypt($pw, &#39;$1$&#39;.$rand.&#39;$&#39;); } </description>
+    </item>
+    
+    <item>
+      <title>spawn-fcgi 独立出来了,不错</title>
+      <link>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</link>
+      <pubDate>Fri, 19 Jun 2009 06:56:44 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</guid>
+      <description>原来一直用php-fpm ,但是更新好像不太及时,上次改了半天ports 才通过编译
+/usr/ports/www/spawn-fcgi 以后可以用这个了,但重要载入php.ini 要重起</description>
+    </item>
+    
+    <item>
+      <title>SWFUpload V2</title>
+      <link>http://example.org/2009/05/20/swfupload-v2/</link>
+      <pubDate>Wed, 20 May 2009 08:49:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/20/swfupload-v2/</guid>
+      <description>Flash Player 10的安全机制更严格，类似打开文件上传的对话框的操作，一定需要用户交互才触发，如果用脚本触发，会报#2176的运行时错误。
+void selectFile() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，只能选择单个文件。
+void selectFiles() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，可一次性选择多个文件。
+flash_width 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的宽度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_height 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的高度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_color 默认值：#FFFFFF (v2.2.0已删除) 设置HTML页面中的flash背景色，默认为#FFFFFF
+prevent_swf_caching 默认值：true (v2.2.0新增)该布尔值设置是否在Flash URL后添加一个随机值，用来防止浏览器缓存了该SWF影片。这是为了解决一些基于IE-engine的浏览器上的出现一个BUG。
+提醒：SWFUpload是直接在flash_url后添加了一个swfuploadrnd的随机参数。如果你给定的flash_url中已经存在了GET类型的参数，那么就会出现两个问号连接符导致错误。
+button_placeholder_id 默认值：null (v2.2.0新增) 该必要参数指定了swfupload.swf将要替换的页面内的DOM元素的ID值。当对应的DOM元素被替换为SWF元素时，SWF的容器会被添加一个名称为&amp;quot;swfupload&amp;quot;的样式选择器供CSS自定义使用。
+button_image_url 默认值：空字符串 (v2.2.0新增) V2.2.0版最大的改变就是引入了一个按钮到SWF中，利用该参数可以设置一个相对于该swf文件或者是绝对地址的图片（或者是SWF），作为按钮的UI展现。所有FLASH支持的图片类型都可以使用（gif,jpg,png,或者是一个SWF）。 该按钮图片需要经过一定规则（CSS Sprite）的处理。按钮图片中需要包括按钮的4个状态，从上到下依次是normal, hover, down/click, disabled.(可以参照官方demo中的图片)
+button_width 默认值：1 (v2.2.0新增) 设置该SWF的宽度属性。
+button_height 默认值：1 (v2.2.0新增)设置该SWF的高度属性（按钮图片高度的1/4）
+button_text 默认值：空字符串 (v2.2.0新增) 该属性设置Flash Button中显示的文字，支持HTML。HTML文本的样式可以通过CSS选择器并配合button_text_style参数来设置。关于Flash文本对HTML的支持详细可见 Adobe&amp;rsquo;s Flash documentation。
+button_text_style 默认值：&amp;ldquo;color: #000000; font-size: 16pt;&amp;rdquo; (v2.2.0新增)此参数配合button_text参数，可以通过CSS样式来设置Flash Button中的文字样式。关于Flash文本对CSS的支持详细可见Adobe&amp;rsquo;s Flash documentation</description>
+    </item>
+    
+    <item>
+      <title>smarty 颜色选择框扩展</title>
+      <link>http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/</link>
+      <pubDate>Thu, 07 May 2009 18:48:50 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>如何加密PHP文件</title>
+      <link>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</link>
+      <pubDate>Wed, 06 May 2009 10:54:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</guid>
+      <description>由于安全原因，有些时候需要把PHP文件加密。zend是收费的软件，而且价格不菲，让人望尘莫及。这里介绍另一种加密方法：php-screw。 php-screw是一款开源，免费，自由使用的软件，它不仅使用方便，而且可以自定义加密字符串，字符串的长度不受限制。下面这些操作是在Debian环境下实现的。 1、下载软件包。到http://sourceforge.net/projects/php-screw/下载php-screw。下载得到的是tar包。 2、安装必须的软件环境：apt-get install php5-dev php5 3、把在第一步中得到的软件包解压：tar -zxvf php_screw-1.3.tgz 4、进入解压缩后得到的目录：cd php_screw-1.3，然后执行命令：phpize生成一些配置安装文件。 5、检查编译环境： ./configure　#检查编译环境 自定义加密字符串，你据自己的意愿，修改文件my_screw.h内容，这里面主要记录的是加密字符串。 make　#编译 6、把文件modules/php_screw.so拷贝到/usr/lib/php5/2006*/目录下。 7、修改文件/etc/php5/apache2/php.ini，在需要位置添加如下内容： extension=php_screw.so 8、在WEB服务器的根目录里创建文件phpinfo.php，文件的内容如下： 9、在浏览器里输入http:///phpinfo.php，看看php_screw是否生效。 10、进入tools目录，执行命令： make 生成文件screw。 11、进入需要加密的PHP文件所在的文件夹，执行命令 /full/path/of/screw .php 这时的文件便被加密了，原来的文件被重新命名为：.php.screw。 12、screw这个命令只支持单个文件的加密，不支持/full/path/of/screw .php这种命令格式。如果需要把整个目录下的文件加密需要用如下命令： find . -name &amp;lsquo;.php&amp;rsquo; -exec /full/of/path/of/screw {} ; 以上写的这些是在Debian环境下实现的，如果在window平台下，只要加载了php_screw这个模块，加密的文件也可以正常显示，但不能在windows平台下进行加密。 好了，用php_screw加密php文件介绍完了。如果您对这个工具感兴趣，不防试一试。
+转自 http://afericazebra.blog.163.com/blog/static/300504082008101902427449/
+不错,freebsd 的port 也有,在 /usr/ports/www/php-screw ,正好用一下</description>
+    </item>
+    
+    <item>
+      <title>php5.2.9 不能加载 eAccelerator 问题</title>
+      <link>http://example.org/2009/04/11/php529-e4b88de883bde58aa0e8bdbd-eaccelerator-e997aee9a298/</link>
+      <pubDate>Sat, 11 Apr 2009 09:20:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/php529-e4b88de883bde58aa0e8bdbd-eaccelerator-e997aee9a298/</guid>
+      <description>装上php 5.2.9发现不能加载 eAccelerator ,php也没有报错,不知道是什么问题,
+看了一篇文章 在 /usr/local/etc/php/extensions.ini 加上 extension=eaccelerator.so才可以解决,
+[eaccelerator] zend_extension = &amp;quot;/usr/local/lib/php/20060613-zts/eaccelerator.so&amp;quot; eaccelerator.shm_size = &amp;quot;128&amp;quot; eaccelerator.cache_dir = &amp;quot;/tmp/eaccelerator&amp;quot; eaccelerator.enable = &amp;quot;1&amp;quot; eaccelerator.optimizer = &amp;quot;1&amp;quot; eaccelerator.check_mtime = &amp;quot;1&amp;quot; eaccelerator.debug = &amp;quot;0&amp;quot; eaccelerator.log_file = &amp;quot;/var/log/httpd/eaccelerator.log&amp;quot; eaccelerator.filter = &amp;quot;&amp;quot; eaccelerator.shm_max = &amp;quot;0&amp;quot; eaccelerator.shm_ttl = &amp;quot;0&amp;quot; eaccelerator.shm_prune_period = &amp;quot;0&amp;quot; eaccelerator.shm_only = &amp;quot;0&amp;quot; eaccelerator.compress = &amp;quot;1&amp;quot; eaccelerator.compress_level = &amp;quot;9&amp;quot; eaccelerator.keys = &amp;quot;shm&amp;quot; eaccelerator.sessions = &amp;quot;shm&amp;quot; eaccelerator.content = &amp;quot;shm&amp;quot; 原文 http://gary1974tw.pixnet.net/blog/post/26613606 可惜被x了</description>
+    </item>
+    
+    <item>
+      <title>利用Curl、socket、file_get_contents POST数据</title>
+      <link>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</link>
+      <pubDate>Mon, 06 Apr 2009 08:51:54 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</guid>
+      <description>array( &amp;lsquo;method&amp;rsquo;=&amp;gt;&amp;lsquo;POST&amp;rsquo;, &amp;lsquo;header&amp;rsquo;=&amp;gt;&amp;lsquo;Content-type: application/x-www-form-urlencoded&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;User-Agent : Jimmy&#39;s POST Example beta&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;Content-length: &amp;lsquo;.strlen($post_string)+8, &amp;lsquo;content&amp;rsquo;=&amp;gt;&amp;lsquo;mypost=&amp;rsquo;.$post_string) ); $stream_context = stream_context_create($context); $data = file_get_contents($remote_server,FALSE,$stream_context); return $data; }
+?&amp;gt; 转自 http://hi.baidu.com/xsite/blog/item/1ae57963be3e38680d33fa6b.html</description>
+    </item>
+    
+    <item>
+      <title>Alexa Traffic Rank PHP5 Class</title>
+      <link>http://example.org/2009/03/29/alexa-traffic-rank-php5-class/</link>
+      <pubDate>Sun, 29 Mar 2009 16:35:31 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/29/alexa-traffic-rank-php5-class/</guid>
+      <description>This PHP5 class utilizes the web service provided by Alexa/Amazon to get the traffic information about the site. You&amp;rsquo;ll need to sign up for an account at Alexa to get the pair (access key and secret key). The first 10,000 queries per month are free. view plaincopy to clipboardprint?
+mParams = array( &#39;Service&#39;=&amp;gt;&#39;AlexaWebInfoService&#39;, &#39;AWSAccessKeyId&#39;=&amp;gt;&#39;YOUR ACCESS KEY&#39;, // access key id &#39;Operation&#39;=&amp;gt;&#39;UrlInfo&#39;, &#39;ResponseGroup&#39;=&amp;gt;&#39;Rank&#39;, &#39;Url&#39;=&amp;gt;NULL, &#39;Timestamp&#39;=&amp;gt;gmdate(&#39;Y-m-d\TH:i:s.000\Z&#39;), &#39;Signature&#39;=&amp;gt;NULL, ); $this-&amp;gt;prepareSignature(); } /** ref: http://developer.</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证</title>
+      <link>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</link>
+      <pubDate>Wed, 25 Mar 2009 08:54:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</guid>
+      <description>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x + PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</description>
+    </item>
+    
+    <item>
+      <title>Lighttpd中为php加上open_basedir</title>
+      <link>http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/</link>
+      <pubDate>Tue, 24 Mar 2009 09:58:30 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/</guid>
+      <description>举例说明 一、
+fastcgi.server = ( &amp;quot;.php&amp;quot; =&amp;gt; (( &amp;quot;socket&amp;quot; =&amp;gt; &amp;quot;/tmp/php-fastcgi.socket&amp;quot;, &amp;quot;bin-path&amp;quot; =&amp;gt; &amp;quot;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&amp;quot;, &amp;quot;max-procs&amp;quot; =&amp;gt; 10, &amp;quot;bin-environment&amp;quot; =&amp;gt; ( &amp;quot;PHP_FCGI_CHILDREN&amp;quot; =&amp;gt; &amp;quot;16&amp;quot;, &amp;quot;PHP_FCGI_MAX_REQUESTS&amp;quot; =&amp;gt; &amp;quot;1000&amp;quot;, ), &amp;quot;broken-scriptfilename&amp;quot; =&amp;gt; &amp;quot;enable&amp;quot; )) ) 二、
+cgi.assign = ( &amp;quot;.php&amp;quot; =&amp;gt; &amp;quot;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&amp;quot; ) </description>
+    </item>
+    
+    <item>
+      <title>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;</title>
+      <link>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</link>
+      <pubDate>Mon, 23 Mar 2009 16:29:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</guid>
+      <description>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &amp;lsquo;default&amp;rsquo;
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &amp;lt;value name=&amp;quot;user&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; Unix group of processes &amp;lt;value name=&amp;quot;group&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</description>
+    </item>
+    
+    <item>
+      <title>pecl::memcache和pecl::memcached</title>
+      <link>http://example.org/2009/03/23/peclmemcachee5928cpeclmemcached/</link>
+      <pubDate>Mon, 23 Mar 2009 16:05:39 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/peclmemcachee5928cpeclmemcached/</guid>
+      <description>原文地址：http://www.surfchen.org/?p=371
+终于，基于libmemached的php扩展在pecl发布了。
+于是，现在pecl上有两个memcache客户端了。一个是完全在PHP框架内开发的memcache，一个是使用libmemcached的memecached。
+功能嘛，我没看过libmemcached，但是理论上来说，在其他语言里已经很流行的libmemcached应该会有更完善的功能。而程序上性能（内存和CPU使用率），不好说，虽然pecl::memcache是原生实现的，但是使用libmemcached的pecl::memached只支持OO接口，而pecl::memcache则是OO和非OO两套接口并存，这点拖累了它。
+其实这些都不是最重要的。使用libmemcached有个明显的优点，就是以后随着memcached服务器端的改进，这个lib也必定会马上跟进的。而pecl::memcache却不一定能做到按时跟进。
+pecl::memcached，还有个非常称赞的地方，就是flag不是在操作的时候设置了。而是有一个统一的setOption()。冲着这个方法，就非常值得从pecl::memcache转到pecl::memcached了。具体的接口可以看这里：http://cvs.php.net/viewvc.cgi/pecl/memcached/memcached-api.php?view=markup
+我在pecl-dev@里提到是否可以做成driver-based的架构。跟现在的MySQL一样，可以选择使用mysqlnd或者libmysql作为底层的引擎。但是之后想想，其实我并不是很支持对memcached使用这样的架构，它和MySQL的情况不一样。
+mysqlnd作为一个引擎而不是一个新的api来开发，可以使得大量的应用程序不需要对数据库操作做修改即可用上新的引擎。如果mysqlnd作为一个新的extension，那么如果它想兼容以前的程序，就面临一个很困难的选择。因为目前为止，存在3个官方的使用libmysql的，并具有不同对外接口的MySQL类集。mysqlnd能兼容mysql，就无法兼容mysqli或者pdo。当然对于使用自己的抽象数据库类的程序来说，这个可以通过改写类或者更换driver(php层面)来实现兼容。但是要想想，就算是使用抽象库，这个世界如此之多的数据库抽象库，如果要让所有人都用得起nd，那得改多少个库，加多少个driver阿。
+memcached的情况就简单很多了，目前和官方关系比较密切的只有pecl::memcache，而且接口基本上都是根据memcached的协议来的，和libmemcache相差无几。它们其实都可以被看作是一个抽象类里的不同driver。所以虽然是两套不同的客户端，但是更换起来，几乎不需要做什么改动，只需要在类初始化的地方更改一下，set/get等等这些方法的flag去掉即可，除非你使用了非OO的接口。
+另外mysql在通讯和数据获取上也比memcache复杂，nd可以做到一些libmysql无法做到的事情。例如buffer可以直接用php内部的HashTable和zval存储；再例如一些作为持久链接的结构可以更多地缓存起来。(这些例如只是我的猜测，我并没有去阅读过mysqlnd的代码)
+相关文章：
+pecl上有三个memcached客户端了 pecl::memcache的哈希策略 影响memcached性能的事件提醒机制</description>
+    </item>
+    
+    <item>
+      <title>PHP 5.2.9 Released!</title>
+      <link>http://example.org/2009/03/19/php-529-released/</link>
+      <pubDate>Thu, 19 Mar 2009 14:36:17 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/php-529-released/</guid>
+      <description>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </description>
+    </item>
+    
+    <item>
+      <title>php-fpm文档中文翻译</title>
+      <link>http://example.org/2009/03/14/php-fpme69687e6a1a3e4b8ade69687e7bfbbe8af91/</link>
+      <pubDate>Sat, 14 Mar 2009 20:59:51 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/14/php-fpme69687e6a1a3e4b8ade69687e7bfbbe8af91/</guid>
+      <description>版权声明：转载时请以超链接形式标明文章原始出处和作者信息及本声明 http://syre.blogbus.com/logs/20092011.html
+原文链接：http://php-fpm.anight.org/ wiki：http://www.php-fpm.com/
+什么是 FastCGI FastCGI 是一个可伸缩、高速的在web server和脚本语言间通迅的接口。关于FastCGI技术的更多信息可以在官方网站和Wikipedia看到。
+FastCGI 被许多脚本语言所支持，包括 php，如果用 &amp;ndash;enable-fastcgi 选项编译的话。
+多数流行的web server都支持 FastCGI。包括Apache（mod_fastcgi和mod_fcgid），Zeus，nginx和lighttpd。
+FastCGI 的主要优点是把动态语言和 web server 分离开来。这种技术允许 web server 和动态语言运行在不同的主机上。这可以改进可扩展性和安全性而没有大的效率损失。
+php-fpm 可以和任何支持外部 FastCGI 技术的 web server 一起使用。
+php-fpm是做啥用的 很不幸，官方网站 php.net 上的 php 在将 FastCGI SAPI 用于生产环境方面有许多已知的问题。
+下面是关于启用 FastCGI SAPI 时的问题和 php-fpm 是如何解决他们的对比列表。
+特色功能 所有这些特性都是“不打断”的方式实现的。也就是说，如果你不使用它们，它们的存在不会影响php的功能性——他们都是“透明”的。
+Error header 范围：php.ini 选项 分类：便利性
+默认情况下，如果被访问的php脚本包含语法错误，用户会收到一个空的“200 ok”页。这是不方便的。Error header 这个 php.ini 选项允许在这种情况下产生一个 HTTP 错误码，比如“HTTP/1.0 550 Server Made Big Boo”，从而中断web server请求并显示一个正确的错误页。
+如果要实现这样的功能，需要在 php.ini 中添加一条 fastcgi.</description>
+    </item>
+    
+    <item>
+      <title>php 编译支持ImageMagick</title>
+      <link>http://example.org/2006/06/25/php-e7bc96e8af91e694afe68c81imagemagick/</link>
+      <pubDate>Sun, 25 Jun 2006 11:21:11 +0000</pubDate>
+      
+      <guid>http://example.org/2006/06/25/php-e7bc96e8af91e694afe68c81imagemagick/</guid>
+      <description>首先你要先成功的编译一次php
+在phpbin目录中会产生 phpize 这个文件，是待会咱们要使用到的。
+按照网上说的方法，试验了N遍总是失败。
+总是提示：
+Cannot find config.m4.
+Make sure that you run &amp;lsquo;/usr/local/php/bin/phpize&amp;rsquo; in the top level source directory of the module
+无奈，去 官方网站
+然后进入 program interface 的链接
+找到php的部分，点击进入，下载了 magickwand-0.1.8.tar.bz2
+然后再次按照网上的方法
+解压缩到php源代码目录的ext目录下
+然后cd进去
+/usr/local/php/bin/phpize
+成功了。。。
+然后cd到php源代码目录，也就是 cd ../../
+rm -rf ./configure
+再执行： ./buildconf &amp;ndash;force
+rebuild的时候可能会出现
+autoheader: WARNING: Using auxiliary files such as acconfig.h&#39;, config.h.bot&amp;rsquo;
+autoheader: WARNING: and config.h.top&#39;, to define templates for config.h.in&#39;
+autoheader: WARNING: is deprecated and discouraged.</description>
+    </item>
+    
+    <item>
+      <title>php4支持xslt</title>
+      <link>http://example.org/2006/04/30/php4e694afe68c81xslt/</link>
+      <pubDate>Sun, 30 Apr 2006 09:05:44 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/php4e694afe68c81xslt/</guid>
+      <description>首先需要下载如下软件包：
+sourceforge.net/projects/expat/
+从这里下载最新的 expat
+我下载的是：expat-2.0.0.tar.gz
+www.gingerall.com/charlie/ga/xml/d_sab.xml
+从这里下载sablot
+我下载的是：Sablot-1.0.2.tar.gz
+xmlsoft.org/
+从这里下载 libxslt
+我下载的是：libxslt-1.1.9.tar.gz
+三个包分别解压缩
+先来libxslt
+./configure &amp;ndash;prefix=/usr/local/libxslt &amp;ndash;with-libxml-prefix=/usr/local/libxml2 &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+再来expat
+./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+继续sablot
+./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+最后重新编译php
+./configure &amp;ndash;prefix=/usr/local/php/ &amp;ndash;enable-force-cgi-redirect &amp;ndash;enable-mbstring=all &amp;ndash;enable-mbregex &amp;ndash;enable-mbstr-enc-trans &amp;ndash;enable-versioning &amp;ndash;enable-trans-sid &amp;ndash;enable-ftp &amp;ndash;with-mysql=/usr/local/mysql/ &amp;ndash;with-apxs2=/usr/local/apache2/bin/apxs &amp;ndash;with-openssl=/usr/local/openssl &amp;ndash;with-soap=yes &amp;ndash;with-curl=http://example.org/usr/local/curl/ &amp;ndash;with-zlib-dir=/usr/local/zlib/ &amp;ndash;with-mcrypt=/usr/local/libmcrypt/ &amp;ndash;with-gd=/usr/local/gd2 &amp;ndash;with-jpeg-dir=/usr &amp;ndash;with-freetype-dir=/usr/local/freetype &amp;ndash;with-ttf &amp;ndash;with-png-dir=/usr &amp;ndash;with-mhash=/usr/local/mhash/ &amp;ndash;with-dom=/usr/local/libxml2 &amp;ndash;with-iconv=/usr/local/libiconv &amp;ndash;enable-xslt &amp;ndash;with-xslt-sablot &amp;ndash;with-xsl=/usr/local/libxslt
+make &amp;amp;&amp;amp; make insteall
+重新安装zend吧。
+over this~~~</description>
+    </item>
+    
+  </channel>
+</rss>

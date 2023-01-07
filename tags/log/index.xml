@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+log
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/log/</link>
+    <description>Recent content in 
+log
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 May 2009 18:42:06 +0000</lastBuildDate><atom:link href="http://example.org/tags/log/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>freebsd下 nginx 日志每天分割</title>
+      <link>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</link>
+      <pubDate>Wed, 13 May 2009 18:42:06 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</guid>
+      <description>#!/bin/sh date today=date +&amp;quot;%Y_%m_%d&amp;quot; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &amp;gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime +$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </description>
+    </item>
+    
+  </channel>
+</rss>

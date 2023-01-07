@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+lxc
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/lxc/</link>
+    <description>Recent content in 
+lxc
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2013 07:48:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/lxc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debian 下安装 lxc</title>
+      <link>http://example.org/2013/11/23/lxc-on-debian-squeeze/</link>
+      <pubDate>Sat, 23 Nov 2013 07:48:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-on-debian-squeeze/</guid>
+      <description>本文安装环境 debian 6.0
+安装 lxc debootstrap 工具
+aptitude install lxc bridge-utils debootstrap 设置网络
+auto eth1 iface eth1 inet manual auto br0 iface br0 inet static bridge_ports eth1 #根据自己实际网卡设置 bridge_fd 0 address 10.0.0.100 netmask 255.255.255.0 gateway 10.100.0.1 dns-nameservers 10.20.0.2 加载 cgroup 编辑 /etc/fstab
+cgroup /sys/fs/cgroup cgroup defaults 0 0 立即加载
+mount /sys/fs/cgroup 接下来创建一下虚拟机
+#下载 squeeze 64位 debootstrap --verbose --variant=minbase --arch=amd64 --include ifupdown,locales,libui-dialog-perl,\ dialog,netbase,net-tools,iproute,openssh-server,vim,apt-utils,proxychains \ squeeze /var/cache/lxc/debian/rootfs-amd64 http://mirrors.163.com/debian/ mkdir -p /lxc/vm0 #存放目录 /usr/lib/lxc/templates/lxc-debian -p /lxc/vm0/ # 创建虚拟机 配置虚拟机网络,在 /lxc/vm0/config 文件填加些文本</description>
+    </item>
+    
+    <item>
+      <title>debian 下 lxc 限制内存出错</title>
+      <link>http://example.org/2013/11/23/debian-lxc-memory-limit_in_bytes-no-such-file-or-directory/</link>
+      <pubDate>Sat, 23 Nov 2013 06:53:40 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/debian-lxc-memory-limit_in_bytes-no-such-file-or-directory/</guid>
+      <description>起动 vm 的时候出现
+lxc-start: open /cgroup/vm0/memory.limit_in_bytes : No such file or directory lxc-start: failed to setup the cgroups for &amp;lsquo;vm0&amp;rsquo; lxc-start: failed to setup the container lxc-start: invalid sequence number 1. expected 2 lxc-start: failed to spawn &amp;lsquo;vm0&amp;rsquo;
+在 /etc/default/grub 文件填加
+GRUB_CMDLINE_LINUX=&amp;quot;cgroup_enable=memory&amp;quot; 0# lxc-checkconfig Kernel config /proc/config.gz not found, looking in other places... Found kernel config file /boot/config-2.6.32-5-amd64 --- Namespaces --- Namespaces: enabled Utsname namespace: enabled Ipc namespace: enabled Pid namespace: enabled User namespace: enabled Network namespace: enabled Multiple /dev/pts instances: enabled --- Control groups --- Cgroup: enabled Cgroup namespace: enabled Cgroup device: enabled Cgroup sched: enabled Cgroup cpu account: enabled Cgroup memory controller: missing Cgroup cpuset: enabled --- Misc --- Veth pair device: enabled Macvlan: enabled Vlan: enabled File capabilities: enabled </description>
+    </item>
+    
+    <item>
+      <title>lxc guest 报错 respawning too disabled minutes</title>
+      <link>http://example.org/2013/11/23/lxc-guest-respawning-too-disabled-minutes/</link>
+      <pubDate>Sat, 23 Nov 2013 05:24:29 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-guest-respawning-too-disabled-minutes/</guid>
+      <description>INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c2&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c3&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c2&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c3&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes 解决方法 编辑 /etc/inittab</description>
+    </item>
+    
+  </channel>
+</rss>

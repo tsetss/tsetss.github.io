@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+windows
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/windows/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/windows/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+windows
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/windows/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+windows
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+windows
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下python程序打包工具 ── cx_Freeze
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 15:38:35 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下python程序打包工具 ── cx_Freeze" href="http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>TCP连接状态
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>CLOSED: 表示初始状态。
+LISTEN: 表示服务器端的某个SOCKET处于监听状态，可以接受连接。
+SYN_SENT:在服务端监听后，客户端SOCKET执行CONNECT连接时，客户端发送SYN报文，此时客户端就进入SYN_SENT状态，等待服务端的确认
+SYN_RCVD: 表示服务端接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。
+ESTABLISHED：表示连接已经建立了。
+FIN_WAIT_1: 这个是已经建立连接之后，其中一方请求终止连接，等待对方的FIN报文。FIN_WAIT_1状态是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。
+FIN_WAIT_2：实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。
+TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。
+CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到(或同时收到)对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。
+CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。
+LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-22 09:48:51 +0000 UTC'>November 22, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to TCP连接状态" href="http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>windows下开发并编译PHP扩展(步骤说明)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>开发PHP扩展对于普通程序员来讲可能一直是一件很神秘的工作，其实，只要你对C语言熟悉，了解了开发PHP扩展的步骤和规则，开发PHP扩展也是一件很普通的工作。 现在就简单说一在WINDOWS下开发PHP扩展的步骤： 首先需要准备的软件有： cygwin 安装路径e:\app\cygwin visual studio C&#43;&#43; 6.0, 修改环境变量，把已经安装好的PHP路径设置为环境变量。在这里，假设我的PHP安装目录是：e:\app\php5.2.5,那么我把WINDOWS环境变量后面加上这个安装目录。方便一会儿使用php.exe。 PHP源代码，这里假设为e:\c_source_code\php-5.2.5
+1、修改文件 “PHP源文件目录/ext/ext_skel_win32.php”,在这里就是：E:\c_source_code\php-5.2.5\ext，其中主要是修改其中的cygwin路径。$cygwin_path = ’e:\app\cygwin\bin’; 把$cygwin_path修改为你实际安装cygwin的路径。 2、在源代码ext目录也就是e:\c_source_code\php-5.2.5\ext下，执行 php ext_skel_win32.php –extname=，此时会在ext目录下生成目录,这个目录就是我们将要进行PHP扩展开发的框架。比如你运行php.exe ext_skel_win32.php –extname=foo，会在ext目录下生成foo目录。 3、将php-root\dev\php5ts.lib拷贝至 “ext/”中。比如你要开发的PHP扩展名为foo,那么就需要把php-root\dev\php5ts.lib拷贝到PHP源文件目录\ext\foo中。 4、修改foo.c内容，编写我们需要的C代码。 5、进入目录，打开.dsp。 设置VC6工程， 设置菜单“组建”-&gt;“移除工程配置”，选中“Win 32 Release_TS”， 设置菜单“工程”，选中“Win 32 Release_TS” 打开Tab“连接”，设置“输出文件名”中的目录， [可选]打开Tab“C/C&#43;&#43;”,增加“预处理器定义”“,COMPILE_DL_”（注意全大写，默认加入的），取消预定义“LIBZEND_EXPORTS”（否则不可引入zend函数）。 6、设置好以后，进行编译，会生成一个dll文件，文件名是.dll，比如在我们的例子中就为foo.dll 把foo.dll拷到e:\app\ext目录下，并在php.ini里加上一行extension=foo.dll，重启一下apache,查看phpinfo();，会发现我们的PHP扩展foo()已经加载进来，已经可以使用这个foo扩展了。
+http://info.codepub.com/2008/08/info-21426.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-02 06:40:08 +0000 UTC'>November 2, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to windows下开发并编译PHP扩展(步骤说明)" href="http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>在Windows上安装Python&#43;MySQL 的常见问题及解决方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &#34;&lt;stdin&gt;&#34;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&#34;No module named MySQLdb&#34;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-28 13:35:38 +0000 UTC'>September 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 在Windows上安装Python&#43;MySQL 的常见问题及解决方法" href="http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>BOM--字节序标记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>读代码的时候看到这样一段 $template_content = str_replace(&#34;\xEF\xBB\xBF&#34;, ‘’, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&gt;文件-&gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&#34;ZERO WIDTH NO-BREAK SPACE&#34;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 02:00:18 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to BOM--字节序标记" href="http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>错误734:PPP链接控制协议终止
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天无聊拿手机和电脑蓝牙连接通过 gprs 上网试一下，不料确遇到这个错误，在网上找了一下
+在硬件设备里面找到手机MODEM的驱动，点属性，找到额外初始化命令，填入
+AT&#43;CGDCONT=1,&#34;IP&#34;,&#34;CMNET&#34; 不错，可以正常上网了,不过我的上网方式不区分 wap 和 net 所以用的 net 呵呵</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-05 15:26:15 +0000 UTC'>September 5, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 错误734:PPP链接控制协议终止" href="http://example.org/2009/09/05/e99499e8afaf734pppe993bee68ea5e68ea7e588b6e58d8fe8aeaee7bb88e6ada2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>将svnserver 注册为系统服务
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>sc create svn binpath= “D:\soft\Subversion\bin\svnserve.exe –service -r E:\svn\local” displayname= “Subversion Server” depend= Tcpip start= auto
+刚重装完系统记录一下，</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-07-07 13:27:16 +0000 UTC'>July 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 将svnserver 注册为系统服务" href="http://example.org/2009/07/07/e5b086svnserver-e6b3a8e5868ce4b8bae7b3bbe7bb9fe69c8de58aa1/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Thinkpad R61I 驱动下载及安装方法 for windows 2003
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 –&gt; 鼠标左键单击页面中.exe结尾的连接 –&gt; 在新弹出的窗口中选择“FTP”或“HTTP” –&gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。
+2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818
+默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe 或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE
+5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&gt;指定位置安装，指定到此目录搜索安装。 或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE
+6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527
+默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875
+默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）
+http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456
+默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-07-07 06:09:53 +0000 UTC'>July 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Thinkpad R61I 驱动下载及安装方法 for windows 2003" href="http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Windows Server 2003 Enterprise x64 Edition  更新到sp2的郁闷
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>更新完没有重起,过一阵子远程弹出 An error occurred while the wizard was checking the current Windows product license. Error Code: 0x8007007f
+比较郁闷,没办法只能机房重起,解决了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-13 02:29:10 +0000 UTC'>April 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Windows Server 2003 Enterprise x64 Edition  更新到sp2的郁闷" href="http://example.org/2009/04/13/windows-server-2003-enterprise-x64-edition-e69bb4e696b0e588b0sp2e79a84e98381e997b7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>查看免激活版序列号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>打开光盘到i386文件夹里找winnt.sif文件</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-12 19:44:35 +0000 UTC'>April 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 查看免激活版序列号" href="http://example.org/2009/04/12/e69fa5e79c8be5858de6bf80e6b4bbe78988e5ba8fe58897e58fb7/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/windows/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

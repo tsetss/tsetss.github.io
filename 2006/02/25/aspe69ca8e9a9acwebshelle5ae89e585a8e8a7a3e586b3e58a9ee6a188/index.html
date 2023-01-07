@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ASP木马Webshell安全解决办案 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="ASP木马、Webshell之安全防范解决办法正文内容：
+注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：
+＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;fso&quot; scope=&quot;page&quot; classid=&quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&quot;＞ ＜/object＞ shellStr=&quot;Shell&quot; applicationStr=&quot;Application&quot; if cmdPath=&quot;wscriptShell&quot; set sa=server.createObject(shellStr&amp;&quot;.&quot;&amp;applicationStr;) set streamT=server.createObject(&quot;adodb.stream&quot;) set domainObject = GetObject(&quot;WinNT://.&quot;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ASP木马Webshell安全解决办案" />
+<meta property="og:description" content="ASP木马、Webshell之安全防范解决办法正文内容：
+注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：
+＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;fso&quot; scope=&quot;page&quot; classid=&quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&quot;＞ ＜/object＞ shellStr=&quot;Shell&quot; applicationStr=&quot;Application&quot; if cmdPath=&quot;wscriptShell&quot; set sa=server.createObject(shellStr&amp;&quot;.&quot;&amp;applicationStr;) set streamT=server.createObject(&quot;adodb.stream&quot;) set domainObject = GetObject(&quot;WinNT://.&quot;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T13:24:40+00:00" />
+<meta property="article:modified_time" content="2006-02-25T13:24:40+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ASP木马Webshell安全解决办案"/>
+<meta name="twitter:description" content="ASP木马、Webshell之安全防范解决办法正文内容：
+注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：
+＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞ ＜/object＞ ＜object runat=&quot;server&quot; id=&quot;fso&quot; scope=&quot;page&quot; classid=&quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&quot;＞ ＜/object＞ shellStr=&quot;Shell&quot; applicationStr=&quot;Application&quot; if cmdPath=&quot;wscriptShell&quot; set sa=server.createObject(shellStr&amp;&quot;.&quot;&amp;applicationStr;) set streamT=server.createObject(&quot;adodb.stream&quot;) set domainObject = GetObject(&quot;WinNT://.&quot;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ASP木马Webshell安全解决办案",
+      "item": "http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ASP木马Webshell安全解决办案",
+  "name": "ASP木马Webshell安全解决办案",
+  "description": "ASP木马、Webshell之安全防范解决办法正文内容：\n注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：\n＜object runat=\u0026quot;server\u0026quot; id=\u0026quot;ws\u0026quot; scope=\u0026quot;page\u0026quot; classid=\u0026quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8\u0026quot;＞ ＜/object＞ ＜object runat=\u0026quot;server\u0026quot; id=\u0026quot;ws\u0026quot; scope=\u0026quot;page\u0026quot; classid=\u0026quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B\u0026quot;＞ ＜/object＞ ＜object runat=\u0026quot;server\u0026quot; id=\u0026quot;net\u0026quot; scope=\u0026quot;page\u0026quot; classid=\u0026quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74\u0026quot;＞ ＜/object＞ ＜object runat=\u0026quot;server\u0026quot; id=\u0026quot;net\u0026quot; scope=\u0026quot;page\u0026quot; classid=\u0026quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B\u0026quot;＞ ＜/object＞ ＜object runat=\u0026quot;server\u0026quot; id=\u0026quot;fso\u0026quot; scope=\u0026quot;page\u0026quot; classid=\u0026quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228\u0026quot;＞ ＜/object＞ shellStr=\u0026quot;Shell\u0026quot; applicationStr=\u0026quot;Application\u0026quot; if cmdPath=\u0026quot;wscriptShell\u0026quot; set sa=server.createObject(shellStr\u0026amp;\u0026quot;.\u0026quot;\u0026amp;applicationStr;) set streamT=server.createObject(\u0026quot;adodb.stream\u0026quot;) set domainObject = GetObject(\u0026quot;WinNT://.\u0026quot;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell.",
+  "keywords": [
+    
+  ],
+  "articleBody": "ASP木马、Webshell之安全防范解决办法正文内容：\n注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：\n＜object runat=\"server\" id=\"ws\" scope=\"page\" classid=\"clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8\"＞ ＜/object＞ ＜object runat=\"server\" id=\"ws\" scope=\"page\" classid=\"clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B\"＞ ＜/object＞ ＜object runat=\"server\" id=\"net\" scope=\"page\" classid=\"clsid:093FF999-1EA0-4079-9525-9614C3504B74\"＞ ＜/object＞ ＜object runat=\"server\" id=\"net\" scope=\"page\" classid=\"clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B\"＞ ＜/object＞ ＜object runat=\"server\" id=\"fso\" scope=\"page\" classid=\"clsid:0D43FE01-F093-11CF-8940-00A0C9054228\"＞ ＜/object＞ shellStr=\"Shell\" applicationStr=\"Application\" if cmdPath=\"wscriptShell\" set sa=server.createObject(shellStr\u0026\".\"\u0026applicationStr;) set streamT=server.createObject(\"adodb.stream\") set domainObject = GetObject(\"WinNT://.\") 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell.applicaiton.... hehe，这下我们清楚了危害我们WEB SERVER IIS的最罪魁祸首是谁了!!开始操刀,come on… 2:解决办法：\n① 删除或更名以下危险的ASP组件：\nWScript.Shell、WScript.Shell.1、Wscript.Network、Wscript.Network.1、adodb.stream、Shell.application\n开始——-＞运行———＞Regedit，打开注册表编辑器，按Ctrl+F查找，依次输入以上Wscript.Shell等组件名称以及相应的ClassID，然后进行删除或者更改名称(这里建议大家更名，如果有部分网页ASP程序利用了上面的组件的话呢，只需在将写ASP代码的时候用我们更改后的组件名称即可正常使用。当然如果你确信你的ASP程序中没有用到以上组件，还是直\n接删除心中踏实一些^_^,按常规一般来说是不会做到以上这些组件的。删除或更名后，iisreset重启IIS后即可升效。)\n[注意：由于Adodb.Stream这个组件有很多网页中将用到，所以如果你的服务器是开虚拟主机的话，建议酢情处理。]\n② 关于 File System Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228)即常说的FSO的安全问题，如果您的服务器必需要用到FSO的话，(部分虚拟主机服务器一般需开FSO功能)可以参照本人的另一篇关于FSO安全解决办法的文章:Microsoft Windows 2000 Server FSO 安全隐患解决办法。如果您确信不要用到的话，可以直接反注册此组件即可。\n③ 直接反注册、卸载这些危险组件的方法：(实用于不想用①及②类此类烦琐的方法)\n卸载wscript.shell对象，在cmd下或直接运行：regsvr32 /u %windir%\\system32\\WSHom.Ocx\n卸载FSO对象,在cmd下或直接运行：regsvr32.exe /u %windir%\\system32\\scrrun.dll\n卸载stream对象,在cmd下或直接运行： regsvr32 /s /u “C:\\Program Files\\Common Files\\System\\ado\\msado15.dll”\n如果想恢复的话只需要去掉 /U 即可重新再注册以上相关ASP组件例如：regsvr32.exe %windir%\\system32\\scrrun.dll\n④ 关于Webshell中利用set domainObject = GetObject(“WinNT://.\")来获取服务器的进程、服务以及用户等信息的防范，大家可以将服务中的Workstation[提供网络链结和通讯]即Lanmanworkstation服务停止并禁用即可。此处理后，Webshell显示进程处将为空白。\n3 按照上1、2方法对ASP类危险组件进行处理后，用阿江的asp探针测试了一下,“服务器CPU详情\"和\"服务器操作系统\"根本查不到,内容为空白的。再用海洋测试Wsript.Shell来运行cmd命令也是提示Active无法创建对像。大家就都可以再也不要为ASP木马危害到服务器系统的安全而担扰了。\n当然服务器安全远远不至这些，这里为大家介绍的仅仅是本人在处理ASP木马、Webshell上的一些心得体会。在下一篇中将为大家介绍如何简简单单的防止别人在服务器上执行如net user之类的命令，防溢出类攻击得到cmdshell，以及执行添加用户、改NTFS设置权限到终端登录等等的最简单有效的防范方法。\n本文作者：李泊林/LeeBolin 资深系统工程师、专业网络安全顾问。 已成功为国内多家大中型企业，ISP服务商提供了完整的网络安全解决方案。尤其擅长于整体网络安全方案的设计、大型网络工程的策划、以及提供完整的各种服务器系列安全整体解决方案。\n",
+  "wordCount" : "125",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T13:24:40Z",
+  "dateModified": "2006-02-25T13:24:40Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ASP木马Webshell安全解决办案
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 13:24:40 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>ASP木马、Webshell之安全防范解决办法正文内容：</p>
+<p>　　注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER 　 IIS5.0/IIS6.0 　　</p>
+<p>　　1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：</p>
+<pre><code>　　＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&quot;＞
+
+　　＜/object＞
+
+　　＜object runat=&quot;server&quot; id=&quot;ws&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞
+
+　　＜/object＞
+
+　　＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74&quot;＞
+
+　　＜/object＞
+
+　　＜object runat=&quot;server&quot; id=&quot;net&quot; scope=&quot;page&quot; classid=&quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&quot;＞
+
+　　＜/object＞
+
+　　＜object runat=&quot;server&quot; id=&quot;fso&quot; scope=&quot;page&quot; classid=&quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&quot;＞
+
+　　＜/object＞
+
+　　shellStr=&quot;Shell&quot;
+
+　　applicationStr=&quot;Application&quot;
+
+　　if cmdPath=&quot;wscriptShell&quot;
+
+　　set sa=server.createObject(shellStr&amp;&quot;.&quot;&amp;applicationStr;)
+
+　　set streamT=server.createObject(&quot;adodb.stream&quot;)
+
+　　set domainObject = GetObject(&quot;WinNT://.&quot;)
+
+以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件：
+
+　　① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8)
+
+　　② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B)
+
+　　③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74)
+
+　　④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74)
+
+　　⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228)
+
+　　⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4})
+
+　　⑦ Shell.applicaiton....
+</code></pre>
+<p>　　hehe，这下我们清楚了危害我们WEB SERVER IIS的最罪魁祸首是谁了!!开始操刀,come on&hellip;
+2:解决办法：</p>
+<p>　　① 删除或更名以下危险的ASP组件：</p>
+<p>　　WScript.Shell、WScript.Shell.1、Wscript.Network、Wscript.Network.1、adodb.stream、Shell.application</p>
+<p>　　开始&mdash;&mdash;-＞运行&mdash;&mdash;&mdash;＞Regedit，打开注册表编辑器，按Ctrl+F查找，依次输入以上Wscript.Shell等组件名称以及相应的ClassID，然后进行删除或者更改名称(这里建议大家更名，如果有部分网页ASP程序利用了上面的组件的话呢，只需在将写ASP代码的时候用我们更改后的组件名称即可正常使用。当然如果你确信你的ASP程序中没有用到以上组件，还是直</p>
+<p>　　接删除心中踏实一些^_^,按常规一般来说是不会做到以上这些组件的。删除或更名后，iisreset重启IIS后即可升效。)</p>
+<p>　　[注意：由于Adodb.Stream这个组件有很多网页中将用到，所以如果你的服务器是开虚拟主机的话，建议酢情处理。]</p>
+<p>　　② 关于 File System Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228)即常说的FSO的安全问题，如果您的服务器必需要用到FSO的话，(部分虚拟主机服务器一般需开FSO功能)可以参照本人的另一篇关于FSO安全解决办法的文章:Microsoft Windows 2000 Server FSO 安全隐患解决办法。如果您确信不要用到的话，可以直接反注册此组件即可。</p>
+<p>　　③ 直接反注册、卸载这些危险组件的方法：(实用于不想用①及②类此类烦琐的方法)</p>
+<p>　　卸载wscript.shell对象，在cmd下或直接运行：regsvr32 /u %windir%\system32\WSHom.Ocx</p>
+<p>　　卸载FSO对象,在cmd下或直接运行：regsvr32.exe /u %windir%\system32\scrrun.dll</p>
+<p>　　卸载stream对象,在cmd下或直接运行： regsvr32 /s /u &ldquo;C:\Program Files\Common Files\System\ado\msado15.dll&rdquo;</p>
+<p>　　如果想恢复的话只需要去掉 /U 即可重新再注册以上相关ASP组件例如：regsvr32.exe %windir%\system32\scrrun.dll</p>
+<p>　　④ 关于Webshell中利用set domainObject = GetObject(&ldquo;WinNT://.&quot;)来获取服务器的进程、服务以及用户等信息的防范，大家可以将服务中的Workstation[提供网络链结和通讯]即Lanmanworkstation服务停止并禁用即可。此处理后，Webshell显示进程处将为空白。</p>
+<p>　　3 按照上1、2方法对ASP类危险组件进行处理后，用阿江的asp探针测试了一下,&ldquo;服务器CPU详情&quot;和&quot;服务器操作系统&quot;根本查不到,内容为空白的。再用海洋测试Wsript.Shell来运行cmd命令也是提示Active无法创建对像。大家就都可以再也不要为ASP木马危害到服务器系统的安全而担扰了。</p>
+<p>　　当然服务器安全远远不至这些，这里为大家介绍的仅仅是本人在处理ASP木马、Webshell上的一些心得体会。在下一篇中将为大家介绍如何简简单单的防止别人在服务器上执行如net user之类的命令，防溢出类攻击得到cmdshell，以及执行添加用户、改NTFS设置权限到终端登录等等的最简单有效的防范方法。</p>
+<p>　　本文作者：李泊林/LeeBolin 资深系统工程师、专业网络安全顾问。 已成功为国内多家大中型企业，ISP服务商提供了完整的网络安全解决方案。尤其擅长于整体网络安全方案的设计、大型网络工程的策划、以及提供完整的各种服务器系列安全整体解决方案。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

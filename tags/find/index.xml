@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+find
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/find/</link>
+    <description>Recent content in 
+find
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Mar 2009 13:47:18 +0000</lastBuildDate><atom:link href="http://example.org/tags/find/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Find 指令用法教學</title>
+      <link>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</link>
+      <pubDate>Thu, 19 Mar 2009 13:47:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/</guid>
+      <description>筆記一下自己常用的 find 指令，適用於 FreeBSD 或者是 Linux 各大 distribution，系統管理這個指令就相當重要了，在搭配 grep，sed，awk，perl 可以快速找到自己要的檔案。我自己本身很常用到 grep，find，awk 這些撰寫 shell script。
+底下先來介紹一下 find：
+找出 . 底下的 php 檔案
+find . -name &amp;ldquo;*.php&amp;rdquo;
+找出 . 底下非 php 副檔名檔案
+find . -not -name &amp;ldquo;*.php&amp;rdquo;
+刪除 . 底下 php 檔案，有兩種作法
+系統詢問之後才刪除 先把 -exec 後面的東西先清掉， 用 -print 來先確認輸出 rm 可以多用 -i 的參數來加以確認 find . -name &amp;ldquo;*.php&amp;rdquo; -exec rm -i {} ;
+系統直接刪除 find . -delete -name &amp;ldquo;.php&amp;rdquo; find . -name &amp;ldquo;.php&amp;rdquo; | xargs /bin/rm -rf</description>
+    </item>
+    
+  </channel>
+</rss>

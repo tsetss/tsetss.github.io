@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>在Windows上安装Python&#43;MySQL 的常见问题及解决方法 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&quot;No module named MySQLdb&quot;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="在Windows上安装Python&#43;MySQL 的常见问题及解决方法" />
+<meta property="og:description" content="验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&quot;No module named MySQLdb&quot;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-09-28T13:35:38+00:00" />
+<meta property="article:modified_time" content="2009-09-28T13:35:38+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在Windows上安装Python&#43;MySQL 的常见问题及解决方法"/>
+<meta name="twitter:description" content="验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&quot;No module named MySQLdb&quot;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "在Windows上安装Python+MySQL 的常见问题及解决方法",
+      "item": "http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "在Windows上安装Python+MySQL 的常见问题及解决方法",
+  "name": "在Windows上安装Python\u002bMySQL 的常见问题及解决方法",
+  "description": "验证是否已经安装了MySQLdb：\n==========================================================\nd:\\usr\\local\\Python25\u0026gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type \u0026quot;help\u0026quot;, \u0026quot;copyright\u0026quot;, \u0026quot;credits\u0026quot; or \u0026quot;license\u0026quot; for more information. \u0026gt;\u0026gt;\u0026gt; import MySQLdb Traceback (most recent call last): File \u0026quot;\u0026lt;stdin\u0026gt;\u0026quot;, line 1, in \u0026lt;module\u0026gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的\u0026quot;No module named MySQLdb\u0026quot;，表明MySQLdb尚未安装或安装的不成功！\nMySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装\n==========================================================\nPython 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装\nMySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611\n常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.",
+  "keywords": [
+    
+  ],
+  "articleBody": "验证是否已经安装了MySQLdb：\n==========================================================\nd:\\usr\\local\\Python25\u003epython Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type \"help\", \"copyright\", \"credits\" or \"license\" for more information. \u003e\u003e\u003e import MySQLdb Traceback (most recent call last): File \"\", line 1, in ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的\"No module named MySQLdb\"，表明MySQLdb尚未安装或安装的不成功！\nMySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装\n==========================================================\nPython 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装\nMySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611\n常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.dll 上。 D:\\usr\\local\\Python25\u003epython Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] on win32 Type \"help\", \"copyright\", \"credits\" or \"license\" for more information. \u003e\u003e\u003e import MySQLdb Traceback (most recent call last): File \"\", line 1, in File \"D:\\usr\\local\\Python25\\Lib\\site-packages\\MySQLdb\\__init__.py\", line 19, in import _mysql ImportError: DLL load failed: 找不到指定的程序。 解决方法：把mysql安装目录的bin\\libmySQL.dll文件复制到python安装目录的Lib\\site-packages下\n==========================================================\nPython 版本：2.6 下载地址：http://www.python.org/download/releases/2.6.1/ 下载msi文件并安装\nMySQLdb版本： MySQL-python-1.2.2.win32-py2.6.exe 下载地址：http://home.netimperia.com/files/misc/MySQL-python-1.2.2.win32-py2.6.exe 参见：http://sourceforge.net/forum/forum.php?thread_id=2316047\u0026forum;_id=70460\n常见问题： 1.ImportError: DLL load failed: 找不到指定的模块。 D:\\usr\\local\\Python26\u003epython Python 2.6 (r26:66721, Oct 2 2008, 11:35:03) [MSC v.1500 32 bit (Intel)] on win32 Type \"help\", \"copyright\", \"credits\" or \"license\" for more information. \u003e\u003e\u003e import MySQLdb Traceback (most recent call last): File \"\", line 1, in File \"D:\\usr\\local\\Python26\\Lib\\site-packages\\MySQLdb\\__init__.py\", line 19, in import _mysql ImportError: DLL load failed: 找不到指定的模块。 解决方法：下载libmmd.dll(附件)和libguide40.dll(附件)两个dll文件并复制到python安装目录的Lib\\site-packages下。 参见：http://sourceforge.net/forum/message.php?msg_id=5613887\n2.ImportError: DLL load failed: 找不到指定的模块。 D:\\usr\\local\\Python26\u003epython Python 2.6 (r26:66721, Oct 2 2008, 11:35:03) [MSC v.1500 32 bit (Intel)] on win32 Type \"help\", \"copyright\", \"credits\" or \"license\" for more information. \u003e\u003e\u003e import MySQLdb D:\\usr\\local\\Python26\\lib\\site-packages\\MySQLdb\\__init__.py:34: DeprecationWarning: the sets module is deprecated from sets import ImmutableSet 解决方法：\nfile “init”, replace:\nfrom sets import ImmutableSet\nclass DBAPISet(ImmutableSet):\nwith\nclass DBAPISet(frozenset)\nfile “converters.py”, remove:\nfrom sets import BaseSet, Set\nfile “converters.py”,\nchange “Set” by “set” (IMPORTANT: only two places):\nline 48: return set([ i for i in s.split(’,’) if i ]) line 128: set: Set2Str,\n参见：http://sourceforge.net/forum/message.php?msg_id=5808948\n",
+  "wordCount" : "284",
+  "inLanguage": "en",
+  "datePublished": "2009-09-28T13:35:38Z",
+  "dateModified": "2009-09-28T13:35:38Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      在Windows上安装Python&#43;MySQL 的常见问题及解决方法
+    </h1>
+    <div class="post-meta"><span title='2009-09-28 13:35:38 +0000 UTC'>September 28, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>验证是否已经安装了MySQLdb：</p>
+<p>==========================================================</p>
+<pre><code>d:\usr\local\Python25&gt;python
+Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import MySQLdb
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: No module named MySQLdb
+</code></pre>
+<p>==========================================================
+如果有类似于上面的&quot;No module named MySQLdb&quot;，表明MySQLdb尚未安装或安装的不成功！</p>
+<p>MySQL 版本：5.0.67
+下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads
+下载exe文件并安装</p>
+<p>==========================================================</p>
+<p>Python 版本：2.5
+下载地址：http://www.python.org/download/releases/2.5.4/
+下载msi文件并安装</p>
+<p>MySQLdb版本： MySQLdb Windows binary for Python 2.5
+下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe
+参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611</p>
+<h2 id="1无法定位程序输入点-mysql_server_init-于动态链接库-libmysqldll-上">常见问题：
+1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.dll 上。</h2>
+<pre><code>D:\usr\local\Python25&gt;python
+Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import MySQLdb
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;D:\usr\local\Python25\Lib\site-packages\MySQLdb\__init__.py&quot;, line 19, in &lt;module&gt;
+    import _mysql
+ImportError: DLL load failed: 找不到指定的程序。
+</code></pre>
+<hr>
+<p>解决方法：把mysql安装目录的bin\libmySQL.dll文件复制到python安装目录的Lib\site-packages下</p>
+<p>==========================================================</p>
+<p>Python 版本：2.6
+下载地址：http://www.python.org/download/releases/2.6.1/
+下载msi文件并安装</p>
+<p>MySQLdb版本： MySQL-python-1.2.2.win32-py2.6.exe
+下载地址：http://home.netimperia.com/files/misc/MySQL-python-1.2.2.win32-py2.6.exe
+参见：http://sourceforge.net/forum/forum.php?thread_id=2316047&amp;forum;_id=70460</p>
+<h2 id="1importerror-dll-load-failed-找不到指定的模块">常见问题：
+1.ImportError: DLL load failed: 找不到指定的模块。</h2>
+<pre><code>D:\usr\local\Python26&gt;python
+Python 2.6 (r26:66721, Oct  2 2008, 11:35:03) [MSC v.1500 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import MySQLdb
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;D:\usr\local\Python26\Lib\site-packages\MySQLdb\__init__.py&quot;, line 19, in &lt;module&gt;
+
+    import _mysql
+ImportError: DLL load failed: 找不到指定的模块。
+</code></pre>
+<hr>
+<p>解决方法：下载libmmd.dll(附件)和libguide40.dll(附件)两个dll文件并复制到python安装目录的Lib\site-packages下。
+参见：http://sourceforge.net/forum/message.php?msg_id=5613887</p>
+<h2 id="2importerror-dll-load-failed-找不到指定的模块">2.ImportError: DLL load failed: 找不到指定的模块。<a hidden class="anchor" aria-hidden="true" href="#2importerror-dll-load-failed-找不到指定的模块">#</a></h2>
+<pre><code>D:\usr\local\Python26&gt;python
+Python 2.6 (r26:66721, Oct  2 2008, 11:35:03) [MSC v.1500 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import MySQLdb
+D:\usr\local\Python26\lib\site-packages\MySQLdb\__init__.py:34: DeprecationWarning: the sets module is deprecated
+  from sets import ImmutableSet
+</code></pre>
+<hr>
+<p>解决方法：</p>
+<ol>
+<li>
+<p>file &ldquo;<strong>init</strong>&rdquo;, replace:</p>
+<p>from sets import ImmutableSet<br>
+class DBAPISet(ImmutableSet):</p>
+<p>with</p>
+<p>class DBAPISet(frozenset)</p>
+</li>
+<li>
+<p>file &ldquo;converters.py&rdquo;, remove:</p>
+<p>from sets import BaseSet, Set</p>
+</li>
+<li>
+<p>file &ldquo;converters.py&rdquo;,</p>
+<p>change &ldquo;Set&rdquo; by &ldquo;set&rdquo; (IMPORTANT: only two places):</p>
+<p>line 48: return set([ i for i in s.split(&rsquo;,&rsquo;) if i ])
+line 128: set: Set2Str,</p>
+</li>
+</ol>
+<p>参见：http://sourceforge.net/forum/message.php?msg_id=5808948</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

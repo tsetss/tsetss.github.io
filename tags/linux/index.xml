@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+linux
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/linux/</link>
+    <description>Recent content in 
+linux
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Sep 2011 05:48:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos 5.6 x64 同步时间 更改时区</title>
+      <link>http://example.org/2011/09/02/centos-5-6-x64-e5908ce6ada5e697b6e997b4-e69bb4e694b9e697b6e58cba/</link>
+      <pubDate>Fri, 02 Sep 2011 05:48:00 +0000</pubDate>
+      
+      <guid>http://example.org/2011/09/02/centos-5-6-x64-e5908ce6ada5e697b6e997b4-e69bb4e694b9e697b6e58cba/</guid>
+      <description>ntpdate pool.ntp.org
+如无 ntpdate 命令安装 ntp 即可
+执行
+yum install -y ntp
+更改时区
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</description>
+    </item>
+    
+  </channel>
+</rss>

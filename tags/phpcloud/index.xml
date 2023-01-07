@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+phpcloud
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/phpcloud/</link>
+    <description>Recent content in 
+phpcloud
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Dec 2013 12:39:33 +0000</lastBuildDate><atom:link href="http://example.org/tags/phpcloud/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>blog 搬出 phpcloud</title>
+      <link>http://example.org/2013/12/25/blog-move-phpcloud/</link>
+      <pubDate>Wed, 25 Dec 2013 12:39:33 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/25/blog-move-phpcloud/</guid>
+      <description>刚开始 phpcloud 推的时候，由于是zend推出的，想去试用一下，就把blog迁了过去，没想到麻从此开始了。
+blog 访问并不大，但是 phpcloud 经常 把我的服务挂起，估计可能是用的人比较大，资源比较吃紧吧，稍占点资源就给挂起，
+刚好 bae3.0 推出，比较中意，适用中。</description>
+    </item>
+    
+    <item>
+      <title>今天把blog迁到了 phpcloud 试用中</title>
+      <link>http://example.org/2013/02/21/blog-move-to-phpcloud/</link>
+      <pubDate>Thu, 21 Feb 2013 09:39:12 +0000</pubDate>
+      
+      <guid>http://example.org/2013/02/21/blog-move-to-phpcloud/</guid>
+      <description>之前已经介绍过 phpcloud 空间了，也试用过一个站，不过好像被封了，可能是太占资源了哈哈，把 blog 移过过看看会不会被封掉，转移 blog 还是有点麻类的， phpcloud 的 git 权限和apache 权限不致， wordpress 在线更新是比烦的事，改成 777 可以解决，费力呀。。</description>
+    </item>
+    
+    <item>
+      <title>phpcloud 空间容量更新</title>
+      <link>http://example.org/2012/09/25/phpcloud-disk-1000/</link>
+      <pubDate>Tue, 25 Sep 2012 02:27:30 +0000</pubDate>
+      
+      <guid>http://example.org/2012/09/25/phpcloud-disk-1000/</guid>
+      <description>之前的 phpcloud 是 500M 空间大小，今天登录管理后台之后发现使用 100M 显示的使用 百分比是 10% 虽然还是写的 500M 空间大小，但按这个比例是 1G, 用探针查看也是 1G 的空间大小，估计官方稍后应该会有公告， 希望 phpcloud 一直活下去，想比 gae 来说，对 php 方面的支持确实不错</description>
+    </item>
+    
+  </channel>
+</rss>

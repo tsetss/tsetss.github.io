@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+ROUTEROS
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/routeros/</link>
+    <description>Recent content in 
+ROUTEROS
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Apr 2009 17:39:04 +0000</lastBuildDate><atom:link href="http://example.org/tags/routeros/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ROS常用命令简介</title>
+      <link>http://example.org/2009/04/11/ros-everyday-commands/</link>
+      <pubDate>Sat, 11 Apr 2009 17:39:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/ros-everyday-commands/</guid>
+      <description>ROUTEROS常用命令
+/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] &amp;gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] &amp;gt; [admin@MikroTik] ip&amp;gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip&amp;gt; 列出可用的命令和菜单并有简短的描述到下一个项目.</description>
+    </item>
+    
+  </channel>
+</rss>

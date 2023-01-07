@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+cache
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/tags/cache/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/cache/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+cache
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/tags/cache/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+cache
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+cache
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>转： 关于MySQL的查询缓存
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近发现用户注册老是出错,不确定问题所在,不知道是不是SQL CACHE引起的,
+原理 QueryCache(下面简称QC)是根据SQL语句来cache的。一个SQL查询如果以select开头，那么MySQL服务器将尝试对其使用 QC。每个Cache都是以SQL文本作为key来存的。在应用QC之前，SQL文本不会被作任何处理。也就是说，两个SQL语句，只要相差哪怕是一个字符（例如大小写不一样；多一个空格等），那么这两个SQL将使用不同的一个CACHE。
+不过SQL文本有可能会被客户端做一些处理。例如在官方的命令行客户端里，在发送SQL给服务器之前，会做如下处理： 过滤所有注释 去掉SQL文本前后的空格,TAB等字符。注意，是文本前面和后面的。中间的不会被去掉。
+下面的三条SQL里，因为SELECT大小写的关系，最后一条和其他两条在QC里肯定是用的不一样的存储位置。而第一条和第二条，区别在于后者有个注释，在不同客户端，会有不一样的结果。所以，保险起见，请尽量不要使用动态的注释。在PHP的mysql扩展里，SQL的注释是不会被去掉的。也就是三条 SQL会被存储在三个不同的缓存里，虽然它们的结果都是一样的。
+select * FROM people where name=&#39;surfchen&#39;; select * FROM people where /*hey~*/name=&#39;surfchen&#39;; SELECT * FROM people where name=&#39;surfchen&#39;; 目前只有select语句会被cache，其他类似show,use的语句则不会被cache。 因为QC是如此前端，如此简单的一个缓存系统，所以如果一个表被更新，那么和这个表相关的SQL的所有QC都会被失效。假设一个联合查询里涉及到了表A和表B，如果表A或者表B的其中一个被更新（update或者delete），这个查询的QC将会失效。 也就是说，如果一个表被频繁更新，那么就要考虑清楚究竟是否应该对相关的一些SQL进行QC了。一个被频繁更新的表如果被应用了QC，可能会加重数据库的负担，而不是减轻负担。我一般的做法是默认打开QC，而对一些涉及频繁更新的表的SQL语句加上SQL_NO_CACHE关键词来对其禁用CACHE。这样可以尽可能避免不必要的内存操作，尽可能保持内存的连续性。 那些查询很分散的SQL语句，也不应该使用QC。例如用来查询用户和密码的语句——“select pass from user where name=&#39;surfchen&#39;”。这样的语句，在一个系统里，很有可能只在一个用户登陆的时候被使用。每个用户的登陆所用到的查询，都是不一样的SQL 文本，QC在这里就几乎不起作用了，因为缓存的数据几乎是不会被用到的，它们只会在内存里占地方。 存储块 在本节里“存储块”和“block”是同一个意思 QC缓存一个查询结果的时候，一般情况下不是一次性地分配足够多的内存来缓存结果的。而是在查询结果获得的过程中，逐块存储。当一个存储块被填满之后，一个新的存储块将会被创建，并分配内存（allocate）。单个存储块的内存分配大小通过query_cache_min_res_unit参数控制，默认为4KB。最后一个存储块，如果不能被全部利用，那么没使用的内存将会被释放。如果被缓存的结果很大，那么会可能会导致分配内存操作太频繁，系统系能也随之下降；而如果被缓存的结果都很小，那么可能会导致内存碎片过多，这些碎片如果太小，就很有可能不能再被分配使用。 除了查询结果需要存储块之外，每个SQL文本也需要一个存储块，而涉及到的表也需要一个存储块（表的存储块是所有线程共享的，每个表只需要一个存储块）。存储块总数量=查询结果数量*2&#43;涉及的数据库表数量。也就是说，第一个缓存生成的时候，至少需要三个存储块：表信息存储块，SQL文本存储块，查询结果存储块。而第二个查询如果用的是同一个表，那么最少只需要两个存储块：SQL文本存储块，查询结果存储块。 通过观察Qcache_queries_in_cache和Qcache_total_blocks可以知道平均每个缓存结果占用的存储块。它们的比例如果接近1:2，则说明当前的query_cache_min_res_unit参数已经足够大了。如果Qcache_total_blocks比 Qcache_queries_in_cache多很多，则需要增加query_cache_min_res_unit的大小。 Qcache_queries_in_cache*query_cache_min_res_unit（sql文本和表信息所在的block占用的内存很小，可以忽略）如果远远大于query_cache_size-Qcache_free_memory，那么可以尝试减小 query_cache_min_res_unit的值。 调整大小 如果Qcache_lowmem_prunes增长迅速，意味着很多缓存因为内存不够而被释放，而不是因为相关表被更新。尝试加大query_cache_size，尽量使Qcache_lowmem_prunes零增长。 启动参数 show variables like &#39;query_cache%&#39;可以看到这些信息。 query_cache_limit:如果单个查询结果大于这个值，则不Cache query_cache_size:分配给QC的内存。如果设为0，则相当于禁用QC。要注意QC必须使用大约40KB来存储它的结构，如果设定小于 40KB,则相当于禁用QC。QC存储的最小单位是1024 byte，所以如果你设定了一个不是1024的倍数的值，这个值会被四舍五入到最接近当前值的等于1024的倍数的值。 query_cache_type:0 完全禁止QC，不受SQL语句控制（另外可能要注意的是，即使这里禁用，上面一个参数所设定的内存大小还是会被分配）；1启用QC，可以在SQL语句使用 SQL_NO_CACHE禁用；2可以在SQL语句使用SQL_CACHE启用。 query_cache_min_res_unit:每次给QC结果分配内存的大小 状态 show status like &#39;Qcache%&#39;可以看到这些信息。 Qcache_free_blocks:当一个表被更新之后，和它相关的cache blocks将被free。但是这个block依然可能存在队列中，除非是在队列的尾部。这些blocks将会被统计到这个值来。可以用FLUSH QUERY CACHE语句来清空free blocks。 Qcache_free_memory:可用内存，如果很小，考虑增加query_cache_size Qcache_hits:自mysql进程启动起，cache的命中数量 Qcache_inserts:自mysql进程启动起，被增加进QC的数量 Qcache_lowmem_prunes:由于内存过少而导致QC被删除的条数。加大query_cache_size，尽可能保持这个值0增长。 Qcache_not_cached:自mysql进程启动起，没有被cache的只读查询数量（包括select,show,use,desc等） Qcache_queries_in_cache:当前被cache的SQL数量 Qcache_total_blocks:在QC中的blocks数。一个query可能被多个blocks存储，而这几个blocks中的最后一个，未用满的内存将会被释放掉。例如一个QC结果要占6KB内存，如果query_cache_min_res_unit是4KB，则最后将会生成3个 blocks，第一个block用来存储sql语句文本，这个不会被统计到query&#43;cache_size里，第二个block为4KB，第三个 block为2KB（先allocate4KB，然后释放多余的2KB）。每个表，当第一个和它有关的SQL查询被CACHE的时候，会使用一个 block来存储表信息。也就是说，block会被用在三处地方：表信息，SQL文本，查询结果。 另外一篇： 如果 MySQL Server 负载比较高，处理非常繁忙的话，可以启动Query Cache 以加速响应时间，启动方法可以在my....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-18 04:52:48 +0000 UTC'>March 18, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 转： 关于MySQL的查询缓存" href="http://example.org/2009/03/18/e8bdacefbc9a-e585b3e4ba8emysqle79a84e69fa5e8afa2e7bc93e5ad98/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

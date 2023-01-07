@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>配置 Windows Server 2003-IIS 6 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="配置 Windows Server 2003 &ndash; IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0
+本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。
+安装 Internet 信息服务
+Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="配置 Windows Server 2003-IIS 6" />
+<meta property="og:description" content="配置 Windows Server 2003 &ndash; IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0
+本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。
+安装 Internet 信息服务
+Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T07:50:56+00:00" />
+<meta property="article:modified_time" content="2006-02-25T07:50:56+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="配置 Windows Server 2003-IIS 6"/>
+<meta name="twitter:description" content="配置 Windows Server 2003 &ndash; IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0
+本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。
+安装 Internet 信息服务
+Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "配置 Windows Server 2003-IIS 6",
+      "item": "http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "配置 Windows Server 2003-IIS 6",
+  "name": "配置 Windows Server 2003-IIS 6",
+  "description": "配置 Windows Server 2003 \u0026ndash; IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0\n本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。\n安装 Internet 信息服务\nMicrosoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。",
+  "keywords": [
+    
+  ],
+  "articleBody": "配置 Windows Server 2003 – IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0\n本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。\n安装 Internet 信息服务\nMicrosoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。\n要安装 IIS、添加可选组件或删除可选组件，请按以下步骤操作：\n单击开始，指向控制面板，然后单击“添加或删除程序”。 “添加或删除程序”工具就会启动。 2. 单击添加/删除 Windows 组件。\n显示“Windows 组件向导”。 3. 在Windows 组件 列表中，单击Web 应用程序服务器。 4. 单击详细信息，然后单击Internet 信息服务 (IIS)。 5. 单击详细信息 ，以查看 IIS 可选组件列表。 6. 选择您要安装的可选组件。默认情况下，下列组件是选中的： — 公用文件 — FrontPage 2002 Server Extentions — Internet 信息服务管理单元 — Internet 信息服务管理器 — NNTP 服务 — SMTP 服务 — World Wide Web 服务\n单击“World Wide Web 服务”，然后单击详细信息 ，以查看 IIS 可选子组件（如 Active Server Pages 组件和“远程管理 (HTML) 工具”）的列表。选择您要安装的可选子组件。默认情况下，下列组件是选中的： — World Wide Web 服务\n单击确定 ，直到返回“Windows 组件向导”。\n单击下一步，然后完成“Windows 组件向导”。\n配置匿名身份验证\n要配置匿名身份验证，请按以下步骤操作：\n单击开始，指向管理工具，然后单击Internet 信息服务 (IIS)。 展开“* 服务器名称”（其中服务器名称 为该服务器的名称），右键单击Web 站点，然后单击属性。 在Web 站点属性 对话框中，单击目录安全性 选项卡。 在“身份验证和访问控制”下，单击编辑。 单击“启用匿名访问”复选框，将其选中。 备注：“用户名”框中的用户帐户只用于通过 Windows guest 帐户进行匿名访问。\n默认情况下，服务器会创建并使用帐户 IUSR_computername。匿名用户帐户密码仅在 Windows 中使用；匿名用户不使用用户名和密码登录。 6. 在“已验证身份的访问”下，单击“集成的 Windows 身份验证”复选框，将其选中。 7. 单击确定 两次。\n基本 Web 站点配置\n单击开始，指向管理工具，然后单击Internet 信息服务 (IIS)。 展开“* 服务器名称”（其中服务器名称 为该服务器的名称），然后展开Web 站点。 右键单击默认 Web 站点，然后单击属性。 单击Web 站点 选项卡。如果您已为计算机分配了多个 IP 地址，则请在IP 地址 框中单击您要指定给此 Web 站点的 IP 地址。 单击性能 选项卡。使用Web 站点属性 - 性能 对话框可设置影响内存、带宽使用和 Web 连接数量的属性。 通过配置某个特定站点上的网络带宽，您可以更好地控制该站点的通信量。例如，通过在低优先级的 Web 站点上限制带宽，您可以放宽对他站点的访问量的限制。同样，当您指定到某个 Web 站点的连接数量时，您就可以为其他站点释放资源。设置是站点专用的，应根据网络通信量和使用变化情况进行调整。 — 单击“限制可用于此 Web 站点的带宽”复选框，将其选中，可配置 IIS 将网络带宽调节到选定的最大带宽量，以千字节每秒 (KB/S) 为单位。 — 单击Web 服务连接 复选框，将其选中，可选择特定数目或者不限定数目的 Web 服务连接。限制连接可使计算机资源能够用于其他进程。\n备注：每个浏览 Web 站点的客户机通常都使用大约三个连接。\n单击主目录 选项卡。 — 如果您想使用存储在本地计算机上的 Web 内容，则单击“此计算机上的目录”然后在本地路径 框中键入您想要的路径。例如，默认路径为 C:\\Inetpub\\wwwroot。 备注：为了增加安全性，请不要在根目录下创建 Web 内容文件夹。 — 如果要使用存储在另一台计算机上的 Web 内容，则单击“另一计算机上的共享位置”，然后在显示的网络目录 框中键入所需位置。 — 如果您要使用存储在另一个 Web 地址的 Web 内容，则单击“重定向到 URL”，然后在“重定向到”框中键入所需位置。在“客户会送到”下，单击相应的复选框，将其选中。 7. 单击文档 选项卡。请注意可由 IIS 用作默认启动文档的文档列表。如果您要使用 Index.html 作为启动文档，就必须添加它。添加方法是： a. 单击添加。 b. 在添加默认文档 对话框中，键入 Index.html，然后单击确定。 c. 单击向上箭头 按钮，直到 Index.html 显示在列表的顶部。\n单击确定 ，关闭默认 Web 站点属性 对话框。 右键单击默认 Web 站点，然后单击权限。 请注意在此 Web 站点上具有操作权限的用户帐户。单击添加 添加其他可操作此 Web 站点的用户帐户。 单击确定 ，返回到“Internet 信息服务”窗口。 右键单击默认 Web 站点，然后单击停止。 右键单击默认 Web 站点，然后单击开始。 现在，该服务器已配置为接受传入的访问默认 Web 站点的 Web 请求。您可以将默认 Web 站点的内容替换为您想要的 Web 内容，或者创建新 Web 站点。\n",
+  "wordCount" : "311",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T07:50:56Z",
+  "dateModified": "2006-02-25T07:50:56Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      配置 Windows Server 2003-IIS 6
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 07:50:56 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>配置 Windows Server 2003 &ndash; IIS 6
+Microsoft Knowledge Base Article - 324742
+这篇文章中的信息适用于:
+Microsoft Windows Server 2003, Datacenter Edition
+Microsoft Windows Server 2003, Enterprise Edition
+Microsoft Windows Server 2003, Standard Edition
+Microsoft Windows Server 2003, Web Edition
+Microsoft Windows Server 2003, 64-Bit Datacenter Edition
+Microsoft Windows Server 2003, 64-Bit Enterprise Edition
+Microsoft Internet Information Services version 6.0</p>
+<p>本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。</p>
+<p>安装 Internet 信息服务</p>
+<p>Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。</p>
+<p>要安装 IIS、添加可选组件或删除可选组件，请按以下步骤操作：</p>
+<ol>
+<li>单击开始，指向控制面板，然后单击“添加或删除程序”。</li>
+</ol>
+<p>“添加或删除程序”工具就会启动。
+2. 单击添加/删除 Windows 组件。</p>
+<p>显示“Windows 组件向导”。
+3. 在Windows 组件 列表中，单击Web 应用程序服务器。
+4. 单击详细信息，然后单击Internet 信息服务 (IIS)。
+5. 单击详细信息 ，以查看 IIS 可选组件列表。
+6. 选择您要安装的可选组件。默认情况下，下列组件是选中的：
+&mdash; 公用文件
+&mdash; FrontPage 2002 Server Extentions
+&mdash; Internet 信息服务管理单元
+&mdash; Internet 信息服务管理器
+&mdash; NNTP 服务
+&mdash; SMTP 服务
+&mdash; World Wide Web 服务</p>
+<ol start="7">
+<li>
+<p>单击“World Wide Web 服务”，然后单击详细信息 ，以查看 IIS 可选子组件（如 Active Server Pages 组件和“远程管理 (HTML) 工具”）的列表。选择您要安装的可选子组件。默认情况下，下列组件是选中的：
+&mdash; World Wide Web 服务</p>
+</li>
+<li>
+<p>单击确定 ，直到返回“Windows 组件向导”。</p>
+</li>
+<li>
+<p>单击下一步，然后完成“Windows 组件向导”。</p>
+</li>
+</ol>
+<p>配置匿名身份验证</p>
+<p>要配置匿名身份验证，请按以下步骤操作：</p>
+<ol>
+<li>单击开始，指向管理工具，然后单击Internet 信息服务 (IIS)。</li>
+<li>展开“* 服务器名称”（其中服务器名称 为该服务器的名称），右键单击Web 站点，然后单击属性。</li>
+<li>在Web 站点属性 对话框中，单击目录安全性 选项卡。</li>
+<li>在“身份验证和访问控制”下，单击编辑。</li>
+<li>单击“启用匿名访问”复选框，将其选中。</li>
+</ol>
+<p>备注：“用户名”框中的用户帐户只用于通过 Windows guest 帐户进行匿名访问。</p>
+<p>默认情况下，服务器会创建并使用帐户 IUSR_computername。匿名用户帐户密码仅在 Windows 中使用；匿名用户不使用用户名和密码登录。
+6. 在“已验证身份的访问”下，单击“集成的 Windows 身份验证”复选框，将其选中。
+7. 单击确定 两次。</p>
+<p>基本 Web 站点配置</p>
+<ol>
+<li>单击开始，指向管理工具，然后单击Internet 信息服务 (IIS)。</li>
+<li>展开“* 服务器名称”（其中服务器名称 为该服务器的名称），然后展开Web 站点。</li>
+<li>右键单击默认 Web 站点，然后单击属性。</li>
+<li>单击Web 站点 选项卡。如果您已为计算机分配了多个 IP 地址，则请在IP 地址 框中单击您要指定给此 Web 站点的 IP 地址。</li>
+<li>单击性能 选项卡。使用Web 站点属性 - 性能 对话框可设置影响内存、带宽使用和 Web 连接数量的属性。</li>
+</ol>
+<p>通过配置某个特定站点上的网络带宽，您可以更好地控制该站点的通信量。例如，通过在低优先级的 Web 站点上限制带宽，您可以放宽对他站点的访问量的限制。同样，当您指定到某个 Web 站点的连接数量时，您就可以为其他站点释放资源。设置是站点专用的，应根据网络通信量和使用变化情况进行调整。
+&mdash; 单击“限制可用于此 Web 站点的带宽”复选框，将其选中，可配置 IIS 将网络带宽调节到选定的最大带宽量，以千字节每秒 (KB/S) 为单位。
+&mdash; 单击Web 服务连接 复选框，将其选中，可选择特定数目或者不限定数目的 Web 服务连接。限制连接可使计算机资源能够用于其他进程。</p>
+<p>备注：每个浏览 Web 站点的客户机通常都使用大约三个连接。</p>
+<ol start="6">
+<li>单击主目录 选项卡。
+&mdash; 如果您想使用存储在本地计算机上的 Web 内容，则单击“此计算机上的目录”然后在本地路径 框中键入您想要的路径。例如，默认路径为 C:\Inetpub\wwwroot。</li>
+</ol>
+<p>备注：为了增加安全性，请不要在根目录下创建 Web 内容文件夹。
+&mdash; 如果要使用存储在另一台计算机上的 Web 内容，则单击“另一计算机上的共享位置”，然后在显示的网络目录 框中键入所需位置。
+&mdash; 如果您要使用存储在另一个 Web 地址的 Web 内容，则单击“重定向到 URL”，然后在“重定向到”框中键入所需位置。在“客户会送到”下，单击相应的复选框，将其选中。
+7. 单击文档 选项卡。请注意可由 IIS 用作默认启动文档的文档列表。如果您要使用 Index.html 作为启动文档，就必须添加它。添加方法是：
+a. 单击添加。
+b. 在添加默认文档 对话框中，键入 Index.html，然后单击确定。
+c. 单击向上箭头 按钮，直到 Index.html 显示在列表的顶部。</p>
+<ol start="8">
+<li>单击确定 ，关闭默认 Web 站点属性 对话框。</li>
+<li>右键单击默认 Web 站点，然后单击权限。</li>
+<li>请注意在此 Web 站点上具有操作权限的用户帐户。单击添加 添加其他可操作此 Web 站点的用户帐户。</li>
+<li>单击确定 ，返回到“Internet 信息服务”窗口。</li>
+<li>右键单击默认 Web 站点，然后单击停止。</li>
+<li>右键单击默认 Web 站点，然后单击开始。</li>
+</ol>
+<p>现在，该服务器已配置为接受传入的访问默认 Web 站点的 Web 请求。您可以将默认 Web 站点的内容替换为您想要的 Web 内容，或者创建新 Web 站点。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

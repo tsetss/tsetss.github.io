@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+linux
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/linux/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/linux/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+linux
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/linux/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+linux
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+linux
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx做透明代理
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 14:49:23 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx做透明代理" href="http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>BOM--字节序标记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>读代码的时候看到这样一段 $template_content = str_replace(&#34;\xEF\xBB\xBF&#34;, ‘’, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&gt;文件-&gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&#34;ZERO WIDTH NO-BREAK SPACE&#34;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 02:00:18 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to BOM--字节序标记" href="http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>rpmbuild command not found
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>rpmbuild command not found
+安装 rpm-build 组件
+yum install rpm-build </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-06-24 04:29:29 +0000 UTC'>June 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to rpmbuild command not found" href="http://example.org/2009/06/24/rpmbuild-command-not-found/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Extmail1.1登录显示：Unix::Syslog not found
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Unix::Syslog not found, please install it first! (in cleanup) Undefined subroutine &amp;Ext;::Logger::do_closelog called at /var/www/extsuite/extmail/libs/Ext/Logger.pm line 87. 没装perl-Unix-Syslog包,
+安装方法
+perl -MCPAN -e shell cpan&gt;install Unix::Syslog </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-06-23 07:28:18 +0000 UTC'>June 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Extmail1.1登录显示：Unix::Syslog not found" href="http://example.org/2009/06/23/extmail1-1e799bbe5bd95e698bee7a4baefbc9aunixsyslog-not-found/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下 nginx 日志每天分割
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>#!/bin/sh date today=date &#43;&#34;%Y_%m_%d&#34; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime &#43;$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-13 18:42:06 +0000 UTC'>May 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下 nginx 日志每天分割" href="http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Mysql安装&amp;同步
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&gt; groupadd mysql
+shell&gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&gt; cd /usr/local
+shell&gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&gt; cd mysql
+shell&gt; scripts/mysql_install_db –user=mysql
+/如果你用root运行命令，应当使用–user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略–user选项。/
+shell&gt; chown -R root .
+shell&gt; chown -R mysql data...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 20:59:25 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Mysql安装&amp;同步" href="http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>If you’re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and “Too many connections” errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a “persistent” connection to the database. From the documentation: “the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect())....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:16:29 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)" href="http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明。 http://windtear.net/archives/2005/09/22/000777.html
+倒数据当然推荐rsync 不过当文件数超级多 或者网络条件等不具备时 tar 打包就是首选了
+数据运到目的地后 解包时需要注意别覆盖
+tar 工具的 -k 参数就提供干这事 -k,–keep-old-files 不覆盖已存在文件
+-k, --keep-old-files keep existing files; don&#39;t overwrite them from archive 如: tar zxfk filename.tar.gz</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-26 10:43:34 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件" href="http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>tar命令详解 (推荐)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-26 07:02:17 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to tar命令详解 (推荐)" href="http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者:NetSeek http://www.linuxtone.org (IT运维专家网|集群架构|性能调优) 欢迎转载,转载时请务必以超链接形式标明文章原始出处和作者信息及本声明. 首发时间: 2008-11-25 更新时间:2009-1-14
+目 录 一、 Nginx 基础知识 二、 Nginx 安装及调试 三、 Nginx Rewrite 四、 Nginx Redirect 五、 Nginx 目录自动加斜线: 六、 Nginx Location 七、 Nginx expires 八、 Nginx 防盗链 九、 Nginx 访问控制 十、 Nginx日志处理 十一、 Nginx Cache 十二、 Nginx负载均衡 十三、 Nginx简单优化 十四、 如何构建高性能的LEMP环境 十五、 Nginx服务监控 十六、 常见问题与错误处理. 十七、 相关资源下载
+【前言】： 编写此技术指南在于推广普及NGINX在国内的使用，更方便的帮助大家了解和掌握NGINX的一些使用技巧。本指南很多技巧来自于网络和工作中或网络上朋友们问我的问题.在此对网络上愿意分享的朋友们表示感谢和致意！欢迎大家和我一起丰富本技术指南提出更好的建议！请朋友们关注: http://www.linuxtone.org 技术分享社区! 互想学习共同进步!
+一、 Nginx 基础知识 1、简介 Nginx (“engine x”) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx 是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:18:29 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版" href="http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/linux/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/categories/linux/page/3/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

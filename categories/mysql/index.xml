@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+mysql
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/mysql/</link>
+    <description>Recent content in 
+mysql
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 31 Dec 2009 04:00:57 +0000</lastBuildDate><atom:link href="http://example.org/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql my.cnf 详解</title>
+      <link>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</link>
+      <pubDate>Thu, 31 Dec 2009 04:00:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</guid>
+      <description>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&amp;quot;&amp;ndash;help&amp;quot;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接.</description>
+    </item>
+    
+    <item>
+      <title>Xtrabackup备份和恢复MySQL</title>
+      <link>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</link>
+      <pubDate>Tue, 24 Nov 2009 05:21:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</guid>
+      <description>Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&amp;quot;innodb innodb2&amp;quot; /bak/ 压缩备份（不加&amp;ndash;databases，默认全部数据库） innobackupex-1.</description>
+    </item>
+    
+    <item>
+      <title>mydns-ng mydns 的后继版</title>
+      <link>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</link>
+      <pubDate>Wed, 30 Sep 2009 03:33:28 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</guid>
+      <description>无意间在 ports 看到 mydns-ng
+MyDNS-ng is a free DNS server for UNIX. It was implemented from scratch and is designed to serve records directly from an SQL database (currently either MySQL or PostgreSQL).
+MyDNS-ng is based on MyDNS originaly writen by Don Moore bboy@bboy.net Oficial Site http://mydns.bboy.net.
+MyDNS is licensed under the GNU General Public License.
+以后可以用它了</description>
+    </item>
+    
+    <item>
+      <title>加快innodb 关闭</title>
+      <link>http://example.org/2009/07/03/e58aa0e5bfabinnodb-e585b3e997ad/</link>
+      <pubDate>Fri, 03 Jul 2009 14:42:27 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/03/e58aa0e5bfabinnodb-e585b3e997ad/</guid>
+      <description>mysql&amp;gt; set global innodb_max_dirty_pages_pct = 0;
+过半小时再shutdown就快了</description>
+    </item>
+    
+    <item>
+      <title>MySQL内存使用分析-全局共享[转]</title>
+      <link>http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/</link>
+      <pubDate>Fri, 15 May 2009 01:59:40 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/</guid>
+      <description>全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5.</description>
+    </item>
+    
+    <item>
+      <title>MySQL内存使用分析-线程独享[转]</title>
+      <link>http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e7babfe7a88be78bace4baabe8bdac/</link>
+      <pubDate>Fri, 15 May 2009 01:58:26 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e7babfe7a88be78bace4baabe8bdac/</guid>
+      <description>对于任何一个数据库管理系统来说，内存的分配使用绝对可以算的上是其核心之一了，所以很多希望更为深入了解某数据库管理系统的人，都会希望一窥究竟，我也不例外。 从内存的使用方式MySQL 数据库的内存使用主要分为以下两类
+线程独享内存
+全局共享内存
+今天这篇文章暂时先分析 MySQL 中主要的 “线程独享内存” 的。
+在 MySQL 中，线程独享内存主要用于各客户端连接线程存储各种操作的独享数据，如线程栈信息，分组排序操作，数据读写缓冲，结果集暂存等等，而且大多数可以通过相关参数来控制内存的使用量。
+线程栈信息使用内存(thread_stack)：主要用来存放每一个线程自身的标识信息，如线程id，线程运行时基本信息等等，我们可以通过 thread_stack 参数来设置为每一个线程栈分配多大的内存。
+排序使用内存(sort_buffer_size)：MySQL用此内存区域进行排序操作（filesort），完成客户端的排序请求。当我们设置的排序区缓存大小无法满足排序实际所需内存的时候，MySQL会将数据写入磁盘文件来完成排序。由于磁盘和内存的读写性能完全不在一个数量级，所以sort_buffer_size参数对排序操作的性能影响绝对不可小视。排序操作的实现原理请参考：MySQL Order By 的实现分析。
+Join操作使用内存(join_buffer_size)：应用程序经常会出现一些两表（或多表）Join的操作需求，MySQL在完成某些 Join 需求的时候（all/indexjoin），为了减少参与Join的“被驱动表”的读取次数以提高性能，需要使用到 Join Buffer 来协助完成 Join操作（具体Join 实现算法请参考：MySQL 中的 Join 基本实现原理）。当 Join Buffer 太小，MySQL 不会将该 Buffer 存入磁盘文件，而是先将Join Buffer中的结果集与需要 Join的表进行 Join 操作，然后清空 Join Buffer 中的数据，继续将剩余的结果集写入此 Buffer中，如此往复。这势必会造成被驱动表需要被多次读取，成倍增加 IO 访问，降低效率。
+顺序读取数据缓冲区使用内存(read_buffer_size)：这部分内存主要用于当需要顺序读取数据的时候，如无发使用索引的情况下的全表扫描，全索引扫描等。在这种时候，MySQL按照数据的存储顺序依次读取数据块，每次读取的数据快首先会暂存在read_buffer_size中，当 buffer空间被写满或者全部数据读取结束后，再将buffer中的数据返回给上层调用者，以提高效率。
+随机读取数据缓冲区使用内存(read_rnd_buffer_size)：和顺序读取相对应，当MySQL进行非顺序读取（随机读取）数据块的时候，会利用这个缓冲区暂存读取的数据。如根据索引信息读取表数据，根据排序后的结果集与表进行Join等等。总的来说，就是当数据块的读取需要满足一定的顺序的情况下，MySQL 就需要产生随机读取，进而使用到 read_rnd_buffer_size参数所设置的内存缓冲区。
+连接信息及返回客户端前结果集暂存使用内存(net_buffer_size)：这部分用来存放客户端连接线程的连接信息和返回客户端的结果集。当 MySQL 开始产生可以返回的结果集，会在通过网络返回给客户端请求线程之前，会先暂存在通过net_buffer_size所设置的缓冲区中，等满足一定大小的时候才开始向客户端发送，以提高网络传输效率。不过，net_buffer_size参数所设置的仅仅只是该缓存区的初始化大小，MySQL 会根据实际需要自行申请更多的内存以满足需求，但最大不会超过max_allowed_packet 参数大小。
+**批量插入暂存使用内存(bulk_insert_buffer_size)：**当我们使用如 insert …values(…),(…),(…)… 的方式进行批量插入的时候，MySQL会先将提交的数据放如一个缓存空间中，当该缓存空间被写满或者提交完所有数据之后，MySQL才会一次性将该缓存空间中的数据写入数据库并清空缓存。此外，当我们进行 LOAD DATA INFILE 操作来将文本文件中的数据 Load进数据库的时候，同样会使用到此缓冲区。
+**临时表使用内存(tmp_table_size)：**当我们进行一些特殊操作如需要使用临时表才能完成的Order By，Group By 等等，MySQL 可能需要使用到临时表。当我们的临时表较小（小于 tmp_table_size参数所设置的大小）的时候，MySQL 会将临时表创建成内存临时表，只有当 tmp_table_size所设置的大小无法装下整个临时表的时候，MySQL 才会将该表创建成 MyISAM 存储引擎的表存放在磁盘上。不过，当另一个系统参数max_heap_table_size 的大小还小于 tmp_table_size 的时候，MySQL 将使用max_heap_table_size 参数所设置大小作为最大的内存临时表大小，而忽略 tmp_table_size 所设置的值。而且tmp_table_size 参数从 MySQL 5.</description>
+    </item>
+    
+    <item>
+      <title>[译]Innodb 性能优化基础</title>
+      <link>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</link>
+      <pubDate>Sun, 19 Apr 2009 14:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</guid>
+      <description>Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).</description>
+    </item>
+    
+    <item>
+      <title>［翻译］［注解］Innodb Performance Optimization Basics</title>
+      <link>http://example.org/2009/04/19/innodb-performance-optimization-basics/</link>
+      <pubDate>Sun, 19 Apr 2009 14:47:07 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/innodb-performance-optimization-basics/</guid>
+      <description>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4.</description>
+    </item>
+    
+    <item>
+      <title>什么时候该增加MySQL数据库的内存？</title>
+      <link>http://example.org/2009/04/18/mysql-when-add-memory/</link>
+      <pubDate>Sat, 18 Apr 2009 22:46:45 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/18/mysql-when-add-memory/</guid>
+      <description>除了优化好数据库配置文件外，更换/增加MySQL数据库服务器的硬件，是提高数据库性能最直接有效的方法。
+这里先从最便宜的内存入手。（服务器内存和硬盘价格一般是台式机的5倍左右）
+最便捷的方法是使用 mysqlreport，来持续关注报告里面‘Key’和‘InnoDB Buffer Pool’这两个部分。如果你的my.cnf参数设置正确，但是Read hit一直低于99%，那么就要考虑增加内存了。
+那么Read hit是怎么计算出来的呢？为什么要持续关注？在MySQL的命令行下：
+mysql&amp;gt; show status like &#39;key_read%&#39;; +-------------------+------------+ | Variable_name | Value | +-------------------+------------+ | Key_read_requests | 3041374401 | | Key_reads | 60959876 | +-------------------+------------+ 2 rows in set (0.02 sec) key_efficiency(Read hit) = 1 - (Key_reads / Key_read_requests) = 97.995647100207184% mysql&amp;gt; show status like &#39;Innodb_buffer_pool_read%&#39;; +-----------------------------------+------------+ | Variable_name | Value | +-----------------------------------+------------+ | Innodb_buffer_pool_read_ahead_rnd | 1660545 | | Innodb_buffer_pool_read_ahead_seq | 576767 | | Innodb_buffer_pool_read_requests | 2080081461 | | Innodb_buffer_pool_reads | 292415839 | +-----------------------------------+------------+ 4 rows in set (0.</description>
+    </item>
+    
+    <item>
+      <title>mysql中InnoDB的强制恢复</title>
+      <link>http://example.org/2009/04/17/mysql-innodb-force-recover/</link>
+      <pubDate>Fri, 17 Apr 2009 17:58:26 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/mysql-innodb-force-recover/</guid>
+      <description>如果数据库页被破坏，你可能想要用SELECT INTO OUTFILE从从数据库转储你的表，通常以这种方法获取的大多数数据是完好的。即使这样，损坏可能导致SELECT * FROM tbl_name或者InnoDB后台操作崩溃或断言，或者甚至使得InnoDB前滚恢复崩溃。 尽管如此，你可以用它来强制InnoDB存储引擎启动同时阻止后台操作运行，以便你能转储你的表。例如：你可以在重启服务器之前，在选项文件的[mysqld]节添加如下的行：
+[mysqld] innodb_force_recovery = 4 innodb_force_recovery 被允许的非零值如下。一个更大的数字包含所有更小数字的预防措施。如果你能够用一个多数是4的选项值来转储你的表，那么你是比较安全的，只有一些在损坏的单独页面上的数据会丢失。一个为6的值更夸张，因为数据库页被留在一个陈旧的状态，这个状态反过来可以引发对B树和其它数据库结构的更多破坏。
+· 1 (SRV_FORCE_IGNORE_CORRUPT)
+即使服务器检测到一个损坏的页，也让服务器运行着；试着让SELECT * FROM tbl_name 跳过损坏的索引记录和页，这样有助于转储表。
+· 2 (SRV_FORCE_NO_BACKGROUND)
+阻止主线程运行，如果崩溃可能在净化操作过程中发生，这将阻止它。
+· 3 (SRV_FORCE_NO_TRX_UNDO)
+恢复后不运行事务回滚。
+· 4 (SRV_FORCE_NO_IBUF_MERGE)
+也阻止插入缓冲合并操作。如果你可能会导致一个崩溃。最好不要做这些操作，不要计算表统计表。
+· 5 (SRV_FORCE_NO_UNDO_LOG_SCAN)
+启动数据库之时不查看未完成日志：InnoDB把未完成的事务视为已提交的。
+· 6 (SRV_FORCE_NO_LOG_REDO)
+不要在恢复连接中做日志前滚。
+数据库不能另外地带着这些选项中被允许的选项来使用。作为一个安全措施，当innodb_force_recovery被设置为大于0的值时，InnoDB阻止用户执行INSERT, UPDATE或DELETE操作.
+即使强制恢复被使用，你也可以DROP或CREATE表。如果你知道一个给定的表正在导致回滚崩溃，你可以移除它。你也可以用这个来停止由失败的大宗导入或失败的ALTER TABLE导致的失控回滚。你可以杀掉mysqld进程，然后设置innodb_force_recovery为3，使得数据库被挂起而不需要回滚，然后舍弃导致失控回滚的表。
+本文地址：http://www.bhcode.net/article/20090227/4256.html</description>
+    </item>
+    
+    <item>
+      <title>只有一个ibd文件如何恢复数据表</title>
+      <link>http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/</link>
+      <pubDate>Fri, 17 Apr 2009 17:50:28 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/</guid>
+      <description>如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：
+1、一是知道所有需要恢复表的创建语句
+2、需要一个16进制的编辑器，修改表id
+具体的内容请看原文：
+Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.
+However, I’ve found two work-arounds for this:
+Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods.</description>
+    </item>
+    
+    <item>
+      <title>优化MySQL数据库性能的八种方法</title>
+      <link>http://example.org/2009/03/30/e4bc98e58c96mysqle695b0e68daee5ba93e680a7e883bde79a84e585abe7a78de696b9e6b395/</link>
+      <pubDate>Mon, 30 Mar 2009 20:01:42 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/30/e4bc98e58c96mysqle695b0e68daee5ba93e680a7e883bde79a84e585abe7a78de696b9e6b395/</guid>
+      <description>1、选取最适用的字段属性 MySQL可以很好的支持大数据量的存取，但是一般说来，数据库中的表越小，在它上面执行的查询也就会越快。因此，在创建表的时候，为了获得更好的 性能，我们可以将表中字段的宽度设得尽可能小。例如，在定义邮政编码这个字段时，如果将其设置为CHAR(255),显然给数据库增加了不必要的空间， 甚至使用VARCHAR这种类型也是多余的，因为CHAR(6)就可以很好的完成任务了。同样的，如果可以的话，我们应该使用MEDIUMINT而不是 BIGIN来定义整型字段。
+另外一个提高效率的方法是在可能的情况下，应该尽量把字段设置为NOT NULL，这样在将来执行查询的时候，数据库不用去比较NULL值。
+对于某些文本字段，例如“省份”或者“性别”，我们可以将它们定义为ENUM类型。因为在MySQL中，ENUM类型被当作数值型数据来处理，而数 值型数据被处理起来的速度要比文本类型快得多。这样，我们又可以提高数据库的性能。
+2、使用连接（JOIN）来代替子查询(Sub-Queries)
+MySQL从4.1开始支持SQL的子查询。这个技术可以使用SELECT语句来创建一个单列的查询结果，然后把这个结果作为过滤条件用在另一个查 询中。例如，我们要将客户基本信息表中没有任何订单的客户删除掉，就可以利用子查询先从销售信息表中将所有发出订单的客户ID取出来，然后将结果传递给 主查询，如下所示：
+DELETE FROM customerinfo WHERE CustomerID NOT in (SELECT CustomerID FROM salesinfo )
+使用子查询可以一次性的完成很多逻辑上需要多个步骤才能完成的SQL操作，同时也可以避免事务或者表锁死，并且写起来也很容易。但是，有些情况下， 子查询可以被更有效率的连接（JOIN）.. 替代。例如，假设我们要将所有没有订单记录的用户取出来，可以用下面这个查询完成：
+SELECT * FROM customerinfo WHERE CustomerID NOT in (SELECT CustomerID FROM salesinfo )
+如果使用连接（JOIN）.. 来完成这个查询工作，速度将会快很多。尤其是当salesinfo表中对CustomerID建有索引的话，性能将 会更好，查询如下：
+SELECT * FROM customerinfo LEFT JOIN salesinfoON customerinfo.CustomerID=salesinfo. CustomerID WHERE salesinfo.CustomerID IS NULL
+连接（JOIN）.. 之所以更有效率一些，是因为 MySQL不需要在内存中创建临时表来完成这个逻辑上的需要两个步骤的查询工作。
+3、使用联合(UNION)来代替手动创建的临时表
+MySQL 从 4.0 的版本开始支持 UNION 查询，它可以把需要使用临时表的两条或更多的 SELECT 查询合并的一个查询中。在客户 端的查询会话结束的时候，临时表会被自动删除，从而保证数据库整齐、高效。使用 UNION 来创建查询的时候，我们只需要用 UNION作为关键字把 多个 SELECT 语句连接起来就可以了，要注意的是所有 SELECT 语句中的字段数目要想同。下面的例子就演示了一个使用 UNION的查 询。</description>
+    </item>
+    
+    <item>
+      <title>[原创] MySQL Proxy 学习笔记</title>
+      <link>http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/</link>
+      <pubDate>Sun, 29 Mar 2009 16:25:50 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/</guid>
+      <description>作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu
+【 测试平台 】
+**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32
+注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】
+$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/
+如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】
+执行 mysql-proxy &amp;ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：
+管理功能选项</description>
+    </item>
+    
+    <item>
+      <title>Mysql安装&amp;同步</title>
+      <link>http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/</link>
+      <pubDate>Sat, 28 Mar 2009 20:59:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/</guid>
+      <description>装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&amp;gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&amp;gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&amp;gt; groupadd mysql
+shell&amp;gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&amp;gt; cd /usr/local
+shell&amp;gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&amp;gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&amp;gt; cd mysql
+shell&amp;gt; scripts/mysql_install_db &amp;ndash;user=mysql
+/如果你用root运行命令，应当使用&amp;ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&amp;ndash;user选项。/
+shell&amp;gt; chown -R root .
+shell&amp;gt; chown -R mysql data</description>
+    </item>
+    
+    <item>
+      <title>my.cnf 注释</title>
+      <link>http://example.org/2009/03/28/mycnf-e6b3a8e9878a/</link>
+      <pubDate>Sat, 28 Mar 2009 16:38:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/mycnf-e6b3a8e9878a/</guid>
+      <description>从 hi!admin 抄来的一份配置.注释得非常好.精
+#BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO
+此mysql配置文件例子针对4G内存 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器
+将此文件复制到/etc/my.cnf 作为全局设置, mysql-data-dir/my.cnf 作为服务器指定设置 (@localstatedir@ for this installation) 或者放入 ~/.my.cnf 作为用户设置. 在此配置文件中, 你可以使用所有程序支持的长选项. 如果想获悉程序支持的所有选项 请在程序后加上&amp;quot;&amp;ndash;help&amp;quot;参数运行程序. 关于独立选项更多的细节信息可以在手册内找到 以下选项会被MySQL客户端应用读取. 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. 如果你想你自己的MySQL应用程序获取这些值 需要在MySQL客户端库初始化的时候指定这些选项 [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@
+*** 应用定制选项 *** MySQL 服务端 [mysqld]
+一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@
+back_log 是操作系统在监听队列中所能保持的连接数, 队列保存了在MySQL连接管理器线程处理之前的连接. 如果你有非常高的连接率并且出现&amp;quot;connection refused&amp;quot; 报错, 你就应该增加此处的值.</description>
+    </item>
+    
+    <item>
+      <title>InnoDB行锁特点</title>
+      <link>http://example.org/2009/03/28/innodbe8a18ce99481e789b9e782b9/</link>
+      <pubDate>Sat, 28 Mar 2009 16:15:24 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/innodbe8a18ce99481e789b9e782b9/</guid>
+      <description>InnoDB行锁是通过给索引上的索引项加锁来实现的，这一点MySQL与ORACLE不同，后者是通过在数据块中对相应数据行加锁来实现的。InnoDB这种行锁实现特点意味着：只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁！
+在实际应用中，要特别注意InnoDB行锁的这一特性，不然的话，可能导致大量的锁冲突，从而影响并发性能。下面我们通过一些实际例子，来加以说明。
+（1）在不通过索引条件查询的时候，InnoDB确实使用的是表锁，而不是行锁。
+下面的例子中，开始tab_no_index表没有索引：
+mysql&amp;gt; create table tab_no_index(id int,name varchar(10)) engine=innodb; Query OK, 0 rows affected (0.15 sec) mysql&amp;gt; insert into tab_no_index values(1,&#39;1&#39;),(2,&#39;2&#39;),(3,&#39;3&#39;),(4,&#39;4&#39;); Query OK, 4 rows affected (0.00 sec) Records: 4 Duplicates: 0 Warnings: 0 InnoDB存储引擎的表在不使用索引时使用表锁例子 session_1 session_2 mysql&amp;gt; set autocommit=0; Query OK, 0 rows affected (0.00 sec) mysql&amp;gt; select * from tab_no_index where id = 1 ; +------+------+ | id | name | +------+------+ | 1 | 1 | +------+------+ 1 row in set (0.</description>
+    </item>
+    
+    <item>
+      <title>InnoDB和MyISAM的差别</title>
+      <link>http://example.org/2009/03/28/innodbe5928cmyisame79a84e5b7aee588ab/</link>
+      <pubDate>Sat, 28 Mar 2009 16:11:42 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/innodbe5928cmyisame79a84e5b7aee588ab/</guid>
+      <description>InnoDB和MyISAM是在使用MySQL最常用的两个表类型，各有优缺点，视具体应用而定。基本的差别为：MyISAM类型不支持事务处理等 高级处理，而InnoDB类型支持。MyISAM类型的表强调的是性能，其执行数度比InnoDB类型更快，但是不提供事务支持，而InnoDB提供事务 支持已经外部键等高级数据库功能。 MyIASM是IASM表的新版本，有如下扩展：
+二进制层次的可移植性。
+NULL列索引。
+对变长行比ISAM表有更少的碎片。
+支持大文件。
+更好的索引压缩。
+更好的键吗统计分布。
+更好和更快的auto_increment处理。 每个MyISAM表最大索引数是64。 这可以通过重新编译来改变。每个索引最大的列数是16个。
+以下是一些细节和具体实现的差别： 1.InnoDB不支持FULLTEXT类型的索引。 2.InnoDB 中不保存表的具体行数，也就是说，执行select count() from table时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count()语句包含 where条件时，两种表的操作是一样的。 3.对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。 4.DELETE FROM table时，InnoDB不会重新建立表，而是一行一行的删除。 5.LOAD TABLE FROM MASTER操作对InnoDB是不起作用的，解决方法是首先把InnoDB表改成MyISAM表，导入数据后再改成InnoDB表，但是对于使用的额外的InnoDB特性（例如外键）的表不适用。
+另外，InnoDB表的行锁也不是绝对的，如果在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表，例如update table set num=1 where name like “%aaa%” 任何一种表都不是万能的，只用恰当的针对业务类型来选择合适的表类型，才能最大的发挥MySQL的性能优势。 http://dev.mysql.com/doc/refman/5.1/zh/storage-engines.html</description>
+    </item>
+    
+    <item>
+      <title>MySQL 語法 詳細執行時間 與 CPU/記憶體使用</title>
+      <link>http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/</link>
+      <pubDate>Sat, 28 Mar 2009 15:34:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/mysql-e8aa9ee6b395-e8a9b3e7b4b0e59fb7e8a18ce69982e99693-e88887-cpue8a898e686b6e9ab94e4bdbfe794a8/</guid>
+      <description>查看 MySQL 語法 詳細執行時間 與 CPU/記憶體使用量: MySQL Query Profiler MySQL 的 SQL 語法調整主要都是使用 EXPLAIN, 但是這個並沒辦法知道詳細的 Ram(Memory)/CPU 等使用量.
+於 MySQL 5.0.37 以上開始支援 MySQL Query Profiler, 可以查詢到此 SQL 會執行多少時間, 並看出 CPU/Memory 使用量, 執行過程中 System lock, Table lock 花多少時間等等.
+MySQL Query Profile 詳細介紹可見: Using the New MySQL Query Profiler (2007.04.05 發表)
+效能分析主要分下述三種(轉載自上篇):
+Bottleneck analysis - focuses on answering the questions: What is my database server waiting on; what is a user connection waiting on; what is a piece of SQL code waiting on?</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>Installing MySQL 5.1 on FreeBSD</title>
+      <link>http://example.org/2009/03/28/installing-mysql-51-on-freebsd/</link>
+      <pubDate>Sat, 28 Mar 2009 15:14:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/installing-mysql-51-on-freebsd/</guid>
+      <description>This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &amp;quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&amp;quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql</description>
+    </item>
+    
+    <item>
+      <title>mysql explain详解</title>
+      <link>http://example.org/2009/03/25/mysql-explaine8afa6e8a7a3/</link>
+      <pubDate>Wed, 25 Mar 2009 18:31:19 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/mysql-explaine8afa6e8a7a3/</guid>
+      <description>在做sql查询的时候，应该想到explain，这样用来对sql的执行效率进行分析。
+mysql explain的详解 explain显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。 使用方法，在select语句前加上explain就可以了：
+如：explain select surname,first_name form a,b where a.id=b.id
+分析结果形式如下：
+table type possible_keys key key_len ref rows extra a range id first_name First_name 9 NULL 23112 Using where　Using temporary　Using filesort b ref id　first_name id 4 id 2 Using where
+EXPLAIN列的解释：
+table：显示这一行的数据是关于哪张表的 type：这是重要的列，显示连接使用了何种类型。从最好到最差的连接类型为const、eq_reg、ref、range、indexhe和ALL possible_keys：显示可能应用在这张表中的索引。如果为空，没有可能的索引。可以为相关的域从WHERE语句中选择一个合适的语句 key：实际使用的索引。如果为NULL，则没有使用索引。很少的情况下，MYSQL会选择优化不足的索引。这种情况下，可以在SELECT语句中使用 USE INDEX（indexname）来强制使用一个索引或者用IGNORE INDEX（indexname）来强制MYSQL忽略索引 key_len：使用的索引的长度。在不损失精确性的情况下，长度越短越好 ref：显示索引的哪一列被使用了，如果可能的话，是一个常数 rows：MYSQL认为必须检查的用来返回请求数据的行数 Extra：关于MYSQL如何解析查询的额外信息。将在表4.3中讨论，但这里可以看到的坏的例子是Using temporary和Using filesort，意思MYSQL根本不能使用索引，结果是检索会很慢 extra列返回的描述的意义 Distinct:一旦MYSQL找到了与行相联合匹配的行，就不再搜索了 Not exists: MYSQL优化了LEFT JOIN，一旦它找到了匹配LEFT JOIN标准的行，就不再搜索了 Range checked for each Record（index map:#）:没有找到理想的索引，因此对于从前面表中来的每一个行组合，MYSQL检查使用哪个索引，并用它来从表中返回行。这是使用索引的最慢的连接之一 Using filesort: 看到这个的时候，查询就需要优化了。MYSQL需要进行额外的步骤来发现如何对返回的行排序。它根据连接类型以及存储排序键值和匹配条件的全部行的行指针来排序全部行 Using index: 列数据是从仅仅使用了索引中的信息而没有读取实际的行动的表返回的，这发生在对表的全部的请求列都是同一个索引的部分的时候 Using temporary 看到这个的时候，查询需要优化了。这里，MYSQL需要创建一个临时表来存储结果，这通常发生在对不同的列集进行ORDER BY上，而不是GROUP BY上 Where used 使用了WHERE从句来限制哪些行将与下一张表匹配或者是返回给用户。如果不想返回表中的全部行，并且连接类型ALL或index，这就会发生，或者是查询有问题不同连接类型的解释（按照效率高低的顺序排序） system 表只有一行：system表。这是const连接类型的特殊情况 const:表中的一个记录的最大值能够匹配这个查询（索引可以是主键或惟一索引）。因为只有一行，这个值实际就是常数，因为MYSQL先读这个值然后把它当做常数来对待 eq_ref:在连接中，MYSQL在查询时，从前面的表中，对每一个记录的联合都从表中读取一个记录，它在查询使用了索引为主键或惟一键的全部时使用 ref:这个连接类型只有在查询使用了不是惟一或主键的键或者是这些类型的部分（比如，利用最左边前缀）时发生。对于之前的表的每一个行联合，全部记录都将从表中读出。这个类型严重依赖于根据索引匹配的记录多少—越少越好 range:这个连接类型使用索引返回一个范围中的行，比如使用&amp;gt;或&amp;lt;查找东西时发生的情况 index: 这个连接类型对前面的表中的每一个记录联合进行完全扫描（比ALL更好，因为索引一般小于表数据） ALL:这个连接类型对于前面的每一个记录联合进行完全扫描，这一般比较糟糕，应该尽量避免</description>
+    </item>
+    
+    <item>
+      <title>试析FreeBSD 6.2 的rc脚本系统</title>
+      <link>http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/</link>
+      <pubDate>Wed, 25 Mar 2009 11:20:52 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/</guid>
+      <description>杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&amp;quot;YES&amp;quot; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&amp;gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&amp;gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to &amp;ldquo;NO&amp;rdquo; by default.</description>
+    </item>
+    
+    <item>
+      <title>mysql 压力测试结果</title>
+      <link>http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/</link>
+      <pubDate>Wed, 25 Mar 2009 09:13:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/</guid>
+      <description>freebsd 7.0 amd64
+mysqlslap -a --concurrency=5,10,20,50,150 --number-of-queries 100000 --debug-info Benchmark Average number of seconds to run all queries: 766.733 seconds Minimum number of seconds to run all queries: 766.733 seconds Maximum number of seconds to run all queries: 766.733 seconds Number of clients running queries: 5 Average number of queries per client: 20000 Benchmark Average number of seconds to run all queries: 820.050 seconds Minimum number of seconds to run all queries: 820.</description>
+    </item>
+    
+    <item>
+      <title>用Mysqlslap压力测试mysql（转）</title>
+      <link>http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/</link>
+      <pubDate>Wed, 25 Mar 2009 07:59:31 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/</guid>
+      <description>转自 http://yueliangdao0608.blog.51cto.com/397025/81602
+MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及&amp;ndash;help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：
+--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23
+[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0.</description>
+    </item>
+    
+    <item>
+      <title>Sphinx Storage Engine in MySQL via FreeBSD Ports</title>
+      <link>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</link>
+      <pubDate>Mon, 23 Mar 2009 16:59:55 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/sphinx-storage-engine-in-mysql-via-freebsd-ports/</guid>
+      <description>系統：FreeBSD 7.1-RELEASE MySQL：5.1.30 Sphinx：0.9.8.1
+mysql51-server.diff diff -Nur /usr/ports/databases/mysql51-server/Makefile mysql51-server/Makefile — /usr/ports/databases/mysql51-server/Makefile 2008-07-27 09:56:19.000000000 +0100 +++ mysql51-server/Makefile 2008-08-06 16:20:51.000000000 +0100 @@ -60,6 +60,16 @@ CONFIGURE_ARGS+=–with-collation=${WITH_COLLATION} .endif +# Sphinx Engine +.if defined(WITH_SPHINXSE) +SPHINX_PORT?= textproc/sphinxsearch +SPHINX_WRKSRC= cd ${PORTSDIR}/${SPHINX_PORT} &amp;amp;&amp;amp; ${MAKE} -V WRKSRC + +EXTRACT_DEPENDS+= ${NONEXISTENT}:${PORTSDIR}/${SPHINX_PORT}:extract +RUN_DEPENDS+= searchd:${PORTSDIR}/${SPHINX_PORT} +USE_AUTOTOOLS+= autoconf:262 automake:110 +.endif + .include .if ${ARCH} == “i386″ @@ -124,8 +134,14 @@ @${ECHO} “ BUILD_STATIC=yes Build a static version of mysqld.” @${ECHO} “ (use it if you need even more speed).</description>
+    </item>
+    
+    <item>
+      <title>MySQL分表优化试验</title>
+      <link>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</link>
+      <pubDate>Wed, 18 Mar 2009 10:11:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</guid>
+      <description>我们的项目中有好多不等于的情况。今天写这篇文章简单的分析一下怎么个优化法。 这里的分表逻辑是根据t_group表的user_name组的个数来分的。 因为这种情况单独user_name字段上的索引就属于烂索引。起不了啥名明显的效果。
+1、试验PROCEDURE. DELIMITER $$ DROP PROCEDURE `t_girl`.`sp_split_table`$$ CREATE PROCEDURE `t_girl`.`sp_split_table`() BEGIN declare done int default 0; declare v_user_name varchar(20) default &#39;&#39;; declare v_table_name varchar(64) default &#39;&#39;; -- Get all users&#39; name. declare cur1 cursor for select user_name from t_group group by user_name; -- Deal with error or warnings. declare continue handler for 1329 set done = 1; -- Open cursor. open cur1; while done &amp;lt;&amp;gt; 1 do fetch cur1 into v_user_name; if not done then -- Get table name.</description>
+    </item>
+    
+    <item>
+      <title>转： 关于MySQL的查询缓存</title>
+      <link>http://example.org/2009/03/18/e8bdacefbc9a-e585b3e4ba8emysqle79a84e69fa5e8afa2e7bc93e5ad98/</link>
+      <pubDate>Wed, 18 Mar 2009 04:52:48 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/e8bdacefbc9a-e585b3e4ba8emysqle79a84e69fa5e8afa2e7bc93e5ad98/</guid>
+      <description>最近发现用户注册老是出错,不确定问题所在,不知道是不是SQL CACHE引起的,
+原理 QueryCache(下面简称QC)是根据SQL语句来cache的。一个SQL查询如果以select开头，那么MySQL服务器将尝试对其使用 QC。每个Cache都是以SQL文本作为key来存的。在应用QC之前，SQL文本不会被作任何处理。也就是说，两个SQL语句，只要相差哪怕是一个字符（例如大小写不一样；多一个空格等），那么这两个SQL将使用不同的一个CACHE。
+不过SQL文本有可能会被客户端做一些处理。例如在官方的命令行客户端里，在发送SQL给服务器之前，会做如下处理： 过滤所有注释 去掉SQL文本前后的空格,TAB等字符。注意，是文本前面和后面的。中间的不会被去掉。
+下面的三条SQL里，因为SELECT大小写的关系，最后一条和其他两条在QC里肯定是用的不一样的存储位置。而第一条和第二条，区别在于后者有个注释，在不同客户端，会有不一样的结果。所以，保险起见，请尽量不要使用动态的注释。在PHP的mysql扩展里，SQL的注释是不会被去掉的。也就是三条 SQL会被存储在三个不同的缓存里，虽然它们的结果都是一样的。
+select * FROM people where name=&#39;surfchen&#39;; select * FROM people where /*hey~*/name=&#39;surfchen&#39;; SELECT * FROM people where name=&#39;surfchen&#39;; 目前只有select语句会被cache，其他类似show,use的语句则不会被cache。 因为QC是如此前端，如此简单的一个缓存系统，所以如果一个表被更新，那么和这个表相关的SQL的所有QC都会被失效。假设一个联合查询里涉及到了表A和表B，如果表A或者表B的其中一个被更新（update或者delete），这个查询的QC将会失效。 也就是说，如果一个表被频繁更新，那么就要考虑清楚究竟是否应该对相关的一些SQL进行QC了。一个被频繁更新的表如果被应用了QC，可能会加重数据库的负担，而不是减轻负担。我一般的做法是默认打开QC，而对一些涉及频繁更新的表的SQL语句加上SQL_NO_CACHE关键词来对其禁用CACHE。这样可以尽可能避免不必要的内存操作，尽可能保持内存的连续性。 那些查询很分散的SQL语句，也不应该使用QC。例如用来查询用户和密码的语句——“select pass from user where name=&#39;surfchen&#39;”。这样的语句，在一个系统里，很有可能只在一个用户登陆的时候被使用。每个用户的登陆所用到的查询，都是不一样的SQL 文本，QC在这里就几乎不起作用了，因为缓存的数据几乎是不会被用到的，它们只会在内存里占地方。 存储块 在本节里“存储块”和“block”是同一个意思 QC缓存一个查询结果的时候，一般情况下不是一次性地分配足够多的内存来缓存结果的。而是在查询结果获得的过程中，逐块存储。当一个存储块被填满之后，一个新的存储块将会被创建，并分配内存（allocate）。单个存储块的内存分配大小通过query_cache_min_res_unit参数控制，默认为4KB。最后一个存储块，如果不能被全部利用，那么没使用的内存将会被释放。如果被缓存的结果很大，那么会可能会导致分配内存操作太频繁，系统系能也随之下降；而如果被缓存的结果都很小，那么可能会导致内存碎片过多，这些碎片如果太小，就很有可能不能再被分配使用。 除了查询结果需要存储块之外，每个SQL文本也需要一个存储块，而涉及到的表也需要一个存储块（表的存储块是所有线程共享的，每个表只需要一个存储块）。存储块总数量=查询结果数量*2+涉及的数据库表数量。也就是说，第一个缓存生成的时候，至少需要三个存储块：表信息存储块，SQL文本存储块，查询结果存储块。而第二个查询如果用的是同一个表，那么最少只需要两个存储块：SQL文本存储块，查询结果存储块。 通过观察Qcache_queries_in_cache和Qcache_total_blocks可以知道平均每个缓存结果占用的存储块。它们的比例如果接近1:2，则说明当前的query_cache_min_res_unit参数已经足够大了。如果Qcache_total_blocks比 Qcache_queries_in_cache多很多，则需要增加query_cache_min_res_unit的大小。 Qcache_queries_in_cache*query_cache_min_res_unit（sql文本和表信息所在的block占用的内存很小，可以忽略）如果远远大于query_cache_size-Qcache_free_memory，那么可以尝试减小 query_cache_min_res_unit的值。 调整大小 如果Qcache_lowmem_prunes增长迅速，意味着很多缓存因为内存不够而被释放，而不是因为相关表被更新。尝试加大query_cache_size，尽量使Qcache_lowmem_prunes零增长。 启动参数 show variables like &#39;query_cache%&#39;可以看到这些信息。 query_cache_limit:如果单个查询结果大于这个值，则不Cache query_cache_size:分配给QC的内存。如果设为0，则相当于禁用QC。要注意QC必须使用大约40KB来存储它的结构，如果设定小于 40KB,则相当于禁用QC。QC存储的最小单位是1024 byte，所以如果你设定了一个不是1024的倍数的值，这个值会被四舍五入到最接近当前值的等于1024的倍数的值。 query_cache_type:0 完全禁止QC，不受SQL语句控制（另外可能要注意的是，即使这里禁用，上面一个参数所设定的内存大小还是会被分配）；1启用QC，可以在SQL语句使用 SQL_NO_CACHE禁用；2可以在SQL语句使用SQL_CACHE启用。 query_cache_min_res_unit:每次给QC结果分配内存的大小 状态 show status like &#39;Qcache%&#39;可以看到这些信息。 Qcache_free_blocks:当一个表被更新之后，和它相关的cache blocks将被free。但是这个block依然可能存在队列中，除非是在队列的尾部。这些blocks将会被统计到这个值来。可以用FLUSH QUERY CACHE语句来清空free blocks。 Qcache_free_memory:可用内存，如果很小，考虑增加query_cache_size Qcache_hits:自mysql进程启动起，cache的命中数量 Qcache_inserts:自mysql进程启动起，被增加进QC的数量 Qcache_lowmem_prunes:由于内存过少而导致QC被删除的条数。加大query_cache_size，尽可能保持这个值0增长。 Qcache_not_cached:自mysql进程启动起，没有被cache的只读查询数量（包括select,show,use,desc等） Qcache_queries_in_cache:当前被cache的SQL数量 Qcache_total_blocks:在QC中的blocks数。一个query可能被多个blocks存储，而这几个blocks中的最后一个，未用满的内存将会被释放掉。例如一个QC结果要占6KB内存，如果query_cache_min_res_unit是4KB，则最后将会生成3个 blocks，第一个block用来存储sql语句文本，这个不会被统计到query+cache_size里，第二个block为4KB，第三个 block为2KB（先allocate4KB，然后释放多余的2KB）。每个表，当第一个和它有关的SQL查询被CACHE的时候，会使用一个 block来存储表信息。也就是说，block会被用在三处地方：表信息，SQL文本，查询结果。 另外一篇： 如果 MySQL Server 负载比较高，处理非常繁忙的话，可以启动Query Cache 以加速响应时间，启动方法可以在my.</description>
+    </item>
+    
+    <item>
+      <title>在SQL数据库中得到重复次数最多的记录</title>
+      <link>http://example.org/2007/06/27/e59ca8sqle695b0e68daee5ba93e4b8ade5be97e588b0e9878de5a48de6aca1e695b0e69c80e5a49ae79a84e8aeb0e5bd95/</link>
+      <pubDate>Wed, 27 Jun 2007 10:08:49 +0000</pubDate>
+      
+      <guid>http://example.org/2007/06/27/e59ca8sqle695b0e68daee5ba93e4b8ade5be97e588b0e9878de5a48de6aca1e695b0e69c80e5a49ae79a84e8aeb0e5bd95/</guid>
+      <description>接着昨天没有写完的那个无重复的随即数字的程序，我们展开来讲！既然做这个程序的的目的是为了对买彩票的程序作准备！所以我要把 每次 的结果保存到SQL server 数据库中！我的想法是首先运行100万次摇奖的程序后，将这100万条数据存放到数据库中,然后用SQL语句选择出重复次数最多的一组数据，这个就是我的想法！大家仅仅是参考，千万不要模仿呀：）前面我们已经说过如何生成不重复的随即数，我们就利用那个函数来生成一组数据，如此重复100万次！经过3个小时的运算以后，我们得到了一组巨大的记录，下面我们来看看 如何得到 重复次数最多的一组号码呢？我们以前曾经讲过，使用distinct 可以使我们得到一个不重复的记录集(select distinct * from table1)，那么怎么得到有重复的记录集呢,显然 简单的使用关键字是不可能实现的了，豆腐最终确定使用Having子句来实现这样的功能,SQL 语句如下,select * from table1 having count()&amp;gt;1 这样我们就得到了一个所有记录重复次数超过一次的记录集，我们利用如下语句 select count() ccount from table1 group by a1,a2,a3,a4,a5,a6,a7 having count(*)&amp;gt;! order by ccount desc 这样得到的第一个记录就是出现重复次数最多的那组数字。
+/* 豆腐制作 都是精品 http://www.asp888.net 豆腐技术站 如转载 请保留完整版权信息 */</description>
+    </item>
+    
+    <item>
+      <title>mysql化化</title>
+      <link>http://example.org/2007/06/27/mysqle58c96e58c96/</link>
+      <pubDate>Wed, 27 Jun 2007 10:05:46 +0000</pubDate>
+      
+      <guid>http://example.org/2007/06/27/mysqle58c96e58c96/</guid>
+      <description>同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。
+安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf
+my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的
+配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache
+1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实
+际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和
+Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可
+能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如
+果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人
+通过phpmyadmin获得的
+实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好
+另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大
+2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今
+后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最
+多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks</description>
+    </item>
+    
+    <item>
+      <title>今天ＰＰ帮忙的!</title>
+      <link>http://example.org/2006/09/05/e4bb8ae5a4a9efbd90efbd90e5b8aee5bf99e79a84/</link>
+      <pubDate>Tue, 05 Sep 2006 07:25:25 +0000</pubDate>
+      
+      <guid>http://example.org/2006/09/05/e4bb8ae5a4a9efbd90efbd90e5b8aee5bf99e79a84/</guid>
+      <description>count(distinct a.id) as count
+以前还真没这么用过</description>
+    </item>
+    
+    <item>
+      <title>mysql 编译时增加字符集的配置</title>
+      <link>http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/</link>
+      <pubDate>Sun, 25 Jun 2006 03:04:35 +0000</pubDate>
+      
+      <guid>http://example.org/2006/06/25/mysql-e7bc96e8af91e697b6e5a29ee58aa0e5ad97e7aca6e99b86e79a84e9858de7bdae/</guid>
+      <description>如果你在你的my.cnf文件中增加了 default-character-set = gbk 但是当你无法启动mysql，错误日志里面报告类似于这样的： 060625 01:37:00 mysqld started
+^G/usr/local/mysql/libexec/mysqld: File &amp;lsquo;/usr/local/mysql/share/mysql/charsets/gb2312.conf&amp;rsquo; not found (Errcode: 2)
+^G/usr/local/mysql/libexec/mysqld: Character set &amp;lsquo;gb2312′ is not a compiled character set and is not specified in the &amp;lsquo;/usr/local/mysql/share/mysql/charsets/Index&amp;rsquo; file
+060625 01:37:00 mysqld ended 错误的时候，
+目前我的解决方法是重新编译mysql，在编译的参数中加入&amp;ndash;with-extra-charsets=gbk,gb2312 便可解决此问题。
+解决方法参考： MYSQL完全安装使用指南
+下面付上原文
+[quote]
+mysql安装笔记
+cloud/2003.10.10
+mail:flashc@21cn.com
+欢迎转载，转载请保留上述信息，谢谢
+学习了很长时间的linux，有必要做一下整理笔记了，以下是mysql的安装笔记,和常见的一些使用方法。
+因我喜欢调试优化系统,所以在编译安装时使用了一些选项增加编程后程序的执行效率,有些可能我理解有错,希望大家指出.
+●安装mysql
+tar zxvf mysql-4.0.14.tar.gz -C /setup cd /setup/mysql-4.0.14 groupadd mysql useradd mysql -g mysql -M -s /bin/false ./configure &amp;ndash;prefix=/web/mysql 指定安装目录 --without-debug 去除debug模式 --with-extra-charsets=gb2312 添加gb2312中文字符支持 --enable-assembler 使用一些字符函数的汇编版本 --without-isam 去掉isam表类型支持 现在很少用了 isam表是一种依赖平台的表 --without-innodb 去掉innodb表支持 innodb是一种支持事务处理的表,适合企业级应用 --with-pthread 强制使用pthread库(posix线程库) --enable-thread-safe-client 以线程方式编译客户端 --with-client-ldflags=-all-static --with-mysqld-ldflags=-all-static 以纯静态方式编译服务端和客户端 --with-raid 激活raid支持 make make install scripts/mysql_install_db 生成mysql用户数据库和表文件 cp support-files/my-medium.</description>
+    </item>
+    
+    <item>
+      <title>mysql转义字符的问题</title>
+      <link>http://example.org/2006/05/22/mysqle8bdace4b989e5ad97e7aca6e79a84e997aee9a298/</link>
+      <pubDate>Mon, 22 May 2006 07:54:15 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/22/mysqle8bdace4b989e5ad97e7aca6e79a84e997aee9a298/</guid>
+      <description>在php.ini中设置了 magic_quotes_gpc = On
+或者在程序运行时进行了转义字符
+那么存入mysql数据表中的 ‘ 将会变成 ’
+反过来显示的时候
+将会用到下面的函数进行处理。
+function un_magic_quote($value) { $value = is_array($value) ? array_map(&amp;quot;un_magic_quote&amp;quot;, $value) : stripslashes($value); return $value; } 参数$value的类型可以是数组或者字符串
+这样得出来的值就会变成 ‘ 而不是 ’ 了。
+在用SELECT &amp;hellip; LIKE &amp;hellip; 这个字段的时候，
+要这样写
+SELECT * FROM TABLE_NAME WHERE TABLE_FIELD LIKE “%\’%”
+这样可以把带有 ’ 的数据搜索出来，注意这里是”而非’</description>
+    </item>
+    
+    <item>
+      <title>mysql出现这个不知怎么回事</title>
+      <link>http://example.org/2006/05/20/mysqle587bae78eb0e8bf99e4b8aae4b88de79fa5e6808ee4b988e59b9ee4ba8b/</link>
+      <pubDate>Sat, 20 May 2006 17:12:01 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/20/mysqle587bae78eb0e8bf99e4b8aae4b88de79fa5e6808ee4b988e59b9ee4ba8b/</guid>
+      <description>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &amp;lsquo;Times New Roman&amp;rsquo;; mso-hansi-font-family: &amp;lsquo;Times New Roman
+真服了</description>
+    </item>
+    
+    <item>
+      <title>又出现Incorrect key file for table:</title>
+      <link>http://example.org/2006/05/15/e58f88e587bae78eb0incorrect-key-file-for-table/</link>
+      <pubDate>Mon, 15 May 2006 06:54:13 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/15/e58f88e587bae78eb0incorrect-key-file-for-table/</guid>
+      <description>真不知道MYSQL最近怎么了,老是出错
+解决方法还是修复一下
+REPAIR TABLE xxx</description>
+    </item>
+    
+    <item>
+      <title>mysql表无法打开</title>
+      <link>http://example.org/2006/05/13/mysqle8a1a8e697a0e6b395e68993e5bc80/</link>
+      <pubDate>Sat, 13 May 2006 13:26:17 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/13/mysqle8a1a8e697a0e6b395e68993e5bc80/</guid>
+      <description>出现#1016 - Can&amp;rsquo;t open file: &amp;lsquo;xxx.MYI&amp;rsquo; (errno: 145)
+不知怎么造成的，可能是垃圾太多了吧，优化一下就可以解决问题的
+REPAIR TABLE xxx就可以了</description>
+    </item>
+    
+    <item>
+      <title>用mysql的replace函数替换字符串</title>
+      <link>http://example.org/2006/05/04/e794a8mysqle79a84replacee587bde695b0e69bbfe68da2e5ad97e7aca6e4b8b2/</link>
+      <pubDate>Thu, 04 May 2006 22:45:17 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/04/e794a8mysqle79a84replacee587bde695b0e69bbfe68da2e5ad97e7aca6e4b8b2/</guid>
+      <description>用mysql的replace函数替换字符串
+比如你要将 表 tb1里面的 f1字段的abc替换为def
+UPDATE tb1 SET f1=REPLACE(f1, &amp;lsquo;abc&amp;rsquo;, &amp;lsquo;def&amp;rsquo;);</description>
+    </item>
+    
+    <item>
+      <title>phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题</title>
+      <link>http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/</link>
+      <pubDate>Wed, 26 Apr 2006 04:52:47 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/</guid>
+      <description>在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。
+在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。
+造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。
+例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。
+所以，解决问题的关键，是把这几个值都设置成相应的正确的值。
+问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。
+在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的&amp;rsquo;gb2312&amp;rsquo; =&amp;gt; &amp;lsquo;gb2312&amp;rsquo;改为&amp;rsquo;gb2312&amp;rsquo; =&amp;gt; &amp;rsquo;latin1&amp;rsquo;； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将&amp;rsquo;zh- gb2312&amp;rsquo; =&amp;gt; array(&amp;lsquo;zh|chinese simplified&amp;rsquo;, &amp;lsquo;chinese_simplified-gb2312&amp;rsquo;, &amp;lsquo;zh&amp;rsquo;)改为&amp;rsquo;zh-gb2312-utf-8&amp;rsquo; =&amp;gt; array(&amp;lsquo;zh|chinese simplified&amp;rsquo;, &amp;lsquo;chinese_simplified-gb2312&amp;rsquo;, &amp;lsquo;zh&amp;rsquo;) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。
+说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。
+结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。</description>
+    </item>
+    
+    <item>
+      <title>把握网站在搜索引擎中的资源</title>
+      <link>http://example.org/2006/04/15/e68a8ae68fa1e7bd91e7ab99e59ca8e6909ce7b4a2e5bc95e6938ee4b8ade79a84e8b584e6ba90/</link>
+      <pubDate>Sat, 15 Apr 2006 18:11:42 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/15/e68a8ae68fa1e7bd91e7ab99e59ca8e6909ce7b4a2e5bc95e6938ee4b8ade79a84e8b584e6ba90/</guid>
+      <description>很多网站管理者每天只知道分析网站的流量，这样的工作对于提升自己的网站的流量来说是很不足够的。
+现在随着网站数量的剧增，搜索引擎的作用也就越来越引起重视了，我觉得有必要告诉大家的是，从搜索引擎引入的流量才是你网站的稳定的核心流量，因此我们有必要研究搜索引擎。
+记住这么一个原则，你在搜索引擎中搜索结果的排名是和通过此结果进入你网站的访问者的数量成正比的。这里我给大家说出这么一个经验说法，在搜索结果中排名为前10位的网站大约能够截走百分之六十的流量，排名为11-20的网站大约能截走百分之三十的流量，那么剩下的网站就在分享剩余的流量了。
+在这里我给大家提出这么一个概念-搜索引擎刷新频率。什么是搜索引擎刷新频率？也就是你的网站信息被搜索引擎蜘蛛捕捉的频率很高，从而搜索引擎给你的网站很快刷新，这个刷新频率也即是搜索引擎刷新频率。搜索引擎刷新频率在搜索引擎结果里并没有直观得表现出来的，这个需要我们认为的去分析，怎么去分析呢？其实很简单，每个搜索引擎结果后面都跟了一个日期，大家在一段时间里只需要跟踪这个日期数据就可以了，看看这个日期是不是每天连续的和持续的发生变化就可以了，如果是每天都会变化，那就说明网站的搜索引擎刷新频率很高。
+网站的搜索引擎刷新频率很高，这会给你的网站在搜索引擎结果里的排名带来很大的优势的，说直白一点就是它能提升你的网站在搜索引擎里的排名。
+当然也有很多站长已经注意到了这个问题了，但是我发现他们的做法很有局限。很多人只是一味地在关注网站首页的刷新频率，其实在他的很多站点里其他的页面的刷新频率要比首页快得多。
+所以这里我要提出我的一个观点，研究网站在搜索引擎中的形势，要基于一种从整体的角度出发想法，片面的热衷于首页可行度会有很大的折扣的。
+怎么样来观察整个网站在搜索引擎中的刷新频率？
+使用一个命令：site:网站域名（最好是去掉WWW）譬如： site:youdoman.com
+然后你可以在搜索结果中看到搜索引擎已经收录你的网站的页面的最后依次更新日期，然后花上一段时间跟踪这些数据，看看有那些页面的刷新频率更快。
+如何利用这些刷新频率快的页面？ 请不要盗链,内容来自www.chinahtml.com ,打造中国站长技术乐园 你网站中的刷新频率较快的页面对于各位站长来说是很重要的资源，只是大家都没有重视而已，那么下面我就来告诉大家，怎么去有效地去利用这些资源。搜索引擎之所以能自动抓取数量巨多的网页就是通过超级连接来实现的，刷新频率较高的网页是很受搜索引擎重视的，所以它上面的一些连接信息是很容易被搜索引擎抓取的。 中国站长资讯网,中国站长第一门户 1、均衡网站整体刷新频率
+其实我们可以通过在刷新频率较快的页面上来有目的布入其他刷新不是很快的页面的连接，这样可以通过刷新频率快的页面带动刷新频率不是很快的页面刷新频率，这样有助于整体提高网站的刷新频率，从而有效提升网站的页面在搜索引擎结果中的排名，当然这样良性循环造成的一个结果就是-你网站的访问量会增加！
+2、加强其他网站的搜索引擎登陆效果 中国站长资讯网,中国站长第一门户 我想很多人都不止拥有一个网站，但是有一个问题都很困惑他们，为什么有的网站能快速进入搜索引擎，但是有的却进入速度很慢？很多人采用的是从搜索引擎提供的入口登陆，一般来说登陆效果不是很明显。其实搜索引擎已经给大家提供了一个很明显的说明，去寻求友情连接吧。我的建议是，与其从搜索引擎提供的登陆入口登陆，还不如让一些在搜索引擎里刷新频率快的页面给你的其他网站做个连接！
+看了这篇文章有所收益么？赶紧行动吧，去发现并有效利用你网站在搜索引擎中既有的但是还未曾被你注意的资源吧</description>
+    </item>
+    
+    <item>
+      <title>SQL语句时间查询</title>
+      <link>http://example.org/2006/04/10/sqle8afade58fa5e697b6e997b4e69fa5e8afa2/</link>
+      <pubDate>Mon, 10 Apr 2006 10:36:00 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/10/sqle8afade58fa5e697b6e997b4e69fa5e8afa2/</guid>
+      <description>from_unixtime(date, &amp;lsquo;%Y%m%d&amp;rsquo;) = $date</description>
+    </item>
+    
+  </channel>
+</rss>

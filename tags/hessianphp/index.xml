@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+HessianPHP
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/hessianphp/</link>
+    <description>Recent content in 
+HessianPHP
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Oct 2006 09:26:43 +0000</lastBuildDate><atom:link href="http://example.org/tags/hessianphp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>今天使用HessianPHP</title>
+      <link>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</link>
+      <pubDate>Mon, 30 Oct 2006 09:26:43 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</guid>
+      <description>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &amp;quot;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&amp;quot;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &amp;quot;club&amp;quot;; $conn = mysql_connect(&amp;quot;localhost&amp;quot;,&amp;quot;club&amp;quot;, &amp;quot;club_test&amp;quot;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;amp;new; HessianService(); $service-&amp;gt;registerObject(new bbs_api); $service-&amp;gt;displayInfo = true; $service-&amp;gt;service(); ?</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+removeAllDelegates
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/removealldelegates/</link>
+    <description>Recent content in 
+removeAllDelegates
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Dec 2013 13:20:52 +0000</lastBuildDate><atom:link href="http://example.org/tags/removealldelegates/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cocos2d-x jsb 绑定 removeAllDelegates</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</link>
+      <pubDate>Tue, 10 Dec 2013 13:20:52 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</guid>
+      <description>html5版为
+cc.Director.getInstance().getTouchDispatcher().removeAllDelegates()； 但 jsb 下没有，绑定一下。
+void JSTouchDelegate::removeAllDelegates() { CCDirector* pDirector = CCDirector::sharedDirector(); pDirector-&amp;gt;getTouchDispatcher()-&amp;gt;removeAllDelegates(); } JSBool js_cocos2dx_JSTouchDelegate_removeAllDelegates(JSContext *cx, uint32_t argc, jsval *vp) { if (argc == 0) { JSTouchDelegate *touch = new JSTouchDelegate(); touch-&amp;gt;autorelease(); touch-&amp;gt;removeAllDelegates(); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments&amp;quot;); return JS_FALSE; } JS_DefineFunction(cx, ns, &amp;quot;removeAllDelegates&amp;quot;, js_cocos2dx_JSTouchDelegate_removeAllDelegates, 1, JSPROP_READONLY | JSPROP_PERMANENT); </description>
+    </item>
+    
+  </channel>
+</rss>

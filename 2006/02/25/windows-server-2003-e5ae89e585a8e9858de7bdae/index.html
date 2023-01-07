@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Windows Server 2003 安全配置 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：
+1、系统盘权限设置 C:分区部分： c:\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\ Administrators全部(该文件夹，子文件夹及文件) E:\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\wwwsite\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Windows Server 2003 安全配置" />
+<meta property="og:description" content="windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：
+1、系统盘权限设置 C:分区部分： c:\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\ Administrators全部(该文件夹，子文件夹及文件) E:\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\wwwsite\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:07:40+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:07:40+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows Server 2003 安全配置"/>
+<meta name="twitter:description" content="windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：
+1、系统盘权限设置 C:分区部分： c:\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\ Administrators全部(该文件夹，子文件夹及文件) E:\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\wwwsite\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Windows Server 2003 安全配置",
+      "item": "http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Windows Server 2003 安全配置",
+  "name": "Windows Server 2003 安全配置",
+  "description": "windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp\u0026gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：\n1、系统盘权限设置 C:分区部分： c:\\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\\ Administrators全部(该文件夹，子文件夹及文件) E:\\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\\wwwsite\\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net.",
+  "keywords": [
+    
+  ],
+  "articleBody": "windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp\u003e有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：\n1、系统盘权限设置 C:分区部分： c:\\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\\ Administrators全部(该文件夹，子文件夹及文件) E:\\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\\wwwsite\\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net.exe net1.exet cmd.exe tftp.exe netstat.exe regedit.exe at.exe attrib.exe cacls.exe format.com 5.删除c:\\inetpub目录，删除iis不必要的映射，建立陷阱帐号，更改描述 第三招：禁用不必要的服务，提高安全性和系统效率 Computer Browser 维护网络上计算机的最新列表以及提供这个列表 Task scheduler 允许程序在指定时间运行 Routing and Remote Access 在局域网以及广域网环境中为企业提供路由服务 Removable storage 管理可移动媒体、驱动程序和库 Remote Registry Service 允许远程注册表操作 Print Spooler 将文件加载到内存中以便以后打印。要用打印机的朋友不能禁用这项 IPSEC Policy Agent 管理IP安全策略以及启动ISAKMP/OakleyIKE)和IP安全驱动程序 Distributed Link Tracking Client 当文件在网络域的NTFS卷中移动时发送通知 Com+ Event System 提供事件的自动发布到订阅COM组件 Alerter 通知选定的用户和计算机管理警报 Error Reporting Service 收集、存储和向 Microsoft 报告异常应用程序 Messenger 传输客户端和服务器之间的 NET SEND 和 警报器服务消息 Telnet 允许远程用户登录到此计算机并运行程序 第四招:修改注册表，让系统更强壮 1、隐藏重要文件/目录可以修改注册表实现完全隐藏：HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\ Current-Version\\Explorer\\Advanced\\Folder\\Hi-dden\\SHOWALL”，鼠标右击 “CheckedValue”，选择修改，把数值由1改为0 2、启动系统自带的Internet连接_blank”\u003e防火墙，在设置服务选项中勾选Web服务器。 3、防止SYN洪水攻击 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters 新建DWORD值，名为SynAttackProtect，值为2 EnablePMTUDiscovery REG_DWORD 0 NoNameReleaseOnDemand REG_DWORD 1 EnableDeadGWDetect REG_DWORD 0 KeepAliveTime REG_DWORD 300,000 PerformRouterDiscovery REG_DWORD 0 EnableICMPRedirects REG_DWORD 0 4. 禁止响应ICMP路由通告报文 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\\interface 新建DWORD值，名为PerformRouterDiscovery 值为0 5. 防止ICMP重定向报文的攻击 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters 将EnableICMPRedirects 值设为0 6. 不支持IGMP协议 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters 新建DWORD值，名为IGMPLevel 值为0 7.修改终端服务端口 运行regedit，找到[HKEY_LOCAL_MACHINE \\ SYSTEM \\ CurrentControlSet \\ Control \\ Terminal Server \\ Wds \\ rdpwd \\ Tds \\ tcp]，看到右边的PortNumber了吗？在十进制状态下改成你想要的端口号吧，比如7126之类的，只要不与其它冲突即可。 2、第二处HKEY_LOCAL_MACHINE \\ SYSTEM \\ CurrentControlSet \\ Control \\ Terminal Server \\ WinStations \\ RDP-Tcp，方法同上，记得改的端口号和上面改的一样就行了。 8、禁止IPC空连接： cracker可以利用net use命令建立空连接，进而入侵，还有net view，nbtstat这些都是基于空连接的，禁止空连接就好了。打开注册表，找到Local_Machine\\System\\CurrentControlSet\\Control\\LSA-RestrictAnonymous 把这个值改成”1”即可。 9、更改TTL值 cracker可以根据ping回的TTL值来大致判断你的操作系统，如： TTL=107(WINNT); TTL=108(win2000); TTL=127或128(win9x); TTL=240或241(linux); TTL=252(solaris); TTL=240(Irix); 实际上你可以自己更改的：HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters：DefaultTTL REG_DWORD 0-0xff(0-255 十进制,默认值128)改成一个莫名其妙的数字如258，起码让那些小菜鸟晕上半天，就此放弃入侵你也不一定哦 10. 删除默认共享 有人问过我一开机就共享所有盘，改回来以后，重启又变成了共享是怎么回事，这是2K为管理而设置的默认共享，必须通过修改注册表的方式取消它：HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters：AutoShareServer类型是REG_DWORD把值改为0即可 11. 禁止建立空连接 默认情况下，任何用户通过通过空连接连上服务器，进而枚举出帐号，猜测密码。我们可以通过修改注册表来禁止建立空连接： Local_Machine\\System\\CurrentControlSet\\Control\\LSA-RestrictAnonymous 的值改成”1”即可。 第五招:其它安全手段 1.禁用TCP/IP上的NetBIOS 网上邻居-属性-本地连接-属性-Internet协议（TCP/IP）属性-高级-WINS面板-NetBIOS设置-禁用TCP/IP上的NetBIOS。这样cracker就无法用nbtstat命令来读取你的NetBIOS信息和网卡MAC地址了。 2. 账户安全 首先禁止一切账户，除了你自己，呵呵。然后把Administrator改名。我呢就顺手又建了个Administrator账户，不过是什么权限都没有的那种，然后打开记事本，一阵乱敲，复制，粘贴到“密码”里去，呵呵，来破密码吧~！破完了才发现是个低级账户，看你崩溃不？ 创建2个管理员用帐号 虽然这点看上去和上面这点有些矛盾，但事实上是服从上面的规则的。 创建一个一般权限帐号用来收信以及处理一些*常事物，另一个拥有Administrators 权限的帐户只在需要的时候使用。可以让管理员使用 “ RunAS” 命令来执行一些需要特权才能作的一些工作，以方便管理 3.更改C:\\WINDOWS\\Help\\iisHelp\\common\\404b.htm内容改为这样，出错了自动转到首页 4. 安全日志 我遇到过这样的情况，一台主机被别人入侵了，系统管理员请我去追查凶手，我登录进去一看：安全日志是空的，倒，请记住：Win2000的默认安装是不开任何安全审核的！那么请你到本地安全策略-\u003e审核策略中打开相应的审核，推荐的审核是： 账户管理 成功 失败 登录事件 成功 失败 对象访问 失败 策略更改 成功 失败 特权使用 失败 系统事件 成功 失败 目录服务访问 失败 账户登录事件 成功 失败 审核项目少的缺点是万一你想看发现没有记录那就一点都没辙；审核项目太多不仅会占用系统资源而且会导致你根本没空去看，这样就失去了审核的意义 5. 运行防毒软件 我见过的Win2000/Nt服务器从来没有见到有安装了防毒软件的，其实这一点非常重要。一些好的杀毒软件不仅能杀掉一些著名的病毒，还能查杀大量木马和后门程序。这样的话，“黑客”们使用的那些有名的木马就毫无用武之地了。不要忘了经常升级病毒库,我们推荐mcafree杀毒软件+blackice_blank”\u003e防火墙 6.sqlserver数据库服务器安全和serv-u ftp服务器安全配置，更改默认端口，和管理密码 7.设置ip筛选、用blackice禁止木马常用端口 一般禁用以下端口 135 138 139 443 445 4000 4899 7626 8.本地安全策略和组策略的设置,如果你在设置本地安全策略时设置错了，可以这样恢复成它的默认值. 打开 %SystemRoot%\\Security文件夹,创建一个 “OldSecurity”子目录,将%SystemRoot%\\Security下所有的.log文件移到这个新建的子文件夹中. 在%SystemRoot%\\Security\\database\\下找到”Secedit.sdb”安全数据库并将其改名,如改为”Secedit.old”. 启动”安全配置和分析”MMC管理单元:”开始”-\u003e”运行”-\u003e”MMC”,启动管理控制台,”添加/删除管理单元”,将”安全配置和分析”管理单元添加上. 右击”安全配置和分析”-\u003e”打开数据库”,浏览”C:\\WINNT\\security\\Database”文件夹,输入文件名”secedit.sdb”,单击”打开”. 当系统提示输入一个模板时,选择”Setup Security.inf”,单击”打开”. 如果系统提示”拒绝访问数据库”,不管他. 你会发现在”C:\\WINNT\\security\\Database”子文件夹中重新生成了新的安全数据库,在”C:\\WINNT\\security”子文件夹下重新生成了log文件.安全数据库重建成功. ",
+  "wordCount" : "307",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:07:40Z",
+  "dateModified": "2006-02-25T16:07:40Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Windows Server 2003 安全配置
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:07:40 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。
+第一招：正确划分文件系统格式，选择稳定的操作系统安装盘
+为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。
+第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：</p>
+<pre><code>1、系统盘权限设置
+C:分区部分：
+c:\
+administrators 全部(该文件夹，子文件夹及文件)
+CREATOR OWNER 全部(只有子文件来及文件)
+system 全部(该文件夹，子文件夹及文件)
+IIS_WPG 创建文件/写入数据(只有该文件夹)
+IIS_WPG(该文件夹，子文件夹及文件)
+遍历文件夹/运行文件
+列出文件夹/读取数据
+读取属性
+创建文件夹/附加数据
+读取权限
+c:\Documents and Settings
+administrators 全部(该文件夹，子文件夹及文件)
+Power Users (该文件夹，子文件夹及文件)
+读取和运行
+列出文件夹目录
+读取
+SYSTEM全部(该文件夹，子文件夹及文件)
+C:\Program Files
+administrators 全部(该文件夹，子文件夹及文件)
+CREATOR OWNER全部(只有子文件来及文件)
+IIS_WPG (该文件夹，子文件夹及文件)
+读取和运行
+列出文件夹目录
+读取
+Power Users(该文件夹，子文件夹及文件)
+修改权限
+SYSTEM全部(该文件夹，子文件夹及文件)
+TERMINAL SERVER USER (该文件夹，子文件夹及文件)
+修改权限
+2、网站及虚拟机权限设置(比如网站在E盘)
+说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理
+E:\
+Administrators全部(该文件夹，子文件夹及文件)
+E:\wwwsite
+Administrators全部(该文件夹，子文件夹及文件)
+system全部(该文件夹，子文件夹及文件)
+service全部(该文件夹，子文件夹及文件)
+E:\wwwsite\vhost1
+Administrators全部(该文件夹，子文件夹及文件)
+system全部(该文件夹，子文件夹及文件)
+vhost1全部(该文件夹，子文件夹及文件)
+3、数据备份盘
+数据备份盘最好只指定一个特定的用户对它有完全操作的权限
+比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限
+4、其它地方的权限设置
+请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限
+下列这些文件只允许administrators访问
+net.exe
+net1.exet
+cmd.exe
+tftp.exe
+netstat.exe
+regedit.exe
+at.exe
+attrib.exe
+cacls.exe
+format.com
+5.删除c:\inetpub目录，删除iis不必要的映射，建立陷阱帐号，更改描述
+第三招：禁用不必要的服务，提高安全性和系统效率
+Computer Browser 维护网络上计算机的最新列表以及提供这个列表
+Task scheduler 允许程序在指定时间运行
+Routing and Remote Access 在局域网以及广域网环境中为企业提供路由服务
+Removable storage 管理可移动媒体、驱动程序和库
+Remote Registry Service 允许远程注册表操作
+Print Spooler 将文件加载到内存中以便以后打印。要用打印机的朋友不能禁用这项
+IPSEC Policy Agent 管理IP安全策略以及启动ISAKMP/OakleyIKE)和IP安全驱动程序
+Distributed Link Tracking Client 当文件在网络域的NTFS卷中移动时发送通知
+Com+ Event System 提供事件的自动发布到订阅COM组件
+Alerter 通知选定的用户和计算机管理警报
+Error Reporting Service 收集、存储和向 Microsoft 报告异常应用程序
+Messenger 传输客户端和服务器之间的 NET SEND 和 警报器服务消息
+Telnet 允许远程用户登录到此计算机并运行程序
+第四招:修改注册表，让系统更强壮
+1、隐藏重要文件/目录可以修改注册表实现完全隐藏：HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\ Current-Version\Explorer\Advanced\Folder\Hi-dden\SHOWALL”，鼠标右击 “CheckedValue”，选择修改，把数值由1改为0
+2、启动系统自带的Internet连接_blank”&gt;防火墙，在设置服务选项中勾选Web服务器。
+3、防止SYN洪水攻击
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+新建DWORD值，名为SynAttackProtect，值为2
+EnablePMTUDiscovery REG_DWORD 0
+NoNameReleaseOnDemand REG_DWORD 1
+EnableDeadGWDetect REG_DWORD 0
+KeepAliveTime REG_DWORD 300,000
+PerformRouterDiscovery REG_DWORD 0
+EnableICMPRedirects REG_DWORD 0
+4. 禁止响应ICMP路由通告报文
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\interface
+新建DWORD值，名为PerformRouterDiscovery 值为0
+5. 防止ICMP重定向报文的攻击
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+将EnableICMPRedirects 值设为0
+6. 不支持IGMP协议
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+新建DWORD值，名为IGMPLevel 值为0
+7.修改终端服务端口
+运行regedit，找到[HKEY_LOCAL_MACHINE \ SYSTEM \ CurrentControlSet \ Control \ Terminal Server \ Wds \ rdpwd \ Tds \ tcp]，看到右边的PortNumber了吗？在十进制状态下改成你想要的端口号吧，比如7126之类的，只要不与其它冲突即可。
+2、第二处HKEY_LOCAL_MACHINE \ SYSTEM \ CurrentControlSet \ Control \ Terminal Server \ WinStations \ RDP-Tcp，方法同上，记得改的端口号和上面改的一样就行了。
+8、禁止IPC空连接：
+cracker可以利用net use命令建立空连接，进而入侵，还有net view，nbtstat这些都是基于空连接的，禁止空连接就好了。打开注册表，找到Local_Machine\System\CurrentControlSet\Control\LSA-RestrictAnonymous 把这个值改成”1”即可。
+9、更改TTL值
+cracker可以根据ping回的TTL值来大致判断你的操作系统，如：
+TTL=107(WINNT);
+TTL=108(win2000);
+TTL=127或128(win9x);
+TTL=240或241(linux);
+TTL=252(solaris);
+TTL=240(Irix);
+实际上你可以自己更改的：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters：DefaultTTL REG_DWORD 0-0xff(0-255 十进制,默认值128)改成一个莫名其妙的数字如258，起码让那些小菜鸟晕上半天，就此放弃入侵你也不一定哦
+10. 删除默认共享
+有人问过我一开机就共享所有盘，改回来以后，重启又变成了共享是怎么回事，这是2K为管理而设置的默认共享，必须通过修改注册表的方式取消它：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters：AutoShareServer类型是REG_DWORD把值改为0即可
+11. 禁止建立空连接
+默认情况下，任何用户通过通过空连接连上服务器，进而枚举出帐号，猜测密码。我们可以通过修改注册表来禁止建立空连接：
+Local_Machine\System\CurrentControlSet\Control\LSA-RestrictAnonymous 的值改成”1”即可。
+第五招:其它安全手段
+1.禁用TCP/IP上的NetBIOS
+网上邻居-属性-本地连接-属性-Internet协议（TCP/IP）属性-高级-WINS面板-NetBIOS设置-禁用TCP/IP上的NetBIOS。这样cracker就无法用nbtstat命令来读取你的NetBIOS信息和网卡MAC地址了。
+2. 账户安全
+首先禁止一切账户，除了你自己，呵呵。然后把Administrator改名。我呢就顺手又建了个Administrator账户，不过是什么权限都没有的那种，然后打开记事本，一阵乱敲，复制，粘贴到“密码”里去，呵呵，来破密码吧~！破完了才发现是个低级账户，看你崩溃不？
+创建2个管理员用帐号
+虽然这点看上去和上面这点有些矛盾，但事实上是服从上面的规则的。 创建一个一般权限帐号用来收信以及处理一些*常事物，另一个拥有Administrators 权限的帐户只在需要的时候使用。可以让管理员使用 “ RunAS” 命令来执行一些需要特权才能作的一些工作，以方便管理
+3.更改C:\WINDOWS\Help\iisHelp\common\404b.htm内容改为这样，出错了自动转到首页
+4. 安全日志
+我遇到过这样的情况，一台主机被别人入侵了，系统管理员请我去追查凶手，我登录进去一看：安全日志是空的，倒，请记住：Win2000的默认安装是不开任何安全审核的！那么请你到本地安全策略-&gt;审核策略中打开相应的审核，推荐的审核是：
+账户管理 成功 失败
+登录事件 成功 失败
+对象访问 失败
+策略更改 成功 失败
+特权使用 失败
+系统事件 成功 失败
+目录服务访问 失败
+账户登录事件 成功 失败
+审核项目少的缺点是万一你想看发现没有记录那就一点都没辙；审核项目太多不仅会占用系统资源而且会导致你根本没空去看，这样就失去了审核的意义
+5. 运行防毒软件
+我见过的Win2000/Nt服务器从来没有见到有安装了防毒软件的，其实这一点非常重要。一些好的杀毒软件不仅能杀掉一些著名的病毒，还能查杀大量木马和后门程序。这样的话，“黑客”们使用的那些有名的木马就毫无用武之地了。不要忘了经常升级病毒库,我们推荐mcafree杀毒软件+blackice_blank”&gt;防火墙
+6.sqlserver数据库服务器安全和serv-u ftp服务器安全配置，更改默认端口，和管理密码
+7.设置ip筛选、用blackice禁止木马常用端口
+一般禁用以下端口
+135 138 139 443 445 4000 4899 7626
+8.本地安全策略和组策略的设置,如果你在设置本地安全策略时设置错了，可以这样恢复成它的默认值.
+打开 %SystemRoot%\Security文件夹,创建一个 “OldSecurity”子目录,将%SystemRoot%\Security下所有的.log文件移到这个新建的子文件夹中.
+在%SystemRoot%\Security\database\下找到”Secedit.sdb”安全数据库并将其改名,如改为”Secedit.old”.
+启动”安全配置和分析”MMC管理单元:”开始”-&gt;”运行”-&gt;”MMC”,启动管理控制台,”添加/删除管理单元”,将”安全配置和分析”管理单元添加上.
+右击”安全配置和分析”-&gt;”打开数据库”,浏览”C:\WINNT\security\Database”文件夹,输入文件名”secedit.sdb”,单击”打开”.
+当系统提示输入一个模板时,选择”Setup Security.inf”,单击”打开”.
+如果系统提示”拒绝访问数据库”,不管他.
+你会发现在”C:\WINNT\security\Database”子文件夹中重新生成了新的安全数据库,在”C:\WINNT\security”子文件夹下重新生成了log文件.安全数据库重建成功.
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

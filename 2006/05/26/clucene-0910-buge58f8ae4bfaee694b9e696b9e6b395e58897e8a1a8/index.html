@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>CLUCENE-0.9.10 BUG及修改方法列表 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。
+修改： if ( closeDir ){ directory-&gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-&gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-&gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="CLUCENE-0.9.10 BUG及修改方法列表" />
+<meta property="og:description" content="IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。
+修改： if ( closeDir ){ directory-&gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-&gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-&gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-26T18:12:34+00:00" />
+<meta property="article:modified_time" content="2006-05-26T18:12:34+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CLUCENE-0.9.10 BUG及修改方法列表"/>
+<meta name="twitter:description" content="IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。
+修改： if ( closeDir ){ directory-&gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-&gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-&gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CLUCENE-0.9.10 BUG及修改方法列表",
+      "item": "http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CLUCENE-0.9.10 BUG及修改方法列表",
+  "name": "CLUCENE-0.9.10 BUG及修改方法列表",
+  "description": "IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。\n修改： if ( closeDir ){ directory-\u0026gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-\u0026gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-\u0026gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-\u0026gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis.",
+  "keywords": [
+    
+  ],
+  "articleBody": "IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。\n修改： if ( closeDir ){ directory-\u003eclose(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-\u003eclose(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-\u003esize() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-\u003esize() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis.read( dirs[i]); for (int32_t j = 0; j \u003c sis.size(); j++) { /* DSR:CL_BUG: ** In CLucene 0.8.11, the next call placed a pointer to a SegmentInfo ** object from stack variable $sis into the vector this-\u003esegmentInfos. ** Then, when the call to optimize() is made just before exiting this ** function, $sis had already been deallocated (and has deleted its ** member objects), leaving dangling pointers in this-\u003esegmentInfos. ** I added a SegmentInfos constructor that allowed me to order it not ** to delete its members, invoked the new constructor form above for ** $sis, and the problem was solved. */ segmentInfos-\u003eadd(sis.info(j)); // add each info } i++; } 为 //Iterate through the directories int32_t i = 0; SegmentInfo *si; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis.read( dirs[i]); for (int32_t j = 0; j \u003c sis.size(); j++) { /* DSR:CL_BUG: ** In CLucene 0.8.11, the next call placed a pointer to a SegmentInfo ** object from stack variable $sis into the vector this-\u003esegmentInfos. ** Then, when the call to optimize() is made just before exiting this ** function, $sis had already been deallocated (and has deleted its ** member objects), leaving dangling pointers in this-\u003esegmentInfos. ** I added a SegmentInfos constructor that allowed me to order it not ** to delete its members, invoked the new constructor form above for ** $sis, and the problem was solved. */ si = sis.info(j); segmentInfos-\u003eadd( new SegmentInfo(si-\u003ename, si-\u003edocCount, si-\u003egetDir())); // add each info } i++; } 修改IndexWriter.cpp文件IndexWriter::IndexWriter函数（两个），会导致内存泄漏 修改 segmentInfos (_CLNEW SegmentInfos), 为 segmentInfos (_CLNEW SegmentInfos(true)), 修改IndexWriter.cpp文件IndexWriter::addIndexes(IndexReader** readers)，提高效率 修改后的函数如下： void IndexWriter::addIndexes(IndexReader** readers){ SCOPED_LOCK_MUTEX(addIndexesReaders_LOCK); char* mergedName = newSegmentName(); SegmentMerger* merger = _CLNEW SegmentMerger(directory, mergedName, false); for(int i = 0; i \u003c segmentInfos-\u003esize(); i ++) // add existing index, if any merger-\u003eadd(_CLNEW SegmentReader(segmentInfos-\u003einfo(i))); int32_t readersLength = 0; while ( readers[readersLength] != NULL ) merger-\u003eadd((SegmentReader*) readers[readersLength++]); int32_t docCount = merger-\u003emerge(); // merge 'em // pop old infos \u0026 add new segmentInfos-\u003eclearto(0); segmentInfos-\u003eadd(_CLNEW SegmentInfo(mergedName, docCount, directory)); LuceneLock* lock = directory-\u003emakeLock(\"commit.lock\"); IndexWriterLockWith with ( lock,LUCENE_COMMIT_LOCK_TIMEOUT,this,true); LOCK_MUTEX(directory-\u003eDIR_OBJ); // in- \u0026 inter-process sync with.run(); UNLOCK_MUTEX(directory-\u003eDIR_OBJ); _CLDELETE(lock); } 修改SegmentReader.cpp文件SegmentReader::files()函数，会导致删除未用的文件是不能正确删除.cfs文件。 修改 _ADD_SEGMENT(\".cfs \" ); 为 _ADD_SEGMENT(\".cfs\" ); //原来的.cfs后面多了一个空格 修改util/StringIntern.h和util/StringIntern.cpp，多个线程操作类CLStringIntern时，会导致内存指针出错。方法一：对StringIntern操作时，加上互斥锁。 修改util/StringIntern.h文件 //internalise an ucs2 string and return an iterator for fast un-iteration static __wcsintrntype::iterator internitr(const TCHAR* str CL_FILELINEPARAM); 在这行之前加上 STATIC_DEFINE_MUTEX(m_mutex); 修改util/StringIntern.cpp文件 __wcsintrntype CLStringIntern::stringPool(true); __strintrntype CLStringIntern::stringaPool(true); 在这之后加上 DEFINE_MUTEX(CLStringIntern::m_mutex); 修改util/StringIntern.cpp文件，在所有成员函数的实现第一行之前加上： SCOPED_LOCK_MUTEX(m_mutex); 方法二：在程序开始之前，先将所有需要用到的fieldname加入到StringIntern中，在程序结束之前将最开始加入的StringIntern删除即可。 这样在运行过程中就只会对存放StringIntern的列表进行读操作了。这种方法比第一种方法好，运行效率会提高些，不过每个程序都要写一次。\n方法三：不使用stringpool，每次都直接分配内存，释放时直接把内存释放。 该方法会提高并发性能，但是会占用更多的内存，索引文档时如果放在内存的文档数比较大时，所多占用的内存数还是挺可观的。 同时，频繁的分配和释放内存也会造成内存碎片问题。 http://spaces.msn.com/chenjm/blog/\n",
+  "wordCount" : "467",
+  "inLanguage": "en",
+  "datePublished": "2006-05-26T18:12:34Z",
+  "dateModified": "2006-05-26T18:12:34Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      CLUCENE-0.9.10 BUG及修改方法列表
+    </h1>
+    <div class="post-meta"><span title='2006-05-26 18:12:34 +0000 UTC'>May 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。</p>
+<pre><code>修改：
+if ( closeDir ){
+directory-&gt;close();
+}
+_CLDECDELETE(directory);
+为
+if ( closeDir ){
+directory-&gt;close();
+_CLDECDELETE(directory);
+}
+IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&gt;size() == 0，则会导致异常。
+
+修改：
+flushRamSegments();
+为
+flushRamSegments();
+if(segmentInfos-&gt;size() == 0) return;
+
+修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。
+
+修改
+// start with zero or 1 seg so optimize the current
+optimize();
+
+//Iterate through the directories
+int32_t i = 0;
+while ( dirs[i] != NULL ) {
+// DSR: Changed SegmentInfos constructor arg (see bug discussion below).
+SegmentInfos sis(false);
+sis.read( dirs[i]);
+
+for (int32_t j = 0; j &lt; sis.size(); j++) {
+/* DSR:CL_BUG:
+** In CLucene 0.8.11, the next call placed a pointer to a SegmentInfo
+** object from stack variable $sis into the vector this-&gt;segmentInfos.
+** Then, when the call to optimize() is made just before exiting this
+** function, $sis had already been deallocated (and has deleted its
+** member objects), leaving dangling pointers in this-&gt;segmentInfos.
+** I added a SegmentInfos constructor that allowed me to order it not
+** to delete its members, invoked the new constructor form above for
+** $sis, and the problem was solved. */
+segmentInfos-&gt;add(sis.info(j)); // add each info
+}
+i++;
+}
+为
+//Iterate through the directories
+int32_t i = 0;
+SegmentInfo *si;
+while ( dirs[i] != NULL ) {
+// DSR: Changed SegmentInfos constructor arg (see bug discussion below).
+SegmentInfos sis(false);
+sis.read( dirs[i]);
+
+for (int32_t j = 0; j &lt; sis.size(); j++) {
+/* DSR:CL_BUG:
+** In CLucene 0.8.11, the next call placed a pointer to a SegmentInfo
+** object from stack variable $sis into the vector this-&gt;segmentInfos.
+** Then, when the call to optimize() is made just before exiting this
+** function, $sis had already been deallocated (and has deleted its
+** member objects), leaving dangling pointers in this-&gt;segmentInfos.
+** I added a SegmentInfos constructor that allowed me to order it not
+** to delete its members, invoked the new constructor form above for
+** $sis, and the problem was solved. */
+si = sis.info(j);
+segmentInfos-&gt;add( new SegmentInfo(si-&gt;name, si-&gt;docCount, si-&gt;getDir())); // add each info
+}
+i++;
+}
+修改IndexWriter.cpp文件IndexWriter::IndexWriter函数（两个），会导致内存泄漏
+
+修改
+segmentInfos (_CLNEW SegmentInfos),
+为
+segmentInfos (_CLNEW SegmentInfos(true)),
+
+
+修改IndexWriter.cpp文件IndexWriter::addIndexes(IndexReader** readers)，提高效率
+修改后的函数如下：
+void IndexWriter::addIndexes(IndexReader** readers){
+SCOPED_LOCK_MUTEX(addIndexesReaders_LOCK);
+
+char* mergedName = newSegmentName();
+SegmentMerger* merger = _CLNEW SegmentMerger(directory, mergedName, false);
+
+for(int i = 0; i &lt; segmentInfos-&gt;size(); i ++) // add existing index, if any
+merger-&gt;add(_CLNEW SegmentReader(segmentInfos-&gt;info(i)));
+
+int32_t readersLength = 0;
+while ( readers[readersLength] != NULL )
+merger-&gt;add((SegmentReader*) readers[readersLength++]);
+
+int32_t docCount = merger-&gt;merge(); // merge 'em
+
+// pop old infos &amp; add new
+segmentInfos-&gt;clearto(0);
+segmentInfos-&gt;add(_CLNEW SegmentInfo(mergedName, docCount, directory));
+
+LuceneLock* lock = directory-&gt;makeLock(&quot;commit.lock&quot;);
+IndexWriterLockWith with ( lock,LUCENE_COMMIT_LOCK_TIMEOUT,this,true);
+
+LOCK_MUTEX(directory-&gt;DIR_OBJ); // in- &amp; inter-process sync
+with.run();
+UNLOCK_MUTEX(directory-&gt;DIR_OBJ);
+
+_CLDELETE(lock);
+}
+
+修改SegmentReader.cpp文件SegmentReader::files()函数，会导致删除未用的文件是不能正确删除.cfs文件。
+
+修改
+_ADD_SEGMENT(&quot;.cfs &quot; );
+为
+_ADD_SEGMENT(&quot;.cfs&quot; ); //原来的.cfs后面多了一个空格
+
+修改util/StringIntern.h和util/StringIntern.cpp，多个线程操作类CLStringIntern时，会导致内存指针出错。方法一：对StringIntern操作时，加上互斥锁。
+修改util/StringIntern.h文件
+//internalise an ucs2 string and return an iterator for fast un-iteration
+static __wcsintrntype::iterator internitr(const TCHAR* str CL_FILELINEPARAM);
+在这行之前加上
+STATIC_DEFINE_MUTEX(m_mutex);
+
+修改util/StringIntern.cpp文件
+__wcsintrntype CLStringIntern::stringPool(true);
+__strintrntype CLStringIntern::stringaPool(true);
+在这之后加上
+DEFINE_MUTEX(CLStringIntern::m_mutex);
+
+修改util/StringIntern.cpp文件，在所有成员函数的实现第一行之前加上：
+SCOPED_LOCK_MUTEX(m_mutex);
+</code></pre>
+<p>方法二：在程序开始之前，先将所有需要用到的fieldname加入到StringIntern中，在程序结束之前将最开始加入的StringIntern删除即可。
+这样在运行过程中就只会对存放StringIntern的列表进行读操作了。这种方法比第一种方法好，运行效率会提高些，不过每个程序都要写一次。</p>
+<p>方法三：不使用stringpool，每次都直接分配内存，释放时直接把内存释放。
+该方法会提高并发性能，但是会占用更多的内存，索引文档时如果放在内存的文档数比较大时，所多占用的内存数还是挺可观的。
+同时，频繁的分配和释放内存也会造成内存碎片问题。
+<a href="http://spaces.msn.com/chenjm/blog/">http://spaces.msn.com/chenjm/blog/</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

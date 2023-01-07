@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+php
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/php/</link>
+    <description>Recent content in 
+php
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jan 2014 06:41:53 +0000</lastBuildDate><atom:link href="http://example.org/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于 Quercus 的手游项目终于上线了</title>
+      <link>http://example.org/2014/01/27/quercus-php-ngame/</link>
+      <pubDate>Mon, 27 Jan 2014 06:41:53 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/27/quercus-php-ngame/</guid>
+      <description>经过半年的开发，我们第一款手游戏终于开发完毕，架构使用了 netty + Quercus 实现用 php 通过 websocket 与客户端通信。
+项目上线近一个月，基本稳定。而且不存在性能方面问题，之前在内网测试，pc 机 4G 内存，在线 1000 人，没有卡动感觉。 这个数
+字足以满足我们的需求， 想用 Quercus 大胆的用吧，到 4.0.39 应该会更完美，希望支持 Quercus 的多起来，与 hhvm 的火爆程度
+真是是没法比。</description>
+    </item>
+    
+    <item>
+      <title>java(android) rsa 实现与 php 服务端通信</title>
+      <link>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</link>
+      <pubDate>Sat, 21 Dec 2013 04:54:28 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</guid>
+      <description>rsa 密钥生成 见 http://blog.andsky.com/js-rsa-use-openssl-make-public-pirvate-key/
+android 客户端用rsa 公钥加密后经 base64 编码发到 服务端，服务端使用私钥解密
+客户端代码
+import java.math.BigInteger; import java.security.KeyFactory; import java.security.PublicKey; import java.security.spec.RSAPublicKeySpec; import javax.crypto.Cipher; import sun.misc.BASE64Encoder; public class rsa { public static void main(String[] args) throws Exception { String modulus = &amp;quot;C34FF1FF9771ED88814C26905297BAEDCEC03B847D8AB5620848FC100AC0564FAD5364E9834E29118E7B5F8B1B9EAB201730C4860E8AF2ED2E028704105A01044501A9EF6DA2968E76273AAE496A0963A2FEA9B6179A86F28ACC61C087FB1AEEA4E1CB0ADBB9B757C303741DE602FD790953C8E2C004A425C7CAF4813F403DCD&amp;quot;; String publicExponent = &amp;quot;010001&amp;quot;; rsa key = new rsa(); PublicKey publicKey = key.getPublicKey(modulus, publicExponent); Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;); //明文 String tString = &amp;quot;aabbsdfsdf&amp;quot;; byte[] plainText = tString.getBytes(&amp;quot;UTF-8&amp;quot;); //加密 cipher.init(Cipher.ENCRYPT_MODE, publicKey); byte[] enBytes = cipher.</description>
+    </item>
+    
+    <item>
+      <title>quercus 4.0.38 发布</title>
+      <link>http://example.org/2013/12/20/quercus-4-0-38-release/</link>
+      <pubDate>Fri, 20 Dec 2013 04:33:23 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/20/quercus-4-0-38-release/</guid>
+      <description>修正了不少bug 真是越来越完善了，赞一个
+quercus: empty() needs to call ArrayAccess-&amp;gt;offsetExists() (#5612, rep by G. Krall) quercus: session_status() not implemented (#5609, rep by G. Krall) quercus: self doesn&amp;rsquo;t work inside a namespace (#5608, G. Krall) quercus: ReflectionParameter-&amp;gt;getClass() not implemented (#5607, rep by G. Krall) quercus: IllegalArgumentException vfs: not found on JBoss (#5606, rep by G. Krall) quercus: ReflectionFunction does not work for closures (#5605, rep by G. Krall) quercus: Xml reader is not working (#5603, rep by qumo) quercus: call_user_func() needs to call __invoke (#5601, rep by G.</description>
+    </item>
+    
+    <item>
+      <title>php实现websocket手游架构设想</title>
+      <link>http://example.org/2013/12/20/php-websocket-game/</link>
+      <pubDate>Fri, 20 Dec 2013 03:53:45 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/20/php-websocket-game/</guid>
+      <description>众所周知 php 的开发效率确实块。但在 socket 这块一直没有什么大的发展，设想用 两种方案用 php 实现 websocket game 开发
+方案1 netty+quercus+php
+方案2 Swoole + php
+两种方案感觉都可行，quercus 近期更新力度很大，已经解决 mysql 乱码问题。 php 转成 java 测试性能确实不错
+Swoole 是近期关注比较多的了，php 原生实现，作者更新速度很快，但缺少实际项目案例。
+两种方案选择了 quercus ，感觉应该更稳定一些，实践中，期待项目上线测试效果</description>
+    </item>
+    
+    <item>
+      <title>md5crypt</title>
+      <link>http://example.org/2009/07/06/md5crypt/</link>
+      <pubDate>Mon, 06 Jul 2009 10:33:43 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/06/md5crypt/</guid>
+      <description>php 版 md5crypt postfix extmail 使用
+function md5crypt ($pw) { $MAGIC = &amp;quot;$1$&amp;quot;; $rand = substr (md5 (mt_rand ()), 0, 8); return crypt($pw, &#39;$1$&#39;.$rand.&#39;$&#39;); } </description>
+    </item>
+    
+    <item>
+      <title>SWFUpload V2</title>
+      <link>http://example.org/2009/05/20/swfupload-v2/</link>
+      <pubDate>Wed, 20 May 2009 08:49:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/20/swfupload-v2/</guid>
+      <description>Flash Player 10的安全机制更严格，类似打开文件上传的对话框的操作，一定需要用户交互才触发，如果用脚本触发，会报#2176的运行时错误。
+void selectFile() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，只能选择单个文件。
+void selectFiles() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，可一次性选择多个文件。
+flash_width 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的宽度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_height 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的高度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_color 默认值：#FFFFFF (v2.2.0已删除) 设置HTML页面中的flash背景色，默认为#FFFFFF
+prevent_swf_caching 默认值：true (v2.2.0新增)该布尔值设置是否在Flash URL后添加一个随机值，用来防止浏览器缓存了该SWF影片。这是为了解决一些基于IE-engine的浏览器上的出现一个BUG。
+提醒：SWFUpload是直接在flash_url后添加了一个swfuploadrnd的随机参数。如果你给定的flash_url中已经存在了GET类型的参数，那么就会出现两个问号连接符导致错误。
+button_placeholder_id 默认值：null (v2.2.0新增) 该必要参数指定了swfupload.swf将要替换的页面内的DOM元素的ID值。当对应的DOM元素被替换为SWF元素时，SWF的容器会被添加一个名称为&amp;quot;swfupload&amp;quot;的样式选择器供CSS自定义使用。
+button_image_url 默认值：空字符串 (v2.2.0新增) V2.2.0版最大的改变就是引入了一个按钮到SWF中，利用该参数可以设置一个相对于该swf文件或者是绝对地址的图片（或者是SWF），作为按钮的UI展现。所有FLASH支持的图片类型都可以使用（gif,jpg,png,或者是一个SWF）。 该按钮图片需要经过一定规则（CSS Sprite）的处理。按钮图片中需要包括按钮的4个状态，从上到下依次是normal, hover, down/click, disabled.(可以参照官方demo中的图片)
+button_width 默认值：1 (v2.2.0新增) 设置该SWF的宽度属性。
+button_height 默认值：1 (v2.2.0新增)设置该SWF的高度属性（按钮图片高度的1/4）
+button_text 默认值：空字符串 (v2.2.0新增) 该属性设置Flash Button中显示的文字，支持HTML。HTML文本的样式可以通过CSS选择器并配合button_text_style参数来设置。关于Flash文本对HTML的支持详细可见 Adobe&amp;rsquo;s Flash documentation。
+button_text_style 默认值：&amp;ldquo;color: #000000; font-size: 16pt;&amp;rdquo; (v2.2.0新增)此参数配合button_text参数，可以通过CSS样式来设置Flash Button中的文字样式。关于Flash文本对CSS的支持详细可见Adobe&amp;rsquo;s Flash documentation</description>
+    </item>
+    
+    <item>
+      <title>smarty 颜色选择框扩展</title>
+      <link>http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/</link>
+      <pubDate>Thu, 07 May 2009 18:48:50 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>如何加密PHP文件</title>
+      <link>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</link>
+      <pubDate>Wed, 06 May 2009 10:54:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/</guid>
+      <description>由于安全原因，有些时候需要把PHP文件加密。zend是收费的软件，而且价格不菲，让人望尘莫及。这里介绍另一种加密方法：php-screw。 php-screw是一款开源，免费，自由使用的软件，它不仅使用方便，而且可以自定义加密字符串，字符串的长度不受限制。下面这些操作是在Debian环境下实现的。 1、下载软件包。到http://sourceforge.net/projects/php-screw/下载php-screw。下载得到的是tar包。 2、安装必须的软件环境：apt-get install php5-dev php5 3、把在第一步中得到的软件包解压：tar -zxvf php_screw-1.3.tgz 4、进入解压缩后得到的目录：cd php_screw-1.3，然后执行命令：phpize生成一些配置安装文件。 5、检查编译环境： ./configure　#检查编译环境 自定义加密字符串，你据自己的意愿，修改文件my_screw.h内容，这里面主要记录的是加密字符串。 make　#编译 6、把文件modules/php_screw.so拷贝到/usr/lib/php5/2006*/目录下。 7、修改文件/etc/php5/apache2/php.ini，在需要位置添加如下内容： extension=php_screw.so 8、在WEB服务器的根目录里创建文件phpinfo.php，文件的内容如下： 9、在浏览器里输入http:///phpinfo.php，看看php_screw是否生效。 10、进入tools目录，执行命令： make 生成文件screw。 11、进入需要加密的PHP文件所在的文件夹，执行命令 /full/path/of/screw .php 这时的文件便被加密了，原来的文件被重新命名为：.php.screw。 12、screw这个命令只支持单个文件的加密，不支持/full/path/of/screw .php这种命令格式。如果需要把整个目录下的文件加密需要用如下命令： find . -name &amp;lsquo;.php&amp;rsquo; -exec /full/of/path/of/screw {} ; 以上写的这些是在Debian环境下实现的，如果在window平台下，只要加载了php_screw这个模块，加密的文件也可以正常显示，但不能在windows平台下进行加密。 好了，用php_screw加密php文件介绍完了。如果您对这个工具感兴趣，不防试一试。
+转自 http://afericazebra.blog.163.com/blog/static/300504082008101902427449/
+不错,freebsd 的port 也有,在 /usr/ports/www/php-screw ,正好用一下</description>
+    </item>
+    
+    <item>
+      <title>利用Curl、socket、file_get_contents POST数据</title>
+      <link>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</link>
+      <pubDate>Mon, 06 Apr 2009 08:51:54 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</guid>
+      <description>array( &amp;lsquo;method&amp;rsquo;=&amp;gt;&amp;lsquo;POST&amp;rsquo;, &amp;lsquo;header&amp;rsquo;=&amp;gt;&amp;lsquo;Content-type: application/x-www-form-urlencoded&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;User-Agent : Jimmy&#39;s POST Example beta&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;Content-length: &amp;lsquo;.strlen($post_string)+8, &amp;lsquo;content&amp;rsquo;=&amp;gt;&amp;lsquo;mypost=&amp;rsquo;.$post_string) ); $stream_context = stream_context_create($context); $data = file_get_contents($remote_server,FALSE,$stream_context); return $data; }
+?&amp;gt; 转自 http://hi.baidu.com/xsite/blog/item/1ae57963be3e38680d33fa6b.html</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>利用 portmaster 升級 PHP 5.26 -&gt; 5.28</title>
+      <link>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</link>
+      <pubDate>Thu, 19 Mar 2009 13:12:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</guid>
+      <description>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5.</description>
+    </item>
+    
+    <item>
+      <title>php &#43; xapian extension的安装</title>
+      <link>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Mon, 11 Dec 2006 05:56:16 +0000</pubDate>
+      
+      <guid>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</guid>
+      <description>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C++编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd + apache 2.2 + php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;lt;/a&amp;gt; wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;lt;/a&amp;gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian.</description>
+    </item>
+    
+    <item>
+      <title>今天使用HessianPHP</title>
+      <link>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</link>
+      <pubDate>Mon, 30 Oct 2006 09:26:43 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</guid>
+      <description>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &amp;quot;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&amp;quot;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &amp;quot;club&amp;quot;; $conn = mysql_connect(&amp;quot;localhost&amp;quot;,&amp;quot;club&amp;quot;, &amp;quot;club_test&amp;quot;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;amp;new; HessianService(); $service-&amp;gt;registerObject(new bbs_api); $service-&amp;gt;displayInfo = true; $service-&amp;gt;service(); ?</description>
+    </item>
+    
+    <item>
+      <title>PHP静态类</title>
+      <link>http://example.org/2006/05/31/phpe99d99e68081e7b1bb/</link>
+      <pubDate>Wed, 31 May 2006 12:05:00 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/31/phpe99d99e68081e7b1bb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>生成静态页面的PHP类</title>
+      <link>http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/</link>
+      <pubDate>Wed, 31 May 2006 11:54:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHP 将 HTML 转化为 WML2005</title>
+      <link>http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/</link>
+      <pubDate>Wed, 24 May 2006 06:13:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql转义字符的问题</title>
+      <link>http://example.org/2006/05/22/mysqle8bdace4b989e5ad97e7aca6e79a84e997aee9a298/</link>
+      <pubDate>Mon, 22 May 2006 07:54:15 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/22/mysqle8bdace4b989e5ad97e7aca6e79a84e997aee9a298/</guid>
+      <description>在php.ini中设置了 magic_quotes_gpc = On
+或者在程序运行时进行了转义字符
+那么存入mysql数据表中的 ‘ 将会变成 ’
+反过来显示的时候
+将会用到下面的函数进行处理。
+function un_magic_quote($value) { $value = is_array($value) ? array_map(&amp;quot;un_magic_quote&amp;quot;, $value) : stripslashes($value); return $value; } 参数$value的类型可以是数组或者字符串
+这样得出来的值就会变成 ‘ 而不是 ’ 了。
+在用SELECT &amp;hellip; LIKE &amp;hellip; 这个字段的时候，
+要这样写
+SELECT * FROM TABLE_NAME WHERE TABLE_FIELD LIKE “%\’%”
+这样可以把带有 ’ 的数据搜索出来，注意这里是”而非’</description>
+    </item>
+    
+  </channel>
+</rss>

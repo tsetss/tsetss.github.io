@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Mysql安装&amp;同步 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&gt; groupadd mysql
+shell&gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&gt; cd /usr/local
+shell&gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&gt; cd mysql
+shell&gt; scripts/mysql_install_db &ndash;user=mysql
+/如果你用root运行命令，应当使用&ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&ndash;user选项。/
+shell&gt; chown -R root .
+shell&gt; chown -R mysql data">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Mysql安装&amp;同步" />
+<meta property="og:description" content="装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&gt; groupadd mysql
+shell&gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&gt; cd /usr/local
+shell&gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&gt; cd mysql
+shell&gt; scripts/mysql_install_db &ndash;user=mysql
+/如果你用root运行命令，应当使用&ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&ndash;user选项。/
+shell&gt; chown -R root .
+shell&gt; chown -R mysql data" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-28T20:59:25+00:00" />
+<meta property="article:modified_time" content="2009-03-28T20:59:25+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mysql安装&amp;同步"/>
+<meta name="twitter:description" content="装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&gt; groupadd mysql
+shell&gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&gt; cd /usr/local
+shell&gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&gt; cd mysql
+shell&gt; scripts/mysql_install_db &ndash;user=mysql
+/如果你用root运行命令，应当使用&ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&ndash;user选项。/
+shell&gt; chown -R root .
+shell&gt; chown -R mysql data"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Mysql安装\u0026同步",
+      "item": "http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mysql安装\u0026同步",
+  "name": "Mysql安装\u0026同步",
+  "description": "装mysql压缩文件格式的MySQL二进制分发版\n一． 安装的软件：\n1. Red Hat Enterprise Linux 4.0 update5\nmysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：\n首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：\nShell\u0026gt; rpm –aq | grep mysql –ri\n显示如下：\nmysql-4.1.12-3.RHEL4.1\nMod_auth_mysql-2.6.1-2.2 等软件包\n在安装mysql二进制分发版之前请先卸载mysql rpm软件包\nShell\u0026gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。\nshell\u0026gt; groupadd mysql\nshell\u0026gt; useradd -g mysql mysql 为mysql增加一个登录用户和组\nshell\u0026gt; cd /usr/local\nshell\u0026gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz\nshell\u0026gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql\nshell\u0026gt; cd mysql\nshell\u0026gt; scripts/mysql_install_db \u0026ndash;user=mysql\n/如果你用root运行命令，应当使用\u0026ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略\u0026ndash;user选项。/\nshell\u0026gt; chown -R root .\nshell\u0026gt; chown -R mysql data",
+  "keywords": [
+    
+  ],
+  "articleBody": "装mysql压缩文件格式的MySQL二进制分发版\n一． 安装的软件：\n1. Red Hat Enterprise Linux 4.0 update5\nmysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：\n首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：\nShell\u003e rpm –aq | grep mysql –ri\n显示如下：\nmysql-4.1.12-3.RHEL4.1\nMod_auth_mysql-2.6.1-2.2 等软件包\n在安装mysql二进制分发版之前请先卸载mysql rpm软件包\nShell\u003e rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。\nshell\u003e groupadd mysql\nshell\u003e useradd -g mysql mysql 为mysql增加一个登录用户和组\nshell\u003e cd /usr/local\nshell\u003e tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz\nshell\u003e ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql\nshell\u003e cd mysql\nshell\u003e scripts/mysql_install_db –user=mysql\n/如果你用root运行命令，应当使用–user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略–user选项。/\nshell\u003e chown -R root .\nshell\u003e chown -R mysql data\nshell\u003e chgrp -R mysql .\n/* 第一个命令将文件的所有属性改为root用户。第二个命令将数据目录的所有属性改为mysql用户。第三个命令将组属性改为mysql组 */\nshell\u003e cp support-files/my-medium.cnf /etc/my.cnf\nshell\u003e cp support-files/mysql.server /etc/init.d/mysql\nshell\u003e chmod +x /etc/init.d/mysql\nshell\u003e chkconfig –add mysql\nshell\u003e chkconfig - -level 345 mysql on /* 把mysql添加为服务*/\nshell\u003e chkconfig - -list mysql /* mysql level服务状态*/\nshell\u003e bin/mysqld_safe –user=mysql \u0026 /* 命令启动MySQL服务器 */\n或者shell\u003e service mysql start /* 启动mysql */\n（shell\u003e service mysql stop /* 停止mysql*/ ）\n至此，mysql的安装基本完成！\n三、优化：对以下参数进行调整\nshow variables like ‘key_buffer_size’;\nshow variables like ‘max_allowed_packet’;\nshow variables like ’table_cache';\nshow variables like ‘sort_buffer_size’;\nshow variables like ‘read_buffer_size’;\nshow variables like ‘read_rnd_buffer_size’;\nshow variables like ‘myisam_sort_buffer_size’;\nshow variables like ’thread_cache_size';\nshow variables like ‘query_cache_size’;\nset global key_buffer_size=384000000;\nset global max_allowed_packet = 1000000;\nset global table_cache = 512;\nset global sort_buffer_size = 2000000;\nset global read_buffer_size = 2000000;\nset global read_rnd_buffer_size = 8000000;\nset global myisam_sort_buffer_size = 64000000;\nset global thread_cache_size = 8;\nset global query_cache_size = 32000000;\nlow_priority_updates\nshow variables like ‘%low_priority_u%’;\nSET LOW_PRIORITY_UPDATES=1\nStart mysqld with –low-priority-updates\n添加：/etc/my.cnf/ long_query_time = 1\nlog_slow_queries=mydatabase-slwqry\n修改：max_connection=1500 默认：max_connection=100\n三、Mysql****数据库数据同步实现\n两台安装一样的系统，都是linux as4，Mysql的版本是5.0.45，都是目前最新的版本。\nA服务器： 192.168.1.13主服务器master B服务器： 192.168.1.14 副服务器slave Master服务器设置: shell\u003eto_path/ bin/mysql –uroot –p mysql\u003egrant replication slave on . to ‘slaver’@‘192.168.1.14’ identified by ‘password’;\n/* 在主服务器上为服务器设置一个连接账slaver,连接密码是password该账户必须授予REPLICATION SLAVE权限。如果账户仅用于复制(推荐这样做)，则不需要再授予任何其它权限。/***\nmysql\u003eflush tables with read lock; //停止数据库的写状态\n导出Master的数据库到slave的机器，可以选择导出需要同步的数据库或者打包需要同步的数据库\nShell\u003etar －zcvf mydatabase.slave.tar.gz /usr/local/mysql/data/mydatabase\n把movivi1.slave.tar.gz传输到slave 的/usr/local/mysql/data/并且释放 在Master机器上修改/etc/my.cnf 在[mysqld]区段内加入参数 log-bin=mysql-bin server-id=1 binlog_do_db = mydatabase //要同步的数据库 binlog_ignore_db = mysql,test,information_schema，recommendation // 不需要同步的库，5.0 有information_schema这个库 sql-bin-update-same //同步形式 该参数在很多方案中都有用到， 我在测试过程中使用该参数，发现数据库启动时会报错，故没有使用该参数，具体不会影响数据库主从同步。 重启Master服务器的mysql服务或者\nShell\u003e unlock tables； //解除数据库表的写状态\nShell\u003eshow master status；//查看主数据库的状态\nB服务器设置 设定/etc/my.cnf 在[mysqld]区段加入\nserver-id = 2 （如果还有slave用户，他们的ID也随之增加，如server-id=3） master-host = 192.168.13 //同步的master IP master-user = slaver //同步用的用户名 master-password =password //同步用的密码\nreplicate-do-db =mydatabase //设置同步的数据库，如果多个库，再重新添加一行\nlog_err =movivi-err.log //设置错误日志文件名 log-slave-updates //同步的形式 master-port=3306 //同步端口 master-connect-retry = 60 //同步时间\n–slave-skip-errors=1062,1053 //跳过出错的信息\n–slave-skip-errors=all\n_//_在从服务器上执行下面的语句，用你的系统的实际值替换选项值：\nmysql\u003e CHANGE MASTER TO\n-\u003e MASTER_HOST=‘192.168.1.13’,\n-\u003e MASTER_USER=‘slaver’,\n-\u003e MASTER_PASSWORD=‘password’,\n-\u003e MASTER_LOG_FILE=‘recorded_log_file_name’,//mysql-bin.0002\n-\u003e MASTER_LOG_POS=recorded_log_position;//show master status;\n最后两行参数可以不选。或者show master status；获取主数据库binlog日志在当前时间点的状态。 重启B服务器的MYSQL 在数据库的文件夹里有master.info文件，用来查看同步信息。如果同步参数设置不正确，导致数据库不能同步，在修改了/etc/my.cnf后重启mysql或shell\u003estop slave； Shell\u003estart slave；它不会覆盖master.info的内容，必须先手动删除master.info再重新启动slave服务。\nmysql\u003e show processlist; //看到两个 system user 就是正常的\nMysql\u003e stop slave； //停止slave服务器\nMysql\u003estart slave； //启动slave服务器，开启了slave就可以同步了\nMysql\u003e show slave status; //看看同步的状态\nmysql\u003e show slave status\\G\n*************************** 1. row ***************************\nSlave_IO_State: Waiting for master to send event\nMaster_Host: 192.168.1.13\nMaster_User: slaver\nMaster_Port: 3306\nConnect_Retry: 60\nMaster_Log_File: mysql-bin.000021\nRead_Master_Log_Pos: 67406\nRelay_Log_File: master-relay-bin.000117\nRelay_Log_Pos: 2195\nRelay_Master_Log_File: mysql-bin.000021\nSlave_IO_Running: Yes\nSlave_SQL_Running: Yes\nReplicate_Do_DB: mydatabase\nReplicate_Ignore_DB:\nReplicate_Do_Table:\neplicate_Ignore_Table:\nReplicate_Wild_Do_Table:\nReplicate_Wild_Ignore_Table:\nLast_Errno: 0\nLast_Error:\nSkip_Counter: 99654\nExec_Master_Log_Pos: 67406\nRelay_Log_Space: 2195\nUntil_Condition: None\nUntil_Log_File:\nUntil_Log_Pos: 0\nSeconds_Behind_Master: 0\n四．测试 在master的mydatabase库里建立test表，并且插入数据，然后检查slave有没有同步这些数据，就能够检查出是否设置成功。\n五、其它\n1. mysql 并发连接问题，最大多少？同时多少用户在线, 平均每个用户多少时间访问一次页面,平均一个页面有多少个SQL查询. 平均一个SQL查询需要花费多少时间(单线程情况下).\n当然这些都是平均数据, 肯定有高峰和极端情况的.此外,你的数据库SQL查询和数据库规模关系大不大, 100W条下的执行时间和1000W条下的执行时间也可能不同.基本上这样你就可以大约知道你的数据库服务器可以支持多少用户同时在线.\n单线程情况下,1个查询执行10ms,那么100个查询同时执行,每个查询基本上就是等待1s(因为是单线程,也就不用考虑锁定,线程切换等开销)实际上一个Ｍｙｓｑｌ做的好的话可以达到２０００多Ｑｕｅｒｙ的。这里的最大连接数并不是并发数目有不少人经常出现 超过连接数而被拒绝连接的情况，这时候可以适当增加max connetions\n如果自己不是很清楚，可以设为1024\n.查看mysql设置参数 $mysqladmin -u root -p variables;\n.开启服务器\n$/etc/rc.d/init.d/mysqld start\n或\n$mysqld_safe –user=mysql \u0026\n$/etc/rc.d/init.d/mysqld stop\n或\n$mysqladmin shutdown -u root -p\n.优化表\nmysql\u003eoptimize table tblA,tblB;\n或 [进行优化并检查修复任务]\n$mysqlcheck -o dbname tblA tblB tblC -u root -p\n.对表进行分析\nmysql\u003eanalyze table tblA;\n或\n$mysqlcheck -a dbname [tblA tblB tblC ] -u root -p\n.对表进行检查\nmysql\u003echeck table tblA,tblB,tblC;\n.赋权\nmysql\u003egrant all on dbname.* to username@ identified by ’localhostpassword’\n刷新权限表\nmysql\u003eflush privileges;\n原文 http://blog.chinaunix.net/u/19637/showart_464668.html\n",
+  "wordCount" : "524",
+  "inLanguage": "en",
+  "datePublished": "2009-03-28T20:59:25Z",
+  "dateModified": "2009-03-28T20:59:25Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Mysql安装&amp;同步
+    </h1>
+    <div class="post-meta"><span title='2009-03-28 20:59:25 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>装mysql压缩文件格式的MySQL二进制分发版</p>
+<p>一．   安装的软件：</p>
+<p>1.  Red Hat Enterprise Linux 4.0  update5</p>
+<ol start="2">
+<li> mysql-5.0.45-linux-i686-icc-glibc23.tar.gz</li>
+</ol>
+<p>二、装步骤如下：</p>
+<p>首先检查是否安装了Red Hat  Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：</p>
+<p>Shell&gt; rpm  –aq | grep mysql –ri</p>
+<p>显示如下：</p>
+<p>mysql-4.1.12-3.RHEL4.1</p>
+<p>Mod_auth_mysql-2.6.1-2.2   等软件包</p>
+<p>在安装mysql二进制分发版之前请先卸载mysql  rpm软件包</p>
+<p> </p>
+<p>Shell&gt; rpm －e  mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。</p>
+<p> </p>
+<p>shell&gt;  groupadd  mysql</p>
+<p>shell&gt;  useradd -g mysql mysql    为<strong>mysql</strong>增加一个登录用户和组</p>
+<p>shell&gt;  cd  /usr/local</p>
+<p>shell&gt;  tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz</p>
+<p>shell&gt;  ln -s mysql-5.0.45-linux-i686-icc-glibc23  mysql</p>
+<p>shell&gt;  cd mysql</p>
+<p>shell&gt; scripts/mysql_install_db &ndash;user=mysql</p>
+<p> /<em>如果你用root运行命令，应当使用&ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&ndash;user选项。</em>/</p>
+<p>shell&gt;  chown -R root   .</p>
+<p>shell&gt;  chown -R mysql  data</p>
+<p>shell&gt;  chgrp -R mysql .</p>
+<p> /* 第一个命令将文件的所有属性改为root用户。第二个命令将数据目录的所有属性改为mysql用户。第三个命令将组属性改为mysql组  */</p>
+<p>shell&gt;  cp support-files/my-medium.cnf  /etc/my.cnf</p>
+<p>shell&gt;  cp support-files/mysql.server    /etc/init.d/mysql</p>
+<p>shell&gt;  chmod +x    /etc/init.d/mysql</p>
+<p>shell&gt;  chkconfig &ndash;add mysql</p>
+<p>shell&gt;  chkconfig  - -level 345 mysql on  /* 把mysql添加为服务*/</p>
+<p>shell&gt;  chkconfig  - -list mysql          /* mysql level服务状态*/</p>
+<p>shell&gt;  bin/mysqld_safe &ndash;user=mysql &amp;   /* 命令启动MySQL服务器  */</p>
+<p> 或者shell&gt;  service mysql start  /* 启动mysql  */</p>
+<p>（shell&gt;  service mysql stop /* 停止mysql*/ ）</p>
+<p>至此，mysql的安装基本完成！</p>
+<p> </p>
+<p>三、优化：对以下参数进行调整</p>
+<p>show variables like  &lsquo;key_buffer_size&rsquo;;</p>
+<p>show variables like  &lsquo;max_allowed_packet&rsquo;;</p>
+<p>show variables like  &rsquo;table_cache';</p>
+<p>show variables like  &lsquo;sort_buffer_size&rsquo;;</p>
+<p>show variables like  &lsquo;read_buffer_size&rsquo;;</p>
+<p>show variables like  &lsquo;read_rnd_buffer_size&rsquo;;</p>
+<p>show variables like  &lsquo;myisam_sort_buffer_size&rsquo;;</p>
+<p>show variables like  &rsquo;thread_cache_size';</p>
+<p>show variables like  &lsquo;query_cache_size&rsquo;;</p>
+<p> </p>
+<p>set global  key_buffer_size=384000000;</p>
+<p>set global  max_allowed_packet = 1000000;</p>
+<p>set global table_cache =  512;</p>
+<p>set global sort_buffer_size  = 2000000;</p>
+<p>set global read_buffer_size  = 2000000;</p>
+<p>set global  read_rnd_buffer_size = 8000000;</p>
+<p>set global  myisam_sort_buffer_size = 64000000;</p>
+<p>set global  thread_cache_size = 8;</p>
+<p>set global query_cache_size  = 32000000;</p>
+<p> </p>
+<p>low_priority_updates</p>
+<p>show variables like  &lsquo;%low_priority_u%&rsquo;;</p>
+<p>SET  LOW_PRIORITY_UPDATES=1</p>
+<p>Start mysqld with  &ndash;low-priority-updates</p>
+<p> </p>
+<p>添加：/etc/my.cnf/ </p>
+<p>long_query_time =  1</p>
+<p>log_slow_queries=mydatabase-slwqry</p>
+<p> </p>
+<p>修改：max_connection=1500  默认：max_connection=100</p>
+<p>三、<strong>Mysql****数据库数据同步实现</strong></p>
+<p>    两台安装一样的系统，都是linux as4，Mysql的版本是5.0.45，都是目前最新的版本。</p>
+<p>A服务器： 192.168.1.13主服务器master
+B服务器： 192.168.1.14 副服务器slave
+Master服务器设置:
+shell&gt;to_path/ bin/mysql  –uroot  –p
+mysql&gt;grant replication slave on <em>.</em> to  ‘slaver’@‘192.168.1.14’ identified by  ‘password’;</p>
+<p>/* 在主服务器上为服务器设置一个连接账slaver,连接密码是password该账户必须授予REPLICATION SLAVE权限。如果账户仅用于复制(推荐这样做)，则不需要再授予任何其它权限。<em>/</em>***</p>
+<p>mysql&gt;flush tables with read lock;    //停止数据库的写状态</p>
+<p>导出Master的数据库到slave的机器，可以选择导出需要同步的数据库或者打包需要同步的数据库</p>
+<p>Shell&gt;tar －zcvf  mydatabase.slave.tar.gz  /usr/local/mysql/data/mydatabase</p>
+<p>把movivi1.slave.tar.gz传输到slave 的/usr/local/mysql/data/并且释放
+在Master机器上修改/etc/my.cnf
+在[mysqld]区段内加入参数
+log-bin=mysql-bin
+server-id=1
+binlog_do_db  = mydatabase   //要同步的数据库
+binlog_ignore_db =  mysql,test,information_schema，recommendation                           // 不需要同步的库，5.0 有information_schema这个库
+sql-bin-update-same  //同步形式 该参数在很多方案中都有用到， 我在测试过程中使用该参数，发现数据库启动时会报错，故没有使用该参数，具体不会影响数据库主从同步。
+重启Master服务器的mysql服务或者</p>
+<p>Shell&gt; unlock tables；   //解除数据库表的写状态</p>
+<p>Shell&gt;show master status；//查看主数据库的状态</p>
+<p> </p>
+<p>B服务器设置
+设定/etc/my.cnf
+在[mysqld]区段加入</p>
+<p>server-id = 2 （如果还有slave用户，他们的ID也随之增加，如server-id=3）
+master-host = 192.168.13      //同步的master IP
+master-user = slaver          //同步用的用户名
+master-password =password   //同步用的密码</p>
+<p>replicate-do-db =mydatabase     //设置同步的数据库，如果多个库，再重新添加一行</p>
+<p>log_err =movivi-err.log      //设置错误日志文件名
+log-slave-updates           //同步的形式
+master-port=3306           //同步端口
+master-connect-retry = 60    //同步时间</p>
+<p>&ndash;slave-skip-errors=1062,1053  //跳过出错的信息</p>
+<p>&ndash;slave-skip-errors=all</p>
+<p>_//_<em>在从服务器上执行下面的语句，用你的系统的实际值替换选项值：</em></p>
+<p>mysql&gt;  CHANGE MASTER  TO</p>
+<p> -&gt;      MASTER_HOST=&lsquo;192.168.1.13&rsquo;,</p>
+<p>     -&gt;      MASTER_USER=&lsquo;slaver&rsquo;,</p>
+<p>      -&gt;     MASTER_PASSWORD=&lsquo;password&rsquo;,</p>
+<p>    -&gt;      MASTER_LOG_FILE=&lsquo;recorded_log_file_name&rsquo;,//mysql-bin.0002</p>
+<p>     -&gt;      MASTER_LOG_POS=recorded_log_position;//show  master status;</p>
+<p>最后两行参数可以不选。或者show master status；获取主数据库binlog日志在当前时间点的状态。
+重启B服务器的MYSQL
+在数据库的文件夹里有master.info文件，用来查看同步信息。如果同步参数设置不正确，导致数据库不能同步，在修改了/etc/my.cnf后重启mysql或shell&gt;stop slave； Shell&gt;start slave；它不会覆盖master.info的内容，必须先手动删除master.info再重新启动slave服务。</p>
+<p>mysql&gt; show  processlist;   //看到两个 system user 就是正常的</p>
+<p>Mysql&gt; stop  slave；  //停止slave服务器</p>
+<p>Mysql&gt;start  slave；  //启动slave服务器，开启了slave就可以同步了</p>
+<p>Mysql&gt; show slave  status;  //看看同步的状态</p>
+<p> </p>
+<p>mysql&gt; show slave  status\G</p>
+<p>***************************  1. row ***************************</p>
+<p>Slave_IO_State: Waiting for  master to send event</p>
+<p>Master_Host:  192.168.1.13</p>
+<p>Master_User:  slaver</p>
+<p>Master_Port:  3306</p>
+<p>Connect_Retry:  60</p>
+<p> Master_Log_File:  mysql-bin.000021</p>
+<p>Read_Master_Log_Pos:  67406</p>
+<p>Relay_Log_File:  master-relay-bin.000117</p>
+<p>Relay_Log_Pos:  2195</p>
+<p>Relay_Master_Log_File:  mysql-bin.000021</p>
+<p>Slave_IO_Running: Yes</p>
+<p>Slave_SQL_Running: Yes</p>
+<p>Replicate_Do_DB:  mydatabase</p>
+<p>Replicate_Ignore_DB:</p>
+<p>Replicate_Do_Table:</p>
+<p>eplicate_Ignore_Table:</p>
+<p>Replicate_Wild_Do_Table:</p>
+<p>Replicate_Wild_Ignore_Table:</p>
+<p>Last_Errno:  0</p>
+<p>Last_Error:</p>
+<p>Skip_Counter:  99654</p>
+<p>Exec_Master_Log_Pos:  67406</p>
+<p>Relay_Log_Space:  2195</p>
+<p>Until_Condition:  None</p>
+<p>Until_Log_File:</p>
+<p>Until_Log_Pos:  0</p>
+<p> Seconds_Behind_Master:  0</p>
+<p><strong>四．测试</strong>
+在master的mydatabase库里建立test表，并且插入数据，然后检查slave有没有同步这些数据，就能够检查出是否设置成功。</p>
+<p> </p>
+<p>五、其它</p>
+<p>1.  mysql 并发连接问题，最大多少？同时多少用户在线, 平均每个用户多少时间访问一次页面,平均一个页面有多少个SQL查询. 平均一个SQL查询需要花费多少时间(单线程情况下).</p>
+<p>当然这些都是平均数据, 肯定有高峰和极端情况的.此外,你的数据库SQL查询和数据库规模关系大不大,  100W条下的执行时间和1000W条下的执行时间也可能不同.基本上这样你就可以大约知道你的数据库服务器可以支持多少用户同时在线.</p>
+<p>单线程情况下,1个查询执行10ms,那么100个查询同时执行,每个查询基本上就是等待1s(因为是单线程,也就不用考虑锁定,线程切换等开销)实际上一个Ｍｙｓｑｌ做的好的话可以达到２０００多Ｑｕｅｒｙ的。这里的最大连接数并不是并发数目有不少人经常出现 超过连接数而被拒绝连接的情况，这时候可以适当增加max  connetions</p>
+<p>如果自己不是很清楚，可以设为1024</p>
+<ol start="2">
+<li>.查看mysql设置参数</li>
+</ol>
+<p>$mysqladmin -u root -p  variables;</p>
+<p>.开启服务器</p>
+<p>$/etc/rc.d/init.d/mysqld  start</p>
+<p>或</p>
+<p>$mysqld_safe &ndash;user=mysql  &amp;</p>
+<p>$/etc/rc.d/init.d/mysqld  stop</p>
+<p>或</p>
+<p>$mysqladmin shutdown -u  root -p</p>
+<p>.优化表</p>
+<p>mysql&gt;optimize table  tblA,tblB;</p>
+<p>或 [进行优化并检查修复任务]</p>
+<p>$mysqlcheck -o dbname tblA  tblB tblC -u root -p</p>
+<p>.对表进行分析</p>
+<p>mysql&gt;analyze table  tblA;</p>
+<p>或</p>
+<p>$mysqlcheck -a dbname [tblA  tblB tblC ] -u root -p</p>
+<p>.对表进行检查</p>
+<p>mysql&gt;check table  tblA,tblB,tblC;</p>
+<p>.赋权</p>
+<p>mysql&gt;grant all on  dbname.* to username@ identified by  &rsquo;localhostpassword&rsquo;</p>
+<p>刷新权限表</p>
+<p>mysql&gt;flush  privileges;</p>
+<p> </p>
+<p>原文 http://blog.chinaunix.net/u/19637/showart_464668.html</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

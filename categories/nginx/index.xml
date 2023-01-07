@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+nginx
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/nginx/</link>
+    <description>Recent content in 
+nginx
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 Sep 2009 14:49:23 +0000</lastBuildDate><atom:link href="http://example.org/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nginx做透明代理</title>
+      <link>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</link>
+      <pubDate>Wed, 23 Sep 2009 14:49:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</guid>
+      <description>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</description>
+    </item>
+    
+    <item>
+      <title>spawn-fcgi: no fastcgi application given</title>
+      <link>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</link>
+      <pubDate>Sun, 16 Aug 2009 17:32:36 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/</guid>
+      <description>刚装完spawn-fcgi 起动会遇到这个错误. 修改 spawn-fcgi 起动脚本 spawn_fcgi_app 加个 php-cgi 地址，或在rc.conf 加上也一样</description>
+    </item>
+    
+    <item>
+      <title>spawn-fcgi 独立出来了,不错</title>
+      <link>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</link>
+      <pubDate>Fri, 19 Jun 2009 06:56:44 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</guid>
+      <description>原来一直用php-fpm ,但是更新好像不太及时,上次改了半天ports 才通过编译
+/usr/ports/www/spawn-fcgi 以后可以用这个了,但重要载入php.ini 要重起</description>
+    </item>
+    
+    <item>
+      <title>nginx freebsd 官方网站优化</title>
+      <link>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</link>
+      <pubDate>Sun, 31 May 2009 22:13:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</guid>
+      <description>OS &amp;amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp;amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from &amp;ldquo;http://wiki.nginx.org/FreeBSDOptimizations&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>freebsd下 nginx 日志每天分割</title>
+      <link>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</link>
+      <pubDate>Wed, 13 May 2009 18:42:06 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</guid>
+      <description>#!/bin/sh date today=date +&amp;quot;%Y_%m_%d&amp;quot; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &amp;gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime +$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </description>
+    </item>
+    
+    <item>
+      <title>nginx 绑定多域名跳转问题</title>
+      <link>http://example.org/2009/04/04/nginx-e7bb91e5ae9ae5a49ae59f9fe5908de8b7b3e8bdace997aee9a298/</link>
+      <pubDate>Sat, 04 Apr 2009 15:49:44 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/04/nginx-e7bb91e5ae9ae5a49ae59f9fe5908de8b7b3e8bdace997aee9a298/</guid>
+      <description>如 server_name 是 andsky.com www.andsky.com
+www.andsky.com 會自動轉到 andsky.com
+用以下方法可以解决
+if (-d $request_filename){ rewrite ^/(.*)([^/])$ http://$host/$1$2/ permanent; } </description>
+    </item>
+    
+    <item>
+      <title>nginx echsop rewrite规则</title>
+      <link>http://example.org/2009/04/03/nginx-echsop-rewrite/</link>
+      <pubDate>Fri, 03 Apr 2009 12:19:40 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/03/nginx-echsop-rewrite/</guid>
+      <description>从网上搜索到的规则,但不能用,修改了一下,
+rewrite ^/index.html$ /index.php; rewrite ^/category$ /index.php; rewrite ^/feed-c([0-9]+).xml$ /feed.php?cat=$1; rewrite ^/feed-b([0-9]+).xml$ /feed.php?brand=$1; rewrite ^/feed.xml$ /feed.php; rewrite ^/category-([0-9]+)-b([0-9]+)-min([0-9]+)-max([0-9]+)-attr([^-]*)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;price;_min=$3&amp;amp;price;_max=$4&amp;amp;filter;_attr=$5&amp;amp;page;=$6&amp;amp;sort;=$7&amp;amp;order;=$8; rewrite ^/category-([0-9]+)-b([0-9]+)-min([0-9]+)-max([0-9]+)-attr([^-]*)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;price;_min=$3&amp;amp;price;_max=$4&amp;amp;filter;_attr=$5; rewrite ^/category-([0-9]+)-b([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;page;=$3&amp;amp;sort;=$4&amp;amp;order;=$5; rewrite ^/category-([0-9]+)-b([0-9]+)-([0-9]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;page;=$3; rewrite ^/category-([0-9]+)-b([0-9]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2; rewrite ^/category-([0-9]+)(.*).html$ /category.php?id=$1; rewrite ^/goods-([0-9]+)(.*).html$ /goods.php?id=$1; rewrite ^/article_cat-([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /article_cat.php?id=$1&amp;amp;page;=$2&amp;amp;sort;=$3&amp;amp;order;=$4; rewrite ^/article_cat-([0-9]+)-([0-9]+)(.*).html$ /article_cat.php?id=$1&amp;amp;page;=$2; rewrite ^/article_cat-([0-9]+)(.*).html$ /article_cat.php?id=$1; rewrite ^/article-([0-9]+)(.*).html$ /article.php?id=$1; rewrite ^/brand-([0-9]+)-c([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+).html /brand.php?id=$1&amp;amp;cat;=$2&amp;amp;page;=$3&amp;amp;sort;=$4&amp;amp;order;=$5; rewrite ^/brand-([0-9]+)-c([0-9]+)-([0-9]+)(.*).html /brand.php?id=$1&amp;amp;cat;=$2&amp;amp;page;=$3; rewrite ^/brand-([0-9]+)-c([0-9]+)(.*).html /brand.php?id=$1&amp;amp;cat;=$2; rewrite ^/brand-([0-9]+)(.*).html /brand.php?id=$1; rewrite ^/tag-(.*).html /search.php?keywords=$1; rewrite ^/snatch-([0-9]+).html$ /snatch.php?id=$1; rewrite ^/group_buy-([0-9]+).html$ /group_buy.php?act=view&amp;amp;id;=$1; rewrite ^/auction-([0-9]+).</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证</title>
+      <link>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</link>
+      <pubDate>Wed, 25 Mar 2009 08:54:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</guid>
+      <description>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x + PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</description>
+    </item>
+    
+    <item>
+      <title>NginxSimplePythonFCGI</title>
+      <link>http://example.org/2009/03/24/nginxsimplepythonfcgi/</link>
+      <pubDate>Tue, 24 Mar 2009 11:20:53 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/nginxsimplepythonfcgi/</guid>
+      <description>Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:</description>
+    </item>
+    
+    <item>
+      <title>Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版</title>
+      <link>http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/</link>
+      <pubDate>Tue, 24 Mar 2009 09:18:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/</guid>
+      <description>作者:NetSeek http://www.linuxtone.org (IT运维专家网|集群架构|性能调优) 欢迎转载,转载时请务必以超链接形式标明文章原始出处和作者信息及本声明. 首发时间: 2008-11-25 更新时间:2009-1-14
+目 录 一、 Nginx 基础知识 二、 Nginx 安装及调试 三、 Nginx Rewrite 四、 Nginx Redirect 五、 Nginx 目录自动加斜线: 六、 Nginx Location 七、 Nginx expires 八、 Nginx 防盗链 九、 Nginx 访问控制 十、 Nginx日志处理 十一、 Nginx Cache 十二、 Nginx负载均衡 十三、 Nginx简单优化 十四、 如何构建高性能的LEMP环境 十五、 Nginx服务监控 十六、 常见问题与错误处理. 十七、 相关资源下载
+【前言】： 编写此技术指南在于推广普及NGINX在国内的使用，更方便的帮助大家了解和掌握NGINX的一些使用技巧。本指南很多技巧来自于网络和工作中或网络上朋友们问我的问题.在此对网络上愿意分享的朋友们表示感谢和致意！欢迎大家和我一起丰富本技术指南提出更好的建议！请朋友们关注: http://www.linuxtone.org 技术分享社区! 互想学习共同进步!
+一、 Nginx 基础知识 1、简介 Nginx (&amp;ldquo;engine x&amp;rdquo;) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx 是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.</description>
+    </item>
+    
+    <item>
+      <title>使用 Nginx 提升网站访问速度</title>
+      <link>http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/</link>
+      <pubDate>Tue, 24 Mar 2009 03:23:40 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/e4bdbfe794a8-nginx-e68f90e58d87e7bd91e7ab99e8aebfe997aee9809fe5baa6/</guid>
+      <description>本文主要介绍如何在 Linux 系统上安装高性能的 HTTP 服务器 —— Nginx、并在不改变原有网站结构的条件下用 Nginx 来提升网站的访问速度。 Nginx 简介 Nginx(&amp;ldquo;engine x&amp;rdquo;) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.ru 站点开发的，它已经在该站点运行超过两年半了。 Igor 将源代码以类BSD 许可证的形式发布。尽管还是测试版，但是，Nginx 已经因为它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名了。 根据最新一期（08 年 6 月份）的 NetCraft 调查报告显示，已经有超过两百万的主机使用了 Nginx，这个数字超过了另外一个轻量级的 HTTP 服务器 lighttpd， 排名第四，并且发展迅速。下面是这份报告的前几名的报表： 产品 网站数 Apache 84,309,103
+IIS 60,987,087
+Google GFE 10,465,178
+Unknown 4,903,174
+nginx 2,125,160
+Oversee 1,953,848
+lighttpd 1,532,952
+关于这期调查报告的更详细信息请看下面链接： http://survey.netcraft.com/Reports/200806/ 下图是最近几个月使用 Nginx 和 lighttpd 的网站数比较 图 1. 最近几个月使用 Nginx 和 lighttpd 的网站数比较 目前官方 Nginx 并不支持 Windows，您只能在包括 Linux、UNIX、BSD 系统下安装和使用； Nginx 本身只是一个 HTTP 和反向代理服务器，它无法像 Apache 一样通过安装各种模块来支持不同的页面脚本，例如 PHP、CGI 等； Nginx 支持简单的负载均衡和容错； 支持作为基本 HTTP 服务器的功能，例如日志、压缩、Byte ranges、Chunked responses、SSL、虚拟主机等等，应有尽有。 在 Linux 下安装 Nginx 为了确保能在 Nginx 中使用正则表达式进行更灵活的配置，安装之前需要确定系统是否安装有 PCRE（Perl Compatible Regular Expressions）包。您可以到 ftp://ftp.</description>
+    </item>
+    
+    <item>
+      <title>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;</title>
+      <link>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</link>
+      <pubDate>Mon, 23 Mar 2009 16:29:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/</guid>
+      <description>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &amp;lsquo;default&amp;rsquo;
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &amp;lt;value name=&amp;quot;user&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; Unix group of processes &amp;lt;value name=&amp;quot;group&amp;quot;&amp;gt;www&amp;lt;/value&amp;gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</description>
+    </item>
+    
+    <item>
+      <title>nginx源代码分析</title>
+      <link>http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/</link>
+      <pubDate>Mon, 23 Mar 2009 15:07:27 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/</guid>
+      <description>Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i++) { ngx_modules[i]-&amp;gt;index = ngx_max_module++; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;amp;ngx;_core_module, &amp;amp;ngx;_errlog_module, &amp;amp;ngx;_conf_module, &amp;amp;ngx;_events_module, &amp;amp;ngx;_event_core_module, &amp;amp;ngx;_epoll_module, &amp;amp;ngx;_http_module, &amp;amp;ngx;_http_core_module, &amp;amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： .</description>
+    </item>
+    
+  </channel>
+</rss>

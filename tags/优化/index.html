@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+优化
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/tags/%E4%BC%98%E5%8C%96/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/%E4%BC%98%E5%8C%96/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+优化
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/tags/%E4%BC%98%E5%8C%96/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+优化
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+优化
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx freebsd 官方网站优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>OS &amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from “http://wiki.nginx.org/FreeBSDOptimizations&#34;</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-31 22:13:29 +0000 UTC'>May 31, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx freebsd 官方网站优化" href="http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>［翻译］［注解］Innodb Performance Optimization Basics
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-19 14:47:07 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ［翻译］［注解］Innodb Performance Optimization Basics" href="http://example.org/2009/04/19/innodb-performance-optimization-basics/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>MySQL分表优化试验
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>我们的项目中有好多不等于的情况。今天写这篇文章简单的分析一下怎么个优化法。 这里的分表逻辑是根据t_group表的user_name组的个数来分的。 因为这种情况单独user_name字段上的索引就属于烂索引。起不了啥名明显的效果。
+1、试验PROCEDURE. DELIMITER $$ DROP PROCEDURE `t_girl`.`sp_split_table`$$ CREATE PROCEDURE `t_girl`.`sp_split_table`() BEGIN declare done int default 0; declare v_user_name varchar(20) default &#39;&#39;; declare v_table_name varchar(64) default &#39;&#39;; -- Get all users&#39; name. declare cur1 cursor for select user_name from t_group group by user_name; -- Deal with error or warnings. declare continue handler for 1329 set done = 1; -- Open cursor. open cur1; while done &lt;&gt; 1 do fetch cur1 into v_user_name; if not done then -- Get table name....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-18 10:11:18 +0000 UTC'>March 18, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL分表优化试验" href="http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

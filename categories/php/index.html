@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+php
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/php/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/php/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+php
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/php/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+php
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+php
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php tokyo_tyrant扩展安装
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>tokyo_tyrant 还是beta 版，freebsd 的 ports 还没有，有点不爽，用 pecl 安装吧，
+pecl install tokyo_tyrant pecl: Command not found. 先安装 pear 呵呵
+cd /usr/ports/devel/pear make install clean pecl install tokyo_tyrant Failed to download pecl/tokyo_tyrant within preferred state &#34;stable&#34;, latest release is version 0.1.2, stability &#34;beta&#34;, use &#34;channel://pecl.php.net/tokyo_tyrant-0.1.2&#34; to install install failed 还是不行，要加入beta 才行哦
+pecl install tokyo_tyrant-beta ee /usr/local/etc/php/extensions.ini 加入 extension=tokyo_tyrant.so OK 安装完成 重起php进程，用phpinfo 查看一下 freebsd 真是太强大了，喜欢哦!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-12 01:29:34 +0000 UTC'>December 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php tokyo_tyrant扩展安装" href="http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>用pngencoder php(AMFPHP) 保存图片
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转自:http://hi.baidu.com/harry1299/blog/item/d7a64e323ec976f01b4cff3a.html
+1.Flash端,通过adobe的类包,将BitmapData数据Encoder成ByteArray .然后，通过http或者amfphp发送到服务器端。 Code:
+var bd:BitmapData = new BitmapData(canvas.width,canvas.height); bd.draw(canvas); var jpgEncoder : PNGEncoder = new PNGEncoder(); var jpgBytes:ByteArray = PNGEncoder.encode(bd); 2.服务端的工作（针对amfphp而言）：接受ByteArray ，注意，php是直接支持ByteArray类型的，然后通过fwrite或者file_put_contents，写数据，并且输出文件，ok搞定 Code:
+public function createSavePngFile($ba,$savePoint) { date_default_timezone_set(&#39;Asia/Shanghai&#39;); $now = date(&#34;YmdHis&#34;); $path = &#34;resource/shareVideo/&#34;; $fileName = $path.$now.&#34;.png&#34;; $data = $ba-&gt;data; if(!file_exists($path.$now.&#34;.png&#34;)) { $input = file_put_contents( $fileName, $data);//写入二进制数据 if($input != 0 &amp;&amp; $input != -1) { return $this-&gt;serverPoxy-&gt;updateShareInfo($savePoint,$fileName); } else { return false; } } return false; } 注意：file_put_contents( $fileName, $data);中第二个参数是：$ba-&gt;data,而不是$ba,这是php的数据结构的规范。我就是搞错了这个，浪费了大侠我整个一个上午的时间，可恶^_^....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-10 02:01:35 +0000 UTC'>December 10, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用pngencoder php(AMFPHP) 保存图片" href="http://example.org/2009/12/10/e794a8pngencoder-phpamfphp-e4bf9de5ad98e59bbee78987/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>进程信号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-30 01:50:25 +0000 UTC'>November 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 进程信号" href="http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>windows下开发并编译PHP扩展(步骤说明)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>开发PHP扩展对于普通程序员来讲可能一直是一件很神秘的工作，其实，只要你对C语言熟悉，了解了开发PHP扩展的步骤和规则，开发PHP扩展也是一件很普通的工作。 现在就简单说一在WINDOWS下开发PHP扩展的步骤： 首先需要准备的软件有： cygwin 安装路径e:\app\cygwin visual studio C&#43;&#43; 6.0, 修改环境变量，把已经安装好的PHP路径设置为环境变量。在这里，假设我的PHP安装目录是：e:\app\php5.2.5,那么我把WINDOWS环境变量后面加上这个安装目录。方便一会儿使用php.exe。 PHP源代码，这里假设为e:\c_source_code\php-5.2.5
+1、修改文件 “PHP源文件目录/ext/ext_skel_win32.php”,在这里就是：E:\c_source_code\php-5.2.5\ext，其中主要是修改其中的cygwin路径。$cygwin_path = ’e:\app\cygwin\bin’; 把$cygwin_path修改为你实际安装cygwin的路径。 2、在源代码ext目录也就是e:\c_source_code\php-5.2.5\ext下，执行 php ext_skel_win32.php –extname=，此时会在ext目录下生成目录,这个目录就是我们将要进行PHP扩展开发的框架。比如你运行php.exe ext_skel_win32.php –extname=foo，会在ext目录下生成foo目录。 3、将php-root\dev\php5ts.lib拷贝至 “ext/”中。比如你要开发的PHP扩展名为foo,那么就需要把php-root\dev\php5ts.lib拷贝到PHP源文件目录\ext\foo中。 4、修改foo.c内容，编写我们需要的C代码。 5、进入目录，打开.dsp。 设置VC6工程， 设置菜单“组建”-&gt;“移除工程配置”，选中“Win 32 Release_TS”， 设置菜单“工程”，选中“Win 32 Release_TS” 打开Tab“连接”，设置“输出文件名”中的目录， [可选]打开Tab“C/C&#43;&#43;”,增加“预处理器定义”“,COMPILE_DL_”（注意全大写，默认加入的），取消预定义“LIBZEND_EXPORTS”（否则不可引入zend函数）。 6、设置好以后，进行编译，会生成一个dll文件，文件名是.dll，比如在我们的例子中就为foo.dll 把foo.dll拷到e:\app\ext目录下，并在php.ini里加上一行extension=foo.dll，重启一下apache,查看phpinfo();，会发现我们的PHP扩展foo()已经加载进来，已经可以使用这个foo扩展了。
+http://info.codepub.com/2008/08/info-21426.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-02 06:40:08 +0000 UTC'>November 2, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to windows下开发并编译PHP扩展(步骤说明)" href="http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>(转)整理了一份比较全面的PHP开发编码规范
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>这些年来多从事Linux下PHP和C相关的开发，带过很多项目和团队，下面是根据经验整理的PHP编码规范，可以用作给大家的范例和参考，根据需要进行取舍和修改！
+（可能最新的一些php5的规范不够完整，今后有机会保持更新！）
+目录 1 编写目的 2 整体要求 3 安全规范 3.1 包含文件 3.1.1 命名规则 3.1.2 存放规则 3.2 安全规则 3.3 一些针对PHP的规则 3.4 其它处理规则 3.4.1 对输入参数值进行转义处理 3.4.2 操作大HTML文本
+4 编码规范 4.1 命名规范 4.1.1 变量命名 4.1.2 类 4.1.3 方法或函数 4.1.4 缩写词 4.1.5 数据库表名 4.1.6 数据库字段 4.2 书写规则 4.2.1 代码缩进 4.2.2 大括号{ }书写规则 4.2.3 小括号( )和函数、关键词等 4.2.4 ＝符号书写 4.2.5 if else swith for while等书写 4.2.6 类的构造函数 4.2.7 语句断行, 每行控制在80个字符以内 4.2.8 不要不可思议的数字 4.2.9 true/false和0/1判断 4.2.10 避免嵌入式赋值 4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-01 14:44:30 +0000 UTC'>November 1, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to (转)整理了一份比较全面的PHP开发编码规范" href="http://example.org/2009/11/01/e8bdace695b4e79086e4ba86e4b880e4bbbde6af94e8be83e585a8e99da2e79a84phpe5bc80e58f91e7bc96e7a081e8a784e88c83/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>BOM--字节序标记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>读代码的时候看到这样一段 $template_content = str_replace(&#34;\xEF\xBB\xBF&#34;, ‘’, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&gt;文件-&gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&#34;ZERO WIDTH NO-BREAK SPACE&#34;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&#34;ZERO WIDTH NO-BREAK SPACE&#34;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 02:00:18 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to BOM--字节序标记" href="http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>spawn-fcgi: no fastcgi application given
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>刚装完spawn-fcgi 起动会遇到这个错误. 修改 spawn-fcgi 起动脚本 spawn_fcgi_app 加个 php-cgi 地址，或在rc.conf 加上也一样</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-08-16 17:32:36 +0000 UTC'>August 16, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to spawn-fcgi: no fastcgi application given" href="http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>开始学习python
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原来一直想学这个，但是没有机会，在新项目中的聊天室，打算用python&#43;flex&#43;socket 来实现，效率还不知道，正好顺便学学 python ,看它的语法，感觉还是很简洁的，不过习惯php 了，老是想以 php 的写法来写，这个比较郁闷了!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-08-16 15:55:29 +0000 UTC'>August 16, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 开始学习python" href="http://example.org/2009/08/16/e5bc80e5a78be5ada6e4b9a0python/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>md5crypt
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>php 版 md5crypt postfix extmail 使用
+function md5crypt ($pw) { $MAGIC = &#34;$1$&#34;; $rand = substr (md5 (mt_rand ()), 0, 8); return crypt($pw, &#39;$1$&#39;.$rand.&#39;$&#39;); } </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-07-06 10:33:43 +0000 UTC'>July 6, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to md5crypt" href="http://example.org/2009/07/06/md5crypt/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>spawn-fcgi 独立出来了,不错
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原来一直用php-fpm ,但是更新好像不太及时,上次改了半天ports 才通过编译
+/usr/ports/www/spawn-fcgi 以后可以用这个了,但重要载入php.ini 要重起</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-06-19 06:56:44 +0000 UTC'>June 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to spawn-fcgi 独立出来了,不错" href="http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/php/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

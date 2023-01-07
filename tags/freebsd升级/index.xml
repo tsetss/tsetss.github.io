@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+freebsd升级
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/freebsd%E5%8D%87%E7%BA%A7/</link>
+    <description>Recent content in 
+freebsd升级
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 Oct 2012 10:49:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/freebsd%E5%8D%87%E7%BA%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>freebsd6升级到freebsd7</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</link>
+      <pubDate>Mon, 22 Oct 2012 10:49:26 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd7升级到freebsd8</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:44:22 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd8升级到freebsd9</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:38:30 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

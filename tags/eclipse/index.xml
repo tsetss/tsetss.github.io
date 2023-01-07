@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+eclipse
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/eclipse/</link>
+    <description>Recent content in 
+eclipse
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Aug 2012 15:39:17 +0000</lastBuildDate><atom:link href="http://example.org/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>今天把eclipse从3.6升到了4.2Juno</title>
+      <link>http://example.org/2012/08/28/eclipse-3-6-update-4-2-juno/</link>
+      <pubDate>Tue, 28 Aug 2012 15:39:17 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/28/eclipse-3-6-update-4-2-juno/</guid>
+      <description>做为版本控的我，3.6 的 eclipse 已经很久没更新过了，今天终于更新到了 4.2 正在体验中，附上升级方法
+升级到 3.7
+1.Window &amp;gt; Preferences &amp;gt; Install/Update &amp;gt; Available Software Sites 2.Click &#39;Add&#39; 3.Enter http://download.eclipse.org/releases/indigo 4.Click &#39;Ok&#39; 升级到4.2
+1.Window &amp;gt; Preferences &amp;gt; Install/Update &amp;gt; Available Software Sites 2.Click &#39;Add&#39; 3.Enter http://download.eclipse.org/eclipse/updates/4.2 4.Click &#39;Ok&#39; </description>
+    </item>
+    
+  </channel>
+</rss>

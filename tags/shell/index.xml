@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+shell
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/shell/</link>
+    <description>Recent content in 
+shell
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Feb 2006 10:20:05 +0000</lastBuildDate><atom:link href="http://example.org/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unix命令大全</title>
+      <link>http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/</link>
+      <pubDate>Sun, 26 Feb 2006 10:20:05 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/</guid>
+      <description>1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:
+telnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address
+1.2 登录步骤 login : _______ &amp;gt; 输入 username
+password : _______ &amp;gt; 输入密码
+1.3 登出步骤
+% logout 或 % exit 或 % 1.4 更改帐号密码
+% yppasswd &amp;gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ &amp;gt; 输入旧密码 New password: ______ &amp;gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ &amp;gt; 再输入一次密码 1.</description>
+    </item>
+    
+  </channel>
+</rss>

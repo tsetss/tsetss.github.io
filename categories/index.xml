@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on 白天’s Blog</title>
+    <link>http://example.org/categories/</link>
+    <description>Recent content in Categories on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Jun 2017 02:17:34 +0000</lastBuildDate><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>
+网络
+      </title>
+      <link>http://example.org/categories/%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Fri, 16 Jun 2017 02:17:34 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+技术
+      </title>
+      <link>http://example.org/categories/%E6%8A%80%E6%9C%AF/</link>
+      <pubDate>Fri, 08 Jul 2016 09:20:35 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E6%8A%80%E6%9C%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+生活
+      </title>
+      <link>http://example.org/categories/%E7%94%9F%E6%B4%BB/</link>
+      <pubDate>Mon, 29 Oct 2012 05:32:38 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E7%94%9F%E6%B4%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+大事小事
+      </title>
+      <link>http://example.org/categories/%E5%A4%A7%E4%BA%8B%E5%B0%8F%E4%BA%8B/</link>
+      <pubDate>Fri, 27 Jul 2012 02:59:29 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E5%A4%A7%E4%BA%8B%E5%B0%8F%E4%BA%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+搜索引擎
+      </title>
+      <link>http://example.org/categories/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</link>
+      <pubDate>Wed, 11 Jul 2012 14:23:16 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+linux
+      </title>
+      <link>http://example.org/categories/linux/</link>
+      <pubDate>Fri, 02 Sep 2011 09:55:49 +0000</pubDate>
+      
+      <guid>http://example.org/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+routeros
+      </title>
+      <link>http://example.org/categories/routeros/</link>
+      <pubDate>Fri, 02 Sep 2011 09:55:49 +0000</pubDate>
+      
+      <guid>http://example.org/categories/routeros/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+投资
+      </title>
+      <link>http://example.org/categories/%E6%8A%95%E8%B5%84/</link>
+      <pubDate>Mon, 07 Mar 2011 08:52:28 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E6%8A%95%E8%B5%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+python
+      </title>
+      <link>http://example.org/categories/python/</link>
+      <pubDate>Mon, 08 Mar 2010 09:38:01 +0000</pubDate>
+      
+      <guid>http://example.org/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+c
+      </title>
+      <link>http://example.org/categories/c/</link>
+      <pubDate>Sat, 02 Jan 2010 13:21:47 +0000</pubDate>
+      
+      <guid>http://example.org/categories/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+freebsd
+      </title>
+      <link>http://example.org/categories/freebsd/</link>
+      <pubDate>Thu, 31 Dec 2009 04:00:57 +0000</pubDate>
+      
+      <guid>http://example.org/categories/freebsd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+mysql
+      </title>
+      <link>http://example.org/categories/mysql/</link>
+      <pubDate>Thu, 31 Dec 2009 04:00:57 +0000</pubDate>
+      
+      <guid>http://example.org/categories/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+vmware
+      </title>
+      <link>http://example.org/categories/vmware/</link>
+      <pubDate>Thu, 17 Dec 2009 06:12:35 +0000</pubDate>
+      
+      <guid>http://example.org/categories/vmware/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+php
+      </title>
+      <link>http://example.org/categories/php/</link>
+      <pubDate>Sat, 12 Dec 2009 01:29:34 +0000</pubDate>
+      
+      <guid>http://example.org/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+windows
+      </title>
+      <link>http://example.org/categories/windows/</link>
+      <pubDate>Fri, 04 Dec 2009 15:38:35 +0000</pubDate>
+      
+      <guid>http://example.org/categories/windows/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+twisted
+      </title>
+      <link>http://example.org/categories/twisted/</link>
+      <pubDate>Fri, 04 Dec 2009 05:32:46 +0000</pubDate>
+      
+      <guid>http://example.org/categories/twisted/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+nginx
+      </title>
+      <link>http://example.org/categories/nginx/</link>
+      <pubDate>Wed, 23 Sep 2009 14:49:23 +0000</pubDate>
+      
+      <guid>http://example.org/categories/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+game
+      </title>
+      <link>http://example.org/categories/game/</link>
+      <pubDate>Sat, 22 Aug 2009 18:01:06 +0000</pubDate>
+      
+      <guid>http://example.org/categories/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+js
+      </title>
+      <link>http://example.org/categories/js/</link>
+      <pubDate>Fri, 26 Jun 2009 01:06:35 +0000</pubDate>
+      
+      <guid>http://example.org/categories/js/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+技术文章
+      </title>
+      <link>http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Wed, 10 Jun 2009 16:22:57 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+wordpress
+      </title>
+      <link>http://example.org/categories/wordpress/</link>
+      <pubDate>Tue, 31 Mar 2009 17:03:03 +0000</pubDate>
+      
+      <guid>http://example.org/categories/wordpress/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+WEB 2.0
+      </title>
+      <link>http://example.org/categories/web-2.0/</link>
+      <pubDate>Sat, 21 Mar 2009 15:23:16 +0000</pubDate>
+      
+      <guid>http://example.org/categories/web-2.0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+代码收藏
+      </title>
+      <link>http://example.org/categories/%E4%BB%A3%E7%A0%81%E6%94%B6%E8%97%8F/</link>
+      <pubDate>Wed, 18 Oct 2006 09:23:53 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E4%BB%A3%E7%A0%81%E6%94%B6%E8%97%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+clucene
+      </title>
+      <link>http://example.org/categories/clucene/</link>
+      <pubDate>Fri, 26 May 2006 18:12:34 +0000</pubDate>
+      
+      <guid>http://example.org/categories/clucene/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+编程相关
+      </title>
+      <link>http://example.org/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/</link>
+      <pubDate>Mon, 22 May 2006 04:59:57 +0000</pubDate>
+      
+      <guid>http://example.org/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>
+ftp
+      </title>
+      <link>http://example.org/categories/ftp/</link>
+      <pubDate>Wed, 26 Apr 2006 04:08:38 +0000</pubDate>
+      
+      <guid>http://example.org/categories/ftp/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

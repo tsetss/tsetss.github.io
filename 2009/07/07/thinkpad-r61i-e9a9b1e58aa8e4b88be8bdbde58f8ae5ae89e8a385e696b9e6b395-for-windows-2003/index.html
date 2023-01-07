@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Thinkpad R61I 驱动下载及安装方法 for windows 2003 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 &ndash;&gt; 鼠标左键单击页面中.exe结尾的连接 &ndash;&gt; 在新弹出的窗口中选择“FTP”或“HTTP” &ndash;&gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。
+2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818
+默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe 或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE
+5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&gt;指定位置安装，指定到此目录搜索安装。 或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE
+6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527
+默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875
+默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）
+http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456
+默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Thinkpad R61I 驱动下载及安装方法 for windows 2003" />
+<meta property="og:description" content="驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 &ndash;&gt; 鼠标左键单击页面中.exe结尾的连接 &ndash;&gt; 在新弹出的窗口中选择“FTP”或“HTTP” &ndash;&gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。
+2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818
+默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe 或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE
+5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&gt;指定位置安装，指定到此目录搜索安装。 或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE
+6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527
+默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875
+默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）
+http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456
+默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-07-07T06:09:53+00:00" />
+<meta property="article:modified_time" content="2009-07-07T06:09:53+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Thinkpad R61I 驱动下载及安装方法 for windows 2003"/>
+<meta name="twitter:description" content="驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 &ndash;&gt; 鼠标左键单击页面中.exe结尾的连接 &ndash;&gt; 在新弹出的窗口中选择“FTP”或“HTTP” &ndash;&gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。
+2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818
+默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe 或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE
+5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&gt;指定位置安装，指定到此目录搜索安装。 或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE
+6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527
+默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875
+默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）
+http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456
+默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Thinkpad R61I 驱动下载及安装方法 for windows 2003",
+      "item": "http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Thinkpad R61I 驱动下载及安装方法 for windows 2003",
+  "name": "Thinkpad R61I 驱动下载及安装方法 for windows 2003",
+  "description": "驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 \u0026ndash;\u0026gt; 鼠标左键单击页面中.exe结尾的连接 \u0026ndash;\u0026gt; 在新弹出的窗口中选择“FTP”或“HTTP” \u0026ndash;\u0026gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。\n2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818\n默认释放路径C:\\DRIVERS\\WIN\\INTELINF\\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924\n默认释放路径C:\\DRIVERS\\WIN\\DISPLAY\\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838\n默认释放路径C:\\DRIVERS\\WIN\\DISPLAY\\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829\n默认解压路径 C:\\DRIVERS\\WIN\\ETHERNET\\APPS\\SETUP\\SETUPBD\\Win32\\SetupBD.exe 或C:\\DRIVERS\\WIN\\ETHERNET\\APPS\\PROSETDX\\Win32\\DxSetup.EXE\n5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618\n默认解压路径 C:\\DRIVERS\\WIN\\ETHERNET\\WINXP\\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－\u0026gt;指定位置安装，指定到此目录搜索安装。 或C:\\DRIVERS\\WIN\\ETHERNET\\TOOLS\\DRVINST\\IA32\\SETUP.EXE\n6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527\n默认释放路径C:\\DRIVERS\\WIN\\WLLANATH\\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875\n默认释放路径C:\\DRIVERS\\WIN\\WLANINT2\\XP\\Apps\\x32\\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo\u0026amp;lndocid;=MIGR-65456\n默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）",
+  "keywords": [
+    
+  ],
+  "articleBody": "驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 –\u003e 鼠标左键单击页面中.exe结尾的连接 –\u003e 在新弹出的窗口中选择“FTP”或“HTTP” –\u003e 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。\n2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818\n默认释放路径C:\\DRIVERS\\WIN\\INTELINF\\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924\n默认释放路径C:\\DRIVERS\\WIN\\DISPLAY\\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838\n默认释放路径C:\\DRIVERS\\WIN\\DISPLAY\\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829\n默认解压路径 C:\\DRIVERS\\WIN\\ETHERNET\\APPS\\SETUP\\SETUPBD\\Win32\\SetupBD.exe 或C:\\DRIVERS\\WIN\\ETHERNET\\APPS\\PROSETDX\\Win32\\DxSetup.EXE\n5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618\n默认解压路径 C:\\DRIVERS\\WIN\\ETHERNET\\WINXP\\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－\u003e指定位置安装，指定到此目录搜索安装。 或C:\\DRIVERS\\WIN\\ETHERNET\\TOOLS\\DRVINST\\IA32\\SETUP.EXE\n6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527\n默认释放路径C:\\DRIVERS\\WIN\\WLLANATH\\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875\n默认释放路径C:\\DRIVERS\\WIN\\WLANINT2\\XP\\Apps\\x32\\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo\u0026lndocid;=MIGR-65456\n默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67816\n默认释放路径C:\\DRIVERS\\WIN\\AUDIO\\SETUP.EXE 10,Conexant声卡驱动：（TYPE为7650, 8932的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68153\n默认释放路径C:\\DRIVERS\\WIN\\AUDIO\\SETUP.EXE 11,TYPE为7732, 7742, 8918, 8943调制解调器请安装此调制解调器驱动（设备管理器中显示为：High Definition Audio总线上的调制解调器设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61454\n默认释放路径C:\\DRIVERS\\HDAMODEM\\SETUP.EXE 12,TYPE为7650, 8932的R61I请安装此调制解调器驱动（设备管理器中显示为：High Definition Audio总线上的调制解调器设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68135\n默认释放路径C:\\DRIVERS\\HDAMODEM\\SETUP.EXE 13,4合1读卡器（设备管理器中显示为：基本系统设备）（部分R61I没有配置读卡器，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68053\n默认释放路径C:\\DRIVERS\\WIN\\4IN1\\SETUP.EXE 14,ACPI电源管理器驱动（设备管理器中显示为：未知设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-4gxpeg\n默认释放路径C:\\DRIVERS\\WIN\\IBMPM\\SETUP.EXE 15,TPM安全芯片驱动程序（设备管理器中显示为：未知设备）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58054\n默认释放路径C:\\Drivers\\Win\\TPM\\INSTALLE.EXE 安装过后系统设备中可能会有两个ATMEL TPM设备，其中一个上有感叹号，点右键卸载即可，是系统识别错误，如重启后仍存在，亦不会影响使用。 16,蓝牙（BCM2045B）（部分R61I没有配置蓝牙，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61425\n默认释放路径C:\\DRIVERS\\WIN\\TPBTOOTH\\SETUP.EXE 17,摄像头（部分R61I没有配置摄像头，不需要安装此驱动程序，请继续安装其他驱动程序）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67775\n默认释放路径C:\\DRIVERS\\WIN\\CAMERA\\SETUP.EXE（部分操作系统安装过摄像头驱动后可能会发生关机、待机或休眠时死机 的现象，这是由WINDOWS系统缺少一个补丁造成的，请到微软网站搜索909667编号获得请多信息，LENOVO预装系统中已包含此补丁，因微软不提 供此补丁的单独下载，所以LENOVO亦无法提供此补丁的下载，如您使用非预装系统，请联系微软获取Q909667补丁。） 18,SATA硬盘驱动（设备管理器里IDE ATA控制器下的PCI DEVICE）\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=migr-62909\n默认释放路径C:\\DRIVERS\\WIN\\IMSM，先打开C:\\DRIVERS\\WIN\\IMSM\\PREPARE目录, 双击install.cmd，然后重启计算机并按F1进入BIOS,在Config?D\u003eSelect Serial ATA (SATA)中把选项改为AHCI，按F10保存退出，进入系统后在设备管理器中IDE ATA控制器下面的PCI DEVICE上点右键选择更新驱动程序，选择指定位置安装，并指定到C:\\DRIVERS\\WIN\\IMSM目录搜索安装即可。 19,电源管理软件\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61583\n默认释放路径C:\\DRIVERS\\W2K\\PWRMGR\\SETUP.EXE 20,热键HOTKEY\nhttp://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68000\n默认释放路径C:\\DRIVERS\\WIN\\HOTKEY\\SETUP.EXE ",
+  "wordCount" : "138",
+  "inLanguage": "en",
+  "datePublished": "2009-07-07T06:09:53Z",
+  "dateModified": "2009-07-07T06:09:53Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Thinkpad R61I 驱动下载及安装方法 for windows 2003
+    </h1>
+    <div class="post-meta"><span title='2009-07-07 06:09:53 +0000 UTC'>July 7, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 &ndash;&gt; 鼠标左键单击页面中.exe结尾的连接 &ndash;&gt; 在新弹出的窗口中选择“FTP”或“HTTP” &ndash;&gt; 鼠标左键单击“I agree”后选择保存。
+几点提醒：
+1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。</p>
+<pre><code>  2、请尽量按照下列驱动的排列的先后顺序安装。
+
+  3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。
+
+  4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。
+
+  5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。   
+</code></pre>
+<p>1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE
+</code></pre>
+<p>2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE
+</code></pre>
+<p>3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE
+</code></pre>
+<p>4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829</a></p>
+<pre><code>默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe
+</code></pre>
+<p>或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE</p>
+<p>5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618</a></p>
+<pre><code>默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&gt;指定位置安装，指定到此目录搜索安装。
+</code></pre>
+<p>或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE</p>
+<p>6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE
+</code></pre>
+<p>7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE
+</code></pre>
+<p>8,声卡KB888111补丁（PCI-DEVICE,KB888111）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456">http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;lndocid;=MIGR-65456</a></p>
+<pre><code>默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。
+</code></pre>
+<p>9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67816">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67816</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\AUDIO\SETUP.EXE
+</code></pre>
+<p>10,Conexant声卡驱动：（TYPE为7650, 8932的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68153">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68153</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\AUDIO\SETUP.EXE
+</code></pre>
+<p>11,TYPE为7732, 7742, 8918, 8943调制解调器请安装此调制解调器驱动（设备管理器中显示为：High Definition Audio总线上的调制解调器设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61454">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61454</a></p>
+<pre><code>默认释放路径C:\DRIVERS\HDAMODEM\SETUP.EXE
+</code></pre>
+<p>12,TYPE为7650, 8932的R61I请安装此调制解调器驱动（设备管理器中显示为：High Definition Audio总线上的调制解调器设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68135">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68135</a></p>
+<pre><code>默认释放路径C:\DRIVERS\HDAMODEM\SETUP.EXE
+</code></pre>
+<p>13,4合1读卡器（设备管理器中显示为：基本系统设备）（部分R61I没有配置读卡器，不需要安装此驱动程序，请继续安装其他驱动程序）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68053">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68053</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\4IN1\SETUP.EXE
+</code></pre>
+<p>14,ACPI电源管理器驱动（设备管理器中显示为：未知设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-4gxpeg">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-4gxpeg</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\IBMPM\SETUP.EXE
+</code></pre>
+<p>15,TPM安全芯片驱动程序（设备管理器中显示为：未知设备）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58054">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58054</a></p>
+<pre><code>默认释放路径C:\Drivers\Win\TPM\INSTALLE.EXE 安装过后系统设备中可能会有两个ATMEL TPM设备，其中一个上有感叹号，点右键卸载即可，是系统识别错误，如重启后仍存在，亦不会影响使用。
+</code></pre>
+<p>16,蓝牙（BCM2045B）（部分R61I没有配置蓝牙，不需要安装此驱动程序，请继续安装其他驱动程序）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61425">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61425</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\TPBTOOTH\SETUP.EXE
+</code></pre>
+<p>17,摄像头（部分R61I没有配置摄像头，不需要安装此驱动程序，请继续安装其他驱动程序）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67775">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67775</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\CAMERA\SETUP.EXE（部分操作系统安装过摄像头驱动后可能会发生关机、待机或休眠时死机 的现象，这是由WINDOWS系统缺少一个补丁造成的，请到微软网站搜索909667编号获得请多信息，LENOVO预装系统中已包含此补丁，因微软不提 供此补丁的单独下载，所以LENOVO亦无法提供此补丁的下载，如您使用非预装系统，请联系微软获取Q909667补丁。）
+</code></pre>
+<p>18,SATA硬盘驱动（设备管理器里IDE ATA控制器下的PCI DEVICE）</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=migr-62909">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=migr-62909</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\IMSM，先打开C:\DRIVERS\WIN\IMSM\PREPARE目录, 双击install.cmd，然后重启计算机并按F1进入BIOS,在Config?D&gt;Select Serial ATA (SATA)中把选项改为AHCI，按F10保存退出，进入系统后在设备管理器中IDE ATA控制器下面的PCI DEVICE上点右键选择更新驱动程序，选择指定位置安装，并指定到C:\DRIVERS\WIN\IMSM目录搜索安装即可。
+</code></pre>
+<p>19,电源管理软件</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61583">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-61583</a></p>
+<pre><code>默认释放路径C:\DRIVERS\W2K\PWRMGR\SETUP.EXE
+</code></pre>
+<p>20,热键HOTKEY</p>
+<p><a href="http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68000">http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-68000</a></p>
+<pre><code>默认释放路径C:\DRIVERS\WIN\HOTKEY\SETUP.EXE</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

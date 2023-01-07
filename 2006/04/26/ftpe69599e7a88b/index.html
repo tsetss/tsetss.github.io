@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ftP教程 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：
+用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/26/ftpe69599e7a88b/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ftP教程" />
+<meta property="og:description" content="很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：
+用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/26/ftpe69599e7a88b/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-26T03:13:50+00:00" />
+<meta property="article:modified_time" content="2006-04-26T03:13:50+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ftP教程"/>
+<meta name="twitter:description" content="很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：
+用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ftP教程",
+      "item": "http://example.org/2006/04/26/ftpe69599e7a88b/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ftP教程",
+  "name": "ftP教程",
+  "description": "很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：\n用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek.",
+  "keywords": [
+    
+  ],
+  "articleBody": "很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：\n用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek.com,且此用户不能登陆系统. #mkdir /var/www/netseek.com #useradd –s /sbin/nologin –d /var/www/netseek.com netseek_com 注-s /sbin/nologin是让其不能登陆系统，-d 是指定用户目录为/var/www/netseek.com #passwd netseek_com (Do not Hack me 3ks) DnHm3ks 这是我设置的密码Smile #chown –R netseek_com:netseek_com /var/www/netseek.com 注:将用户目录及其子目录的所有和所属的组设置为netseek_com 3． 配置磁盘配额 我在安装过程中磁盘了多个区，分别/home,/var,/，/www,tmp,swap,/boot多个分区。建议你将磁盘分多个独单的分区,这样可以降低磁盘分区损坏造成的数据丢失风险. #[root@netseek root]# rpm -qa | grep quota quota-3.06-9 ; 我的系统已经安装了磁盘配额工具 #vi /etc/fstab 找到类似 LABEL=/var /var ext3 defaults 1 2 在defaults后加入usrquota，改为如下： LABEL=/var /var ext3 defaults,usrquota 1 2 重新加载/var这个分区： #mount –o remount /var #cd /var 进入这个目录 #touch quota.user #chmod 600 quota.user #quotacheck –mf /var 对磁盘分区空间使用情况进行强制检测 [root@localhost var]# quotacheck -mf /var quotacheck: WARNING - Quotafile /var/quota.user was probably truncated. Can’t save quota settings… 重新启动系统 第一次运行时都会出现这个警告，再次运行的时候就不会啦 为指定用户定额： #edquota netseek_com 为用户netseek_com设置磁盘配额。 Disk quotas for user netseek_com (uid 501): Filesystem blocks soft hard inodes soft hard /dev/sda5 6616 307200 0 15 0 0 注： ilesystem blocks soft hard inodes soft hard filesystem-正在设置的文件系统，不要修改或删除 bolock-当前使用的碰盘空间，单位为KB soft(第一个)-软磁盘空间限制，默认0，表示无限制，我在这里设为300M。 hard(第一个)-硬配额限制，0表示无限制。 inodes-当前文件数量 soft(第二个)-对文件数量的软限制,0表示无限制 hard(第二个)-对文件数量的硬限制,0表示无限制\n让系统启动是自动加载: #vi /etc/rc.d/rc.local ,加入以下: /etc/init.d/vsftpd start /sbin/quotacheck /sbin/quotaon –avu 现在查看netseek_com 用户使用磁盘空间的情况 [root@localhost ~]# quota -u netseek_com Disk quotas for user netseek_com (uid 501): Filesystem blocks quota limit grace files quota limit grace /dev/sda5 6616 307200 0 15 0 0\n注：关于更多的quota命令，请用man命令查看吧，乌哥(VBird)说，我们要学会找男人 !Smile\n4． 效果演示,登陆演示：\n四， VsFTPd相关的配置详解 1.匿名用户相关设置 anonymous_enable=YES ,将YES改为NO, 禁止匿名用户登陆 #non_mkdir_write_enable=YES ,将#注释去掉，允许匿名用户创建目录 #non_upload_enalbe=YES ,将#去掉，允许匿名用户上传 anon_world_readable_only=YES ,允许匿名用户下载，默认是禁止的，这个可以自行添加。 Anon_other_write_enable=YES ,将其设为YES的话，就除了上传和创建目录外，还可以重命名，删除文件，默认是NO no_anon_password=NO ,将其设为YES,匿名用户不会查询用户密码直接登陆。 ftp_username=ftp ,匿名用户登陆系统的账号默认为ftp,此项最好不要改，否则设置不当会给系统的安全带来威胁。 2.FTP服务端口的指定 listen_port=8021 ,指定命令通道为8021,默认为21 listen_data_port=8020 ,指定数据通道为8020,默认为20 3.上传模式的设置 pasv_enable=YES ,是否允使用被动模式，默认是允许的。 pasv_min_port=10000 ，指定使用被动模式时打开端口的最小值 pasv_max_port=10004 ，指定使用被动模式时打开端口的最大值。 4.Vsftp服务器指定IP地址 listen_address=192.168.0.21 ，指定FTP，IP地址 注：只有当vsftp运行于独立模式时才允许使用指定IP,如果在/etc/xinetd.d目录下已经建立了vsfpd文件，就要将该文件中的disable设置为yes，方可。 5. 锁定用户，禁止用户离开用户主目录 chroot_local_user=YES ,将其设为YES，就锁定在用户主目录，设为NO，可以切换 将指定用户设置为锁定用户主目录: #chroot_list_enable=YES #chroot_list_file=/etc/vsftpd.chroot_list 将其改为如下: chroot_list_enable=NO chroot_list_file=/etc/vsftpd/vsftpd.chroot_list 将上面保存，再做如下操作： #touch /etc/vsftpd/vsftpd.chroot_list #vi /etc/vsftpd/vsftpd.chroot_list ,在该文件中加入用户名单，如： netseek_com 6.FTP服务器的流量控制 max_clients=100 ;允许的最大连接数，定义为100，默认为0，表没有限制 max_per_ip=5 ;每个IP允许的连接数，0表没有限制，需要运行于独立模式方可 anon_max_rate=50000 ;匿名用户最大带宽，单位为bps local_max_rate=200000 ;系统用户最大带宽 如何对指定用户进行流量限制呢？ #vi /etc/vsftpd/vsftpd.conf,添加一行： user_config_dir=/etc/vsftpd/userconf #touch /etc/vsftpd/userconf/netseek_com 为netseek_com这个用户建立一个netseek_com文件 #vi /etc/vsftpd/userconf/netseek_com 添加以下内容 local_max_rate=100000 保存重启服务即可. 7.定制欢迎信息 目录说明设置 #vi /etc/vsftpd/vsftpd.conf #dirmessage_enable=YES,前的#去掉。 然后我们定制一个.message,写上你想写的东西，然后把这个文件复制到各个用户的家目录中,就OK。\n系统欢迎消息设置 ftpd_banner=Welcome to ftp.netseek.com , Yeah!!! 系统欢迎消息文件设置 banner_file=/etc/vsftpd/welcome 与ftpd_banner相类似，不同之处在于，banner_file指定欢迎文件.\nFTP命令大全及其应用 ftp的命令行格式为:ftp －v －d －i －n －g[主机名]\n－v 显示远程服务器的所有响应信息。 －d 使用调试方式。 －n 限制ftp的自动登录,即不使用.netrc文件。 －g 取消全局文件名。\nftp使用的内部命令如下(其中括号表示可选项): 1.![cmd[args]]在本地机中执行交互shell、exit回到ftp环境,如!ls＊.zip。 2.￥ macro－ame[args]执行宏定义macro－name。 3.account[password]提供登录远程系统成功后访问系统资源所需的补充口令。 4.appendlocal－file[remote－file]将本地文件追加到远程系统主机,若未指定远程系统文件名,则使用本地文件名。 5.ascii 使用ascii类型传输方式。 6.bell每个命令执行完毕后计算机响铃一次。 7.bin使用二进制文件传输方式。 8.bye退出ftp会话过程。 9.case在使用mget时,将远程主机文件名中的大写转为小写字母。 10.cd remote－dir 进入远程主机目录。 11.cdup进入远程主机目录的父目录。 12.chmod modefile－name将远程主机文件file－name的存取方式设置为mode,如chmod 777 a.out。 13.close中断与远程服务器的ftp会话(与open对应)。 14.cr使用asscii方式传输文件时,将回车换行转换为回行。 15.delete remote－file删除远程主机文件。 16.debug[debug－value]设置调试方式,显示发送至远程主机的每条命令,如debup 3,若 设为0,表示取消debug。 17.dir[remote－dir][local－file]显示远程主机目录,并将结果存入local－file。 18.disconnection同close。 19.form format将文件传输方式设置为format,缺省为file方式。 20.getremote－file[local－file]将远程主机的文件remote－file传至本地硬盘的local－file。 21.glob设置mdelete、mget、mput的文件名扩展,缺省时不扩展文件名,同命令行的－g参数。 22.hash每传输1024字节,显示一个hash符号(＃)。 23.help[cmd]显示ftp内部命令cmd的帮助信息,如help get。 24.idle[seconds]将远程服务器的休眠计时器设为[seconds]秒。 25.image设置二进制传输方式(同binary) 26.lcd[dir]将本地工作目录切换至dir。 27.ls[remote－dir][local－file]显示远程目录remote－dir,并存入本地local－file。 28.macdef macro－name定义一个宏,遇到macdef下的空行时,宏定义结束。 29.mdelete[remote－file]删除远程主机文件。 30.mdir remote－files local－file与dir类似,但可指定多个远程文件,如mdir＊.o.＊. zipoutfile。 31.mget remote－files传输多个远程文件。 32.mkdir dir－name 在远程主机中建一目录。 33.mls remote－file local－file同nlist,但可指定多个文件名。 34.mode[mode－name]将文件传输方式设置为mode－name,缺省为stream方式。 35.modtime file－name显示远程主机文件的最后修改时间。 36.mput local－file将多个文件传输至远程主机。 37.newerfile－name如果远程机中file－name的修改时间比本地硬盘同名文件的时间更近,则重传该文件。 38.nlist[remote－dir][local－file]显示远程主机目录的文件清单,并存入本地硬盘的local－file。 39.nmap[inpatternoutpattern]设置文件名映射机制,使得文件传输时,文件中的某些字符相互转换,如nmap￥1.￥2.￥3[￥1,￥2].[￥2,￥3],则传输文件a1.a2.a3时,文件名变为a1、a2，该命令特别适用于远程主机为非U－NIX机的情况。 40.ntrans[inchars[outchars]]设置文件名字符的翻译机制,如ntrans1R,则文件名LL L将变为RRR。 41.open host[port]建立指定ftp服务器连接,可指定连接端口。 42.passive进入被动传输方式。 43.prompt设置多个文件传输时的交互提示。 44.proxyftp－cmd在次要控制连接中,执行一条ftp命令,该命令允许连接两个ftp服务器,以在两个服务器间传输文件。第一条ftp命令必须为open,以首先建立两个服务器间的连接。 45.put local－file[remote－file]将本地文件local－file传送至远程主机。 46.pwd显示远程主机的当前工作目录。 47.quit同bye,退出ftp会话。 48.quote arg1,arg2……将参数逐字发至远程ftp服务器,如quote syst。 49.recv remote－file[local－file]同get。 50.regetremote－file[local－file]类似于get,但若local－file存在,则从上次传输中断处续传。 51.rhelp[cmd－name]请求获得远程主机的帮助。 52.rstatus[file－name]若未指定文件名,则显示远程主机的状态,否则显示文件状态。 53.rename[from][to]更改远程主机文件名。 54.reset清除回答队列。 55.restart marker从指定的标志marker处,重新开始get或put,如restart 130。 56.rmdir dir－name删除远程主机目录。 57.runique设置文件名唯一性存储,若文件存在,则在原文件后加后缀。 58.send local－file[remote－file]同put。 59.sendport设置PORT命\n",
+  "wordCount" : "439",
+  "inLanguage": "en",
+  "datePublished": "2006-04-26T03:13:50Z",
+  "dateModified": "2006-04-26T03:13:50Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/26/ftpe69599e7a88b/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ftP教程
+    </h1>
+    <div class="post-meta"><span title='2006-04-26 03:13:50 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的）
+Linux下VsFTP配置全方案
+纲要：
+一， VsFTPd的简述
+二， 企业Linux下vsFTPD方案
+三， VsFTPD相关配置文件详解
+一,VsFTPd的简述:
+VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd
+二，企业Linux下vsFTPD实战方案
+要求：</p>
+<ol>
+<li>用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS)</li>
+<li>禁止匿名登陆，禁止用户离开用户目录</li>
+<li>命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020）</li>
+<li>允许使用被动模式使用端口范围为10010~10020.</li>
+<li>用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲
+具体操作步骤如下：
+为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。
+1． 配置相关服务
+启动服务：
+[root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务
+#/etc/init.d/vsftpd start ;启动服务
+#chkconfig vsftpd on ;让系统服务随着系统启动而启动
+配置相关文档：
+#vi /etc/vsftpd/vsftpd.conf
+禁止匿名用户访问：
+anonymous_enable=YES,将YES改为NO
+在文件末尾加如下的设置：</li>
+</ol>
+<h1 id="new-added-by-netseek">new added by netseek<a hidden class="anchor" aria-hidden="true" href="#new-added-by-netseek">#</a></h1>
+<p>listen_port=5021 ;命令通道端口，默认为21
+listen_data_port=5020 ;数据通道端口，默认为20
+pasv_enable=YES ;允许被动模式
+pasv_min_port=10000 ；被动模式使用端口范围
+pasv_max_port=10010
+local_max_rate=200000 ；用户宽带限制
+chroot_local_user=YES ；禁用户离开主目录
+listen_address=192.168.0.21 ；让他监听ip:192.168.0.21
+注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。
+2． 添加虚拟主机用户
+添加用户netseek_com,用户目录指定为/var/www/netseek.com,且此用户不能登陆系统.
+#mkdir /var/www/netseek.com
+#useradd –s /sbin/nologin –d /var/www/netseek.com netseek_com
+注-s /sbin/nologin是让其不能登陆系统，-d 是指定用户目录为/var/www/netseek.com
+#passwd netseek_com (Do not Hack me 3ks) DnHm3ks 这是我设置的密码Smile
+#chown –R netseek_com:netseek_com /var/www/netseek.com
+注:将用户目录及其子目录的所有和所属的组设置为netseek_com
+3． 配置磁盘配额
+我在安装过程中磁盘了多个区，分别/home,/var,/，/www,tmp,swap,/boot多个分区。建议你将磁盘分多个独单的分区,这样可以降低磁盘分区损坏造成的数据丢失风险.
+#[root@netseek root]# rpm -qa | grep quota
+quota-3.06-9 ; 我的系统已经安装了磁盘配额工具
+#vi /etc/fstab
+找到类似
+LABEL=/var /var ext3 defaults 1 2
+在defaults后加入usrquota，改为如下：
+LABEL=/var /var ext3 defaults,usrquota 1 2
+重新加载/var这个分区：
+#mount –o remount /var
+#cd /var 进入这个目录
+#touch quota.user
+#chmod 600 quota.user
+#quotacheck –mf /var 对磁盘分区空间使用情况进行强制检测
+[root@localhost var]# quotacheck -mf /var
+quotacheck: WARNING - Quotafile /var/quota.user was probably truncated. Can&rsquo;t save quota settings&hellip;
+重新启动系统
+第一次运行时都会出现这个警告，再次运行的时候就不会啦
+为指定用户定额：
+#edquota netseek_com 为用户netseek_com设置磁盘配额。
+Disk quotas for user netseek_com (uid 501):
+Filesystem blocks soft hard inodes soft hard
+/dev/sda5 6616 307200 0 15 0 0
+注：
+ilesystem blocks soft hard inodes soft hard
+filesystem-正在设置的文件系统，不要修改或删除
+bolock-当前使用的碰盘空间，单位为KB
+soft(第一个)-软磁盘空间限制，默认0，表示无限制，我在这里设为300M。
+hard(第一个)-硬配额限制，0表示无限制。
+inodes-当前文件数量
+soft(第二个)-对文件数量的软限制,0表示无限制
+hard(第二个)-对文件数量的硬限制,0表示无限制</p>
+<p>让系统启动是自动加载:
+#vi /etc/rc.d/rc.local ,加入以下:
+/etc/init.d/vsftpd start
+/sbin/quotacheck
+/sbin/quotaon –avu
+现在查看netseek_com 用户使用磁盘空间的情况
+[root@localhost ~]# quota -u netseek_com
+Disk quotas for user netseek_com (uid 501):
+Filesystem blocks quota limit grace files quota limit grace
+/dev/sda5 6616 307200 0 15 0 0</p>
+<p>注：关于更多的quota命令，请用man命令查看吧，乌哥(VBird)说，我们要学会找男人 !Smile</p>
+<p>4． 效果演示,登陆演示：</p>
+<p>四， VsFTPd相关的配置详解
+1.匿名用户相关设置
+anonymous_enable=YES ,将YES改为NO, 禁止匿名用户登陆
+#non_mkdir_write_enable=YES ,将#注释去掉，允许匿名用户创建目录
+#non_upload_enalbe=YES ,将#去掉，允许匿名用户上传
+anon_world_readable_only=YES ,允许匿名用户下载，默认是禁止的，这个可以自行添加。
+Anon_other_write_enable=YES ,将其设为YES的话，就除了上传和创建目录外，还可以重命名，删除文件，默认是NO
+no_anon_password=NO ,将其设为YES,匿名用户不会查询用户密码直接登陆。
+ftp_username=ftp ,匿名用户登陆系统的账号默认为ftp,此项最好不要改，否则设置不当会给系统的安全带来威胁。
+2.FTP服务端口的指定
+listen_port=8021 ,指定命令通道为8021,默认为21
+listen_data_port=8020 ,指定数据通道为8020,默认为20
+3.上传模式的设置
+pasv_enable=YES ,是否允使用被动模式，默认是允许的。
+pasv_min_port=10000 ，指定使用被动模式时打开端口的最小值
+pasv_max_port=10004 ，指定使用被动模式时打开端口的最大值。
+4.Vsftp服务器指定IP地址
+listen_address=192.168.0.21 ，指定FTP，IP地址
+注：只有当vsftp运行于独立模式时才允许使用指定IP,如果在/etc/xinetd.d目录下已经建立了vsfpd文件，就要将该文件中的disable设置为yes，方可。
+5. 锁定用户，禁止用户离开用户主目录
+chroot_local_user=YES ,将其设为YES，就锁定在用户主目录，设为NO，可以切换
+将指定用户设置为锁定用户主目录:
+#chroot_list_enable=YES
+#chroot_list_file=/etc/vsftpd.chroot_list
+将其改为如下:
+chroot_list_enable=NO
+chroot_list_file=/etc/vsftpd/vsftpd.chroot_list
+将上面保存，再做如下操作：
+#touch /etc/vsftpd/vsftpd.chroot_list
+#vi /etc/vsftpd/vsftpd.chroot_list ,在该文件中加入用户名单，如：
+netseek_com
+6.FTP服务器的流量控制
+max_clients=100 ;允许的最大连接数，定义为100，默认为0，表没有限制
+max_per_ip=5 ;每个IP允许的连接数，0表没有限制，需要运行于独立模式方可
+anon_max_rate=50000 ;匿名用户最大带宽，单位为bps
+local_max_rate=200000 ;系统用户最大带宽
+如何对指定用户进行流量限制呢？
+#vi /etc/vsftpd/vsftpd.conf,添加一行：
+user_config_dir=/etc/vsftpd/userconf
+#touch /etc/vsftpd/userconf/netseek_com 为netseek_com这个用户建立一个netseek_com文件
+#vi /etc/vsftpd/userconf/netseek_com 添加以下内容
+local_max_rate=100000
+保存重启服务即可.
+7.定制欢迎信息
+目录说明设置
+#vi /etc/vsftpd/vsftpd.conf
+#dirmessage_enable=YES,前的#去掉。
+然后我们定制一个.message,写上你想写的东西，然后把这个文件复制到各个用户的家目录中,就OK。</p>
+<p>系统欢迎消息设置
+ftpd_banner=Welcome to ftp.netseek.com , Yeah!!!
+系统欢迎消息文件设置
+banner_file=/etc/vsftpd/welcome 与ftpd_banner相类似，不同之处在于，banner_file指定欢迎文件.</p>
+<p>FTP命令大全及其应用
+ftp的命令行格式为:ftp －v －d －i －n －g[主机名]</p>
+<p>　　－v 显示远程服务器的所有响应信息。
+　　－d 使用调试方式。
+　　－n 限制ftp的自动登录,即不使用.netrc文件。
+　　－g 取消全局文件名。</p>
+<p>　　ftp使用的内部命令如下(其中括号表示可选项):
+　　1.![cmd[args]]在本地机中执行交互shell、exit回到ftp环境,如!ls＊.zip。
+　　2.￥ macro－ame[args]执行宏定义macro－name。
+　　3.account[password]提供登录远程系统成功后访问系统资源所需的补充口令。
+　　4.appendlocal－file[remote－file]将本地文件追加到远程系统主机,若未指定远程系统文件名,则使用本地文件名。
+　　5.ascii 使用ascii类型传输方式。
+　　6.bell每个命令执行完毕后计算机响铃一次。
+　　7.bin使用二进制文件传输方式。
+　　8.bye退出ftp会话过程。
+　　9.case在使用mget时,将远程主机文件名中的大写转为小写字母。
+　　10.cd remote－dir 进入远程主机目录。
+　　11.cdup进入远程主机目录的父目录。
+　　12.chmod modefile－name将远程主机文件file－name的存取方式设置为mode,如chmod 777 a.out。
+　　13.close中断与远程服务器的ftp会话(与open对应)。
+　　14.cr使用asscii方式传输文件时,将回车换行转换为回行。
+　　15.delete remote－file删除远程主机文件。
+　　16.debug[debug－value]设置调试方式,显示发送至远程主机的每条命令,如debup 3,若 设为0,表示取消debug。
+　　17.dir[remote－dir][local－file]显示远程主机目录,并将结果存入local－file。
+　　18.disconnection同close。
+　　19.form format将文件传输方式设置为format,缺省为file方式。
+　　20.getremote－file[local－file]将远程主机的文件remote－file传至本地硬盘的local－file。
+　　21.glob设置mdelete、mget、mput的文件名扩展,缺省时不扩展文件名,同命令行的－g参数。
+　　22.hash每传输1024字节,显示一个hash符号(＃)。
+　　23.help[cmd]显示ftp内部命令cmd的帮助信息,如help get。
+　　24.idle[seconds]将远程服务器的休眠计时器设为[seconds]秒。
+　 25.image设置二进制传输方式(同binary)
+　 26.lcd[dir]将本地工作目录切换至dir。
+　 27.ls[remote－dir][local－file]显示远程目录remote－dir,并存入本地local－file。
+　 28.macdef macro－name定义一个宏,遇到macdef下的空行时,宏定义结束。
+　 29.mdelete[remote－file]删除远程主机文件。
+　 30.mdir remote－files local－file与dir类似,但可指定多个远程文件,如mdir＊.o.＊. zipoutfile。
+　 31.mget remote－files传输多个远程文件。
+　 32.mkdir dir－name 在远程主机中建一目录。
+　 33.mls remote－file local－file同nlist,但可指定多个文件名。
+　 34.mode[mode－name]将文件传输方式设置为mode－name,缺省为stream方式。
+　 35.modtime file－name显示远程主机文件的最后修改时间。
+　 36.mput local－file将多个文件传输至远程主机。
+　 37.newerfile－name如果远程机中file－name的修改时间比本地硬盘同名文件的时间更近,则重传该文件。
+38.nlist[remote－dir][local－file]显示远程主机目录的文件清单,并存入本地硬盘的local－file。
+　 39.nmap[inpatternoutpattern]设置文件名映射机制,使得文件传输时,文件中的某些字符相互转换,如nmap￥1.￥2.￥3[￥1,￥2].[￥2,￥3],则传输文件a1.a2.a3时,文件名变为a1、a2，该命令特别适用于远程主机为非U－NIX机的情况。
+　 40.ntrans[inchars[outchars]]设置文件名字符的翻译机制,如ntrans1R,则文件名LL L将变为RRR。
+　 41.open host[port]建立指定ftp服务器连接,可指定连接端口。
+　 42.passive进入被动传输方式。
+　 43.prompt设置多个文件传输时的交互提示。
+　 44.proxyftp－cmd在次要控制连接中,执行一条ftp命令,该命令允许连接两个ftp服务器,以在两个服务器间传输文件。第一条ftp命令必须为open,以首先建立两个服务器间的连接。
+　 45.put local－file[remote－file]将本地文件local－file传送至远程主机。
+　 46.pwd显示远程主机的当前工作目录。
+　 47.quit同bye,退出ftp会话。
+　 48.quote arg1,arg2……将参数逐字发至远程ftp服务器,如quote syst。
+　 49.recv remote－file[local－file]同get。
+　 50.regetremote－file[local－file]类似于get,但若local－file存在,则从上次传输中断处续传。
+　 51.rhelp[cmd－name]请求获得远程主机的帮助。
+　 52.rstatus[file－name]若未指定文件名,则显示远程主机的状态,否则显示文件状态。
+　 53.rename[from][to]更改远程主机文件名。
+　 54.reset清除回答队列。
+　 55.restart marker从指定的标志marker处,重新开始get或put,如restart 130。
+　 56.rmdir dir－name删除远程主机目录。
+　 57.runique设置文件名唯一性存储,若文件存在,则在原文件后加后缀。
+　 58.send local－file[remote－file]同put。
+　 59.sendport设置PORT命</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

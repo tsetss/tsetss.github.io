@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+网络
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/%E7%BD%91%E7%BB%9C/</link>
+    <description>Recent content in 
+网络
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Jun 2017 02:17:34 +0000</lastBuildDate><atom:link href="http://example.org/categories/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debian下安装Shadowsocks, supervisor守候进程</title>
+      <link>http://example.org/2017/06/16/debian-install-shadowsocks-ss-supervisor/</link>
+      <pubDate>Fri, 16 Jun 2017 02:17:34 +0000</pubDate>
+      
+      <guid>http://example.org/2017/06/16/debian-install-shadowsocks-ss-supervisor/</guid>
+      <description>Debian下安装配置ShadowSocks的方法
+1.系统更新并安装pip Shadowsocks
+aptitude update aptitude install python-pip pip install shadowsocks 2.创建配置文件 /etc/shadowsocks.json
+{ &amp;quot;server&amp;quot;:&amp;quot;0.0.0.0&amp;quot;, &amp;quot;server_port&amp;quot;:1080, &amp;quot;password&amp;quot;:&amp;quot;password&amp;quot;, &amp;quot;timeout&amp;quot;:600, &amp;quot;method&amp;quot;:&amp;quot;aes-256-cfb&amp;quot; } 配置的说明： Name Explanation server the address your server listens（服务器IP） local_address the address your local listens（本地代理地址） local_port local port（本地代理端口） port_password password used for encryption(自己设定的服务器端口和密码) timeout in seconds（超时断开，以秒为单位） method default: &amp;ldquo;aes-256-cfb&amp;rdquo;, see Encryption（加密方式） fast_open use TCP_FASTOPEN, true / false（是否使用TCP） workers number of workers, available on Unix/Linux（这个只在Unix和Linux下有用，可不设置）
+3.启动 ssserver
+ssserver -c /etc/shadowsocks.json start 4.</description>
+    </item>
+    
+    <item>
+      <title>namecheap 大象节活动 ,转移7.88优惠</title>
+      <link>http://example.org/2014/08/15/namecheap-world-elephant-day-transfer-788/</link>
+      <pubDate>Fri, 15 Aug 2014 03:25:24 +0000</pubDate>
+      
+      <guid>http://example.org/2014/08/15/namecheap-world-elephant-day-transfer-788/</guid>
+      <description>15 号结束，优惠码 SAVEDUMBO ，有需要的同学上吧。</description>
+    </item>
+    
+    <item>
+      <title>2013年最后一个月 12月 全球Web服务器份额iis狂升</title>
+      <link>http://example.org/2014/01/02/2013-12-web-server-survey/</link>
+      <pubDate>Thu, 02 Jan 2014 07:08:43 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/02/2013-12-web-server-survey/</guid>
+      <description>2013年12月，Netcraft从全球861,023,217家网站调查数据统计
+Apache 相比 11月份 下滑 3 个点，占有率跌到 41.26% IIS 上升明显，比 11 月份上升 4 个点， 占有率升到 28.08% Nginx 稳步上升，占有率达到 14.69% Google 下跌至 4.44%</description>
+    </item>
+    
+    <item>
+      <title>百度两年没有更新blog首页了，今天终于更新了</title>
+      <link>http://example.org/2013/12/28/two-year-not-update-now-update/</link>
+      <pubDate>Sat, 28 Dec 2013 07:07:06 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/28/two-year-not-update-now-update/</guid>
+      <description>blog 也是两年没更新了，百度收录量一直在减少。。基本收录为0了，最新更新了一些文章，blog 放到 bae3.0 上。快了不少，今天突然发现，首页更新了。</description>
+    </item>
+    
+    <item>
+      <title>bae关闭域名绑定功能</title>
+      <link>http://example.org/2013/12/27/bae-close-bind-domain/</link>
+      <pubDate>Fri, 27 Dec 2013 11:59:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/27/bae-close-bind-domain/</guid>
+      <description>bae 最牛的地方莫过于可以绑定未备案的域名，现在突然关闭了绑定域名功能。
+希望不要对以前未备案的域名下手。。</description>
+    </item>
+    
+    <item>
+      <title>又拍云第二封故障信</title>
+      <link>http://example.org/2013/12/16/upyun-two-fault/</link>
+      <pubDate>Mon, 16 Dec 2013 04:10:59 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/16/upyun-two-fault/</guid>
+      <description>关于又拍云12月5日故障的说明‏
+用户发展太快？不里处理速度还是另人满意的。 补偿好像没收到哈。
+尊敬的又拍云用户： 我们为12月5日一组作图服务器故障导致部分图片上传失败给您带来的困扰深表抱歉，为避免您对此的担忧，我们向您坦诚这次故障的具体问题，让您了解这次意外的原因。 因又拍云存储平台的数据量急速上涨，云处理集群的压力也快速放大。为提前缓解数据放大带来的压力，提升作图服务器集群性能，12月5日凌晨，又拍云存储更新部署了一批新的作图服务器，并开启了作图服务的CPU亲缘性绑定支持，将服务绑定到了相应的CPU核心上。这个模式在非超线程环境的服务器中运行良好。但在这批开启了超线程支持的服务器上，随着当天下午请求高峰期的到来，逐渐出现不稳定现象，导致上层proxy超时，在该集群造成雪崩效应；由于我们初期对故障的定位偏差，在进行了系统内核降级、作图服务版本回滚等几项措施之后，未能快速缓解处理该问题，直至最后关闭超线程支持。 在新集群出现不稳定时，我们已紧急切换到了备用集群。但由于作图请求的雪崩效应，导致后备集群一直高负载运行，期间调用图片服务集群的图片上传、缩略图处理的不稳定状况持续了一段时间。在新集群关闭超线程支持、并确认状态正常，重新接入系统后，服务逐步恢复。 您信任我们，将您的数据放在了又拍云存储，出现这样的问题，我们非常的不安，也非常的抱歉，一次故障意味着给您带去了巨大的损失，这个损失我们不知该如何弥补，所以我们决定向您补偿一周的流量并延长一个月的存储使用期限。同时我们将对后续服务持续优化以保证更高的稳定性，避免类似意外的再次发生。我们再次恳请您的谅解。感谢您一直以来对又拍云的支持！ 杭州纬聚网络有限公司 2013.12.6 </description>
+    </item>
+    
+    <item>
+      <title>给又拍云用户的一封致歉信‏</title>
+      <link>http://example.org/2013/12/11/upyun-apologize/</link>
+      <pubDate>Wed, 11 Dec 2013 16:42:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/11/upyun-apologize/</guid>
+      <description>从去年开始用又拍云，收到的第一封故障信，总的来说，还是不错的，如果能像七牛一样，后付费就更好了
+亲爱的又拍云存储用户：
+2013年11月26日12时，又拍云监控系统报警，提示一部分新数据未能通过API接口上传。技术人员迅速排查，发现一台用于业务数据存储的MySQL服务器异常退出。技术人员当即启动应急预案，将这部分服务切换到灾备数据库，并进行了数据同步，至13时左右服务恢复正常。
+服务恢复后，经过全面复检确认：该问题原因是又拍云的数据量级近期暴增，触发了MySQL Bug #63815 Reorganization May Make a Page Incompressible (http://bugs.mysql.com/bug.php?id=63815)，导致MySQL数据分块损坏，无法启动服务。现已对主库的数据进行了恢复和校验，并于27日凌晨已完成数据切换。
+我们为未能及时做好此问题的防范，给一部分用户带来了影响，在此表示万分的抱歉。我们已于27日上午开始进行数据库的升级准备工作，并将尽快部署完成。在万分抱歉的同时，我们希望此问题不至于给您带来过多的困扰。云存储的发展始终伴随着承载更高数据的挑战，在这一挑战过程中必定伴随着一些没有经历大数据存储就很难知悉的问题。恳请大家相信，又拍云团队在8年的发展和磨练中，具备了对未知情况最大可能的预见能力和在最短时间内解决问题的能力。这次问题对于我们是一个深刻的教训，又拍云将着手进行持续的大数据的模拟，确保在更大数据量来临前，我们为大家做好了最安全的防范措施。
+同时，也请这个故障时间段内未出现上传故障、未受到影响的各位用户放心，所有用户的数据外部访问和老数据的存储都未受影响，您的服务在此期间确保正常。如对上述情况有疑问，请您立即联系我们进行沟通，我们将竭尽全力协助您获得满意的结果。
+最后，再一次向受此故障影响的各位支持又拍云的朋友们表示万分的歉意。</description>
+    </item>
+    
+    <item>
+      <title>godaddy 2013年2月2.95美元域名优惠码可以国内信用卡付款！</title>
+      <link>http://example.org/2013/02/28/2013-02-godaddy-domain-295-cost/</link>
+      <pubDate>Thu, 28 Feb 2013 03:25:31 +0000</pubDate>
+      
+      <guid>http://example.org/2013/02/28/2013-02-godaddy-domain-295-cost/</guid>
+      <description>godaddy的超级优惠码已经很久都不支持国内的信用卡付款了，今天终于有一枚支持国内信用卡的godaddy域名优惠码吧！
+godaddy 2013年2月2.95美元域名优惠码
+iap295f
+说明：点击即可享受优惠，无需在输入优惠码！结账时自然优惠！新购买/转移.com域名仅需2.95美元首年！每人限购一个！
+有效期：未知 2013年2月27日验证有效！
+付款方式：只能信用卡付款！支持国内信用卡购买！
+[drpcoupon name=&amp;ldquo;iap295f&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;]</description>
+    </item>
+    
+    <item>
+      <title>2013年2月GODADDY主机5折优惠码</title>
+      <link>http://example.org/2013/02/22/2013-02-godaddy-host-50-cost/</link>
+      <pubDate>Fri, 22 Feb 2013 07:45:13 +0000</pubDate>
+      
+      <guid>http://example.org/2013/02/22/2013-02-godaddy-host-50-cost/</guid>
+      <description>godaddy主机2013年2月5折最新优惠码：
+godaddy主机2013年2月5折优惠链接
+说明：点击即可优惠，无需输入优惠码！
+有效期：2013年3月1日前！
+或者你也可以使用以下优惠码：
+[drpcoupon name=&amp;ldquo;cjcwd50h&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;]
+说明：点击即可优惠，无需输入优惠码！</description>
+    </item>
+    
+    <item>
+      <title>godaddy开始限制中国用户？</title>
+      <link>http://example.org/2012/10/20/godaddy-limit-china/</link>
+      <pubDate>Sat, 20 Oct 2012 06:50:04 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/20/godaddy-limit-china/</guid>
+      <description>最近 godaddy 2.95优惠码 ,5.95优惠码，中国用户支付的时候都会提示
+Unfortunately, we are unable to process your purchase using this form of payment. Please utilize another form of payment, or contact (480) 505-8855 for further assistance.
+包括刚刚活动的 2.95优惠码还是同样提示。希望这几次只是误伤，不过有同学打电话过去，注册成功，如果你口语还不错，可以试一下。。</description>
+    </item>
+    
+    <item>
+      <title>openshift集成了 zend server</title>
+      <link>http://example.org/2012/10/13/openshift-zend-server/</link>
+      <pubDate>Sat, 13 Oct 2012 09:19:08 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/13/openshift-zend-server/</guid>
+      <description>今天收到邮 openshift 已经开始支持 zend server 了，这是 openshift 对 php 支持另一种试，强大呀，有兴趣的同学可以去试试，在创建 app 的时候选择 zend server 就可以了。</description>
+    </item>
+    
+    <item>
+      <title>GoDaddy .COM域名10月优惠码：5.99美元注册/转入.COM！</title>
+      <link>http://example.org/2012/10/12/godaddy-com-promo-code-cjc599v2/</link>
+      <pubDate>Fri, 12 Oct 2012 07:20:06 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/12/godaddy-com-promo-code-cjc599v2/</guid>
+      <description>GoDaddy 2012年10月份GoDaddy优惠码：5.99美元超低价注册或转入.COM域名！而且不只适用于注册，还适用于从其它注册商将你的域名转入到GoDaddy！无论新老用户均可享受优惠！ [drpcoupon name=&amp;ldquo;godaddy cjc599v2&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;]
+（注：此优惠链接已集成GoDaddy 10月优惠码，无需再输入优惠码。有效期未知。）</description>
+    </item>
+    
+    <item>
+      <title>phpcloud 空间容量更新</title>
+      <link>http://example.org/2012/09/25/phpcloud-disk-1000/</link>
+      <pubDate>Tue, 25 Sep 2012 02:27:30 +0000</pubDate>
+      
+      <guid>http://example.org/2012/09/25/phpcloud-disk-1000/</guid>
+      <description>之前的 phpcloud 是 500M 空间大小，今天登录管理后台之后发现使用 100M 显示的使用 百分比是 10% 虽然还是写的 500M 空间大小，但按这个比例是 1G, 用探针查看也是 1G 的空间大小，估计官方稍后应该会有公告， 希望 phpcloud 一直活下去，想比 gae 来说，对 php 方面的支持确实不错</description>
+    </item>
+    
+    <item>
+      <title>从360到百度的提示又更新了</title>
+      <link>http://example.org/2012/08/31/360so-to-baidu/</link>
+      <pubDate>Fri, 31 Aug 2012 06:44:36 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/31/360so-to-baidu/</guid>
+      <description>刚才试了一下从360到百度的搜索结果，提示更新成了 喜欢更优质的百度服务吗？把百度设置为主页或把百度添加到桌面吧！ ，第一次看到提示在在百度知道，继续等待新花招 </description>
+    </item>
+    
+    <item>
+      <title>cdnzz 可用邀请码</title>
+      <link>http://example.org/2012/08/17/cdnzz-free-invite/</link>
+      <pubDate>Fri, 17 Aug 2012 13:31:41 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/17/cdnzz-free-invite/</guid>
+      <description>cdnzz 有免费用服务，每个用户可以获得 1G 流量，但必须要有邀请码才可以注册，可以使用以下邀请码注册
+371297539262 371260853004 371264473296 371294655276 371211066797 371290432236 371248993432 371226353266 371244155333 371212198242</description>
+    </item>
+    
+    <item>
+      <title>godaddy 8月份可用的5.99域名优惠</title>
+      <link>http://example.org/2012/08/15/godaddy-august-599-coupo/</link>
+      <pubDate>Wed, 15 Aug 2012 10:50:28 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/15/godaddy-august-599-coupo/</guid>
+      <description>godaddy 8月域名注册 5.99 优惠，测试可用，结帐时直接输入。
+[drpcoupon name=&amp;ldquo;USAUSA2&amp;rdquo; exclude=&amp;ldquo;name,expiration,description&amp;rdquo;]</description>
+    </item>
+    
+    <item>
+      <title>skydrive终于更新界面了，清新多了</title>
+      <link>http://example.org/2012/08/15/skydrive-upgrade-outlook/</link>
+      <pubDate>Wed, 15 Aug 2012 02:05:31 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/15/skydrive-upgrade-outlook/</guid>
+      <description>skydrive 是个不错的产品，可惜界面长年不更新，和众多网盘真是有可比性，今天登录 skydrive 突然感觉一下亲切多了，界面升级到和 outlook 的一样了，估计也是为了 windows 8 吧，而且上传速度也有所提升，哈哈，这下用 skydrive 同学有福喽。。</description>
+    </item>
+    
+    <item>
+      <title>Incapsula新加坡节不太稳啦</title>
+      <link>http://example.org/2012/08/08/incapsula-gfw/</link>
+      <pubDate>Wed, 08 Aug 2012 13:26:52 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/08/incapsula-gfw/</guid>
+      <description>Incapsula 服务个人觉得非常不错，免费用户都有 50G 的流量 ，一般的小博都够跑了，用了一段时间之后，稳定性方面基本满意，除了发现一次挂了几分钟之外，基本都能正常访问，不过就在今天，打开博客突然无反应了，一想估计是被 gfw 了，但是还想用 Incapsula ，唉， 因为 Incapsula 要检测 cname 所以开始申请的时候直接把域名 cname 到 Incapsula, dns 是用的dnspod 的服务，于是去找了个没有被 gfw 的 ip 直接 A 记录过去，这样的话，国外还是用 cname 国内用 A ，不影响 Incapsula 的检测。。恢复访问。。</description>
+    </item>
+    
+    <item>
+      <title>burst 8月份省10% 优惠码</title>
+      <link>http://example.org/2012/08/01/2012-08-burst-net-free-10/</link>
+      <pubDate>Wed, 01 Aug 2012 06:34:17 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/01/2012-08-burst-net-free-10/</guid>
+      <description>Burst又称84，是一家比较有名国外VPS主机商。进入8月，再次收到Burst发布的促销邮件，本次优惠码终身9折。
+这次Burst优惠码适用于旗下的所有机房的所有类型的vps,包括xen，优惠后一款512MB的OpenVZ每月仅需5.35美元(原价$5.95/月)
+[drpcoupon name=&amp;ldquo;BurstNETfree10&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;]</description>
+    </item>
+    
+    <item>
+      <title>免费的cdn yottaa 已经不存在了</title>
+      <link>http://example.org/2012/07/30/free-cdn-yotaa-nonexistent/</link>
+      <pubDate>Mon, 30 Jul 2012 03:37:39 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/30/free-cdn-yotaa-nonexistent/</guid>
+      <description>网络上众多介绍免费的cdn其中的yotaa 现在已经不免费了，只是提供免费的 14天试有而已。 不过去试用了一下，体验还是不错的。</description>
+    </item>
+    
+    <item>
+      <title>openshift 绑定域名</title>
+      <link>http://example.org/2012/07/29/domain-name-to-openshift/</link>
+      <pubDate>Sun, 29 Jul 2012 11:39:08 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/29/domain-name-to-openshift/</guid>
+      <description>openshift 的自由性真是让人喜欢，不过要绑定域名必须安装 client tools ,ruby的产物，要求 ruby1.8.7以上, freebsd 下安装
+安装 ruby
+cd /usr/ports/lang/ruby18 make install clean 按装 ruybgames
+cd /usr/ports/devel/ruby-gems make install clean rehash 安装 client tools
+gem install rhc 绑定域名
+rhc setup // 输入用户名密码等 rhc app add-alias -a appName --alias blog.andsky.com // 要确认密码 然后到 app 管理应该会在 Aliases 看到刚刚添加的域名 然后将 blog.andsky.com cname 到 appName-namespace.rhcloud.com</description>
+    </item>
+    
+  </channel>
+</rss>

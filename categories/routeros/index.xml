@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+routeros
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/routeros/</link>
+    <description>Recent content in 
+routeros
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Sep 2011 09:55:49 +0000</lastBuildDate><atom:link href="http://example.org/categories/routeros/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装 ntop 提示 Missing Dependency: librrd_th.so.2 错误</title>
+      <link>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</link>
+      <pubDate>Fri, 02 Sep 2011 09:55:49 +0000</pubDate>
+      
+      <guid>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</guid>
+      <description>centos 5.6 x64 安装 ntop 提示以下错误
+Resolving Dependencies --&amp;gt; Running transaction check ---&amp;gt; Package ntop.x86_64 0:3.3.9-7.el5 set to be updated --&amp;gt; Processing Dependency: graphviz for package: ntop --&amp;gt; Processing Dependency: librrd_th.so.2()(64bit) for package: ntop --&amp;gt; Processing Dependency: libnetsnmp.so.10()(64bit) for package: ntop --&amp;gt; Processing Dependency: libGeoIP.so.1()(64bit) for package: ntop --&amp;gt; Running transaction check ---&amp;gt; Package geoip.x86_64 0:1.4.6-1.el5.rf set to be updated ---&amp;gt; Package graphviz.x86_64 0:2.22.0-4.el5.rf set to be updated --&amp;gt; Processing Dependency: libXt.</description>
+    </item>
+    
+    <item>
+      <title>ROS常用命令简介</title>
+      <link>http://example.org/2009/04/11/ros-everyday-commands/</link>
+      <pubDate>Sat, 11 Apr 2009 17:39:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/ros-everyday-commands/</guid>
+      <description>ROUTEROS常用命令
+/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] &amp;gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] &amp;gt; [admin@MikroTik] ip&amp;gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip&amp;gt; 列出可用的命令和菜单并有简短的描述到下一个项目.</description>
+    </item>
+    
+    <item>
+      <title>网吧专用ros软路由教程(非常详细)</title>
+      <link>http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/</link>
+      <pubDate>Sat, 11 Apr 2009 17:14:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/</guid>
+      <description>一：安装
+1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下
+选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。
+重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：
+选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动
+重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了
+现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：
+然后我们来激活他们，命令是： ENABLE 0
+ENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图
+但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。</description>
+    </item>
+    
+    <item>
+      <title>ROS安装配制教程</title>
+      <link>http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/</link>
+      <pubDate>Sat, 11 Apr 2009 17:00:26 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/</guid>
+      <description>ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)
+好了可以开始了,从光盘启动 我们可以看到这个画面
+这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留
+接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y
+正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了
+启动路由,进入登录界面
+接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问
+ROS下配制 默认用户名:ADMIN 密码:空
+登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤
+setup 开始配制
+r - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP</description>
+    </item>
+    
+    <item>
+      <title>ros routeros限速和限线程脚本</title>
+      <link>http://example.org/2009/04/11/ros-routerose99990e9809fe5928ce99990e7babfe7a88be8849ae69cac/</link>
+      <pubDate>Sat, 11 Apr 2009 16:47:41 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/11/ros-routerose99990e9809fe5928ce99990e7babfe7a88be8849ae69cac/</guid>
+      <description>限线程脚本：
+:for aaa from 2 to 254 do={/ip firewall filter add chain=forward src-address=(192.168.0. . $aaa) protocol=tcp connection-limit=50,32 action=drop}
+限速脚本：
+:for aaa from 2 to 254 do={/queue simple add name=(queue . $aaa) dst-address=(192.168.0. . $aaa) limit-at=0/0 max-limit=2000000/2000000}
+说明： 脚本为一行不是两行 aaa是变量 2 to 254是2~254 192.168.0. . $aaa是IP 上两句加起来是192.168.0.2~192.168.0.254的意思 connection-limit=50是线程数这里为50 max-limit=2000000/2000000是上行2m／下行2m
+使用： WinBox-System-Scripts-＋ Name(脚本名程) Source(脚本) OK-选择要运行的脚本-Run Script
+查看规则是否填加进来： 限线程：WinBox-IP-Firewall-Filter Rules 限速：WinBox-Queues-Simple Queues 手动设置限速
+winbox&amp;mdash;queues&amp;mdash;-simple queues
+点“+”，NAME里随便填，下面是IP地址的确定
+①Target Address 不管，Dst. Address里填 你要限制的内网机器的IP，比如我这里有个 1号机器 IP为 192.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+python
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/python/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/python/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+python
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/python/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+python
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+python
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>进程信号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-30 01:50:25 +0000 UTC'>November 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 进程信号" href="http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>用Python写简单守护进程【转】
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I’ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it’s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-28 08:39:42 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用Python写简单守护进程【转】" href="http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Django and Memcached
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-28 03:50:34 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Django and Memcached" href="http://example.org/2009/11/28/django-and-memcached/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>一个典型的Twisted应用程序框架
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、简介
+本文通过继承Twisted中的一些类实现了一个基本的Twisted应用程序，期间实现了协议、工厂并进行了服务器的监听，并将日志输出的屏幕。
+二、基本框架
+·导入部分
+这部分导入的内容是专供协议和工厂类使用的，其他部分的导入可能并不在同一模块当中，所以到了具体的代码部分再去导入。
+from twisted.internet import protocol
+from twisted.protocols import basic
+·协议
+继承了一个LineReceiver，实现了行和原始两种方式的数据接收处理，还重载了连接的建立和断开事件。
+class ConfigServer(basic.LineReceiver):
+def __init__(self): pass #by gashero def dataReceived(self,data): pass def lineReceived(self,line): pass def connectionMade(self): pass def connectionLost(self,reason): pass ·工厂
+继承了一个服务器工厂，
+class ConfigServerFactory(protocol.ServerFactory):
+protocol=ConfigServer def __init__(self): pass def startFactory(self): pass def stopFactory(self): pass def buildProtocol(self,addr): protocol.ServerFactory.buildProtocol(self,addr) pass ·设置日志
+from twisted.python import log
+import sys
+log.startLogging(sys.stdout)
+·启动服务器
+from twisted.internet import reactor
+reactor.listenTCP(8080,ConfigServerFactory(),timeout=10)
+reactor.run()
+三、其他常用方法
+·发送数据，在协议对象的方法中
+self.transport.write(data)...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-27 03:56:27 +0000 UTC'>October 27, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一个典型的Twisted应用程序框架" href="http://example.org/2009/10/27/e4b880e4b8aae585b8e59e8be79a84twistede5ba94e794a8e7a88be5ba8fe6a186e69eb6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>twisted知识
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信
+中可能出现的各种情况。
+Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。
+1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这
+里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主
+机的交互功能。
+一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承
+。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空
+的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后
+就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行
+reactor.run()启动 事件循环。
+二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同
+的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。
+BaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：
+class Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型
+从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。
+三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就
+可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载
+。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-23 10:15:37 +0000 UTC'>October 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to twisted知识" href="http://example.org/2009/10/23/twistede79fa5e8af86/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>python的logging  [转自python mail list]
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &#34;log.log&#34; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&#34;dddddd&#34;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&#34;%(message)s&#34;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a&#43;&#39;) ... logging.debug(&#34;Line: %s updated...&#34; % (line_ref)) 实际应用时建议使用...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-08 16:55:03 +0000 UTC'>October 8, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to python的logging  [转自python mail list]" href="http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>接收邮件的smtpserver
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一个可以接收邮件的smtpserver. 收到的邮件被存为一个eml格式的文件，可以用outlook打开。 注意： 需要事先配置域名，指向这台机器所在的IP。免费的动态域名（如花生壳）也可。
+#encoding:utf-8 from datetime import datetime import asyncore from smtpd import SMTPServer class EmlServer(SMTPServer): no = 0 def process_message(self, peer, mailfrom, rcpttos, data): filename = &#39;%s-%d.eml&#39; % (datetime.now().strftime(&#39;%Y%m%d%H%M%S&#39;),self.no) f = open(filename, &#39;w&#39;) f.write(data) f.close print mailfrom,rcpttos,&#39;%s saved.&#39; % filename self.no &#43;= 1 def run(): foo = EmlServer((&#39;0.0.0.0&#39;, 25), None) try: asyncore.loop() except KeyboardInterrupt: pass if __name__ == &#39;__main__&#39;: run() 转自 http://www.javaeye.com/topic/382229</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-10-05 14:12:51 +0000 UTC'>October 5, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 接收邮件的smtpserver" href="http://example.org/2009/10/05/e68ea5e694b6e982aee4bbb6e79a84smtpserver/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&#34;django.contrib.admin&#34;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models… 0 errors found.
+Django version 0.96-pre, using settings ‘mysite.settings’ Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-30 10:02:50 +0000 UTC'>September 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)" href="http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>在Windows上安装Python&#43;MySQL 的常见问题及解决方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information. &gt;&gt;&gt; import MySQLdb Traceback (most recent call last): File &#34;&lt;stdin&gt;&#34;, line 1, in &lt;module&gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&#34;No module named MySQLdb&#34;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-28 13:35:38 +0000 UTC'>September 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 在Windows上安装Python&#43;MySQL 的常见问题及解决方法" href="http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Python代码加密 源码保护--pyc文件&#39;字节码&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>内容概要:Python代码加密,源码保护,代码保护,pyc文件 关于python代码保护在网上好像一直没有很好的介绍,可能和PYTHON的设计初衷&#34;开源&#34;有关,但越来越多的兄弟写的加入PYTHON阵营,开发工具用途各异,在商业应用中代码保护就变的重要了. 下面介绍一下发布PYC文件,做简单代码保护 PYC文件是什么? pyc文件是python的二进制编译,pyc文件比py文件拥有更快的装载速度，执行速度没有区别。 因为pyc文件是二进制文件,不是明文显示,利用这一特性,发布PYC文件隐藏源代码.
+命令如下: python -c “import compileall; compileall.compile_dir(‘目录’)”
+该命令可以为一个目录下的py文件生成pyc文件（包含子目录） 在windows平台上的路径书写方式为(‘C:/python26/pyc’)
+下面符一完整命令: 将目录’C:/python26/pyc’下的所有PY文件 转为PYC文件
+python -c &#34;import compileall; compileall.compile_dir(&#39;C:/python26/pyc&#39;)&#34; 如果想实现真正的加密代码,就要改PYTHON源码,做自己的加密模块了,这方面还没深入了解,不便多说. 关于代码加密这块如哪位兄弟还有更好的方法,请多指教.
+Python代码加密,源码保护,代码保护,pyc文件
+转自http://blog.alexa-pro.cn/?p=349</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-09 05:55:39 +0000 UTC'>September 9, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Python代码加密 源码保护--pyc文件&#39;字节码&#39;" href="http://example.org/2009/09/09/pythone4bba3e7a081e58aa0e5af86-e6ba90e7a081e4bf9de68aa4-pyce69687e4bbb6e5ad97e88a82e7a081/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/python/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/categories/python/page/3/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

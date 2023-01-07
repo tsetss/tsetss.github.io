@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+python
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/python/</link>
+    <description>Recent content in 
+python
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 08 Mar 2010 09:38:01 +0000</lastBuildDate><atom:link href="http://example.org/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python运算符与表达式</title>
+      <link>http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/</link>
+      <pubDate>Mon, 08 Mar 2010 09:38:01 +0000</pubDate>
+      
+      <guid>http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/</guid>
+      <description>1.1. 数值操作 所有数值类型都提供下列运算:
+运算 描述 x + y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 +x 什么也不做 ~x ~x=-(x+1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y ).</description>
+    </item>
+    
+    <item>
+      <title>psyco 真的很神奇</title>
+      <link>http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/</link>
+      <pubDate>Sat, 19 Dec 2009 12:15:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/</guid>
+      <description>测试代码 http://www.timestretch.com/FractalBenchmark.html#e7142f2f73f8eb4245f1b25aa6340470
+没有使用 psyco 3.4 左右，生成 pyc 3.14 ，用了 psyco 0.34 真是太强大了，
+freebsd 安装 psyco
+cd /usr/ports/devel/py-psyco make install clean 开启
+import psyco psyco.full() </description>
+    </item>
+    
+    <item>
+      <title>freebsd下python程序打包工具 ── cx_Freeze</title>
+      <link>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</link>
+      <pubDate>Fri, 04 Dec 2009 15:38:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</guid>
+      <description>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </description>
+    </item>
+    
+    <item>
+      <title>Python date测试</title>
+      <link>http://example.org/2009/12/04/python-datee6b58be8af95/</link>
+      <pubDate>Fri, 04 Dec 2009 14:18:54 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/python-datee6b58be8af95/</guid>
+      <description>import datetime, calendar
+today = datetime.date.today() oneday = datetime.timedelta(days=1) # loop back to most recent Friday (could be today) # takes care of end of month and even leap years friday = today while friday.weekday() != calendar.FRIDAY: friday -=oneday oneweek = datetime.timedelta(days=7) nextweek = today + oneweek nextyear = today.replace(year=today.year+1) print &amp;quot;Today (year-month-day) = &amp;quot;, today print &amp;quot;Most recent Friday = &amp;quot;, friday print &amp;quot;One week from today = &amp;quot;, nextweek print &amp;quot;One year from today = &amp;quot;, nextyear print &amp;quot;Current time = &amp;quot;, datetime.</description>
+    </item>
+    
+    <item>
+      <title>當Deferred遇上Thread</title>
+      <link>http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/</link>
+      <pubDate>Fri, 04 Dec 2009 05:32:46 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/</guid>
+      <description>當Deferred遇上Thread Deferred不會自動實現將阻塞過程轉為非阻塞過程，雖然它已經有那樣的機制但還是要你去多走一步。要將阻塞過程轉為真正的非阻塞過程，那　只有借用線程。但至於線程調用你不用太擔心，twisted已為你準備好一個方便的用法。就是將Deferred綁在Thread上，這樣就有了deferToThread，味道不比牛奶加巧克力差。 deferToThread在twisted文檔的說明，洋墨水喝得比較少，就不照字面翻譯了。大概意思是將函數f放在線程裡並作為Deferred返回，args和kwargs是函數f的參數。也就是使用deferToThread返回的是一個帶線程的Deferred，並自動使用callback調用指定的函數f。相當於在線程中運行下面的代碼 d=defer.Deferred().addCallback(f) d.callback(result)
+def deferToThread(f, *args, **kwargs): (source) Run a function in a thread and return the result as a Deferred. Parameters f The function to call.
+*args positional arguments to pass to f.
+**kwargs keyword arguments to pass to f.
+Returns A Deferred which fires a callback with the result of f, or an errback with a twisted.python.failure.Failure if f throws an exception.
+#!/usr/bin/env python #coding=utf-8 from twisted.</description>
+    </item>
+    
+    <item>
+      <title>Deferred筆記一</title>
+      <link>http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/</link>
+      <pubDate>Fri, 04 Dec 2009 05:19:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/</guid>
+      <description>Deferred的簡單套路
+從twisted的文檔入手，將Deferred獨立出來簡單的說明作用與使用方法，這樣更能快速對Deferred有深刻的了解。
+一、學習資料 1、主要參考資料 官方文檔 http://twistedmatrix.com/projects/core/documentation/howto/deferredindepth.html 關聯譯文 http://wiki.woodpecker.org.cn/moin/twistedTUT00?action=AttachFile&amp;amp;do;=get&amp;amp;target;=deferred_tutorial.html（此鏈接將會下載離線文檔）
+2、關聯資源 http://wiki.woodpecker.org.cn/moin/TwistedTUT
+二、Deferred的作用 Deferred的主要作用可以用一句話比較形象說明，“不要打電話給我,我會打給你的(Don&amp;rsquo;t Call Us, We&amp;rsquo;ll Call You)”。相當於做好計劃後，執行交給Deferred，完成後再找我，我可要到一邊Happy去了。 它會根據callback運行結果（正常、發生例外）從callback鏈表中選擇執行已註冊的相應的callback函數，從而實現事件方式來驅動程序。 callback的運行不影響主程序的運行，Deferred.callback執行後馬上返回。(這點有待在後面證明)
+三、Deferred實例 from twisted.internet import defer d=defer.Deferred() 實例化後就可以對Deferred進行操作。
+四、callback鏈表 鏈表是用來放置callback函數，鏈表中的函數可以響應三類事件，正常結束、例外結束、任意（包括前面兩者），它們分別用addCallback、addErrback、addBoth註冊到鏈表中。也就是說函數正常結束返回調用addCallback註冊的函數，發生例外則調用addErrback註冊的函數，使用addBoth註冊的函數無論返回什　結果都會被調用。
+五、callback函數註冊 除了上面提過的addCallback、addErrback、addBoth三個註冊函數外，還有另外一個addCallbacks可以同時註冊處理正常結束和例外結束的函數。
+1 2 3 4 5 6 def deferredExample(): d = defer.Deferred() d.addCallback(failAtHandlingResult) d.addCallbacks(yesDecision, noDecisionPassthru) d.addCallback(handleResult) # - A - d.addErrback(handleFailure)
+上面代碼中第4行的addCallbacks效果如同 d.addCallback(yesDecision) d.addErrback(noDecisionPassthru)
+另外，我們也可以將註冊過程寫成下面形式。 d=refer.Deferred().addCallback(failAtHandlingResult).addCallbacks(yesDecision, noDecisionPassthru).addCallback(handleResult).addErrback(handleFailure)
+六、callback鏈執行順序 Deferred的鏈表是按順序從第一個註冊函數開始直到最後一個函數。如果發生例外時，有多個例外處理函數，則會調用發生例外函數下面第一個例外處理函數。後面的例外處理函數將不會被調用，除非第一個例外處理函數將這個例外向下傳遞。
+七、其它一些特性 Deferred實例中還有另外一些函數，如pause,unpause,setTimeout,timeoutCall,chainDeferred，這些將留作下一步的測試。 另外還沒涉及到的是Deferred上一級的defer庫中的函數及其它類的使用，從一些代碼看來這些函數將會進一步有利於Deferred的應用，但這也有待後面的進上步學習。
+八、總結 經過Deferred are beautiful一節學習，了解Deferred的使用方法及其事件響應機制。
+創建於2009年8月31日
+原文 http://sites.google.com/site/mypynotes/twisted-1/deferred 可以被gw了</description>
+    </item>
+    
+    <item>
+      <title>Python 语法运用</title>
+      <link>http://example.org/2009/12/03/python-e8afade6b395e8bf90e794a8/</link>
+      <pubDate>Thu, 03 Dec 2009 09:04:07 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/03/python-e8afade6b395e8bf90e794a8/</guid>
+      <description>u=[&amp;ldquo;a&amp;rdquo;,&amp;ldquo;b&amp;rdquo;,&amp;ldquo;c&amp;rdquo;] l = [&amp;ldquo;name=%s&amp;rdquo; % user for user in u ]
+结果: [&amp;ldquo;name=a&amp;rdquo;, &amp;ldquo;name=b&amp;rdquo;,&amp;ldquo;name=c&amp;rdquo;]
+l ={&amp;ldquo;a&amp;rdquo;:1,&amp;ldquo;b&amp;rdquo;:2,&amp;ldquo;c&amp;rdquo;:3} [k for k,v in l.items()] 结果: [&amp;ldquo;a&amp;rdquo;,&amp;ldquo;b&amp;rdquo;,&amp;ldquo;c&amp;rdquo;]
+l ={&amp;ldquo;a&amp;rdquo;:1,&amp;ldquo;b&amp;rdquo;:2,&amp;ldquo;c&amp;rdquo;:3} [&amp;quot;%s=%s&amp;quot; % (k,v) for k,v in l.items()] [&amp;ldquo;a=1&amp;rdquo;,&amp;ldquo;b=2&amp;rdquo;,&amp;ldquo;c=3&amp;rdquo;]
+2.lambda lambda 是预代理,代替要生成方法的指针,我这样理解的
+d.addCallback(lambda m: &amp;quot;status of %s : %s&amp;quot; % (msg,m)) d.addCallback(lambda m: self.msg(user,m)) 3.文件的操作 这是方指的是txt文件操作
+注意路径只能是 / 的方式处理, 打开的模式,你可以采用 help(file)的方式来查. f = file(&amp;ldquo;c:/tmp/abc.txt&amp;rdquo;,&amp;ldquo;r&amp;rdquo;) for line in f: user,status = line.split(&amp;quot;:&amp;quot;,1) user = user.strip() status = status.</description>
+    </item>
+    
+    <item>
+      <title>python的dict,set,list,tuple应用</title>
+      <link>http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/</link>
+      <pubDate>Thu, 03 Dec 2009 09:00:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/</guid>
+      <description>字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((&amp;rsquo;love&amp;rsquo;, &amp;lsquo;honor&amp;rsquo;), True) =&amp;gt;{&amp;rsquo;love&amp;rsquo;: True, &amp;lsquo;honor&amp;rsquo;: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 &amp;lt; &amp;lt;= 表示 子集，&amp;gt; &amp;gt;=表示超集 | 表示联合 &amp;amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。</description>
+    </item>
+    
+    <item>
+      <title>Deferred Object In Twisted</title>
+      <link>http://example.org/2009/12/03/deferred-object-in-twisted/</link>
+      <pubDate>Thu, 03 Dec 2009 04:57:12 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/03/deferred-object-in-twisted/</guid>
+      <description>Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain).</description>
+    </item>
+    
+    <item>
+      <title>Python 类型</title>
+      <link>http://example.org/2009/12/03/python-e7b1bbe59e8b/</link>
+      <pubDate>Thu, 03 Dec 2009 04:53:54 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/03/python-e7b1bbe59e8b/</guid>
+      <description>1.Dictionry {} 相录于一个 key value的内容
+mys={&amp;ldquo;a&amp;rdquo;:1,&amp;ldquo;b&amp;rdquo;:2,&amp;ldquo;c&amp;rdquo;:3} mys[&amp;ldquo;a&amp;rdquo;] = 1 mys.keys() mys.values()
+for k,v in mys.items(): print k,v
+2.List 是一个列表 [] mys=[&amp;ldquo;a&amp;rdquo;,&amp;ldquo;b&amp;rdquo;,1] mys[0] mys[1] mys[-1]
+for v in mys: print v;
+Tuple 一个不能改变的list （） mys=(1,2,&amp;ldquo;a&amp;rdquo;) mys[0] mys[1]
+for v in mys: print v;
+这三种类型可以完全结合 mys=[(2,3),(4,5),(&amp;ldquo;a&amp;rdquo;,&amp;ldquo;b&amp;rdquo;)] mys={&amp;ldquo;a&amp;rdquo;:[2,3,4],&amp;ldquo;b&amp;rdquo;:[3,4,5]} mys[&amp;ldquo;a&amp;rdquo;].pop() 可以这样的写。</description>
+    </item>
+    
+    <item>
+      <title>进程信号</title>
+      <link>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</link>
+      <pubDate>Mon, 30 Nov 2009 01:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</guid>
+      <description>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时</description>
+    </item>
+    
+    <item>
+      <title>用Python写简单守护进程【转】</title>
+      <link>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</link>
+      <pubDate>Sat, 28 Nov 2009 08:39:42 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</guid>
+      <description>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I&amp;rsquo;ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it&amp;rsquo;s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method.</description>
+    </item>
+    
+    <item>
+      <title>Django and Memcached</title>
+      <link>http://example.org/2009/11/28/django-and-memcached/</link>
+      <pubDate>Sat, 28 Nov 2009 03:50:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/django-and-memcached/</guid>
+      <description>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build.</description>
+    </item>
+    
+    <item>
+      <title>一个典型的Twisted应用程序框架</title>
+      <link>http://example.org/2009/10/27/e4b880e4b8aae585b8e59e8be79a84twistede5ba94e794a8e7a88be5ba8fe6a186e69eb6/</link>
+      <pubDate>Tue, 27 Oct 2009 03:56:27 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/27/e4b880e4b8aae585b8e59e8be79a84twistede5ba94e794a8e7a88be5ba8fe6a186e69eb6/</guid>
+      <description>一、简介
+本文通过继承Twisted中的一些类实现了一个基本的Twisted应用程序，期间实现了协议、工厂并进行了服务器的监听，并将日志输出的屏幕。
+二、基本框架
+·导入部分
+这部分导入的内容是专供协议和工厂类使用的，其他部分的导入可能并不在同一模块当中，所以到了具体的代码部分再去导入。
+from twisted.internet import protocol
+from twisted.protocols import basic
+·协议
+继承了一个LineReceiver，实现了行和原始两种方式的数据接收处理，还重载了连接的建立和断开事件。
+class ConfigServer(basic.LineReceiver):
+def __init__(self): pass #by gashero def dataReceived(self,data): pass def lineReceived(self,line): pass def connectionMade(self): pass def connectionLost(self,reason): pass ·工厂
+继承了一个服务器工厂，
+class ConfigServerFactory(protocol.ServerFactory):
+protocol=ConfigServer def __init__(self): pass def startFactory(self): pass def stopFactory(self): pass def buildProtocol(self,addr): protocol.ServerFactory.buildProtocol(self,addr) pass ·设置日志
+from twisted.python import log
+import sys
+log.startLogging(sys.stdout)
+·启动服务器
+from twisted.internet import reactor
+reactor.listenTCP(8080,ConfigServerFactory(),timeout=10)
+reactor.run()
+三、其他常用方法
+·发送数据，在协议对象的方法中
+self.transport.write(data)</description>
+    </item>
+    
+    <item>
+      <title>twisted知识</title>
+      <link>http://example.org/2009/10/23/twistede79fa5e8af86/</link>
+      <pubDate>Fri, 23 Oct 2009 10:15:37 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/23/twistede79fa5e8af86/</guid>
+      <description>一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信
+中可能出现的各种情况。
+Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。
+1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这
+里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主
+机的交互功能。
+一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承
+。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空
+的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后
+就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行
+reactor.run()启动 事件循环。
+二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同
+的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。
+BaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：
+class Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型
+从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。
+三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就
+可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载
+。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应</description>
+    </item>
+    
+    <item>
+      <title>python的logging  [转自python mail list]</title>
+      <link>http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/</link>
+      <pubDate>Thu, 08 Oct 2009 16:55:03 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/</guid>
+      <description>我们知道在java或者.net中大部分都是使用apache的log4&amp;hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &amp;quot;log.log&amp;quot; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&amp;quot;dddddd&amp;quot;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4&amp;hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&amp;quot;%(message)s&amp;quot;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a+&#39;) ... logging.debug(&amp;quot;Line: %s updated...&amp;quot; % (line_ref)) 实际应用时建议使用</description>
+    </item>
+    
+    <item>
+      <title>接收邮件的smtpserver</title>
+      <link>http://example.org/2009/10/05/e68ea5e694b6e982aee4bbb6e79a84smtpserver/</link>
+      <pubDate>Mon, 05 Oct 2009 14:12:51 +0000</pubDate>
+      
+      <guid>http://example.org/2009/10/05/e68ea5e694b6e982aee4bbb6e79a84smtpserver/</guid>
+      <description>一个可以接收邮件的smtpserver. 收到的邮件被存为一个eml格式的文件，可以用outlook打开。 注意： 需要事先配置域名，指向这台机器所在的IP。免费的动态域名（如花生壳）也可。
+#encoding:utf-8 from datetime import datetime import asyncore from smtpd import SMTPServer class EmlServer(SMTPServer): no = 0 def process_message(self, peer, mailfrom, rcpttos, data): filename = &#39;%s-%d.eml&#39; % (datetime.now().strftime(&#39;%Y%m%d%H%M%S&#39;),self.no) f = open(filename, &#39;w&#39;) f.write(data) f.close print mailfrom,rcpttos,&#39;%s saved.&#39; % filename self.no += 1 def run(): foo = EmlServer((&#39;0.0.0.0&#39;, 25), None) try: asyncore.loop() except KeyboardInterrupt: pass if __name__ == &#39;__main__&#39;: run() 转自 http://www.javaeye.com/topic/382229</description>
+    </item>
+    
+    <item>
+      <title>django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)</title>
+      <link>http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/</link>
+      <pubDate>Wed, 30 Sep 2009 10:02:50 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/</guid>
+      <description>problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&amp;quot;django.contrib.admin&amp;quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models&amp;hellip; 0 errors found.
+Django version 0.96-pre, using settings &amp;lsquo;mysite.settings&amp;rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C.</description>
+    </item>
+    
+    <item>
+      <title>在Windows上安装Python&#43;MySQL 的常见问题及解决方法</title>
+      <link>http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/</link>
+      <pubDate>Mon, 28 Sep 2009 13:35:38 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/</guid>
+      <description>验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&amp;gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information. &amp;gt;&amp;gt;&amp;gt; import MySQLdb Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&amp;quot;No module named MySQLdb&amp;quot;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.</description>
+    </item>
+    
+    <item>
+      <title>Python代码加密 源码保护--pyc文件&#39;字节码&#39;</title>
+      <link>http://example.org/2009/09/09/pythone4bba3e7a081e58aa0e5af86-e6ba90e7a081e4bf9de68aa4-pyce69687e4bbb6e5ad97e88a82e7a081/</link>
+      <pubDate>Wed, 09 Sep 2009 05:55:39 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/09/pythone4bba3e7a081e58aa0e5af86-e6ba90e7a081e4bf9de68aa4-pyce69687e4bbb6e5ad97e88a82e7a081/</guid>
+      <description>内容概要:Python代码加密,源码保护,代码保护,pyc文件 关于python代码保护在网上好像一直没有很好的介绍,可能和PYTHON的设计初衷&amp;quot;开源&amp;quot;有关,但越来越多的兄弟写的加入PYTHON阵营,开发工具用途各异,在商业应用中代码保护就变的重要了. 下面介绍一下发布PYC文件,做简单代码保护 PYC文件是什么? pyc文件是python的二进制编译,pyc文件比py文件拥有更快的装载速度，执行速度没有区别。 因为pyc文件是二进制文件,不是明文显示,利用这一特性,发布PYC文件隐藏源代码.
+命令如下: python -c &amp;ldquo;import compileall; compileall.compile_dir(&amp;lsquo;目录&amp;rsquo;)&amp;rdquo;
+该命令可以为一个目录下的py文件生成pyc文件（包含子目录） 在windows平台上的路径书写方式为(&amp;lsquo;C:/python26/pyc&amp;rsquo;)
+下面符一完整命令: 将目录&amp;rsquo;C:/python26/pyc&amp;rsquo;下的所有PY文件 转为PYC文件
+python -c &amp;quot;import compileall; compileall.compile_dir(&#39;C:/python26/pyc&#39;)&amp;quot; 如果想实现真正的加密代码,就要改PYTHON源码,做自己的加密模块了,这方面还没深入了解,不便多说. 关于代码加密这块如哪位兄弟还有更好的方法,请多指教.
+Python代码加密,源码保护,代码保护,pyc文件
+转自http://blog.alexa-pro.cn/?p=349</description>
+    </item>
+    
+    <item>
+      <title>开始学习python</title>
+      <link>http://example.org/2009/08/16/e5bc80e5a78be5ada6e4b9a0python/</link>
+      <pubDate>Sun, 16 Aug 2009 15:55:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/e5bc80e5a78be5ada6e4b9a0python/</guid>
+      <description>原来一直想学这个，但是没有机会，在新项目中的聊天室，打算用python+flex+socket 来实现，效率还不知道，正好顺便学学 python ,看它的语法，感觉还是很简洁的，不过习惯php 了，老是想以 php 的写法来写，这个比较郁闷了!</description>
+    </item>
+    
+    <item>
+      <title>关于C和Python之间通信的方法</title>
+      <link>http://example.org/2009/08/16/e585b3e4ba8ece5928cpythone4b98be997b4e9809ae4bfa1e79a84e696b9e6b395/</link>
+      <pubDate>Sun, 16 Aug 2009 15:47:52 +0000</pubDate>
+      
+      <guid>http://example.org/2009/08/16/e585b3e4ba8ece5928cpythone4b98be997b4e9809ae4bfa1e79a84e696b9e6b395/</guid>
+      <description>这些天在做一个项目，前端使用python来作，便于快速开发，底层使用C来写，效率高，速度快。这样就牵扯到二者之间的通信问题。我查了相关文档，发现有以下几种解决方式：
+使用标准的数据表示形式，比如xml或者xdr，然后在C和python两端都有自己的相应的库，可以对这些数据进行解释，自然就可以通信了。 在C中定义一个结构对象，把它打包成二进制形式（python把它作为字符串来解释），然后使用python中的struct模块的pack函数来解析，这样就牵扯到一个解析格式串的问题，一个简单的方式是在c和python两端定义对应的两套数据结构，分别有自己的pack和unpack函数，它们可以对中间结果－－－二进制串，进行解析，这样就可以实现通信了。在python那一端还可以使用array模块，处理类型统一的数据，特别方便，有时候比用struct模块要爽！ 使用一个xml文件将C中定义的结构都包含进去，然后在python那一端进行解析这个xml文件，自然就知道如何对每个C中的struct对象进行解析了，这样扩展性好一些。 使用第三方的库，我所知道的有boost.python和ctypes，具体怎样我也没有是用。 我在实现的时候使用了第2种方式，下面举个例子：
+在c中有这样一个结构：
+typedef struct test_tag { int a; int b; }test_t; char* test_pack(test_t* ptr){ char * p=NULL; p = (char *) malloc(sizeof(test_t)); memcpy(p,ptr,sizeof(test_t)); return p; } test_t* test_unpack(char* ptr){ test_t* p=NULL; p=(test_t *)malloc(sizeof(test_t)); memcpy(p,ptr,sizeof(test_t)); return p; } 在python端有这样的对应数据结构：
+class test: format=&#39;2i&#39; members=(&#39;a&#39;,&#39;b&#39;) def __init__(self): for item in test.members: self.__dict__[item]=-1 def pack(self,order=&#39;@&#39;): return struct.pack(order+test.format,self.a,self.b) def pack2(self,order=&#39;@&#39;): bin=array.array(&#39;l&#39;) for item in test.members: bin.append(self.__dict__[item]) if (sys.byteorder==&#39;little&#39; and order==&#39;&amp;gt;&#39;) or (sys.</description>
+    </item>
+    
+  </channel>
+</rss>

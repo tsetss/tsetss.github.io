@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Webalizer-利用ApacheLog達成流量統計圖表化 | 白天’s Blog</title>
+<meta name="keywords" content="
+ApacheLog
+      , 
+freebsd
+      , 
+Webalizer
+      ">
+<meta name="description" content="【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  
+【作業環境】
+FreeBSD 5.2、6.2-RELEASE
+webalizer-2.01-10、2.1.10_12
+libiconv-1.9.2_2
+【安裝及設定】
+Step1.安裝 webalizer 及 libiconv 套件
+將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Webalizer-利用ApacheLog達成流量統計圖表化" />
+<meta property="og:description" content="【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  
+【作業環境】
+FreeBSD 5.2、6.2-RELEASE
+webalizer-2.01-10、2.1.10_12
+libiconv-1.9.2_2
+【安裝及設定】
+Step1.安裝 webalizer 及 libiconv 套件
+將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2007-06-30T19:56:15+00:00" />
+<meta property="article:modified_time" content="2007-06-30T19:56:15+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Webalizer-利用ApacheLog達成流量統計圖表化"/>
+<meta name="twitter:description" content="【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  
+【作業環境】
+FreeBSD 5.2、6.2-RELEASE
+webalizer-2.01-10、2.1.10_12
+libiconv-1.9.2_2
+【安裝及設定】
+Step1.安裝 webalizer 及 libiconv 套件
+將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Webalizer-利用ApacheLog達成流量統計圖表化",
+      "item": "http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Webalizer-利用ApacheLog達成流量統計圖表化",
+  "name": "Webalizer-利用ApacheLog達成流量統計圖表化",
+  "description": "【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。 【作業環境】\nFreeBSD 5.2、6.2-RELEASE\nwebalizer-2.01-10、2.1.10_12\nlibiconv-1.9.2_2\n【安裝及設定】\nStep1.安裝 webalizer 及 libiconv 套件\n將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。\n",
+  "keywords": [
+    "\nApacheLog\n      ", "\nfreebsd\n      ", "\nWebalizer\n      "
+  ],
+  "articleBody": "【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。 【作業環境】\nFreeBSD 5.2、6.2-RELEASE\nwebalizer-2.01-10、2.1.10_12\nlibiconv-1.9.2_2\n【安裝及設定】\nStep1.安裝 webalizer 及 libiconv 套件\n將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。\n#cd /usr/ports/converters/libiconv ; make instlal clean //安裝 iconv #cd /usr/ports/www/webalizer //切換至安裝路徑 #make clean fetch extract patch configure WEBALIZER_LANG=chinese //安裝中文語系，但 GD 圖表內文字會為亂碼 #perl webalizer_patch.pl work/webalizer-2.01-10 //執行顏國雄老師中文修正檔可消除中文亂碼 #cd work/webalizer-2.01-10/lang //切換至語系檔目錄 #cp webalizer_lang.chinese webalizer_lang.chinese.big5 //將原 Big5 語系檔複製一份 #iconv -f BIG5 -t UTF-8 webalizer_lang.chinese.big5 \u003e webalizer_lang.chinese //轉換語系檔為 UTF-8 格式 #make install clean //安裝套件並清除安裝中不必要的檔案\nStep2.修改 webalizer 設定檔\n#cd /usr/local/etc //切換路徑 #cp webalizer.conf-dist webalizer.conf //複製範例檔來修改 #vi webalizer.conf //修改內容如下 (1)讀取 Log 路徑\nLogFile /var/lib/httpd/logs/access_log //預設值 LogFile /home/log/httpd-access.log //更改後 (此行到時為自動化時就必須 mark 掉) (2)指定資料輸出資料夾\nOutputDir /var/lib/httpd/htdocs/usage //預設值 OutputDir /usr/local/www/data/analysis/webalizer //更改後 (3)只更新增加的部份分析過的資料就不再分析以免覆蓋了舊有的資料\nIncremental no //預設值 Incremental yes //更改後 (4)網頁標題說明文字\nReportTitle Usage Statistics for //預設值 ReportTitle Webs Site 流量統計: //更改後 (5)設定主機名稱\nHostName localhost //預設值 HostName www.weithenn.idv.tw //更改後 Step3.建立 webalizer 資料夾以存放產生的圖表\n#cd /usr/local/www/data/analysis //切換預放置分析流量的路徑 #mkdir webalizer //建立資料夾 Step4.執行 webalizer 流量統計\n因為我是把 apache access log每天產生一個，所以我就把舊有的 log 先串成一個，日後在一個一個跑，例如我的 apache log 命名是 2007_05_01-access.log　#cat 2007_05*-access.log \u003e 200705.log //把五月份 access log 串成一個檔 執行 webalizer 流量統計\n#/usr/local/bin/webalizer /home/log/200705.log //分析五月份 log Webalizer V2.01-10 (FreeBSD 6.2-RELEASE-p5) English Using logfile 200705.log (clf) Creating output in /usr/local/www/data/analysis/webalizer Hostname for reports is 'www.weithenn.idv.tw' Reading history file... webalizer.hist Reading previous run data.. webalizer.current Warning: Truncating oversized referrer field [8679] Warning: Truncating oversized referrer field [9750] Warning: Truncating oversized referrer field [9751] ...略 Warning: Truncating oversized referrer field [685737] Warning: Truncating oversized referrer field [714670] Warning: Truncating oversized referrer field [715059] Saving current run data... [06/20/2007 23:59:59] Generating report for June 2007 Generating summary report Saving history information... 735502 records in 9.73 seconds, 75617/sec Step5.自動化流量分析排程\n至於分析我的 apache log 路徑是因為我都每天凌晨將網站主機的 log 同步到分析主機，因此我分析的是前一天的 log。\n#vi /usr/local/sbin/webalizer.sh //編輯 shell script 內容如下 #!/bin/sh /usr/local/bin/webalizer /home/backup/log/`date -v-1d +%Y_%m_%d`-access.log \u003e /dev/null 2\u003e\u00261 編輯排程檔\n#crontab -e 30 6 * * * /usr/local/sbin/webalizer.sh //每天早上六點半執行 webalizer.sh 【參考】\n[[webalizer]\n[man page：webalizer]\n[游志峰的網路架設筆記]\n【Log】\n初稿-2004/03/02\n新版本更新作法-2007/06/22\n",
+  "wordCount" : "311",
+  "inLanguage": "en",
+  "datePublished": "2007-06-30T19:56:15Z",
+  "dateModified": "2007-06-30T19:56:15Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Webalizer-利用ApacheLog達成流量統計圖表化
+    </h1>
+    <div class="post-meta"><span title='2007-06-30 19:56:15 +0000 UTC'>June 30, 2007</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong>【前言】</strong><a href="http://www.mrunix.net/webalizer/">[webalizer]</a> - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  </p>
+<p><strong>【作業環境】</strong></p>
+<p>FreeBSD 5.2、6.2-RELEASE</p>
+<p>webalizer-2.01-10、2.1.10_12</p>
+<p>libiconv-1.9.2_2</p>
+<p><strong>【安裝及設定】</strong></p>
+<p><strong>Step1.安裝 webalizer 及 libiconv 套件</strong></p>
+<p>將<a href="http://www.weithenn.idv.tw/cgi-bin/wiki.pl/%e9%a1%8f%e5%9c%8b%e9%9b%84%e8%80%81%e5%b8%ab%e4%b8%ad%e6%96%87%e4%ba%82%e7%a2%bc%e4%bf%ae%e6%ad%a3%e6%aa%94-webalizer_patch.pl">顏國雄老師中文亂碼修正檔-webalizer patch.pl</a> 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。</p>
+<p>#cd /usr/ports/converters/libiconv ; make instlal clean              //安裝 iconv  #cd /usr/ports/www/webalizer                                         //切換至安裝路徑  #make clean fetch extract patch configure WEBALIZER_LANG=chinese     //安裝中文語系，但 GD 圖表內文字會為亂碼  #perl webalizer_patch.pl work/webalizer-2.01-10                      //執行顏國雄老師中文修正檔可消除中文亂碼  #cd work/webalizer-2.01-10/lang                                      //切換至語系檔目錄  #cp webalizer_lang.chinese webalizer_lang.chinese.big5               //將原 Big5 語系檔複製一份  #iconv -f BIG5 -t UTF-8 webalizer_lang.chinese.big5 &gt; webalizer_lang.chinese  //轉換語系檔為 UTF-8 格式  #make install  clean                                                 //安裝套件並清除安裝中不必要的檔案</p>
+<p><strong>Step2.修改 webalizer 設定檔</strong></p>
+<pre><code>#cd /usr/local/etc                                     //切換路徑  
+#cp webalizer.conf-dist webalizer.conf                 //複製範例檔來修改  
+#vi webalizer.conf                                   
+  //修改內容如下
+</code></pre>
+<p>(1)讀取 Log 路徑</p>
+<pre><code>LogFile        /var/lib/httpd/logs/access_log          
+//預設值  LogFile        /home/log/httpd-access.log             
+ //更改後 (此行到時為自動化時就必須 mark 掉)
+</code></pre>
+<p>(2)指定資料輸出資料夾</p>
+<pre><code>OutputDir      /var/lib/httpd/htdocs/usage             //預設值  
+OutputDir      /usr/local/www/data/analysis/webalizer  //更改後
+</code></pre>
+<p>(3)只更新增加的部份分析過的資料就不再分析以免覆蓋了舊有的資料</p>
+<pre><code>Incremental        no                                      //預設值  Incremental      yes                                     //更改後
+</code></pre>
+<p>(4)網頁標題說明文字</p>
+<pre><code>ReportTitle    Usage Statistics for                    //預設值  ReportTitle    Webs Site 流量統計:                     //更改後
+</code></pre>
+<p>(5)設定主機名稱</p>
+<pre><code>HostName       localhost                               //預設值  HostName       www.weithenn.idv.tw                     //更改後
+</code></pre>
+<p><strong>Step3.建立 webalizer 資料夾以存放產生的圖表</strong></p>
+<pre><code>#cd /usr/local/www/data/analysis                       //切換預放置分析流量的路徑  #mkdir webalizer                                       //建立資料夾
+</code></pre>
+<p><strong>Step4.執行 webalizer 流量統計</strong></p>
+<p>因為我是把 apache access log每天產生一個，所以我就把舊有的 log 先串成一個，日後在一個一個跑，例如我的 apache log 命名是 2007_05_01-access.log　</p>
+<pre><code>#cat 2007_05*-access.log &gt; 200705.log                  //把五月份 access log 串成一個檔
+</code></pre>
+<p>執行 webalizer 流量統計</p>
+<pre><code>#/usr/local/bin/webalizer /home/log/200705.log        //分析五月份 log  Webalizer V2.01-10 (FreeBSD 6.2-RELEASE-p5) English  Using logfile 200705.log (clf)  Creating output in /usr/local/www/data/analysis/webalizer  Hostname for reports is 'www.weithenn.idv.tw'  Reading history file... webalizer.hist  Reading previous run data.. webalizer.current  Warning: Truncating oversized referrer field [8679]  Warning: Truncating oversized referrer field [9750]  Warning: Truncating oversized referrer field [9751]  ...略  Warning: Truncating oversized referrer field [685737]  Warning: Truncating oversized referrer field [714670]  Warning: Truncating oversized referrer field [715059]  Saving current run data... [06/20/2007 23:59:59]  Generating report for June 2007  Generating summary report  Saving history information...  735502 records in 9.73 seconds, 75617/sec
+</code></pre>
+<p><strong>Step5.自動化流量分析排程</strong></p>
+<p>至於分析我的 apache log 路徑是因為我都每天凌晨將網站主機的 log 同步到分析主機，因此我分析的是前一天的 log。</p>
+<pre><code>#vi /usr/local/sbin/webalizer.sh           //編輯 shell script 內容如下  #!/bin/sh  /usr/local/bin/webalizer /home/backup/log/`date -v-1d +%Y_%m_%d`-access.log &gt; /dev/null 2&gt;&amp;1
+</code></pre>
+<p>編輯排程檔</p>
+<pre><code>#crontab -e  30 6 * * * /usr/local/sbin/webalizer.sh    //每天早上六點半執行 webalizer.sh
+</code></pre>
+<p><strong>【參考】</strong></p>
+<p>[<a href="http://www.mrunix.net/webalizer/">[webalizer]</a></p>
+<p><a href="http://www.freebsd.org/cgi/man.cgi?query=webalizer&amp;apropos=0&amp;sektion=0&amp;manpath=FreeBSD+5.2-RELEASE+and+Ports&amp;format=html">[man page：webalizer]</a></p>
+<p><a href="http://mail.tses.tcc.edu.tw/nuke/sections.php?op=viewarticle&amp;artid=141">[游志峰的網路架設筆記]</a></p>
+<p><strong>【Log】</strong></p>
+<p>初稿-2004/03/02</p>
+<p>新版本更新作法-2007/06/22</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/apachelog/">
+ApacheLog
+      </a></li>
+      <li><a href="http://example.org/tags/freebsd/">
+freebsd
+      </a></li>
+      <li><a href="http://example.org/tags/webalizer/">
+Webalizer
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

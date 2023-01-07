@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ROS安装配制教程 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)
+好了可以开始了,从光盘启动 我们可以看到这个画面
+这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留
+接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y
+正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了
+启动路由,进入登录界面
+接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问
+ROS下配制 默认用户名:ADMIN 密码:空
+登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤
+setup 开始配制
+r - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ROS安装配制教程" />
+<meta property="og:description" content="ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)
+好了可以开始了,从光盘启动 我们可以看到这个画面
+这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留
+接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y
+正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了
+启动路由,进入登录界面
+接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问
+ROS下配制 默认用户名:ADMIN 密码:空
+登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤
+setup 开始配制
+r - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-11T17:00:26+00:00" />
+<meta property="article:modified_time" content="2009-04-11T17:00:26+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ROS安装配制教程"/>
+<meta name="twitter:description" content="ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)
+好了可以开始了,从光盘启动 我们可以看到这个画面
+这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留
+接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y
+正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了
+启动路由,进入登录界面
+接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问
+ROS下配制 默认用户名:ADMIN 密码:空
+登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤
+setup 开始配制
+r - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ROS安装配制教程",
+      "item": "http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ROS安装配制教程",
+  "name": "ROS安装配制教程",
+  "description": "ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)\n好了可以开始了,从光盘启动 我们可以看到这个画面\n这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留\n接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y\n正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了\n启动路由,进入登录界面\n接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问\nROS下配制 默认用户名:ADMIN 密码:空\n登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤\nsetup 开始配制\nr - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP",
+  "keywords": [
+    
+  ],
+  "articleBody": " ROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求)\n好了可以开始了,从光盘启动 我们可以看到这个画面\n这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留\n接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y\n正在格式化硬盘,正在复制文件 安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了\n启动路由,进入登录界面\n接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问\nROS下配制 默认用户名:ADMIN 密码:空\n登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤\nsetup 开始配制\nr - reset all router configuration (恢复所有设置,回到初使) l - configure ip address and gateway a - configure ip akkress and gateway d - setup dhcp client s - setup dhxp server p - setup pppoe client t - setup pptp client x - exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP\na - add ip address g - setup default gateway x - exit menu your choice [press Enter to add ip address]: 回车添加IP和DNS\nenable interface:ether1(网卡选择,默认第一块,ether1,如果你要选择第二块请改成ether2) 回车确认 ip address/netmask: (192.168.1.250/24)\n接下来,你可以通过WIN访问你的路由\n点击WINBOX下载WINBOX.EXE,运行 如果你在ROS添加了IP,你可以通过IP访问也可以通过MAC访问\nWINBOX配制 用户名:ADMIN 密码:空\n回车或点击Connect进入\n打开WINBOX.EXE进入,点击Interfaces\n看到有流量的网卡,双击,我们先把他改一下名字,这个我们定义为内网好了LAN\n点击OK确定,接下来你把好块没有流量的网卡就改成外网WAN[IMG][IMG]\n好了,IP\u003eAddress List,让我们来添加网址,点击加号 在弹出来的 New Address中我们添加先添加内网网址,也就是你的网关 192.168.1.250/24(这里后面的24是广播,单网段我们设24,多网段有很多种设法,我 在这里就不作多讲,网关可以设成,192.168.1.1或10.1.1.1等私有地址,看个人爱好来) 在Interface中我们点下拉选择LAN,也就是网卡\n单击OK,接下我们加外网址,这里我们也是一样填上外网网址就可以了,记得要在Interface中 选择WAN OK确定\n接下来我们来添加外网网关,IP\u003eRoute List 在弹出的对话框里,我们点加号,在弹出的对话框中Gateway中添加外网网关,点OK\n我的外网网址是220.169.58.153,网关是220.169.58.152\n接下我们打开防火墙,添加一条路由规则,我们就可以上网了 IP\u003eFirewall\u003eNAT\n单击加号在弹出来的对话框中,单击Action,中Action下拉选择masquerade 其它选项都是默认的,单击OK\n好了,我们接上外网网线就可以上网了\nhttp://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html\n",
+  "wordCount" : "168",
+  "inLanguage": "en",
+  "datePublished": "2009-04-11T17:00:26Z",
+  "dateModified": "2009-04-11T17:00:26Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/11/rose5ae89e8a385e9858de588b6e69599e7a88b/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ROS安装配制教程
+    </h1>
+    <div class="post-meta"><span title='2009-04-11 17:00:26 +0000 UTC'>April 11, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>ROS2.927安装
+机器要求
+主板:845以上
+网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等
+硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G
+光驱:安装时使用
+显卡:主板自带(或者别的,没有要求)</p>
+<p>好了可以开始了,从光盘启动
+我们可以看到这个画面</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/f3341cd34153b93a970a16e2.jpg" alt=""  />
+</p>
+<p>这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件)
+这里先不作组件的介绍,我就就全选 A <img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/74150c0ef3a2ace936d122ec.jpg" alt=""  />
+
+按I键开始安装
+会有一个提示
+Do you want to keep old configuration? [y/n]:
+意思问你是否保持磁盘原有的格式,这里我们选N,不保留</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/16833626c6d2e6198a82a10c.jpg" alt=""  />
+</p>
+<p>接下来还有个提示,
+Continue? 意思是是否格式化硬盘,我们选Y</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/8f9efeed375c73dab31cb10d.jpg" alt=""  />
+</p>
+<p>正在格式化硬盘,正在复制文件
+<img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/04f035cbdaea4ef352664f0f.jpg" alt=""  />
+</p>
+<p>安装完成,按回车重启
+这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/7d12ab30cd714097a9018eeb.jpg" alt=""  />
+</p>
+<p>启动路由,进入登录界面</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/0206a5df9bba721d632798f4.jpg" alt=""  />
+</p>
+<p>接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至)
+在WIN下用WINBOX访问</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/2a14d3090e0988c13bc7630a.jpg" alt=""  />
+</p>
+<p>ROS下配制
+默认用户名:ADMIN 密码:空</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/1ed14fed5653fb4178f05515.jpg" alt=""  />
+</p>
+<p>登录成功会有一个提示
+Do you want to see the software license? [y/n]:
+意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看
+的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/e26ff7a98a7d37f21e17a2f1.jpg" alt=""  />
+</p>
+<p>setup 开始配制</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/9dd677ce17a6040d92457ef1.jpg" alt=""  />
+</p>
+<p>r - reset all router configuration (恢复所有设置,回到初使)
+l - configure ip address and gateway
+a - configure ip akkress and gateway
+d - setup dhcp client
+s - setup dhxp server
+p - setup pppoe client
+t - setup pptp client
+x - exit menu (退出菜单)
+your choice [press Enret to configure ip address and gateway]:
+我们选A 添加IP</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/5a0ef6a72b6c309bd14358fd.jpg" alt=""  />
+</p>
+<p>a - add ip address
+g - setup default gateway
+x - exit menu
+your choice [press Enter to add ip address]:
+回车添加IP和DNS</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/d7a1121e13ed05114134171c.jpg" alt=""  />
+</p>
+<p>enable interface:ether1(网卡选择,默认第一块,ether1,如果你要选择第二块请改成ether2)
+回车确认
+<img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/b3e7cf897030f7bd0f2444ff.jpg" alt=""  />
+</p>
+<p>ip address/netmask: (192.168.1.250/24)</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/0bf539b16377b15a092302fa.jpg" alt=""  />
+</p>
+<p>接下来,你可以通过WIN访问你的路由</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/036426587f6e4bd09c8204c5.jpg" alt=""  />
+</p>
+<p>点击WINBOX下载WINBOX.EXE,运行
+如果你在ROS添加了IP,你可以通过IP访问也可以通过MAC访问</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/a7f9e32c209851e28a1399e5.jpg" alt=""  />
+</p>
+<p>WINBOX配制
+用户名:ADMIN 密码:空</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/64877fef0b40b338acafd5e7.jpg" alt=""  />
+</p>
+<p>回车或点击Connect进入</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/6000725c7a54ab4dfbf2c0c2.jpg" alt=""  />
+</p>
+<p>打开WINBOX.EXE进入,点击Interfaces</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/59d963ca3080f248f21fe7e1.jpg" alt=""  />
+</p>
+<p>看到有流量的网卡,双击,我们先把他改一下名字,这个我们定义为内网好了LAN</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/c0e065c864ca31197f3e6fe2.jpg" alt=""  />
+</p>
+<p>点击OK确定,接下来你把好块没有流量的网卡就改成外网WAN[IMG][IMG]</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/9ec5c209355954a12eddd4cd.jpg" alt=""  />
+</p>
+<p>好了,IP&gt;Address List,让我们来添加网址,点击加号
+在弹出来的 New Address中我们添加先添加内网网址,也就是你的网关
+192.168.1.250/24(这里后面的24是广播,单网段我们设24,多网段有很多种设法,我
+在这里就不作多讲,网关可以设成,192.168.1.1或10.1.1.1等私有地址,看个人爱好来)
+在Interface中我们点下拉选择LAN,也就是网卡</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/37fa4303a6c158e208fa93ec.jpg" alt=""  />
+</p>
+<p>单击OK,接下我们加外网址,这里我们也是一样填上外网网址就可以了,记得要在Interface中
+选择WAN OK确定</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/6cf102fdb728281809244dec.jpg" alt=""  />
+</p>
+<p>接下来我们来添加外网网关,IP&gt;Route List
+在弹出的对话框里,我们点加号,在弹出的对话框中Gateway中添加外网网关,点OK</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/a8d01b5169af4c818c5430cf.jpg" alt=""  />
+</p>
+<p> </p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/1fba42037cdd51793912bbee.jpg" alt=""  />
+</p>
+<p>我的外网网址是220.169.58.153,网关是220.169.58.152</p>
+<p>接下我们打开防火墙,添加一条路由规则,我们就可以上网了
+IP&gt;Firewall&gt;NAT</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/5bdeafd5723e25ca51da4bee.jpg" alt=""  />
+</p>
+<p>单击加号在弹出来的对话框中,单击Action,中Action下拉选择masquerade
+其它选项都是默认的,单击OK</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/6c2b953f3f5f83e254e723ef.jpg" alt=""  />
+</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/3e4942243a32f43d8744f9e8.jpg" alt=""  />
+</p>
+<p><img loading="lazy" src="http://hiphotos.baidu.com/jacyce/pic/item/32237d3db8bbc3c99f3d62ca.jpg" alt=""  />
+</p>
+<p>好了,我们接上外网网线就可以上网了</p>
+<p> </p>
+<p> </p>
+<p><a href="http://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html">http://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html</a></p>
+<!-- raw HTML omitted -->
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>FreeBSD常见问题集合 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="1.如何使用脚本获得PID 参见脚本pid.sh, 如下:
+$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk &#39;{print $2}&#39;` echo $pid &lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:
+#!/bin/sh for file in $1; do newfile=`echo &quot;$file&quot; | tr &quot;[:upper:]&quot; &quot;[:lower:]&quot;` mv &quot;$file&quot; &quot;$newfile&quot; done $ mklower.sh *.JPG 子目录按大小排序
+$du -s * | sort -n
+ls显示颜色
+$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG
+快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。
+# setenv PACKAGEROOT ftp://ftp.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="FreeBSD常见问题集合" />
+<meta property="og:description" content="1.如何使用脚本获得PID 参见脚本pid.sh, 如下:
+$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk &#39;{print $2}&#39;` echo $pid &lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:
+#!/bin/sh for file in $1; do newfile=`echo &quot;$file&quot; | tr &quot;[:upper:]&quot; &quot;[:lower:]&quot;` mv &quot;$file&quot; &quot;$newfile&quot; done $ mklower.sh *.JPG 子目录按大小排序
+$du -s * | sort -n
+ls显示颜色
+$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG
+快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。
+# setenv PACKAGEROOT ftp://ftp." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-25T22:45:36+00:00" />
+<meta property="article:modified_time" content="2009-03-25T22:45:36+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FreeBSD常见问题集合"/>
+<meta name="twitter:description" content="1.如何使用脚本获得PID 参见脚本pid.sh, 如下:
+$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk &#39;{print $2}&#39;` echo $pid &lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:
+#!/bin/sh for file in $1; do newfile=`echo &quot;$file&quot; | tr &quot;[:upper:]&quot; &quot;[:lower:]&quot;` mv &quot;$file&quot; &quot;$newfile&quot; done $ mklower.sh *.JPG 子目录按大小排序
+$du -s * | sort -n
+ls显示颜色
+$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG
+快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。
+# setenv PACKAGEROOT ftp://ftp."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "FreeBSD常见问题集合",
+      "item": "http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FreeBSD常见问题集合",
+  "name": "FreeBSD常见问题集合",
+  "description": "1.如何使用脚本获得PID 参见脚本pid.sh, 如下:\n$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk '{print $2}'` echo $pid \u0026lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:\n#!/bin/sh for file in $1; do newfile=`echo \u0026quot;$file\u0026quot; | tr \u0026quot;[:upper:]\u0026quot; \u0026quot;[:lower:]\u0026quot;` mv \u0026quot;$file\u0026quot; \u0026quot;$newfile\u0026quot; done $ mklower.sh *.JPG 子目录按大小排序\n$du -s * | sort -n\nls显示颜色\n$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG\n快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。\n# setenv PACKAGEROOT ftp://ftp.",
+  "keywords": [
+    
+  ],
+  "articleBody": "1.如何使用脚本获得PID 参见脚本pid.sh, 如下:\n$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk '{print $2}'` echo $pid \u003c $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:\n#!/bin/sh for file in $1; do newfile=`echo \"$file\" | tr \"[:upper:]\" \"[:lower:]\"` mv \"$file\" \"$newfile\" done $ mklower.sh *.JPG 子目录按大小排序\n$du -s * | sort -n\nls显示颜色\n$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG\n快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。\n# setenv PACKAGEROOT ftp://ftp.tw.freebsd.org # pkg_add -r package_name 也可以直接指定 PACKAGESITE 指向特定的位置. 像是你希望安装的package是 最新的, 而不是 release 的版本.\n# setenv PACKAGESITE ftp://ftp.tw.freebsd.org/pub/Fre ... ages-stable/Latest/ 使用ISO镜像\nFreeBSD 4.X\n#vnconfig /dev/vn0c ./IMAGE.ISO #mount -t cd9660 /dev/vn0c MOUNT_DIR #umount MOUNT_DIR #vnconfig -u /dev/vn0c\nFreeBSD 5.X\n#mdconfig -a -t vnode -f abc.iso -u 1 #mount -t cd9660 /dev/md1 MOUNT_DIR #umount MOUNT_DIR\ntcsh, csh技巧\n在tcsh中可以使用set autolist设置文件名和路径自动补齐\n在csh中可以设置limit coredumpsize 0来设置coredump的大小\n设置命令行提示符\nset prompt = '%n@%m%#' ",
+  "wordCount" : "136",
+  "inLanguage": "en",
+  "datePublished": "2009-03-25T22:45:36Z",
+  "dateModified": "2009-03-25T22:45:36Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      FreeBSD常见问题集合
+    </h1>
+    <div class="post-meta"><span title='2009-03-25 22:45:36 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>1.如何使用脚本获得PID
+参见脚本pid.sh, 如下:</p>
+<pre><code>$ cat pid.sh
+#!/bin/sh
+pid=`ps -aux | grep $1 | grep -v grep | awk '{print $2}'`
+echo $pid &lt; $1.pid
+$./pid.sh sshd
+</code></pre>
+<ol start="2">
+<li>将文件名从大写转换为小写</li>
+</ol>
+<p>参见脚本mklower.sh, 如下:</p>
+<pre><code>#!/bin/sh
+for file in $1; 
+do
+newfile=`echo &quot;$file&quot; | tr &quot;[:upper:]&quot; &quot;[:lower:]&quot;`
+mv &quot;$file&quot; &quot;$newfile&quot;
+done
+$ mklower.sh *.JPG
+</code></pre>
+<ol start="3">
+<li>
+<p>子目录按大小排序</p>
+<p>$du -s * | sort -n</p>
+</li>
+<li>
+<p>ls显示颜色</p>
+</li>
+</ol>
+<p>$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG</p>
+<ol start="5">
+<li>快速安装package</li>
+</ol>
+<p>你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。</p>
+<pre><code># setenv PACKAGEROOT ftp://ftp.tw.freebsd.org
+# pkg_add -r package_name
+</code></pre>
+<p>也可以直接指定 PACKAGESITE 指向特定的位置. 像是你希望安装的package是 最新的, 而不是 release 的版本.</p>
+<pre><code># setenv PACKAGESITE ftp://ftp.tw.freebsd.org/pub/Fre ... ages-stable/Latest/
+</code></pre>
+<ol start="6">
+<li>
+<p>使用ISO镜像</p>
+<p>FreeBSD 4.X</p>
+<p>#vnconfig /dev/vn0c ./IMAGE.ISO
+#mount -t cd9660 /dev/vn0c MOUNT_DIR
+#umount MOUNT_DIR
+#vnconfig -u /dev/vn0c</p>
+<p>FreeBSD 5.X</p>
+<p>#mdconfig -a -t vnode -f abc.iso -u 1
+#mount -t cd9660 /dev/md1 MOUNT_DIR
+#umount MOUNT_DIR</p>
+</li>
+<li>
+<p>tcsh, csh技巧</p>
+</li>
+</ol>
+<p>在tcsh中可以使用set autolist设置文件名和路径自动补齐</p>
+<p>在csh中可以设置limit coredumpsize 0来设置coredump的大小</p>
+<p>设置命令行提示符</p>
+<pre><code>set prompt = '%n@%m%#' </code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

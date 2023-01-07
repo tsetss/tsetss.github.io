@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+bae
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/bae/</link>
+    <description>Recent content in 
+bae
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Jan 2014 05:57:10 +0000</lastBuildDate><atom:link href="http://example.org/tags/bae/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bae开如启用域名备案白名单了</title>
+      <link>http://example.org/2014/01/07/bae-domain-beian-white-list/</link>
+      <pubDate>Tue, 07 Jan 2014 05:57:10 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/07/bae-domain-beian-white-list/</guid>
+      <description>前几天百度已经发过邮箱，昨天下午百度正式删除了没有备案的域名。
+国内唯一没有强制要求备案的云计算就这样结束了，白天的博客也是没有备案的，开始计划寻找海外便宜的vps 做反向代理。</description>
+    </item>
+    
+    <item>
+      <title>百度两年没有更新blog首页了，今天终于更新了</title>
+      <link>http://example.org/2013/12/28/two-year-not-update-now-update/</link>
+      <pubDate>Sat, 28 Dec 2013 07:07:06 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/28/two-year-not-update-now-update/</guid>
+      <description>blog 也是两年没更新了，百度收录量一直在减少。。基本收录为0了，最新更新了一些文章，blog 放到 bae3.0 上。快了不少，今天突然发现，首页更新了。</description>
+    </item>
+    
+    <item>
+      <title>bae关闭域名绑定功能</title>
+      <link>http://example.org/2013/12/27/bae-close-bind-domain/</link>
+      <pubDate>Fri, 27 Dec 2013 11:59:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/27/bae-close-bind-domain/</guid>
+      <description>bae 最牛的地方莫过于可以绑定未备案的域名，现在突然关闭了绑定域名功能。
+希望不要对以前未备案的域名下手。。</description>
+    </item>
+    
+    <item>
+      <title>blog 搬出 phpcloud</title>
+      <link>http://example.org/2013/12/25/blog-move-phpcloud/</link>
+      <pubDate>Wed, 25 Dec 2013 12:39:33 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/25/blog-move-phpcloud/</guid>
+      <description>刚开始 phpcloud 推的时候，由于是zend推出的，想去试用一下，就把blog迁了过去，没想到麻从此开始了。
+blog 访问并不大，但是 phpcloud 经常 把我的服务挂起，估计可能是用的人比较大，资源比较吃紧吧，稍占点资源就给挂起，
+刚好 bae3.0 推出，比较中意，适用中。</description>
+    </item>
+    
+    <item>
+      <title>bae联通节点更新ip,广州长宽终于正常了</title>
+      <link>http://example.org/2013/09/16/bae-unicom-change-ip-gwbn/</link>
+      <pubDate>Mon, 16 Sep 2013 15:54:37 +0000</pubDate>
+      
+      <guid>http://example.org/2013/09/16/bae-unicom-change-ip-gwbn/</guid>
+      <description>bae 联通节点之前一直用的是 63开头的ip,长城宽带一直打不开。。有时 hao123 都打不开。。 ,今天打开 blog 一下就开了。。发现联通节点变成了 202.108.23.200 速度还真不错，不知道是不是前几天我在群里反应长城宽带打不开网站就调整了哈。</description>
+    </item>
+    
+  </channel>
+</rss>

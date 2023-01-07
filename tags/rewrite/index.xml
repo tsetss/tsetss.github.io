@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+rewrite
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/rewrite/</link>
+    <description>Recent content in 
+rewrite
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Apr 2009 12:19:40 +0000</lastBuildDate><atom:link href="http://example.org/tags/rewrite/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nginx echsop rewrite规则</title>
+      <link>http://example.org/2009/04/03/nginx-echsop-rewrite/</link>
+      <pubDate>Fri, 03 Apr 2009 12:19:40 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/03/nginx-echsop-rewrite/</guid>
+      <description>从网上搜索到的规则,但不能用,修改了一下,
+rewrite ^/index.html$ /index.php; rewrite ^/category$ /index.php; rewrite ^/feed-c([0-9]+).xml$ /feed.php?cat=$1; rewrite ^/feed-b([0-9]+).xml$ /feed.php?brand=$1; rewrite ^/feed.xml$ /feed.php; rewrite ^/category-([0-9]+)-b([0-9]+)-min([0-9]+)-max([0-9]+)-attr([^-]*)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;price;_min=$3&amp;amp;price;_max=$4&amp;amp;filter;_attr=$5&amp;amp;page;=$6&amp;amp;sort;=$7&amp;amp;order;=$8; rewrite ^/category-([0-9]+)-b([0-9]+)-min([0-9]+)-max([0-9]+)-attr([^-]*)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;price;_min=$3&amp;amp;price;_max=$4&amp;amp;filter;_attr=$5; rewrite ^/category-([0-9]+)-b([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;page;=$3&amp;amp;sort;=$4&amp;amp;order;=$5; rewrite ^/category-([0-9]+)-b([0-9]+)-([0-9]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2&amp;amp;page;=$3; rewrite ^/category-([0-9]+)-b([0-9]+)(.*).html$ /category.php?id=$1&amp;amp;brand;=$2; rewrite ^/category-([0-9]+)(.*).html$ /category.php?id=$1; rewrite ^/goods-([0-9]+)(.*).html$ /goods.php?id=$1; rewrite ^/article_cat-([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+)(.*).html$ /article_cat.php?id=$1&amp;amp;page;=$2&amp;amp;sort;=$3&amp;amp;order;=$4; rewrite ^/article_cat-([0-9]+)-([0-9]+)(.*).html$ /article_cat.php?id=$1&amp;amp;page;=$2; rewrite ^/article_cat-([0-9]+)(.*).html$ /article_cat.php?id=$1; rewrite ^/article-([0-9]+)(.*).html$ /article.php?id=$1; rewrite ^/brand-([0-9]+)-c([0-9]+)-([0-9]+)-(.+)-([a-zA-Z]+).html /brand.php?id=$1&amp;amp;cat;=$2&amp;amp;page;=$3&amp;amp;sort;=$4&amp;amp;order;=$5; rewrite ^/brand-([0-9]+)-c([0-9]+)-([0-9]+)(.*).html /brand.php?id=$1&amp;amp;cat;=$2&amp;amp;page;=$3; rewrite ^/brand-([0-9]+)-c([0-9]+)(.*).html /brand.php?id=$1&amp;amp;cat;=$2; rewrite ^/brand-([0-9]+)(.*).html /brand.php?id=$1; rewrite ^/tag-(.*).html /search.php?keywords=$1; rewrite ^/snatch-([0-9]+).html$ /snatch.php?id=$1; rewrite ^/group_buy-([0-9]+).html$ /group_buy.php?act=view&amp;amp;id;=$1; rewrite ^/auction-([0-9]+).</description>
+    </item>
+    
+  </channel>
+</rss>

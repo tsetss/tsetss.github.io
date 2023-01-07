@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+twisted
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/twisted/</link>
+    <description>Recent content in 
+twisted
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 04 Dec 2009 05:32:46 +0000</lastBuildDate><atom:link href="http://example.org/categories/twisted/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>當Deferred遇上Thread</title>
+      <link>http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/</link>
+      <pubDate>Fri, 04 Dec 2009 05:32:46 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/</guid>
+      <description>當Deferred遇上Thread Deferred不會自動實現將阻塞過程轉為非阻塞過程，雖然它已經有那樣的機制但還是要你去多走一步。要將阻塞過程轉為真正的非阻塞過程，那　只有借用線程。但至於線程調用你不用太擔心，twisted已為你準備好一個方便的用法。就是將Deferred綁在Thread上，這樣就有了deferToThread，味道不比牛奶加巧克力差。 deferToThread在twisted文檔的說明，洋墨水喝得比較少，就不照字面翻譯了。大概意思是將函數f放在線程裡並作為Deferred返回，args和kwargs是函數f的參數。也就是使用deferToThread返回的是一個帶線程的Deferred，並自動使用callback調用指定的函數f。相當於在線程中運行下面的代碼 d=defer.Deferred().addCallback(f) d.callback(result)
+def deferToThread(f, *args, **kwargs): (source) Run a function in a thread and return the result as a Deferred. Parameters f The function to call.
+*args positional arguments to pass to f.
+**kwargs keyword arguments to pass to f.
+Returns A Deferred which fires a callback with the result of f, or an errback with a twisted.python.failure.Failure if f throws an exception.
+#!/usr/bin/env python #coding=utf-8 from twisted.</description>
+    </item>
+    
+    <item>
+      <title>Deferred筆記一</title>
+      <link>http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/</link>
+      <pubDate>Fri, 04 Dec 2009 05:19:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/</guid>
+      <description>Deferred的簡單套路
+從twisted的文檔入手，將Deferred獨立出來簡單的說明作用與使用方法，這樣更能快速對Deferred有深刻的了解。
+一、學習資料 1、主要參考資料 官方文檔 http://twistedmatrix.com/projects/core/documentation/howto/deferredindepth.html 關聯譯文 http://wiki.woodpecker.org.cn/moin/twistedTUT00?action=AttachFile&amp;amp;do;=get&amp;amp;target;=deferred_tutorial.html（此鏈接將會下載離線文檔）
+2、關聯資源 http://wiki.woodpecker.org.cn/moin/TwistedTUT
+二、Deferred的作用 Deferred的主要作用可以用一句話比較形象說明，“不要打電話給我,我會打給你的(Don&amp;rsquo;t Call Us, We&amp;rsquo;ll Call You)”。相當於做好計劃後，執行交給Deferred，完成後再找我，我可要到一邊Happy去了。 它會根據callback運行結果（正常、發生例外）從callback鏈表中選擇執行已註冊的相應的callback函數，從而實現事件方式來驅動程序。 callback的運行不影響主程序的運行，Deferred.callback執行後馬上返回。(這點有待在後面證明)
+三、Deferred實例 from twisted.internet import defer d=defer.Deferred() 實例化後就可以對Deferred進行操作。
+四、callback鏈表 鏈表是用來放置callback函數，鏈表中的函數可以響應三類事件，正常結束、例外結束、任意（包括前面兩者），它們分別用addCallback、addErrback、addBoth註冊到鏈表中。也就是說函數正常結束返回調用addCallback註冊的函數，發生例外則調用addErrback註冊的函數，使用addBoth註冊的函數無論返回什　結果都會被調用。
+五、callback函數註冊 除了上面提過的addCallback、addErrback、addBoth三個註冊函數外，還有另外一個addCallbacks可以同時註冊處理正常結束和例外結束的函數。
+1 2 3 4 5 6 def deferredExample(): d = defer.Deferred() d.addCallback(failAtHandlingResult) d.addCallbacks(yesDecision, noDecisionPassthru) d.addCallback(handleResult) # - A - d.addErrback(handleFailure)
+上面代碼中第4行的addCallbacks效果如同 d.addCallback(yesDecision) d.addErrback(noDecisionPassthru)
+另外，我們也可以將註冊過程寫成下面形式。 d=refer.Deferred().addCallback(failAtHandlingResult).addCallbacks(yesDecision, noDecisionPassthru).addCallback(handleResult).addErrback(handleFailure)
+六、callback鏈執行順序 Deferred的鏈表是按順序從第一個註冊函數開始直到最後一個函數。如果發生例外時，有多個例外處理函數，則會調用發生例外函數下面第一個例外處理函數。後面的例外處理函數將不會被調用，除非第一個例外處理函數將這個例外向下傳遞。
+七、其它一些特性 Deferred實例中還有另外一些函數，如pause,unpause,setTimeout,timeoutCall,chainDeferred，這些將留作下一步的測試。 另外還沒涉及到的是Deferred上一級的defer庫中的函數及其它類的使用，從一些代碼看來這些函數將會進一步有利於Deferred的應用，但這也有待後面的進上步學習。
+八、總結 經過Deferred are beautiful一節學習，了解Deferred的使用方法及其事件響應機制。
+創建於2009年8月31日
+原文 http://sites.google.com/site/mypynotes/twisted-1/deferred 可以被gw了</description>
+    </item>
+    
+    <item>
+      <title>Deferred Object In Twisted</title>
+      <link>http://example.org/2009/12/03/deferred-object-in-twisted/</link>
+      <pubDate>Thu, 03 Dec 2009 04:57:12 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/03/deferred-object-in-twisted/</guid>
+      <description>Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain).</description>
+    </item>
+    
+  </channel>
+</rss>

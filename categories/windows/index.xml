@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+windows
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/windows/</link>
+    <description>Recent content in 
+windows
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 04 Dec 2009 15:38:35 +0000</lastBuildDate><atom:link href="http://example.org/categories/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>freebsd下python程序打包工具 ── cx_Freeze</title>
+      <link>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</link>
+      <pubDate>Fri, 04 Dec 2009 15:38:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</guid>
+      <description>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </description>
+    </item>
+    
+    <item>
+      <title>TCP连接状态</title>
+      <link>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</link>
+      <pubDate>Sun, 22 Nov 2009 09:48:51 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</guid>
+      <description>CLOSED: 表示初始状态。
+LISTEN: 表示服务器端的某个SOCKET处于监听状态，可以接受连接。
+SYN_SENT:在服务端监听后，客户端SOCKET执行CONNECT连接时，客户端发送SYN报文，此时客户端就进入SYN_SENT状态，等待服务端的确认
+SYN_RCVD: 表示服务端接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。
+ESTABLISHED：表示连接已经建立了。
+FIN_WAIT_1: 这个是已经建立连接之后，其中一方请求终止连接，等待对方的FIN报文。FIN_WAIT_1状态是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。
+FIN_WAIT_2：实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。
+TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。
+CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到(或同时收到)对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。
+CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。
+LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</description>
+    </item>
+    
+    <item>
+      <title>windows下开发并编译PHP扩展(步骤说明)</title>
+      <link>http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/</link>
+      <pubDate>Mon, 02 Nov 2009 06:40:08 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/02/windowse4b88be5bc80e58f91e5b9b6e7bc96e8af91phpe689a9e5b195e6ada5e9aaa4e8afb4e6988e/</guid>
+      <description>开发PHP扩展对于普通程序员来讲可能一直是一件很神秘的工作，其实，只要你对C语言熟悉，了解了开发PHP扩展的步骤和规则，开发PHP扩展也是一件很普通的工作。 现在就简单说一在WINDOWS下开发PHP扩展的步骤： 首先需要准备的软件有： cygwin 安装路径e:\app\cygwin visual studio C++ 6.0, 修改环境变量，把已经安装好的PHP路径设置为环境变量。在这里，假设我的PHP安装目录是：e:\app\php5.2.5,那么我把WINDOWS环境变量后面加上这个安装目录。方便一会儿使用php.exe。 PHP源代码，这里假设为e:\c_source_code\php-5.2.5
+1、修改文件 “PHP源文件目录/ext/ext_skel_win32.php”,在这里就是：E:\c_source_code\php-5.2.5\ext，其中主要是修改其中的cygwin路径。$cygwin_path = &amp;rsquo;e:\app\cygwin\bin&amp;rsquo;; 把$cygwin_path修改为你实际安装cygwin的路径。 2、在源代码ext目录也就是e:\c_source_code\php-5.2.5\ext下，执行 php ext_skel_win32.php &amp;ndash;extname=，此时会在ext目录下生成目录,这个目录就是我们将要进行PHP扩展开发的框架。比如你运行php.exe ext_skel_win32.php &amp;ndash;extname=foo，会在ext目录下生成foo目录。 3、将php-root\dev\php5ts.lib拷贝至 “ext/”中。比如你要开发的PHP扩展名为foo,那么就需要把php-root\dev\php5ts.lib拷贝到PHP源文件目录\ext\foo中。 4、修改foo.c内容，编写我们需要的C代码。 5、进入目录，打开.dsp。 设置VC6工程， 设置菜单“组建”-&amp;gt;“移除工程配置”，选中“Win 32 Release_TS”， 设置菜单“工程”，选中“Win 32 Release_TS” 打开Tab“连接”，设置“输出文件名”中的目录， [可选]打开Tab“C/C++”,增加“预处理器定义”“,COMPILE_DL_”（注意全大写，默认加入的），取消预定义“LIBZEND_EXPORTS”（否则不可引入zend函数）。 6、设置好以后，进行编译，会生成一个dll文件，文件名是.dll，比如在我们的例子中就为foo.dll 把foo.dll拷到e:\app\ext目录下，并在php.ini里加上一行extension=foo.dll，重启一下apache,查看phpinfo();，会发现我们的PHP扩展foo()已经加载进来，已经可以使用这个foo扩展了。
+http://info.codepub.com/2008/08/info-21426.html</description>
+    </item>
+    
+    <item>
+      <title>在Windows上安装Python&#43;MySQL 的常见问题及解决方法</title>
+      <link>http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/</link>
+      <pubDate>Mon, 28 Sep 2009 13:35:38 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/28/e59ca8windowse4b88ae5ae89e8a385pythonmysql-e79a84e5b8b8e8a781e997aee9a298e58f8ae8a7a3e586b3e696b9e6b395/</guid>
+      <description>验证是否已经安装了MySQLdb：
+==========================================================
+d:\usr\local\Python25&amp;gt;python Python 2.5.4 (r254:67916, Dec 23 2008, 15:10:54) [MSC v.1310 32 bit (Intel)] onwin32 Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information. &amp;gt;&amp;gt;&amp;gt; import MySQLdb Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; ImportError: No module named MySQLdb ========================================================== 如果有类似于上面的&amp;quot;No module named MySQLdb&amp;quot;，表明MySQLdb尚未安装或安装的不成功！
+MySQL 版本：5.0.67 下载地址：http://dev.mysql.com/downloads/mysql/5.0.html#downloads 下载exe文件并安装
+==========================================================
+Python 版本：2.5 下载地址：http://www.python.org/download/releases/2.5.4/ 下载msi文件并安装
+MySQLdb版本： MySQLdb Windows binary for Python 2.5 下载地址：http://biohackers.net/wikiattach/Python2(2e)5/attachments/MySQL-python.exe-1.2.1_p2.win32-py2.5.exe 参见：http://forums.mysql.com/read.php?50,129618,140611#msg-140611
+常见问题： 1.无法定位程序输入点 mysql_server_init 于动态链接库 LIBMYSQL.</description>
+    </item>
+    
+    <item>
+      <title>BOM--字节序标记</title>
+      <link>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</link>
+      <pubDate>Wed, 23 Sep 2009 02:00:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</guid>
+      <description>读代码的时候看到这样一段 $template_content = str_replace(&amp;quot;\xEF\xBB\xBF&amp;quot;, &amp;lsquo;&amp;rsquo;, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&amp;gt;文件-&amp;gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</description>
+    </item>
+    
+    <item>
+      <title>错误734:PPP链接控制协议终止</title>
+      <link>http://example.org/2009/09/05/e99499e8afaf734pppe993bee68ea5e68ea7e588b6e58d8fe8aeaee7bb88e6ada2/</link>
+      <pubDate>Sat, 05 Sep 2009 15:26:15 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/05/e99499e8afaf734pppe993bee68ea5e68ea7e588b6e58d8fe8aeaee7bb88e6ada2/</guid>
+      <description>今天无聊拿手机和电脑蓝牙连接通过 gprs 上网试一下，不料确遇到这个错误，在网上找了一下
+在硬件设备里面找到手机MODEM的驱动，点属性，找到额外初始化命令，填入
+AT+CGDCONT=1,&amp;quot;IP&amp;quot;,&amp;quot;CMNET&amp;quot; 不错，可以正常上网了,不过我的上网方式不区分 wap 和 net 所以用的 net 呵呵</description>
+    </item>
+    
+    <item>
+      <title>将svnserver 注册为系统服务</title>
+      <link>http://example.org/2009/07/07/e5b086svnserver-e6b3a8e5868ce4b8bae7b3bbe7bb9fe69c8de58aa1/</link>
+      <pubDate>Tue, 07 Jul 2009 13:27:16 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/07/e5b086svnserver-e6b3a8e5868ce4b8bae7b3bbe7bb9fe69c8de58aa1/</guid>
+      <description>sc create svn binpath= &amp;ldquo;D:\soft\Subversion\bin\svnserve.exe &amp;ndash;service -r E:\svn\local&amp;rdquo; displayname= &amp;ldquo;Subversion Server&amp;rdquo; depend= Tcpip start= auto
+刚重装完系统记录一下，</description>
+    </item>
+    
+    <item>
+      <title>Thinkpad R61I 驱动下载及安装方法 for windows 2003</title>
+      <link>http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/</link>
+      <pubDate>Tue, 07 Jul 2009 06:09:53 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/07/thinkpad-r61i-e9a9b1e58aa8e4b88be8bdbde58f8ae5ae89e8a385e696b9e6b395-for-windows-2003/</guid>
+      <description>驱动下载方法：把下面的链接复制到浏览器地址栏后按回车 &amp;ndash;&amp;gt; 鼠标左键单击页面中.exe结尾的连接 &amp;ndash;&amp;gt; 在新弹出的窗口中选择“FTP”或“HTTP” &amp;ndash;&amp;gt; 鼠标左键单击“I agree”后选择保存。 几点提醒： 1、请不要使用迅雷、快车等第三方下载工具下载驱动，会造成下载不完整无法安装。
+2、请尽量按照下列驱动的排列的先后顺序安装。 3、设备管理中常见的未知设备一般为ACPI电源管理器和TPM安全芯片，如果出现未知设备，请首先尝试安装其驱动。 4、GHOST安装的系统有可能存在驱动无法安装的情况，建议不要使用GHOST安装系统。 5、使用GHOST安装系统后如出现小红帽不可用的情况，请在设备管理器中删除“鼠标和其它指针设备”下面有感叹号的设备，然后重启系统，小红帽即可使用。 1,INTEL主板芯片组（设备管理器中显示为：SM BUS控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67818
+默认释放路径C:\DRIVERS\WIN\INTELINF\INFINST_AUTOL.EXE 2,NVIDIA显卡驱动：TYPE为（ 7742, 8918）的R61I请安装此款显卡驱动：NVIDIA Quadro NVS 140M / Quadro FX 570M显卡 （设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67924
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 3,INTEL显卡驱动：TYPE为（7650, 7732, 8932, 8943）的R61I请安装此款显卡驱动：Intel X3100集成显卡（设备管理器中显示为：VGA视频控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67838
+默认释放路径C:\DRIVERS\WIN\DISPLAY\SETUP.EXE 4,INTEL千兆以太网卡驱动：TYPE为（7732, 7742, 8918）的R61I请安装INTEL千兆以太网卡 （设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-67829
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\APPS\SETUP\SETUPBD\Win32\SetupBD.exe 或C:\DRIVERS\WIN\ETHERNET\APPS\PROSETDX\Win32\DxSetup.EXE
+5,Broadcom千兆以太网卡驱动：TYPE为（7650，8942, 8943）的R61I请安装Broadcom千兆以太网卡（设备管理器中显示为：以太网控制器）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-58618
+默认解压路径 C:\DRIVERS\WIN\ETHERNET\WINXP\IA32 ,在设备管理器中以太网控制器上点右键选择更新驱动程序－&amp;gt;指定位置安装，指定到此目录搜索安装。 或C:\DRIVERS\WIN\ETHERNET\TOOLS\DRVINST\IA32\SETUP.EXE
+6,Thinkpad 11b/g无线网卡驱动：TYPE为（7650, 7732, 7742, 8943）的R61I请安装Thinkpad 11b/g无线网卡（设备管理器中显示为：以太网控制器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-52527
+默认释放路径C:\DRIVERS\WIN\WLLANATH\SETUP.EXE 7,INTEL无线网卡驱动：TYPE为（8918）的R61I请安装INTEL无线网卡 （设备管理器中显示为：网络适配器）（部分R61I没有配置无线网卡，不需要安装此驱动程序，请继续安装其他驱动程序）
+http://www-307.ibm.com/pc/support/site.wss/document.do?lndocid=MIGR-62875
+默认释放路径C:\DRIVERS\WIN\WLANINT2\XP\Apps\x32\iProInst.EXE 8,声卡KB888111补丁（PCI-DEVICE,KB888111）
+http://www-307.ibm.com/pc/support/site.wss/document.do?sitestyle=lenovo&amp;amp;lndocid;=MIGR-65456
+默认释放路径：打开下载页面选择第五个简体中文版下载kb888111xp2chs.exe（如您安装的是其他语言版本的WINDOWS系统，请选 择相应语言版本下载安装），下载完后直接双击安装。注意：只有先安装KB888111补丁，才能安装声卡和调制解调器驱动。 9,SoundMax声卡驱动：（TYPE为7732, 7738, 7742, 7743, 7755, 8914, 8918, 8942, 8943的R61I请安装此声卡驱动程序）（设备管理器中显示为：High Definition Audio总线上的音频设备）</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003 Enterprise x64 Edition  更新到sp2的郁闷</title>
+      <link>http://example.org/2009/04/13/windows-server-2003-enterprise-x64-edition-e69bb4e696b0e588b0sp2e79a84e98381e997b7/</link>
+      <pubDate>Mon, 13 Apr 2009 02:29:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/13/windows-server-2003-enterprise-x64-edition-e69bb4e696b0e588b0sp2e79a84e98381e997b7/</guid>
+      <description>更新完没有重起,过一阵子远程弹出 An error occurred while the wizard was checking the current Windows product license. Error Code: 0x8007007f
+比较郁闷,没办法只能机房重起,解决了</description>
+    </item>
+    
+    <item>
+      <title>查看免激活版序列号</title>
+      <link>http://example.org/2009/04/12/e69fa5e79c8be5858de6bf80e6b4bbe78988e5ba8fe58897e58fb7/</link>
+      <pubDate>Sun, 12 Apr 2009 19:44:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/e69fa5e79c8be5858de6bf80e6b4bbe78988e5ba8fe58897e58fb7/</guid>
+      <description>打开光盘到i386文件夹里找winnt.sif文件</description>
+    </item>
+    
+    <item>
+      <title>windows2003不能上网更新及注册码更换问题解决</title>
+      <link>http://example.org/2009/04/12/windows2003e4b88de883bde4b88ae7bd91e69bb4e696b0e58f8ae6b3a8e5868ce7a081e69bb4e68da2e997aee9a298e8a7a3e586b3/</link>
+      <pubDate>Sun, 12 Apr 2009 19:30:53 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/windows2003e4b88de883bde4b88ae7bd91e69bb4e696b0e58f8ae6b3a8e5868ce7a081e69bb4e68da2e997aee9a298e8a7a3e586b3/</guid>
+      <description>先打开注册表，在 HKEY_LOCAL_MACHINE\Software\Microsoft\WindowsNT\CurrentVersion\WPAEvents
+随便修改一个字，并保存退出regedit。 然后到c:\windows\system32\oobe下
+运行msoobe /a 打开激活程序。
+选择电话，
+更换密钥为
+JCGMJ-TC669-KCBG7-HB8X2-FXG7M 或 JK6JC-P7P7H-4HRFC-3XM7P-G33HM
+然后关掉窗口不要管那个什么四个步骤
+update即可 然后重启。 点击“Windows Update”，连接到更新网站，试一下是否可以在线升级和更新了。
+以上方法就可以更换cd key了。。注册码写错了的可以改。。。</description>
+    </item>
+    
+    <item>
+      <title>windows远程登陆端口的修改方法</title>
+      <link>http://example.org/2009/04/12/windowse8bf9ce7a88be799bbe99986e7abafe58fa3e79a84e4bfaee694b9e696b9e6b395/</link>
+      <pubDate>Sun, 12 Apr 2009 19:26:03 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/windowse8bf9ce7a88be799bbe99986e7abafe58fa3e79a84e4bfaee694b9e696b9e6b395/</guid>
+      <description>Windows终端服务原始端口是3389 一、服务器端： 1、第一处 运行RegEdit，打开注册表编辑器。找到[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp]，看到右边的 PortNumber 了吗？在十进制状态下改成你想要的端口号吧，比如 7126 之类的，只要不与其它冲突即可。 2、第二处 运行RegEdit，打开注册表编辑器。找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp，方法同上，记得改的端口号和上面改的一样就行了。 二、客户端： 最简洁的方法就是拷贝WindowsXP的终端服务客户端程序，不用安装，只有1M多，登录只需在地址栏输入IP+:+端口号。 另，Windows2000 也可作如下修改： 打开客户端管理连接器，单击已经建好的某个连接，单击“文件(File)”→“导出(Export)”…… 用记录本或其它文本编辑软件找开刚导出的这个.cns文件，找到“Server Port=3389”这一行了吗？ 把这个默认的 3389 改成与服务器一样的端口号就行了。 Windows XP/2003 下的修改办法 使用WindowsXP或Windows2003的客户端，它可以显示多彩，还可以有声音，功能更强大。但终端客户端连接端口的修改方法与Windows2000有一定区别： 按照原来更改Windows2000的客户端的思路，把WindowsXP、Windows2003的默认配置另存(在连接界面上单击“另存为”)，和Windows2000不一样的是：WindowsXP、Windows2003的配置文件后缀是.rdp，Windows2000的是.cns 用记事本打开这个default.rdp文件，在里面没有发现什么3389的东东(Windows2000的配置文件是有的)，没有这句端口的配置我们就给它加上，假定现在的端口为8933，如下： server port:i:8933 保存，退出即可。</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003企业版 Enterprise Edition VOL(VLK) 简体中文企业正式版原版光盘镜像</title>
+      <link>http://example.org/2009/04/12/windows-server-2003e4bc81e4b89ae78988-enterprise-edition-volvlk-e7ae80e4bd93e4b8ade69687e4bc81e4b89ae6ada3e5bc8fe78988e58e9fe78988e58589e79b98/</link>
+      <pubDate>Sun, 12 Apr 2009 19:22:58 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/windows-server-2003e4bc81e4b89ae78988-enterprise-edition-volvlk-e7ae80e4bd93e4b8ade69687e4bc81e4b89ae6ada3e5bc8fe78988e58e9fe78988e58589e79b98/</guid>
+      <description>企业版（64bit）Version: Microsoft Windows Server 2003, Enterprise Edition (64-bit)Filename: x09-45916.iso
+Product Key: CTQTP-3XXXX-YT7JT-DVMH7-46Q2J</description>
+    </item>
+    
+    <item>
+      <title>[MSDN]Windows Server 2003 R2, Enterprise Edition with SP2 - VL (简体中文)</title>
+      <link>http://example.org/2009/04/12/msdnwindows-server-2003-r2-enterprise-edition-with-sp2-vl-e7ae80e4bd93e4b8ade69687/</link>
+      <pubDate>Sun, 12 Apr 2009 18:07:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/msdnwindows-server-2003-r2-enterprise-edition-with-sp2-vl-e7ae80e4bd93e4b8ade69687/</guid>
+      <description>Windows Server 2003 SP2是针对Windows Server 2003和Windows XP 64位专业版而设计，它集成了最新的升级、安全与稳定性增强包和最新功能。据微软透露，SP2的采用率从发布以来直线上升，它表示自推出不到一周，总下载次数就已经超过400，000次。 参考KEY: VB96B-VFG8F-74XWJ-W67Q7-8X82B M6F6D-VFQWH-CGWRB-RC7JR-VCV4W C49DP-CPHCB-MDGP3-MG334-W2V4W DR4B3-66VPQ-CK3VB-Y3BPY-2CJ2G J YCJX-CHTJX-RGH97-86WM9-RB6B6 MVDYF-X7FBW-H29XT-TCKWW-RBYRT BXJXT-9F88V-XXQWV-3MWMG-FYDJT MHFT3-YGHV4-G86P4-KQXJ3-GYH4W MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG QV9XT-CV22K-D8MGR-4MD86-8MYR6
+MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG
+btr9t-8bjjm-k9dh8-w8grh-7qbqy btvtj-8jdph-6r8xk-6xhyq-6qrdy btr9x-4x8ty-2y3w2-jyw3c-tbpmb btt8k-djkyj-x2m9c-kd6rj-db6bb bt3by-cmdtc-twyx3-kfqqq-g3kvm btyqc-347pg-9kb4h-dphh4-rdwyb btv3w-xyb3j-rj9mf-qbkdw-4qbqy btrfk-m749t-f6my2-8mc6w-g2fdy btv4w-jqx3w-y6wkp-dxjc7-7qbqy btrrd-kpkh6-v9jfq-c7dv9-9kg7m btqhd-kmr67-36m66-8kcrr-fxtbb btq8x-6mj6m-vrjvq-c7x82-v2fdy btw6c-6tjmw-3rmw7-3d2vd-pfcmb bt2h3-kwt84-cxvxm-wdgqx-7tpmb btqdm-vpch2-vfcpk-4696j-yv2mb btxy7-tth4f-7jjmm-q4gmg-x7fdy bttdh-rt9bp-6c38g-v6bp9-pxmqy
+安装序列号 CD-KEY：JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY 安装序列号：JCGMJ-TC669-KCBG7-HB8X2-FXG7M 使用这个序列号 Windows Server 2003 可在线升级! 如果已经安装了 Windows Server 2003 Enterprise Edition 3790 操作系统，安装时使用了
+JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY 这个安装序列号或其他的号，正常激活系统但不能在线升级的，
+你可以不需要卸载掉原来的操作系统重新使用 JCGMJ-TC669-KCBG7-HB8X2-FXG7M 进行安装了，
+就立即可以实现在线升级了！</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003 R2 with SP2 x32/x64 MSDN简体官方企业/标准版[附真正激活KEY]</title>
+      <link>http://example.org/2009/04/12/windows-server-2003-r2-with-sp2-x32x64-msdne7ae80e4bd93e5ae98e696b9e4bc81e4b89ae6a087e58786e78988e99984e79c9fe6ada3e6bf80e6b4bbkey/</link>
+      <pubDate>Sun, 12 Apr 2009 17:26:07 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/windows-server-2003-r2-with-sp2-x32x64-msdne7ae80e4bd93e5ae98e696b9e4bc81e4b89ae6a087e58786e78988e99984e79c9fe6ada3e6bf80e6b4bbkey/</guid>
+      <description>附上KEY，通用于windows2003 标准版，企业版，SP1，SP2，R2(此KEY网上基本未公开)
+附32位KEY T274Y-RT6TY-QYXJC-H6K66-3MT7M H32XR-3KT6X-B83DT-YWM3T-8Q3JG DF33F-WMT84-KDPKT-FQBRG-7YH4T BYR7R-QTCG2-JRJWJ-BJPGP-XDKWG RW89D-BPHQ9-Y77PD-FPYHP-JJ3JG G9DRJ-PBH7J-KQFCF-9PCJG-3VV4T GXJ7R-PDJKW-7TMRK-VT6JC-G4XWG 附64位KEY MM72Q-QBVRW-JGDB6-94C22-GR8YJ HFKHT-CF86J-KFM6F-34RXX-HYYQ8 RYCR6-T7Y6M-2TVHK-C2YW3-7TYQ8 BTXT2-YJ7CH-6MH2Q-X2WD7-77FDY</description>
+    </item>
+    
+    <item>
+      <title>win2003英文版系统显示中文的方法</title>
+      <link>http://example.org/2009/04/12/win2003e88bb1e69687e78988e7b3bbe7bb9fe698bee7a4bae4b8ade69687e79a84e696b9e6b395/</link>
+      <pubDate>Sun, 12 Apr 2009 17:17:39 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/win2003e88bb1e69687e78988e7b3bbe7bb9fe698bee7a4bae4b8ade69687e79a84e696b9e6b395/</guid>
+      <description>Control Panel -&amp;gt; Regional and Language Options -&amp;gt; Advanced non-unicode 下拉菜单选择Chinese(PRC) 就行了。装系统时，没装亚太语言支持的，自动就会提示你放入系统安装盘安装。</description>
+    </item>
+    
+    <item>
+      <title>补32bitWindows 2003 R2 With Sp2序列号</title>
+      <link>http://example.org/2009/04/12/e8a1a532bitwindows-2003-r2-with-sp2e5ba8fe58897e58fb7/</link>
+      <pubDate>Sun, 12 Apr 2009 17:00:39 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/e8a1a532bitwindows-2003-r2-with-sp2e5ba8fe58897e58fb7/</guid>
+      <description>中文版： 标准版 V9RX3-3GMKQ-M23KP-FYTQX-KQP8B M7V9W-W8GBT-3R8WT-G24V7-YKKJB P8TMF-WW9GT-XVQJ4-43V9D-69KJB WP226-BBDF3-WP2R3-HM2CY-82C8B PQ93W-D2H8Y-VVY2M-H7K99-MTXJB BQ24G-R7CHM-FR9D6-2VRRY-Y2C8B KKM7F-PB4GC-7DMH2-KKYXB-RG34M B6DCT-R2XG2-3KQPW-XV937-BJ6WB GTKQM-MQ87D-QGXW6-BDTQ7-4TRYY QH9MW-4T4KW-FBJ97-MPJCF-3C4YY TGK6W-VFP28-46KGK-8FTFW-9QJMY KHD69-H8BHX-7KC9K-624CT-V3VRM WDRWF-4PXTG-4CGMJ-4MCC4-G6MFM RWH86-PYQJ7-XMWJG-TRHQF-XM8MY 企业版 MDGJK-PF6YQ-PD8DJ-RFQVM-7WKWG 英文版： 企业版 RHBX7-YVMY6-2QHM8-CHYHR-JMPPB M4B8J-DQP9R-PY6J4-TJG78-FRCPB HP6YG-KKQV7-GCV3T-C3WRD-QJBRY G4W9P-Q2DQC-224X9-RQ7TM-PDGCB QKQQB-PV8W3-3PBJF-RC4DM-9QRFY PR86X-KWMQK-6CJVG-RCXFX-WWKWM PGCFX-RGRGX-VFHRX-WT6TJ-QVFFY F8QV3-BTYMR-V4GHX-B43FM-DY6CB MXC6T-JW7WQ-DY7H3-F8JV7-V9XWM DR7QV-WQDC8-G4DP9-9TY2P-Y9CPB HWX9H-KVPMC-3W2DJ-P2392-K9G8M 标准版 PCGCG-MP77F-9DBC9-QHW44-TDBRD KT3YM-JRM8T-JWV6Q-RQMG9-BBT73 PBJM7-PC3FJ-MDF66-G7FX9-DTH4D KCHH3-W4FT6-DKRVY-MR9R6-2MDH3 J43D2-G6Y7K-R3HPY-673T9-8XMRD H7DT2-WV3MM-V4RY6-6JM6W-9P673 M67V8-RYXPT-F23TR-M6YBY-47673 WGHD9-C7368-B8MF9-J8FP4-4BDH3 FJ6GG-XR424-6C7JB-HHVMC-RWWYQ RFHCQ-7GY3J-W336Y-FFYVC-9D3H3 TP2TD-KPYGJ-D82HX-FR82W-KBH4D VD2BM-TP2KK-CBXDQ-7B7FQ-4M9V3 HGX39-BVTG6-MKMWX-JWRYC-FPFFD
+原文 http://bbs.pcbeta.com/archiver/tid-427973.html
+Windows Server 2003 Standard x64 Edition BTQHD-KMR67-36M66-8KCRR-FXTBB BTQ8X-6MJ6M-VRJVQ-C7X82-V2FDY BTW6C-6TJMW-3RMW7-3D2VD-PFCMB BT2H3-KWT84-CXVXM-WDGQX-7TPMB
+windows 2003 server r2 EE (64BIT) PCGCG-MP77F-9DBC9-QHW44-TDBRD KT3YM-JRM8T-JWV6Q-RQMG9-BBT73 PBJM7-PC3FJ-MDF66-G7FX9-DTH4D KCHH3-W4FT6-DKRVY-MR9R6-2MDH3
+Microsoft Windows Server 2003 R2 Datacenter Edition VLK</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003 注册码大全</title>
+      <link>http://example.org/2009/04/12/windows-server-2003-e6b3a8e5868ce7a081e5a4a7e585a8/</link>
+      <pubDate>Sun, 12 Apr 2009 16:37:08 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/12/windows-server-2003-e6b3a8e5868ce7a081e5a4a7e585a8/</guid>
+      <description>WINDOWS SERVER 2003 ENTERPRISE-CORP 注册码 JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY
+WINDOWS SERVER 2003 VLK 注册码 JB88F-WT2Q3-DPXTT-Y8GHG-7YYQY
+WINDOWS SERVER 2003 RTM Enterprise 注册码 qw32k-48t2t-3d2pj-dxbwy-c6wrj
+WINDOWS SERVER 2003 RTM Standard 注册码 m6rj9-tbjh3-9ddxm-4vx9q-k8m8m
+WINDOWS SERVER 2003 RTM Web Server 注册码 d42x8-7mwxd-m4b76-mkyp7-cw9fd
+WINDOWS SERVER 2003 CPP KEYS - NOT RTM 注册码 cky24-q8qrh-x3kmr-c6bcy-t847y
+Windows Server 2003 En., Final MSDN RTM 注册码 QW32K-48T2T-3D2PJ-DXBWY-C6WRJ
+Windows 2003 BUILD 3790 RTM 注册码 QW32K-48T2T-3D2PJ-DXBWY-C6WRJ QW00K-00T0T-0D0PJ-DXBWY-C0WRJ
+All of these keys are cpp keys. 注册码 K4RBR-F3K42-M9RXG-48TPR-H6BPB</description>
+    </item>
+    
+    <item>
+      <title>安全中国 Windows 2003安全设置大全</title>
+      <link>http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/</link>
+      <pubDate>Fri, 10 Apr 2009 10:51:48 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/</guid>
+      <description>安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户
+前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限+最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\Documents and Settings下All Users\Default User目录及其子目录 如C:\Documents and Settings\All Users\Application Data 目录默认配置保留了Everyone用户权限 C:\WINDOWS 目录下面的权限也得注意,如 C:\WINDOWS\PCHealth、C:\windows\Installer也是保留了Everyone权限. 删除C:\WINDOWS\Web\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\WINDOWS\Help\iisHelp目录 删除C:\WINDOWS\system32\inetsrv\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\netBT\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板&amp;gt;系统属性&amp;gt;高级&amp;gt;启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr.</description>
+    </item>
+    
+    <item>
+      <title>實現系統管理員administrator自動登入</title>
+      <link>http://example.org/2009/04/05/e5afa6e78fbee7b3bbe7b5b1e7aea1e79086e593a1administratore887aae58b95e799bbe585a5/</link>
+      <pubDate>Sun, 05 Apr 2009 13:48:31 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/05/e5afa6e78fbee7b3bbe7b5b1e7aea1e79086e593a1administratore887aae58b95e799bbe585a5/</guid>
+      <description>首先要取消登入時按 Ctrl+Alt+Del 鍵才顯示登入窗口 方法: 在〔開始〕→〔系統管理工具〕→〔本機安全性原則〕→ 〔本機安全性原則〕→在〔安全性選項〕的右邊窗口→ 打開〔Interactive logon: Do not require CTRL+ALT+DEL〕 選〔啟用〕後重新開機生效
+之後，便要實現系統管理員administrator自動登入，方法有多種如下： 方法一： 打開「開始」→「運行」，在「運行」 一欄中輸入「Rundll32 netplwiz.dll,UsersRunDll」 去除「要使用本機，用戶必須輸入用戶名密碼」復選框中的勾號
+方法二： 2、修改註冊表
+通過改動註冊表可實現自動登入，方法是打開「開始」→「運行」，
+在「運行」一欄中輸入「Regedit」命令打開註冊表編輯器，
+依次打開HKEY_LOCAL_MACHIN\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon，
+在右側窗口分別新鍵字符串值 autoadminlogon：鍵值為1；
+defaultpassword：鍵值為自動登入用戶的密碼。
+其中在註冊表中有 defaultusername 這個字符串值， 其默認鍵值是Administrator，您也可將它更改為自己所需要的管理員帳號
+方法三： 右擊桌面,新建一個記事本文件,打開,按下面的格式書寫.
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
+&amp;ldquo;DefaultUserName&amp;rdquo;=&amp;ldquo;你的用戶名&amp;rdquo;
+&amp;ldquo;DefaultPassword&amp;rdquo;=&amp;ldquo;密碼&amp;rdquo;
+&amp;ldquo;AutoAdminLogon&amp;rdquo;=&amp;ldquo;1&amp;rdquo;
+最後儲存及重命名,為自動登陸.reg 然後雙擊導入表.
+為了防止出錯,你最好是複製我的這個命令,然後點編輯,替換,把這幾個需要改動的地方用替換的辦法進行替換.
+這樣也可以實現自動登入Windows系統了.
+考慮到新手容易出錯.如果不能出錯不能進入桌面,則在開機的時候按住SHIFT鍵,可以出現登陸界面,手動輸入密碼就是了.
+原文 http://www.138technicity.com/vipbbs/ccb/topic_view.cgi?forum=5&amp;amp;article;_id=0005081030225019&amp;amp;publishtime;_id=0005081030225019&amp;amp;new;_window=1&amp;amp;page;=15</description>
+    </item>
+    
+  </channel>
+</rss>

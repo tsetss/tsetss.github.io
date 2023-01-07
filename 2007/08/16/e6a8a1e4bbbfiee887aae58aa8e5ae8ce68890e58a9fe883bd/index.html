@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>模仿IE自动完成功能 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="&lt; !DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt; New Document &lt;/title&gt; &lt;meta content=&quot;EditPlus&quot; name=&quot;Generator&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Author&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Keywords&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Description&quot;&gt; &lt;style&gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } .">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="模仿IE自动完成功能" />
+<meta property="og:description" content="&lt; !DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt; New Document &lt;/title&gt; &lt;meta content=&quot;EditPlus&quot; name=&quot;Generator&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Author&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Keywords&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Description&quot;&gt; &lt;style&gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2007-08-16T09:22:37+00:00" />
+<meta property="article:modified_time" content="2007-08-16T09:22:37+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="模仿IE自动完成功能"/>
+<meta name="twitter:description" content="&lt; !DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt; New Document &lt;/title&gt; &lt;meta content=&quot;EditPlus&quot; name=&quot;Generator&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Author&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Keywords&quot;&gt; &lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Description&quot;&gt; &lt;style&gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } ."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "模仿IE自动完成功能",
+      "item": "http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "模仿IE自动完成功能",
+  "name": "模仿IE自动完成功能",
+  "description": "\u0026lt; !DOCTYPE HTML PUBLIC \u0026quot;-//W3C//DTD HTML 4.0 Transitional//EN\u0026quot;\u0026gt; \u0026lt;html\u0026gt; \u0026lt;head\u0026gt; \u0026lt;title\u0026gt; New Document \u0026lt;/title\u0026gt; \u0026lt;meta content=\u0026quot;EditPlus\u0026quot; name=\u0026quot;Generator\u0026quot;\u0026gt; \u0026lt;/meta\u0026gt;\u0026lt;meta content=\u0026quot;\u0026quot; name=\u0026quot;Author\u0026quot;\u0026gt; \u0026lt;/meta\u0026gt;\u0026lt;meta content=\u0026quot;\u0026quot; name=\u0026quot;Keywords\u0026quot;\u0026gt; \u0026lt;/meta\u0026gt;\u0026lt;meta content=\u0026quot;\u0026quot; name=\u0026quot;Description\u0026quot;\u0026gt; \u0026lt;style\u0026gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } .",
+  "keywords": [
+    
+  ],
+  "articleBody": "\u003c !DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"\u003e New Document Autocomplete Function Power By Miracle, never-online ",
+  "wordCount" : "605",
+  "inLanguage": "en",
+  "datePublished": "2007-08-16T09:22:37Z",
+  "dateModified": "2007-08-16T09:22:37Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      模仿IE自动完成功能
+    </h1>
+    <div class="post-meta"><span title='2007-08-16 09:22:37 +0000 UTC'>August 16, 2007</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><pre><code>&lt; !DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt; New Document &lt;/title&gt;
+&lt;meta content=&quot;EditPlus&quot; name=&quot;Generator&quot;&gt;
+&lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Author&quot;&gt;
+&lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Keywords&quot;&gt;
+&lt;/meta&gt;&lt;meta content=&quot;&quot; name=&quot;Description&quot;&gt;
+&lt;style&gt;
+body,div {
+        font-family:verdana;
+        line-height:100%;
+        font-size:9pt;
+}
+input {
+        width:300px;
+}
+h1 {
+        text-align:center;
+        font-size:2.2em;
+}
+#divf {
+        margin:10px;
+        font-size:0.8em;
+        text-align:center;
+}
+#divc {
+        border:1px solid #333333;
+}
+.des {
+        width:500px;
+        background-color:lightyellow;
+        border:1px solid #333;
+        padding:20px;
+        margin-top:20px;
+}
+.mouseover {
+        color:#ffffff;
+        background-color:highlight;
+        width:100%;
+        cursor:default;
+}
+.mouseout {
+        color:#000000;
+        width:100%;
+        background-color:#ffffff;
+        cursor:default;
+}
+&lt;/style&gt;
+&lt;script language=&quot;JavaScript&quot;&gt;
+&lt;!--
+
+// script by blueDestiny
+// email : blueDestiny [at] 126 . com
+
+// Object: jsAuto
+// browser: ie, mf.
+// example:
+
+// step1 : 
+// create autocomplete container, return object and bind event to the object, and 
+///create a new jsAuto instance:
+// &lt;div id=&quot;divautocomplete&quot;&gt;
+// var autocomplete = new jsAuto(&quot;autocomplete&quot;,&quot;divautocomplete&quot;)
+// handle event:
+// autocomplete.handleEvent(value, returnObjectID)
+// &lt;input id=&quot;rautocomplete&quot; onkeyup=&quot;autocomplete.handleEvent(this.value,&quot;ratocomplete&quot;,event)/&gt;
+
+// step2 :
+// add autocompete item:
+// autocomplete.item(string)
+// string must be a string var, you can split the string by &quot;,&quot;
+// autocomplete.item(&quot;blueDestiny,never-online,csdn,blueidea&quot;)
+
+// http://www.never-online.com
+
+function jsAuto(instanceName,objID)
+{
+        this._msg = [];
+        this._x = null;
+        this._o = document.getElementById( objID );
+        if (!this._o) return;
+        this._f = null;
+        this._i = instanceName;
+        this._r = null;
+        this._c = 0;
+        this._s = false;
+        this._v = null;
+        this._o.style.visibility = &quot;hidden&quot;;
+        this._o.style.position = &quot;absolute&quot;;
+        this._o.style.zIndex = &quot;9999&quot;;
+this._o.style.overflow = &quot;auto&quot;;
+this._o.style.height = &quot;50&quot;;
+        return this;
+};
+
+jsAuto.prototype.directionKey=function() { with (this)
+{
+        var e = _e.keyCode ? _e.keyCode : _e.which;
+        var l = _o.childNodes.length;
+        (_c&gt;l-1 || _c&amp;lt;0) ? _s=false : &quot;&quot;;
+
+        if( e==40 &amp;&amp; _s )
+        {
+                _o.childNodes[_c].className=&quot;mouseout&quot;;
+                (_c &gt;= l-1) ? _c=0 : _c ++;
+                _o.childNodes[_c].className=&quot;mouseover&quot;;
+        }
+        if( e==38 &amp;&amp; _s )
+        {
+                _o.childNodes[_c].className=&quot;mouseout&quot;;
+                _c--&lt; =0 ? _c = _o.childNodes.length-1 : &quot;&quot;;
+                _o.childNodes[_c].className=&quot;mouseover&quot;;
+        }
+        if( e==13 )
+        {
+                if(_o.childNodes[_c] &amp;&amp; _o.style.visibility==&quot;visible&quot;)
+                {
+                        _r.value = _x[_c];
+                        _o.style.visibility = &quot;hidden&quot;;
+                }
+        }
+        if( !_s )
+        {
+                _c = 0;
+                _o.childNodes[_c].className=&quot;mouseover&quot;;
+                _s = true;
+        }
+}};
+
+// mouseEvent.
+jsAuto.prototype.domouseover=function(obj) { with (this)
+{
+        _o.childNodes[_c].className = &quot;mouseout&quot;;
+        _c = 0;
+        obj.tagName==&quot;DIV&quot; ? obj.className=&quot;mouseover&quot; : obj.parentElement.className=&quot;mouseover&quot;;
+}};
+jsAuto.prototype.domouseout=function(obj)
+{
+        obj.tagName==&quot;DIV&quot; ? obj.className=&quot;mouseout&quot; : obj.parentElement.className=&quot;mouseout&quot;;
+};
+jsAuto.prototype.doclick=function(msg) { with (this)
+{
+        if(_r)
+        {
+                _r.value = msg;
+                _o.style.visibility = &quot;hidden&quot;;
+        }
+        else
+        {
+                alert(&quot;javascript autocomplete ERROR :\n\n can not get return object.&quot;);
+                return;
+        }
+}};
+
+// object method;
+jsAuto.prototype.item=function(msg)
+{
+        if( msg.indexOf(&quot;,&quot;)&gt;0 )
+        {
+                var arrMsg=msg.split(&quot;,&quot;);
+                for(var i=0; i&lt;arrmsg .length; i++)
+                {
+                        arrMsg[i] ? this._msg.push(arrMsg[i]) : &quot;&quot;;
+                }
+        }
+        else
+        {
+                this._msg.push(msg);
+        }
+        this._msg.sort();
+};
+jsAuto.prototype.append=function(msg) { with (this)
+{
+        _i ? &quot;&quot; : _i = eval(_i);
+        _x.push(msg);
+        var div = document.createElement(&quot;DIV&quot;);
+
+        //bind event to object.
+        div.onmouseover = function(){_i.domouseover(this)};
+        div.onmouseout = function(){_i.domouseout(this)};
+        div.onclick = function(){_i.doclick(msg)};
+        var re  = new RegExp(&quot;(&quot; + _v + &quot;)&quot;,&quot;i&quot;);
+        div.style.lineHeight=&quot;140%&quot;;
+        div.className = &quot;mouseout&quot;;
+        if (_v) div.innerHTML = msg.replace(re , &quot;&lt;strong&gt;$1&quot;);
+        div.style.fontFamily = &quot;verdana&quot;;
+
+        _o.appendChild(div);
+}};
+jsAuto.prototype.display=function() { with(this)
+{
+        if(_f&amp;&amp;_v!=&quot;&quot;)
+        {
+                _o.style.left = _r.offsetLeft;
+                _o.style.width = _r.offsetWidth;
+                _o.style.top = _r.offsetTop + _r.offsetHeight;
+                _o.style.visibility = &quot;visible&quot;;
+        }
+        else
+        {
+                _o.style.visibility=&quot;hidden&quot;;
+        }
+}};
+jsAuto.prototype.handleEvent=function(fValue,fID,event) { with (this)
+{
+        var re;
+        _e = event;
+        var e = _e.keyCode ? _e.keyCode : _e.which;
+        _x = [];
+        _f = false;
+        _r = document.getElementById( fID );
+        _v = fValue;
+        _i = eval(_i);
+        re = new RegExp(&quot;^&quot; + fValue + &quot;&quot;, &quot;i&quot;);
+        _o.innerHTML=&quot;&quot;;
+
+        for(var i=0; i&lt;_msg .length; i++)
+        {
+                if(re.test(_msg[i]))
+                {
+                        _i.append(_msg[i]);
+                        _f = true;
+                }
+        }
+
+        _i ? _i.display() : alert(&quot;can not get instance&quot;);
+
+        if(_f)
+        {
+                if((e==38 || e==40 || e==13))
+                {
+                        _i.directionKey();
+                }
+                else
+                {
+                        _c=0;
+                        _o.childNodes[_c].className = &quot;mouseover&quot;;
+                        _s=true;
+                }
+        }
+}};
+window.onerror=new Function(&quot;return true;&quot;);
+//--&gt;
+&lt;/_msg&gt;&lt;/arrmsg&gt;&lt;/script&gt;
+&lt;/meta&gt;&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div id=&quot;divc&quot;&gt;
+        
+&lt;/div&gt;
+&lt;h1&gt;Autocomplete Function&lt;/h1&gt;
+&lt;div align=&quot;center&quot;&gt;
+&lt;input onkeyup=&quot;jsAutoInstance.handleEvent(this.value,'auto',event)&quot; id=&quot;auto&quot;&gt;&lt;/input&gt;
+&lt;/div&gt;
+&lt;div id=&quot;divf&quot;&gt;
+        Power By Miracle, never-online
+&lt;/div&gt;
+
+&lt;script language=&quot;JavaScript&quot;&gt;
+&lt;!--
+var jsAutoInstance = new jsAuto(&quot;jsAutoInstance&quot;,&quot;divc&quot;);
+jsAutoInstance.item(&quot;a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start,a-start,b-start,c-start,d-start,e-start,f-start,g-start,h-start,i-start,j-start,k-start,l-start,m-start,n-start,o-start,p-start,q-start,r-start,s-start,t-start,u-start,v-start,w-start,x-start,y-start,z-start,z-start&quot;);
+jsAutoInstance.item(&quot;blueDestiny&quot;);
+jsAutoInstance.item(&quot;BlueMiracle,Blue&quot;);
+jsAutoInstance.item(&quot;angela,geniuslau&quot;);
+jsAutoInstance.item(&quot;never-online&quot;);
+//--&gt;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

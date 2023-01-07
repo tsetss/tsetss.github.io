@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>网吧专用ros软路由教程(非常详细) | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="一：安装
+1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下
+选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。
+重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：
+选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动
+重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了
+现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：
+然后我们来激活他们，命令是： ENABLE 0
+ENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图
+但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="网吧专用ros软路由教程(非常详细)" />
+<meta property="og:description" content="一：安装
+1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下
+选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。
+重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：
+选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动
+重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了
+现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：
+然后我们来激活他们，命令是： ENABLE 0
+ENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图
+但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-11T17:14:10+00:00" />
+<meta property="article:modified_time" content="2009-04-11T17:14:10+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="网吧专用ros软路由教程(非常详细)"/>
+<meta name="twitter:description" content="一：安装
+1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下
+选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。
+重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：
+选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动
+重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了
+现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：
+然后我们来激活他们，命令是： ENABLE 0
+ENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图
+但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "网吧专用ros软路由教程(非常详细)",
+      "item": "http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "网吧专用ros软路由教程(非常详细)",
+  "name": "网吧专用ros软路由教程(非常详细)",
+  "description": "一：安装\n1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下\n选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。\n重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：\n选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动\n重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了\n现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：\n然后我们来激活他们，命令是： ENABLE 0\nENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图\n但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。",
+  "keywords": [
+    
+  ],
+  "articleBody": "一：安装\n1、光盘版的（转自雨纷飞大哥作品） 将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。 bios设置光盘引导系统，放入光盘启动机器得到如下\n选择 2：Install RouteOS 2.8.18后稍等，得到如下画面： 用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“. 然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N 然后开始自动的格式化磁盘、安装核心、安装模组。最后提示： Press ENTER to Reboot，按回车重新启动机器。\n重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：\n选择3: Crack RouteOS Floppy Disk,开始破解。 破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。 问你是否重启呢。把光盘拿出来后按下Y确定重启动\n重新启动后开始登陆。初始用户名admin，初始密码为空。 咦？怎么还有提示注册的信息和Soft ID？ 原来是还需要一个命令激活注册补丁才可以哦： 输入命令：/system license import file-name=key 或者缩写为/sy lic i f key 然后提示你是否重新启动。按Y重新启动 重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了\n现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。 首先看看三块网卡是否都被识别出来了，命令是： /interface print 可以缩写为 /int pri 以后用缩写不再另外注名。 结果应该如下图：\n然后我们来激活他们，命令是： ENABLE 0\nENABLE 1 ENABLE 2 0是第一块网卡。 激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。 如下图\n但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字： 命令： SET 0 NAME=newname 我这里用 set 0 name=dianxin set 1 name=wangtong set 2 name=neiwang 如下图：改名成功。\n然后给他们相应的IP。 先返回顶层目录，用/键就可以了。 然后输入： IP ADDRESS\nadd address 192.168.0.10/24 interface dianxin add address 192.168.0.11/24 interface wangtong add address 192.168.0.12/24 interface neiwang 这样就设置好了dianxin、wangtong、内网这三块网卡的IP和子网掩码。24代表255.255.255.0 我只是做实验写教程，具体IP地址还要根据你的实际情况来变动。 添加完毕后可以用print命令来查看结果。如果发现某条有错误，用“remove 错误的编号“既可以删除\n到这里IP的配置就大功告成了，我们终于可以跟文字界面说拜拜了~ 2、GHOST版的（原创） 将下载好的G文件放在一块带有ghost的虚拟dos（我的是的MAX—dos）系统上，进ghost选择恢复镜像到全盘（千万别错了哦，是全盘镜像）。完毕重启后无需破解，余下的操作同上，我就不重复了。 二：winbox下调试 根据你所设的局域网IP。输入 http://192.168.1.1 (我的是192.168.1.1) 下载winbox 得到如下图：\n输入管理员用户admin，默认密码为空，如图：\n第一项：interfaces。这里可以更改你的网卡名称，查看个内外网总体\n查看外网流量如图：（选择网卡名称第四项traffic）\n第二项，IP 由于你已经填写好了内外网的IP，所以IP Addresses里无须再管了。注意事项，外网掩码请仔细询问你当地的电信或者网通部门 2、ip routes，这里是更改你所走的网关用的，如图\n3、IP pool（不管他） 4、IP arp（这里是网卡mac地址与ip地址绑定，我是绑定了），具体操作，双击前面带D（代表未arp绑定）的IP地址，点tools选择copy，点OK，哈哈，前面的D就没啦，恭喜你绑定成功。\n5、IP vrrp（不管他） 6、IP firewall(重点哦) 到这里了，是不是还拼不通外网啊，哈哈，没有IP伪装啊，当然上不了啊。IP—firewall—source，点加号加一条规则，第一项里面填你的设置的内网网段，不是网关哦，后面跟24，不是32哦。切记！如图\n能上网了吧，这时候你的软路由非常脆弱，所以，我们来给他增“墙”，本文核心，防火墙配置。 input 设置图：\n一些重要的端口改变图：为什么要改变端口，用途很明显，默认的大家都知道，而你所改的呢？只有你自己知道，哈哈，这就是效果！\n看到没？ 比如telnet啊，winbox啊，upnp，http（这里是指访问你的路由的http端口哦）。 forward 设置，这里控制着你网吧的安全核心，先看图：\n其本都是drop drop drop。（阻止的意思啦） tcp/udp协议的134—139端口，445端口（把三波引进来的就是这个端口，罪大恶极，封封封！） 500端口（这个端口是别人经常攻击你软路由的端口，也封）还有迅雷5啊，P2P啊，QQ幻想啊（你的是100M光纤就别封了，无所谓） output 设置，此项比较简单，但很重要，syn大家都明白吧。如图：\nvirus设置：（也很重要哦）如果你input forward 两项防火没有起到什么作用，可以在里面做个跳转，使之两项转向virus设置。 virus设置图：\njump(跳转图)：\n哈哈，防火墙设置基本完成，不要看似简单，记住写规则的顺序：先允许，后拒绝，别说我没讲哦，否则防火墙会被你配的一团糟，你还以为你的路由很安全呢？哈哈。 端口映射： 这项比较简单，IP—firewall—Destination。先看图：\n负载平衡：IP—firewall—connections 点Tracking 看我图设置：\n吃午饭啦，下午继续！还有一些东西，经常遇到的问题啊什么的。呵呵。 刚才有人问我配置怎么样，建议网卡用60元左右的吧，8139嘛最好不要用，路由的流量不小哦。慎用慎用。别的硬件倒无所谓，我想现在硬件也不会差到哪里吧，CPU，内存都是超便宜哦。 至于网卡顺序嘛：以三块网卡为例，以我的为例，从主板显卡这边数，依次为3、2、1。 路由水晶头做法：路由与电信的转发包同一设备，所以，你想想是用哪种接法呢？在这里卖个关子，不说。不能什么都喂给你吃哦，有得时候自己动手，学的更多更深！\n我想知的是。软件稳不稳定。。。。。机子配制要不要很高的。100多台的。 还有。能不能控制内网的每个IP 的下载上传的流量。。。。限制以后。会不会导倒内网打开网页慢的。 我前几天就买了侠诺的路由器。它的只能限制内网的总速度的。不能对每个IP的限制。还有这样整体限制上传下载。 会影响到内网打开网页慢。 楼主我想知道这些的。不知大家有没有测试过的。这些问题得到解决没？ 机器配置要求不高，由于没有128的内存，我用的是256的，由于没有815的板子，我用的845的，由于没有cy1.7的CPU，我用的是2.0的，关键在网卡配置。呵 呵，ROS可以单个IP限速，不过我从来不限，防火墙配置好了，限速干什么呢？限速后玩游戏，网页都很正常。但有人提及过刷浩方问题，由于我不限速，所以，至今没发现。大家要限速的请看下面：Queues项的Simple queue：\n我的前面都是X，就是没有启用的意思啦，关键时候用一下，哈哈。 ros下怎样用命令关机？ system—shutdown 1、安装ROS 除了自己学习和测试用ROS外，最好还是单独用一台机器，相信这也不用多说，安装的时候要注意的是硬盘一定要接在IDE0上面，并且作为主盘MASTER，光驱随便，很多安装之后不能正常启动的都是这个问题、用安装光盘启动后，如图\n选择 i 进入安装界面选择需要安装的package\n选择完后，再按i安装，y确定，再按n不保存旧配置。最后回车重新启动，这时进入ROS是未注册的版本\n用光驱启动，在启动菜单按c破解\n破解之后进入已经没有了未注册提示。。。\n2、服务端配置 /interface pri 能显示出你现在可用的网卡。如图\n/ip address add address=192.168.1.1/24 interface=ether1\n设置ether1为内网IP，其中192.168.1.1/24添自己的内网IP ，设置成功没有提示，可以用pri查看\n3、winbox配置（所有配置都在这里进行） 在局域网其他机器IE浏览器192.168.1.1 进入WEBBOX，左边可以下载WINBOX，当然如果你已经有WINBOX可以省略这步。打开WINBOX输入IP和用户名连接\n进入配置界面 (1)点左侧INTERFACE，双击ether1将name改为lan，同样将另两个改为cnc和tel。\n(2)左侧IP-\u003eADDRESS ,+号,分别设置CNC和TEL的IP地址,添网通和电信给的IP/子网掩码(不要和我的一样…),红叉部分是自动添加的\n3)IP-\u003eROUTE,+号添加默认的网关,默认网通就添网通网关，默认电信就添电信的网关，这里默认电信. 如图11,正常下黑圈处为AS,黄圈出为TEL.comment设注释为tel\n(4)IP-\u003eFIREWALL,NAT选项卡,+号添加chain:srcnat,src.addr:192.168.1.0/24,ACTION选项卡里为masquerade.OK,现在可以通过电信上网了\n(5)\n上传路由表文件cnc.rscFTP://admin:@192.168.1.1\n在WINBOX中，NEW TERMINAL,输入import cnc完成\n现在已经可以电信网通自动切换了. (6)只是切换也不太安全,一定要配制一下防火墙么，同5一样,上传防火墙的RSC文件到192.168.1.1,在NEW TERMINAL里执行import firewall,整体和第5步相近. (7)配置的差不多了,该改管理员账号了,左侧USERS,双击ADMIN改个名字和右下脚的password,如果不需要远程修改ROS的话,可以设定访问IP,192.168.1.0/24之类的\n至此,基本OK了.\nhttp://hi.baidu.com/x%D0%A1%B6%C4%E2%F9%C7%E9x/blog/item/27412fd8dae457e138012fef.html Posted in routeros | Leave a reply Edit ROS安装配制教程 Posted on 2009/04/12\nROS2.927安装 机器要求 主板:845以上 网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等 硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G 光驱:安装时使用 显卡:主板自带(或者别的,没有要求) 好了可以开始了,从光盘启动 我们可以看到这个画面\n这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件) 这里先不作组件的介绍,我就就全选 A 按I键开始安装 会有一个提示 Do you want to keep old configuration? [y/n]: 意思问你是否保持磁盘原有的格式,这里我们选N,不保留\n接下来还有个提示, Continue? 意思是是否格式化硬盘,我们选Y\n正在格式化硬盘,正在复制文件\n安装完成,按回车重启 这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了\n启动路由,进入登录界面\n接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至) 在WIN下用WINBOX访问\nROS下配制 默认用户名:ADMIN 密码:空\n登录成功会有一个提示 Do you want to see the software license? [y/n]: 意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看 的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤\nsetup 开始配制\nr – reset all router configuration (恢复所有设置,回到初使) l – configure ip address and gateway a – configure ip akkress and gateway d – setup dhcp client s – setup dhxp server p – setup pppoe client t – setup pptp client x – exit menu (退出菜单) your choice [press Enret to configure ip address and gateway]: 我们选A 添加IP\na – add ip address g – setup default gateway x – exit menu your choice [press Enter to add ip address]: 回车添加IP和DNS\nenable interface:ether1(网卡选择,默认第一块,ether1,如果你要选择第二块请改成ether2) 回车确认\nip address/netmask: (192.168.1.250/24)\n接下来,你可以通过WIN访问你的路由\n点击WINBOX下载WINBOX.EXE,运行 如果你在ROS添加了IP,你可以通过IP访问也可以通过MAC访问\nWINBOX配制 用户名:ADMIN 密码:空\n回车或点击Connect进入\n打开WINBOX.EXE进入,点击Interfaces\n看到有流量的网卡,双击,我们先把他改一下名字,这个我们定义为内网好了LAN\n点击OK确定,接下来你把好块没有流量的网卡就改成外网WAN[IMG][IMG]\n好了,IP\u003eAddress List,让我们来添加网址,点击加号 在弹出来的 New Address中我们添加先添加内网网址,也就是你的网关 192.168.1.250/24(这里后面的24是广播,单网段我们设24,多网段有很多种设法,我 在这里就不作多讲,网关可以设成,192.168.1.1或10.1.1.1等私有地址,看个人爱好来) 在Interface中我们点下拉选择LAN,也就是网卡\n单击OK,接下我们加外网址,这里我们也是一样填上外网网址就可以了,记得要在Interface中 选择WAN OK确定\n接下来我们来添加外网网关,IP\u003eRoute List 在弹出的对话框里,我们点加号,在弹出的对话框中Gateway中添加外网网关,点OK\n我的外网网址是220.169.58.153,网关是220.169.58.152 接下我们打开防火墙,添加一条路由规则,我们就可以上网了 IP\u003eFirewall\u003eNAT\n单击加号在弹出来的对话框中,单击Action,中Action下拉选择masquerade 其它选项都是默认的,单击OK\n好了,我们接上外网网线就可以上网了\nhttp://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html\n",
+  "wordCount" : "396",
+  "inLanguage": "en",
+  "datePublished": "2009-04-11T17:14:10Z",
+  "dateModified": "2009-04-11T17:14:10Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/11/e7bd91e590a7e4b893e794a8rose8bdafe8b7afe794b1e69599e7a88be99d9ee5b8b8e8afa6e7bb86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      网吧专用ros软路由教程(非常详细)
+    </h1>
+    <div class="post-meta"><span title='2009-04-11 17:14:10 +0000 UTC'>April 11, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>一：安装<br>
+1、光盘版的（转自雨纷飞大哥作品）
+将iso文件刻录成可引导光盘。机器的硬盘设置为IDE0，即第一个IDE通道的主盘。
+bios设置光盘引导系统，放入光盘启动机器得到如下</p>
+<p>选择 2：Install RouteOS 2.8.18后稍等，得到如下画面：
+用方向键和空格选择你需要的模组功能后，按＂Ａ＂全选，摁“i“键确定安装。会再次询问你继续？yes or no?，摁“Y“.
+然后又问:do you want to keep lod configuraton?你需要保留旧的结构么?摁“N
+然后开始自动的格式化磁盘、安装核心、安装模组。最后提示：
+Press ENTER to Reboot，按回车重新启动机器。</p>
+<p>重新启动后出现图1的那个引导画面(如果没有出现而直接进了登陆界面说明用硬盘引导了)：</p>
+<p>选择3: Crack RouteOS Floppy Disk,开始破解。
+破解过程都是中文的。如果你的硬盘在IDE0:0的话破解是不会有问题的。否则可能出现系统文件被破坏、启动时0123456…循环出现等问题。
+问你是否重启呢。把光盘拿出来后按下Y确定重启动</p>
+<p>重新启动后开始登陆。初始用户名admin，初始密码为空。
+咦？怎么还有提示注册的信息和Soft ID？
+原来是还需要一个命令激活注册补丁才可以哦：
+输入命令：/system license import file-name=key
+或者缩写为/sy lic i f key
+然后提示你是否重新启动。按Y重新启动
+重新启动并用admin:““登陆后发现，提示注册的信息已经完全消失了，现在是正式版了</p>
+<p>现在服务器启动起来了，但是还没有任何配置，若想用winbox对其进行控制，则必须激活和配置网卡的ip 掩码等。这里我装了三块网卡，一块接电信，一块接网通，一块路由后接内网交换机。
+首先看看三块网卡是否都被识别出来了，命令是：
+/interface
+print
+可以缩写为
+/int
+pri
+以后用缩写不再另外注名。
+结果应该如下图：</p>
+<p>然后我们来激活他们，命令是：
+ENABLE 0<br>
+ENABLE 1
+ENABLE 2
+0是第一块网卡。
+激活后没有提示。用print命令查看后发现网卡前面的X变成R，就代表激活成功了。
+如下图</p>
+<p>但是ether1 ether2之类的名字实在是抽象不便于以后的配置，所以我们把网卡给改个名字：
+命令：
+SET 0 NAME=newname
+我这里用
+set 0 name=dianxin
+set 1 name=wangtong
+set 2 name=neiwang
+如下图：改名成功。</p>
+<p>然后给他们相应的IP。
+先返回顶层目录，用/键就可以了。
+然后输入：
+IP
+ADDRESS<br>
+add address 192.168.0.10/24 interface dianxin
+add address 192.168.0.11/24 interface wangtong
+add address 192.168.0.12/24 interface neiwang
+这样就设置好了dianxin、wangtong、内网这三块网卡的IP和子网掩码。24代表255.255.255.0
+我只是做实验写教程，具体IP地址还要根据你的实际情况来变动。
+添加完毕后可以用print命令来查看结果。如果发现某条有错误，用“remove 错误的编号“既可以删除</p>
+<p>到这里IP的配置就大功告成了，我们终于可以跟文字界面说拜拜了~
+2、GHOST版的（原创）
+将下载好的G文件放在一块带有ghost的虚拟dos（我的是的MAX—dos）系统上，进ghost选择恢复镜像到全盘（千万别错了哦，是全盘镜像）。完毕重启后无需破解，余下的操作同上，我就不重复了。
+二：winbox下调试
+根据你所设的局域网IP。输入
+http://192.168.1.1
+(我的是192.168.1.1) 下载winbox
+得到如下图：</p>
+<p>输入管理员用户admin，默认密码为空，如图：</p>
+<p>第一项：interfaces。这里可以更改你的网卡名称，查看个内外网总体</p>
+<p>查看外网流量如图：（选择网卡名称第四项traffic）</p>
+<p>第二项，IP
+由于你已经填写好了内外网的IP，所以IP Addresses里无须再管了。注意事项，外网掩码请仔细询问你当地的电信或者网通部门
+2、ip routes，这里是更改你所走的网关用的，如图</p>
+<p>3、IP pool（不管他）
+4、IP arp（这里是网卡mac地址与ip地址绑定，我是绑定了），具体操作，双击前面带D（代表未arp绑定）的IP地址，点tools选择copy，点OK，哈哈，前面的D就没啦，恭喜你绑定成功。</p>
+<p>5、IP vrrp（不管他）
+6、IP firewall(重点哦)
+到这里了，是不是还拼不通外网啊，哈哈，没有IP伪装啊，当然上不了啊。IP—firewall—source，点加号加一条规则，第一项里面填你的设置的内网网段，不是网关哦，后面跟24，不是32哦。切记！如图</p>
+<p>能上网了吧，这时候你的软路由非常脆弱，所以，我们来给他增“墙”，本文核心，防火墙配置。
+input 设置图：</p>
+<p>一些重要的端口改变图：为什么要改变端口，用途很明显，默认的大家都知道，而你所改的呢？只有你自己知道，哈哈，这就是效果！</p>
+<p>看到没？
+比如telnet啊，winbox啊，upnp，http（这里是指访问你的路由的http端口哦）。
+forward 设置，这里控制着你网吧的安全核心，先看图：</p>
+<p>其本都是drop drop drop。（阻止的意思啦）
+tcp/udp协议的134—139端口，445端口（把三波引进来的就是这个端口，罪大恶极，封封封！）
+500端口（这个端口是别人经常攻击你软路由的端口，也封）还有迅雷5啊，P2P啊，QQ幻想啊（你的是100M光纤就别封了，无所谓）
+output 设置，此项比较简单，但很重要，syn大家都明白吧。如图：</p>
+<p>virus设置：（也很重要哦）如果你input forward 两项防火没有起到什么作用，可以在里面做个跳转，使之两项转向virus设置。
+virus设置图：</p>
+<p>jump(跳转图)：</p>
+<p>哈哈，防火墙设置基本完成，不要看似简单，记住写规则的顺序：先允许，后拒绝，别说我没讲哦，否则防火墙会被你配的一团糟，你还以为你的路由很安全呢？哈哈。
+端口映射：
+这项比较简单，IP—firewall—Destination。先看图：</p>
+<p>负载平衡：IP—firewall—connections 点Tracking 看我图设置：</p>
+<p>吃午饭啦，下午继续！还有一些东西，经常遇到的问题啊什么的。呵呵。
+刚才有人问我配置怎么样，建议网卡用60元左右的吧，8139嘛最好不要用，路由的流量不小哦。慎用慎用。别的硬件倒无所谓，我想现在硬件也不会差到哪里吧，CPU，内存都是超便宜哦。
+至于网卡顺序嘛：以三块网卡为例，以我的为例，从主板显卡这边数，依次为3、2、1。
+路由水晶头做法：路由与电信的转发包同一设备，所以，你想想是用哪种接法呢？在这里卖个关子，不说。不能什么都喂给你吃哦，有得时候自己动手，学的更多更深！<br>
+我想知的是。软件稳不稳定。。。。。机子配制要不要很高的。100多台的。
+还有。能不能控制内网的每个IP 的下载上传的流量。。。。限制以后。会不会导倒内网打开网页慢的。
+我前几天就买了侠诺的路由器。它的只能限制内网的总速度的。不能对每个IP的限制。还有这样整体限制上传下载。
+会影响到内网打开网页慢。
+楼主我想知道这些的。不知大家有没有测试过的。这些问题得到解决没？
+机器配置要求不高，由于没有128的内存，我用的是256的，由于没有815的板子，我用的845的，由于没有cy1.7的CPU，我用的是2.0的，关键在网卡配置。呵 呵，ROS可以单个IP限速，不过我从来不限，防火墙配置好了，限速干什么呢？限速后玩游戏，网页都很正常。但有人提及过刷浩方问题，由于我不限速，所以，至今没发现。大家要限速的请看下面：Queues项的Simple queue：</p>
+<p>我的前面都是X，就是没有启用的意思啦，关键时候用一下，哈哈。
+ros下怎样用命令关机？
+system—shutdown
+1、安装ROS
+除了自己学习和测试用ROS外，最好还是单独用一台机器，相信这也不用多说，安装的时候要注意的是硬盘一定要接在IDE0上面，并且作为主盘MASTER，光驱随便，很多安装之后不能正常启动的都是这个问题、用安装光盘启动后，如图</p>
+<p>选择 i 进入安装界面选择需要安装的package</p>
+<p>选择完后，再按i安装，y确定，再按n不保存旧配置。最后回车重新启动，这时进入ROS是未注册的版本</p>
+<p>用光驱启动，在启动菜单按c破解</p>
+<p>破解之后进入已经没有了未注册提示。。。</p>
+<p>2、服务端配置
+/interface pri    能显示出你现在可用的网卡。如图</p>
+<p>/ip address
+add address=192.168.1.1/24 interface=ether1<br>
+设置ether1为内网IP，其中192.168.1.1/24添自己的内网IP ，设置成功没有提示，可以用pri查看</p>
+<p>3、winbox配置（所有配置都在这里进行）
+在局域网其他机器IE浏览器192.168.1.1 进入WEBBOX，左边可以下载WINBOX，当然如果你已经有WINBOX可以省略这步。打开WINBOX输入IP和用户名连接</p>
+<p>进入配置界面
+(1)点左侧INTERFACE，双击ether1将name改为lan，同样将另两个改为cnc和tel。</p>
+<p>(2)左侧IP-&gt;ADDRESS ,+号,分别设置CNC和TEL的IP地址,添网通和电信给的IP/子网掩码(不要和我的一样…),红叉部分是自动添加的</p>
+<p>3)IP-&gt;ROUTE,+号添加默认的网关,默认网通就添网通网关，默认电信就添电信的网关，这里默认电信.
+如图11,正常下黑圈处为AS,黄圈出为TEL.comment设注释为tel</p>
+<p>(4)IP-&gt;FIREWALL,NAT选项卡,+号添加chain:srcnat,src.addr:192.168.1.0/24,ACTION选项卡里为masquerade.OK,现在可以通过电信上网了</p>
+<p>(5)</p>
+<p>上传路由表文件cnc.rscFTP://admin:@192.168.1.1</p>
+<p>在WINBOX中，NEW TERMINAL,输入import cnc完成</p>
+<p>现在已经可以电信网通自动切换了.
+(6)只是切换也不太安全,一定要配制一下防火墙么，同5一样,上传防火墙的RSC文件到192.168.1.1,在NEW TERMINAL里执行import firewall,整体和第5步相近.
+(7)配置的差不多了,该改管理员账号了,左侧USERS,双击ADMIN改个名字和右下脚的password,如果不需要远程修改ROS的话,可以设定访问IP,192.168.1.0/24之类的</p>
+<p>至此,基本OK了.</p>
+<p><a href="http://hi.baidu.com/x%D0%A1%B6%C4%E2%F9%C7%E9x/blog/item/27412fd8dae457e138012fef.html">http://hi.baidu.com/x%D0%A1%B6%C4%E2%F9%C7%E9x/blog/item/27412fd8dae457e138012fef.html</a>
+Posted in routeros       | Leave a reply Edit
+ROS安装配制教程
+Posted on 2009/04/12</p>
+<p>ROS2.927安装
+机器要求
+主板:845以上
+网卡:Intel 82559(推荐)也可以使用8139.INTEL82540等
+硬盘:电子硬盘(推荐)也可以使用IDE硬盘1G-80G
+光驱:安装时使用
+显卡:主板自带(或者别的,没有要求)
+好了可以开始了,从光盘启动
+我们可以看到这个画面</p>
+<p>这里是问你选择要安装的组件,我们按A全选(也可以通过方向键和空格键选择要安装的组件)
+这里先不作组件的介绍,我就就全选 A
+按I键开始安装
+会有一个提示
+Do you want to keep old configuration? [y/n]:
+意思问你是否保持磁盘原有的格式,这里我们选N,不保留</p>
+<p>接下来还有个提示,
+Continue? 意思是是否格式化硬盘,我们选Y</p>
+<p>正在格式化硬盘,正在复制文件</p>
+<p>安装完成,按回车重启
+这个时候请取出光盘,或调成从硬盘启动,或者拆下光驱,ROS就安装好了,光驱不需要了</p>
+<p>启动路由,进入登录界面</p>
+<p>接上内网网线,也可以直接也计算机对连(这里等下再讲,请跳至)
+在WIN下用WINBOX访问</p>
+<p>ROS下配制
+默认用户名:ADMIN 密码:空</p>
+<p>登录成功会有一个提示
+Do you want to see the software license? [y/n]:
+意思是问你是否要看ROS使用说明和服务条款,都是E文的,我是看不懂,如果你想看
+的话选Y,这里我就不看了选N跳过直接进入我们关键的IP配制关键步骤</p>
+<p>setup 开始配制</p>
+<p>r – reset all router configuration (恢复所有设置,回到初使)
+l – configure ip address and gateway
+a – configure ip akkress and gateway
+d – setup dhcp client
+s – setup dhxp server
+p – setup pppoe client
+t – setup pptp client
+x – exit menu (退出菜单)
+your choice [press Enret to configure ip address and gateway]:
+我们选A 添加IP</p>
+<p>a – add ip address
+g – setup default gateway
+x – exit menu
+your choice [press Enter to add ip address]:
+回车添加IP和DNS</p>
+<p>enable interface:ether1(网卡选择,默认第一块,ether1,如果你要选择第二块请改成ether2)
+回车确认</p>
+<p>ip address/netmask: (192.168.1.250/24)</p>
+<p>接下来,你可以通过WIN访问你的路由</p>
+<p>点击WINBOX下载WINBOX.EXE,运行
+如果你在ROS添加了IP,你可以通过IP访问也可以通过MAC访问</p>
+<p>WINBOX配制
+用户名:ADMIN 密码:空</p>
+<p>回车或点击Connect进入</p>
+<p>打开WINBOX.EXE进入,点击Interfaces</p>
+<p>看到有流量的网卡,双击,我们先把他改一下名字,这个我们定义为内网好了LAN</p>
+<p>点击OK确定,接下来你把好块没有流量的网卡就改成外网WAN[IMG][IMG]</p>
+<p>好了,IP&gt;Address List,让我们来添加网址,点击加号
+在弹出来的 New Address中我们添加先添加内网网址,也就是你的网关
+192.168.1.250/24(这里后面的24是广播,单网段我们设24,多网段有很多种设法,我
+在这里就不作多讲,网关可以设成,192.168.1.1或10.1.1.1等私有地址,看个人爱好来)
+在Interface中我们点下拉选择LAN,也就是网卡</p>
+<p>单击OK,接下我们加外网址,这里我们也是一样填上外网网址就可以了,记得要在Interface中
+选择WAN OK确定</p>
+<p>接下来我们来添加外网网关,IP&gt;Route List
+在弹出的对话框里,我们点加号,在弹出的对话框中Gateway中添加外网网关,点OK</p>
+<p>我的外网网址是220.169.58.153,网关是220.169.58.152
+接下我们打开防火墙,添加一条路由规则,我们就可以上网了
+IP&gt;Firewall&gt;NAT</p>
+<p>单击加号在弹出来的对话框中,单击Action,中Action下拉选择masquerade
+其它选项都是默认的,单击OK</p>
+<p>好了,我们接上外网网线就可以上网了</p>
+<p><a href="http://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html">http://hi.baidu.com/jacyce/blog/item/2c1bbe551c69a6c0b745aec4.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

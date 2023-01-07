@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PHP判断浏览器类型和系统语言
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>判断浏览器类型 echo $_SERVER[“HTTP_USER_AGENT”]; ?&gt; 判断系统语言 echo $_SERVER[“HTTP_ACCEPT_LANGUAGE”]; ?&gt;</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-06-05 00:52:27 +0000 UTC'>June 5, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP判断浏览器类型和系统语言" href="http://example.org/2006/06/05/phpe588a4e696ade6b58fe8a788e599a8e7b1bbe59e8be5928ce7b3bbe7bb9fe8afade8a880/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PHP静态类
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-31 12:05:00 +0000 UTC'>May 31, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP静态类" href="http://example.org/2006/05/31/phpe99d99e68081e7b1bb/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>生成静态页面的PHP类
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-31 11:54:57 +0000 UTC'>May 31, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 生成静态页面的PHP类" href="http://example.org/2006/05/31/e7949fe68890e99d99e68081e9a1b5e99da2e79a84phpe7b1bb/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>apache mod_limitipconn 的配置方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-26 18:25:01 +0000 UTC'>May 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to apache mod_limitipconn 的配置方法" href="http://example.org/2006/05/26/apache-mod_limitipconn-e79a84e9858de7bdaee696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Google文件系统
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转载自互连网 Google文件系统
+GFS是一个可扩展的分布式文件系统，用于大型的、分布式的、对大量数据进行访问的应用。它运行于廉价的普通硬件上，但可以提供容错功能。它可以给大量的用户提供总体性能较高的服务。 1、设计概览 （1）设计想定 GFS与过去的分布式文件系统有很多相同的目标，但GFS的设计受到了当前及预期的应用方面的工作量及技术环境的驱动，这反映了它与早期的文件系统明显不同的设想。这就需要对传统的选择进行重新检验并进行完全不同的设计观点的探索。 GFS与以往的文件系统的不同的观点如下： 1、部件错误不再被当作异常，而是将其作为常见的情况加以处理。因为文件系统由成百上千个用于存储的机器构成，而这些机器是由廉价的普通部件组成并被大量的客户机访问。部件的数量和质量使得一些机器随时都有可能无法工作并且有一部分还可能无法恢复。所以实时地监控、错误检测、容错、自动恢复对系统来说必不可少。 2、按照传统的标准，文件都非常大。长度达几个GB的文件是很平常的。每个文件通常包含很多应用对象。当经常要处理快速增长的、包含数以万计的对象、长度达TB的数据集时，我们很难管理成千上万的KB规模的文件块，即使底层文件系统提供支持。因此，设计中操作的参数、块的大小必须要重新考虑。对大型的文件的管理一定要能做到高效，对小型的文件也必须支持，但不必优化。 3、大部分文件的更新是通过添加新数据完成的，而不是改变已存在的数据。在一个文件中随机的操作在实践中几乎不存在。一旦写完，文件就只可读，很多数据都有这些特性。一些数据可能组成一个大仓库以供数据分析程序扫描。有些是运行中的程序连续产生的数据流。有些是档案性质的数据，有些是在某个机器上产生、在另外一个机器上处理的中间数据。由于这些对大型文件的访问方式，添加操作成为性能优化和原子性保证的焦点。而在客户机中缓存数据块则失去了吸引力。 4、工作量主要由两种读操作构成：对大量数据的流方式的读操作和对少量数据的随机方式的读操作。在前一种读操作中，可能要读几百KB，通常达 1MB和更多。来自同一个客户的连续操作通常会读文件的一个连续的区域。随机的读操作通常在一个随机的偏移处读几个KB。性能敏感的应用程序通常将对少量数据的读操作进行分类并进行批处理以使得读操作稳定地向前推进，而不要让它来来回回的读。 5、工作量还包含许多对大量数据进行的、连续的、向文件添加数据的写操作。所写的数据的规模和读相似。一旦写完，文件很少改动。在随机位置对少量数据的写操作也支持，但不必非常高效。 6、系统必须高效地实现定义完好的大量客户同时向同一个文件的添加操作的语义。 （2）系统接口 GFS提供了一个相似地文件系统界面，虽然它没有向POSIX那样实现标准的API。文件在目录中按层次组织起来并由路径名标识。 （3）体系结构： 一个GFS集群由一个master和大量的chunkserver构成，并被许多客户（Client）访问。如图1所示。Master和 chunkserver通常是运行用户层服务进程的Linux机器。只要资源和可靠性允许，chunkserver和client可以运行在同一个机器上。 文件被分成固定大小的块。每个块由一个不变的、全局唯一的64位的chunk－handle标识，chunk－handle是在块创建时由 master分配的。ChunkServer将块当作Linux文件存储在本地磁盘并可以读和写由chunk－handle和位区间指定的数据。出于可靠性考虑，每一个块被复制到多个chunkserver上。默认情况下，保存3个副本，但这可以由用户指定。 Master维护文件系统所以的元数据（metadata），包括名字空间、访问控制信息、从文件到块的映射以及块的当前位置。它也控制系统范围的活动，如块租约（lease）管理，孤儿块的垃圾收集，chunkserver间的块迁移。Master定期通过HeartBeat消息与每一个 chunkserver通信，给chunkserver传递指令并收集它的状态。 与每个应用相联的GFS客户代码实现了文件系统的API并与master和chunkserver通信以代表应用程序读和写数据。客户与master的交换只限于对元数据（metadata）的操作，所有数据方面的通信都直接和chunkserver联系。 客户和chunkserver都不缓存文件数据。因为用户缓存的益处微乎其微，这是由于数据太多或工作集太大而无法缓存。不缓存数据简化了客户程序和整个系统，因为不必考虑缓存的一致性问题。但用户缓存元数据（metadata）。Chunkserver也不必缓存文件，因为块时作为本地文件存储的。 （4）单master。 只有一个master也极大的简化了设计并使得master可以根据全局情况作出先进的块放置和复制决定。但是我们必须要将master对读和写的参与减至最少，这样它才不会成为系统的瓶颈。Client从来不会从master读和写文件数据。Client只是询问master它应该和哪个 chunkserver联系。Client在一段限定的时间内将这些信息缓存，在后续的操作中Client直接和chunkserver交互。 以图1解释一下一个简单的读操作的交互。 1、client使用固定的块大小将应用程序指定的文件名和字节偏移转换成文件的一个块索引（chunk index）。 2、给master发送一个包含文件名和块索引的请求。 3、master回应对应的chunk handle和副本的位置（多个副本）。 4、client以文件名和块索引为键缓存这些信息。（handle和副本的位置）。 5、Client 向其中一个副本发送一个请求，很可能是最近的一个副本。请求指定了chunk handle（chunkserver以chunk handle标识chunk）和块内的一个字节区间。 6、除非缓存的信息不再有效（cache for a limited time）或文件被重新打开，否则以后对同一个块的读操作不再需要client和master间的交互。 通常Client可以在一个请求中询问多个chunk的地址，而master也可以很快回应这些请求。 （5）块规模： 块规模是设计中的一个关键参数。我们选择的是64MB，这比一般的文件系统的块规模要大的多。每个块的副本作为一个普通的Linux文件存储，在需要的时候可以扩展。 块规模较大的好处有： 1、减少client和master之间的交互。因为读写同一个块只是要在开始时向master请求块位置信息。对于读写大型文件这种减少尤为重要。即使对于访问少量数据的随机读操作也可以很方便的为一个规模达几个TB的工作集缓缓存块位置信息。 2、Client在一个给定的块上很可能执行多个操作，和一个chunkserver保持较长时间的TCP连接可以减少网络负载。 3、这减少了master上保存的元数据（metadata）的规模，从而使得可以将metadata放在内存中。这又会带来一些别的好处。 不利的一面： 一个小文件可能只包含一个块，如果很多Client访问改文件的话，存储这些块的chunkserver将成为访问的热点。但在实际应用中，应用程序通常顺序地读包含多个块的文件，所以这不是一个主要问题。 （6）元数据（metadata）： master存储了三中类型的metadata：文件的名字空间和块的名字空间，从文件到块的映射，块的副本的位置。所有的metadata都放在内存中。前两种类型的metadata通过向操作日志登记修改而保持不变，操作日志存储在master的本地磁盘并在几个远程机器上留有副本。使用日志使得我们可以很简单地、可靠地更新master的状态，即使在master崩溃的情况下也不会有不一致的问题。相反，mater在每次启动以及当有 chuankserver加入的时候询问每个chunkserver的所拥有的块的情况。 A、内存数据结构： 因为metadata存储在内存中，所以master的操作很快。进一步，master可以轻易而且高效地定期在后台扫描它的整个状态。这种定期地扫描被用于实现块垃圾收集、chunkserver出现故障时的副本复制、为平衡负载和磁盘空间而进行的块迁移。 这种方法的一个潜在的问题就是块的数量也即整个系统的容量是否受限与master的内存。实际上，这并不是一个严重的问题。Master为每个 64MB的块维护的metadata不足64个字节。除了最后一块，文件所有的块都是满的。类似的，每个文件的名字空间数据也不足64个字节，因为文件名是以一种事先确定的压缩方式存储的.如果要支持更大的文件系统，那么增加一些内存的方法对于我们将元数据（metadata）保存在内存种所获得的简单性、可靠性、高性能和灵活性来说，这只是一个很小的代价。 B、块位置： master并不为chunkserver所拥有的块的副本的保存一个不变的记录。它在启动时通过简单的查询来获得这些信息。Master可以保持这些信息的更新，因为它控制所有块的放置并通过HeartBeat消息来监控chunkserver的状态。 这样做的好处：因为chunkserver可能加入或离开集群、改变路径名、崩溃、重启等，一个集群重有成百个server，这些事件经常发生，这种方法就排除了master与chunkserver之间的同步问题。 另一个原因是：只有chunkserver才能确定它自己到底有哪些块，由于错误，chunkserver中的一些块可能会很自然的消失，这样在master中就没有必要为此保存一个不变的记录。 C、操作日志： 操作日志包含了对metadata所作的修改的历史记录。它作为逻辑时间线定义了并发操作的执行顺序。文件、块以及它们的版本号都由它们被创建时的逻辑时间而唯一地、永久地被标识。 操作日志是如此的重要，我们必须要将它可靠地保存起来，并且只有在metadata的改变固定下来之后才将变化呈现给用户。所以我们将操作日志复制到数个远程的机器上，并且只有在将相应的日志记录写到本地和远程的磁盘上之后才回答用户的请求。 Master可以用操作日志来恢复它的文件系统的状态。为了将启动时间减至最小，日志就必须要比较小。每当日志的长度增长到超过一定的规模后，master就要检查它的状态，它可以从本地磁盘装入最近的检查点来恢复状态。 创建一个检查点比较费时，master的内部状态是以一种在创建一个检查点时并不耽误即将到来的修改操作的方式来组织的。Master切换到一个新的日子文件并在一个单独的线程中创建检查点。这个新的检查点记录了切换前所有的修改。在一个有数十万文件的集群中用一分钟左右就能完成。创建完后，将它写入本地和远程的磁盘。 （7）数据完整性 名字空间的修改必须是原子性的，它们只能有master处理：名字空间锁保证了操作的原子性和正确性，而master的操作日志在全局范围内定义了这些操作的顺序。 文件区间的状态在修改之后依赖于修改的类型，不论操作成功还是失败，也不论是不是并发操作。如果不论从哪个副本上读，所有的客户都看到同样的数据，那么文件的这个区域就是一致的。如果文件的区域是一致的并且用户可以看到修改操作所写的数据，那么它就是已定义的。如果修改是在没有并发写操作的影响下完成的，那么受影响的区域是已定义的，所有的client都能看到写的内容。成功的并发写操作是未定义但却是一致的。失败的修改将使区间处于不一致的状态。 Write操作在应用程序指定的偏移处写入数据，而record append操作使得数据（记录）即使在有并发修改操作的情况下也至少原子性的被加到GFS指定的偏移处，偏移地址被返回给用户。 在一系列成功的修改操作后，最后的修改操作保证文件区域是已定义的。GFS通过对所有的副本执行同样顺序的修改操作并且使用块版本号检测过时的副本（由于chunkserver退出而导致丢失修改）来做到这一点。 因为用户缓存了会位置信息，所以在更新缓存之前有可能从一个过时的副本中读取数据。但这有缓存的截止时间和文件的重新打开而受到限制。 在修改操作成功后，部件故障仍可以是数据受到破坏。GFS通过master和chunkserver间定期的handshake，借助校验和来检测对数据的破坏。一旦检测到，就从一个有效的副本尽快重新存储。只有在GFS检测前，所有的副本都失效，这个块才会丢失。 2、系统交互 （1）租约（lease）和修改顺序： （2）数据流 我们的目标是充分利用每个机器的网络带宽，避免网络瓶颈和延迟 为了有效的利用网络，我们将数据流和控制流分离。数据是以流水线的方式在选定的chunkerserver链上线性的传递的。每个机器的整个对外带宽都被用作传递数据。为避免瓶颈，每个机器在收到数据后，将它收到数据尽快传递给离它最近的机器。 （3）原子性的record Append： GFS提供了一个原子性的添加操作：record append。在传统的写操作中，client指定被写数据的偏移位置，向同一个区间的并发的写操作是不连续的：区间有可能包含来自多个client的数据碎片。在record append中， client只是指定数据。GFS在其选定的偏移出将数据至少原子性的加入文件一次，并将偏移返回给client。 在分布式的应用中，不同机器上的许多client可能会同时向一个文件执行添加操作，添加操作被频繁使用。如果用传统的write操作，可能需要额外的、复杂的、开销较大的同步，例如通过分布式锁管理。在我们的工作量中，这些文件通常以多个生产者单个消费者队列的方式或包含从多个不同 client的综合结果。 Record append和前面讲的write操作的控制流差不多，只是在primary上多了一些逻辑判断。首先，client将数据发送到文件最后一块的所有副本上。然后向primary发送请求。Primary检查添加操作是否会导致该块超过最大的规模（64M）。如果这样，它将该块扩充到最大规模，并告诉其它副本做同样的事，同时通知client该操作需要在下一个块上重新尝试。如果记录满足最大规模的要求，primary就会将数据添加到它的副本上，并告诉其它的副本在在同样的偏移处写数据，最后primary向client报告写操作成功。如果在任何一个副本上record append操作失败，client将重新尝试该操作。这时候，同一个块的副本可能包含不同的数据，因为有的可能复制了全部的数据，有的可能只复制了部分。GFS不能保证所有的副本每个字节都是一样的。它只保证每个数据作为一个原子单元被写过至少一次。这个是这样得出的：操作要是成功，数据必须在所有的副本上的同样的偏移处被写过。进一步，从这以后，所有的副本至少和记录一样长，所以后续的记录将被指定到更高的偏移处或者一个不同的块上，即使另一个副本成了primary。根据一致性保证，成功的record append操作的区间是已定义的。而受到干扰的区间是不一致的。 （4）快照（snapshot） 快照操作几乎在瞬间构造一个文件和目录树的副本，同时将正在进行的其他修改操作对它的影响减至最小。 我们使用copy-on-write技术来实现snapshot。当master受到一个snapshot请求时，它首先将要snapshot的文件上块上的lease。这使得任何一个向这些块写数据的操作都必须和master交互以找到拥有lease的副本。这就给master一个创建这个块的副本的机会。 副本被撤销或终止后，master在磁盘上登记执行的操作，然后复制源文件或目录树的metadata以对它的内存状态实施登记的操作。这个新创建的snapshot文件和源文件（其metadata）指向相同的块（chunk）。 Snapshot之后，客户第一次向chunk c写的时候，它发一个请求给master以找到拥有lease的副本。Master注意到chunk c的引用记数比1大，它延迟对用户的响应，选择一个chunk handle C’,然后要求每一有chunk c的副本的chunkserver创建一个块C’。每个chunkserver在本地创建chunk C’避免了网络开销。从这以后和对别的块的操作没有什么区别。 3、MASTER操作 MASTER执行所有名字空间的操作，除此之外，他还在系统范围管理数据块的复制：决定数据块的放置方案，产生新数据块并将其备份，和其他系统范围的操作协同来确保数据备份的完整性，在所有的数据块服务器之间平衡负载并收回没有使用的存储空间。 3....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-26 18:22:22 +0000 UTC'>May 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Google文件系统" href="http://example.org/2006/05/26/googlee69687e4bbb6e7b3bbe7bb9f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>CLUCENE-0.9.10 BUG及修改方法列表
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。
+修改： if ( closeDir ){ directory-&gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-&gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-&gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-26 18:12:34 +0000 UTC'>May 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to CLUCENE-0.9.10 BUG及修改方法列表" href="http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FC4的dovecot套件無法啟動
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(‘EXTERNAL DIGEST-MD5?……..’)dnl dnl define(‘confAUTH_MECHANISMS’, ‘EX……LOGIN PLAIN’).. 以上….是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(’…..ADDR=0.0.0.0,….’)dnl 把127.0.0.1–&gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-25 14:02:22 +0000 UTC'>May 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FC4的dovecot套件無法啟動" href="http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>sendmail 配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者：Christopher Shumway. sendmail(8) 是 FreeBSD 中的默认邮件传输代理 (MTA)。 sendmail 的任务是从邮件用户代理 (MUA) 接收邮件然后根据配置文件的定义把它们送给配置好的的寄送程序。 sendmail 也能接受网络连接，并且发送邮件到本地邮箱或者发送它到其它程序。 sendmail 使用下列配置文件： 文件名功能 /etc/mail/access sendmail 访问数据库文件 /etc/mail/aliases 邮箱别名 /etc/mail/local-host-names sendmail 接收邮件主机列表 /etc/mail/mailer.conf 邮寄配置程序 /etc/mail/mailertable 邮件分发列表 /etc/mail/sendmail.cf sendmail的主配置文件 /etc/mail/virtusertable 虚拟用户和域列表 25.3.1 /etc/mail/access
+访问数据库定义了什么主机或者 IP 地址可以访问本地邮件服务器和它们是哪种类型的访问。主机可能会列出 OK、 REJECT、RELAY 或者简单的通过 sendmail 的出错处理程序检测一个给定的邮件错误。 主机默认列出 OK，允许传送邮件到主机， 只要邮件的最后目的地是本地主机。列出 REJECT 将拒绝所有的邮件连接。如果带有 RELAY 选项的主机将被允许通过这个邮件服务器发送邮件到任何地方。 例 25-1. 配置 sendmail 的访问许可数据库 cyberspammer.com 550 We do not accept mail from spammers FREE.STEALTH.MAILER@ 550 We do not accept mail from spammers another....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-25 13:58:15 +0000 UTC'>May 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to sendmail 配置" href="http://example.org/2006/05/25/sendmail-e9858de7bdae/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>strnzhcpy 中文处理（c防止汉字截断）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-24 06:15:51 +0000 UTC'>May 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to strnzhcpy 中文处理（c防止汉字截断）" href="http://example.org/2006/05/24/strnzhcpy-e4b8ade69687e5a484e79086efbc88ce998b2e6ada2e6b189e5ad97e688aae696adefbc89/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PHP 将 HTML 转化为 WML2005
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-24 06:13:57 +0000 UTC'>May 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP 将 HTML 转化为 WML2005" href="http://example.org/2006/05/24/php-e5b086-html-e8bdace58c96e4b8ba-wml2005/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/25/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/27/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

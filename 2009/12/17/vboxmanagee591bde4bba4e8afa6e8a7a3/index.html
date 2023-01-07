@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>VBoxManage命令详解 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="VBoxManage命令详解" />
+<meta property="og:description" content="VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-12-17T06:12:35+00:00" />
+<meta property="article:modified_time" content="2009-12-17T06:12:35+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="VBoxManage命令详解"/>
+<meta name="twitter:description" content="VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "VBoxManage命令详解",
+      "item": "http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VBoxManage命令详解",
+  "name": "VBoxManage命令详解",
+  "description": "VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。\nVBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果\nVBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息\nVBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息\nVBoxManage registervm 将指定文件所在的虚拟机添加到列表\nVBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机\nVBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机\nVBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot\u0026lt;1-4\u0026gt; none|floppy|dvd|disk|net\u0026gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount \u0026lt;1-30\u0026gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport\u0026lt;1-30\u0026gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation\u0026lt;1-4\u0026gt; \u0026lt;1-30\u0026gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic\u0026lt;1-N\u0026gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype\u0026lt;1-N\u0026gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected\u0026lt;1-N\u0026gt; on|off]插入或拔出网线 [-nictrace\u0026lt;1-N\u0026gt; on|off] 开启或关闭网络追踪 [-nictracefile\u0026lt;1-N\u0026gt; ] 将网络流量追踪数据保存到文件 [-nicspeed\u0026lt;1-N\u0026gt; ] 设置网络连接的速度 [-hostifdev\u0026lt;1-N\u0026gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet\u0026lt;1-N\u0026gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet\u0026lt;1-N\u0026gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10.",
+  "keywords": [
+    
+  ],
+  "articleBody": "VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。\nVBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果\nVBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息\nVBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息\nVBoxManage registervm 将指定文件所在的虚拟机添加到列表\nVBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机\nVBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机\nVBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot\u003c1-4\u003e none|floppy|dvd|disk|net\u003e] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount \u003c1-30\u003e] 设置虚拟机最多支持的SATA控制器数目 [-sataport\u003c1-30\u003e none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation\u003c1-4\u003e \u003c1-30\u003e] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic\u003c1-N\u003e none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype\u003c1-N\u003e Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected\u003c1-N\u003e on|off]插入或拔出网线 [-nictrace\u003c1-N\u003e on|off] 开启或关闭网络追踪 [-nictracefile\u003c1-N\u003e ] 将网络流量追踪数据保存到文件 [-nicspeed\u003c1-N\u003e ] 设置网络连接的速度 [-hostifdev\u003c1-N\u003e none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet\u003c1-N\u003e ] 内网模式下为虚拟机指定内部网络名称 [-natnet\u003c1-N\u003e | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10.0.x.0/24 [-macaddress\u003c1-N\u003e auto| 自动生成虚拟网卡的MAC地址 ] 指定虚拟网卡的MAC地址 [-uart\u003c1-N\u003e off| 不启用虚拟串口 _ ]启用虚拟串口，并设置虚拟串口的I/O参数和IRQ参数 [-uartmode\u003c1-N\u003e disconnected| 启用虚拟串口，但不连接到宿主机的串口 server | 在宿主机创建PIPE通道，并将虚拟机串口连接到这个通道 client | 不创建PIPE通道，而是将虚拟机串口连接到已存在的通道 ] 将虚拟机串口连接到宿主机的串口 [-gueststatisticsinterval ] 配置虚拟机静态时间间隔 [-audio none| 虚拟机不连接声卡 null| 将虚拟机的声卡连接到空的声音设备 dsound] 将虚拟机的声卡连接到宿主机的声卡 [-audiocontroller ac97| 将虚拟机声卡虚拟为ICH AC97声卡 sb16] 将虚拟机声卡虚拟为soundblaster 16声卡 [-clipboard disabled| 不共享剪贴板 hosttoguest| 将宿主机的剪贴板共享给虚拟机 guesttohost| 将虚拟机的剪贴板共享给宿主机 bidirectional] 宿主机和虚拟机共使用一个剪贴板 [-vrdp on|off] 开启|关闭virtualbox内置的VRDP服务器 [-vrdpport default| 使用默认的vrdp端口3389 ] 指定vrdp端口 [-vrdpaddress ] 指定VRDP主机地址 [-vrdpauthtype null| 不用授权，任何客户机都可以连接到VRDP服务器 external| 只有宿主机的用户才可以连接到VRDP服务器 guest] 只有虚拟机的用户才可以连接到VRDP服务器 [-vrdpmulticon on|off] 打开|关闭VRDP多用户连接模式 [-vrdpreusecon on|off] 打开|关闭VRDP断线重连 [-usb on|off] 打开|关闭虚拟USB控制器 [-usbehci on|off] 打开|关闭虚拟USB2.0控制器 [-snapshotfolder default| 将系统快照保存到默认文件夹 ] 将系统快照保存到指定文件夹\nVBoxManage startvm | 开启指定UUID|名称的虚拟机 [-type gui|vrdp] 设置虚拟机标准显示设备GUI界面|VRDP\nVBoxManage controlvm | 改变正在运行的虚拟机的状态 pause| 暂停，这时虚拟机窗口显示灰色 resume| 恢复暂停的虚拟机 reset| 复位 poweroff| 强行关闭 acpipowerbutton| 关机 acpisleepbutton| 使虚拟机处于睡眠状态 savestate| 保存状态然后关闭，相当于休眠 keyboardputscancode [ …] 键盘扫描码设置 setlinkstate\u003c1-4\u003e on|off 连接|断开网络连接 usbattach | 连接到指定UUDI|地址的USB设备\nusbdetach | 断开指定UUDI|地址的USB设备\ndvdattach none| 不连接虚拟DVD光驱 | 连接到指定UUID的DVD光驱 | 连接到指定名称的DVD映像文件 host: 连接到宿主机的DVD光驱 floppyattach none| 不连接虚拟软驱 | 连接到指定UUID的虚拟软驱 | 连接到指定名称的软盘映像文件 host: 连接到宿主机的软驱\nsetvideomodehint 设置虚拟机的屏幕分辨率 水平像素 垂直像素 颜色深度 [display] 刷新频率 setcredentials 指定VRDP自动连接参数 用户名 密码 域 [-allowlocallogon ] 允许|禁止本地登陆 VBoxManage discardstate | 丢弃指定UUID|名称的虚拟机的保存状态\nVBoxManage adoptstate | 将虚拟机从指定的保存状态中恢复\nVBoxManage snapshot | 为指定的虚拟机拍快照 take 为快照取名 [-desc ]| 给快照添加描述 discard | | 丢弃指定的快照 discardcurrent -state| 恢复到最近的快照 -all | 恢复到倒数第二个快照 edit || 编辑指定的快照 -current 编辑当前快照 [-newname ] 修改快照名称 [-newdesc ] 修改快照描述 showvminfo | 显示快照的虚拟机信息\nVBoxManage registerimage disk|dvd|floppy 注册硬盘、光盘、软盘映像文件 [-type normal| 注册为普通类型（可创建快照，可读写） immutable| 注册为只读类型（相当于加了硬盘卡） writethrough] 注册为可写类型（这种类型不能创建快照） (disk only) (注册类型选项只适用于硬盘）\nVBoxManage unregisterimage disk| 从虚拟介质管理器删除指定的硬盘 dvd| 从虚拟介质管理器删除指定的DVD光盘\nfloppy 从虚拟介质管理器删除指定的软盘 | 删除时指定UUID 删除时指定映像文件\nVBoxManage showvdiinfo | 显示指定UUID|名称虚拟硬盘的信息\nVBoxManage createvdi -filename 创建指定名称的虚拟硬盘 -size 指定虚拟硬盘的大小（以兆为单位） [-static] 创建固定大小的虚拟硬盘 [-comment ] 添加一段解释性文字 [-register] 注册新创建的虚拟硬盘 [-type normal| 注册类型 普通（可以创建快照） writethrough] 注册类型 可写（不能创建快照） (default: normal) 默认是普通类型 VBoxManage modifyvdi | compact 压缩指定的虚拟硬盘\nVBoxManage clonevdi | 克隆指定的VDI虚拟硬盘\nVBoxManage convertdd [-static] 将raw硬盘转换成vdi虚拟硬盘 VBoxManage convertdd [-static] stdin 将标准输入参数指定的设备转换成vdi虚拟硬盘，比如：dd if=/dev/sda1 | VBoxManage convertdd VBoxManage addiscsidisk -server | 通过指定服务器名称|ip地址添加ISCSI硬盘 -target 指定对象名称字符串 [-port ] 指定ISCSI对象的服务端口号 [-lun ] 指定对象资源的逻辑单元编号 [-encodedlun ] 指定另一种格式的对象资源的逻辑单元编号 [-username ] 指定连接ISCSI对象的用户名 [-password ] 指定连接ISCSI对象所需的密码 [-comment ] 为这个连接添加一段描述性文字 比如：VBoxManage addiscsidisk -server 10.200.2.30 -target iqn.2000-12.com.acme:storage.lun0 -lun 0\nVBoxManage createhostif 在宿主机添加一个指定名称的虚拟网络接口 VBoxManage removehostif | 从宿主机删除指定UUID|名称的虚拟网络接口\nVBoxManage getextradata global| 获取全局设置信息 | 获取指定UUID的虚拟机的信息 获取指定名称的虚拟机的信息 | 获取与指定键值相关联的数据信息 enumerate 列举信息 比如：VBoxManage getextradata xp installdate 用于获取虚拟机XP的安装时间\nVBoxManage setextradata global| 设置全局信息 | 设置指定UUID的虚拟机的信息 设置指定名称的虚拟机的信息 指定要添加信息的键 [] 给上面的键添加键值（必须指定键值） 比如：VBoxManage setextradata xp installdate 2006.01.01 设置虚拟机xp的安装时间为2006年1月1日\nVBoxManage setproperty vdifolder default| 在全局设定里设置vdi目录为默认 | 在全局设定里设置指定vdi目录 machinefolder default| 在全局设定里设置虚拟机目录为默认 | 在全局设定里指定虚拟机目录 vrdpauthlibrary default| 在全局设定里设置VRDP证书为默认的证书 | 在全局设定里指定其他的VRDP证书 websrvauthlibrary default| 在全局设定里设置Web服务证书为默认的证书 null| 在全局设定里设置web服务证书为空 | 在全局设定里指定其他的Web服务证书 hwvirtexenabled yes|no 在全局设定里设置是|否支持硬件虚拟化 loghistorycount 在全局设定里设置日志数目，编号从0开始\nVBoxManage usbfilter add 添加usb筛选器并设置它在筛选器列表中的位置 -target | 添加usb筛选器到指定UUID的虚拟机 | 添加usb筛选器到指定名称的虚拟机 global 添加全局usb筛选器 -name 给usb筛选器指定名称 -action ignore| 不允许虚拟机连接到筛选器 hold 允许虚拟机连接到筛选器（全局筛选器时） [-active yes|no] 筛选器是|否生效（默认是生效） [-vendorid ] 给usb筛选器指定vendorid（厂商标志） [-productid ] 给usb筛选器指定productid（产品标志号） [-revision ] 给usb筛选器指定revision（修订版本号） [-manufacturer ] 给usb筛选器指定manufacturer（制造商） [-product ] 给usb筛选器指定product（产品标志） [-remote yes|no] 指定usb筛选器是|否在远程登陆时有效 [-serialnumber ] 给usb筛选器指定serialnumber（序列号） [-maskedinterfaces ] VBoxManage usbfilter modify 修改usb筛选器在列表中的顺序 -target | 修改指定UUID的虚拟机的usb筛选器 | 修改指定名称的虚拟机的usb筛选器 global 修改全局设置的usb筛选器 [-name ] 修改筛选器名称 [-action ignore| 不允许虚拟机连接到筛选器 hold] 允许虚拟机连接到筛选器（全局筛选器时） [-active yes|no] 筛选器是|否生效（默认是生效） [-vendorid |\"\"] 给usb筛选器指定vendorid（厂商标志） [-productid |\"\"] 给usb筛选器指定productid（产品标志号） [-revision |\"\"] 给usb筛选器指定revision（修订版本号） [-manufacturer |\"\"] 给usb筛选器指定manufacturer（制造商） [-product |\"\"] 给usb筛选器指定product（产品标志） [-remote yes|no] 指定usb筛选器是|否在远程登陆时有效 [-serialnumber |\"\"] 给usb筛选器指定serialnumber（序列号） [-maskedinterfaces |\"\"]\nVBoxManage usbfilter remove 删除指定序号的usb筛选器 -target | 删除指定UUID的虚拟机的usb筛选器 | 删除指定名称的虚拟机的usb筛选器 global 删除全局usb筛选器\nVBoxManage sharedfolder add | 添加共享文件夹到指定名称的虚拟机 添加共享文件夹到指定uuid的虚拟机 -name 指定共享文件夹名称 -hostpath 指定共享文件夹所在的主机路径 [-transient] 设置临时共享 [-readonly] 设置共享为只读\nVBoxManage sharedfolder remove | 从指定名称的虚拟机删除共享文件夹 从指定UUID的虚拟机删除共享文件夹 -name 删除指定名称的共享文件夹 [-transient] 临时删除\nVBoxManage vmstatistics | 统计指定名称的虚拟机的运行状态信息 统计指定UUID的虚拟机的运行状态信息 [-reset] 复位统计信息 [-pattern ] 设置信息的显示格式 [-descriptions] 在统计信息中显示描述信息\nVBoxManage guestproperty get | 获取指定名称的虚拟机的预先设定的属性值 获取指定UUID的虚拟机的预先设定的属性值 获取指定属性的预先设定的值 [-verbose] 以冗长的格式显示\nVBoxManage guestproperty set | 给指定名称的虚拟机设置属性值 给指定UUID的虚拟机设置属性值 要设定值的属性 [ 给属性设定的值 [-flags ]] 设置一个标志\nVBoxManage guestproperty enumerate | 列举指定名称的虚拟机的属性值 列举指定UUID的虚拟机的属性值 [-patterns ] 列举属性值时采用的格式 VBoxManage metrics list [*| 显示性能计数器 收集的所有系统资源的监测数据 host| 显示性能计数器 收集的宿主机的系统资源的监测数据 显示性能计数器 收集的虚拟机的系统资源的监测数据 []] 要显示的性能计数器列表\nVBoxManage metrics setup 设置性能计数器 [-period ] 设置性能计数器的显示周期 [-samples ] 设置性能计数器抽样统计数 [*| 对所有资源设置设置性能计数器 host| 对宿主机资源设置设置性能计数器 对虚拟机资源设置设置性能计数器 []] 性能计数器列表 例如：VBoxManage metrics setup -period 1 -samples 5 host CPU/Load,RAM/Usage\nVBoxManage metrics query [*| 查找并显示所有资源当前的性能计数器 host| 查找并显示宿主机当前的资源的性能计数器 查找并显示虚拟机当前的资源的性能计数器 []] 性能计数器列表 例如：VBoxManage query host CPU/Load/User,CPU/Load/Kernel\nVBoxManage metrics collect 收集性能计数器信息 [-period ] 设置性能计数器信息显示的刷新周期 [-samples ] 设置性能计数器抽样统计数 [-list] 显示当前可以收集信息的性能计数器 \u0026\n要从命令行创建虚拟机，你可以执行以下三步，我们以 Ubuntu 9.10 为例：\n创建一个新的虚拟机，虚拟机的名称通过 --name 选项指定： VBoxManage createvm --name \"Ubuntu 9.10\" --register 创建该虚拟机所用的虚拟硬盘，用 --filename 指定虚拟硬盘的名称，--size 选项指定虚拟硬盘的大小，本例为 5 GB： VBoxManage createhd --filename \"Ubuntu910.vdi\" --size 5000 --remember 修改虚拟机的选项设置： VBoxManage modifyvm \"Ubuntu 9.10\" --memory \"512MB\" --hda \"Ubuntu910.vdi\" --dvd /home/linuxtoy/karmic-desktop-i386.iso --acpi on --accelerate3d on --boot1 dvd --nic1 nat 其中，\n* --memory 指定内存的大小 * --hda 指定所用的虚拟硬盘 * --dvd 指定所用的 ISO 映像 * --acpi on 启用 ACPI * --accelerate3d on 启用 3D 加速 * --boot1 引导次序 * --nic1 网络设置 如果你愿意，那么现在便可以通过 VBoxManage startvm “Ubuntu 9.10” 来启动虚拟机。\nhttp://zhang-ly520.javaeye.com/blog/300606 http://www.svn8.com/linux/glpz/20090915/9470.html\n",
+  "wordCount" : "915",
+  "inLanguage": "en",
+  "datePublished": "2009-12-17T06:12:35Z",
+  "dateModified": "2009-12-17T06:12:35Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      VBoxManage命令详解
+    </h1>
+    <div class="post-meta"><span title='2009-12-17 06:12:35 +0000 UTC'>December 17, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>VBoxManage命令详解
+本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。</p>
+<p>VBoxManage [-v|-version]         显示virtualbox的版本号
+VBoxManage -nologo               隐藏logo
+VBoxManage -convertSettings      允许自动转换设置文件
+VBoxManage -convertSettingsBackup  允许自动转换设置文件，并在转换前作备份
+VBoxManage -convertSettingsIgnore  允许自动转换设置文件，但是不保存结果</p>
+<p>VBoxManage list vms|runningvms   显示列表虚拟机|正在运行的虚拟机
+|ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器
+|hostfloppies     宿主机的软盘驱动器
+|hostifs|hostinfo 宿主机的网络接口|宿主机的信息
+|hdds|dvds        已注册的虚拟硬盘|已注册的虚拟光盘
+|floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备
+|usbfilters       USB筛选器
+|systemproperties 虚拟机的基本信息</p>
+<p>VBoxManage showvminfo |     显示指定虚拟机的信息
+[-details]         显示详细信息
+[-statistics]      显示统计信息
+[-machinereadable] 以清晰的格式显示虚拟机信息</p>
+<p>VBoxManage registervm         将指定文件所在的虚拟机添加到列表</p>
+<p>VBoxManage unregistervm |   从虚拟机列表清除指定的虚拟机
+[-delete]       从虚拟机列表删除指定的虚拟机</p>
+<p>VBoxManage createvm     -name     创建指定名称的虚拟机
+[-register]      将创建的虚拟机添加到列表
+[-basefolder  指定虚拟机的基础目录
+[-settingsfile ] 指定虚拟机配置文件的基础目录
+[-uuid ]  创建指定uuid的虚拟机</p>
+<p>VBoxManage modifyvm            编辑指定的虚拟机的配置
+[-name ]    修改虚拟机的名称
+[-ostype ]修改虚拟机的操作系统类型
+[-memory ]   修改虚拟机的内存大小
+[-vram ]       修改虚拟机的显存大小
+[-acpi on|off]           启动或禁止acpi电源管理接口
+[-ioapic on|off]         启动或禁止I/O APIC电源管理接口
+[-pae on|off]            启动或禁止CPU的PAE支持，PAE是
+Physical Address Extension : 物理地址扩展
+[-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持
+[-nestedpaging on|off]    开启或关闭CPU的嵌套页面列表支持
+[-monitorcount ]  设置显示器数目，VRDP多用户模式时                        [-bioslogofadein on|off]  开启或关闭bioslogo渐显效果
+[-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果
+[-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位)
+[-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo
+[-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭
+menuonly| 只菜单
+messageandmenu] 信息和菜单
+[-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位）
+[-biospxedebug on|off] 打开或关闭biospxe调试
+[-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序
+[-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID
+[-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型
+[-sata on|off] 开启或关闭SATA硬盘控制器
+[-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目
+[-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器
+| 指定uuid的硬盘连接到SATA控制器
+] 指定文件名的硬盘连接到SATA控制器
+[-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30
+[-dvd none| 不连接DVD光驱
+| 指定UUID的DVD光驱连接
+| 将指定的光盘映像文件挂接到DVD光驱
+host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱
+[-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能
+[-floppy disabled| 不连接软驱
+empty| 连接软驱但不插入软盘
+| 指定UUID的软驱连接
+| 将指定的软盘映像文件挂接到软驱驱
+host:] 将宿主机的软驱驱挂接到虚拟机的软驱
+[-nic&lt;1-N&gt; none| 虚拟机不添加网卡
+null| 虚拟机有网卡但不连接
+nat| 网络连接使用NAT模式
+hostif| 网络连接使用桥接模式
+intnet] 网络连接使用内部网络模式
+[-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡
+Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认）
+82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡
+82543GC] 虚拟机连接Intel PRO/1000 T Server网卡
+[-cableconnected&lt;1-N&gt; on|off]插入或拔出网线
+[-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪
+[-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件
+[-nicspeed&lt;1-N&gt; ] 设置网络连接的速度
+[-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口
+] 桥接模式下连接到指定的主机接口
+[-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称
+[-natnet&lt;1-N&gt; | 配置NAT网络接口的地址
+default] 默认NAT网络接口的地址是10.0.x.0/24
+[-macaddress&lt;1-N&gt; auto| 自动生成虚拟网卡的MAC地址
+] 指定虚拟网卡的MAC地址
+[-uart&lt;1-N&gt; off| 不启用虚拟串口
+_ ]启用虚拟串口，并设置虚拟串口的I/O参数和IRQ参数
+[-uartmode&lt;1-N&gt; disconnected| 启用虚拟串口，但不连接到宿主机的串口
+server | 在宿主机创建PIPE通道，并将虚拟机串口连接到这个通道
+client | 不创建PIPE通道，而是将虚拟机串口连接到已存在的通道
+] 将虚拟机串口连接到宿主机的串口
+[-gueststatisticsinterval ] 配置虚拟机静态时间间隔
+[-audio none| 虚拟机不连接声卡
+null| 将虚拟机的声卡连接到空的声音设备
+dsound] 将虚拟机的声卡连接到宿主机的声卡
+[-audiocontroller ac97| 将虚拟机声卡虚拟为ICH AC97声卡
+sb16] 将虚拟机声卡虚拟为soundblaster 16声卡
+[-clipboard disabled| 不共享剪贴板
+hosttoguest| 将宿主机的剪贴板共享给虚拟机
+guesttohost| 将虚拟机的剪贴板共享给宿主机
+bidirectional] 宿主机和虚拟机共使用一个剪贴板
+[-vrdp on|off] 开启|关闭virtualbox内置的VRDP服务器
+[-vrdpport default| 使用默认的vrdp端口3389
+] 指定vrdp端口
+[-vrdpaddress ] 指定VRDP主机地址
+[-vrdpauthtype null| 不用授权，任何客户机都可以连接到VRDP服务器
+external| 只有宿主机的用户才可以连接到VRDP服务器
+guest] 只有虚拟机的用户才可以连接到VRDP服务器
+[-vrdpmulticon on|off] 打开|关闭VRDP多用户连接模式
+[-vrdpreusecon on|off] 打开|关闭VRDP断线重连
+[-usb on|off] 打开|关闭虚拟USB控制器
+[-usbehci on|off] 打开|关闭虚拟USB2.0控制器
+[-snapshotfolder default| 将系统快照保存到默认文件夹
+] 将系统快照保存到指定文件夹</p>
+<p>VBoxManage startvm      | 开启指定UUID|名称的虚拟机
+[-type gui|vrdp] 设置虚拟机标准显示设备GUI界面|VRDP</p>
+<p>VBoxManage controlvm    | 改变正在运行的虚拟机的状态
+pause| 暂停，这时虚拟机窗口显示灰色
+resume| 恢复暂停的虚拟机
+reset| 复位
+poweroff| 强行关闭
+acpipowerbutton| 关机
+acpisleepbutton| 使虚拟机处于睡眠状态
+savestate| 保存状态然后关闭，相当于休眠
+keyboardputscancode  [ &hellip;] 键盘扫描码设置
+setlinkstate&lt;1-4&gt; on|off 连接|断开网络连接
+usbattach | 连接到指定UUDI|地址的USB设备<br>
+usbdetach | 断开指定UUDI|地址的USB设备<br>
+dvdattach none| 不连接虚拟DVD光驱
+| 连接到指定UUID的DVD光驱
+| 连接到指定名称的DVD映像文件
+host: 连接到宿主机的DVD光驱
+floppyattach none| 不连接虚拟软驱
+| 连接到指定UUID的虚拟软驱
+| 连接到指定名称的软盘映像文件
+host: 连接到宿主机的软驱</p>
+<pre><code>           setvideomodehint  设置虚拟机的屏幕分辨率 水平像素
+                             垂直像素
+                              颜色深度
+                         [display] 刷新频率
+           setcredentials  指定VRDP自动连接参数 用户名
+                           密码
+                             域
+         [-allowlocallogon ] 允许|禁止本地登陆
+</code></pre>
+<p>VBoxManage discardstate     | 丢弃指定UUID|名称的虚拟机的保存状态</p>
+<p>VBoxManage adoptstate       | 将虚拟机从指定的保存状态中恢复</p>
+<p>VBoxManage snapshot         | 为指定的虚拟机拍快照
+take  为快照取名
+[-desc ]| 给快照添加描述
+discard | | 丢弃指定的快照
+discardcurrent -state| 恢复到最近的快照
+-all | 恢复到倒数第二个快照
+edit || 编辑指定的快照
+-current 编辑当前快照
+[-newname ] 修改快照名称
+[-newdesc ] 修改快照描述
+showvminfo | 显示快照的虚拟机信息</p>
+<p>VBoxManage registerimage    disk|dvd|floppy  注册硬盘、光盘、软盘映像文件
+[-type normal| 注册为普通类型（可创建快照，可读写）
+immutable| 注册为只读类型（相当于加了硬盘卡）
+writethrough] 注册为可写类型（这种类型不能创建快照）
+(disk only) (注册类型选项只适用于硬盘）</p>
+<p>VBoxManage unregisterimage  disk| 从虚拟介质管理器删除指定的硬盘
+dvd| 从虚拟介质管理器删除指定的DVD光盘<br>
+floppy 从虚拟介质管理器删除指定的软盘
+| 删除时指定UUID
+删除时指定映像文件</p>
+<p>VBoxManage showvdiinfo      | 显示指定UUID|名称虚拟硬盘的信息</p>
+<p>VBoxManage createvdi        -filename  创建指定名称的虚拟硬盘
+-size  指定虚拟硬盘的大小（以兆为单位）
+[-static] 创建固定大小的虚拟硬盘
+[-comment ] 添加一段解释性文字
+[-register] 注册新创建的虚拟硬盘
+[-type normal| 注册类型 普通（可以创建快照）
+writethrough] 注册类型 可写（不能创建快照）
+(default: normal) 默认是普通类型
+VBoxManage modifyvdi        | compact 压缩指定的虚拟硬盘</p>
+<p>VBoxManage clonevdi         | 克隆指定的VDI虚拟硬盘</p>
+<h1 id="vboxmanage-convertdd---------static-stdin--将标准输入参数指定的设备转换成vdi虚拟硬盘比如dd-ifdevsda1--vboxmanage-convertdd">VBoxManage convertdd        [-static]  将raw硬盘转换成vdi虚拟硬盘
+VBoxManage convertdd        [-static] stdin  将标准输入参数指定的设备转换成vdi虚拟硬盘，比如：dd if=/dev/sda1 | VBoxManage convertdd</h1>
+<p>VBoxManage addiscsidisk     -server | 通过指定服务器名称|ip地址添加ISCSI硬盘
+-target  指定对象名称字符串
+[-port ] 指定ISCSI对象的服务端口号
+[-lun ] 指定对象资源的逻辑单元编号
+[-encodedlun ] 指定另一种格式的对象资源的逻辑单元编号
+[-username ] 指定连接ISCSI对象的用户名
+[-password ] 指定连接ISCSI对象所需的密码
+[-comment ] 为这个连接添加一段描述性文字
+比如：VBoxManage addiscsidisk -server 10.200.2.30 -target iqn.2000-12.com.acme:storage.lun0 -lun 0</p>
+<p>VBoxManage createhostif      在宿主机添加一个指定名称的虚拟网络接口
+VBoxManage removehostif     | 从宿主机删除指定UUID|名称的虚拟网络接口</p>
+<p>VBoxManage getextradata     global| 获取全局设置信息
+| 获取指定UUID的虚拟机的信息
+获取指定名称的虚拟机的信息
+|  获取与指定键值相关联的数据信息
+enumerate  列举信息
+比如：VBoxManage getextradata xp installdate 用于获取虚拟机XP的安装时间</p>
+<p>VBoxManage setextradata     global| 设置全局信息
+| 设置指定UUID的虚拟机的信息
+设置指定名称的虚拟机的信息
+指定要添加信息的键
+[] 给上面的键添加键值（必须指定键值）
+比如：VBoxManage setextradata xp installdate 2006.01.01 设置虚拟机xp的安装时间为2006年1月1日</p>
+<p>VBoxManage setproperty      vdifolder default| 在全局设定里设置vdi目录为默认
+| 在全局设定里设置指定vdi目录
+machinefolder default| 在全局设定里设置虚拟机目录为默认
+| 在全局设定里指定虚拟机目录
+vrdpauthlibrary default| 在全局设定里设置VRDP证书为默认的证书
+| 在全局设定里指定其他的VRDP证书
+websrvauthlibrary default| 在全局设定里设置Web服务证书为默认的证书
+null| 在全局设定里设置web服务证书为空
+| 在全局设定里指定其他的Web服务证书
+hwvirtexenabled yes|no 在全局设定里设置是|否支持硬件虚拟化
+loghistorycount  在全局设定里设置日志数目，编号从0开始</p>
+<p>VBoxManage usbfilter        add  添加usb筛选器并设置它在筛选器列表中的位置
+-target | 添加usb筛选器到指定UUID的虚拟机
+| 添加usb筛选器到指定名称的虚拟机
+global 添加全局usb筛选器
+-name  给usb筛选器指定名称
+-action ignore| 不允许虚拟机连接到筛选器
+hold  允许虚拟机连接到筛选器（全局筛选器时）
+[-active yes|no] 筛选器是|否生效（默认是生效）
+[-vendorid ] 给usb筛选器指定vendorid（厂商标志）
+[-productid ] 给usb筛选器指定productid（产品标志号）
+[-revision ] 给usb筛选器指定revision（修订版本号）
+[-manufacturer ] 给usb筛选器指定manufacturer（制造商）
+[-product ] 给usb筛选器指定product（产品标志）
+[-remote yes|no] 指定usb筛选器是|否在远程登陆时有效
+[-serialnumber ] 给usb筛选器指定serialnumber（序列号）
+[-maskedinterfaces ]
+VBoxManage usbfilter        modify  修改usb筛选器在列表中的顺序
+-target | 修改指定UUID的虚拟机的usb筛选器
+| 修改指定名称的虚拟机的usb筛选器
+global 修改全局设置的usb筛选器
+[-name ] 修改筛选器名称
+[-action ignore| 不允许虚拟机连接到筛选器
+hold] 允许虚拟机连接到筛选器（全局筛选器时）
+[-active yes|no] 筛选器是|否生效（默认是生效）
+[-vendorid |&quot;&quot;] 给usb筛选器指定vendorid（厂商标志）
+[-productid |&quot;&quot;] 给usb筛选器指定productid（产品标志号）
+[-revision |&quot;&quot;] 给usb筛选器指定revision（修订版本号）
+[-manufacturer |&quot;&quot;] 给usb筛选器指定manufacturer（制造商）
+[-product |&quot;&quot;] 给usb筛选器指定product（产品标志）
+[-remote yes|no] 指定usb筛选器是|否在远程登陆时有效
+[-serialnumber |&quot;&quot;] 给usb筛选器指定serialnumber（序列号）
+[-maskedinterfaces |&quot;&quot;]</p>
+<p>VBoxManage usbfilter        remove  删除指定序号的usb筛选器
+-target | 删除指定UUID的虚拟机的usb筛选器
+| 删除指定名称的虚拟机的usb筛选器
+global 删除全局usb筛选器</p>
+<p>VBoxManage sharedfolder     add | 添加共享文件夹到指定名称的虚拟机
+添加共享文件夹到指定uuid的虚拟机
+-name  指定共享文件夹名称
+-hostpath  指定共享文件夹所在的主机路径
+[-transient] 设置临时共享
+[-readonly] 设置共享为只读</p>
+<p>VBoxManage sharedfolder  remove | 从指定名称的虚拟机删除共享文件夹
+从指定UUID的虚拟机删除共享文件夹
+-name  删除指定名称的共享文件夹
+[-transient] 临时删除</p>
+<p>VBoxManage vmstatistics         | 统计指定名称的虚拟机的运行状态信息
+统计指定UUID的虚拟机的运行状态信息
+[-reset] 复位统计信息
+[-pattern ] 设置信息的显示格式
+[-descriptions] 在统计信息中显示描述信息</p>
+<p>VBoxManage guestproperty    get | 获取指定名称的虚拟机的预先设定的属性值
+获取指定UUID的虚拟机的预先设定的属性值
+获取指定属性的预先设定的值
+[-verbose] 以冗长的格式显示</p>
+<p>VBoxManage guestproperty    set | 给指定名称的虚拟机设置属性值
+给指定UUID的虚拟机设置属性值
+要设定值的属性
+[ 给属性设定的值
+[-flags ]] 设置一个标志</p>
+<p>VBoxManage guestproperty    enumerate | 列举指定名称的虚拟机的属性值
+列举指定UUID的虚拟机的属性值
+[-patterns ]  列举属性值时采用的格式
+VBoxManage metrics              list [*| 显示性能计数器
+收集的所有系统资源的监测数据
+host| 显示性能计数器
+收集的宿主机的系统资源的监测数据
+显示性能计数器
+收集的虚拟机的系统资源的监测数据
+[]] 要显示的性能计数器列表</p>
+<p>VBoxManage metrics          setup 设置性能计数器
+[-period ]  设置性能计数器的显示周期
+[-samples ] 设置性能计数器抽样统计数
+[*| 对所有资源设置设置性能计数器
+host| 对宿主机资源设置设置性能计数器
+对虚拟机资源设置设置性能计数器
+[]] 性能计数器列表
+例如：VBoxManage metrics setup -period 1 -samples 5 host CPU/Load,RAM/Usage</p>
+<p>VBoxManage metrics  query [*| 查找并显示所有资源当前的性能计数器
+host| 查找并显示宿主机当前的资源的性能计数器
+查找并显示虚拟机当前的资源的性能计数器
+[]] 性能计数器列表
+例如：VBoxManage query host CPU/Load/User,CPU/Load/Kernel</p>
+<p>VBoxManage metrics     collect  收集性能计数器信息
+[-period ] 设置性能计数器信息显示的刷新周期
+[-samples ] 设置性能计数器抽样统计数
+[-list] 显示当前可以收集信息的性能计数器
+&amp;</p>
+<p>要从命令行创建虚拟机，你可以执行以下三步，我们以 Ubuntu 9.10 为例：</p>
+<ol>
+<li></li>
+</ol>
+<pre><code>  创建一个新的虚拟机，虚拟机的名称通过 --name 选项指定：
+
+  VBoxManage createvm --name &quot;Ubuntu 9.10&quot; --register
+</code></pre>
+<ol start="2">
+<li></li>
+</ol>
+<pre><code>  创建该虚拟机所用的虚拟硬盘，用 --filename 指定虚拟硬盘的名称，--size 选项指定虚拟硬盘的大小，本例为 5 GB：
+
+  VBoxManage createhd --filename &quot;Ubuntu910.vdi&quot; --size 5000 --remember
+</code></pre>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>  修改虚拟机的选项设置：
+
+  VBoxManage modifyvm &quot;Ubuntu 9.10&quot; --memory &quot;512MB&quot; --hda &quot;Ubuntu910.vdi&quot; --dvd /home/linuxtoy/karmic-desktop-i386.iso --acpi on --accelerate3d on --boot1 dvd --nic1 nat
+</code></pre>
+<p>其中，</p>
+<pre><code>* --memory 指定内存的大小
+* --hda 指定所用的虚拟硬盘
+* --dvd 指定所用的 ISO 映像
+* --acpi on 启用 ACPI
+* --accelerate3d on 启用 3D 加速
+* --boot1 引导次序
+* --nic1 网络设置
+</code></pre>
+<p>如果你愿意，那么现在便可以通过 VBoxManage startvm &ldquo;Ubuntu 9.10&rdquo; 来启动虚拟机。</p>
+<p><a href="http://zhang-ly520.javaeye.com/blog/300606">http://zhang-ly520.javaeye.com/blog/300606</a>
+<a href="http://www.svn8.com/linux/glpz/20090915/9470.html">http://www.svn8.com/linux/glpz/20090915/9470.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

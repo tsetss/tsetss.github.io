@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>memcachedb | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="memcachedb是为了持久化而产生的一个分布式 &ldquo;key-value&quot;存储系统，你可以认为是memcached&#43;berkeley DB&#43;sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/12/07/memcachedb/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="memcachedb" />
+<meta property="og:description" content="memcachedb是为了持久化而产生的一个分布式 &ldquo;key-value&quot;存储系统，你可以认为是memcached&#43;berkeley DB&#43;sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/12/07/memcachedb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-12-07T16:11:16+00:00" />
+<meta property="article:modified_time" content="2009-12-07T16:11:16+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="memcachedb"/>
+<meta name="twitter:description" content="memcachedb是为了持久化而产生的一个分布式 &ldquo;key-value&quot;存储系统，你可以认为是memcached&#43;berkeley DB&#43;sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "memcachedb",
+      "item": "http://example.org/2009/12/07/memcachedb/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "memcachedb",
+  "name": "memcachedb",
+  "description": "memcachedb是为了持久化而产生的一个分布式 \u0026ldquo;key-value\u0026quot;存储系统，你可以认为是memcached+berkeley DB+sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：\n比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.\n你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：\nIndex, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data \u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;..\n即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.\n下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：\n‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口\n‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他",
+  "keywords": [
+    
+  ],
+  "articleBody": "memcachedb是为了持久化而产生的一个分布式 “key-value\"存储系统，你可以认为是memcached+berkeley DB+sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：\n比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.\n你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：\nIndex, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data …………………..\n即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.\n下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：\n‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口\n‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他\n‘-d’ run as a daemon 作为隐藏的线程运行\n‘-r’ maximize core file limit\n‘-u ’ assume identity of (only when run as root) 用户名\n‘-c ’ max simultaneous connections, default is 1024\n‘-b ’ max item buffer size in bytes, default is 1KB ‘-v’ verbose (print errors/warnings while in event loop) ‘-vv’ very verbose (also print client commands/reponses) ‘-P ’ save PID in , only used with -d option\n‘-m ’ in-memmory cache size of BerkeleyDB in megabytes, default is 64MB ‘-f ’ filename of database, default is /data1/memcachedb/default.db ‘-H ’ env home of database, default is /data1/memcachedb ‘-L ’ log buffer size in kbytes, default is 32KB ‘-C ’ do checkpoint every XX seconds, 0 for disable, default is 60s ‘-D ’ do deadlock detecting every XXX millisecond, 0 for disable, default is 100ms ‘-N’ enable DB TXN NOSYNC to gain big performance improved, default is off\n如果你想要将数据保存再特定的目录可以使用-H 但是你必须首先要创建该目录，否则数据库将不可启动 现在我们来测试下memcachedb是否已经启动了： 输入 telnet ‘your ip’ 端口号 （默认21201） telnet 127.0.0.1 21201 Trying 127.0.0.1… Connected to 127.0.0.1. Escape character is ’^]’. 如果可以连接，证明已经启动，现在我们可以来联系下memcached的命令了,呵呵.\n以下是memcachedb支持的命令： ‘get’ Retrieval of one or multiple items ‘set’ ”Store this data” ‘add’ ”Store this data, but only if the server doesn’t already hold data for this key” ‘replace’ ”Store this data, but only if the server does already hold data for this key” ‘delete’ deletes one item based a key ‘incr/decr’ Increment or decrement a numeric value. It’s atomic! ‘stats’ shows the status of current deamon. ’stats’, ’stats malloc’, ’stats maps’ Steve\n‘db checkpoint’ does a checkpoint manuanlly. ‘db archive’ removes log files that are no longer needed. ‘stats bdb’ shows the status of BerkeleyDB. ‘rep ismaster’ shows whether the site is a master. ‘rep whoismaster’ shows which site is a master. ‘rep set priority’ sets the priority of a site for electing in replication. ‘rep set ack policy’ sets ACK policy of the replication. ‘rep set ack timeout’ sets ACK timeout value of the replication . ‘rep set bulk’ Enable bulk transfer or not in replication. ‘rep set request’ sets the minimum and maximum number of missing log records that a client waits before requesting retransmission. ‘stats rep’ shows the status of Replication.\nby http://www.cnblogs.com/eoiioe/archive/2008/11/11/1331242.html\n",
+  "wordCount" : "427",
+  "inLanguage": "en",
+  "datePublished": "2009-12-07T16:11:16Z",
+  "dateModified": "2009-12-07T16:11:16Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/12/07/memcachedb/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      memcachedb
+    </h1>
+    <div class="post-meta"><span title='2009-12-07 16:11:16 +0000 UTC'>December 7, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>memcachedb是为了持久化而产生的一个分布式 &ldquo;key-value&quot;存储系统，你可以认为是memcached+berkeley DB+sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：</p>
+<pre><code>    比传统的RDBMS速度快效率高
+    高并发环境下访问安全可靠，效率很不错
+    存储的数据比较小
+
+     总之：高效、安全的事物机制、memcached的分布式协议支持
+</code></pre>
+<p>是他的几大亮点.</p>
+<p>你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。
+在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：<br>
+Index, Counter, Flags
+Identity Management(Account, Profile, User config info, Score)
+Messaging
+Personal domain name
+meta data of distributed system
+Other non-relatonal data
+&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>
+<p>即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.</p>
+<pre><code>    下面我们来说应用：
+</code></pre>
+<p>如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下：
+memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo  -N -P /data1/logs/21201.pid
+参数说明如下：</p>
+<p>‘-p ’ TCP port number to listen on (default: 21201)       tcp侦听端口</p>
+<p>‘-l ’ interface to listen on, default is INDRR ANY      这个不要管他</p>
+<p>‘-d’ run as a daemon    作为隐藏的线程运行</p>
+<p>‘-r’ maximize core file limit<br>
+‘-u ’ assume identity of  (only when run as root) 用户名</p>
+<p>‘-c ’ max simultaneous connections, default is 1024<br>
+‘-b ’ max item buffer size in bytes, default is 1KB
+‘-v’ verbose (print errors/warnings while in event loop)
+‘-vv’ very verbose (also print client commands/reponses)
+‘-P ’ save PID in , only used with -d option</p>
+<p>‘-m ’ in-memmory cache size of BerkeleyDB in megabytes, default
+is 64MB
+‘-f ’ filename of database, default is
+/data1/memcachedb/default.db
+‘-H ’ env home of database, default is /data1/memcachedb
+‘-L ’ log buffer size in kbytes, default is 32KB
+‘-C ’ do checkpoint every XX seconds, 0 for disable, default is 60s
+‘-D ’ do deadlock detecting every XXX millisecond, 0 for disable,
+default is 100ms
+‘-N’ enable DB TXN NOSYNC to gain big performance
+improved, default is off</p>
+<p>如果你想要将数据保存再特定的目录可以使用-H 但是你必须首先要创建该目录，否则数据库将不可启动
+现在我们来测试下memcachedb是否已经启动了：
+输入  telnet &lsquo;your ip&rsquo;  端口号 （默认21201）
+telnet 127.0.0.1 21201
+Trying 127.0.0.1&hellip;
+Connected to 127.0.0.1.
+Escape character is ’^]’.
+如果可以连接，证明已经启动，现在我们可以来联系下memcached的命令了,呵呵.</p>
+<p>以下是memcachedb支持的命令：
+‘get’ Retrieval of one or multiple items
+‘set’ ”Store this data”
+‘add’ ”Store this data, but only if the server <em>doesn’t</em> already
+hold data for this key”
+‘replace’ ”Store this data, but only if the server <em>does</em> already hold
+data for this key”
+‘delete’ deletes one item based a key
+‘incr/decr’ Increment or decrement a numeric value. It’s atomic!
+‘stats’ shows the status of current deamon. ’stats’, ’stats malloc’,
+’stats maps’
+Steve</p>
+<p>‘db checkpoint’ does a checkpoint manuanlly.
+‘db archive’ removes log files that are no longer needed.
+‘stats bdb’ shows the status of BerkeleyDB.
+‘rep ismaster’ shows whether the site is a master.
+‘rep whoismaster’ shows which site is a master.
+‘rep set priority’ sets the priority of a site for electing in replication.
+‘rep set ack policy’ sets ACK policy of the replication.
+‘rep set ack timeout’ sets ACK timeout value of the replication .
+‘rep set bulk’ Enable bulk transfer or not in replication.
+‘rep set request’ sets the minimum and maximum number of missing
+log records that a client waits before requesting
+retransmission.
+‘stats rep’ shows the status of Replication.</p>
+<p>by <a href="http://www.cnblogs.com/eoiioe/archive/2008/11/11/1331242.html">http://www.cnblogs.com/eoiioe/archive/2008/11/11/1331242.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

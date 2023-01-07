@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+ClippingNode
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/clippingnode/</link>
+    <description>Recent content in 
+ClippingNode
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Dec 2013 13:29:54 +0000</lastBuildDate><atom:link href="http://example.org/tags/clippingnode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cocos2d-x jsb 绑定 ClippingNode</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</link>
+      <pubDate>Tue, 10 Dec 2013 13:29:54 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</guid>
+      <description>JSClass *jsb_ClippingNode_class; JSObject *jsb_ClippingNode_prototype; JSBool js_cocos2dx_ClippingNode_isInverted(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ? proxy-&amp;gt;ptr : NULL); JSB_PRECONDITION2( cobj, cx, JS_FALSE, &amp;quot;Invalid Native Object&amp;quot;); if (argc == 0) { bool ret = cobj-&amp;gt;isInverted(); jsval jsret; jsret = BOOLEAN_TO_JSVAL(ret); JS_SET_RVAL(cx, vp, jsret); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments: %d, was expecting %d&amp;quot;, argc, 0); return JS_FALSE; } JSBool js_cocos2dx_ClippingNode_visit(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ?</description>
+    </item>
+    
+  </channel>
+</rss>

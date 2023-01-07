@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用PHP连接LDAP服务器 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。 LDAP介绍
+可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。
+LDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。
+LDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。
+简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。
+要求
+PHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带&ndash;with-ldap公共的LDAP目录。在例子中提供了两个。
+例子概览
+1.设置公共LDAP服务器的信息 2.创建一个LDAP查询 3.连接到LDAP服务器 4.如果连接成功，处理查询 5.格式化输出 6.关闭连接 7.设计搜索界面的HTML表格 8.显示结果
+设置公共LDAP服务器的信息
+我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息
+&ldquo;LDAP_NAME&rdquo; = 新的LDAP项目的名字 &ldquo;LDAP_SERVER&rdquo; = 新的LDAP项目的IP地址或者主机名 &ldquo;LDAP_ROOT_DN&rdquo; = 新的LDAP项目的根的辨识名
+建立LDAP查询
+前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。
+//Create Query $ldap_query = &ldquo;cn=$common&rdquo;;
+在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。
+连接到LDAP服务器
+以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。
+在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。
+如果连接成功，处理查询
+如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。
+一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。
+在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。
+然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。 格式化输出
+在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。
+要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：
+$result_array[0][&quot;cn&quot;] [0] = &quot;Dannie Stanley&quot; [&quot;dn&quot;] [0] = &quot;uid=dannie,dc=spinweb.net&quot; [&quot;givenname&quot;][0] = &quot;Dannie&quot; [&quot;sn&quot;] [0] = &quot;Stanley&quot; [&quot;mail&quot;] [0] = &quot;danSPAM@spinweb.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/30/e4bdbfe794a8phpe8bf9ee68ea5ldape69c8de58aa1e599a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="使用PHP连接LDAP服务器" />
+<meta property="og:description" content="本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。 LDAP介绍
+可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。
+LDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。
+LDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。
+简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。
+要求
+PHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带&ndash;with-ldap公共的LDAP目录。在例子中提供了两个。
+例子概览
+1.设置公共LDAP服务器的信息 2.创建一个LDAP查询 3.连接到LDAP服务器 4.如果连接成功，处理查询 5.格式化输出 6.关闭连接 7.设计搜索界面的HTML表格 8.显示结果
+设置公共LDAP服务器的信息
+我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息
+&ldquo;LDAP_NAME&rdquo; = 新的LDAP项目的名字 &ldquo;LDAP_SERVER&rdquo; = 新的LDAP项目的IP地址或者主机名 &ldquo;LDAP_ROOT_DN&rdquo; = 新的LDAP项目的根的辨识名
+建立LDAP查询
+前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。
+//Create Query $ldap_query = &ldquo;cn=$common&rdquo;;
+在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。
+连接到LDAP服务器
+以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。
+在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。
+如果连接成功，处理查询
+如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。
+一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。
+在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。
+然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。 格式化输出
+在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。
+要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：
+$result_array[0][&quot;cn&quot;] [0] = &quot;Dannie Stanley&quot; [&quot;dn&quot;] [0] = &quot;uid=dannie,dc=spinweb.net&quot; [&quot;givenname&quot;][0] = &quot;Dannie&quot; [&quot;sn&quot;] [0] = &quot;Stanley&quot; [&quot;mail&quot;] [0] = &quot;danSPAM@spinweb." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/30/e4bdbfe794a8phpe8bf9ee68ea5ldape69c8de58aa1e599a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-30T10:40:13+00:00" />
+<meta property="article:modified_time" content="2006-04-30T10:40:13+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用PHP连接LDAP服务器"/>
+<meta name="twitter:description" content="本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。 LDAP介绍
+可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。
+LDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。
+LDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。
+简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。
+要求
+PHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带&ndash;with-ldap公共的LDAP目录。在例子中提供了两个。
+例子概览
+1.设置公共LDAP服务器的信息 2.创建一个LDAP查询 3.连接到LDAP服务器 4.如果连接成功，处理查询 5.格式化输出 6.关闭连接 7.设计搜索界面的HTML表格 8.显示结果
+设置公共LDAP服务器的信息
+我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息
+&ldquo;LDAP_NAME&rdquo; = 新的LDAP项目的名字 &ldquo;LDAP_SERVER&rdquo; = 新的LDAP项目的IP地址或者主机名 &ldquo;LDAP_ROOT_DN&rdquo; = 新的LDAP项目的根的辨识名
+建立LDAP查询
+前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。
+//Create Query $ldap_query = &ldquo;cn=$common&rdquo;;
+在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。
+连接到LDAP服务器
+以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。
+在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。
+如果连接成功，处理查询
+如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。
+一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。
+在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。
+然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。 格式化输出
+在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。
+要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：
+$result_array[0][&quot;cn&quot;] [0] = &quot;Dannie Stanley&quot; [&quot;dn&quot;] [0] = &quot;uid=dannie,dc=spinweb.net&quot; [&quot;givenname&quot;][0] = &quot;Dannie&quot; [&quot;sn&quot;] [0] = &quot;Stanley&quot; [&quot;mail&quot;] [0] = &quot;danSPAM@spinweb."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "使用PHP连接LDAP服务器",
+      "item": "http://example.org/2006/04/30/e4bdbfe794a8phpe8bf9ee68ea5ldape69c8de58aa1e599a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用PHP连接LDAP服务器",
+  "name": "使用PHP连接LDAP服务器",
+  "description": "本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。 LDAP介绍\n可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。\nLDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。\nLDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。\n简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。\n要求\nPHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带\u0026ndash;with-ldap公共的LDAP目录。在例子中提供了两个。\n例子概览\n1.设置公共LDAP服务器的信息 2.创建一个LDAP查询 3.连接到LDAP服务器 4.如果连接成功，处理查询 5.格式化输出 6.关闭连接 7.设计搜索界面的HTML表格 8.显示结果\n设置公共LDAP服务器的信息\n我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息\n\u0026ldquo;LDAP_NAME\u0026rdquo; = 新的LDAP项目的名字 \u0026ldquo;LDAP_SERVER\u0026rdquo; = 新的LDAP项目的IP地址或者主机名 \u0026ldquo;LDAP_ROOT_DN\u0026rdquo; = 新的LDAP项目的根的辨识名\n建立LDAP查询\n前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。\n//Create Query $ldap_query = \u0026ldquo;cn=$common\u0026rdquo;;\n在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。\n连接到LDAP服务器\n以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。\n在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。\n如果连接成功，处理查询\n如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。\n一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。\n在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。\n然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。 格式化输出\n在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。\n要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：\n$result_array[0][\u0026quot;cn\u0026quot;] [0] = \u0026quot;Dannie Stanley\u0026quot; [\u0026quot;dn\u0026quot;] [0] = \u0026quot;uid=dannie,dc=spinweb.net\u0026quot; [\u0026quot;givenname\u0026quot;][0] = \u0026quot;Dannie\u0026quot; [\u0026quot;sn\u0026quot;] [0] = \u0026quot;Stanley\u0026quot; [\u0026quot;mail\u0026quot;] [0] = \u0026quot;danSPAM@spinweb.",
+  "keywords": [
+    
+  ],
+  "articleBody": "本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。 LDAP介绍\n可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。\nLDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。\nLDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。\n简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。\n要求\nPHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带–with-ldap公共的LDAP目录。在例子中提供了两个。\n例子概览\n1.设置公共LDAP服务器的信息 2.创建一个LDAP查询 3.连接到LDAP服务器 4.如果连接成功，处理查询 5.格式化输出 6.关闭连接 7.设计搜索界面的HTML表格 8.显示结果\n设置公共LDAP服务器的信息\n我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息\n“LDAP_NAME” = 新的LDAP项目的名字 “LDAP_SERVER” = 新的LDAP项目的IP地址或者主机名 “LDAP_ROOT_DN” = 新的LDAP项目的根的辨识名\n建立LDAP查询\n前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。\n//Create Query $ldap_query = “cn=$common”;\n在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。\n连接到LDAP服务器\n以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。\n在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。\n如果连接成功，处理查询\n如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。\n一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。\n在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。\n然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。 格式化输出\n在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。\n要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：\n$result_array[0][\"cn\"] [0] = \"Dannie Stanley\" [\"dn\"] [0] = \"uid=dannie,dc=spinweb.net\" [\"givenname\"][0] = \"Dannie\" [\"sn\"] [0] = \"Stanley\" [\"mail\"] [0] = \"danSPAM@spinweb.net\" $result_array[1][\"cn\"] [0] = \"Michael Reynolds\" [\"dn\"] [0] = \"uid=michael,dc=spinweb.net\" [\"givenname\"][0] = \"Michael\" [\"sn\"] [0] = \"Reynolds\" [\"mail\"] [0] = \"michaelSPAM@spinweb.net\" 数据以这种格式存放的原因是每个属性都可能有超过一个值（象树的结构）。例如，如果我的名字是‘Dannie’，我还可以在LDAP中增加一些属性，例如： $result_array[0][\"cn\"] [0] = \"Dannie Stanley\" [\"dn\"] [0] = \"uid=dannie,dc=spinweb.net\" [\"givenname\"][0] = \"Dannie\" [\"givenname\"][0] = \"Dan\" [\"sn\"] [0] = \"Stanley\" [\"mail\"] [0] = \"danSPAM@spinweb.net\" 在我们的搜索中，我们只关心每个属性的首个值，因此除了dn只有一个值外，其它我们只使用每个属性中序号为0的值。以下就是属性和它们含义的简单列表： \"cn\" = Common Name \"dn\" = Distinguished Name \"givenname\" = First Name \"sn\" = Last Name \"mail\" = Email地址 //如果搜索成功，将结果排序 if($result_array) { for($i=0; $i { $format_array[$i][0] = strtolower($result_array[$i][\"cn\"][0]); $format_array[$i][1] = $result_array[$i][\"dn\"]; $format_array[$i][2] = strtolower($result_array[$i][\"givenname\"][0]); $format_array[$i][3] = strtolower($result_array[$i][\"sn\"][0]); $format_array[$i][4] = strtolower($result_array[$i][\"mail\"][0]); } //排序数组 sort($format_array, \"SORT_STRING\"); for($i=0; $i { $cn = $format_array[$i][0]; $dn = $format_array[$i][1]; $fname = ucwords($format_array[$i][2]); $lname = ucwords($format_array[$i][3]); $email = $format_array[$i][4]; if($dn \u0026\u0026 $fname \u0026\u0026 $lname \u0026\u0026 $email) { $result_list .= \"$fname $lname\"; $result_list .= \" \u003c$email\u003e \"; } elseif($dn \u0026\u0026 $cn \u0026\u0026 $email) { $result_list .= \"$cnldap://$LDAP_SERVER[$SERVER_ID]/$dn/\"'\u003e$cn\u003e\"; $result_list .= \" $emailmailto:$email/\"'\u003e$email\u003e \"; } } } else { echo \"Result set empty for query: $ldap_query\"; } ?\u003e 在我们的例子中，$format_array是我们建立的新数组，里面包括有查询的结果，并且被格式化用作输出。首先循环$result_array中的每个元素，并且将它分配给一个两维的数组用作排序。同时我们使用strtolower()函数将所有的值变为小写。 接着，我们使用PHP自带的一个称为sort()的函数进行排序。首个参数是要排序的数组，另一个是要执行的排序类型，该类型是由PHP的文档定义的。由于我们根据字符串排序，我们使用“SORT_STRING”。 第三，我们循环已经格式化好的数组，并且将它分配给一个名字为$result_list的输出字符，该字符包含了HTML描述。要特别注意的是，在超链接中，我使用的是ldap的URL格式。这个格式的例子类似：HREF=\"ldap://ldap.domain.net/uid=dannie,dc=domain.net\"。 关闭连接 现在我们所有的数据已经包含在$result_list中了，我们可以安全地关闭LDAP的连接。 //关闭连接 ldap_close($connect_id); 定制搜索界面的HTML表格 最后，我们要定制搜索用的HTML表格，它是用来给用户执行搜索的。 //定制表格 echo \" \"; echo \"Search in: \"; echo \" \"; echo \"Search for:\"; echo \" \"; echo \"(You can use * for wildcard searches, ex. * Stanley will find all Stanleys) \"; echo \" \"; ?\u003e 代码中的$PHP_SELF是一个全局的常量，代表的是脚本页面自身，其中的循环是用来通过我们的$LDAP_NAME变量创建SELECT选项。 显示结果 现在所有的工作已经完成了，我们将打印出结果集。如果没有符合的结果，将会显示\"No Results\"的信息。 ",
+  "wordCount" : "491",
+  "inLanguage": "en",
+  "datePublished": "2006-04-30T10:40:13Z",
+  "dateModified": "2006-04-30T10:40:13Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/30/e4bdbfe794a8phpe8bf9ee68ea5ldape69c8de58aa1e599a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      使用PHP连接LDAP服务器
+    </h1>
+    <div class="post-meta"><span title='2006-04-30 10:40:13 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>本文将演示如何使用PHP连接一个LDAP服务器。具体的例子是连接到一个公共的LDAP服务器并且进行搜索。这个例子模拟的是Netscape Communicator 4.*，通过自己的地址本连接到LDAP资源。
+LDAP介绍</p>
+<p>　　可能不少人已经听说过LDAP，但是却不了解它具体是什么东东和如何工作。在这里我将不会很详细地介绍LDAP，只是对该协议做一个简介。</p>
+<p>　　LDAP是一个用来发布目录信息到许多不同资源的协议。通常它都作为一个集中的地址本使用，不过根据组织者的需要，它可以做得更加强大。</p>
+<p>　　LDAP最基本的形式是一个连接数据库的标准方式。该数据库为读查询作了优化。因此它可以很快地得到查询结果，不过在其它方面，例如更新，就慢得多。要特别注意的是，LDAP通常作为一个hierarchal数据库使用，而不是一个关系数据库。因此，它的结构用树来表示比用表格好。正因为这样，就不能用SQL语句了。</p>
+<p>　　简单说来，LDAP是一个得到关于人或者资源的集中、静态数据的快速方式。</p>
+<p>要求</p>
+<p>　　 PHPV.4（以前的版本也可以，不过没有经过测试），编译支持LADP，即使用编译时带&ndash;with-ldap公共的LDAP目录。在例子中提供了两个。</p>
+<p>例子概览</p>
+<p>1.设置公共LDAP服务器的信息
+2.创建一个LDAP查询
+3.连接到LDAP服务器
+4.如果连接成功，处理查询
+5.格式化输出
+6.关闭连接
+7.设计搜索界面的HTML表格
+8.显示结果</p>
+<p>设置公共LDAP服务器的信息</p>
+<p>　　我们要做的第一件事情是定义所有欲搜索的LDAP服务器的信息</p>
+<p>&ldquo;LDAP_NAME&rdquo; = 新的LDAP项目的名字
+&ldquo;LDAP_SERVER&rdquo; = 新的LDAP项目的IP地址或者主机名
+&ldquo;LDAP_ROOT_DN&rdquo; = 新的LDAP项目的根的辨识名</p>
+<p>建立LDAP查询</p>
+<p>　　前面已经提到，LDAP查询与SQL查询是不一样的。因此，语句要受到一定的限制，以下是一个基本的例子。</p>
+<p>//Create Query $ldap_query = &ldquo;cn=$common&rdquo;;</p>
+<p>　　在我们的例子中，“cn”是我们要进行搜索的属性，而$common是由搜索的form中得到的字符串变量。LDAP的查询语句语句可使用通配符‘*’。例如‘$stanley’将可以找出‘dan stanley’。</p>
+<p>连接到LDAP服务器</p>
+<p>　　以下的函数连接到一个LDAP资源，并且将连接的识别号赋给一个变量，就好象连接到一个通常的数据库一样，例如MySQL。</p>
+<p>　　在我们的例子中，“$connect_id”是连接的识别号，$LDAP_SERVER是可能的ldap服务器数组，而$SERVER_ID是由搜索表格得到的LDAP服务器变量。</p>
+<p>如果连接成功，处理查询</p>
+<p>　　 如果连接成功的话，我们将得到一个有效的LDAP连接识别号，这样我们就可以处理查询。</p>
+<p>　　一旦我们与LDAP服务器建立好连接，我们就必须进行认证。PHP在连接大多数的数据库时，都是通过发送用户名和密码来进行的。不过，在LDAP中，认证是未知的，直到进行一个bind操作。在我们的例子中，“$bind_id”是绑定连接的标识符。我们是通过匿名绑定到公共的LDAP服务器的。因此，在执行ldap_bind()时，只使用连接识别号就可以了，无需其它的参数。</p>
+<p>　　在经过认证后（这里是匿名的），我们就可以使用ldap_search()函数来执行查询，产生的$search_id是我们搜索的连接识别符。</p>
+<p>　　然后，我们使用ldap_get_entries()函数将结果集赋给$result_array变量。这样我们能够以逻辑的方式排列信息，以便显示。
+格式化输出</p>
+<p>　　在执行完LDAP搜索后，返回的数据是以查找的顺序排列的。不过我们在排序时没有SQL这样方便，使用ORDER BY语句就可以了。通常多数公共的LDAP目录都没有标准的大小规范。排序是基于字符的ASCII值，我们必须将字符全部格式化为小写，以便按字母的顺序输出。</p>
+<p>　　要特别注意的是，返回的LDAP结果集是一个多维的数组。因此，我们脚本中的$result_array的结构如下：</p>
+<pre><code>$result_array[0][&quot;cn&quot;] [0] = &quot;Dannie Stanley&quot;
+[&quot;dn&quot;] [0] = &quot;uid=dannie,dc=spinweb.net&quot;
+[&quot;givenname&quot;][0] = &quot;Dannie&quot;
+[&quot;sn&quot;] [0] = &quot;Stanley&quot;
+[&quot;mail&quot;] [0] = &quot;danSPAM@spinweb.net&quot;
+$result_array[1][&quot;cn&quot;] [0] = &quot;Michael Reynolds&quot;
+[&quot;dn&quot;] [0] = &quot;uid=michael,dc=spinweb.net&quot;
+[&quot;givenname&quot;][0] = &quot;Michael&quot;
+[&quot;sn&quot;] [0] = &quot;Reynolds&quot;
+[&quot;mail&quot;] [0] = &quot;michaelSPAM@spinweb.net&quot;
+
+　　数据以这种格式存放的原因是每个属性都可能有超过一个值（象树的结构）。例如，如果我的名字是‘Dannie’，我还可以在LDAP中增加一些属性，例如：
+
+$result_array[0][&quot;cn&quot;] [0] = &quot;Dannie Stanley&quot;
+[&quot;dn&quot;] [0] = &quot;uid=dannie,dc=spinweb.net&quot;
+[&quot;givenname&quot;][0] = &quot;Dannie&quot;
+[&quot;givenname&quot;][0] = &quot;Dan&quot;
+[&quot;sn&quot;] [0] = &quot;Stanley&quot;
+[&quot;mail&quot;] [0] = &quot;danSPAM@spinweb.net&quot;
+
+　　在我们的搜索中，我们只关心每个属性的首个值，因此除了dn只有一个值外，其它我们只使用每个属性中序号为0的值。以下就是属性和它们含义的简单列表：
+
+&quot;cn&quot; = Common Name
+&quot;dn&quot; = Distinguished Name
+&quot;givenname&quot; = First Name
+&quot;sn&quot; = Last Name
+&quot;mail&quot; = Email地址
+
+//如果搜索成功，将结果排序
+if($result_array)
+{
+for($i=0; $i {
+$format_array[$i][0] = strtolower($result_array[$i][&quot;cn&quot;][0]);
+$format_array[$i][1] = $result_array[$i][&quot;dn&quot;];
+$format_array[$i][2] = strtolower($result_array[$i][&quot;givenname&quot;][0]);
+$format_array[$i][3] = strtolower($result_array[$i][&quot;sn&quot;][0]);
+$format_array[$i][4] = strtolower($result_array[$i][&quot;mail&quot;][0]);
+}
+
+//排序数组
+sort($format_array, &quot;SORT_STRING&quot;);
+
+for($i=0; $i {
+$cn = $format_array[$i][0];
+$dn = $format_array[$i][1];
+$fname = ucwords($format_array[$i][2]);
+$lname = ucwords($format_array[$i][3]);
+$email = $format_array[$i][4];
+
+if($dn &amp;&amp; $fname &amp;&amp; $lname &amp;&amp; $email)
+{
+$result_list .= &quot;$fname $lname&quot;;
+$result_list .= &quot; &lt;$email&gt;
+&quot;;
+}
+elseif($dn &amp;&amp; $cn &amp;&amp; $email)
+{
+$result_list .= &quot;$cnldap://$LDAP_SERVER[$SERVER_ID]/$dn/&quot;'&gt;$cn&gt;&quot;;
+$result_list .= &quot; $emailmailto:$email/&quot;'&gt;$email&gt;
+&quot;;
+}
+}
+}
+else
+{
+echo &quot;Result set empty for query: $ldap_query&quot;;
+}
+
+?&gt;
+　　 在我们的例子中，$format_array是我们建立的新数组，里面包括有查询的结果，并且被格式化用作输出。首先循环$result_array中的每个元素，并且将它分配给一个两维的数组用作排序。同时我们使用strtolower()函数将所有的值变为小写。
+
+　　接着，我们使用PHP自带的一个称为sort()的函数进行排序。首个参数是要排序的数组，另一个是要执行的排序类型，该类型是由PHP的文档定义的。由于我们根据字符串排序，我们使用“SORT_STRING”。
+
+　　第三，我们循环已经格式化好的数组，并且将它分配给一个名字为$result_list的输出字符，该字符包含了HTML描述。要特别注意的是，在超链接中，我使用的是ldap的URL格式。这个格式的例子类似：HREF=&quot;ldap://ldap.domain.net/uid=dannie,dc=domain.net&quot;。
+
+关闭连接
+
+　　现在我们所有的数据已经包含在$result_list中了，我们可以安全地关闭LDAP的连接。
+
+//关闭连接
+ldap_close($connect_id);
+
+定制搜索界面的HTML表格
+
+　　最后，我们要定制搜索用的HTML表格，它是用来给用户执行搜索的。
+
+//定制表格
+echo &quot;
+
+
+&quot;;
+echo &quot;Search in:
+
+
+
+&quot;; echo &quot;
+
+&quot;;
+echo &quot;Search for:&quot;;
+echo &quot;
+&quot;;
+echo &quot;(You can use * for wildcard searches, ex. * Stanley will find all Stanleys)
+&quot;;
+echo &quot;
+
+
+
+&quot;;
+
+?&gt;
+
+　　代码中的$PHP_SELF是一个全局的常量，代表的是脚本页面自身，其中的循环是用来通过我们的$LDAP_NAME变量创建SELECT选项。
+
+显示结果
+
+　　现在所有的工作已经完成了，我们将打印出结果集。如果没有符合的结果，将会显示&quot;No Results&quot;的信息。
+
+&lt;php
+
+//显示结果
+if($result_list)
+{
+echo &quot;
+
+
+$result_list
+
+
+&quot;;
+}
+else
+echo &quot;No Results&quot;;
+
+?&gt;
+
+源代码
+
+　　以下是完整的源代码，只要将它剪切并粘贴到一个HTML文档，就可以尝试一下了。
+
+$LDAP_NAME[0] = &quot;Netscape Net Center&quot;;
+$LDAP_SERVER[0] = &quot;memberdir.netscape.com&quot;;
+$LDAP_ROOT_DN[0] = &quot;ou=member_directory,o=netcenter.com&quot;;
+
+$LDAP_NAME[1] = &quot;Bigfoot&quot;;
+$LDAP_SERVER[1] = &quot;ldap.bigfoot.com&quot;;
+$LDAP_ROOT_DN[1] = &quot;&quot;;
+
+//如果没有选择服务器的话将它设置为0
+if(!$SERVER_ID)
+$SERVER_ID=0;
+
+//建立查询
+$ldap_query = &quot;cn=$common&quot;;
+
+//连接到LDAP
+$connect_id = ldap_connect($LDAP_SERVER[$SERVER_ID]);
+
+if($connect_id)
+{
+//认证
+$bind_id = ldap_bind($connect_id);
+
+//执行搜索
+$search_id = ldap_search($connect_id, $LDAP_ROOT_DN[$SERVER_ID], $ldap_query);
+
+//将结果集合分配给一个数组
+$result_array = ldap_get_entries($connect_id, $search_id);
+}
+else
+{
+//显示连接错误
+echo &quot;Could not connect to LDAP server: $LDAP_SERVER[$SERVER_ID]&quot;;
+}
+
+//如果搜索成功，将结果排序
+if($result_array)
+{
+for($i=0; $i {
+$format_array[$i][0] = strtolower($result_array[$i][&quot;cn&quot;][0]);
+$format_array[$i][1] = $result_array[$i][&quot;dn&quot;];
+$format_array[$i][2] = strtolower($result_array[$i][&quot;givenname&quot;][0]);
+$format_array[$i][3] = strtolower($result_array[$i][&quot;sn&quot;][0]);
+$format_array[$i][4] = strtolower($result_array[$i][&quot;mail&quot;][0]);
+}
+
+//排序数组
+sort($format_array, &quot;SORT_STRING&quot;);
+
+for($i=0; $i {
+$cn = $format_array[$i][0];
+$dn = $format_array[$i][1];
+$fname = ucwords($format_array[$i][2]);
+$lname = ucwords($format_array[$i][3]);
+$email = $format_array[$i][4];
+
+if($dn &amp;&amp; $fname &amp;&amp; $lname &amp;&amp; $email)
+{
+$result_list .= &quot;$fname&quot;&gt;ldap://$LDAP_SERVER[$SERVER_ID]/$dn/&quot;'&gt;$fname $lname&quot;;
+$result_list .= &quot; &lt;$email&gt;
+&quot;;
+}
+elseif($dn &amp;&amp; $cn &amp;&amp; $email)
+{
+$result_list .= &quot;$cnldap://$LDAP_SERVER[$SERVER_ID]/$dn/&quot;'&gt;$cn&gt;&quot;;
+$result_list .= &quot; &lt;$emailmailto:$email/&quot;'&gt;$email&gt;
+&quot;;
+}
+}
+}
+else
+{
+echo &quot;Result set empty for query: $ldap_query&quot;;
+}
+
+//关闭连接
+ldap_close($connect_id);
+
+//定制表格
+echo &quot;
+
+
+&quot;;
+echo &quot;Search in:
+
+
+&quot;; echo &quot;
+
+&quot;;
+echo &quot;Search for:&quot;;
+echo &quot;
+&quot;;
+echo &quot;(You can use * for wildcard searches, ex. * Stanley will find all Stanleys)
+&quot;;
+echo &quot;
+
+
+
+&quot;;
+
+//显示结果
+if($result_list)
+{
+echo &quot;
+
+
+$result_list
+
+
+&quot;;
+}
+else
+echo &quot;No Results&quot;;
+}
+
+?&gt;
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

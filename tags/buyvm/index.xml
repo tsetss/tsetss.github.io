@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+buyvm
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/buyvm/</link>
+    <description>Recent content in 
+buyvm
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Jul 2012 02:59:29 +0000</lastBuildDate><atom:link href="http://example.org/tags/buyvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>buyvm 抽风小记</title>
+      <link>http://example.org/2012/07/27/buyvm-e68abde9a38ee5b08fe8aeb0/</link>
+      <pubDate>Fri, 27 Jul 2012 02:59:29 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/27/buyvm-e68abde9a38ee5b08fe8aeb0/</guid>
+      <description>早上打开电脑，访问网站，慢的比蜗牛还慢，ping 测试 丢包 60% 国外线路 ping 正常，应该是到国内的线路抽，幸好用了 cdn ，要不真的比较惨了。</description>
+    </item>
+    
+  </channel>
+</rss>

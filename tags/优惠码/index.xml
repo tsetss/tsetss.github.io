@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+优惠码
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E4%BC%98%E6%83%A0%E7%A0%81/</link>
+    <description>Recent content in 
+优惠码
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Aug 2012 06:34:17 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E4%BC%98%E6%83%A0%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>burst 8月份省10% 优惠码</title>
+      <link>http://example.org/2012/08/01/2012-08-burst-net-free-10/</link>
+      <pubDate>Wed, 01 Aug 2012 06:34:17 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/01/2012-08-burst-net-free-10/</guid>
+      <description>Burst又称84，是一家比较有名国外VPS主机商。进入8月，再次收到Burst发布的促销邮件，本次优惠码终身9折。
+这次Burst优惠码适用于旗下的所有机房的所有类型的vps,包括xen，优惠后一款512MB的OpenVZ每月仅需5.35美元(原价$5.95/月)
+[drpcoupon name=&amp;ldquo;BurstNETfree10&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;]</description>
+    </item>
+    
+  </channel>
+</rss>

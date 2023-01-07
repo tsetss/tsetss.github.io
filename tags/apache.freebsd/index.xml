@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+apache.freebsd
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/apache.freebsd/</link>
+    <description>Recent content in 
+apache.freebsd
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2009 08:02:04 +0000</lastBuildDate><atom:link href="http://example.org/tags/apache.freebsd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>更新與安裝 - Install Apache 2.2.11 or Upgrade on FreeBSD</title>
+      <link>http://example.org/2009/04/17/install-apache-or-upgrade-on-freebsd/</link>
+      <pubDate>Fri, 17 Apr 2009 08:02:04 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/install-apache-or-upgrade-on-freebsd/</guid>
+      <description>Apache 2.2.11 主要是更新了個錯誤 步驟如下
+1.更新 FreeBSD 的 src 與 ports 到目前最新版
+cd /usr/src make update 就個人經驗而言,最好是將相關的 apache-, php5- , pear-* , pecl-* , Smarty , eaccelerator , webmail 等都備份後移除 然後再一步一步安裝更新上去 這樣雖然很麻煩,卻最能避免產生問題後無法處理的情況 PS : 都安裝好了,沒有錯誤訊息, Apache 卻開不起來
+2.先備份設定後,然後將相關套件及設定全數移除
+pkg_info |sort &amp;gt; /root/pkg.info.txt tar -zcvf /root/etc.tar.gz /etc tar -zcvf /root/usr.local.etc.tar.gz /usr/local/etc tar -zcvf /root/etc.namedb.tar.gz /var/named/etc/namedb tar -zcvf /root/ports_options.tar.gz /var/db/ports pkg_delete -f /var/db/pkg/apache* pkg_delete -f /var/db/pkg/pecl* pkg_delete -f /var/db/pkg/eaccelerator* pkg_delete -f /var/db/pkg/smarty* pkg_delete -f /var/db/pkg/joomla* pkg_delete -f /var/db/pkg/eGroupware* pkg_delete -f /var/db/pkg/pear* pkg_delete -f /var/db/pkg/php5* 3.</description>
+    </item>
+    
+  </channel>
+</rss>

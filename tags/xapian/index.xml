@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+xapian
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/xapian/</link>
+    <description>Recent content in 
+xapian
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 Dec 2006 05:56:16 +0000</lastBuildDate><atom:link href="http://example.org/tags/xapian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php &#43; xapian extension的安装</title>
+      <link>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Mon, 11 Dec 2006 05:56:16 +0000</pubDate>
+      
+      <guid>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</guid>
+      <description>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C++编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd + apache 2.2 + php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;lt;/a&amp;gt; wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;lt;/a&amp;gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian.</description>
+    </item>
+    
+  </channel>
+</rss>

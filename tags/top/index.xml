@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+top
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/top/</link>
+    <description>Recent content in 
+top
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Oct 2006 03:46:13 +0000</lastBuildDate><atom:link href="http://example.org/tags/top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FreeBSD 下的TOP的使用方法</title>
+      <link>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</link>
+      <pubDate>Wed, 18 Oct 2006 03:46:13 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/</guid>
+      <description>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (+ selects all users) 顺序显示下面三个常规的信息</description>
+    </item>
+    
+  </channel>
+</rss>

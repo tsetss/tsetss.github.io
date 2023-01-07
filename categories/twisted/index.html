@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+twisted
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/twisted/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/twisted/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+twisted
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/twisted/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+twisted
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+twisted
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>當Deferred遇上Thread
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>當Deferred遇上Thread Deferred不會自動實現將阻塞過程轉為非阻塞過程，雖然它已經有那樣的機制但還是要你去多走一步。要將阻塞過程轉為真正的非阻塞過程，那　只有借用線程。但至於線程調用你不用太擔心，twisted已為你準備好一個方便的用法。就是將Deferred綁在Thread上，這樣就有了deferToThread，味道不比牛奶加巧克力差。 deferToThread在twisted文檔的說明，洋墨水喝得比較少，就不照字面翻譯了。大概意思是將函數f放在線程裡並作為Deferred返回，args和kwargs是函數f的參數。也就是使用deferToThread返回的是一個帶線程的Deferred，並自動使用callback調用指定的函數f。相當於在線程中運行下面的代碼 d=defer.Deferred().addCallback(f) d.callback(result)
+def deferToThread(f, *args, **kwargs): (source) Run a function in a thread and return the result as a Deferred. Parameters f The function to call.
+*args positional arguments to pass to f.
+**kwargs keyword arguments to pass to f.
+Returns A Deferred which fires a callback with the result of f, or an errback with a twisted.python.failure.Failure if f throws an exception.
+#!/usr/bin/env python #coding=utf-8 from twisted....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 05:32:46 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 當Deferred遇上Thread" href="http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Deferred筆記一
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Deferred的簡單套路
+從twisted的文檔入手，將Deferred獨立出來簡單的說明作用與使用方法，這樣更能快速對Deferred有深刻的了解。
+一、學習資料 1、主要參考資料 官方文檔 http://twistedmatrix.com/projects/core/documentation/howto/deferredindepth.html 關聯譯文 http://wiki.woodpecker.org.cn/moin/twistedTUT00?action=AttachFile&amp;do;=get&amp;target;=deferred_tutorial.html（此鏈接將會下載離線文檔）
+2、關聯資源 http://wiki.woodpecker.org.cn/moin/TwistedTUT
+二、Deferred的作用 Deferred的主要作用可以用一句話比較形象說明，“不要打電話給我,我會打給你的(Don’t Call Us, We’ll Call You)”。相當於做好計劃後，執行交給Deferred，完成後再找我，我可要到一邊Happy去了。 它會根據callback運行結果（正常、發生例外）從callback鏈表中選擇執行已註冊的相應的callback函數，從而實現事件方式來驅動程序。 callback的運行不影響主程序的運行，Deferred.callback執行後馬上返回。(這點有待在後面證明)
+三、Deferred實例 from twisted.internet import defer d=defer.Deferred() 實例化後就可以對Deferred進行操作。
+四、callback鏈表 鏈表是用來放置callback函數，鏈表中的函數可以響應三類事件，正常結束、例外結束、任意（包括前面兩者），它們分別用addCallback、addErrback、addBoth註冊到鏈表中。也就是說函數正常結束返回調用addCallback註冊的函數，發生例外則調用addErrback註冊的函數，使用addBoth註冊的函數無論返回什　結果都會被調用。
+五、callback函數註冊 除了上面提過的addCallback、addErrback、addBoth三個註冊函數外，還有另外一個addCallbacks可以同時註冊處理正常結束和例外結束的函數。
+1 2 3 4 5 6 def deferredExample(): d = defer.Deferred() d.addCallback(failAtHandlingResult) d.addCallbacks(yesDecision, noDecisionPassthru) d.addCallback(handleResult) # - A - d.addErrback(handleFailure)
+上面代碼中第4行的addCallbacks效果如同 d.addCallback(yesDecision) d.addErrback(noDecisionPassthru)
+另外，我們也可以將註冊過程寫成下面形式。 d=refer.Deferred().addCallback(failAtHandlingResult).addCallbacks(yesDecision, noDecisionPassthru).addCallback(handleResult).addErrback(handleFailure)
+六、callback鏈執行順序 Deferred的鏈表是按順序從第一個註冊函數開始直到最後一個函數。如果發生例外時，有多個例外處理函數，則會調用發生例外函數下面第一個例外處理函數。後面的例外處理函數將不會被調用，除非第一個例外處理函數將這個例外向下傳遞。
+七、其它一些特性 Deferred實例中還有另外一些函數，如pause,unpause,setTimeout,timeoutCall,chainDeferred，這些將留作下一步的測試。 另外還沒涉及到的是Deferred上一級的defer庫中的函數及其它類的使用，從一些代碼看來這些函數將會進一步有利於Deferred的應用，但這也有待後面的進上步學習。
+八、總結 經過Deferred are beautiful一節學習，了解Deferred的使用方法及其事件響應機制。
+創建於2009年8月31日
+原文 http://sites.google.com/site/mypynotes/twisted-1/deferred 可以被gw了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 05:19:29 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Deferred筆記一" href="http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Deferred Object In Twisted
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-03 04:57:12 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Deferred Object In Twisted" href="http://example.org/2009/12/03/deferred-object-in-twisted/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

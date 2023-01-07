@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>用Mysqlslap压力测试mysql（转） | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="转自 http://yueliangdao0608.blog.51cto.com/397025/81602
+MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及&ndash;help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：
+--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23
+[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="用Mysqlslap压力测试mysql（转）" />
+<meta property="og:description" content="转自 http://yueliangdao0608.blog.51cto.com/397025/81602
+MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及&ndash;help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：
+--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23
+[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-25T07:59:31+00:00" />
+<meta property="article:modified_time" content="2009-03-25T07:59:31+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="用Mysqlslap压力测试mysql（转）"/>
+<meta name="twitter:description" content="转自 http://yueliangdao0608.blog.51cto.com/397025/81602
+MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及&ndash;help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：
+--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23
+[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "用Mysqlslap压力测试mysql（转）",
+      "item": "http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "用Mysqlslap压力测试mysql（转）",
+  "name": "用Mysqlslap压力测试mysql（转）",
+  "description": "转自 http://yueliangdao0608.blog.51cto.com/397025/81602\nMySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及\u0026ndash;help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：\n--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23\n[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0.",
+  "keywords": [
+    
+  ],
+  "articleBody": "转自 http://yueliangdao0608.blog.51cto.com/397025/81602\nMySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。 现在看一下这个压力测试工具mysqlslap. 关于他的选项手册上以及–help介绍的很详细。 我解释一下一些常用的选项。 这里要注意的几个选项：\n--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。 --engines代表要测试的引擎，可以有多个，用分隔符隔开。 --iterations代表要运行这些测试多少次。 --auto-generate-sql 代表用系统自己生成的SQL脚本来测试。 --auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed） --number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。 --debug-info 代表要额外输出CPU以及内存的相关信息。 --number-int-cols 代表示例表中的INTEGER类型的属性有几个。 --number-char-cols 意思同上。 --create-schema 代表自己定义的模式（在MySQL中也就是库）。 --query 代表自己的SQL脚本。 --only-print 如果只想打印看看SQL语句是什么，可以用这个选项。 现在来看一些测试的例子。 1、用自带的SQL脚本来测试。 MySQL版本为5.1.23\n[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock Benchmark Running for engine myisam Average number of seconds to run all queries: 0.063 seconds Minimum number of seconds to run all queries: 0.063 seconds Maximum number of seconds to run all queries: 0.063 seconds Number of clients running queries: 50 Average number of queries per client: 4\nBenchmark Running for engine myisam Average number of seconds to run all queries: 0.070 seconds Minimum number of seconds to run all queries: 0.070 seconds Maximum number of seconds to run all queries: 0.070 seconds Number of clients running queries: 100 Average number of queries per client: 2\nBenchmark Running for engine myisam Average number of seconds to run all queries: 0.092 seconds Minimum number of seconds to run all queries: 0.092 seconds Maximum number of seconds to run all queries: 0.092 seconds Number of clients running queries: 200 Average number of queries per client: 1\nBenchmark Running for engine innodb Average number of seconds to run all queries: 0.115 seconds Minimum number of seconds to run all queries: 0.115 seconds Maximum number of seconds to run all queries: 0.115 seconds Number of clients running queries: 50 Average number of queries per client: 4\nBenchmark Running for engine innodb Average number of seconds to run all queries: 0.134 seconds Minimum number of seconds to run all queries: 0.134 seconds Maximum number of seconds to run all queries: 0.134 seconds Number of clients running queries: 100 Average number of queries per client: 2\nBenchmark Running for engine innodb Average number of seconds to run all queries: 0.192 seconds Minimum number of seconds to run all queries: 0.192 seconds Maximum number of seconds to run all queries: 0.192 seconds Number of clients running queries: 200 Average number of queries per client: 1\nUser time 0.06, System time 0.15 Maximum resident set size 0, Integral resident set size 0 Non-physical pagefaults 5803, Physical pagefaults 0, Swaps 0 Blocks in 0 out 0, Messages in 0 out 0, Signals 0 Voluntary context switches 8173, Involuntary context switches 528\n我来解释一下结果的含义。 拿每个引擎最后一个Benchmark示例。 对于INNODB引擎，200个客户端同时运行这些SQL语句平均要花0.192秒。相应的MYISAM为0.092秒。\n2、用我们自己定义的SQL 脚本来测试。 这些数据在另外一个MySQL实例上。版本为5.0.45 先看一下这两个表的相关数据。\n1）、总记录数。 mysql\u003e select table_rows as rows from information_schema.tables where table_schema='t_girl' and table_name='article'; +--------+ | rows | +--------+ | 296693 | +--------+ 1 row in set (0.01 sec) mysql\u003e select table_rows as rows from information_schema.tables where table_schema='t_girl' and table_name='category'; +------+ | rows | +------+ | 113 | +------+ 1 row in set (0.00 sec) 2）、总列数。 mysql\u003e select count(*) as column_total from information_schema.columns where table_schema = 't_girl' and table_name = 'article'; +--------------+ | column_total | +--------------+ | 32 | +--------------+ 1 row in set (0.01 sec) mysql\u003e select count(*) as column_total from information_schema.columns where table_schema = 't_girl' and table_name = 'category'; +--------------+ | column_total | +--------------+ | 9 | +--------------+ 1 row in set (0.01 sec) 3）、调用的存储过程\nDELIMITER $$ DROP PROCEDURE IF EXISTS `t_girl`.`sp_get_article`$$ CREATE DEFINER=`root`@`%` PROCEDURE `sp_get_article`(IN f_category_id int, IN f_page_size int, IN f_page_no int ) BEGIN set @stmt = 'select a.* from article as a inner join '; set @stmt = concat(@stmt,'(select a.aid from article as a '); if f_category_id != 0 then set @stmt = concat(@stmt,' inner join (select cid from category where cid = ',f_category_id,' or parent_id = ',f_category_id,') as b on a.category_id = b.cid'); end if; if f_page_size \u003e0 \u0026\u0026 f_page_no \u003e 0 then set @stmt = concat(@stmt,' limit ',(f_page_no-1)*f_page_size,',',f_page_size); end if; set @stmt = concat(@stmt,') as b on (a.aid = b.aid)'); prepare s1 from @stmt; execute s1; deallocate prepare s1; set @stmt = NULL; END$$ DELIMITER ; 4）、我们用mysqlslap来测试 以下得这个例子代表用mysqlslap来测试并发数为25,50,100的调用存储过程，并且总共调用5000次。\n[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=25,50,100 --iterations=1 --query='call t_girl.sp_get_article(2,10,1);' --number-of-queries=5000 --debug-info -uroot -p -S/tmp/mysql50.sock Enter password: Benchmark Average number of seconds to run all queries: 3.507 seconds Minimum number of seconds to run all queries: 3.507 seconds Maximum number of seconds to run all queries: 3.507 seconds Number of clients running queries: 25 Average number of queries per client: 200 平均每个并发运行200个查询用了3.507秒。 Benchmark Average number of seconds to run all queries: 3.742 seconds Minimum number of seconds to run all queries: 3.742 seconds Maximum number of seconds to run all queries: 3.742 seconds Number of clients running queries: 50 Average number of queries per client: 100\nBenchmark Average number of seconds to run all queries: 3.697 seconds Minimum number of seconds to run all queries: 3.697 seconds Maximum number of seconds to run all queries: 3.697 seconds Number of clients running queries: 100 Average number of queries per client: 50\nUser time 0.87, System time 0.33 Maximum resident set size 0, Integral resident set size 0 Non-physical pagefaults 1877, Physical pagefaults 0, Swaps 0 Blocks in 0 out 0, Messages in 0 out 0, Signals 0 Voluntary context switches 27218, Involuntary context switches 3100 看一下SHOW PROCESSLIST 结果\nmysql\u003e show processlist; +------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+ | Id | User | Host | db | Command | Time | State | Info | +------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+ ………… | 3177 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3178 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3179 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3181 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3180 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3182 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3183 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3187 | root | % | t_girl | Query | 0 | removing tmp table | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3186 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3194 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3203 | root | % | t_girl | Query | 0 | NULL | deallocate prepare s1 | ………… | 3221 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3222 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3223 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3224 | root | % | t_girl | Query | 0 | removing tmp table | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3225 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | | 3226 | root | % | t_girl | Query | 0 | NULL | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | +------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+ 55 rows in set (0.00 sec) 上面的测试语句其实也可以这样写\n[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=25,50,100 --iterations=1 --create-schema='t_girl' --query='call sp_get_article(2,10,1);' --number-of-queries=5000 --debug-info -uroot -p -S/tmp/mysql50.sock 小总结一下。mysqlslap对于模拟多个用户同时对MySQL发起“进攻”提供了方便。同时详细的提供了“高负荷攻击MySQL”的详细数据报告。而且如果你想对于多个引擎的性能。这个工具再好不过了。\n",
+  "wordCount" : "1445",
+  "inLanguage": "en",
+  "datePublished": "2009-03-25T07:59:31Z",
+  "dateModified": "2009-03-25T07:59:31Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/25/e794a8mysqlslape58e8be58a9be6b58be8af95mysqlefbc88e8bdacefbc89/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      用Mysqlslap压力测试mysql（转）
+    </h1>
+    <div class="post-meta"><span title='2009-03-25 07:59:31 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>转自 <a href="http://yueliangdao0608.blog.51cto.com/397025/81602">http://yueliangdao0608.blog.51cto.com/397025/81602</a></p>
+<p>MySQL5.1地的确提供了好多有力的工具来帮助我们DBA进行数据库管理。
+现在看一下这个压力测试工具mysqlslap.
+关于他的选项手册上以及&ndash;help介绍的很详细。
+我解释一下一些常用的选项。
+这里要注意的几个选项：</p>
+<pre><code>--concurrency代表并发数量，多个可以用逗号隔开，当然你也可以用自己的分隔符隔开，这个时候要用到--delimiter开关。
+--engines代表要测试的引擎，可以有多个，用分隔符隔开。
+--iterations代表要运行这些测试多少次。
+--auto-generate-sql 代表用系统自己生成的SQL脚本来测试。
+--auto-generate-sql-load-type 代表要测试的是读还是写还是两者混合的（read,write,update,mixed）
+--number-of-queries 代表总共要运行多少次查询。每个客户运行的查询数量可以用查询总数/并发数来计算。比如倒数第二个结果2=200/100。
+--debug-info 代表要额外输出CPU以及内存的相关信息。
+--number-int-cols 代表示例表中的INTEGER类型的属性有几个。
+--number-char-cols 意思同上。
+--create-schema 代表自己定义的模式（在MySQL中也就是库）。
+--query 代表自己的SQL脚本。
+--only-print 如果只想打印看看SQL语句是什么，可以用这个选项。
+</code></pre>
+<p>现在来看一些测试的例子。
+1、用自带的SQL脚本来测试。
+MySQL版本为5.1.23</p>
+<pre><code>[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=50,100,200 --iterations=1 --number-int-cols=4 --number-char-cols=35 --auto-generate-sql --auto-generate-sql-add-autoincrement --auto-generate-sql-load-type=mixed --engine=myisam,innodb --number-of-queries=200 --debug-info -uroot -p1 -S/tmp/mysql_3310.sock
+</code></pre>
+<p>Benchmark
+Running for engine myisam
+Average number of seconds to run all queries: 0.063 seconds
+Minimum number of seconds to run all queries: 0.063 seconds
+Maximum number of seconds to run all queries: 0.063 seconds
+Number of clients running queries: 50
+Average number of queries per client: 4</p>
+<p>Benchmark
+Running for engine myisam
+Average number of seconds to run all queries: 0.070 seconds
+Minimum number of seconds to run all queries: 0.070 seconds
+Maximum number of seconds to run all queries: 0.070 seconds
+Number of clients running queries: 100
+Average number of queries per client: 2</p>
+<p>Benchmark
+Running for engine myisam
+Average number of seconds to run all queries: 0.092 seconds
+Minimum number of seconds to run all queries: 0.092 seconds
+Maximum number of seconds to run all queries: 0.092 seconds
+Number of clients running queries: 200
+Average number of queries per client: 1</p>
+<p>Benchmark
+Running for engine innodb
+Average number of seconds to run all queries: 0.115 seconds
+Minimum number of seconds to run all queries: 0.115 seconds
+Maximum number of seconds to run all queries: 0.115 seconds
+Number of clients running queries: 50
+Average number of queries per client: 4</p>
+<p>Benchmark
+Running for engine innodb
+Average number of seconds to run all queries: 0.134 seconds
+Minimum number of seconds to run all queries: 0.134 seconds
+Maximum number of seconds to run all queries: 0.134 seconds
+Number of clients running queries: 100
+Average number of queries per client: 2</p>
+<p>Benchmark
+Running for engine innodb
+Average number of seconds to run all queries: 0.192 seconds
+Minimum number of seconds to run all queries: 0.192 seconds
+Maximum number of seconds to run all queries: 0.192 seconds
+Number of clients running queries: 200
+Average number of queries per client: 1</p>
+<p>User time 0.06, System time 0.15
+Maximum resident set size 0, Integral resident set size 0
+Non-physical pagefaults 5803, Physical pagefaults 0, Swaps 0
+Blocks in 0 out 0, Messages in 0 out 0, Signals 0
+Voluntary context switches 8173, Involuntary context switches 528</p>
+<p>我来解释一下结果的含义。
+拿每个引擎最后一个Benchmark示例。
+对于INNODB引擎，200个客户端同时运行这些SQL语句平均要花0.192秒。相应的MYISAM为0.092秒。</p>
+<p>2、用我们自己定义的SQL 脚本来测试。
+这些数据在另外一个MySQL实例上。版本为5.0.45
+先看一下这两个表的相关数据。</p>
+<pre><code>1）、总记录数。
+mysql&gt; select table_rows as rows from information_schema.tables where table_schema='t_girl' and table_name='article';
++--------+
+| rows |
++--------+
+| 296693 |
++--------+
+1 row in set (0.01 sec)
+
+mysql&gt; select table_rows as rows from information_schema.tables where table_schema='t_girl' and table_name='category';
++------+
+| rows |
++------+
+| 113 |
++------+
+1 row in set (0.00 sec)
+
+2）、总列数。
+mysql&gt; select count(*) as column_total from information_schema.columns where table_schema = 't_girl' and table_name = 'article';
++--------------+
+| column_total |
++--------------+
+| 32           |
++--------------+
+1 row in set (0.01 sec)
+
+mysql&gt; select count(*) as column_total from information_schema.columns where table_schema = 't_girl' and table_name = 'category';
++--------------+
+| column_total |
++--------------+
+| 9            | 
++--------------+
+1 row in set (0.01 sec)
+</code></pre>
+<p>3）、调用的存储过程</p>
+<pre><code>DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `t_girl`.`sp_get_article`$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_get_article`(IN f_category_id int,
+IN f_page_size int, IN f_page_no int
+)
+BEGIN
+  set @stmt = 'select a.* from article as a inner join ';
+  set @stmt = concat(@stmt,'(select a.aid from article as a ');
+   if f_category_id != 0 then
+    set @stmt = concat(@stmt,' inner join (select cid from category where cid = ',f_category_id,' or parent_id = ',f_category_id,') as b on a.category_id = b.cid');
+  end if;
+   if f_page_size &gt;0 &amp;&amp; f_page_no &gt; 0 then
+    set @stmt = concat(@stmt,' limit ',(f_page_no-1)*f_page_size,',',f_page_size);
+  end if; 
+
+  set @stmt = concat(@stmt,') as b on (a.aid = b.aid)');
+   prepare s1 from @stmt;
+   execute s1;
+   deallocate prepare s1;
+  set @stmt = NULL;
+END$$
+DELIMITER ;
+</code></pre>
+<p>4）、我们用mysqlslap来测试
+以下得这个例子代表用mysqlslap来测试并发数为25,50,100的调用存储过程，并且总共调用5000次。</p>
+<pre><code>[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=25,50,100 --iterations=1 --query='call t_girl.sp_get_article(2,10,1);' --number-of-queries=5000 --debug-info -uroot -p -S/tmp/mysql50.sock
+</code></pre>
+<p>Enter password:
+Benchmark
+Average number of seconds to run all queries: 3.507 seconds
+Minimum number of seconds to run all queries: 3.507 seconds
+Maximum number of seconds to run all queries: 3.507 seconds
+Number of clients running queries: 25
+Average number of queries per client: 200
+平均每个并发运行200个查询用了3.507秒。
+Benchmark
+Average number of seconds to run all queries: 3.742 seconds
+Minimum number of seconds to run all queries: 3.742 seconds
+Maximum number of seconds to run all queries: 3.742 seconds
+Number of clients running queries: 50
+Average number of queries per client: 100</p>
+<p>Benchmark
+Average number of seconds to run all queries: 3.697 seconds
+Minimum number of seconds to run all queries: 3.697 seconds
+Maximum number of seconds to run all queries: 3.697 seconds
+Number of clients running queries: 100
+Average number of queries per client: 50</p>
+<p>User time 0.87, System time 0.33
+Maximum resident set size 0, Integral resident set size 0
+Non-physical pagefaults 1877, Physical pagefaults 0, Swaps 0
+Blocks in 0 out 0, Messages in 0 out 0, Signals 0
+Voluntary context switches 27218, Involuntary context switches 3100
+看一下SHOW PROCESSLIST 结果</p>
+<pre><code>mysql&gt; show processlist;
++------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+
+| Id   | User | Host               | db                 | Command | Time | State              | Info                                                                                                 |
++------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+
+…………
+| 3177 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3178 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3179 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3181 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3180 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3182 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3183 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3187 | root | %                  | t_girl             | Query   |     0 | removing tmp table | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3186 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3194 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3203 | root | %                  | t_girl             | Query   |     0 | NULL               | deallocate prepare s1                                                                                | 
+…………
+| 3221 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3222 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3223 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3224 | root | %                  | t_girl             | Query   |     0 | removing tmp table | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3225 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
+| 3226 | root | %                  | t_girl             | Query   |     0 | NULL               | select a.* from article as a inner join (select a.aid from article as a inner join (select cid from | 
++------+------+--------------------+--------------------+---------+-------+--------------------+------------------------------------------------------------------------------------------------------+
+</code></pre>
+<p>55 rows in set (0.00 sec)
+上面的测试语句其实也可以这样写</p>
+<pre><code>[root@localhost ~]# mysqlslap --defaults-file=/usr/local/mysql-maria/my.cnf --concurrency=25,50,100 --iterations=1 --create-schema='t_girl' --query='call sp_get_article(2,10,1);' --number-of-queries=5000 --debug-info -uroot -p -S/tmp/mysql50.sock
+</code></pre>
+<p>小总结一下。mysqlslap对于模拟多个用户同时对MySQL发起“进攻”提供了方便。同时详细的提供了“高负荷攻击MySQL”的详细数据报告。而且如果你想对于多个引擎的性能。这个工具再好不过了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

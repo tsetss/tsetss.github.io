@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+google
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/google/</link>
+    <description>Recent content in 
+google
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 02 Jan 2014 07:08:43 +0000</lastBuildDate><atom:link href="http://example.org/tags/google/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2013年最后一个月 12月 全球Web服务器份额iis狂升</title>
+      <link>http://example.org/2014/01/02/2013-12-web-server-survey/</link>
+      <pubDate>Thu, 02 Jan 2014 07:08:43 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/02/2013-12-web-server-survey/</guid>
+      <description>2013年12月，Netcraft从全球861,023,217家网站调查数据统计
+Apache 相比 11月份 下滑 3 个点，占有率跌到 41.26% IIS 上升明显，比 11 月份上升 4 个点， 占有率升到 28.08% Nginx 稳步上升，占有率达到 14.69% Google 下跌至 4.44%</description>
+    </item>
+    
+  </channel>
+</rss>

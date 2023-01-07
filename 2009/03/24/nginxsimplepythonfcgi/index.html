@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>NginxSimplePythonFCGI | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/24/nginxsimplepythonfcgi/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="NginxSimplePythonFCGI" />
+<meta property="og:description" content="Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/24/nginxsimplepythonfcgi/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-24T11:20:53+00:00" />
+<meta property="article:modified_time" content="2009-03-24T11:20:53+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NginxSimplePythonFCGI"/>
+<meta name="twitter:description" content="Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "NginxSimplePythonFCGI",
+      "item": "http://example.org/2009/03/24/nginxsimplepythonfcgi/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NginxSimplePythonFCGI",
+  "name": "NginxSimplePythonFCGI",
+  "description": "Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).\nInformation was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.\nThis is for Nginx/FCGI/Turbogears\nConventions Substitute thoughout with the values relevant to your own set-up:",
+  "keywords": [
+    
+  ],
+  "articleBody": " Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).\nInformation was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.\nThis is for Nginx/FCGI/Turbogears\nConventions Substitute thoughout with the values relevant to your own set-up:\n${HOST} = localhost - (or whatever you choose)\n${PORT} = 8080 - (or whatever you choose)\n${NGINX} = /usr/local/nginx - location of nginx installation\n${PROJECTBASE} /opt/projects/wiki20 - location of Turbogears project\n${PROJECTNAME} wiki20\nGetting the required files Two files are required to be created: ${NGINX}/scripts/fcgi.py and ${NGINX}/scripts/${PROJECTNAME}.fcgi.\nTo create ${NGINX}/scripts/fcgi.py …\nmkdir ${NGINX}/scripts curl -o ${NGINX}/scripts/fcgi.py http://www.saddi.com/software/py-lib/py-lib/fcgi.py To create ${NGINX}/scripts/${PROJECTNAME}.fcgi …\nCopy and paste the following to ${NGINX}/scripts/${PROJECTNAME}.fcgi. Edit the file, navigate to the “USER EDIT SECTION” and replace each instance of ${PROJECTBASE} and ${PROJECTNAME} with the corresponding values for your project.\n#!/usr/bin/python # # File name: project.fcgi # # This module provides the glue for running TurboGears applications behind # FastCGI-enabled web servers. The code in this module depends on the fastcgi # module downloadable from here: # # http://www.saddi.com/software/py-lib/py-lib/fcgi.py # # NOTE: The fcgi.py file needs to be placed in a location that is on the # system path, such as the same the directory as the tg_fastcgi.py file # or in the base directory of the TG app code. # # To configure this module, please edit the three variables in the \"USER EDIT # SECTION\" before starting the TG application. Also remember to edit the # top of this file with the correct Python installation information. import cherrypy import sys import os from os.path import * import pkg_resources import turbogears pkg_resources.require(\"TurboGears\") # -- START USER EDIT SECTION # -- Users must edit this section -- code_dir = '${PROJECTBASE}' # (Required) The base directory of the TG app code. root_class_name = '${PROJECTNAME}.controllers.Root' # (Required) The fully qualified Root class name. project_module_name = '${PROJECTNAME}.config' # (Required) The config module name. log_dir = '' # (Optional) The log directory. Default = code_dir. # -- END USER EDIT SECTION class VirtualPathFilter(object): def on_start_resource(self): if not cherrypy.config.get('virtual_path_filter.on', False): return prefix = cherrypy.config.get('virtual_path_filter.prefix', '') if not prefix: return path = cherrypy.request.object_path if path == prefix: path = '/' elif path.startswith(prefix): path = path[len(prefix):] else: raise cherrypy.NotFound(path) cherrypy.request.object_path = path def tg_init(): \"\"\" Checks for the required data and initializes the application. \"\"\" global code_dir global root_class_name global log_dir global project_module_name last_mark = 0 # Input checks if not code_dir or not isdir(code_dir): raise ValueError(\"\"\"The code directory setting is missing. The fastcgi code will be unable to find the TG code without this setting.\"\"\") if not root_class_name: raise ValueError(\"\"\"The fully qualified root class name must be provided.\"\"\") last_mark = root_class_name.rfind('.') if (last_mark \u003c 1) or (last_mark + 1) == len(root_class_name): raise ValueError(\"\"\"The user-defined class name is invalid. Please make sure to include a fully qualified class name for the root_class value (e.g. wiki20.controllers.Root).\"\"\") sys.path.append(code_dir) # Change the directory so the TG log file will not be written to the # web app root. if log_dir and isdir(log_dir): os.chdir(log_dir) else: os.chdir(code_dir) log_dir = code_dir sys.stdout = open(join(log_dir, 'stdout.log'),'a') sys.stderr = open(join(log_dir, 'stderr.log'),'a') if exists(join(code_dir, \"setup.py\")): turbogears.update_config(configfile=join(code_dir, \"dev.cfg\"),modulename=project_module_name) else: turbogears.update_config(configfile=join(code_dir, \"prod.cfg\"),modulename=project_module_name) # Set environment to production to disable auto-reload and # add virutal path information. cherrypy.config.update({ 'global': {'server.environment': 'production'}, '/' : { 'virtual_path_filter.on' : True, 'virtual_path_filter.prefix' : '/bel.fcgi' } }) # Parse out the root class information for Cherrypy Root class. package_name = root_class_name[:last_mark] class_name = root_class_name[last_mark+1:] exec('from %s import %s as Root' % (package_name, class_name)) Root._cp_filters = [VirtualPathFilter()] cherrypy.root = Root() # Main section - # Initialize the application, then start the server. tg_init() from fcgi import WSGIServer cherrypy.server.start(initOnly=True, serverClass=None) from cherrypy._cpwsgi import wsgiApp WSGIServer(application=wsgiApp).run() Adjust the TurboGears configuration Edit the ${PROJECTBASE}/dev.cfg or ${PROJECTBASE}/prod.cfg file (whichever you are using), uncomment the server.socket_port assignment and change ${PORT} to a value of your choice (make sure nothing else is running on that port, Tomcat defaults to 8080, as does Jetty. Save yourself some time and check first with a telnet localhost 8080, you should see Connection refused).\nThe relevant lines in prod/dev.cfg are:\nserver.socket_port=${PORT} Spawning a FastCGI TurboGears process The lighttpd “spawn-fcgi” script is useful: download, compile and install lighttpd. Then (replacing ${HOST} and ${PORT} values appropriately), execute the following:\n/usr/local/bin/spawn-fcgi -a ${HOST} -p ${PORT} -u nobody -f ${NGINX}/scripts/${PROJECTNAME}.fcgi Nginx configuration Save the following into ${NGINX}/conf/fastcgi_params\n#fastcgi.conf fastcgi_param GATEWAY_INTERFACE CGI/1.1; fastcgi_param SERVER_SOFTWARE nginx; fastcgi_param QUERY_STRING $query_string; fastcgi_param REQUEST_METHOD $request_method; fastcgi_param CONTENT_TYPE $content_type; fastcgi_param CONTENT_LENGTH $content_length; fastcgi_param SCRIPT_NAME $fastcgi_script_name; fastcgi_param REQUEST_URI $request_uri; fastcgi_param DOCUMENT_URI $document_uri; fastcgi_param DOCUMENT_ROOT $document_root; fastcgi_param SERVER_PROTOCOL $server_protocol; fastcgi_param REMOTE_ADDR $remote_addr; fastcgi_param REMOTE_PORT $remote_port; fastcgi_param SERVER_ADDR $server_addr; fastcgi_param SERVER_PORT $server_port; fastcgi_param SERVER_NAME $server_name; Add the following to the server section of the ${NGINX}/conf/nginx.conf configuration file, changing ${HOST} and ${PORT} as appropriate:\n# static files location ~ ^/(images|javascript|js|css|flash|media|static)/ { root ${PROJECTBASE}/${PROJECTNAME}/static; } location = /favicon.ico { root ${PROJECTBASE}/${PROJECTNAME}/static/images; } # pass all requests to FastCGI TG server listening on ${HOST}:${PORT} # location / { fastcgi_pass ${HOST}:${PORT}; fastcgi_index index; fastcgi_param SCRIPT_FILENAME /scripts$fastcgi_script_name; include conf/fastcgi_params; } Starting nginx Start nginx with ${NGINX}/sbin/nginx. Point your browser to [http://${HOST}:${PORT}/](http://%24%7Bhost%7D:${PORT}/), your Turboears project should be serving via FastCGI. If so … congratulations.\nPerformance test software Basic but usefully free http://www.hpl.hp.com/research/linux/httperf/\nNote [I left the IP address as 0.0.0.0 because it worked for me, whereas 127.0.0.1 did not. If you’re experiencing difficulties connecting to 0.0.0.0:8080, these are both alternative options; localhost:8080, 127.0.0.1:8080.]\nGood luck.\n",
+  "wordCount" : "1009",
+  "inLanguage": "en",
+  "datePublished": "2009-03-24T11:20:53Z",
+  "dateModified": "2009-03-24T11:20:53Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/24/nginxsimplepythonfcgi/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      NginxSimplePythonFCGI
+    </h1>
+    <div class="post-meta"><span title='2009-03-24 11:20:53 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="edit-section-dispatching-turbogears-python-via-fcgihttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection1-dispatching-turbogears-python-via-fcgi"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=1"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Dispatching TurboGears Python via FCGI"  />
+</a> Dispatching TurboGears Python via FCGI</h2>
+<p>This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so,  no reason not to run under the 1.0b release).</p>
+<p>Information was drawn from the Turbogears trac wiki (<a href="http://trac.turbogears.org/turbogears/wiki/NginxIntegration">http://trac.turbogears.org/turbogears/wiki/NginxIntegration</a>)  which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample]  page, the latter detailing the PHP/FCGI process.</p>
+<p>This is for Nginx/FCGI/Turbogears</p>
+<h3 id="edit-section-conventionshttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection2-conventions"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=2"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Conventions"  />
+</a> Conventions</h3>
+<p>Substitute thoughout with the values relevant to your own set-up:</p>
+<p><code>${HOST} = localhost</code> - (or whatever you choose)</p>
+<p><code>${PORT} = 8080</code> - (or whatever you choose)</p>
+<p><code>${NGINX} = /usr/local/nginx</code> - location of nginx installation</p>
+<p><code>${PROJECTBASE} /opt/projects/wiki20</code> - location of Turbogears  project</p>
+<p><code>${PROJECTNAME} wiki20</code></p>
+<h2 id="edit-section-getting-the-required-fileshttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection3-getting-the-required-files"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=3"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Getting the required files"  />
+</a> Getting the required files</h2>
+<p>Two files are required to be created: <strong>${NGINX}/scripts/fcgi.py</strong> and  <strong>${NGINX}/scripts/${PROJECTNAME}.fcgi</strong>.</p>
+<p>To create <strong>${NGINX}/scripts/fcgi.py</strong> &hellip;</p>
+<pre><code>mkdir ${NGINX}/scripts
+
+
+
+
+curl -o ${NGINX}/scripts/fcgi.py http://www.saddi.com/software/py-lib/py-lib/fcgi.py
+</code></pre>
+<p>To create <strong>${NGINX}/scripts/${PROJECTNAME}.fcgi</strong> &hellip;</p>
+<p>Copy and paste the following to <strong>${NGINX}/scripts/${PROJECTNAME}.fcgi</strong>.  Edit the file, navigate to the <strong>&ldquo;USER EDIT SECTION&rdquo;</strong> and replace each  instance of <strong>${PROJECTBASE}</strong> and $<strong>{PROJECTNAME}</strong> with the  corresponding values for your project.</p>
+<pre><code>#!/usr/bin/python
+#
+# File name: project.fcgi
+#
+# This module provides the glue for running TurboGears applications behind
+# FastCGI-enabled web servers. The code in this module depends on the fastcgi
+# module downloadable from here:
+#
+# http://www.saddi.com/software/py-lib/py-lib/fcgi.py
+#
+# NOTE: The fcgi.py file needs to be placed in a location that is on the
+# system path, such as the same the directory as the tg_fastcgi.py file
+# or in the base directory of the TG app code.
+#
+# To configure this module, please edit the three variables in the &quot;USER EDIT
+# SECTION&quot; before starting the TG application. Also remember to edit the
+# top of this file with the correct Python installation information.
+ 
+import cherrypy
+import sys
+import os
+from os.path import *
+import pkg_resources
+import turbogears
+ 
+pkg_resources.require(&quot;TurboGears&quot;)
+ 
+# -- START USER EDIT SECTION
+# -- Users must edit this section --
+code_dir = '${PROJECTBASE}' # (Required) The base directory of the TG app code.
+root_class_name = '${PROJECTNAME}.controllers.Root' # (Required) The fully qualified Root class name.
+project_module_name = '${PROJECTNAME}.config' # (Required) The config module name.
+log_dir = '' # (Optional) The log directory. Default = code_dir.
+# -- END USER EDIT SECTION
+ 
+class VirtualPathFilter(object):
+    def on_start_resource(self):
+        if not cherrypy.config.get('virtual_path_filter.on', False):
+     return
+ prefix = cherrypy.config.get('virtual_path_filter.prefix', '')
+ if not prefix:
+     return
+ 
+ path = cherrypy.request.object_path
+ if path == prefix:
+     path = '/'
+ elif path.startswith(prefix):
+     path = path[len(prefix):]
+ else:
+     raise cherrypy.NotFound(path)
+ cherrypy.request.object_path = path
+ 
+ 
+def tg_init():
+    &quot;&quot;&quot; Checks for the required data and initializes the application. &quot;&quot;&quot;
+ 
+    global code_dir
+    global root_class_name
+    global log_dir
+    global project_module_name
+    last_mark = 0
+ 
+    # Input checks
+    if not code_dir or not isdir(code_dir):
+        raise ValueError(&quot;&quot;&quot;The code directory setting is missing.
+                            The fastcgi code will be unable to find
+                            the TG code without this setting.&quot;&quot;&quot;)
+ 
+    if not root_class_name:
+        raise ValueError(&quot;&quot;&quot;The fully qualified root class name must
+                            be provided.&quot;&quot;&quot;)
+ 
+    last_mark = root_class_name.rfind('.')
+ 
+    if (last_mark &lt; 1) or (last_mark + 1) == len(root_class_name):
+        raise ValueError(&quot;&quot;&quot;The user-defined class name is invalid.
+                            Please make sure to include a fully
+                            qualified class name for the root_class
+                            value (e.g. wiki20.controllers.Root).&quot;&quot;&quot;)
+ 
+    sys.path.append(code_dir)
+ 
+    # Change the directory so the TG log file will not be written to the
+    # web app root.
+    if log_dir and isdir(log_dir):
+        os.chdir(log_dir)
+    else:
+        os.chdir(code_dir)
+        log_dir = code_dir
+ 
+    sys.stdout = open(join(log_dir, 'stdout.log'),'a')
+    sys.stderr = open(join(log_dir, 'stderr.log'),'a')
+ 
+    if exists(join(code_dir, &quot;setup.py&quot;)):
+        turbogears.update_config(configfile=join(code_dir, &quot;dev.cfg&quot;),modulename=project_module_name)
+    else:
+        turbogears.update_config(configfile=join(code_dir, &quot;prod.cfg&quot;),modulename=project_module_name)
+ 
+    # Set environment to production to disable auto-reload and
+    # add virutal path information.
+    cherrypy.config.update({
+        'global': {'server.environment': 'production'},
+     '/' : { 'virtual_path_filter.on' : True,
+     'virtual_path_filter.prefix' : '/bel.fcgi' }
+  })
+ 
+    # Parse out the root class information for Cherrypy Root class.
+    package_name = root_class_name[:last_mark]
+    class_name = root_class_name[last_mark+1:]
+    exec('from %s import %s as Root' % (package_name, class_name))
+    Root._cp_filters = [VirtualPathFilter()]
+    cherrypy.root = Root()
+ 
+# Main section -
+# Initialize the application, then start the server.
+tg_init()
+ 
+from fcgi import WSGIServer
+cherrypy.server.start(initOnly=True, serverClass=None)
+ 
+from cherrypy._cpwsgi import wsgiApp
+WSGIServer(application=wsgiApp).run()
+</code></pre>
+<h2 id="edit-section-adjust-the-turbogears-configurationhttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection4-adjust-the-turbogears-configuration"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=4"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Adjust the TurboGears configuration"  />
+</a> Adjust the TurboGears configuration</h2>
+<p>Edit the <strong>${PROJECTBASE}/dev.cfg</strong> or <strong>${PROJECTBASE}/prod.cfg</strong> file  (whichever you are using), uncomment the <strong>server.socket_port</strong> assignment  and change ${PORT} to a value of your choice (make sure nothing else is running  on that port, Tomcat defaults to 8080, as does Jetty. Save yourself some time  and check first with a <strong>telnet localhost 8080</strong>, you should see  <em>Connection refused</em>).</p>
+<p>The relevant lines in prod/dev.cfg are:</p>
+<pre><code>server.socket_port=${PORT}
+</code></pre>
+<h2 id="edit-section-spawning-a-fastcgi-turbogears-processhttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection5-spawning-a-fastcgi-turbogears-process"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=5"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Spawning a FastCGI TurboGears process"  />
+</a> Spawning a FastCGI TurboGears process</h2>
+<p>The lighttpd &ldquo;spawn-fcgi&rdquo; script is useful: download, compile and install  lighttpd. Then (replacing <strong>${HOST}</strong> and <strong>${PORT}</strong> values  appropriately), execute the following:</p>
+<pre><code>/usr/local/bin/spawn-fcgi -a ${HOST} -p ${PORT} -u nobody -f ${NGINX}/scripts/${PROJECTNAME}.fcgi
+</code></pre>
+<h2 id="edit-section-nginx-configurationhttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection6-nginx-configuration"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=6"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Nginx configuration"  />
+</a> Nginx configuration</h2>
+<p>Save the following into <strong>${NGINX}/conf/fastcgi_params</strong></p>
+<p> </p>
+<pre><code>&lt;span class=&quot;co1&quot;&gt;#fastcgi.conf&lt;/span&gt;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; GATEWAY_INTERFACE CGI/&lt;span class=&quot;nu0&quot;&gt;1.1&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SERVER_SOFTWARE nginx;
+ 
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; QUERY_STRING &lt;span class=&quot;re0&quot;&gt;$query_string&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; REQUEST_METHOD &lt;span class=&quot;re0&quot;&gt;$request_method&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; CONTENT_TYPE &lt;span class=&quot;re0&quot;&gt;$content_type&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; CONTENT_LENGTH &lt;span class=&quot;re0&quot;&gt;$content_length&lt;/span&gt;;
+ 
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SCRIPT_NAME &lt;span class=&quot;re0&quot;&gt;$fastcgi_script_name&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; REQUEST_URI &lt;span class=&quot;re0&quot;&gt;$request_uri&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; DOCUMENT_URI &lt;span class=&quot;re0&quot;&gt;$document_uri&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; DOCUMENT_ROOT &lt;span class=&quot;re0&quot;&gt;$document_root&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SERVER_PROTOCOL &lt;span class=&quot;re0&quot;&gt;$server_protocol&lt;/span&gt;;
+ 
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; REMOTE_ADDR &lt;span class=&quot;re0&quot;&gt;$remote_addr&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; REMOTE_PORT &lt;span class=&quot;re0&quot;&gt;$remote_port&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SERVER_ADDR &lt;span class=&quot;re0&quot;&gt;$server_addr&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SERVER_PORT &lt;span class=&quot;re0&quot;&gt;$server_port&lt;/span&gt;;
+&lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SERVER_NAME &lt;span class=&quot;re0&quot;&gt;$server_name&lt;/span&gt;;
+</code></pre>
+<p>Add the following to the server section of the  <strong>${NGINX}/conf/nginx.conf</strong> configuration file, changing <strong>${HOST}</strong> and  <strong>${PORT}</strong> as appropriate:</p>
+<p> </p>
+<pre><code>  &lt;span class=&quot;co1&quot;&gt;# static files&lt;/span&gt;
+  &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#location&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;location&lt;/span&gt;&lt;/a&gt; ~ ^/&lt;span class=&quot;br0&quot;&gt;(&lt;/span&gt;images|javascript|js|css|flash|media|static&lt;span class=&quot;br0&quot;&gt;)&lt;/span&gt;/ &lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#root&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;root&lt;/span&gt;&lt;/a&gt; $&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;PROJECTBASE&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;/$&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;PROJECTNAME&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;/static;
+  &lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;
+ 
+  &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#location&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;location&lt;/span&gt;&lt;/a&gt; = /favicon.ico &lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#root&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;root&lt;/span&gt;&lt;/a&gt; $&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;PROJECTBASE&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;/$&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;PROJECTNAME&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;/static/images;
+  &lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;
+ 
+  &lt;span class=&quot;co1&quot;&gt;# pass all requests to FastCGI TG server listening on ${HOST}:${PORT}&lt;/span&gt;
+  &lt;span class=&quot;co1&quot;&gt;#&lt;/span&gt;
+  &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#location&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;location&lt;/span&gt;&lt;/a&gt; / &lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_pass&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_pass&lt;/span&gt;&lt;/a&gt; $&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;HOST&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;:$&lt;span class=&quot;br0&quot;&gt;{&lt;/span&gt;PORT&lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_index&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_index&lt;/span&gt;&lt;/a&gt; &lt;a href=&quot;http://wiki.nginx.org/NginxHttpCoreModule#index&quot;&gt;&lt;span class=&quot;kw3&quot;&gt;index&lt;/span&gt;&lt;/a&gt;;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpFcgiModule#fastcgi_param&quot;&gt;&lt;span class=&quot;kw11&quot;&gt;fastcgi_param&lt;/span&gt;&lt;/a&gt; SCRIPT_FILENAME /scripts&lt;span class=&quot;re0&quot;&gt;$fastcgi_script_name&lt;/span&gt;;
+    &lt;a href=&quot;http://wiki.nginx.org/NginxHttpMainModule#include&quot;&gt;&lt;span class=&quot;kw1&quot;&gt;include&lt;/span&gt;&lt;/a&gt; conf/fastcgi_params;
+ &lt;span class=&quot;br0&quot;&gt;}&lt;/span&gt;
+</code></pre>
+<h2 id="edit-section-starting-nginxhttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection7-starting-nginx"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=7"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Starting nginx"  />
+</a> Starting nginx</h2>
+<p>Start nginx with <strong>${NGINX}/sbin/nginx</strong>. Point your browser to <code>[http://${HOST}:${PORT}/](http://%24%7Bhost%7D:${PORT}/)</code>,  your Turboears project should be serving via FastCGI. If so &hellip; congratulations.</p>
+<h2 id="edit-section-performance-test-softwarehttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection8-performance-test-software"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=8"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Performance test software"  />
+</a> Performance test software</h2>
+<p>Basic but usefully free <a href="http://www.hpl.hp.com/research/linux/httperf/">http://www.hpl.hp.com/research/linux/httperf/</a></p>
+<h3 id="edit-section-notehttpwikinginxorgskinsbluwiki_skinedit-smallpnghttpwikinginxorgindexphptitlenginxsimplepythonfcgiactioneditsection9-note"><a href="http://wiki.nginx.org/index.php?title=NginxSimplePythonFCGI&amp;action=edit&amp;section=9"><img loading="lazy" src="http://wiki.nginx.org//skins/bluwiki_skin/Edit-small.png" alt="Edit section: Note"  />
+</a> Note</h3>
+<p>[I left the IP address as 0.0.0.0 because it worked for me, whereas 127.0.0.1  did not. If you&rsquo;re experiencing difficulties connecting to 0.0.0.0:8080, these  are both alternative options; localhost:8080, 127.0.0.1:8080.]</p>
+<p>Good luck.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

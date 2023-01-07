@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>安全中国 Windows 2003安全设置大全 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户
+前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限&#43;最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\Documents and Settings下All Users\Default User目录及其子目录 如C:\Documents and Settings\All Users\Application Data 目录默认配置保留了Everyone用户权限 C:\WINDOWS 目录下面的权限也得注意,如 C:\WINDOWS\PCHealth、C:\windows\Installer也是保留了Everyone权限. 删除C:\WINDOWS\Web\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\WINDOWS\Help\iisHelp目录 删除C:\WINDOWS\system32\inetsrv\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\netBT\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板&gt;系统属性&gt;高级&gt;启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="安全中国 Windows 2003安全设置大全" />
+<meta property="og:description" content="安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户
+前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限&#43;最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\Documents and Settings下All Users\Default User目录及其子目录 如C:\Documents and Settings\All Users\Application Data 目录默认配置保留了Everyone用户权限 C:\WINDOWS 目录下面的权限也得注意,如 C:\WINDOWS\PCHealth、C:\windows\Installer也是保留了Everyone权限. 删除C:\WINDOWS\Web\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\WINDOWS\Help\iisHelp目录 删除C:\WINDOWS\system32\inetsrv\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\netBT\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板&gt;系统属性&gt;高级&gt;启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-10T10:51:48+00:00" />
+<meta property="article:modified_time" content="2009-04-10T10:51:48+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安全中国 Windows 2003安全设置大全"/>
+<meta name="twitter:description" content="安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户
+前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限&#43;最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\Documents and Settings下All Users\Default User目录及其子目录 如C:\Documents and Settings\All Users\Application Data 目录默认配置保留了Everyone用户权限 C:\WINDOWS 目录下面的权限也得注意,如 C:\WINDOWS\PCHealth、C:\windows\Installer也是保留了Everyone权限. 删除C:\WINDOWS\Web\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\WINDOWS\Help\iisHelp目录 删除C:\WINDOWS\system32\inetsrv\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\netBT\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板&gt;系统属性&gt;高级&gt;启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "安全中国 Windows 2003安全设置大全",
+      "item": "http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "安全中国 Windows 2003安全设置大全",
+  "name": "安全中国 Windows 2003安全设置大全",
+  "description": "安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户\n前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限+最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\\Documents and Settings下All Users\\Default User目录及其子目录 如C:\\Documents and Settings\\All Users\\Application Data 目录默认配置保留了Everyone用户权限 C:\\WINDOWS 目录下面的权限也得注意,如 C:\\WINDOWS\\PCHealth、C:\\windows\\Installer也是保留了Everyone权限. 删除C:\\WINDOWS\\Web\\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\\WINDOWS\\Help\\iisHelp目录 删除C:\\WINDOWS\\system32\\inetsrv\\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\netBT\\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板\u0026gt;系统属性\u0026gt;高级\u0026gt;启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr.",
+  "keywords": [
+    
+  ],
+  "articleBody": "安全中国 Windows 2003安全设置大全 安全中国（http://www.anqn.com）——全球最大中文黑客门户\n前面讲的都是屁话，润润笔而已。（俺也文人一次） 话锋一转就到了系统权限设置与安全配置的实际操作阶段 系统设置网上有一句话是“最小的权限+最少的服务=最大的安全”。此句基本上是个人都看过，但我好像 没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！ 最小的权限如何实现？ NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户) 删除其它用户，进入系统盘:权限如下 C:\\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改 其它目录删除Everyone用户，切记C:\\Documents and Settings下All Users\\Default User目录及其子目录 如C:\\Documents and Settings\\All Users\\Application Data 目录默认配置保留了Everyone用户权限 C:\\WINDOWS 目录下面的权限也得注意,如 C:\\WINDOWS\\PCHealth、C:\\windows\\Installer也是保留了Everyone权限. 删除C:\\WINDOWS\\Web\\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击 默认IIS错误页面已基本上没多少人使用了。建议删除C:\\WINDOWS\\Help\\iisHelp目录 删除C:\\WINDOWS\\system32\\inetsrv\\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500 错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统 设置造成的密码不同步问题。 打开C:\\Windows 搜索 net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com; regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe; ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe 修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限 关闭445端口 HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\netBT\\Parameters 新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0” 禁止建立空连接 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa 新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1] 禁止系统自动启动服务器共享 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters 新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0” 禁止系统自动启动管理共享 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters 新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0” 通过修改注册表防止小规模DDOS攻击 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters 新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1” 禁止dump file的产生 dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感 信息比如一些应用程序的密码等。控制面板\u003e系统属性\u003e高级\u003e启动和故障恢复把 写入调试信息 改成无。 关闭华医生Dr.Watson 在开始-运行中输入“drwtsn32”，或者开始-程序-附件-系统工具-系统信息-工具-Dr Watson，调出系统 里的华医生Dr.Watson ，只保留“转储全部线程上下文”选项，否则一旦程序出错，硬盘会读很久，并占 用大量空间。如果以前有此情况，请查找user.dmp文件，删除后可节省几十MB空间。 本地安全策略配置 开始 \u003e 程序 \u003e 管理工具 \u003e 本地安全策略 账户策略 \u003e 密码策略 \u003e 密码最短使用期限 改成0天[即密码不过期，上面我讲到不会造成IIS密码不同步] 账户策略 \u003e 账户锁定策略 \u003e 账户锁定阈值 5 次 账户锁定时间 10分钟 [个人推荐配置] 本地策略 \u003e 审核策略 \u003e 账户管理 成功 失败 登录事件 成功 失败 对象访问 失败 策略更改 成功 失败 特权使用 失败 系统事件 成功 失败 目录服务访问 失败 账户登录事件 成功 失败 本地策略 \u003e 安全选项 \u003e 清除虚拟内存页面文件 更改为”已启用” \u003e 不显示上次的用户名 更改为”已启用” \u003e 不需要按CTRL+ALT+DEL 更改为”已启用” \u003e 不允许 SAM 账户的匿名枚举 更改为”已启用” \u003e 不允许 SAM 账户和共享的匿名枚举 更改为”已启用” \u003e 重命名来宾账户 更改成一个复杂的账户名 \u003e 重命名系统管理员账号 更改一个自己用的账号 [同时可建立一个无用户组的Administrat账户] 组策略编辑器 运行 gpedit.msc 计算机配置 \u003e 管理模板 \u003e 系统 显示“关闭事件跟踪程序” 更改为已禁用 删除不安全组件 WScript.Shell 、Shell.application 这两个组件一般一些ASP木马或一些恶意程序都会使用到。 方案一： regsvr32 /u wshom.ocx 卸载WScript.Shell 组件 regsvr32 /u shell32.dll 卸载Shell.application 组件 如果按照上面讲到的设置，可不必删除这两个文件 方案二： 删除注册表 HKEY_CLASSES_ROOT\\CLSID{72C24DD5-D70A-438B-8A42-98424B88AFB8} 对应 WScript.Shell 删除注册表 HKEY_CLASSES_ROOT\\CLSID{13709620-C279-11CE-A49E-444553540000} 对应 Shell.application 用户管理 建立另一个备用管理员账号，防止特殊情况发生。 安装有终端服务与SQL服务的服务器停用TsInternetUser, SQLDebugger这两个账号 用户组说明 在将来要使用到的IIS中，IIS用户一般使用Guests组，也可以再重新建立一个独立的专供IIS使用的组，但 要将这个组赋予C:\\Windows 目录为读取权限[单一读取] 个人不建议使用单独目录，太小家子气。\n最少的服务如果实现 黑色为自动 绿色为手动 红色为禁用 Alerter Application Experience Lookup Service Application Layer Gateway Service Application Management Automatic Updates [Windows自动更新,可选项] Background Intelligent Transfer Service ClipBook COM+ Event System COM+ System Application Computer Browser Cryptographic Services DCOM Server Process Launcher DHCP Client Distributed File System Distributed Link Tracking Client Distributed Link Tracking Server Distributed Transaction Coordinator DNS Client Error Reporting Service Event Log File Replication Help and Support HTTP SSL Human Interface Device Access IIS Admin Service IMAPI CD-Burning COM Service Indexing Service Intersite Messaging IPSEC Services [如果使用了IP安全策略则自动，如无则禁用，可选操作] Kerberos Key Distribution Center License Logging Logical Disk Manager [可选，多硬盘建议自动] Logical Disk Manager Administrative Service Messenger Microsoft Search Microsoft Software Shadow Copy Provider MSSQLSERVER MSSQLServerADHelper Net Logon NetMeeting Remote Desktop Sharing Network Connections Network DDE Network DDE DSDM Network Location Awareness (NLA) Network Provisioning Service NT LM Security Support Provider Performance Logs and Alerts Plug and Play Portable Media Serial Number Service [微软反盗版工具，目前只针对多媒体类] Print Spooler Protected Storage Remote Access Auto Connection Manager Remote Access Connection Manager Remote Desktop Help Session Manager Remote Procedure Call (RPC) Remote Procedure Call (RPC) Locator Remote Registry Removable Storage Resultant Set of Policy Provider Routing and Remote Access Secondary Logon Security Accounts Manager Server Shell Hardware Detection Smart Card Special Administration Console Helper SQLSERVERAGENT System Event Notification Task Scheduler TCP/IP NetBIOS Helper Telephony Telnet Terminal Services Terminal Services Session Directory Themes Uninterruptible Power Supply Upload Manager Virtual Disk Service Volume Shadow Copy WebClient Windows Audio [服务器没必要使用声音] Windows Firewall/Internet Connection Sharing (ICS) Windows Image Acquisition (WIA) Windows Installer Windows Management Instrumentation Windows Management Instrumentation Driver Extensions Windows Time Windows User Mode Driver Framework WinHTTP Web Proxy Auto-Discovery Service Wireless Configuration WMI Performance Adapter Workstation World Wide Web Publishing Service\n以上操作完成以后是否就“最小的权限+最少的服务=最大的安全”呢？其实不然，任何事物都是相对的 依我个人而见，以上设置也只是最基本的一些东西而已，如有遗漏，稍后补上！\n",
+  "wordCount" : "494",
+  "inLanguage": "en",
+  "datePublished": "2009-04-10T10:51:48Z",
+  "dateModified": "2009-04-10T10:51:48Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/10/e5ae89e585a8e4b8ade59bbd-windows-2003e5ae89e585a8e8aebee7bdaee5a4a7e585a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      安全中国 Windows 2003安全设置大全
+    </h1>
+    <div class="post-meta"><span title='2009-04-10 10:51:48 +0000 UTC'>April 10, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>安全中国 Windows 2003安全设置大全
+安全中国（http://www.anqn.com）——全球最大中文黑客门户</p>
+<p>前面讲的都是屁话，润润笔而已。（俺也文人一次）
+话锋一转就到了系统权限设置与安全配置的实际操作阶段
+系统设置网上有一句话是“最小的权限+最少的服务=最大的安全”。此句基本上是个人都看过，但我好像
+没有看到过一篇讲的比较详细稍具全面的文章，下面就以我个人经验作一次教学尝试！
+最小的权限如何实现？
+NTFS系统权限设置 在使用之前将每个硬盘根加上 Administrators 用户为全部权限(可选加入SYSTEM用户)
+删除其它用户，进入系统盘:权限如下
+C:\WINDOWS Administrators SYSTEM用户全部权限 Users 用户默认权限不作修改
+其它目录删除Everyone用户，切记C:\Documents and Settings下All Users\Default User目录及其子目录
+如C:\Documents and Settings\All Users\Application Data 目录默认配置保留了Everyone用户权限
+C:\WINDOWS 目录下面的权限也得注意,如 C:\WINDOWS\PCHealth、C:\windows\Installer也是保留了Everyone权限.
+删除C:\WINDOWS\Web\printers目录，此目录的存在会造成IIS里加入一个.printers的扩展名，可溢出攻击
+默认IIS错误页面已基本上没多少人使用了。建议删除C:\WINDOWS\Help\iisHelp目录
+删除C:\WINDOWS\system32\inetsrv\iisadmpwd，此目录为管理IIS密码之用，如一些因密码不同步造成500
+错误的时候使用 OWA 或 Iisadmpwd 修改同步密码，但在这里可以删掉，下面讲到的设置将会杜绝因系统
+设置造成的密码不同步问题。
+打开C:\Windows 搜索
+net.exe;cmd.exe;tftp.exe;netstat.exe;regedit.exe;at.exe;attrib.exe;cacls.exe;format.com;
+regsvr32.exe;xcopy.exe;wscript.exe;cscript.exe;ftp.exe;telnet.exe;arp.exe;edlin.exe;
+ping.exe;route.exe;finger.exe;posix.exe;rsh.exe;atsvc.exe;qbasic.exe;runonce.exe;syskey.exe
+修改权限，删除所有的用户只保存Administrators 和SYSTEM为所有权限
+关闭445端口
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\netBT\Parameters
+新建 “DWORD值”值名为 “SMBDeviceEnabled” 数据为默认值“0”
+禁止建立空连接
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa
+新建 “DWORD值”值名为 “RestrictAnonymous” 数据值为“1” [2003默认为1]
+禁止系统自动启动服务器共享
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+新建 “DWORD值”值名为 “AutoShareServer” 数据值为“0”
+禁止系统自动启动管理共享
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+新建 “DWORD值”值名为 “AutoShareWks” 数据值为“0”
+通过修改注册表防止小规模DDOS攻击
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+新建 “DWORD值”值名为 “SynAttackProtect” 数据值为“1”
+禁止dump file的产生
+dump文件在系统崩溃和蓝屏的时候是一份很有用的查找问题的资料。然而，它也能够给黑客提供一些敏感
+信息比如一些应用程序的密码等。控制面板&gt;系统属性&gt;高级&gt;启动和故障恢复把 写入调试信息 改成无。
+关闭华医生Dr.Watson
+在开始-运行中输入“drwtsn32”，或者开始-程序-附件-系统工具-系统信息-工具-Dr Watson，调出系统
+里的华医生Dr.Watson ，只保留“转储全部线程上下文”选项，否则一旦程序出错，硬盘会读很久，并占
+用大量空间。如果以前有此情况，请查找user.dmp文件，删除后可节省几十MB空间。
+本地安全策略配置
+开始 &gt; 程序 &gt; 管理工具 &gt; 本地安全策略
+账户策略 &gt; 密码策略 &gt; 密码最短使用期限 改成0天[即密码不过期，上面我讲到不会造成IIS密码不同步]
+账户策略 &gt; 账户锁定策略 &gt; 账户锁定阈值 5 次 账户锁定时间 10分钟 [个人推荐配置]
+本地策略 &gt; 审核策略 &gt;
+账户管理 成功 失败
+登录事件 成功 失败
+对象访问 失败
+策略更改 成功 失败
+特权使用 失败
+系统事件 成功 失败
+目录服务访问 失败
+账户登录事件 成功 失败
+本地策略 &gt; 安全选项 &gt; 清除虚拟内存页面文件 更改为”已启用”
+&gt; 不显示上次的用户名 更改为”已启用”
+&gt; 不需要按CTRL+ALT+DEL 更改为”已启用”
+&gt; 不允许 SAM 账户的匿名枚举 更改为”已启用”
+&gt; 不允许 SAM 账户和共享的匿名枚举 更改为”已启用”
+&gt; 重命名来宾账户 更改成一个复杂的账户名
+&gt; 重命名系统管理员账号 更改一个自己用的账号 [同时可建立一个无用户组的Administrat账户]
+组策略编辑器
+运行 gpedit.msc 计算机配置 &gt; 管理模板 &gt; 系统 显示“关闭事件跟踪程序” 更改为已禁用
+删除不安全组件
+WScript.Shell 、Shell.application 这两个组件一般一些ASP木马或一些恶意程序都会使用到。
+方案一：
+regsvr32 /u wshom.ocx 卸载WScript.Shell 组件
+regsvr32 /u shell32.dll 卸载Shell.application 组件
+如果按照上面讲到的设置，可不必删除这两个文件
+方案二：
+删除注册表 HKEY_CLASSES_ROOT\CLSID{72C24DD5-D70A-438B-8A42-98424B88AFB8} 对应 WScript.Shell
+删除注册表 HKEY_CLASSES_ROOT\CLSID{13709620-C279-11CE-A49E-444553540000} 对应 Shell.application
+用户管理
+建立另一个备用管理员账号，防止特殊情况发生。
+安装有终端服务与SQL服务的服务器停用TsInternetUser, SQLDebugger这两个账号
+用户组说明
+在将来要使用到的IIS中，IIS用户一般使用Guests组，也可以再重新建立一个独立的专供IIS使用的组，但
+要将这个组赋予C:\Windows 目录为读取权限[单一读取] 个人不建议使用单独目录，太小家子气。</p>
+<p>最少的服务如果实现
+黑色为自动 绿色为手动 红色为禁用
+Alerter
+Application Experience Lookup Service
+Application Layer Gateway Service
+Application Management
+Automatic Updates [Windows自动更新,可选项]
+Background Intelligent Transfer Service
+ClipBook
+COM+ Event System
+COM+ System Application
+Computer Browser
+Cryptographic Services
+DCOM Server Process Launcher
+DHCP Client
+Distributed File System
+Distributed Link Tracking Client
+Distributed Link Tracking Server
+Distributed Transaction Coordinator
+DNS Client
+Error Reporting Service
+Event Log
+File Replication
+Help and Support
+HTTP SSL
+Human Interface Device Access
+IIS Admin Service
+IMAPI CD-Burning COM Service
+Indexing Service
+Intersite Messaging
+IPSEC Services [如果使用了IP安全策略则自动，如无则禁用，可选操作]
+Kerberos Key Distribution Center
+License Logging
+Logical Disk Manager [可选，多硬盘建议自动]
+Logical Disk Manager Administrative Service
+Messenger
+Microsoft Search
+Microsoft Software Shadow Copy Provider
+MSSQLSERVER
+MSSQLServerADHelper
+Net Logon
+NetMeeting Remote Desktop Sharing
+Network Connections
+Network DDE
+Network DDE DSDM
+Network Location Awareness (NLA)
+Network Provisioning Service
+NT LM Security Support Provider
+Performance Logs and Alerts
+Plug and Play
+Portable Media Serial Number Service [微软反盗版工具，目前只针对多媒体类]
+Print Spooler
+Protected Storage
+Remote Access Auto Connection Manager
+Remote Access Connection Manager
+Remote Desktop Help Session Manager
+Remote Procedure Call (RPC)
+Remote Procedure Call (RPC) Locator
+Remote Registry
+Removable Storage
+Resultant Set of Policy Provider
+Routing and Remote Access
+Secondary Logon
+Security Accounts Manager
+Server
+Shell Hardware Detection
+Smart Card
+Special Administration Console Helper
+SQLSERVERAGENT
+System Event Notification
+Task Scheduler
+TCP/IP NetBIOS Helper
+Telephony
+Telnet
+Terminal Services
+Terminal Services Session Directory
+Themes
+Uninterruptible Power Supply
+Upload Manager
+Virtual Disk Service
+Volume Shadow Copy
+WebClient
+Windows Audio [服务器没必要使用声音]
+Windows Firewall/Internet Connection Sharing (ICS)
+Windows Image Acquisition (WIA)
+Windows Installer
+Windows Management Instrumentation
+Windows Management Instrumentation Driver Extensions
+Windows Time
+Windows User Mode Driver Framework
+WinHTTP Web Proxy Auto-Discovery Service
+Wireless Configuration
+WMI Performance Adapter
+Workstation
+World Wide Web Publishing Service</p>
+<p>以上操作完成以后是否就“最小的权限+最少的服务=最大的安全”呢？其实不然，任何事物都是相对的
+依我个人而见，以上设置也只是最基本的一些东西而已，如有遗漏，稍后补上！</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

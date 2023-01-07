@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>VSFTP＋MySQL虚拟用户配置 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。
+一、VSFTPD的安装
+目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：
+VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists
+VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory &lsquo;/usr/share/empty&rsquo;: File exists
+VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp
+以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install
+上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="VSFTP＋MySQL虚拟用户配置" />
+<meta property="og:description" content="VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。
+一、VSFTPD的安装
+目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：
+VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists
+VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory &lsquo;/usr/share/empty&rsquo;: File exists
+VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp
+以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install
+上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-17T02:42:42+00:00" />
+<meta property="article:modified_time" content="2006-04-17T02:42:42+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="VSFTP＋MySQL虚拟用户配置"/>
+<meta name="twitter:description" content="VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。
+一、VSFTPD的安装
+目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：
+VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists
+VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory &lsquo;/usr/share/empty&rsquo;: File exists
+VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp
+以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install
+上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "VSFTP＋MySQL虚拟用户配置",
+      "item": "http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VSFTP＋MySQL虚拟用户配置",
+  "name": "VSFTP＋MySQL虚拟用户配置",
+  "description": "VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。\n一、VSFTPD的安装\n目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：\nVSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists\nVSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory \u0026lsquo;/usr/share/empty\u0026rsquo;: File exists\nVSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp\n以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install\n上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1.",
+  "keywords": [
+    
+  ],
+  "articleBody": "VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。\n一、VSFTPD的安装\n目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：\nVSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists\nVSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory ‘/usr/share/empty’: File exists\nVSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp\n以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install\n上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1.2.0]# cp vsftpd.conf.5 /usr/local/share/man/man5 [root@hpe45 vsftpd-1.2.0]# cp vsftpd.8 /usr/local/share/man/man8\n接下来，我们复制一个简单的配置文件作为基础供后面修改。 [root@hpe45 vsftpd-1.2.0]# cp vsftpd.conf /etc [root@hpe45 vsftpd-1.2.0]# cp RedHat/vsftpd.pam /etc/pam.d/ftp 复制PAM验证文件，以允许本地用户登录VSFTPD。 [root@hpe45 vsftpd-1.2.0]# cp RedHat/vsftpd.pam /etc/pam.d/ftp\n二、创建guest用户\nVSFTPD采用PAM方式验证虚拟用户。由于虚拟用户的用户名/口令被单独保存，因此在验证时，VSFTPD需要用一个系统用户的身份来读取数据库文件或数据库服务器以完成验证，这就是VSFTPD的guest用户。这正如同匿名用户也需要有一个系统用户ftp一样。当然，我们也可以把guest用户看成是虚拟用户在系统中的代表。下面在系统中添加vsftpdguest用户，作为VSFTPD的guest。 [root@hpe45 vsftpd-1.2.0]# useradd vsftpdguest 当虚拟用户登录后，所在的位置为vsftpdguest的自家目录/home/vsftpdguest。如果要让虚拟用户登录到/var/ftp等其他目录，修改vsftpdguest的自家目录即可。\n三、设置VSFTPD配置文件\n在/etc/vsftpd.conf文件中，加入以下选项： guest_enable=YES guest_username=vsftpdguest\n然后执行以下命令，让VSFTPD在后台运行： [root@hpe45 vsftpd-1.2.0]# /usr/local/sbin/vsftpd \u0026\n四、将虚拟用户保存在MySQL数据库服务器中\n我们建立数据库vsftpdvu，表users，字段name和passwd用于保存虚拟用户的用户名和口令,同时增加两个虚拟用户xiaotong和xiaowang。\n[root@hpe45 vsftpd-1.2.0]# mysql -p mysql\u003e;create database vsftpdvu; mysql\u003e;use vsftpdvu; mysql\u003e;create table users(name char(16) binary,passwd char(16) binary); mysql\u003e;insert into users (name,passwd) values (‘xiaotong’,password(‘qqmywife’)); mysql\u003e;insert into users (name,passwd) values (‘xiaowang’,password(’ttmywife’)); mysql\u003e;quit\n然后，授权vsftpdguest可以读vsftpdvu数据库的users表。执行以下命令： [root@hpe45 vsftpd-1.2.0]# mysql -u root mysql -p mysql\u003e;grant select on vsftpdvu.users to vsftpdguest@localhost identified by ‘i52serial0’; mysql\u003e;quit\n如果要验证刚才的操作是否成功可以执行下面命令： [root@hpe45 vsftpd]#mysql -u vsftpdguest -pi52serial0 vsftpdvu mysql\u003e;select * from users; 如果成功，将会列出xiaotong、xiaowang和加密后的密码\n五、设置MySQL的PAM验证\n这里我们要用到一个利用mysql进行pam验证的开源项目（http://sourceforge.net/projects/pam-mysql/）。首先从网站下载它的程序包pam_myql-0.5.tar.gz，复制到/root目录中。在编译安装之前，要确保mysql-devel的RPM包已经安装在你的机器上，如果没有请从RHL安装光盘中安装该包。然后，执行以下命令： [root@hpe45 root]#tar xvzf pam_mysql-0.5.tar.gz [root@hpe45 root]#cd pam_mysql [root@hpe45 pam_mysql]#make [root@hpe45 pam_mysql]#make install make install这一步可能会出现错误，那只好手动将该目录下生成的pam_mysql.o复制到/lib/security目录下。 接下来，我们要设置vsftpd的PAM验证文件。打开/etc/pam.d/ftp文件，加入以下内容： auth required pam_mysql.o user=vsftpdguest passwd=i52serial0 host=localhost db=vsftpdvu table=users usercolumn=name passwdcolumn=passwd crypt=2 account required pam_mysql.o user=vsftpdguest passwd=i52serial0 host=localhost db=vsftpdvu table=users usercolumn=name passwdcolumn=passwd crypt=2 上面涉及到的参数，只要对应前面数据库的设置就可以明白它们的含义。这里需要说明的是crypt参数。crypt表示口令字段中口令的加密方式：crypt=0，口令以明文方式（不加密）保存在数据库中；crypt=1，口令使用UNIX系统的DES加密方式加密后保存在数据库中；crypt=2，口令经过MySQL的password()函数加密后保存。\n六、进一步的虚拟用户设置\n经过以上的步骤，虚拟用户就可以正常使用了。这里介绍进一步的虚拟用户设置。首先，介绍虚拟用户的权限设置。\nVSFTPD-1.2.0新添了virtual_use_local_privs参数，当该参数激活（YES）时，虚拟用户使用与本地用户相同的权限。当此参数关闭（NO）时，虚拟用户使用与匿名用户相同的权限，这也就是VSFTPD-1.2.0之前版本对虚拟用户权限的处理方法。这两者种做法相比，后者更加严格一些，特别是在有写访问的情形下。默认情况下此参数是关闭的（NO）。 当virtual_use_local_privs=YES时，只需设置write_enable=YES，虚拟用户就可以就拥有写权限。而virtual_use_local_privs=NO时，对虚拟用户权限的设置就更多一些更严格一些。 控制虚拟用户浏览目录：如果让用户不能浏览目录，但仍可以对文件操作，那么需要执行以下二个步骤：一，配置文件中，anon_world_readable_only=YES。二，虚拟用户目录的权限改为只能由vsftpdguest操作： [root@hpe45 root]# chown vsftpdguest.vsftpdguest /home/vsftpdguest [root@hpe45 root]# chmod 700 /home/vsftpdguest 允许虚拟用户上传文件： write_enable=YES anon_upload_enable=YES 允许虚拟用户修改文件名和删除文件： anon_other_write_enable=YES 由于以上选项的设置同样会对匿名用户生效。如果不想匿名用户趁机拥有同样的权限，最好是禁止匿名用户登录。\n其次，由于虚拟用户在系统中是vsftpdguest身份，所以可以访问到系统的其他目录。为了更加安全，我们可以将虚拟用户限制在自家目录下。有两种做法：一，在配置文件中增加以下选项 chroot_local_user=NO chroot_list_enable=YES chroot_list_file=/etc/vsftpd.chroot_list 然后，在/etc/vsftpd.chroot_list文件中加入虚拟用户名xiaotong和xiaowang。 第二种做法，在配置文件中修改chroot_local_user=YES。 经过修改后，虚拟用户登录后其根目录就限制在/home/vsftpdguest下，无法访问其他目录。\n七、虚拟用户的个人目录\n大家可以发现，无论是哪个虚拟用户，登录后所在的目录都是/home/vsftpdguest，即都是guest_username用户的自家目录。下面，介绍如何为每个虚拟用户建立自家目录。首先，在主配置文件中加入以下选项： user_config_dir=/etc/vsftpd/vsftpd_user_conf 然后，生成/etc/vsftpd/vsftpd_user_conf目录，并在该目录下建立与特定虚拟用户同名的文件： [root@hpe45 root]# mkdir /etc/vsftpd/vsftpd_user_conf [root@hpe45 root]# cd /etc/vsftpd/vsftpd_user_conf [root@hpe45 vsftpd_user_conf]# touch xiaowang 以上的操作为虚拟用户xiaowang建立了个人配置文件/etc/vsftpd/vsftpd_user_conf/xiaowang。接下来，在xiaowang的个人配置文件中将xiaowang的自家目录修改为/home/xiaowang，配置选项为： local_root=/home/xiaowang 然后，新建xiaowang目录，并将权限设为vsftpdguest： [root@hpe45 vsftpd_user_conf]# mkdir /home/xiaowang [root@hpe45 vsftpd_user_conf]# chown vsftpdguest.vsftpdguest ./xiaowang [root@hpe45 vsftpd_user_conf]# chmod 600 /home/xiaowang 经过以上设置，xiaowang登录VSFTPD后，用“pwd”指令就可以发现被自己被定位到自己的“/home/xiaowang”目录。 从文件系统层次来看，由于“/home/xiaowang”目录的权限是属于vsftpdguest的，所以其他的虚拟用户同样也可以访问xiaowang的自家目录。解决这个问题也很简单，我们只需要让VSFTPD负责将虚拟用户限制在其自家目录，就可以避免虚拟用户的互相访问。具体做法参照前面第六步中所述，这里不再赘述。经过以上设置后，虚拟用户就可以拥有属于自己的目录了。\n",
+  "wordCount" : "279",
+  "inLanguage": "en",
+  "datePublished": "2006-04-17T02:42:42Z",
+  "dateModified": "2006-04-17T02:42:42Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      VSFTP＋MySQL虚拟用户配置
+    </h1>
+    <div class="post-meta"><span title='2006-04-17 02:42:42 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。</p>
+<p>　　一、VSFTPD的安装</p>
+<p>　　目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：</p>
+<p>　　VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。
+　　[root@hpe45 root]# useradd nobody
+　　useradd: user nobody exists</p>
+<p>　　VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。
+　　[root@hpe45 root]# mkdir /usr/share/empty/
+　　mkdir: cannot create directory &lsquo;/usr/share/empty&rsquo;: File exists</p>
+<p>　　VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。
+　　[root@hpe45 root]# mkdir /var/ftp/
+　　[root@hpe45 root]# useradd -d /var/ftp ftp
+　　接下来的操作对于ftp用户是否已经存在都是有用的。
+　　[root@hpe45 root]# chown root.root /var/ftp
+　　[root@hpe45 root]# chmod og-w /var/ftp</p>
+<p>　　以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令：
+　　[root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz
+　　[root@hpe45 root]# cd vsftpd-1.2.0
+　　[root@hpe45 vsftpd-1.2.0]# make
+　　[root@hpe45 vsftpd-1.2.0]# make install</p>
+<p>　　上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制：
+　　[root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd
+　　[root@hpe45 vsftpd-1.2.0]# cp vsftpd.conf.5 /usr/local/share/man/man5
+　　[root@hpe45 vsftpd-1.2.0]# cp vsftpd.8 /usr/local/share/man/man8</p>
+<p>　　接下来，我们复制一个简单的配置文件作为基础供后面修改。
+　　[root@hpe45 vsftpd-1.2.0]# cp vsftpd.conf /etc
+　　[root@hpe45 vsftpd-1.2.0]# cp RedHat/vsftpd.pam /etc/pam.d/ftp
+　　复制PAM验证文件，以允许本地用户登录VSFTPD。
+　　[root@hpe45 vsftpd-1.2.0]# cp RedHat/vsftpd.pam /etc/pam.d/ftp</p>
+<p>　　二、创建guest用户</p>
+<p>　　VSFTPD采用PAM方式验证虚拟用户。由于虚拟用户的用户名/口令被单独保存，因此在验证时，VSFTPD需要用一个系统用户的身份来读取数据库文件或数据库服务器以完成验证，这就是VSFTPD的guest用户。这正如同匿名用户也需要有一个系统用户ftp一样。当然，我们也可以把guest用户看成是虚拟用户在系统中的代表。下面在系统中添加vsftpdguest用户，作为VSFTPD的guest。
+　　[root@hpe45 vsftpd-1.2.0]# useradd vsftpdguest
+　　当虚拟用户登录后，所在的位置为vsftpdguest的自家目录/home/vsftpdguest。如果要让虚拟用户登录到/var/ftp等其他目录，修改vsftpdguest的自家目录即可。</p>
+<p>　　三、设置VSFTPD配置文件</p>
+<p>　　在/etc/vsftpd.conf文件中，加入以下选项：
+　　guest_enable=YES
+　　guest_username=vsftpdguest</p>
+<p>　　然后执行以下命令，让VSFTPD在后台运行：
+　　[root@hpe45 vsftpd-1.2.0]# /usr/local/sbin/vsftpd &amp;</p>
+<p>　　四、将虚拟用户保存在MySQL数据库服务器中</p>
+<p>　　我们建立数据库vsftpdvu，表users，字段name和passwd用于保存虚拟用户的用户名和口令,同时增加两个虚拟用户xiaotong和xiaowang。</p>
+<p>　　[root@hpe45 vsftpd-1.2.0]# mysql -p
+　　mysql&gt;;create database vsftpdvu;
+　　mysql&gt;;use vsftpdvu;
+　　mysql&gt;;create table users(name char(16) binary,passwd char(16) binary);
+　　mysql&gt;;insert into users (name,passwd) values (&lsquo;xiaotong&rsquo;,password(&lsquo;qqmywife&rsquo;));
+　　mysql&gt;;insert into users (name,passwd) values (&lsquo;xiaowang&rsquo;,password(&rsquo;ttmywife&rsquo;));
+　　mysql&gt;;quit</p>
+<p>　　然后，授权vsftpdguest可以读vsftpdvu数据库的users表。执行以下命令：
+　　[root@hpe45 vsftpd-1.2.0]# mysql -u root mysql -p
+　　mysql&gt;;grant select on vsftpdvu.users to vsftpdguest@localhost identified by &lsquo;i52serial0&rsquo;;
+　　mysql&gt;;quit</p>
+<p>　　如果要验证刚才的操作是否成功可以执行下面命令：
+　　[root@hpe45 vsftpd]#mysql -u vsftpdguest -pi52serial0 vsftpdvu
+　　mysql&gt;;select * from users;
+　　如果成功，将会列出xiaotong、xiaowang和加密后的密码</p>
+<p>　　五、设置MySQL的PAM验证</p>
+<p>　　这里我们要用到一个利用mysql进行pam验证的开源项目（http://sourceforge.net/projects/pam-mysql/）。首先从网站下载它的程序包pam_myql-0.5.tar.gz，复制到/root目录中。在编译安装之前，要确保mysql-devel的RPM包已经安装在你的机器上，如果没有请从RHL安装光盘中安装该包。然后，执行以下命令：
+　　[root@hpe45 root]#tar xvzf pam_mysql-0.5.tar.gz
+　　[root@hpe45 root]#cd pam_mysql
+　　[root@hpe45 pam_mysql]#make
+　　[root@hpe45 pam_mysql]#make install
+　　make install这一步可能会出现错误，那只好手动将该目录下生成的pam_mysql.o复制到/lib/security目录下。
+　　接下来，我们要设置vsftpd的PAM验证文件。打开/etc/pam.d/ftp文件，加入以下内容：
+　　auth required pam_mysql.o user=vsftpdguest passwd=i52serial0 host=localhost db=vsftpdvu table=users usercolumn=name passwdcolumn=passwd crypt=2
+　　account required pam_mysql.o user=vsftpdguest passwd=i52serial0 host=localhost db=vsftpdvu table=users usercolumn=name passwdcolumn=passwd crypt=2
+　　上面涉及到的参数，只要对应前面数据库的设置就可以明白它们的含义。这里需要说明的是crypt参数。crypt表示口令字段中口令的加密方式：crypt=0，口令以明文方式（不加密）保存在数据库中；crypt=1，口令使用UNIX系统的DES加密方式加密后保存在数据库中；crypt=2，口令经过MySQL的password()函数加密后保存。</p>
+<p>　　六、进一步的虚拟用户设置</p>
+<p>　　经过以上的步骤，虚拟用户就可以正常使用了。这里介绍进一步的虚拟用户设置。首先，介绍虚拟用户的权限设置。</p>
+<p>　　VSFTPD-1.2.0新添了virtual_use_local_privs参数，当该参数激活（YES）时，虚拟用户使用与本地用户相同的权限。当此参数关闭（NO）时，虚拟用户使用与匿名用户相同的权限，这也就是VSFTPD-1.2.0之前版本对虚拟用户权限的处理方法。这两者种做法相比，后者更加严格一些，特别是在有写访问的情形下。默认情况下此参数是关闭的（NO）。
+　　当virtual_use_local_privs=YES时，只需设置write_enable=YES，虚拟用户就可以就拥有写权限。而virtual_use_local_privs=NO时，对虚拟用户权限的设置就更多一些更严格一些。
+　　控制虚拟用户浏览目录：如果让用户不能浏览目录，但仍可以对文件操作，那么需要执行以下二个步骤：一，配置文件中，anon_world_readable_only=YES。二，虚拟用户目录的权限改为只能由vsftpdguest操作：
+　　[root@hpe45 root]# chown vsftpdguest.vsftpdguest /home/vsftpdguest
+　　[root@hpe45 root]# chmod 700 /home/vsftpdguest
+　　允许虚拟用户上传文件：
+　　write_enable=YES
+　　anon_upload_enable=YES
+　　允许虚拟用户修改文件名和删除文件：
+　　anon_other_write_enable=YES
+　　由于以上选项的设置同样会对匿名用户生效。如果不想匿名用户趁机拥有同样的权限，最好是禁止匿名用户登录。</p>
+<p>　　其次，由于虚拟用户在系统中是vsftpdguest身份，所以可以访问到系统的其他目录。为了更加安全，我们可以将虚拟用户限制在自家目录下。有两种做法：一，在配置文件中增加以下选项
+　　chroot_local_user=NO
+　　chroot_list_enable=YES
+　　chroot_list_file=/etc/vsftpd.chroot_list
+　　然后，在/etc/vsftpd.chroot_list文件中加入虚拟用户名xiaotong和xiaowang。
+　　第二种做法，在配置文件中修改chroot_local_user=YES。
+　　经过修改后，虚拟用户登录后其根目录就限制在/home/vsftpdguest下，无法访问其他目录。</p>
+<p>　　七、虚拟用户的个人目录</p>
+<p>　　大家可以发现，无论是哪个虚拟用户，登录后所在的目录都是/home/vsftpdguest，即都是guest_username用户的自家目录。下面，介绍如何为每个虚拟用户建立自家目录。首先，在主配置文件中加入以下选项：
+　　user_config_dir=/etc/vsftpd/vsftpd_user_conf
+　　然后，生成/etc/vsftpd/vsftpd_user_conf目录，并在该目录下建立与特定虚拟用户同名的文件：
+　　[root@hpe45 root]# mkdir /etc/vsftpd/vsftpd_user_conf
+　　[root@hpe45 root]# cd /etc/vsftpd/vsftpd_user_conf
+　　[root@hpe45 vsftpd_user_conf]# touch xiaowang
+　　以上的操作为虚拟用户xiaowang建立了个人配置文件/etc/vsftpd/vsftpd_user_conf/xiaowang。接下来，在xiaowang的个人配置文件中将xiaowang的自家目录修改为/home/xiaowang，配置选项为：
+　　local_root=/home/xiaowang
+　　然后，新建xiaowang目录，并将权限设为vsftpdguest：
+　　[root@hpe45 vsftpd_user_conf]# mkdir /home/xiaowang
+　　[root@hpe45 vsftpd_user_conf]# chown vsftpdguest.vsftpdguest ./xiaowang
+　　[root@hpe45 vsftpd_user_conf]# chmod 600 /home/xiaowang
+　　经过以上设置，xiaowang登录VSFTPD后，用“pwd”指令就可以发现被自己被定位到自己的“/home/xiaowang”目录。
+　　从文件系统层次来看，由于“/home/xiaowang”目录的权限是属于vsftpdguest的，所以其他的虚拟用户同样也可以访问xiaowang的自家目录。解决这个问题也很简单，我们只需要让VSFTPD负责将虚拟用户限制在其自家目录，就可以避免虚拟用户的互相访问。具体做法参照前面第六步中所述，这里不再赘述。经过以上设置后，虚拟用户就可以拥有属于自己的目录了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

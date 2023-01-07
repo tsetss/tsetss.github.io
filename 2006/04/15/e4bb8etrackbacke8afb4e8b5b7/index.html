@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>从trackback说起 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&lt;终止id;$i&#43;&#43;) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="从trackback说起" />
+<meta property="og:description" content="作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&lt;终止id;$i&#43;&#43;) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-15T21:36:58+00:00" />
+<meta property="article:modified_time" content="2006-04-15T21:36:58+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从trackback说起"/>
+<meta name="twitter:description" content="作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&lt;终止id;$i&#43;&#43;) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "从trackback说起",
+      "item": "http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "从trackback说起",
+  "name": "从trackback说起",
+  "description": "作者: sadly 出自: http://www.phpx.com\n前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.\n1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.\n大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.\n假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i\u0026lt;终止id;$i++) 回复第$i个文章 的办法显然是不行了.\n不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i\u0026lt;要发送的数量;$i++) 回复第$all_ukey_array[$i]个文章.\n于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i\u0026lt;要发送的数量;$i++) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章\n看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.\n算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?",
+  "keywords": [
+    
+  ],
+  "articleBody": "作者: sadly 出自: http://www.phpx.com\n前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.\n1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.\n大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.\n假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i\u003c终止id;$i++) 回复第$i个文章 的办法显然是不行了.\n不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i\u003c要发送的数量;$i++) 回复第$all_ukey_array[$i]个文章.\n于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i\u003c要发送的数量;$i++) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章\n看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.\n算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢? 3分钟? 5分钟? 把随机识别 码加上一个有效时间.\n看起来好多了. 当你用一个连续的数字id做唯一标志又没有其他限制的时候, 估计每秒钟发个几十帖 是没问题的. 你把id变成一个随机的ukey以后, 大概能减慢不少了. 如果再加上其他的验证限制, 降到每秒几个看来是不成问题的.\n它如果是不停的发新帖呢? 压根没什么ukey, 当然你也可以产生一个随机识别码：） 因为不用抓列表再抓识别码发帖的速度一下子又快起来…\n2 正常行为和异常行为 一个正常的用户每秒钟能打多少个字? 按多少次拷备/粘帖键? 如果一个用户1秒钟发了10个文章……（限制一下每30秒只允许发一帖？）… 如果一个用户3分钟发了6个文章,每个文章都有2000字……（很勤劳的转贴者啊）… 如果一个用户6分钟里发了12个文章,但标题或者内容都一样长……（算这么准，数学博士？）… 如果一个用户连续1个小时都在发文章……（绝对应该得五一劳动奖章）…\n3 黑名单 IP (可以用代理服务器啊)，用户名（可以注册很多个啊），关键词（本来也是随便写的啊）…… 看起来作用有限啊….\n4 局部？整体？ 如果一个文章是$user发布的 这样的回帖路径 blog.abc.com/$user/reply/$id 和这样的回帖路径 blog.abc.com/reply/$id 显然威胁是不大一样的，一个是局部，一个是整体。\n5 菜鸟乐园？ 操做系统的某某漏洞本来是个高级的玩意，等到攻击器满天飞的时候就不是个别人的私家玩具了。 网站也一样，把程序设计到用十分钟写一段js就能把系统搞的乱七八糟， 和需要花两天写个程序还要考虑什么随机数，多线程，代理服务器之类的是不大同的。\n6 do it 服务既然要公开提供给用户总是有办法来破坏，就随它去吧？ 一个水桶底上少块木板和有一个虫子眼一样么？\n7 完美设计 vs 快速响应 设计是不会完美，你总会遗漏东西，今天一个优秀的设计明天环境变了也许就成了鸡肋，快速响 应才是真的道理。\n",
+  "wordCount" : "124",
+  "inLanguage": "en",
+  "datePublished": "2006-04-15T21:36:58Z",
+  "dateModified": "2006-04-15T21:36:58Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      从trackback说起
+    </h1>
+    <div class="post-meta"><span title='2006-04-15 21:36:58 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>作者: sadly   出自: <a href="http://www.phpx.com">http://www.phpx.com</a></p>
+<p>前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的,
+后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事.
+我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望
+能够抛砖引玉一下.</p>
+<p>1 连续的数字id
+使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计
+数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要
+额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序
+viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被
+人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.</p>
+<p>大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个
+程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没
+什么效果了.</p>
+<p>假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了
+当然最好是字母数字混和的长字符串.
+现在用 (for $i=起始id;$i&lt;终止id;$i++) 回复第$i个文章 的办法显然是不行了.</p>
+<p>不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后
+再 (for $i=起始值;$i&lt;要发送的数量;$i++) 回复第$all_ukey_array[$i]个文章.</p>
+<p>于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到
+列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后
+再 ($i=起始值;$i&lt;要发送的数量;$i++) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章</p>
+<p>看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使
+用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.</p>
+<p>算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢? 3分钟? 5分钟? 把随机识别
+码加上一个有效时间.</p>
+<p>看起来好多了. 当你用一个连续的数字id做唯一标志又没有其他限制的时候, 估计每秒钟发个几十帖
+是没问题的. 你把id变成一个随机的ukey以后, 大概能减慢不少了. 如果再加上其他的验证限制,
+降到每秒几个看来是不成问题的.</p>
+<p>它如果是不停的发新帖呢? 压根没什么ukey, 当然你也可以产生一个随机识别码：）
+因为不用抓列表再抓识别码发帖的速度一下子又快起来&hellip;</p>
+<p>2 正常行为和异常行为
+一个正常的用户每秒钟能打多少个字? 按多少次拷备/粘帖键?
+如果一个用户1秒钟发了10个文章&hellip;&hellip;（限制一下每30秒只允许发一帖？）&hellip;
+如果一个用户3分钟发了6个文章,每个文章都有2000字&hellip;&hellip;（很勤劳的转贴者啊）&hellip;
+如果一个用户6分钟里发了12个文章,但标题或者内容都一样长&hellip;&hellip;（算这么准，数学博士？）&hellip;
+如果一个用户连续1个小时都在发文章&hellip;&hellip;（绝对应该得五一劳动奖章）&hellip;</p>
+<p>3 黑名单
+IP (可以用代理服务器啊)，用户名（可以注册很多个啊），关键词（本来也是随便写的啊）&hellip;&hellip;
+看起来作用有限啊&hellip;.</p>
+<p>4 局部？整体？
+如果一个文章是$user发布的
+这样的回帖路径
+blog.abc.com/$user/reply/$id
+和这样的回帖路径
+blog.abc.com/reply/$id
+显然威胁是不大一样的，一个是局部，一个是整体。</p>
+<p>5 菜鸟乐园？
+操做系统的某某漏洞本来是个高级的玩意，等到攻击器满天飞的时候就不是个别人的私家玩具了。
+网站也一样，把程序设计到用十分钟写一段js就能把系统搞的乱七八糟，
+和需要花两天写个程序还要考虑什么随机数，多线程，代理服务器之类的是不大同的。</p>
+<p>6 do it
+服务既然要公开提供给用户总是有办法来破坏，就随它去吧？
+一个水桶底上少块木板和有一个虫子眼一样么？</p>
+<p>7 完美设计 vs 快速响应
+设计是不会完美，你总会遗漏东西，今天一个优秀的设计明天环境变了也许就成了鸡肋，快速响
+应才是真的道理。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

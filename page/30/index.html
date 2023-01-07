@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>基于Linux的搜索引擎实现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux &#43; Apache &#43; PHP作为广泛使用Web服务器，与WinNT &#43; IIS &#43; ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache &#43; PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz&#43;QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf&#43;zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK&#43;of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-30 08:26:54 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 基于Linux的搜索引擎实现" href="http://example.org/2006/04/30/e59fbae4ba8elinuxe79a84e6909ce7b4a2e5bc95e6938ee5ae9ee78eb0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>开源或免费虚拟主机管理系统
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104
+web-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095
+VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/
+其他的：
+http://sourceforge.net/search/?words=hosting
+webmin的虚拟主机管理模块virtualmin- -
+webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块
+而virtualmin则是它的一个虚拟主机管理模块，功能如下图：
+webmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/
+基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -
+PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows
+安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：
+MySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting
+官方站上有基于各平台详细的安装说明 http://www.ladse.de
+phpmywebhosting下载：http://www.ladse.de/index.php/Files
+SysCP虚拟主机管理系统[全php版]- -
+1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)
+是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的
+用户界面：
+管理员界面：
+具有以下特性：
+Customer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing ....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-30 04:28:14 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 开源或免费虚拟主机管理系统" href="http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>开源的主机管理系统/虚拟主机控制面板
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux &#43; Apache &#43; PHP作为广泛使用Web服务器，与WinNT &#43; IIS &#43; ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache &#43; PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz&#43;QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf&#43;zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK&#43;of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-30 04:15:04 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 开源的主机管理系统/虚拟主机控制面板" href="http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>RSS搜索引擎集锦
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>有些用户将RSS搜索误认为“博客搜索”。虽然很多博客网站提供RSS聚合功能（自动创建聚合是大多数博客软件的特征），但并不是所有博客网站均提供这项服务。此外，理论上RSS可应用于任何基于Web类型的内容。RSS从根本来讲还是一种相对简单的规范，它利用了XML，并遵循一种标准的方式来组织和安排网络内容。
+事实已经证明，博客可以提供大部分RSS内容。此外，新闻网站同样也可以通过RSS实现内容聚合。大部分新闻站点已经实现这一功能。
+并且RSS聚合将被更多地应用于其他类型的内容。譬如，用户可以利用RSS聚合获得天气预报、公司新闻及金融信息、包裹跟踪等等方面的信息。甚至一直以来倍受人们推崇的雅虎目录也已经实现了RSS聚合。
+尽管理论上存在着上百万聚合内容，但要从中找到自己有用的相关的信息却非易事。一方面，主要搜索引擎均开始涉足聚合搜索，但截至目前还未有一家推出完善的聚合搜索服务。另一方面虽然也有一些规模较小、专业的博客和聚合搜索引擎，但由于它们缺少内容资源，同时博客和聚合内容中充斥着大量垃圾信息通常导致他们的搜索结果相关性极低。
+RSS搜索引擎
+互联网上已经诞生并发展起许多专业RSS搜索引擎，以下仅列决几个较为知名的聚合搜索引擎，更多可参考http://allrss.com/rsssearch.html
+Bloglines（http://www.bloglines.com）
+搜索引擎Ask Jeeves旗下的Bloglines，既是一个聚合搜索工具，又是一款聚合阅读器/新闻聚合器。Bloglines主页右上角放置了两个搜索框，用户可在第一个搜索框的下拉菜单中选择搜索范围，比如所有Bloglines索引的博客，个人订阅的博客，全部网站，或添加一个聚合地址至个人订阅；第二个搜索框则输入关键字。
+Bloglines的高级搜索页面，提供有基于表格的简单布尔逻辑搜索功能，还可以按照流行度或日期过滤搜索结果，选择不同的搜索范围（所有博客、个人定制博客或个人定制博客意外的所有博客）。
+Bloglines网站上公布了其已经被收录文章的总量，截至2005年9月8日为701,667,885。
+此外，作为一款阅读器，Bloglines在聚合内容阅读，管理个人订阅等方面还有很多好用的特色功能。它集信息订阅、分享、发布和搜索于一体，相对于其他同类产品极具个性。
+BlogPulse （http://www.blogpulse.com）
+BlogPulse主要作为一卷跟踪博客世界的流行趋势和热门话题的工具而众所周知，实际上它还有一款很不错的聚合搜索引擎，同时它还拥有同类聚合搜索服务中最大的聚合内容索引库之一。BlogPulse网站上目前公布的索引量为，可确认博客网页15,870,290个。
+BlogPulse的高级搜索页面提供有短语搜索，分别按照“包含全部关键字”、“包含任意一个关键字”和“精确关键字”三个选项，此外你还可以在这里创建自己的布尔算子搜索请求。另外，你还可以按照指定时间范围限制搜索结果，以时间或相关性排列搜索结果。
+Daypop（http://www.daypop.com）
+Daypop 是第一代博客/聚合搜索引擎之一，曾在2001年和2002年荣获Search Engine Watch最佳提名（Search Engine Watch每年对所有搜索引擎进行一次分类评选）。Daypop的运作完全依靠其创始人和所有者Dan Chan一人之力，因此较之其他同类工具缺乏一定的发展动力。
+Daypop的高级搜索页面提供有基本的按日期过滤结果，此外还有其他博客/聚合搜索工具未曾推出的按指定语言或国家限制搜索结果。
+Daypop搜索框底部显示了其当前搜索范围，涉及59000个新闻网站、博客网站及RSS 聚合。
+Feedster（http://www.feedster.com）
+Feedster 提供了多种有趣的特色功能，如订阅某个搜索请求并将其保存为一个feed，或通过电子邮件发送新的搜索结果。此外，较之全文本搜索，Feedster还提供有独特的搜索聚合内容内含信息和搜索聚合地址。在搜索聚合地址时，用户可以利用关键字或URL搜索，或者两者结合进行搜索。
+在Feedster高级搜索页面，用户可将搜索范围限制在某个聚合地址，也可以是多个聚合。此外，还能过滤某些聚合，包括你自己的。
+Feedster主页顶部显示其当前搜索量达到14,000,569个feeds（聚合地址）。
+Findory Blogory（http://findory.com/blogs/）
+Findory 是一款新闻搜索工具，同时具有独立的博客搜索功能。Blogory的主页版面看起来与Google新闻主页相似，页面顶部首先列出的是“top blogs”热门博客，接着是按照类别组织的其他博客链接，包括商业、政治、科技、个人、教育、综合、法律、娱乐、世界、地区、运动、艺术、图书、健康、科学。
+Blogory没有提供博客高级搜索，但其具有独特的个性化适应性RSS聚合功能，基于用户的兴趣或其他已经越多的博客自动为用户寻找适当的博客。
+Gigablast 博客搜索（http://blogs.gigablast.com/）
+Gigablast是一个网络搜索引擎，同时提供博客搜索。虽然博客搜索还处于测试版，但搜索结果质量较之其他博客搜索引擎有过之而无不及。Gigablast没有为各个搜索选项分别设置高级搜索页面，但利用共用的高级搜索页面也能够很好地精确搜索结果。
+Gigablast还提供XML搜索服务，基于Gigablast搜索结果创建自己的聚合。虽然此功能稍显多余，但对于希望跟踪Gigablast搜索结果的用户还说，还是值得一用。 Gigablast 还提供其他搜索选项，其中网页索引量达到2,068,530,608，博客索引量达到27,086,736个网页，旅游搜索量达到5,420,820个网页，政府搜索量达到34,367,200个网页。Gigablast除了网页和目录搜索外，其他搜索功能均为测试阶段。
+IceRocket博客搜索（http://www.icerocket.com/?tab=blog）
+与Gigablast类似，IceRocket也提供多种搜索选项，包括网页搜索、新闻搜索、手机图片搜索、图片搜索、多媒体搜索。IceRocket博客高级搜索页面提供有基本的布尔算子搜索和时间区间过滤搜索，并提供有独特的按作者搜索功能。
+IceRocket最近宣布将名称改为BlogScour，但未透露是否保留其他搜索选项。
+PubSub（http://www.pubsub.com）
+本文所列的所有博客和聚合搜索工具中，PubSub显得较为独特。
+第一，PubSub不提供直接搜索。用户必须首先为某个自己感兴趣的关键字创建订阅，然后PubSub将把随时找到的相匹配的最新内容通过预警方式通知用户。预警方式包括电子邮件、SMS、PDA/移动设备及即时通讯工具等。
+PubSub的第二个独特之处在于，它是一款“实时”搜索工具。也就是说，当新内容被发布到网络后，用户几乎马上就能得到预警通知，第一时间获得这些信息。
+目前，PubSub的存储量超过1600万博客，50,000多个互联网新闻组及所有SEC美国证监会（EDGAR，电子数据集中与报告系统）文件。
+Technorati （http://www.technorati.com）
+Technorati提供有网络搜索、标签搜索和博客搜索，并允许用户分别按关键字、URL或标签进行搜索。在Technorati的统一搜索页面上，集合了所有搜索方式，用户只要在恰当的搜索框内输入不同格式的搜索请求，就能获得相匹配的搜索结果。
+Technorati网络搜索当前可跟踪1,680万网站和15亿链接；标签搜索可跟踪实时更新的200万个网络标签；博客搜索目前还是测试版，实际是Technorati按照主题组织的博客目录。
+此外，Technorati的流行列表也值得一看。在这里，Technorat按照新闻、书籍、电影、Top 100博客等，展示了网上用户当前关注的各种热门话题。流行列表中的所有资源都保持实时更新状态。
+主流搜索引擎与RSS
+大量小型但专业的RSS搜索引擎涌现的同时，主流搜索引擎又在作何打算呢？尽管这些主流引擎都在窥觑RSS搜索，但目前还未有任何一家推出较为成熟的RSS搜索服务。
+|. Ask Jeeves已经通过旗下Bloglines推出RSS搜索服务，并承认RSS为其重要发展项目之一。但Bloglines是否继续拓展，集成类似于 Teoma的强大搜索能力，还是Ask公司继续Bloglines现有的RSS搜索能力仍未为可知。最大的可能性是以其他补充功能来增强这两种服务。
+||. Google没有为RSS聚合内容开通独立搜索入口，但自从Google推出可定制个性化首页之后，Google用户就可以通过“创建新的板块” （create a new section）链接，发现寻找聚合内容的搜索框。此外，用户还可以在任意Google搜索框内，使用“filetype:rss”及 “filetype:xml”命令过滤聚合信息。最新推出的Google Desktop 2桌面搜索第二代还增加了专门针对RSS聚合内容的自动搜索功能。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-27 06:26:15 +0000 UTC'>April 27, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to RSS搜索引擎集锦" href="http://example.org/2006/04/27/rsse6909ce7b4a2e5bc95e6938ee99b86e994a6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>一直不知道自己要做什么
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>无意间看到这篇文章,想想自己要做点什么呀
+web2.0服务
+1.更好和更廉价的网上存储Better and Cheaper Online File Storage 图片、电影、音乐和重要文件占据大量的硬盘空间。令人惊奇的是，我们所有人都无法将重要文件放在网络支持的平台上。就我所知，唯一的原因是还为生产出有合适的性能和合适价格的产品满足此类需求。我们需要一个好的产品，类似Flickr那样便于客户端上载并容易网络连结。
+2. 博客/网站和邮件列表 人们可以借助RSS获得我网站的信息，但是尚没有恰当的服务能使用户通过邮件订阅我的网站。 3. 便携的声誉（Portable Reputations） 需要一个能够在整个互联网空间通用的身份－反馈系统。 4.定制的当地信息服务（ Tailored Local Offers (via RSS) 建立一个网站。让用户顺应其意愿给出人口统计方面的和私人的信息。进入当地商业领域的大型销售公司的伙伴、城市搜索、黄页、个人资讯。通过邮件、网站和RSS给我提供当地的特产、5美元的比萨、免费的初次干洗、一杯咖啡。不论是什么，都能消受。 5. 其他国家的Facebook（将全美大学生联系一起的一种社交网络） 很多人准备做？你为何不试试？ 6. 免费音乐 音乐总有一日会在符合法律地免费。这是没有办法的事。艺术家、标签和促销员要另谋出路了。 7. 开放源代码黄页 为黄页信息贴上标签（tag）并且使他成为开放资源。靠当地广告和高级列表赚钱。 8. 播客抄录（Podcast Transcriptions） 博客需要抄录文本。许多人没有时间也不想听所有的博客内容。而搜索引擎不能检索博客内容。抄录内容解决和这两个问题。 9. 分布式评论聚合（Decentralized Review Aggregation） 对每个产品和每个事物都有着数百万充满激情的评论，这些东西都可以考虑呈现在博客圈中。别指望人们重复书写这些文字。用有影响的标签（tag）、RSS，甚至微格式（microformat）聚合它们，使其可搜索和可发现。 10. 用SSE做很酷的东西 在别人开始做之前，权衡清楚，然后做漂亮和新奇的玩意。 什么时候要做,要做哪个呀?</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-27 05:51:30 +0000 UTC'>April 27, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一直不知道自己要做什么" href="http://example.org/2006/04/27/e4b880e79bb4e4b88de79fa5e98193e887aae5b7b1e8a681e5819ae4bb80e4b988/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>谁在赚web2.0消费用户的钱？
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>那天跟一个开网络商店卖衣服卖时尚用品的朋友闲聊，无意中听到了一个窍门：“女人都贪靓，喜欢的都是花俏的新款式，而男人的东西很难卖，男人都爱买牌子货”。从消费行为看，女人是感性的，男人是理性的，女人比男人更容易受诱惑。男人和女人上街，除了“埋单”，就没男人的什么事了。男人赚钱，女人花钱，似乎天经地义。如果仔细观察身边，我们也许会看到“父母赚钱，孩子消费”，孩子才是花钱的“冤大头”。苦什么，也不会苦了孩子。读了大学的年轻人呢，和他们的父母一代相比更富足了，收入多了，花钱的速度也更快。因为能让他们心动，让他们大手大脚花钱的地方实在是太多了。
+这些上世纪八、九十年代出生的年轻人，是点着鼠标伴随互联网成长的新一代。他们不玩丢手绢，不跳马兰开花二十一；他们上网，玩游戏，聊QQ，他们在网上无所不玩，只要新鲜好玩，花了钱他们也爱玩。正是依靠青少年的网络热情，网易、腾讯才成为中国最赚钱的互联网公司。 年轻网民着迷的三种网络新玩法 对于全球的互联网公司来说，年轻人正在给他们更多的遐想空间。除了收发电子邮件、下载音乐、网络聊天、网络游戏，年轻人在网络上玩的东西越来越多。根据2006年最新发布的一份调查报告显示，全球年轻网民使用互联网的三大趋势是：找到一个有归属感的网上社区、在网上进行自我表达、通过网络实现个性化的互动交流。这份报告是雅虎公司和浩腾媒体对中国、美国、俄罗斯、德国、法国、英国和韩国等11个国家和地区的13岁至24岁网民调查分析后得出的最新数据。 这份报告不是空穴来风。2005年以来，年轻人对博客、网上社区交友这些web2.0的新玩意疯狂着迷。在国外，Blogs、BlogSpot、flickr、myspace、facebook取得了爆炸性的增长。国内的博客网站如blogcn、anyp，猫扑、天涯等社区，发展迅猛，深受白领和大学生们的欢迎。年轻人如果没有一个blog，就像不知道超级女声是什么一样，被亲近的人耻笑落伍了。 年轻人爱玩出新花样，他们把网络当成个性化的展台，在博客、社区这些新天地里秀出自己。他们已经不满足于追捧和模仿，“顶”、“垃圾”对他们太简单了；他们要秀，要玩，让别人也“顶”自己。他们在QQ里秀新衣服、发好玩的图片表情，他们在anyp里秀模板、秀挂饰、玩网页特效，他们敢在天涯猫扑里贴出自己的低胸爆乳图片、说很变态的笑话故事.....他们玩自己的，在自己的小圈子里玩出快感。 年轻用户“玩”出的商业机会 年轻人的网络个性化，正在“玩”出比web1.0时代不同的商业机会，他们太年轻、太有钱、太爱花钱，让人不敢相信，却不得不服。仅仅博客这个领域，年轻用户就让很多美国投资人垂涎三尺。美国的市场调查公司Comscore的2005年的一份报告显示，与一般互联网用户相比，博客的用户更加年轻、富裕、用宽带上网、网上花费更多。有关调查结果如下： 博客阅读者的平均每周上网时间为23小时，而一般网民的平均时间是13小时； 博客用户使用宽带上网者比一般网民多出11%； 博客阅读者中年收入超过7.5万美元的用户比非BLOG阅读者多出11%； 博客阅读者更有可能进行网上购物活动：在2005年第一季度中，全部网民中进行过网上购物的不到40%，但BLOG读者实施网上购物的超过了51%，同时花费的金额比一般网民平均多出6%。
+根据上面的数据，Comscore由此推测，博客用户的商业价值比一般互联网用户更高，博客读者群对网络广告客户来说是一群极富吸引力的受众（资料来自新竞争力网络营销管理顾问网站）。当然，博客的广告，也不同与传统的门户广告，更可能是互动性更强的交互式广告。除了广告，web2.0网站更多是开发用户的应用与需求，从用户的增值服务上寻求商机。在美国，硅谷的六度分割有限公司（Six Apart,Ltd.）就拥有100多万的付费博客用户，myspace用户27万付费会员，国内的博客网站中，博易anyp和博客大巴也开发了收费博客的服务。 中国web2.0网站做年轻用户没机会？ 年轻用户是潜在的金矿，让人羡慕，也让人妒忌。谢文最近说，国内的web2.0公司不应再做20岁的年轻用户，因为“网易和腾讯一旦想做，没人能打得过”。谢文这话好像缺乏了“web2.0精神”，就像是老人告诉后辈，山中有老虎，大家不要去打柴。谢文忘记了，web2.0就是创新公司，撞南墙并不可怕，雅虎当年在搜索上这么强劲，google不也是闯出了新天地。我觉得在国内，最先成功，最先赚钱的应该是中小型的创新公司。网易忙于游戏，腾讯无暇在QQ-zone上大投入，丁磊才说“门户随时复制web2.0”，复制才是他们的真实用意。 这个写的倒时很好,唉真不知道自己要做点什么呀!</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-27 05:20:27 +0000 UTC'>April 27, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 谁在赚web2.0消费用户的钱？" href="http://example.org/2006/04/27/e8b081e59ca8e8b59aweb20e6b688e8b4b9e794a8e688b7e79a84e992b1efbc9f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。
+在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。
+造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。
+例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。
+所以，解决问题的关键，是把这几个值都设置成相应的正确的值。
+问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。
+在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的’gb2312’ =&gt; ‘gb2312’改为’gb2312’ =&gt; ’latin1’； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将’zh- gb2312’ =&gt; array(‘zh|chinese simplified’, ‘chinese_simplified-gb2312’, ‘zh’)改为’zh-gb2312-utf-8’ =&gt; array(‘zh|chinese simplified’, ‘chinese_simplified-gb2312’, ‘zh’) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。
+说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。
+结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-26 04:52:47 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题" href="http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>vsftp安装配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.
+1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=&#34;YES&#34; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd &amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-26 04:08:38 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to vsftp安装配置" href="http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>vsFTPd 服务器初学者指南（欢迎大家参与补充）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1、vsFTPd，目前常用FTP服务器套件；
+vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；
+目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；
+2、ftp 用户管理解说；
+FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；
+推荐文章： 《Linux 用户（user）和用户组（group）管理概述》
+2.1、匿名ftp 用户和用户组的理解；
+当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；
+ftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；
+如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；
+在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：
+/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；
+在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；
+ftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；
+关于ftp用户组的理解：
+我们查看 /etc/group 的时候，会发现类似这样一条；
+ftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；
+2.2、匿名ftp 用户和ftp用户组是否可以删除
+在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-26 04:03:07 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to vsFTPd 服务器初学者指南（欢迎大家参与补充）" href="http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>ftP教程
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：
+用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-26 03:13:50 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ftP教程" href="http://example.org/2006/04/26/ftpe69599e7a88b/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/29/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/31/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

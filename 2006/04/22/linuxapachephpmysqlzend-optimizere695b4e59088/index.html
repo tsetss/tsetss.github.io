@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi &hellip; t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi &hellip; r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n &hellip; pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合" />
+<meta property="og:description" content="一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi &hellip; t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi &hellip; r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n &hellip; pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-22T21:48:37+00:00" />
+<meta property="article:modified_time" content="2006-04-22T21:48:37+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合"/>
+<meta name="twitter:description" content="一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi &hellip; t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi &hellip; r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n &hellip; pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Linux+Apache+PHP+MySQL+Zend Optimizer整合",
+      "item": "http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux+Apache+PHP+MySQL+Zend Optimizer整合",
+  "name": "Linux\u002bApache\u002bPHP\u002bMySQL\u002bZend Optimizer整合",
+  "description": "一、前言\n发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。\n二、准备程序\n以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。\nApache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz\nPHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror\nMySQL 4.0.26 下载地址： http://downloads.mysql.com/archi \u0026hellip; t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi \u0026hellip; r-4.0.26-0.i386.rpm\nZend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n \u0026hellip; pl1.tar.gz?download\nPHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境\n1、准备工作：\n由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:\nrpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib\ntar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng",
+  "keywords": [
+    
+  ],
+  "articleBody": "一、前言\n发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。\n二、准备程序\n以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。\nApache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz\nPHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror\nMySQL 4.0.26 下载地址： http://downloads.mysql.com/archi … t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi … r-4.0.26-0.i386.rpm\nZend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n … pl1.tar.gz?download\nPHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境\n1、准备工作：\n由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:\nrpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib\ntar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng\ntar zxvf libpng-1.2.7.tar.tar cd libpng-1.2.7 cd scripts/ mv makefile.linux ../makefile cd .. make make install 注意，这里的makefile不是用./configure生成，而是直接从scripts/里复制一个。\n(3) 安装freetype\ntar zxvf freetype-2.1.9.tar.gz cd freetype-2.1.9 ./configure make make install (4) 安装Jpeg\ntar zxvf jpegsrc.v6b.tar.gz cd jpeg-6b/ ./configure –enable-shared make make test make install 注意：这里configure一定要带–enable-shared参数，不然，不会生成共享库\n(5)安装GD\ntar zxvf gd-2.0.33.tar.gz cd gd-2.0.33 ./configure –with-png –with-freetype –with-jpeg make install 2、安装配置MySQL\n在安装MySQL之前，首先检查系统中是否安装了随Linux安装光盘自带的MySQL RPM：\nrpm -qa | grep mysql 如果没有返回任何结果则说明系统中没有安装过MySQL RPM，如果返回有MySQL RPM信息， 则需要先卸载它：\nrpm -e MySQL-xxxxxx 卸载过程中可能会提示有包依赖性问题而无法完成卸载，可以使用–nodeps或–force进行 强制卸载。\n当系统中的MySQL卸载完毕后我们开始安装新的版本： 安装客户端：\nrpm -ivh MySQL-client-4.0.26-0.i386.rpm 安装服务端：\nrpm -ivh MySQL-server-4.0.26-0.i386.rpm 启动MySQL Server：\n/etc/rc.d/init.d/mysql start 设置root密码：\nmysqladmin -u root password new_password_for_root 3、安装配置Apache\ntar xzvf httpd-2.0.55.tar.gz cd httpd-2.0.55 ./configure –prefix=/usr/local/apache –enable-so （这里为了节省内存提高Apache性能只允许了加载动态模块参数，而没有加载其他的模块。 如果需要什么模块，今后手动挂载上去就可以了。）\nmake make install 配置Apache：\nvi /usr/local/apache/conf/httpd.conf 以下只列出httpd.conf需要改动和配置的地方，其他地方暂时不用改动，略过。 CODE:[Copy to clipboard]ServerAdmin 将此处改为服务器管理员的E-Mail地址（例如：webmaster@yourdomain.com）\nServerName 将此处改为服务器的域名（例如：www.yourdomain.com:80）\nDocumentRoot 将此处改为你的网站根目录（例如：\"/var/www\"） 3、安装配置PHP\ntar xzvf php-4.4.1.tar.gz cd php-4.4.1 ./configure –prefix=/usr/local/php –with-apxs2=/usr/local/apache/bin/apxs –with-mysql –with-config-file-path=/usr/local/php/etc –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-freetype-dir –with-jpeg-dir –with-png-dir –with-zlib –enable-xml –enable-mbstring make make install cp php.ini-recommend /usr/local/php/etc/php.ini 与Apache整合： 编辑httpd.conf文件：\nvi /usr/local/apache/conf/httpd.conf 找到： DirectoryIndex 在后面的默认文件中增加index.php\n找到： AddType application/x-gzip .gz .tgz 在下面添加一行： AddType application/x-httpd-php .php 保存退出 4、安装Zend Optimizer QUOTE:\ntar xzvf Zend*.gz rm -f Zend*.gz cd Zend* ./install.sh 安装过程非常友好，很简单，但在输入php.ini文件路径的时候必须输入正确：/usr/local/php/etc\n安装完成后Zend Optimizer会自动重新启动Apache。\n多亏了这个了，不过装的mysql不是这个，只有一步出错了就是cp php.ini时出错了，当时也没注意看\n手工拷吧呵呵\n",
+  "wordCount" : "249",
+  "inLanguage": "en",
+  "datePublished": "2006-04-22T21:48:37Z",
+  "dateModified": "2006-04-22T21:48:37Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合
+    </h1>
+    <div class="post-meta"><span title='2006-04-22 21:48:37 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>一、前言</p>
+<p>发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。</p>
+<p>二、准备程序</p>
+<p>以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。</p>
+<p>Apache 2.0.55
+下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz</p>
+<p>PHP 4.4.1
+下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror</p>
+<p>MySQL 4.0.26
+下载地址：
+<a href="http://downloads.mysql.com/archi">http://downloads.mysql.com/archi</a> &hellip; t-4.0.26-0.i386.rpm
+<a href="http://downloads.mysql.com/archi">http://downloads.mysql.com/archi</a> &hellip; r-4.0.26-0.i386.rpm</p>
+<p>Zend Optimizer 2.6.0
+下载地址：http://prdownloads.sourceforge.n &hellip; pl1.tar.gz?download</p>
+<p>PHPMyAdmin 2.7.0-pl1
+下载地址：https://www.phpmyadmin.net
+三、安装整合环境</p>
+<p>1、准备工作：</p>
+<p>由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境：
+QUOTE:</p>
+<h1 id="rpm--qa--grep-zlib">rpm -qa | grep zlib<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-zlib">#</a></h1>
+<h1 id="rpm--qa--grep-libpng">rpm -qa | grep libpng<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-libpng">#</a></h1>
+<h1 id="rpm--qa--grep-freetype">rpm -qa | grep freetype<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-freetype">#</a></h1>
+<h1 id="rpm--qa--grep-jpeg">rpm -qa | grep jpeg<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-jpeg">#</a></h1>
+<h1 id="rpm--qa--grep-gd">rpm -qa | grep gd<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-gd">#</a></h1>
+<p>如果没有安装的话，可以按照下面的步骤手动安装：
+QUOTE:
+(1) 安装zlib</p>
+<h1 id="tar-zxvf-zlib-122targz">tar zxvf zlib-1.2.2.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-zlib-122targz">#</a></h1>
+<h1 id="cd-zlib-122">cd zlib-1.2.2<a hidden class="anchor" aria-hidden="true" href="#cd-zlib-122">#</a></h1>
+<h1 id="configure">./configure<a hidden class="anchor" aria-hidden="true" href="#configure">#</a></h1>
+<h1 id="make">make<a hidden class="anchor" aria-hidden="true" href="#make">#</a></h1>
+<h1 id="make-install">make install<a hidden class="anchor" aria-hidden="true" href="#make-install">#</a></h1>
+<p>(2) 安装libpng</p>
+<h1 id="tar-zxvf-libpng-127tartar">tar zxvf libpng-1.2.7.tar.tar<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-libpng-127tartar">#</a></h1>
+<h1 id="cd-libpng-127">cd libpng-1.2.7<a hidden class="anchor" aria-hidden="true" href="#cd-libpng-127">#</a></h1>
+<h1 id="cd-scripts">cd scripts/<a hidden class="anchor" aria-hidden="true" href="#cd-scripts">#</a></h1>
+<h1 id="mv-makefilelinux-makefile">mv makefile.linux ../makefile<a hidden class="anchor" aria-hidden="true" href="#mv-makefilelinux-makefile">#</a></h1>
+<h1 id="cd-">cd ..<a hidden class="anchor" aria-hidden="true" href="#cd-">#</a></h1>
+<h1 id="make-1">make<a hidden class="anchor" aria-hidden="true" href="#make-1">#</a></h1>
+<h1 id="make-install-1">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-1">#</a></h1>
+<p>注意，这里的makefile不是用./configure生成，而是直接从scripts/里复制一个。</p>
+<p>(3) 安装freetype</p>
+<h1 id="tar-zxvf-freetype-219targz">tar zxvf freetype-2.1.9.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-freetype-219targz">#</a></h1>
+<h1 id="cd-freetype-219">cd freetype-2.1.9<a hidden class="anchor" aria-hidden="true" href="#cd-freetype-219">#</a></h1>
+<h1 id="configure-1">./configure<a hidden class="anchor" aria-hidden="true" href="#configure-1">#</a></h1>
+<h1 id="make-2">make<a hidden class="anchor" aria-hidden="true" href="#make-2">#</a></h1>
+<h1 id="make-install-2">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-2">#</a></h1>
+<p>(4) 安装Jpeg</p>
+<h1 id="tar-zxvf-jpegsrcv6btargz">tar zxvf jpegsrc.v6b.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-jpegsrcv6btargz">#</a></h1>
+<h1 id="cd-jpeg-6b">cd jpeg-6b/<a hidden class="anchor" aria-hidden="true" href="#cd-jpeg-6b">#</a></h1>
+<h1 id="configure---enable-shared">./configure &ndash;enable-shared<a hidden class="anchor" aria-hidden="true" href="#configure---enable-shared">#</a></h1>
+<h1 id="make-3">make<a hidden class="anchor" aria-hidden="true" href="#make-3">#</a></h1>
+<h1 id="make-test">make test<a hidden class="anchor" aria-hidden="true" href="#make-test">#</a></h1>
+<h1 id="make-install-3">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-3">#</a></h1>
+<p>注意：这里configure一定要带&ndash;enable-shared参数，不然，不会生成共享库</p>
+<p>(5)安装GD</p>
+<h1 id="tar-zxvf-gd-2033targz">tar zxvf gd-2.0.33.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-zxvf-gd-2033targz">#</a></h1>
+<h1 id="cd-gd-2033">cd gd-2.0.33<a hidden class="anchor" aria-hidden="true" href="#cd-gd-2033">#</a></h1>
+<h1 id="configure---with-png---with-freetype---with-jpeg">./configure &ndash;with-png &ndash;with-freetype &ndash;with-jpeg<a hidden class="anchor" aria-hidden="true" href="#configure---with-png---with-freetype---with-jpeg">#</a></h1>
+<h1 id="make-install-4">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-4">#</a></h1>
+<p>2、安装配置MySQL</p>
+<p>在安装MySQL之前，首先检查系统中是否安装了随Linux安装光盘自带的MySQL RPM：</p>
+<h1 id="rpm--qa--grep-mysql">rpm -qa | grep mysql<a hidden class="anchor" aria-hidden="true" href="#rpm--qa--grep-mysql">#</a></h1>
+<p>如果没有返回任何结果则说明系统中没有安装过MySQL RPM，如果返回有MySQL RPM信息，
+则需要先卸载它：</p>
+<h1 id="rpm--e-mysql-xxxxxx">rpm -e MySQL-xxxxxx<a hidden class="anchor" aria-hidden="true" href="#rpm--e-mysql-xxxxxx">#</a></h1>
+<p>卸载过程中可能会提示有包依赖性问题而无法完成卸载，可以使用&ndash;nodeps或&ndash;force进行
+强制卸载。</p>
+<p>当系统中的MySQL卸载完毕后我们开始安装新的版本：
+安装客户端：</p>
+<h1 id="rpm--ivh-mysql-client-4026-0i386rpm">rpm -ivh MySQL-client-4.0.26-0.i386.rpm<a hidden class="anchor" aria-hidden="true" href="#rpm--ivh-mysql-client-4026-0i386rpm">#</a></h1>
+<p>安装服务端：</p>
+<h1 id="rpm--ivh-mysql-server-4026-0i386rpm">rpm -ivh MySQL-server-4.0.26-0.i386.rpm<a hidden class="anchor" aria-hidden="true" href="#rpm--ivh-mysql-server-4026-0i386rpm">#</a></h1>
+<p>启动MySQL Server：</p>
+<h1 id="etcrcdinitdmysql-start">/etc/rc.d/init.d/mysql start<a hidden class="anchor" aria-hidden="true" href="#etcrcdinitdmysql-start">#</a></h1>
+<p>设置root密码：</p>
+<h1 id="mysqladmin--u-root-password-new_password_for_root">mysqladmin -u root password new_password_for_root<a hidden class="anchor" aria-hidden="true" href="#mysqladmin--u-root-password-new_password_for_root">#</a></h1>
+<p>3、安装配置Apache</p>
+<h1 id="tar-xzvf-httpd-2055targz">tar xzvf httpd-2.0.55.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-xzvf-httpd-2055targz">#</a></h1>
+<h1 id="cd-httpd-2055">cd httpd-2.0.55<a hidden class="anchor" aria-hidden="true" href="#cd-httpd-2055">#</a></h1>
+<h1 id="configure---prefixusrlocalapache---enable-so-这里为了节省内存提高apache性能只允许了加载动态模块参数而没有加载其他的模块">./configure &ndash;prefix=/usr/local/apache &ndash;enable-so （这里为了节省内存提高Apache性能只允许了加载动态模块参数，而没有加载其他的模块。<a hidden class="anchor" aria-hidden="true" href="#configure---prefixusrlocalapache---enable-so-这里为了节省内存提高apache性能只允许了加载动态模块参数而没有加载其他的模块">#</a></h1>
+<p>如果需要什么模块，今后手动挂载上去就可以了。）</p>
+<h1 id="make-4">make<a hidden class="anchor" aria-hidden="true" href="#make-4">#</a></h1>
+<h1 id="make-install-5">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-5">#</a></h1>
+<p>配置Apache：</p>
+<h1 id="vi-usrlocalapacheconfhttpdconf">vi /usr/local/apache/conf/httpd.conf<a hidden class="anchor" aria-hidden="true" href="#vi-usrlocalapacheconfhttpdconf">#</a></h1>
+<p>以下只列出httpd.conf需要改动和配置的地方，其他地方暂时不用改动，略过。
+CODE:[Copy to clipboard]ServerAdmin 将此处改为服务器管理员的E-Mail地址（例如：webmaster@yourdomain.com）</p>
+<p>ServerName 将此处改为服务器的域名（例如：www.yourdomain.com:80）</p>
+<p>DocumentRoot 将此处改为你的网站根目录（例如：&quot;/var/www&quot;）
+3、安装配置PHP</p>
+<h1 id="tar-xzvf-php-441targz">tar xzvf php-4.4.1.tar.gz<a hidden class="anchor" aria-hidden="true" href="#tar-xzvf-php-441targz">#</a></h1>
+<h1 id="cd-php-441">cd php-4.4.1<a hidden class="anchor" aria-hidden="true" href="#cd-php-441">#</a></h1>
+<h1 id="configure---prefixusrlocalphp---with-apxs2usrlocalapachebinapxs---with-mysql---with-config-file-pathusrlocalphpetc---with-gd---enable-gd-native-ttf---enable-gd-jis-conv---with-freetype-dir---with-jpeg-dir---with-png-dir---with-zlib---enable-xml---enable-mbstring">./configure &ndash;prefix=/usr/local/php &ndash;with-apxs2=/usr/local/apache/bin/apxs &ndash;with-mysql &ndash;with-config-file-path=/usr/local/php/etc &ndash;with-gd &ndash;enable-gd-native-ttf &ndash;enable-gd-jis-conv &ndash;with-freetype-dir &ndash;with-jpeg-dir &ndash;with-png-dir &ndash;with-zlib &ndash;enable-xml &ndash;enable-mbstring<a hidden class="anchor" aria-hidden="true" href="#configure---prefixusrlocalphp---with-apxs2usrlocalapachebinapxs---with-mysql---with-config-file-pathusrlocalphpetc---with-gd---enable-gd-native-ttf---enable-gd-jis-conv---with-freetype-dir---with-jpeg-dir---with-png-dir---with-zlib---enable-xml---enable-mbstring">#</a></h1>
+<h1 id="make-5">make<a hidden class="anchor" aria-hidden="true" href="#make-5">#</a></h1>
+<h1 id="make-install-6">make install<a hidden class="anchor" aria-hidden="true" href="#make-install-6">#</a></h1>
+<h1 id="cp-phpini-recommend-usrlocalphpetcphpini">cp php.ini-recommend /usr/local/php/etc/php.ini<a hidden class="anchor" aria-hidden="true" href="#cp-phpini-recommend-usrlocalphpetcphpini">#</a></h1>
+<p>与Apache整合：
+编辑httpd.conf文件：</p>
+<h1 id="vi-usrlocalapacheconfhttpdconf-1">vi /usr/local/apache/conf/httpd.conf<a hidden class="anchor" aria-hidden="true" href="#vi-usrlocalapacheconfhttpdconf-1">#</a></h1>
+<p>找到：
+DirectoryIndex
+在后面的默认文件中增加index.php</p>
+<p>找到：
+AddType application/x-gzip .gz .tgz
+在下面添加一行：
+AddType application/x-httpd-php .php
+保存退出
+4、安装Zend Optimizer
+QUOTE:</p>
+<h1 id="tar-xzvf-zendgz">tar xzvf Zend*.gz<a hidden class="anchor" aria-hidden="true" href="#tar-xzvf-zendgz">#</a></h1>
+<h1 id="rm--f-zendgz">rm -f Zend*.gz<a hidden class="anchor" aria-hidden="true" href="#rm--f-zendgz">#</a></h1>
+<h1 id="cd-zend">cd Zend*<a hidden class="anchor" aria-hidden="true" href="#cd-zend">#</a></h1>
+<h1 id="installsh">./install.sh<a hidden class="anchor" aria-hidden="true" href="#installsh">#</a></h1>
+<p>安装过程非常友好，很简单，但在输入php.ini文件路径的时候必须输入正确：/usr/local/php/etc</p>
+<p>安装完成后Zend Optimizer会自动重新启动Apache。</p>
+<p>多亏了这个了，不过装的mysql不是这个，只有一步出错了就是cp php.ini时出错了，当时也没注意看</p>
+<p>手工拷吧呵呵</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

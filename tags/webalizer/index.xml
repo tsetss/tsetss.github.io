@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+Webalizer
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/webalizer/</link>
+    <description>Recent content in 
+Webalizer
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Jun 2007 19:56:15 +0000</lastBuildDate><atom:link href="http://example.org/tags/webalizer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Webalizer-利用ApacheLog達成流量統計圖表化</title>
+      <link>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</link>
+      <pubDate>Sat, 30 Jun 2007 19:56:15 +0000</pubDate>
+      
+      <guid>http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;【前言】&lt;/strong&gt;&lt;a href=&#34;http://www.mrunix.net/webalizer/&#34;&gt;[webalizer]&lt;/a&gt; - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【作業環境】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;FreeBSD 5.2、6.2-RELEASE&lt;/p&gt;
+&lt;p&gt;webalizer-2.01-10、2.1.10_12&lt;/p&gt;
+&lt;p&gt;libiconv-1.9.2_2&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【安裝及設定】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step1.安裝 webalizer 及 libiconv 套件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;將&lt;a href=&#34;http://www.weithenn.idv.tw/cgi-bin/wiki.pl/%e9%a1%8f%e5%9c%8b%e9%9b%84%e8%80%81%e5%b8%ab%e4%b8%ad%e6%96%87%e4%ba%82%e7%a2%bc%e4%bf%ae%e6%ad%a3%e6%aa%94-webalizer_patch.pl&#34;&gt;顏國雄老師中文亂碼修正檔-webalizer patch.pl&lt;/a&gt; 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

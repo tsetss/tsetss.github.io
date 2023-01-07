@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明。 http://windtear.net/archives/2005/09/22/000777.html
+倒数据当然推荐rsync 不过当文件数超级多 或者网络条件等不具备时 tar 打包就是首选了
+数据运到目的地后 解包时需要注意别覆盖
+tar 工具的 -k 参数就提供干这事 -k,–keep-old-files 不覆盖已存在文件
+-k, --keep-old-files keep existing files; don&#39;t overwrite them from archive 如: tar zxfk filename.tar.gz</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-26 10:43:34 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件" href="http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>tar命令详解 (推荐)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-26 07:02:17 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to tar命令详解 (推荐)" href="http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>cp 命令
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cp [-R [-H | -L | -P]] [-f | -i | -n] [-alpv] source_file target_file cp [-R [-H | -L | -P]] [-f | -i | -n] [-alpv] source_file … target_directory
+-i 覆盖确认 -n 覆盖不确认 -v 显示详情 -R 全部目录 -p 权限和source_file 一样
+其它的暂时没用到,先写到这里</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-26 02:30:03 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to cp 命令" href="http://example.org/2009/03/26/cp-e591bde4bba4/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD常见问题集合
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1.如何使用脚本获得PID 参见脚本pid.sh, 如下:
+$ cat pid.sh #!/bin/sh pid=`ps -aux | grep $1 | grep -v grep | awk &#39;{print $2}&#39;` echo $pid &lt; $1.pid $./pid.sh sshd 将文件名从大写转换为小写 参见脚本mklower.sh, 如下:
+#!/bin/sh for file in $1; do newfile=`echo &#34;$file&#34; | tr &#34;[:upper:]&#34; &#34;[:lower:]&#34;` mv &#34;$file&#34; &#34;$newfile&#34; done $ mklower.sh *.JPG 子目录按大小排序
+$du -s * | sort -n
+ls显示颜色
+$ls -G #显示属性颜色 $ls -F #显示属性字符 $ls -FG
+快速安装package 你可以先设定 PACKAGEROOT，指定用该站点的package，安装时自动寻找对应pakage，而且你不需要知道版本，只要知道package名称即可，会自动安装package的最新版，中文的部分只要加上 zh-，像是 zh-xcin。
+# setenv PACKAGEROOT ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 22:45:36 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD常见问题集合" href="http://example.org/2009/03/25/freebsde5b8b8e8a781e997aee9a298e99b86e59088/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>如何将FreeBSD复制到另一颗硬盘 ?
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如何将Linux或FreeBSD复制到另一颗硬盘 ? Linux上的系统复制很简单，使用cp -ax将partition资料复制过去，重开机後设定lilo就可以了。 FreeBSD也可以用cp来复制文档，但是对于复制整个文档系统并不是好方法。 这里介绍使用dump和restore来做：
+创建新的文档系统 假如你的新硬盘为ad1, 而将来的根分区将是ad1s1a, 你可以先创建文档系统： newfs /dev/ad1s1a mount /dev/ad1s1a /mnt cd /mnt
+复制： dump -f- / | restore -f- -r 这是把老的根文档系统复制输出到管道，restore从管道里读数据，写入当前目录所在的文档系统。
+按部就班复制其他文档系统 复制完後，也许 要修改新硬盘下的/etc/fstab，安装上新的分区，摘下老硬盘就可以了。 再补充一点，如果你要复制的是另外一台机器，可以用rsh，这样就可以通过网络把一个分区数据传送到另外一台机器，不需要NFS，不需SAMBA等就可以解决问题，而cp就很难作到了。 newfs /dev/ad1s1a mount /dev/ad1s1a /mnt cd /mnt rsh -l yourname thathost ‘dump -f- /’ | restore -f- -r
+http://www.cnblogs.com/znuwcj/archive/2006/08/22/483583.aspx</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 18:51:31 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 如何将FreeBSD复制到另一颗硬盘 ?" href="http://example.org/2009/03/25/e5a682e4bd95e5b086freebsde5a48de588b6e588b0e58fa6e4b880e9a297e7a1ace79b98/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>fsck命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>功能说明：检查文件系统并尝试修复错误。 语　法：fsck [-aANPrRsTV][-t &lt;文件系统类型&gt;][文件系统…] 补充说明：当文件系统发生错误四化，可用fsck指令尝试加以修复。 参　数： -a 自动修复文件系统，不询问任何问题。 -A 依照/etc/fstab配置文件的内容，检查文件内所列的全部文件系统。 -N 不执行指令，仅列出实际执行会进行的动作。 -P 当搭配”-A”参数使用时，则会同时检查所有的文件系统。 -r 采用互动模式，在执行修复时询问问题，让用户得以确认并决定处理方式。 -R 当搭配”-A”参数使用时，则会略过/目录的文件系统不予检查。 -s 依序执行检查作业，而非同时执行。 -t&lt;文件系统类型&gt; 指定要检查的文件系统类型。 -T 执行fsck指令时，不显示标题信息。 -V 显示指令执行过程。 例子 : 检查 msdos 档案系统的 /dev/hda5 是否正常，如果有异常便自动修复 : fsck -t msdos -a /dev/hda5
+注意 :
+此指令可与 /etc/fstab 相互参考操作来加以了解。
+运行fsck命令后产生的文件有什么用？
+当执行fsck命令时，fsck命令如果发现存在孤立的文件或目录，这些孤立的文件或目录对于系统管理员或用户来说，无法访问到它，因为它与它的上级 目录失去了关联，如果用户允许fsck重新把它们找回来的话，fsck命令就会把这些孤立的文件或目录放在文件系统的/lost&#43;found目录下，并用 各自的i-node号来命名，以便用户查找自己需要的文件。Lost&#43;found目录通过它的英文含义我们都可以知道，它是一个失物认领处。
+因此当某个用户发现自己丢失了某个文件，可以在执行fsck之后到/lost&#43;found目录下去查找，这时通过文件名已无法辨认出文件的作用，只能 用file之类的命令来确定文件的类型，如果是数据文件，可以用more或vi命令来查看，如果是二进制文件，可以用dbx命令来调试或者试着执行它(注 意它可能是一个具有破坏性的程序)，知道文件或目录的作用之后，可以对其进行改名。
+如果用户不允许fsck把这些孤立的文件或目录找回来，那么fsck命令就会破坏这些文件或目录，彻底丢失这些文件或目录，用户或系统管理员永远也无法找回它们。
+原文 http://hi.baidu.com/blvm/blog/item/7b7c95c46b61a6ad8226acf4.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 18:33:16 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to fsck命令详解" href="http://example.org/2009/03/25/fscke591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql explain详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在做sql查询的时候，应该想到explain，这样用来对sql的执行效率进行分析。
+mysql explain的详解 explain显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。 使用方法，在select语句前加上explain就可以了：
+如：explain select surname,first_name form a,b where a.id=b.id
+分析结果形式如下：
+table type possible_keys key key_len ref rows extra a range id first_name First_name 9 NULL 23112 Using where　Using temporary　Using filesort b ref id　first_name id 4 id 2 Using where
+EXPLAIN列的解释：
+table：显示这一行的数据是关于哪张表的 type：这是重要的列，显示连接使用了何种类型。从最好到最差的连接类型为const、eq_reg、ref、range、indexhe和ALL possible_keys：显示可能应用在这张表中的索引。如果为空，没有可能的索引。可以为相关的域从WHERE语句中选择一个合适的语句 key：实际使用的索引。如果为NULL，则没有使用索引。很少的情况下，MYSQL会选择优化不足的索引。这种情况下，可以在SELECT语句中使用 USE INDEX（indexname）来强制使用一个索引或者用IGNORE INDEX（indexname）来强制MYSQL忽略索引 key_len：使用的索引的长度。在不损失精确性的情况下，长度越短越好 ref：显示索引的哪一列被使用了，如果可能的话，是一个常数 rows：MYSQL认为必须检查的用来返回请求数据的行数 Extra：关于MYSQL如何解析查询的额外信息。将在表4.3中讨论，但这里可以看到的坏的例子是Using temporary和Using filesort，意思MYSQL根本不能使用索引，结果是检索会很慢 extra列返回的描述的意义 Distinct:一旦MYSQL找到了与行相联合匹配的行，就不再搜索了 Not exists: MYSQL优化了LEFT JOIN，一旦它找到了匹配LEFT JOIN标准的行，就不再搜索了 Range checked for each Record（index map:#）:没有找到理想的索引，因此对于从前面表中来的每一个行组合，MYSQL检查使用哪个索引，并用它来从表中返回行。这是使用索引的最慢的连接之一 Using filesort: 看到这个的时候，查询就需要优化了。MYSQL需要进行额外的步骤来发现如何对返回的行排序。它根据连接类型以及存储排序键值和匹配条件的全部行的行指针来排序全部行 Using index: 列数据是从仅仅使用了索引中的信息而没有读取实际的行动的表返回的，这发生在对表的全部的请求列都是同一个索引的部分的时候 Using temporary 看到这个的时候，查询需要优化了。这里，MYSQL需要创建一个临时表来存储结果，这通常发生在对不同的列集进行ORDER BY上，而不是GROUP BY上 Where used 使用了WHERE从句来限制哪些行将与下一张表匹配或者是返回给用户。如果不想返回表中的全部行，并且连接类型ALL或index，这就会发生，或者是查询有问题不同连接类型的解释（按照效率高低的顺序排序） system 表只有一行：system表。这是const连接类型的特殊情况 const:表中的一个记录的最大值能够匹配这个查询（索引可以是主键或惟一索引）。因为只有一行，这个值实际就是常数，因为MYSQL先读这个值然后把它当做常数来对待 eq_ref:在连接中，MYSQL在查询时，从前面的表中，对每一个记录的联合都从表中读取一个记录，它在查询使用了索引为主键或惟一键的全部时使用 ref:这个连接类型只有在查询使用了不是惟一或主键的键或者是这些类型的部分（比如，利用最左边前缀）时发生。对于之前的表的每一个行联合，全部记录都将从表中读出。这个类型严重依赖于根据索引匹配的记录多少—越少越好 range:这个连接类型使用索引返回一个范围中的行，比如使用&gt;或&lt;查找东西时发生的情况 index: 这个连接类型对前面的表中的每一个记录联合进行完全扫描（比ALL更好，因为索引一般小于表数据） ALL:这个连接类型对于前面的每一个记录联合进行完全扫描，这一般比较糟糕，应该尽量避免</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 18:31:19 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql explain详解" href="http://example.org/2009/03/25/mysql-explaine8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd系统一启动就进入单用户模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>提示大概和下面一样
+/dev/ad0s1a:File System Clean;Skipping Checks /dev/ados1a:Clean,480970 free(226 frags,60093 blocks,0.0% fragmentation) /dev/ados1e:DEFER FOR BACKGROUND CHECKING /dev/ados1f:DEFER FOR BACKGROUND CHECKING ad0:FAILURE -READ_DMA status=51 error=40 LBA=3306739 /dev/ad0s1d:CANNOT READ BLK:160948 /dev/ad0s1d:UNEXPECTED SOFT UPDATE INCONSISTENCY;RUN fsck MANUALLY. THE FOLLOWING FILE SYSTEM HAD AN UNEXPECTED INCONSISTENCY: usf:/dev/ados1d(/usr) Automatic file system check failed;help! OCT 24 19:18:42 init:/bin/sh on /etc/rc terminated abnormally,going to single use mode Enter full pathname of shell or RETURN for /bin/sh:
+####################
+原因：文件系统崩溃了，各分区损坏
+解决方法：...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 18:26:34 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd系统一启动就进入单用户模式" href="http://example.org/2009/03/25/freebsde7b3bbe7bb9fe4b880e590afe58aa8e5b0b1e8bf9be585a5e58d95e794a8e688b7e6a8a1e5bc8f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>试析FreeBSD 6.2 的rc脚本系统
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>杜比环绕声 http://blog.chinaunix.net/u/12258/showart_292352.html
+一、从mysql的启动脚本说起
+配置mysql的时候，如果需要启动运行 mysql server，按照 mysql 手册上的说明，需要在 /etc/rc.conf 中，添加一条信息：
+mysql_enable=&#34;YES&#34; 这样在重新启动系统的时候，就可以自动运行 mysqlserver.
+如果需要运行时，停止 mysqlserver 或者重新启动 mysqlserver，可以使用下面的命令：
+停止mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server stop 重新启动mysqlserver: shell&gt;/usr/local/etc/rc.d/mysql-server restart
+其实无论是mysqlserver还是apache等系统服务，都可以利用上面提到的参数“stop“，”restart“等进行程序维护
+这属于FreeBSD系统rc脚本系统的具体应用。
+FreeBSD的rc脚本系统在服务程序的管理上，主要是体现在 /etc/rc.d 和 /usr/local/etc/rc.d 这两个目录下的可执行脚本，系统级别的服务程序的脚本大都安装在 /etc/rc.d目录下，而用户级别的服务程序的脚本都安装在 /usr/local/etc/rc.d 目录下。如 mysql server 在安装的时候会在 /usr/local/etc/rc.d目录下安装一个 mysql-server 的脚本文件。
+服务程序的管理，其实运行的就是对应的脚本文件。如上面举例的停止服务，重新启动服务，运行的都是mysql-server脚本。
+二、mysql-server 启动脚本的说明
+下面的脚本代码是freebsd 6.2中mysqlserver 5.0的启动脚本。具体的功能在脚本代码中注释！
+#!/bin/sh
+$FreeBSD: ports/databases/mysql50-server/files/mysql-server.sh.in,v 1.3 2006/03/07 16:25:00 ale Exp $ #下面这部分文本描述了可以在rc.conf中设置、添加的启动条目，用来控制mysqlserver启动的一些具体细节。
+PROVIDE: mysql REQUIRE: LOGIN KEYWORD: shutdown Add the following line to /etc/rc.conf to enable mysql: mysql_enable (bool): Set to “NO” by default....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 11:20:52 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 试析FreeBSD 6.2 的rc脚本系统" href="http://example.org/2009/03/25/e8af95e69e90freebsd-62-e79a84rce8849ae69cace7b3bbe7bb9f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql 压力测试结果
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd 7.0 amd64
+mysqlslap -a --concurrency=5,10,20,50,150 --number-of-queries 100000 --debug-info Benchmark Average number of seconds to run all queries: 766.733 seconds Minimum number of seconds to run all queries: 766.733 seconds Maximum number of seconds to run all queries: 766.733 seconds Number of clients running queries: 5 Average number of queries per client: 20000 Benchmark Average number of seconds to run all queries: 820.050 seconds Minimum number of seconds to run all queries: 820....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 09:13:57 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql 压力测试结果" href="http://example.org/2009/03/25/mysql-e58e8be58a9be6b58be8af95e7bb93e69e9c/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/17/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/19/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

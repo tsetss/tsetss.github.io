@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>VMware Server、VMware GSX Server、VMware ESX Server,VI说明 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。
+自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。
+GSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。
+VMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。
+ESX企业级，GSX工作组级，Workstation单机级
+有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。
+Esx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。
+1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/05/vmware-servere38081vmware-gsx-servere38081vmware-esx-servervie8afb4e6988e/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="VMware Server、VMware GSX Server、VMware ESX Server,VI说明" />
+<meta property="og:description" content="免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。
+自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。
+GSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。
+VMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。
+ESX企业级，GSX工作组级，Workstation单机级
+有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。
+Esx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。
+1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/05/vmware-servere38081vmware-gsx-servere38081vmware-esx-servervie8afb4e6988e/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-05T10:45:11+00:00" />
+<meta property="article:modified_time" content="2009-04-05T10:45:11+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="VMware Server、VMware GSX Server、VMware ESX Server,VI说明"/>
+<meta name="twitter:description" content="免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。
+自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。
+GSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。
+VMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。
+ESX企业级，GSX工作组级，Workstation单机级
+有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。
+Esx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。
+1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "VMware Server、VMware GSX Server、VMware ESX Server,VI说明",
+      "item": "http://example.org/2009/04/05/vmware-servere38081vmware-gsx-servere38081vmware-esx-servervie8afb4e6988e/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VMware Server、VMware GSX Server、VMware ESX Server,VI说明",
+  "name": "VMware Server、VMware GSX Server、VMware ESX Server,VI说明",
+  "description": "免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。\n自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。\nGSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。\nVMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。\nESX企业级，GSX工作组级，Workstation单机级\n有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。\nEsx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。\n1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN",
+  "keywords": [
+    
+  ],
+  "articleBody": "免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。\n自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。\nGSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。\nVMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。\nESX企业级，GSX工作组级，Workstation单机级\n有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。\nEsx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。\n1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN\nESX Server 2.5.x虚拟机 ·通过可选的vSMP模块，每个虚拟机可以支持2个虚拟CPU ·每个虚拟机支持3.6GB内存 ·支持4个虚拟scsi适配器并且可以支持到15个scsi硬盘 ·虚拟磁盘容量支持9GB ·支持4个虚拟网卡 关于最新的支持操作系统和硬件的列表可以参考下面链接提供的系统兼容向导。 http://www.vmware.com/vmtn/resources/esx_resources.html\n2.ESX Server 2.5.x的虚拟结构 ESX Server 2.5.x的虚拟结构由下面几个部分组成 ·ESX Server 2.5.x ·VirtualCenter 1.3 ·vSMP ·Vmotion ESXServer运行在一个物理机上。VirtualCenter即可以运行在物理机上也可以运行在一个虚拟机上。如果你决定将VirtualCenter运行在一个虚拟机上，你需要考虑一个问题，如果虚拟机所属的ESXServer离线了，你将不能访问VirtualCenter直到ESXServer重新上线或者你将虚拟机重新运行在另一个机器上。vSMP和VMotion是已经安装的特性但是需要一个license去激活。 VMware提供了一个VIN（Virtual Infrastructure Node）license，内容如下 ·ESX Server license ·Virtual SMP license ·VirtualCenter Agent license ·vMotion license 购买VIN license比单独购买各个license更节省成本。\n3.服务器的规模 使用服务器的规模由以下几个因素决定 ·目前方案的规模 ·将来发展的估计 ·高可用性和容灾计划 ·预算的限制 有一些不同的方法去估算你将需要的ESX服务器的数量，下面介绍最流行的两种： ·最容易的方法是计算每个4-5个虚拟CPU对应一个物理CPU 这个结果是大概一个4路服务器对应16－20个虚拟CPU，一个8路服务器对应32－40个虚拟CPU，这里假设每个虚拟CPU运行的负载量适中。 关于内存方面，如果你给每个虚拟机分配1GB内存，在大多数情况下已经足够处理虚拟机运行，管理终端和虚拟管理了。如果你计划在虚拟机上运行一些内存敏感的应用，应该适当的加大这个值。 根据上面的估算，我们可以用一个8路（2节点）、配置32GB内存的x3950支持32个虚拟机，用一个16路（4节点）、配置64GB的x3950支持64个虚拟机。 上面的估算都是基于一个单核CPU，因为一个双核CPU不那不能提供100%的相当于两个单核cpu运行性能，我们建议你按1.5个单核CPU来估算1个双核CPU，也就是每双核CPU对应6－7个虚拟机。 ·如果你有一些运行应用的物理机，也可以通过计算CPU利用率平均峰值来换算成MHz总数来进行虚拟机数量的估算。例如，如果你有两个500MHz的CPU，CPU利用率平均峰值为50%,那么你的虚拟机CPU计算结果应为500MHz。 为了得到CPU利用率的平均峰值，你需要对CPU的利用率在运行着应用的情况下至少进行一周的记录，为了计算结果更准确建议进行一个月的记录。如果你已经有了企业级的监控软件比如IBM Tivoli、HP OpenView、NetIQ等等，那么你已经可以直接通过这些软件得到你想要的信息。 下一步你需要把你所有运行ESX Server的服务器的主频加起来。例如，一个配置3GHzCPU的2节点8路的x3950服务器计算结果为24000MHz。计算结果先需要减去10％，这部分是终端OS需要的，结果是21600MHz。 因为附加的占用率和过载的情况下需要减去一些数量，通常20%是安全的数值。得到了17280MHz可以提供给虚拟机的应用运行。分为每个虚拟机500MHz，结果为大概可以运行34个虚拟机(17,280/500=34.5)。 你可以用类似的方法来估算虚拟系统所需要的内存总量。首先在物理机上得到平均内存利用率，然后每个虚拟机加上54MB为了虚拟化的开销，为内存平均利用率超过512MB的系统加上32MB内存，这些就是你的虚拟机需要的内存总量。还需要加上分配给Service Console的内存（一个8路的ESX Server系统这个值一般设为512MB），加上VMkernel所需的24MB内存，这就是整个系统需要的内存总量。 例如，你有10个平均内存利用率为512MB的物理机需要转换为虚拟机总量为5120MB，加上每个虚拟机54MB的虚拟化开销（5120+540=5660 MB），这是虚拟机需要的总量。再加上Service Console需要的内存(5660+512= 6172 MB)和VMkernel的24MB内存(6172+24=6196)，得到最后的结果是这10个虚拟机需要6GB内存。 我们看到上面两种方法在8路的x3950服务器上得出的结果很相似，其实按照一般的经验通常上面两种方法估算的结果都是很接近的，所以为了节省时间，我们建议使用第一种方法来初步规划你的ESX Server的规模。 未来方案规模的发展是很难去决定的。经常出现这样的情况，当一些公司第一次执行VMware的虚拟环境的时候先部署了一部分虚拟机，但是使用后发现了虚拟环境带来了很多的好处并且没有降低系统的运行效率，这样新的虚拟机的数量迅速增加，超过了现有的CPU、内存和I/O资源，这将导致总体的运行效率收到影响。所以需要为虚拟环境的扩展提前作出一定的考虑。\n4.关于VMotion 在设计虚拟环境的时候，VMotion需要被做为一个重点去考虑。VMotion特性可以实现在虚拟机保持运行的情况下实现虚拟机在物理机之间的转移。因为VMotion需要在两个物理机之间转移系统运行的一些底层的状态，所有要求两个物理平台的CPU必须运行一样的指令集。这就意味着执行VMotion操作的物理服务器的CPU必须符合下列的要求 ·同厂商的CPU产品(Intel or AMD) ·同系列的CPU产品(Pentium III, Pentium 4, Opteron, etc) 有时同样系列的CPU产品在扩展特性上会有很大的不同，比如64位扩展技术和SSE3。在这种情况下不能实现VMotion的操作即使是同样系列的CPU。CPU的主频和缓存不是考虑的主要因素，但是一些扩展特性的不同可能导致在物理机之间的VMotion操作失败。 例如，x366和x260服务器和x3950使用同样类型的CPU，它们适合与x3950配置VMotion操作。然而其他使用不同CPU的xSeries服务器就不能了。 VMotion要求准备一个专署的网卡，VMware要求提供一个千兆网卡供VMotion使用。但是如果你只有百兆网卡可用，也可以配置VMware使用百兆网卡，当然这样VMotion的时间将显著增加。另外一个重要的要求是VMotion要求一个共享的存储。\n5.计划你的Server farm 在VirtualCenter 1.x中，一个farm就是一个组成你的虚拟环境的ESX Server系统的组。一个farm也是一个VMotion的划分，这意味着相互配置了VMotion操作的服务器必须在同一个farm中。在计划的过程中，你需要考虑每个farm中主机的数量。下面是VMware帮助你划分farm的一些参考： ·VMware建议连接到一个单独VMFS卷上的ESX Server不要超过16个。 ·VMware建议每个LUN不要划分超过32个I/O敏感的虚拟机，或者100个对I/O要求很低的虚拟机。 ·每个VMFS卷不要超过255个文件。 ·存储容量有2TB的限制。 因为VMotion要求共享的存储，那么将限制每个farm可以有16个ESX Server。你可能希望去创建一个小一点的farm，那么可以创建一个使用VMotion的一个只有两个ESX Server的farm。\n6．存储容量 就像服务器规模的估算一样，没有一个普遍的答案应用到每个不同的环境中。前面部分已经提到了每个VMFS卷运行I/O需求敏感的虚拟机的数量不要超过32个，应该尽量的减少资源争用和SCSI锁情况的出现。 有很多方法去决定VMFS卷的合适大小，下面是最简单的方法。 如果你决定用2个8路的x3950服务器，每个服务器运行32个虚拟机将符合对CPU性能的要求。用前面提到的32个虚拟机每LUN的策略来看，你需要为这些虚拟机建立两个LUN。如果你建立新的虚拟机可以先估算一下虚拟硬盘的平均容量。如果每个虚拟机平均需要20GB硬盘，这样每个LUN需要640GB。你还需要加上一些附加的容量为了以后的扩展需要，通常10%是个合适的比率，加上这部分结果为720GB。如果你计划使用redo日志，需要相应的多划分一些空间。\n7．规划网络 在服务器farm设计网络部分的时候有很多的选项，对这些选项的选择一般都是基于你的物理网络或者公司的网络安全策略。重要的一点是ESX Server强烈建议使用千兆网络连接。\n在ESX Server 2.5.x配置网络的时候，你需要考虑三个基本的组成部分。 ·Service console 出于对运行效率和网络安全的考虑，VMware建议你为Service console提供一个专用的网卡。你可以把service console网卡连接在你的数据中心的专用的管理网络中。 在默认的配置中，一个百兆网卡足以提供service console所需的带宽。如果你计划用service console运行备份或者其他需要高带宽的应用，就建议使用千兆网卡。\n·虚拟机 虚拟机使用一个与service console分离的网络。虽然系统并没有强制要求使用千兆网卡，但在实际应用中我们建议你使用千兆网卡提供虚拟机的网络连接，因为32个虚拟机将产生巨大的网络通讯量。 一个比较好的计划是10－20个虚拟机使用一个千兆网卡。这意味着一个8路x3950运行32个虚拟机最少需要2个千兆网卡。请注意这是最小的建议，再添加1个或2个千兆网卡将为虚拟机提供更充足的带宽。 另外一个需要考虑的是VLAN的配置，假设你的数据中心里有多个VLAN需要应用到虚拟机上，这种情况下你有两种不同的选择： 第一种是为每个物理的VLAN在ESX Server上配置一块网卡，当你的网络环境比较简单的时候可以使用这个选择，但是如果你有10个网络这个选择就变的不可行了。注意ESX Server 2.5.x仅仅支持最大8个千兆网卡。 另一种是使用ESX Server对VLAN（802.1q）的支持，这个选项为每个VLAN创建一个虚拟的端口组在虚拟交换机上。如果你的物理交换机支持，建议你使用这种方法。 在配置中还需要考虑虚拟机网络的冗余连接，ESX Server 2.5.x不仅支持多个网卡连接到一个虚拟交换机提高带宽，也提供了对网卡失败的冗余切换。为了实现高可用性我们建议你对网卡进行绑定。\n·VMotion VMware要求为VMotion提供一个独立的千兆网卡。不推荐使用百兆网卡，因为这将大大影响运行效率。你应该为VMotion单独分配一个千兆网卡并且划分单独的子网。 如果你只有两个运行ESX Server的服务器，你可以使用交叉线直接连接两个服务器的网卡作为虚拟网络使用，这个方法也可以在排除VMotion的故障的时候使用。\n8.网络负载均衡 ESX Server 2.5.x为虚拟机提供了两种网络负载均衡的方法。 ·基于MAC地址的网络负载均衡是ESX Server默认的方式。这种方法简单的将两个物理网卡连接到虚拟交换机不需要在物理交换机上进行额外的配置，缺点是负载均衡的效率不是非常理想，这种方法有时使一个虚拟机经常使用某一个物理的网卡，并且不能手动的调整每个虚拟机使用的物理网卡。 ·基于ip的网络负载均衡，这种方法提供了一种网络负载均衡的更好选择，缺点是你需要在你的物理交换机上进行额外的配置，需要配置你的物理交换机的802.3ad协议（或者Cisco交换机的EtherChannel）。这是一个实现高运行效率的选择。 以上是对ESX Server 2.5.x的网络的概述。一些高级的应用，比如备份网络、DMZ网络和配置的细节超出了这本红皮书的介绍范围。如果需要更深入的信息请访问VMware的官方网站，链接如下 http://www.vmware.com/support/pubs/esx_pubs.html http://www.vmware.com/vmtn/resources/esx_resources.html\n",
+  "wordCount" : "231",
+  "inLanguage": "en",
+  "datePublished": "2009-04-05T10:45:11Z",
+  "dateModified": "2009-04-05T10:45:11Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/05/vmware-servere38081vmware-gsx-servere38081vmware-esx-servervie8afb4e6988e/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      VMware Server、VMware GSX Server、VMware ESX Server,VI说明
+    </h1>
+    <div class="post-meta"><span title='2009-04-05 10:45:11 +0000 UTC'>April 5, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。</p>
+<pre><code>自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。
+</code></pre>
+<p>说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。</p>
+<p>GSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。</p>
+<p>VMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。
+VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。</p>
+<p>ESX企业级，GSX工作组级，Workstation单机级</p>
+<p>有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。</p>
+<pre><code>Esx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。
+</code></pre>
+<p>一、ESX Server 2.5.x的设计
+下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。</p>
+<p>1.ESX Server 2.5.x特性概述
+ESX Server 2.5.x有下面的特性
+ESX server物理机
+·每ESX Server支持16个逻辑CPU
+·每ESX Server支持80个虚拟机CPU
+·每ESX Server支持64GB内存
+·支持8个swap文件，每个swap文件的最大容量为64GB
+·每系统支持64个适配器
+·支持8个千兆网卡或者16个百兆网卡
+·每个虚拟交换机支持32个虚拟机
+·每ESX Server支持16个光纤通道卡
+·每个存储阵列支持128个LUN
+·每ESX Server支持128个LUN</p>
+<p>ESX Server 2.5.x虚拟机
+·通过可选的vSMP模块，每个虚拟机可以支持2个虚拟CPU
+·每个虚拟机支持3.6GB内存
+·支持4个虚拟scsi适配器并且可以支持到15个scsi硬盘
+·虚拟磁盘容量支持9GB
+·支持4个虚拟网卡
+关于最新的支持操作系统和硬件的列表可以参考下面链接提供的系统兼容向导。
+<a href="http://www.vmware.com/vmtn/resources/esx_resources.html">http://www.vmware.com/vmtn/resources/esx_resources.html</a></p>
+<p>2.ESX Server 2.5.x的虚拟结构
+ESX Server 2.5.x的虚拟结构由下面几个部分组成
+·ESX Server 2.5.x
+·VirtualCenter 1.3
+·vSMP
+·Vmotion
+ESXServer运行在一个物理机上。VirtualCenter即可以运行在物理机上也可以运行在一个虚拟机上。如果你决定将VirtualCenter运行在一个虚拟机上，你需要考虑一个问题，如果虚拟机所属的ESXServer离线了，你将不能访问VirtualCenter直到ESXServer重新上线或者你将虚拟机重新运行在另一个机器上。vSMP和VMotion是已经安装的特性但是需要一个license去激活。
+VMware提供了一个VIN（Virtual Infrastructure Node）license，内容如下
+·ESX Server license
+·Virtual SMP license
+·VirtualCenter Agent license
+·vMotion license
+购买VIN license比单独购买各个license更节省成本。</p>
+<p>3.服务器的规模
+使用服务器的规模由以下几个因素决定
+·目前方案的规模
+·将来发展的估计
+·高可用性和容灾计划
+·预算的限制
+有一些不同的方法去估算你将需要的ESX服务器的数量，下面介绍最流行的两种：
+·最容易的方法是计算每个4-5个虚拟CPU对应一个物理CPU
+这个结果是大概一个4路服务器对应16－20个虚拟CPU，一个8路服务器对应32－40个虚拟CPU，这里假设每个虚拟CPU运行的负载量适中。
+关于内存方面，如果你给每个虚拟机分配1GB内存，在大多数情况下已经足够处理虚拟机运行，管理终端和虚拟管理了。如果你计划在虚拟机上运行一些内存敏感的应用，应该适当的加大这个值。
+根据上面的估算，我们可以用一个8路（2节点）、配置32GB内存的x3950支持32个虚拟机，用一个16路（4节点）、配置64GB的x3950支持64个虚拟机。
+上面的估算都是基于一个单核CPU，因为一个双核CPU不那不能提供100%的相当于两个单核cpu运行性能，我们建议你按1.5个单核CPU来估算1个双核CPU，也就是每双核CPU对应6－7个虚拟机。
+·如果你有一些运行应用的物理机，也可以通过计算CPU利用率平均峰值来换算成MHz总数来进行虚拟机数量的估算。例如，如果你有两个500MHz的CPU，CPU利用率平均峰值为50%,那么你的虚拟机CPU计算结果应为500MHz。
+为了得到CPU利用率的平均峰值，你需要对CPU的利用率在运行着应用的情况下至少进行一周的记录，为了计算结果更准确建议进行一个月的记录。如果你已经有了企业级的监控软件比如IBM Tivoli、HP OpenView、NetIQ等等，那么你已经可以直接通过这些软件得到你想要的信息。
+下一步你需要把你所有运行ESX Server的服务器的主频加起来。例如，一个配置3GHzCPU的2节点8路的x3950服务器计算结果为24000MHz。计算结果先需要减去10％，这部分是终端OS需要的，结果是21600MHz。
+因为附加的占用率和过载的情况下需要减去一些数量，通常20%是安全的数值。得到了17280MHz可以提供给虚拟机的应用运行。分为每个虚拟机500MHz，结果为大概可以运行34个虚拟机(17,280/500=34.5)。
+你可以用类似的方法来估算虚拟系统所需要的内存总量。首先在物理机上得到平均内存利用率，然后每个虚拟机加上54MB为了虚拟化的开销，为内存平均利用率超过512MB的系统加上32MB内存，这些就是你的虚拟机需要的内存总量。还需要加上分配给Service Console的内存（一个8路的ESX Server系统这个值一般设为512MB），加上VMkernel所需的24MB内存，这就是整个系统需要的内存总量。
+例如，你有10个平均内存利用率为512MB的物理机需要转换为虚拟机总量为5120MB，加上每个虚拟机54MB的虚拟化开销（5120+540=5660 MB），这是虚拟机需要的总量。再加上Service Console需要的内存(5660+512= 6172 MB)和VMkernel的24MB内存(6172+24=6196)，得到最后的结果是这10个虚拟机需要6GB内存。
+我们看到上面两种方法在8路的x3950服务器上得出的结果很相似，其实按照一般的经验通常上面两种方法估算的结果都是很接近的，所以为了节省时间，我们建议使用第一种方法来初步规划你的ESX Server的规模。
+未来方案规模的发展是很难去决定的。经常出现这样的情况，当一些公司第一次执行VMware的虚拟环境的时候先部署了一部分虚拟机，但是使用后发现了虚拟环境带来了很多的好处并且没有降低系统的运行效率，这样新的虚拟机的数量迅速增加，超过了现有的CPU、内存和I/O资源，这将导致总体的运行效率收到影响。所以需要为虚拟环境的扩展提前作出一定的考虑。</p>
+<p>4.关于VMotion
+在设计虚拟环境的时候，VMotion需要被做为一个重点去考虑。VMotion特性可以实现在虚拟机保持运行的情况下实现虚拟机在物理机之间的转移。因为VMotion需要在两个物理机之间转移系统运行的一些底层的状态，所有要求两个物理平台的CPU必须运行一样的指令集。这就意味着执行VMotion操作的物理服务器的CPU必须符合下列的要求
+·同厂商的CPU产品(Intel or AMD)
+·同系列的CPU产品(Pentium III, Pentium 4, Opteron, etc)
+有时同样系列的CPU产品在扩展特性上会有很大的不同，比如64位扩展技术和SSE3。在这种情况下不能实现VMotion的操作即使是同样系列的CPU。CPU的主频和缓存不是考虑的主要因素，但是一些扩展特性的不同可能导致在物理机之间的VMotion操作失败。
+例如，x366和x260服务器和x3950使用同样类型的CPU，它们适合与x3950配置VMotion操作。然而其他使用不同CPU的xSeries服务器就不能了。
+VMotion要求准备一个专署的网卡，VMware要求提供一个千兆网卡供VMotion使用。但是如果你只有百兆网卡可用，也可以配置VMware使用百兆网卡，当然这样VMotion的时间将显著增加。另外一个重要的要求是VMotion要求一个共享的存储。</p>
+<p>5.计划你的Server farm
+在VirtualCenter 1.x中，一个farm就是一个组成你的虚拟环境的ESX Server系统的组。一个farm也是一个VMotion的划分，这意味着相互配置了VMotion操作的服务器必须在同一个farm中。在计划的过程中，你需要考虑每个farm中主机的数量。下面是VMware帮助你划分farm的一些参考：
+·VMware建议连接到一个单独VMFS卷上的ESX Server不要超过16个。
+·VMware建议每个LUN不要划分超过32个I/O敏感的虚拟机，或者100个对I/O要求很低的虚拟机。
+·每个VMFS卷不要超过255个文件。
+·存储容量有2TB的限制。
+因为VMotion要求共享的存储，那么将限制每个farm可以有16个ESX Server。你可能希望去创建一个小一点的farm，那么可以创建一个使用VMotion的一个只有两个ESX Server的farm。</p>
+<p>6．存储容量
+就像服务器规模的估算一样，没有一个普遍的答案应用到每个不同的环境中。前面部分已经提到了每个VMFS卷运行I/O需求敏感的虚拟机的数量不要超过32个，应该尽量的减少资源争用和SCSI锁情况的出现。
+有很多方法去决定VMFS卷的合适大小，下面是最简单的方法。
+如果你决定用2个8路的x3950服务器，每个服务器运行32个虚拟机将符合对CPU性能的要求。用前面提到的32个虚拟机每LUN的策略来看，你需要为这些虚拟机建立两个LUN。如果你建立新的虚拟机可以先估算一下虚拟硬盘的平均容量。如果每个虚拟机平均需要20GB硬盘，这样每个LUN需要640GB。你还需要加上一些附加的容量为了以后的扩展需要，通常10%是个合适的比率，加上这部分结果为720GB。如果你计划使用redo日志，需要相应的多划分一些空间。</p>
+<p>7．规划网络
+在服务器farm设计网络部分的时候有很多的选项，对这些选项的选择一般都是基于你的物理网络或者公司的网络安全策略。重要的一点是ESX Server强烈建议使用千兆网络连接。</p>
+<p>在ESX Server 2.5.x配置网络的时候，你需要考虑三个基本的组成部分。
+·Service console
+出于对运行效率和网络安全的考虑，VMware建议你为Service console提供一个专用的网卡。你可以把service console网卡连接在你的数据中心的专用的管理网络中。
+在默认的配置中，一个百兆网卡足以提供service console所需的带宽。如果你计划用service console运行备份或者其他需要高带宽的应用，就建议使用千兆网卡。</p>
+<p>·虚拟机
+虚拟机使用一个与service console分离的网络。虽然系统并没有强制要求使用千兆网卡，但在实际应用中我们建议你使用千兆网卡提供虚拟机的网络连接，因为32个虚拟机将产生巨大的网络通讯量。
+一个比较好的计划是10－20个虚拟机使用一个千兆网卡。这意味着一个8路x3950运行32个虚拟机最少需要2个千兆网卡。请注意这是最小的建议，再添加1个或2个千兆网卡将为虚拟机提供更充足的带宽。
+另外一个需要考虑的是VLAN的配置，假设你的数据中心里有多个VLAN需要应用到虚拟机上，这种情况下你有两种不同的选择：
+第一种是为每个物理的VLAN在ESX Server上配置一块网卡，当你的网络环境比较简单的时候可以使用这个选择，但是如果你有10个网络这个选择就变的不可行了。注意ESX Server 2.5.x仅仅支持最大8个千兆网卡。
+另一种是使用ESX Server对VLAN（802.1q）的支持，这个选项为每个VLAN创建一个虚拟的端口组在虚拟交换机上。如果你的物理交换机支持，建议你使用这种方法。
+在配置中还需要考虑虚拟机网络的冗余连接，ESX Server 2.5.x不仅支持多个网卡连接到一个虚拟交换机提高带宽，也提供了对网卡失败的冗余切换。为了实现高可用性我们建议你对网卡进行绑定。</p>
+<p>·VMotion
+VMware要求为VMotion提供一个独立的千兆网卡。不推荐使用百兆网卡，因为这将大大影响运行效率。你应该为VMotion单独分配一个千兆网卡并且划分单独的子网。
+如果你只有两个运行ESX Server的服务器，你可以使用交叉线直接连接两个服务器的网卡作为虚拟网络使用，这个方法也可以在排除VMotion的故障的时候使用。</p>
+<p>8.网络负载均衡
+ESX Server 2.5.x为虚拟机提供了两种网络负载均衡的方法。
+·基于MAC地址的网络负载均衡是ESX Server默认的方式。这种方法简单的将两个物理网卡连接到虚拟交换机不需要在物理交换机上进行额外的配置，缺点是负载均衡的效率不是非常理想，这种方法有时使一个虚拟机经常使用某一个物理的网卡，并且不能手动的调整每个虚拟机使用的物理网卡。
+·基于ip的网络负载均衡，这种方法提供了一种网络负载均衡的更好选择，缺点是你需要在你的物理交换机上进行额外的配置，需要配置你的物理交换机的802.3ad协议（或者Cisco交换机的EtherChannel）。这是一个实现高运行效率的选择。
+以上是对ESX Server 2.5.x的网络的概述。一些高级的应用，比如备份网络、DMZ网络和配置的细节超出了这本红皮书的介绍范围。如果需要更深入的信息请访问VMware的官方网站，链接如下
+<a href="http://www.vmware.com/support/pubs/esx_pubs.html">http://www.vmware.com/support/pubs/esx_pubs.html</a>
+<a href="http://www.vmware.com/vmtn/resources/esx_resources.html">http://www.vmware.com/vmtn/resources/esx_resources.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

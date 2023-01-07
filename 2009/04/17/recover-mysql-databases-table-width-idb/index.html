@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>只有一个ibd文件如何恢复数据表 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：
+1、一是知道所有需要恢复表的创建语句
+2、需要一个16进制的编辑器，修改表id
+具体的内容请看原文：
+Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.
+However, I’ve found two work-arounds for this:
+Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="只有一个ibd文件如何恢复数据表" />
+<meta property="og:description" content="如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：
+1、一是知道所有需要恢复表的创建语句
+2、需要一个16进制的编辑器，修改表id
+具体的内容请看原文：
+Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.
+However, I’ve found two work-arounds for this:
+Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-17T17:50:28+00:00" />
+<meta property="article:modified_time" content="2009-04-17T17:50:28+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="只有一个ibd文件如何恢复数据表"/>
+<meta name="twitter:description" content="如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：
+1、一是知道所有需要恢复表的创建语句
+2、需要一个16进制的编辑器，修改表id
+具体的内容请看原文：
+Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.
+However, I’ve found two work-arounds for this:
+Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "只有一个ibd文件如何恢复数据表",
+      "item": "http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "只有一个ibd文件如何恢复数据表",
+  "name": "只有一个ibd文件如何恢复数据表",
+  "description": "如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：\n1、一是知道所有需要恢复表的创建语句\n2、需要一个16进制的编辑器，修改表id\n具体的内容请看原文：\nSometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.\nHowever, I’ve found two work-arounds for this:\nNote: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods.",
+  "keywords": [
+    
+  ],
+  "articleBody": "如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：\n1、一是知道所有需要恢复表的创建语句\n2、需要一个16进制的编辑器，修改表id\n具体的内容请看原文：\nSometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.\nHowever, I’ve found two work-arounds for this:\nNote: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods.\nSimulate the internal InnoDB table counter. That is, create work tables (with innodb_file_per_table enabled) until you have the internal pointer of table id equal to (1 - id_of_ibd_table_you_need_to_restore). (See Method #1) Manually hex edit the .ibd file, changing the table id. (See Method #2) *Note: There are some internal structures with this meta information, so you’ll need to dump/import that data after you get it loaded, so you avoid unpleasantries that will inevitably show their face.\nMethod #1 - Create work tables\nStart up clean/fresh instance of MySQL with innodb_file_per_table enabled.\nNow, we need to find the table id that MySQL is currently set at, as well as the table id for the table we need to recover.\nNote: Step 2 (2a - 2f) is simply to find the table id that is stored inside of the .ibd file. I’ve written a PHP script to determine this, so using the script can save a bunch of time. See the bottom of this page (under “Associated Files”) for the exact script.\n2a. Create a test database:\nmysql\u003e CREATE DATABASE test1; mysql\u003e USE test1; 2b. Issue the create table command for the table:\nmysql\u003e CREATE TABLE `product` ( `PRODUCT_ID` bigint(20) unsigned NOT NULL auto_increment, `BRAND_ID` int(10) unsigned default NULL, `PRODUCT_TYPE_ID` int(10) unsigned default NULL, `GROUP_ID` int(10) unsigned default NULL, `PRODUCT_NAME` varchar(500) NOT NULL, `DEFAULT_EMAIL_ID` varchar(48) default NULL, `PRODUCT_STATUS` tinyint(1) NOT NULL, `CLIENT_ID` bigint(20) unsigned default NULL, `LAST_MODIFIED_BY` varchar(45) NOT NULL, `LAST_MODIFIED_DATE` datetime NOT NULL, PRIMARY KEY (`PRODUCT_ID`) ) ENGINE=InnoDB; 2c. Discard the tablespace, which will delete the newly created .ibd file:\nmysql\u003e ALTER TABLE product DISCARD TABLESPACE; 2d. Copy the pre-existing .ibd file to the datadir/test1 folder\n2e. Import this tablespace:\nmysql\u003e ALTER TABLE product IMPORT TABLESPACE; This should produce the following error (at least this is most likely). The only way it would not is if MySQL’s current table id matched that of the preexisting ibd table id. In which case, you can now dump your table.\nERROR 1030 (HY000): Got error -1 from storage engine 2f. So, now to check the error log (manually). Look for the following entry:\n081010 11:47:40 InnoDB: Error: tablespace id in file ‘.\\test1\\product.ibd’ is 1193, but in the InnoDB InnoDB: data dictionary it is 1. So, now we know the internal table id is at 1, and that of the ibd table is 1193.\nClean up working database: 3a. Manually move the ibd file from the $datadir to a safe location (as you will need this file again).\n3b. Drop this table.\nmysql\u003e DROP TABLE product; Note this does not re-set the internal table counter.\nYou’ll need to create the number of tables you need to increase the internal table id value. In this case, you’d create 1191 test InnoDB tables (already at 1, and need to leave 1 for the actual table, so 1193-2=1191). Run below in a loop.\nfor ($1=1; $i\u003c=1191; $1++) { CREATE TABLE t# (id int) ENGINE=InnoDB; } I accomplished this via a simple php script. See the bottom of this page (under “Associated Files”) for the exact script.\nAfter these are created, go ahead and drop this database and all tables (as they are not needed).\nDROP DATABASE test1;\nNow, re-perform steps 2a through 2e.\nmysql\u003e CREATE DATABASE test1; mysql\u003e USE test1; mysql\u003e CREATE TABLE product ( … ) ENGINE=InnoDB; mysql\u003e ALTER TABLE product DISCARD TABLESPACE;\n\u003c– Here is where you copy back the original ibd file to /$datadir/test1/ –\u003e\nmysql\u003e ALTER TABLE product IMPORT TABLESPACE; Success!\nmysql\u003e show tables; +—————–+ | Tables_in_test1 | +—————–+ | product | +—————–+ 1 row in set (0.00 sec)\nNow, dump the table using mysqldump, and then you can import this to any MySQL instance. Note, you must dump this and re-import it, or you’ll run into problems.\nHowever, it’s possible to encounter crashes and/or reports of corruption in the logs.\nIf this happens, try to force innodb recovery (which is most likely), and then dump the table.\nStart by setting innodb_force_recovery=1 (and try 2,3,4,5,6) until the dump works.\nFor this example table, I had to set innodb_force_recovery=5 before the dump would succeed.\nThe # in the output file name is the value I had innodb_force_recovery set to when trying to perform the dump:\nC:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump1.txt mysqldump: Couldn't execute 'show table status like 'product'': Lost connection to MySQL server during query (2013) C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump2.txt mysqldump: Couldn't execute 'show table status like 'product'': Lost connection to MySQL server during query (2013) C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump3.txt mysqldump: Couldn't execute 'show table status like 'product'': Lost connection to MySQL server during query (2013) C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump4.txt mysqldump: Couldn't execute 'SELECT /*!40001 SQL_NO_CACHE */ * FROM `product`': Lost connection to MySQL server during query (2013) C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump5.txt C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqladmin -u root -P 3385 shutdown C:\\Program Files\\MySQL\\mysql-5.0.68\\bin\u003e mysqldump -uroot -P3385 test1 product \u003e product_dump6.txt In fact, in this case, I could have simply started with 5. This is because the error log stated this: InnoDB: Error: trying to access update undo rec field 19 in index PRIMARY of table test1/product InnoDB: but index has only 12 fields So, I knew there was a problem trying to look at the undo logs, and from the manual, a setting of 5 says this:\n“Do not look at undo logs when starting the database: InnoDB treats even incomplete transactions as committed”\nHowever, it’s best to start at 1 and work your way forward so as to prevent as much data loss as possible.\nMethod #2 - Hex Edit .ibd file\nFirst of all, you’ll need to backup everything (ibdata files, ib_logfile(s), data). I’d also perform a mysqldump of everything you currently have, just so you have a mysqldump of it in the event that you need it.\nAlso, very important, be sure to make a copy of the .ibd file for the specific table in question.\nLastly, get a copy of the CREATE TABLE statement that will recreate this table.\nThen, you’ll follow the steps #1-5 (but do not perform step #6 yet) outlined on the following page:\nhttp://dev.mysql.com/doc/refman/5.0/en/adding-and-removing.html\nLet me post them here for completeness, however:\nUse mysqldump to dump all your InnoDB tables. Stop the server. Remove all the existing tablespace files, including the ibdata and ib_log files. If you want to keep a backup copy of the information, then copy all the ib* files to another location before the removing the files in your MySQL installation. Remove any .frm files for InnoDB tables. Configure a new tablespace. Restart the server. Import the dump files. At this point, MySQL should be running fine with an empty slate (and should have just re-created your new ibdata and log files).\nNow, you’ll want to recreate the table (just using the CREATE TABLE output from above), and its database to hold it.\nThen, you’ll basically be following the steps #1-3 outlined on the following page:\nhttp://dev.mysql.com/doc/refman/5.0/en/multiple-tablespaces.html\nIssue this ALTER TABLE statement: ALTER TABLE tbl_name DISCARD TABLESPACE; Caution: This statement deletes the current .ibd file.\nPut the backup .ibd file back in the proper database directory (the one that you copied above).\nIssue this ALTER TABLE statement:\nALTER TABLE tbl_name IMPORT TABLESPACE; Everything should go smoothly until step #3 (above). More than likely, this will produce an error like the following on your console:\n“Got error -1 from storage engine” Now, if you look in the error log, you’ll see something like:\n“InnoDB: Error: tablespace id in file ‘.\\test\\t2.ibd’ is 2, but in the InnoDB data dictionary it is 1.” It would not produce the above error and would work fine if the existing table already had a tablespace id of 1. However, this is unlikely.\nSo, assuming you see the above errors, then you can modify the tablespace id actual ibd file using a hex editor. I would do this on a different copy of the ibd file (other than the original, just in case).\nNote that I used “Freeware Hex Editor XVI32″ for Windows for this step. Start the program, and then open the .ibd file. You’ll see each byte in it’s own cell. You can then click on a cell, click edit, and then edit that byte. (http://www.chmaas.handshake.de/delphi/freeware/xvi32/xvi32.htm)\nNow, in this file, there are 2 places where this tablespace id is located.\nFor me, and I assume it should be the same for you, but just look at the values to be sure, I see the tablespace id values listed at position 37 and 41 (positions 25 and 29 in hex). In the actual hex column, if you’re previous tablespace id was 2, then in positions 37 and 41, you’d see 02 and 02.\n(Note these positions can change. For instance, I tested on a table with an internal id of 1193. This in hex is 04A9. However, when searching the file, for the first instance of the table id, I found the ‘04′ in position 39 and ‘A9′ in position 40. Then, for the second instance of the table id, the ‘04′ was at position 43 and the ‘A9′ was at position 44. So, you’ll have to convert the table id to hex, and then search for that value, near the beginning of the file.)\nNote that this value (02) may vary depending on what your actual tablespace id is.\nThen, simply modify both of those fields to 01, and save the file.\nThen, re-do the following 3 steps:\nALTER TABLE tbl_name DISCARD TABLESPACE; Put the newly saved .ibd file back in the proper database directory ALTER TABLE tbl_name IMPORT TABLESPACE; This time, step #3 works fine. It is at this point you should dump/import the data. At least, get a good mysqldump of this table now. You may find that this causes corruption in InnoDB, and you may need to start MySQL using –force-innodb-recovery.\nhttp://dev.mysql.com/doc/refman/5.0/en/forcing-recovery.html Forcing InnoDB Recovery\nAssociated Files :: PHP Scripts\nSimple PHP script - Used to create a number of InnoDB tables (to increase internal table id counter):\n$dbhost = \"localhost:3385\"; $dbname = \"test1\"; $dbuser = \"root\"; $dbpwd = \"\"; for ($i = 1033; $i \u003c= 1190; $i++) { $dbquery = \"CREATE TABLE test1.t\" . $i . \" (id int) ENGINE=InnoDB\"; echo \"\" . $dbquery . \"\"; mysql_connect($dbhost,$dbuser,$dbpwd) or die(mysql_error()); $result = mysql_db_query($dbname,$dbquery) or die(mysql_error()); $j = 0; while($row = mysql_fetch_array($result)) { $j++; echo $row[0]; } } mysql_close(); PHP Internal Table ID Finder - Used to determine the internal Table ID from the binary .ibd file: /* Tested with tables from 4.1.23, 5.0.68, 5.1.28, and 6.0.7. */ // Set the filename $filename = \"C:\\\\Users\\\\Chris\\\\Desktop\\\\mysql\\\\working\\\\ibds\\\\z1.ibd\"; // Read 2 bytes in at a time $offset = 2; // Echo filename and path echo \"filename = $filename \"; // Open the filename - need 'rb' for binary file on Windows $handle = fopen($filename, \"rb\"); // Define redundant, local variables for possible later functionality and/or checks $ibd_id_bin = 0; $ibd_id_hex = 0; $ibd_id_dec = 0; $ibd_id_bin2 = 0; $ibd_id_hex2 = 0; $ibd_id_dec2 = 0; // Find the filesize (note: below command messes up script) //$filesize = filesize($filename)); // Only loop through first 21 bytes - as table is is in $array[18] and $array[20] for ($z = 0; $z \u003c= 20; $z++) { // Set variable $contents equal to 2 ($offset) bytes of binary data $contents = fread($handle, $offset); // Convert $contents from binary data to hex data $contents2 = bin2hex($contents); // Convert $contents2 from hex data to decimal data $contents3 = hexdec($contents2); // Debug Output //echo \"contents[$z] = \" . $contents . \"\"; //echo \"contents2[$z] = \" . $contents2 . \" \"; //echo \"contents3[$z] = \" . $contents3 . \" \"; // If position 19, array position [18], then store the values if ($z == 18) { $ibd_id_bin = $contents; $ibd_id_hex = $contents2; $ibd_id_dec = $contents3; } // If position 21, array position [20], then store the values if ($z == 20) { $ibd_id_bin2 = $contents; $ibd_id_hex2 = $contents2; $ibd_id_dec2 = $contents3; } } fclose($handle); // More Debug output //echo \" The table id is $ibd_id_dec \"; //echo \" The table id is $ibd_id_dec2 \"; // Check to see if both values are equal. If so, then it's // most certain this is the correct value. // If not, then there's a chance the positions are off for // this table (due to versions, etc.). if ($ibd_id_dec == $ibd_id_dec2) { echo \" The table id is $ibd_id_dec \"; } else { echo \"The values from positions [18] and [20] did not match,\"; echo \"so please enable debug output, and check for proper positions.\"; } 原文 http://www.maycode.com/index.php/linux/34-linuxbase/1351-mysql.html\n",
+  "wordCount" : "2182",
+  "inLanguage": "en",
+  "datePublished": "2009-04-17T17:50:28Z",
+  "dateModified": "2009-04-17T17:50:28Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      只有一个ibd文件如何恢复数据表
+    </h1>
+    <div class="post-meta"><span title='2009-04-17 17:50:28 +0000 UTC'>April 17, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：</p>
+<p>1、一是知道所有需要恢复表的创建语句</p>
+<p>2、需要一个16进制的编辑器，修改表id</p>
+<p>具体的内容请看原文：</p>
+<p>Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.</p>
+<p>However, I’ve found two work-arounds for this:</p>
+<p>Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods.</p>
+<p>Simulate the internal InnoDB table counter. That is, create work tables (with innodb_file_per_table enabled) until you have the internal pointer of table id equal to (1 - id_of_ibd_table_you_need_to_restore). (See Method #1)
+Manually hex edit the .ibd file, changing the table id. (See Method #2)
+*Note: There are some internal structures with this meta information, so you’ll need to dump/import that data after you get it loaded, so you avoid unpleasantries that will inevitably show their face.</p>
+<p>Method #1 - Create work tables</p>
+<ol>
+<li>
+<p>Start up clean/fresh instance of MySQL with innodb_file_per_table enabled.</p>
+</li>
+<li>
+<p>Now, we need to find the table id that MySQL is currently set at, as well as the table id for the table we need to recover.</p>
+</li>
+</ol>
+<p>Note:
+Step 2 (2a - 2f) is simply to find the table id that is stored inside of the .ibd file. I’ve written a PHP script to determine this, so using the script can save a bunch of time. See the bottom of this page (under “Associated Files”) for the exact script.</p>
+<p>2a. Create a test database:</p>
+<pre><code>mysql&gt; CREATE DATABASE test1;
+mysql&gt; USE test1;
+</code></pre>
+<p>2b. Issue the create table command for the table:</p>
+<pre><code>mysql&gt; CREATE TABLE `product` (
+  `PRODUCT_ID` bigint(20) unsigned NOT NULL auto_increment,
+  `BRAND_ID` int(10) unsigned default NULL,
+  `PRODUCT_TYPE_ID` int(10) unsigned default NULL,
+  `GROUP_ID` int(10) unsigned default NULL,
+  `PRODUCT_NAME` varchar(500) NOT NULL,
+  `DEFAULT_EMAIL_ID` varchar(48) default NULL,
+  `PRODUCT_STATUS` tinyint(1) NOT NULL,
+  `CLIENT_ID` bigint(20) unsigned default NULL,
+  `LAST_MODIFIED_BY` varchar(45) NOT NULL,
+  `LAST_MODIFIED_DATE` datetime NOT NULL,
+  PRIMARY KEY  (`PRODUCT_ID`)
+  ) ENGINE=InnoDB;
+</code></pre>
+<p>2c. Discard the tablespace, which will delete the newly created .ibd file:</p>
+<pre><code>mysql&gt; ALTER TABLE product DISCARD TABLESPACE;
+</code></pre>
+<p>2d. Copy the pre-existing .ibd file to the datadir/test1 folder</p>
+<p>2e. Import this tablespace:</p>
+<pre><code>mysql&gt; ALTER TABLE product IMPORT TABLESPACE;
+</code></pre>
+<p>This should produce the following error (at least this is most likely). The only way it would not is if MySQL’s current table id matched that of the preexisting ibd table id. In which case, you can now dump your table.</p>
+<p>ERROR 1030 (HY000): Got error -1 from storage engine
+2f. So, now to check the error log (manually). Look for the following entry:</p>
+<p>081010 11:47:40  InnoDB: Error: tablespace id in file
+&lsquo;.\test1\product.ibd&rsquo; is 1193, but in the InnoDB
+InnoDB: data dictionary it is 1.
+So, now we know the internal table id is at 1, and that of the ibd table is 1193.</p>
+<ol start="3">
+<li>Clean up working database:</li>
+</ol>
+<p>3a. Manually move the ibd file from the $datadir to a safe location (as you will need this file again).</p>
+<p>3b. Drop this table.</p>
+<pre><code>mysql&gt; DROP TABLE product;
+</code></pre>
+<p>Note this does not re-set the internal table counter.</p>
+<ol start="4">
+<li>You’ll need to create the number of tables you need to increase the internal table id value.</li>
+</ol>
+<p>In this case, you’d create 1191 test InnoDB tables (already at 1, and need to leave 1 for the actual table, so 1193-2=1191). Run below in a loop.</p>
+<pre><code>for ($1=1; $i&lt;=1191; $1++) {
+  CREATE TABLE t# (id int) ENGINE=InnoDB;
+}
+</code></pre>
+<p>I accomplished this via a simple php script. See the bottom of this page (under “Associated Files”) for the exact script.</p>
+<ol start="5">
+<li>
+<p>After these are created, go ahead and drop this database and all tables (as they are not needed).</p>
+<p>DROP DATABASE test1;</p>
+</li>
+<li>
+<p>Now, re-perform steps 2a through 2e.</p>
+<p>mysql&gt; CREATE DATABASE test1;
+mysql&gt; USE test1;
+mysql&gt; CREATE TABLE <code>product</code> ( &hellip; ) ENGINE=InnoDB;
+mysql&gt; ALTER TABLE product DISCARD TABLESPACE;</p>
+<p>&lt;&ndash;  Here is where you copy back the original ibd file to /$datadir/test1/ &ndash;&gt;</p>
+<p>mysql&gt; ALTER TABLE product IMPORT TABLESPACE;
+Success!</p>
+<p>mysql&gt; show tables;
++&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+
+| Tables_in_test1 |
++&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+
+| product         |
++&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+
+1 row in set (0.00 sec)</p>
+</li>
+<li>
+<p>Now, dump the table using mysqldump, and then you can import this to any MySQL instance. Note, you must dump this and re-import it, or you’ll run into problems.</p>
+</li>
+</ol>
+<p>However, it’s possible to encounter crashes and/or reports of corruption in the logs.</p>
+<p>If this happens, try to force innodb recovery (which is most likely), and then dump the table.</p>
+<p>Start by setting innodb_force_recovery=1 (and try 2,3,4,5,6) until the dump works.</p>
+<p>For this example table, I had to set innodb_force_recovery=5 before the dump would succeed.</p>
+<p>The # in the output file name is the value I had innodb_force_recovery set to when trying to perform the dump:</p>
+<pre><code>C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump1.txt
+mysqldump: Couldn't execute 'show table status like 'product'':
+Lost connection to MySQL server during query (2013)
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump2.txt
+mysqldump: Couldn't execute 'show table status like 'product'':
+Lost connection to MySQL server during query (2013)
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump3.txt
+mysqldump: Couldn't execute 'show table status like 'product'':
+Lost connection to MySQL server during query (2013)
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump4.txt
+mysqldump: Couldn't execute 'SELECT /*!40001 SQL_NO_CACHE */
+* FROM `product`': Lost connection to MySQL server during
+query (2013)
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump5.txt
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqladmin -u root -P 3385 shutdown
+
+C:\Program Files\MySQL\mysql-5.0.68\bin&gt;
+mysqldump -uroot -P3385 test1 product &gt; product_dump6.txt
+In fact, in this case, I could have simply started with 5. This is because the error log stated this:
+</code></pre>
+<p>InnoDB: Error: trying to access update undo rec field 19
+in index PRIMARY of table test1/product
+InnoDB: but index has only 12 fields
+So, I knew there was a problem trying to look at the undo logs, and from the manual, a setting of 5 says this:</p>
+<p>“Do not look at undo logs when starting the database: InnoDB treats even incomplete transactions as committed”</p>
+<p>However, it’s best to start at 1 and work your way forward so as to prevent as much data loss as possible.</p>
+<p>Method #2 - Hex Edit .ibd file</p>
+<p>First of all, you’ll need to backup everything (ibdata files, ib_logfile(s), data). I’d also perform a mysqldump of everything you currently have, just so you have a mysqldump of it in the event that you need it.</p>
+<p>Also, very important, be sure to make a copy of the .ibd file for the specific table in question.</p>
+<p>Lastly, get a copy of the CREATE TABLE statement that will recreate this table.</p>
+<p>Then, you’ll follow the steps #1-5 (but do not perform step #6 yet) outlined on the following page:</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.0/en/adding-and-removing.html">http://dev.mysql.com/doc/refman/5.0/en/adding-and-removing.html</a></p>
+<p>Let me post them here for completeness, however:</p>
+<p>Use mysqldump to dump all your InnoDB tables.
+Stop the server.
+Remove all the existing tablespace files, including the ibdata and ib_log files. If you want to keep a backup copy of the information, then copy all the ib* files to another location before the removing the files in your MySQL installation.
+Remove any .frm files for InnoDB tables.
+Configure a new tablespace.
+Restart the server.
+Import the dump files.
+At this point, MySQL should be running fine with an empty slate (and should have just re-created your new ibdata and log files).</p>
+<p>Now, you’ll want to recreate the table (just using the CREATE TABLE output from above), and its database to hold it.</p>
+<p>Then, you’ll basically be following the steps #1-3 outlined on the following page:</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.0/en/multiple-tablespaces.html">http://dev.mysql.com/doc/refman/5.0/en/multiple-tablespaces.html</a></p>
+<ol>
+<li>Issue this ALTER TABLE statement:</li>
+</ol>
+<p>ALTER TABLE tbl_name DISCARD TABLESPACE;
+Caution: This statement deletes the current .ibd file.</p>
+<ol start="2">
+<li>
+<p>Put the backup .ibd file back in the proper database directory (the one that you copied above).</p>
+</li>
+<li>
+<p>Issue this ALTER TABLE statement:</p>
+</li>
+</ol>
+<p>ALTER TABLE tbl_name IMPORT TABLESPACE;
+Everything should go smoothly until step #3 (above). More than likely, this will produce an error like the following on your console:</p>
+<p>&ldquo;Got error -1 from storage engine&rdquo;
+Now, if you look in the error log, you’ll see something like:</p>
+<p>&ldquo;InnoDB: Error: tablespace id in file &lsquo;.\test\t2.ibd&rsquo; is 2,
+but in the InnoDB data dictionary it is 1.&rdquo;
+It would not produce the above error and would work fine if the existing table already had a tablespace id of 1. However, this is unlikely.</p>
+<p>So, assuming you see the above errors, then you can modify the tablespace id actual ibd file using a hex editor. I would do this on a different copy of the ibd file (other than the original, just in case).</p>
+<p>Note that I used “Freeware Hex Editor XVI32″ for Windows for this step. Start the program, and then open the .ibd file. You’ll see each byte in it’s own cell. You can then click on a cell, click edit, and then edit that byte. (<a href="http://www.chmaas.handshake.de/delphi/freeware/xvi32/xvi32.htm">http://www.chmaas.handshake.de/delphi/freeware/xvi32/xvi32.htm</a>)</p>
+<p>Now, in this file, there are 2 places where this tablespace id is located.</p>
+<p>For me, and I assume it should be the same for you, but just look at the values to be sure, I see the tablespace id values listed at position 37 and 41 (positions 25 and 29 in hex). In the actual hex column, if you’re previous tablespace id was 2, then in positions 37 and 41, you’d see 02 and 02.</p>
+<p>(Note these positions can change. For instance, I tested on a table with an internal id of 1193. This in hex is 04A9. However, when searching the file, for the first instance of the table id, I found the ‘04′ in position 39 and ‘A9′ in position 40. Then, for the second instance of the table id, the ‘04′ was at position 43 and the ‘A9′ was at position 44. So, you’ll have to convert the table id to hex, and then search for that value, near the beginning of the file.)</p>
+<p>Note that this value (02) may vary depending on what your actual tablespace id is.</p>
+<p>Then, simply modify both of those fields to 01, and save the file.</p>
+<p>Then, re-do the following 3 steps:</p>
+<ol>
+<li>ALTER TABLE tbl_name DISCARD TABLESPACE;</li>
+<li>Put the newly saved .ibd file back in the proper database directory</li>
+<li>ALTER TABLE tbl_name IMPORT TABLESPACE;
+This time, step #3 works fine.</li>
+</ol>
+<p>It is at this point you should dump/import the data. At least, get a good mysqldump of this table now. You may find that this causes corruption in InnoDB, and you may need to start MySQL using –force-innodb-recovery.</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.0/en/forcing-recovery.html">http://dev.mysql.com/doc/refman/5.0/en/forcing-recovery.html</a> Forcing InnoDB Recovery</p>
+<p>Associated Files :: PHP Scripts</p>
+<p>Simple PHP script - Used to create a number of InnoDB tables (to increase internal table id counter):</p>
+<pre><code>$dbhost = &quot;localhost:3385&quot;;
+$dbname = &quot;test1&quot;;
+$dbuser = &quot;root&quot;;
+$dbpwd  = &quot;&quot;;
+
+for ($i = 1033; $i &lt;= 1190; $i++) {
+   $dbquery = &quot;CREATE TABLE test1.t&quot; . $i . &quot; (id int) ENGINE=InnoDB&quot;;
+
+   echo &quot;&quot; . $dbquery . &quot;&quot;;
+
+   mysql_connect($dbhost,$dbuser,$dbpwd) or die(mysql_error());
+
+      $result = mysql_db_query($dbname,$dbquery) or die(mysql_error());
+
+      $j = 0;
+
+      while($row = mysql_fetch_array($result)) {
+         $j++;
+         echo $row[0];
+      }
+}
+
+mysql_close();
+PHP Internal Table ID Finder - Used to determine the internal Table ID from the binary .ibd file:
+
+/*
+Tested with tables from 4.1.23, 5.0.68, 5.1.28, and 6.0.7.
+*/
+
+// Set the filename
+$filename = &quot;C:\\Users\\Chris\\Desktop\\mysql\\working\\ibds\\z1.ibd&quot;;
+
+// Read 2 bytes in at a time
+$offset = 2;
+
+// Echo filename and path
+echo &quot;filename = $filename
+
+&quot;;
+
+// Open the filename - need 'rb' for binary file on Windows
+$handle = fopen($filename, &quot;rb&quot;);
+
+// Define redundant, local variables for possible later functionality and/or checks
+$ibd_id_bin = 0;
+$ibd_id_hex = 0;
+$ibd_id_dec = 0;
+$ibd_id_bin2 = 0;
+$ibd_id_hex2 = 0;
+$ibd_id_dec2 = 0;
+
+// Find the filesize (note: below command messes up script)
+//$filesize = filesize($filename));
+
+// Only loop through first 21 bytes - as table is is in $array[18] and $array[20]
+for ($z = 0; $z &lt;= 20; $z++) {
+
+        // Set variable $contents equal to 2 ($offset) bytes of binary data
+        $contents = fread($handle, $offset);
+
+        // Convert $contents from binary data to hex data
+        $contents2 = bin2hex($contents);
+
+        // Convert $contents2 from hex data to decimal data
+        $contents3 = hexdec($contents2);
+
+        // Debug Output
+        //echo &quot;contents[$z] = &quot; . $contents . &quot;&quot;;
+        //echo &quot;contents2[$z] = &quot; . $contents2 . &quot;
+
+&quot;;
+        //echo &quot;contents3[$z] = &quot; . $contents3 . &quot;
+
+&quot;;
+
+        // If position 19, array position [18], then store the values
+        if ($z == 18) {
+                $ibd_id_bin = $contents;
+                $ibd_id_hex = $contents2;
+                $ibd_id_dec = $contents3;
+        }
+
+        // If position 21, array position [20], then store the values
+        if ($z == 20) {
+                $ibd_id_bin2 = $contents;
+                $ibd_id_hex2 = $contents2;
+                $ibd_id_dec2 = $contents3;
+        }
+}
+fclose($handle);
+
+// More Debug output
+//echo &quot;
+
+The table id is $ibd_id_dec
+
+&quot;;
+//echo &quot;
+
+The table id is $ibd_id_dec2
+
+&quot;;
+
+// Check to see if both values are equal.  If so, then it's
+// most certain this is the correct value.
+// If not, then there's a chance the positions are off for
+// this table (due to versions, etc.).
+if ($ibd_id_dec == $ibd_id_dec2) {
+        echo &quot;
+
+The table id is $ibd_id_dec
+
+&quot;;
+} else {
+        echo &quot;The values from positions [18] and [20] did not match,&quot;;
+             echo &quot;so please enable debug output, and check for proper positions.&quot;;
+}
+</code></pre>
+<p>原文 <a href="http://www.maycode.com/index.php/linux/34-linuxbase/1351-mysql.html">http://www.maycode.com/index.php/linux/34-linuxbase/1351-mysql.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

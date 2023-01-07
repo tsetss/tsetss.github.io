@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+librrd_th.so.2
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/librrd_th.so.2/</link>
+    <description>Recent content in 
+librrd_th.so.2
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Sep 2011 09:55:49 +0000</lastBuildDate><atom:link href="http://example.org/tags/librrd_th.so.2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装 ntop 提示 Missing Dependency: librrd_th.so.2 错误</title>
+      <link>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</link>
+      <pubDate>Fri, 02 Sep 2011 09:55:49 +0000</pubDate>
+      
+      <guid>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</guid>
+      <description>centos 5.6 x64 安装 ntop 提示以下错误
+Resolving Dependencies --&amp;gt; Running transaction check ---&amp;gt; Package ntop.x86_64 0:3.3.9-7.el5 set to be updated --&amp;gt; Processing Dependency: graphviz for package: ntop --&amp;gt; Processing Dependency: librrd_th.so.2()(64bit) for package: ntop --&amp;gt; Processing Dependency: libnetsnmp.so.10()(64bit) for package: ntop --&amp;gt; Processing Dependency: libGeoIP.so.1()(64bit) for package: ntop --&amp;gt; Running transaction check ---&amp;gt; Package geoip.x86_64 0:1.4.6-1.el5.rf set to be updated ---&amp;gt; Package graphviz.x86_64 0:2.22.0-4.el5.rf set to be updated --&amp;gt; Processing Dependency: libXt.</description>
+    </item>
+    
+  </channel>
+</rss>

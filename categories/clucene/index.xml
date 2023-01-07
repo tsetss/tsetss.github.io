@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+clucene
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/clucene/</link>
+    <description>Recent content in 
+clucene
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 26 May 2006 18:12:34 +0000</lastBuildDate><atom:link href="http://example.org/categories/clucene/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLUCENE-0.9.10 BUG及修改方法列表</title>
+      <link>http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/</link>
+      <pubDate>Fri, 26 May 2006 18:12:34 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/26/clucene-0910-buge58f8ae4bfaee694b9e696b9e6b395e58897e8a1a8/</guid>
+      <description>IndexWriter.cpp文件IndexWriter::close函数中，如果指定目录在退出时不关闭，则不能删除目录对象。
+修改： if ( closeDir ){ directory-&amp;gt;close(); } _CLDECDELETE(directory); 为 if ( closeDir ){ directory-&amp;gt;close(); _CLDECDELETE(directory); } IndexWriter.cpp文件IndexWriter ::optimize函数中，如果 segmentInfo-&amp;gt;size() == 0，则会导致异常。 修改： flushRamSegments(); 为 flushRamSegments(); if(segmentInfos-&amp;gt;size() == 0) return; 修改IndexWriter::addIndexes(Directory** dirs)函数，因为SegmentInfos对象在析构时会删除所有对象，因此在函数退出时会导致无效的指针。 修改 // start with zero or 1 seg so optimize the current optimize(); //Iterate through the directories int32_t i = 0; while ( dirs[i] != NULL ) { // DSR: Changed SegmentInfos constructor arg (see bug discussion below). SegmentInfos sis(false); sis.</description>
+    </item>
+    
+  </channel>
+</rss>

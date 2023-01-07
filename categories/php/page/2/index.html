@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+php
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/php/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/php/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+php
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/php/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+php
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+php
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>SWFUpload V2
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Flash Player 10的安全机制更严格，类似打开文件上传的对话框的操作，一定需要用户交互才触发，如果用脚本触发，会报#2176的运行时错误。
+void selectFile() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，只能选择单个文件。
+void selectFiles() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，可一次性选择多个文件。
+flash_width 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的宽度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_height 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的高度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_color 默认值：#FFFFFF (v2.2.0已删除) 设置HTML页面中的flash背景色，默认为#FFFFFF
+prevent_swf_caching 默认值：true (v2.2.0新增)该布尔值设置是否在Flash URL后添加一个随机值，用来防止浏览器缓存了该SWF影片。这是为了解决一些基于IE-engine的浏览器上的出现一个BUG。
+提醒：SWFUpload是直接在flash_url后添加了一个swfuploadrnd的随机参数。如果你给定的flash_url中已经存在了GET类型的参数，那么就会出现两个问号连接符导致错误。
+button_placeholder_id 默认值：null (v2.2.0新增) 该必要参数指定了swfupload.swf将要替换的页面内的DOM元素的ID值。当对应的DOM元素被替换为SWF元素时，SWF的容器会被添加一个名称为&#34;swfupload&#34;的样式选择器供CSS自定义使用。
+button_image_url 默认值：空字符串 (v2.2.0新增) V2.2.0版最大的改变就是引入了一个按钮到SWF中，利用该参数可以设置一个相对于该swf文件或者是绝对地址的图片（或者是SWF），作为按钮的UI展现。所有FLASH支持的图片类型都可以使用（gif,jpg,png,或者是一个SWF）。 该按钮图片需要经过一定规则（CSS Sprite）的处理。按钮图片中需要包括按钮的4个状态，从上到下依次是normal, hover, down/click, disabled.(可以参照官方demo中的图片)
+button_width 默认值：1 (v2.2.0新增) 设置该SWF的宽度属性。
+button_height 默认值：1 (v2.2.0新增)设置该SWF的高度属性（按钮图片高度的1/4）
+button_text 默认值：空字符串 (v2.2.0新增) 该属性设置Flash Button中显示的文字，支持HTML。HTML文本的样式可以通过CSS选择器并配合button_text_style参数来设置。关于Flash文本对HTML的支持详细可见 Adobe’s Flash documentation。
+button_text_style 默认值：“color: #000000; font-size: 16pt;” (v2.2.0新增)此参数配合button_text参数，可以通过CSS样式来设置Flash Button中的文字样式。关于Flash文本对CSS的支持详细可见Adobe’s Flash documentation...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-20 08:49:18 +0000 UTC'>May 20, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to SWFUpload V2" href="http://example.org/2009/05/20/swfupload-v2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>smarty 颜色选择框扩展
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-07 18:48:50 +0000 UTC'>May 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to smarty 颜色选择框扩展" href="http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>如何加密PHP文件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>由于安全原因，有些时候需要把PHP文件加密。zend是收费的软件，而且价格不菲，让人望尘莫及。这里介绍另一种加密方法：php-screw。 php-screw是一款开源，免费，自由使用的软件，它不仅使用方便，而且可以自定义加密字符串，字符串的长度不受限制。下面这些操作是在Debian环境下实现的。 1、下载软件包。到http://sourceforge.net/projects/php-screw/下载php-screw。下载得到的是tar包。 2、安装必须的软件环境：apt-get install php5-dev php5 3、把在第一步中得到的软件包解压：tar -zxvf php_screw-1.3.tgz 4、进入解压缩后得到的目录：cd php_screw-1.3，然后执行命令：phpize生成一些配置安装文件。 5、检查编译环境： ./configure　#检查编译环境 自定义加密字符串，你据自己的意愿，修改文件my_screw.h内容，这里面主要记录的是加密字符串。 make　#编译 6、把文件modules/php_screw.so拷贝到/usr/lib/php5/2006*/目录下。 7、修改文件/etc/php5/apache2/php.ini，在需要位置添加如下内容： extension=php_screw.so 8、在WEB服务器的根目录里创建文件phpinfo.php，文件的内容如下： 9、在浏览器里输入http:///phpinfo.php，看看php_screw是否生效。 10、进入tools目录，执行命令： make 生成文件screw。 11、进入需要加密的PHP文件所在的文件夹，执行命令 /full/path/of/screw .php 这时的文件便被加密了，原来的文件被重新命名为：.php.screw。 12、screw这个命令只支持单个文件的加密，不支持/full/path/of/screw .php这种命令格式。如果需要把整个目录下的文件加密需要用如下命令： find . -name ‘.php’ -exec /full/of/path/of/screw {} ; 以上写的这些是在Debian环境下实现的，如果在window平台下，只要加载了php_screw这个模块，加密的文件也可以正常显示，但不能在windows平台下进行加密。 好了，用php_screw加密php文件介绍完了。如果您对这个工具感兴趣，不防试一试。
+转自 http://afericazebra.blog.163.com/blog/static/300504082008101902427449/
+不错,freebsd 的port 也有,在 /usr/ports/www/php-screw ,正好用一下</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-06 10:54:25 +0000 UTC'>May 6, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 如何加密PHP文件" href="http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php5.2.9 不能加载 eAccelerator 问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装上php 5.2.9发现不能加载 eAccelerator ,php也没有报错,不知道是什么问题,
+看了一篇文章 在 /usr/local/etc/php/extensions.ini 加上 extension=eaccelerator.so才可以解决,
+[eaccelerator] zend_extension = &#34;/usr/local/lib/php/20060613-zts/eaccelerator.so&#34; eaccelerator.shm_size = &#34;128&#34; eaccelerator.cache_dir = &#34;/tmp/eaccelerator&#34; eaccelerator.enable = &#34;1&#34; eaccelerator.optimizer = &#34;1&#34; eaccelerator.check_mtime = &#34;1&#34; eaccelerator.debug = &#34;0&#34; eaccelerator.log_file = &#34;/var/log/httpd/eaccelerator.log&#34; eaccelerator.filter = &#34;&#34; eaccelerator.shm_max = &#34;0&#34; eaccelerator.shm_ttl = &#34;0&#34; eaccelerator.shm_prune_period = &#34;0&#34; eaccelerator.shm_only = &#34;0&#34; eaccelerator.compress = &#34;1&#34; eaccelerator.compress_level = &#34;9&#34; eaccelerator.keys = &#34;shm&#34; eaccelerator.sessions = &#34;shm&#34; eaccelerator.content = &#34;shm&#34; 原文 http://gary1974tw.pixnet.net/blog/post/26613606 可惜被x了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-11 09:20:18 +0000 UTC'>April 11, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php5.2.9 不能加载 eAccelerator 问题" href="http://example.org/2009/04/11/php529-e4b88de883bde58aa0e8bdbd-eaccelerator-e997aee9a298/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>利用Curl、socket、file_get_contents POST数据
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>array( ‘method’=&gt;‘POST’, ‘header’=&gt;‘Content-type: application/x-www-form-urlencoded’.&#34;\r\n&#34;. ‘User-Agent : Jimmy&#39;s POST Example beta’.&#34;\r\n&#34;. ‘Content-length: ‘.strlen($post_string)&#43;8, ‘content’=&gt;‘mypost=’.$post_string) ); $stream_context = stream_context_create($context); $data = file_get_contents($remote_server,FALSE,$stream_context); return $data; }
+?&gt; 转自 http://hi.baidu.com/xsite/blog/item/1ae57963be3e38680d33fa6b.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-06 08:51:54 +0000 UTC'>April 6, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 利用Curl、socket、file_get_contents POST数据" href="http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Alexa Traffic Rank PHP5 Class
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This PHP5 class utilizes the web service provided by Alexa/Amazon to get the traffic information about the site. You’ll need to sign up for an account at Alexa to get the pair (access key and secret key). The first 10,000 queries per month are free. view plaincopy to clipboardprint?
+mParams = array( &#39;Service&#39;=&gt;&#39;AlexaWebInfoService&#39;, &#39;AWSAccessKeyId&#39;=&gt;&#39;YOUR ACCESS KEY&#39;, // access key id &#39;Operation&#39;=&gt;&#39;UrlInfo&#39;, &#39;ResponseGroup&#39;=&gt;&#39;Rank&#39;, &#39;Url&#39;=&gt;NULL, &#39;Timestamp&#39;=&gt;gmdate(&#39;Y-m-d\TH:i:s.000\Z&#39;), &#39;Signature&#39;=&gt;NULL, ); $this-&gt;prepareSignature(); } /** ref: http://developer....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-29 16:35:31 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Alexa Traffic Rank PHP5 Class" href="http://example.org/2009/03/29/alexa-traffic-rank-php5-class/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>If you’re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and “Too many connections” errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a “persistent” connection to the database. From the documentation: “the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect())....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:16:29 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)" href="http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x &#43; PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:54:05 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证" href="http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Lighttpd中为php加上open_basedir
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>举例说明 一、
+fastcgi.server = ( &#34;.php&#34; =&gt; (( &#34;socket&#34; =&gt; &#34;/tmp/php-fastcgi.socket&#34;, &#34;bin-path&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34;, &#34;max-procs&#34; =&gt; 10, &#34;bin-environment&#34; =&gt; ( &#34;PHP_FCGI_CHILDREN&#34; =&gt; &#34;16&#34;, &#34;PHP_FCGI_MAX_REQUESTS&#34; =&gt; &#34;1000&#34;, ), &#34;broken-scriptfilename&#34; =&gt; &#34;enable&#34; )) ) 二、
+cgi.assign = ( &#34;.php&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34; ) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:58:30 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Lighttpd中为php加上open_basedir" href="http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool ‘default’
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &lt;value name=&#34;user&#34;&gt;www&lt;/value&gt; Unix group of processes &lt;value name=&#34;group&#34;&gt;www&lt;/value&gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:29:35 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;" href="http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/php/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/categories/php/page/3/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

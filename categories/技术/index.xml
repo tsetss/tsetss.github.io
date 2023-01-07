@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+技术
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 
+技术
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 08 Jul 2016 09:20:35 +0000</lastBuildDate><atom:link href="http://example.org/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用openssl申请apple 开发证书</title>
+      <link>http://example.org/2016/07/08/opnessl-apple-cer-to-p12/</link>
+      <pubDate>Fri, 08 Jul 2016 09:20:35 +0000</pubDate>
+      
+      <guid>http://example.org/2016/07/08/opnessl-apple-cer-to-p12/</guid>
+      <description>首选需要生成privkey在生成csr文件用于上传到apple
+openssl genrsa -out privkey.key 2048 生成 csr
+openssl req -new -key privkey.key -out privkey.csr 将apple开发者中心得到的cer文件转换为p12
+首先需要装cer转换为pem
+openssl x509 -in ios_distribution.cer -inform DER -out ios_distribution.cer.pem -outform PEM 然后在转换为p12，过程需要一个密码，在导入的时候使用
+openssl pkcs12 -export -inkey privkey.key -in ios_distribution.cer.pem -out ios_distribution.p12 </description>
+    </item>
+    
+    <item>
+      <title>mysql innodb myisam 表格式互转</title>
+      <link>http://example.org/2014/11/19/mysql-innodb-myisam-exchange/</link>
+      <pubDate>Wed, 19 Nov 2014 08:30:44 +0000</pubDate>
+      
+      <guid>http://example.org/2014/11/19/mysql-innodb-myisam-exchange/</guid>
+      <description>innodb 转换为 myisam
+SELECT CONCAT(&#39;ALTER TABLE &#39;, table_name, &#39; ENGINE=MyISAM;&#39;) AS sql_statements INTO OUTFILE &#39;/tmp/result.txt&#39; FROM information_schema.tables AS tb WHERE table_schema = &#39;TableName&#39; AND `ENGINE` = &#39;InnoDB&#39; AND `TABLE_TYPE` = &#39;BASE TABLE&#39; ORDER BY table_name DESC; source /tmp/result.txt; myisam 转换为 innodb
+SELECT CONCAT(&#39;ALTER TABLE &#39;, table_name, &#39; ENGINE=InnoDB;&#39;) AS sql_statements INTO OUTFILE &#39;/tmp/result.txt&#39; FROM information_schema.tables AS tb WHERE table_schema = &#39;TableName&#39; AND `ENGINE` = &#39;MyISAM&#39; AND `TABLE_TYPE` = &#39;BASE TABLE&#39; ORDER BY table_name DESC; source /tmp/result.</description>
+    </item>
+    
+    <item>
+      <title>升级到4.0并转移到腾讯运，速度真是爽爽的</title>
+      <link>http://example.org/2014/10/15/upgrade-40-move-qcloud/</link>
+      <pubDate>Wed, 15 Oct 2014 06:22:47 +0000</pubDate>
+      
+      <guid>http://example.org/2014/10/15/upgrade-40-move-qcloud/</guid>
+      <description>真心便宜</description>
+    </item>
+    
+    <item>
+      <title>基于 Quercus 的手游项目终于上线了</title>
+      <link>http://example.org/2014/01/27/quercus-php-ngame/</link>
+      <pubDate>Mon, 27 Jan 2014 06:41:53 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/27/quercus-php-ngame/</guid>
+      <description>经过半年的开发，我们第一款手游戏终于开发完毕，架构使用了 netty + Quercus 实现用 php 通过 websocket 与客户端通信。
+项目上线近一个月，基本稳定。而且不存在性能方面问题，之前在内网测试，pc 机 4G 内存，在线 1000 人，没有卡动感觉。 这个数
+字足以满足我们的需求， 想用 Quercus 大胆的用吧，到 4.0.39 应该会更完美，希望支持 Quercus 的多起来，与 hhvm 的火爆程度
+真是是没法比。</description>
+    </item>
+    
+    <item>
+      <title>debian openvz vps 优化</title>
+      <link>http://example.org/2014/01/08/debian-openvz-vps-optimize/</link>
+      <pubDate>Wed, 08 Jan 2014 05:37:38 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/08/debian-openvz-vps-optimize/</guid>
+      <description>比较喜欢 debian vps ，系统比较简洁，而且很省内存，但大部分的 vps 商都使用的标准模版，带了不少垃圾东西。
+首先进行系统更新
+apt-get update &amp;amp;&amp;amp; apt-get upgrade 安装sysv-rc-conf做为开机管理项
+apt-get install sysv-rc-conf 先删除 apache 相关，使用 nginx 代替
+apt-get remove --purge apache* 删除sendmail 相关
+apt-get remove --purge sendmail* sasl2-bin 删除bind9相关
+apt-get remove --purge bind9-* 删除xinetd 相关
+apt-get remove --purge xinetd 删除samba相关
+apt-get remove --purge samba-* 删除rpcbind相关
+apt-get remove --purge rpcbind </description>
+    </item>
+    
+    <item>
+      <title>bae开如启用域名备案白名单了</title>
+      <link>http://example.org/2014/01/07/bae-domain-beian-white-list/</link>
+      <pubDate>Tue, 07 Jan 2014 05:57:10 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/07/bae-domain-beian-white-list/</guid>
+      <description>前几天百度已经发过邮箱，昨天下午百度正式删除了没有备案的域名。
+国内唯一没有强制要求备案的云计算就这样结束了，白天的博客也是没有备案的，开始计划寻找海外便宜的vps 做反向代理。</description>
+    </item>
+    
+    <item>
+      <title>debain OpenVZ 删除 apache</title>
+      <link>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</link>
+      <pubDate>Mon, 06 Jan 2014 13:39:35 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</guid>
+      <description>debain 系统的 vps ,如 directspace 一般初始都安装了 apache 而我要用 nginx ，但直接用 aptitude 删除，竟然删不掉
+aptitude remove apache2 在次使用 aptitude
+aptitude remove apache2-doc apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common 还是没删掉，始用 dpkg
+dpkg --purge apache2-doc apache2.2-common 终于清附掉了..</description>
+    </item>
+    
+    <item>
+      <title>blog 搬出 phpcloud</title>
+      <link>http://example.org/2013/12/25/blog-move-phpcloud/</link>
+      <pubDate>Wed, 25 Dec 2013 12:39:33 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/25/blog-move-phpcloud/</guid>
+      <description>刚开始 phpcloud 推的时候，由于是zend推出的，想去试用一下，就把blog迁了过去，没想到麻从此开始了。
+blog 访问并不大，但是 phpcloud 经常 把我的服务挂起，估计可能是用的人比较大，资源比较吃紧吧，稍占点资源就给挂起，
+刚好 bae3.0 推出，比较中意，适用中。</description>
+    </item>
+    
+    <item>
+      <title>java(android) rsa 实现与 php 服务端通信</title>
+      <link>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</link>
+      <pubDate>Sat, 21 Dec 2013 04:54:28 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/21/android-rsa-java-encryption-php-decrypt/</guid>
+      <description>rsa 密钥生成 见 http://blog.andsky.com/js-rsa-use-openssl-make-public-pirvate-key/
+android 客户端用rsa 公钥加密后经 base64 编码发到 服务端，服务端使用私钥解密
+客户端代码
+import java.math.BigInteger; import java.security.KeyFactory; import java.security.PublicKey; import java.security.spec.RSAPublicKeySpec; import javax.crypto.Cipher; import sun.misc.BASE64Encoder; public class rsa { public static void main(String[] args) throws Exception { String modulus = &amp;quot;C34FF1FF9771ED88814C26905297BAEDCEC03B847D8AB5620848FC100AC0564FAD5364E9834E29118E7B5F8B1B9EAB201730C4860E8AF2ED2E028704105A01044501A9EF6DA2968E76273AAE496A0963A2FEA9B6179A86F28ACC61C087FB1AEEA4E1CB0ADBB9B757C303741DE602FD790953C8E2C004A425C7CAF4813F403DCD&amp;quot;; String publicExponent = &amp;quot;010001&amp;quot;; rsa key = new rsa(); PublicKey publicKey = key.getPublicKey(modulus, publicExponent); Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;); //明文 String tString = &amp;quot;aabbsdfsdf&amp;quot;; byte[] plainText = tString.getBytes(&amp;quot;UTF-8&amp;quot;); //加密 cipher.init(Cipher.ENCRYPT_MODE, publicKey); byte[] enBytes = cipher.</description>
+    </item>
+    
+    <item>
+      <title>quercus 4.0.38 发布</title>
+      <link>http://example.org/2013/12/20/quercus-4-0-38-release/</link>
+      <pubDate>Fri, 20 Dec 2013 04:33:23 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/20/quercus-4-0-38-release/</guid>
+      <description>修正了不少bug 真是越来越完善了，赞一个
+quercus: empty() needs to call ArrayAccess-&amp;gt;offsetExists() (#5612, rep by G. Krall) quercus: session_status() not implemented (#5609, rep by G. Krall) quercus: self doesn&amp;rsquo;t work inside a namespace (#5608, G. Krall) quercus: ReflectionParameter-&amp;gt;getClass() not implemented (#5607, rep by G. Krall) quercus: IllegalArgumentException vfs: not found on JBoss (#5606, rep by G. Krall) quercus: ReflectionFunction does not work for closures (#5605, rep by G. Krall) quercus: Xml reader is not working (#5603, rep by qumo) quercus: call_user_func() needs to call __invoke (#5601, rep by G.</description>
+    </item>
+    
+    <item>
+      <title>php实现websocket手游架构设想</title>
+      <link>http://example.org/2013/12/20/php-websocket-game/</link>
+      <pubDate>Fri, 20 Dec 2013 03:53:45 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/20/php-websocket-game/</guid>
+      <description>众所周知 php 的开发效率确实块。但在 socket 这块一直没有什么大的发展，设想用 两种方案用 php 实现 websocket game 开发
+方案1 netty+quercus+php
+方案2 Swoole + php
+两种方案感觉都可行，quercus 近期更新力度很大，已经解决 mysql 乱码问题。 php 转成 java 测试性能确实不错
+Swoole 是近期关注比较多的了，php 原生实现，作者更新速度很快，但缺少实际项目案例。
+两种方案选择了 quercus ，感觉应该更稳定一些，实践中，期待项目上线测试效果</description>
+    </item>
+    
+    <item>
+      <title>js rsa 使用 openssl 生成公钥私钥</title>
+      <link>http://example.org/2013/12/12/js-rsa-use-openssl-make-public-pirvate-key/</link>
+      <pubDate>Thu, 12 Dec 2013 08:08:15 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/12/js-rsa-use-openssl-make-public-pirvate-key/</guid>
+      <description>生成私钥
+openssl genrsa -out key.pem 得到16进制公钥
+openssl rsa -in key.pem -noout -modulus 直接放到js里就可以使用了</description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x jsb 绑定 ClippingNode</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</link>
+      <pubDate>Tue, 10 Dec 2013 13:29:54 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</guid>
+      <description>JSClass *jsb_ClippingNode_class; JSObject *jsb_ClippingNode_prototype; JSBool js_cocos2dx_ClippingNode_isInverted(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ? proxy-&amp;gt;ptr : NULL); JSB_PRECONDITION2( cobj, cx, JS_FALSE, &amp;quot;Invalid Native Object&amp;quot;); if (argc == 0) { bool ret = cobj-&amp;gt;isInverted(); jsval jsret; jsret = BOOLEAN_TO_JSVAL(ret); JS_SET_RVAL(cx, vp, jsret); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments: %d, was expecting %d&amp;quot;, argc, 0); return JS_FALSE; } JSBool js_cocos2dx_ClippingNode_visit(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ?</description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x jsb 绑定 removeAllDelegates</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</link>
+      <pubDate>Tue, 10 Dec 2013 13:20:52 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</guid>
+      <description>html5版为
+cc.Director.getInstance().getTouchDispatcher().removeAllDelegates()； 但 jsb 下没有，绑定一下。
+void JSTouchDelegate::removeAllDelegates() { CCDirector* pDirector = CCDirector::sharedDirector(); pDirector-&amp;gt;getTouchDispatcher()-&amp;gt;removeAllDelegates(); } JSBool js_cocos2dx_JSTouchDelegate_removeAllDelegates(JSContext *cx, uint32_t argc, jsval *vp) { if (argc == 0) { JSTouchDelegate *touch = new JSTouchDelegate(); touch-&amp;gt;autorelease(); touch-&amp;gt;removeAllDelegates(); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments&amp;quot;); return JS_FALSE; } JS_DefineFunction(cx, ns, &amp;quot;removeAllDelegates&amp;quot;, js_cocos2dx_JSTouchDelegate_removeAllDelegates, 1, JSPROP_READONLY | JSPROP_PERMANENT); </description>
+    </item>
+    
+    <item>
+      <title>阿里云(aliyun)青岛节点挂载硬盘io测试</title>
+      <link>http://example.org/2013/12/06/aliyun-shandong-mount-disk-io-test/</link>
+      <pubDate>Fri, 06 Dec 2013 12:24:36 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/06/aliyun-shandong-mount-disk-io-test/</guid>
+      <description>杭州节点已经停售了，在青岛订购了一台，贴上测试结果。
+fdisk -l Disk /dev/xvda: 21.5 GB, 21474754560 bytes 255 heads, 63 sectors/track, 2610 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00090497 Device Boot Start End Blocks Id System /dev/xvda1 * 1 2611 20969472 83 Linux Disk /dev/xvdb: 53.7 GB, 53687091200 bytes 255 heads, 63 sectors/track, 6527 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00000000 Disk /dev/xvdb doesn&#39;t contain a valid partition table 分区</description>
+    </item>
+    
+    <item>
+      <title>debian 下安装 lxc</title>
+      <link>http://example.org/2013/11/23/lxc-on-debian-squeeze/</link>
+      <pubDate>Sat, 23 Nov 2013 07:48:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-on-debian-squeeze/</guid>
+      <description>本文安装环境 debian 6.0
+安装 lxc debootstrap 工具
+aptitude install lxc bridge-utils debootstrap 设置网络
+auto eth1 iface eth1 inet manual auto br0 iface br0 inet static bridge_ports eth1 #根据自己实际网卡设置 bridge_fd 0 address 10.0.0.100 netmask 255.255.255.0 gateway 10.100.0.1 dns-nameservers 10.20.0.2 加载 cgroup 编辑 /etc/fstab
+cgroup /sys/fs/cgroup cgroup defaults 0 0 立即加载
+mount /sys/fs/cgroup 接下来创建一下虚拟机
+#下载 squeeze 64位 debootstrap --verbose --variant=minbase --arch=amd64 --include ifupdown,locales,libui-dialog-perl,\ dialog,netbase,net-tools,iproute,openssh-server,vim,apt-utils,proxychains \ squeeze /var/cache/lxc/debian/rootfs-amd64 http://mirrors.163.com/debian/ mkdir -p /lxc/vm0 #存放目录 /usr/lib/lxc/templates/lxc-debian -p /lxc/vm0/ # 创建虚拟机 配置虚拟机网络,在 /lxc/vm0/config 文件填加些文本</description>
+    </item>
+    
+    <item>
+      <title>debian 下 lxc 限制内存出错</title>
+      <link>http://example.org/2013/11/23/debian-lxc-memory-limit_in_bytes-no-such-file-or-directory/</link>
+      <pubDate>Sat, 23 Nov 2013 06:53:40 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/debian-lxc-memory-limit_in_bytes-no-such-file-or-directory/</guid>
+      <description>起动 vm 的时候出现
+lxc-start: open /cgroup/vm0/memory.limit_in_bytes : No such file or directory lxc-start: failed to setup the cgroups for &amp;lsquo;vm0&amp;rsquo; lxc-start: failed to setup the container lxc-start: invalid sequence number 1. expected 2 lxc-start: failed to spawn &amp;lsquo;vm0&amp;rsquo;
+在 /etc/default/grub 文件填加
+GRUB_CMDLINE_LINUX=&amp;quot;cgroup_enable=memory&amp;quot; 0# lxc-checkconfig Kernel config /proc/config.gz not found, looking in other places... Found kernel config file /boot/config-2.6.32-5-amd64 --- Namespaces --- Namespaces: enabled Utsname namespace: enabled Ipc namespace: enabled Pid namespace: enabled User namespace: enabled Network namespace: enabled Multiple /dev/pts instances: enabled --- Control groups --- Cgroup: enabled Cgroup namespace: enabled Cgroup device: enabled Cgroup sched: enabled Cgroup cpu account: enabled Cgroup memory controller: missing Cgroup cpuset: enabled --- Misc --- Veth pair device: enabled Macvlan: enabled Vlan: enabled File capabilities: enabled </description>
+    </item>
+    
+    <item>
+      <title>debian  bridge 网卡参数说明</title>
+      <link>http://example.org/2013/11/23/debian-bridge-opt/</link>
+      <pubDate>Sat, 23 Nov 2013 05:43:29 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/debian-bridge-opt/</guid>
+      <description>bridge_fd is the bridge forward delay time, in seconds, default 15.
+bridge_hello is the bridge hello time, in seconds, default 2.
+bridge_maxage is the bridge’s maximum message time, in seconds, default is 20.
+bridge_stp controls the spanning tree protocol, on or off. Default is off, and is recommended to stay that way.</description>
+    </item>
+    
+    <item>
+      <title>lxc guest 报错 respawning too disabled minutes</title>
+      <link>http://example.org/2013/11/23/lxc-guest-respawning-too-disabled-minutes/</link>
+      <pubDate>Sat, 23 Nov 2013 05:24:29 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/lxc-guest-respawning-too-disabled-minutes/</guid>
+      <description>INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c2&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c3&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c1&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c2&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c3&amp;quot; respawning too fast: disabled for 5 minutes INIT: Id &amp;quot;c4&amp;quot; respawning too fast: disabled for 5 minutes 解决方法 编辑 /etc/inittab</description>
+    </item>
+    
+    <item>
+      <title>mysql 5.5 半同步停止工作</title>
+      <link>http://example.org/2013/11/22/mysql-5-5-semi_sync-stop/</link>
+      <pubDate>Fri, 22 Nov 2013 12:10:34 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/22/mysql-5-5-semi_sync-stop/</guid>
+      <description>两台 mysql 5.5 服务器互为主从，使且半同步模式，网络终断后，但是 同步未能恢复
+mysql&amp;gt; show status like &#39;Rpl_%&#39;; +--------------------------------------------+-------------+ | Variable_name | Value | +--------------------------------------------+-------------+ | Rpl_semi_sync_master_clients | 0 | | Rpl_semi_sync_master_net_avg_wait_time | 213 | | Rpl_semi_sync_master_net_wait_time | 51387187879 | | Rpl_semi_sync_master_net_waits | 240543674 | | Rpl_semi_sync_master_no_times | 2 | | Rpl_semi_sync_master_no_tx | 6402 | | Rpl_semi_sync_master_status | OFF | | Rpl_semi_sync_master_timefunc_failures | 0 | | Rpl_semi_sync_master_tx_avg_wait_time | 276 | | Rpl_semi_sync_master_tx_wait_time | 68522585281 | | Rpl_semi_sync_master_tx_waits | 248230976 | | Rpl_semi_sync_master_wait_pos_backtraverse | 1101735 | | Rpl_semi_sync_master_wait_sessions | 0 | | Rpl_semi_sync_master_yes_tx | 240799932 | | Rpl_semi_sync_slave_status | ON | | Rpl_status | AUTH_MASTER | +--------------------------------------------+-------------+ 恢复操作</description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x 2.1.5 jsb 读取 plist</title>
+      <link>http://example.org/2013/10/17/cocos2d-x-2-1-5-jsb-read-plist/</link>
+      <pubDate>Thu, 17 Oct 2013 09:15:32 +0000</pubDate>
+      
+      <guid>http://example.org/2013/10/17/cocos2d-x-2-1-5-jsb-read-plist/</guid>
+      <description>static JSBool js_cocos2dx_CCFileUtils_createDictionaryWithContentsOfFile(JSContext *cx, uint32_t argc, jsval *vp) { jsval *argv = JS_ARGV(cx, vp); JSBool ok = JS_TRUE; JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCFileUtils* cobj = (cocos2d::CCFileUtils *)(proxy ? proxy-&amp;gt;ptr : NULL); JSB_PRECONDITION2( cobj, cx, JS_FALSE, &amp;quot;Invalid Native Object&amp;quot;); if (argc == 1) { std::string arg0; ok &amp;amp;= jsval_to_std_string(cx, argv[0], &amp;amp;arg0;); JSB_PRECONDITION2(ok, cx, JS_FALSE, &amp;quot;Error processing arguments&amp;quot;); cocos2d::CCDictionary* ret = CCDictionary::createWithContentsOfFile(arg0.c_str()); jsval jsret; jsret = ccdictionary_to_jsval(cx, ret); JS_SET_RVAL(cx, vp, jsret); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments: %d, was expecting %d&amp;quot;, argc, 1); return JS_FALSE; } </description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x 2.1.5 clippingNode在 jsb 下无效的修改</title>
+      <link>http://example.org/2013/09/23/cocos2d-x-clippingnode-jsb-fix/</link>
+      <pubDate>Mon, 23 Sep 2013 13:25:54 +0000</pubDate>
+      
+      <guid>http://example.org/2013/09/23/cocos2d-x-clippingnode-jsb-fix/</guid>
+      <description>**http://cocos2d-x.org/boards/6/topics/20141?r=20567#message-20567 **
+for iOS: in AppController replace the gl-view creation with:
+EAGLView *__glView = [EAGLView viewWithFrame: [window bounds] pixelFormat: kEAGLColorFormatRGBA8 depthFormat: GL_DEPTH24_STENCIL8_OES preserveBackbuffer: NO sharegroup: nil multiSampling: NO numberOfSamples: 0]; for Android: in game activity:
+public Cocos2dxGLSurfaceView onCreateView() { Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this); glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8); return glSurfaceView; } </description>
+    </item>
+    
+    <item>
+      <title>bae联通节点更新ip,广州长宽终于正常了</title>
+      <link>http://example.org/2013/09/16/bae-unicom-change-ip-gwbn/</link>
+      <pubDate>Mon, 16 Sep 2013 15:54:37 +0000</pubDate>
+      
+      <guid>http://example.org/2013/09/16/bae-unicom-change-ip-gwbn/</guid>
+      <description>bae 联通节点之前一直用的是 63开头的ip,长城宽带一直打不开。。有时 hao123 都打不开。。 ,今天打开 blog 一下就开了。。发现联通节点变成了 202.108.23.200 速度还真不错，不知道是不是前几天我在群里反应长城宽带打不开网站就调整了哈。</description>
+    </item>
+    
+    <item>
+      <title>jsonp 后 ie 下 cookie 还是不能跨域问题</title>
+      <link>http://example.org/2013/04/16/jsonp-ie-dot-cookie-domain/</link>
+      <pubDate>Tue, 16 Apr 2013 10:14:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/04/16/jsonp-ie-dot-cookie-domain/</guid>
+      <description>在非 ie 都 直用 jsonp cookie 是没问题，但是在 ie 下不能生效，还是得靠 p3p 解决
+header(&#39;P3P:CP=&amp;quot;IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT&amp;quot;&#39;); </description>
+    </item>
+    
+    <item>
+      <title>今天把blog迁到了 phpcloud 试用中</title>
+      <link>http://example.org/2013/02/21/blog-move-to-phpcloud/</link>
+      <pubDate>Thu, 21 Feb 2013 09:39:12 +0000</pubDate>
+      
+      <guid>http://example.org/2013/02/21/blog-move-to-phpcloud/</guid>
+      <description>之前已经介绍过 phpcloud 空间了，也试用过一个站，不过好像被封了，可能是太占资源了哈哈，把 blog 移过过看看会不会被封掉，转移 blog 还是有点麻类的， phpcloud 的 git 权限和apache 权限不致， wordpress 在线更新是比烦的事，改成 777 可以解决，费力呀。。</description>
+    </item>
+    
+    <item>
+      <title>freebsd6升级到freebsd7</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</link>
+      <pubDate>Mon, 22 Oct 2012 10:49:26 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd6-to-freebsd7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd7升级到freebsd8</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:44:22 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd7-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>freebsd8升级到freebsd9</title>
+      <link>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</link>
+      <pubDate>Mon, 22 Oct 2012 10:38:30 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/22/upgrading-freebsd8-to-freebsd9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GoDaddy .COM域名10月优惠码：2.95美元注册/转入.COM！</title>
+      <link>http://example.org/2012/10/12/godaddy-com-promo-code-cjc295v/</link>
+      <pubDate>Fri, 12 Oct 2012 07:32:26 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/12/godaddy-com-promo-code-cjc295v/</guid>
+      <description>GoDaddy 2012年10月份GoDaddy优惠码：2.95美元超低价注册或转入.COM域名！而且不只适用于注册，还适用于从其它注册商将你的域名转入到GoDaddy！无论新老用户均可享受优惠！
+[drpcoupon name=&amp;ldquo;godaddy cjc295v&amp;rdquo; exclude=&amp;ldquo;name,expiration,description,rss&amp;rdquo;] （注：此优惠链接已集成GoDaddy 10月优惠码，无需再输入优惠码。有效期未知。）</description>
+    </item>
+    
+    <item>
+      <title>freebsd无线配置静态ip</title>
+      <link>http://example.org/2012/09/28/freebsd-wifi-staticip/</link>
+      <pubDate>Fri, 28 Sep 2012 17:06:25 +0000</pubDate>
+      
+      <guid>http://example.org/2012/09/28/freebsd-wifi-staticip/</guid>
+      <description>修改 /etc/rc.conf 写入
+静态ip
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA inet 192.168.1.100 netmask 255.255.255.0&amp;quot; dhcp 获取
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA DHCP&amp;quot; wpa 配置 /etc/wpa_supplicant.conf
+network={ ssid=&amp;quot;YourAPssid&amp;quot; psk=&amp;quot;YourAPpassword&amp;quot; } 完成，可以上网喽</description>
+    </item>
+    
+    <item>
+      <title>今天把eclipse从3.6升到了4.2Juno</title>
+      <link>http://example.org/2012/08/28/eclipse-3-6-update-4-2-juno/</link>
+      <pubDate>Tue, 28 Aug 2012 15:39:17 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/28/eclipse-3-6-update-4-2-juno/</guid>
+      <description>做为版本控的我，3.6 的 eclipse 已经很久没更新过了，今天终于更新到了 4.2 正在体验中，附上升级方法
+升级到 3.7
+1.Window &amp;gt; Preferences &amp;gt; Install/Update &amp;gt; Available Software Sites 2.Click &#39;Add&#39; 3.Enter http://download.eclipse.org/releases/indigo 4.Click &#39;Ok&#39; 升级到4.2
+1.Window &amp;gt; Preferences &amp;gt; Install/Update &amp;gt; Available Software Sites 2.Click &#39;Add&#39; 3.Enter http://download.eclipse.org/eclipse/updates/4.2 4.Click &#39;Ok&#39; </description>
+    </item>
+    
+    <item>
+      <title>wordpress正在执行例行维护,请一分钟后回来</title>
+      <link>http://example.org/2012/08/15/wordpress-maintenance/</link>
+      <pubDate>Wed, 15 Aug 2012 02:15:29 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/15/wordpress-maintenance/</guid>
+      <description>汗呀，刚刚升级个插件，结果 wordpress 打不开了，一直显示 正在执行例行维护,请一分钟后回来,估计是升级出现了问题，在wordpress 安装目录下发现了，.maintenance 这个文件，应该是用于升级记录的文件，先删掉，果然， wordpress 正常了，还是少升级插件的炒哦。。。</description>
+    </item>
+    
+    <item>
+      <title>php 汉字转拼音类 支持音字 声调</title>
+      <link>http://example.org/2012/08/12/php-chinese-characters-to-pinyin/</link>
+      <pubDate>Sun, 12 Aug 2012 15:51:20 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/12/php-chinese-characters-to-pinyin/</guid>
+      <description>&lt;p&gt;突然要用到 utf-8 汉字转拼音 ，网上大多都是先把 utf-8 转成 gbk 在转成拼音，太麻烦了，于是自己整理了一份 utf-8 版的，由于找到到的码表问题，部分多音字及声调得到整理，算是比较全的汉字拼音表了。 当然和大多数转换程序一样，还不支持自动多音转换，如 银行可能会转换成 yinxing ，当然了，可以自己控制输出,需要汉字拼音表的可以在程序中提取。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>apache 403 错误 client denied by server</title>
+      <link>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</link>
+      <pubDate>Fri, 27 Jul 2012 10:24:35 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</guid>
+      <description>由于前段时间给一台服务器在前加了个 nginx 做代理，今天大量用户反应网站出现 403 服务器日志显示 client denied by server 看一下访问日志都是 127.0.0.1 这才想起应该是 apache 防 ddos 模块的问题，把每个 vhost 的链接都当做 一个链接了，先去掉 mod_evasive ,恢复正常，为了上 apache 得到真实 ip 要安装 mod_rpaf 这个模块就 OK 了，
+cd /usr/ports/www/mod_rpaf make install clean 安装模块， freebsd 就是让人偷懒呀。编译完成 修改 httpd.conf 打开 mod_rpaf 模块 ，去掉 mod_rpaf 的 # 号, 添加
+RPAFenable On RPAFsethostname On RPAFproxy_ips 127.0.0.1 RPAFheader X-Forwarded-For 重起 apache ,终于一切正常了,收工回家.</description>
+    </item>
+    
+    <item>
+      <title>地方信息站建立可行方案放了失败了,大家喜欢就拿去吧</title>
+      <link>http://example.org/2006/07/04/e59cb0e696b9e4bfa1e681afe7ab99e5bbbae7ab8be58fafe8a18ce696b9e6a188e694bee4ba86e5a4b1e8b4a5e4ba86e5a4a7e5aeb6e5969ce6aca2e5b0b1e68bbfe/</link>
+      <pubDate>Tue, 04 Jul 2006 14:36:48 +0000</pubDate>
+      
+      <guid>http://example.org/2006/07/04/e59cb0e696b9e4bfa1e681afe7ab99e5bbbae7ab8be58fafe8a18ce696b9e6a188e694bee4ba86e5a4b1e8b4a5e4ba86e5a4a7e5aeb6e5969ce6aca2e5b0b1e68bbfe/</guid>
+      <description>原来我们搞网站的就这么渺小,只是自己的理想被放大了而已,在中国这个政治,这个环境,这种腐败的压力下不得不低下自己高贵的头&amp;hellip;.. 广播局局长还是我爷爹也帮不了我资金,政策上的问题,原本以为我可以为我们家乡尽自己的一分力,我真的是有心无力了,这里祝各位在地方信息站上挣扎发展的兄弟门都有所做为,创出自己的天地&amp;hellip;&amp;hellip;
+下面只是自己给爷爹看的初稿,因为无法实施给大家一个参考文献吧,很烂,喜欢就支持下,不喜欢希望别骂,自己写的,心情不好,很烦
+一． 互联网市场状况及成长 随着互联网的高速发展，越来越多的人加入了网民的行列。最新统计数字显示在中国，已经有超过1亿的网民享受着互联网带来的服务。分析现行的“门户”网站，其对网民的服务定位到：新闻资讯，在线影音服务，在线交流服务，网络游戏服务等。极少内容对生存在现实生活中的网民起到实质性的利益。另一方面，这些内容体积庞大的门户网站，其电子商务等多领域在对应诸多专业网站时拙形渐现。分析原因，主要是其服务与其优势栏目未能互补，娱乐服务与商务服务比重失调。Internet的出现，其意义绝不仅是让网民更好的娱乐，网民更看中的是所能带来的实质性利益。 我们计划创建中的地方性综合门户网站，它是一个集场所信息服务和网络应用服务于一体的站点，是以各区为单位的综合门户网站组合起来为基础的。与目前现有的所谓门户站点从网站构架内容上所不同的是，我们不仅向各类网民提供便于生产生活学习等方面的权威及时资讯服务，更重要的是我们通过各个互动的商务、娱乐频道，将网站单一的灌输使网民被动接受变为通过各类型的网民的参与使网站PV值增大，这个进步就如windows操作系统相对于Dos系统界面的进步；在市场运作方面，我们依托本地服务，以扎实求稳、诚心服务为基础，向企业、个人用户提供更优质的服务，结束一个地区内市场混乱无从选择的局面。 二． 建站前应明确的问题
+明确网站定位 区域门户网站(地方性便民信息交流网站)。成为为地方网络用户提供地方咨询、娱乐.学习,电子商务等的综合信息港，相对于其它单一网站，本站内容更全面,更有地方特性,更具吸引力。 建站的目标 近期目标：能够xx85%的互联网用户所认识并时常浏览,增加xx网民对网站的粘度,拥有一批固定的访问群. 远期目标：成为xx人民互相交流，了解各种咨询信息,购物等的通道,充分体现地方性便民的理念和服务平台。 网站的目标用户 网站访客的主要群体：xx本地居民、企业、在外xx网民及广大潜力存在人群 网站基本栏目 包括：企业黄页，网上商城，人才市场，房产交易，二手市场，娱乐信息(娱乐新闻,笑话,电脑等)，在线影院，消费打折，留言反馈，分类广告，地方信息咨询，真情交友，电子相册，博客，社区。 三． 建站方案 四． 网站可行性分析 1． 网站想让访客得到什么? 不同的目标用户想得到的服务或内容不同。有些站长，在做地方性门户的时候，只追求大而全，仿照各大门户做，从首页看，好像整个网站有非常多的内容，其实里面有价值的东西，少之又少,从而背离了建站的初衷。有些站长干脆用个小偷建站(所谓小偷即是全站都为他人网站内容)，地方门户应该以地方的信息资源为中心，为网民提供对他们有用的信息，比如地方信息咨询，房产，人才，出租信息,地方企业等等。在网站上，用户希望能够随心所欲的浏览自己需要的信息，有的用户不光想看，还想自己动手参与一些活动。比如论坛,交友,买房,有奖竞猜。 2． 网站上有什么会使得访客逗留? 有什么东西会使得访客再次来? 如何拥有稳定的用户群？ 漂亮的界面是别人对网站有个好的第一印象的关键，十分重要，而对于门户网站，内容则是重中之重，站在网民角度去想，有用、鲜活的信息和服务才是根本。作为区域门户，提供更多、更及时、更丰富的本地化内容是突显其特点和定位的关键，所以，内容，还是本地化内容是重中之重。内容要经常更新、内容要本地化。本地化、丰富、鲜活的内容，这可能是其他全国知名网站也无法跟我们竞争的关键。网络上获取信息十分容易，而我们的网站因本地化内容而独特，从而更能吸引目标用户。 网站如果仅仅提供给访客枯燥无味的文字信息，是没有吸引力的。这就需要与商家以及我们生活环境紧密联系，与周边服务紧密结合，所谓的在线服务，其实是信息服务，信息本身不是价值，产品才是价值，而产品在本地，在周围的市场里，超市里，地摊上（土特产），甚至在大家的手里（二手交易信息发布）。抓住地方特色的新闻才是最重要的，绝大多数网民很关心我们xx本地的发展，及动态，多多收集一些地方的新闻，会使本站人气旺起来。可以和地方报社等媒体合作，相信在网上给他们免费宣传，他们会非常乐意。 3．论坛是大家抒发情感的地方，针对xx的网民，开设具有我们xx特色的版块，可以时不时举办一些坛友聚会，以凝聚论坛的人气。 A． 互动/有奖活动的组织. 持续搞一些“有趣的有奖小调查、小测试”，请企业冠名赞助小奖品（奖品不必贵重，只要对访客有用就行），访客就会常来看结果，还介绍朋友来。 所以，互动的内容必须先做出个样子，即使是“虚假繁荣”，对访客也会起到引导作用，从而真正繁荣起来，这之后，访客就成为这部分内容的更新者了 B． 搞一些网络活动. 如：XX数码相机杯“宝宝秀”网络大赛 XX杯“城市形象小姐”网上投票 XX杯“城市美眉”网上投票 XX杯“网页制作”比赛 XX杯“网络知识”比赛等等 明确客户群的需要 3．可以请电信局的网管在装宽带的时候把本网站作为用户的开机首页，至少也放一个图标在桌面上，这样更多的用户能浏览本站。 五． 网站宣传（广告策略）
+面向居民 A． 广播局官方宣传。 现阶段的中国，传统媒体宣传的影响力仍然大于网络，特别是对于面向市县内的站点，电视、报纸、杂志等这些媒体的效应可以说是立竿见影，通过吸引媒体，特别是传统媒体的注意力达到宣传的作用。 B． 利用网吧推荐，形成更强劲的认知推广趋势力。 C． 商家的促销活动。 D． 利用网站首页的网吧推荐栏目和广告位，取得网吧支持，让网吧机器上设本网站为首页，利用网吧作为宣传窗口。与网吧合作，给他们一些广告支持，让他们将本网站设为主页 E． 网民发现新网站的第三大方式——朋友介绍。 面向企业 A． 广播局官方宣传。 B． 给企业提供一个发布最新咨询的平台，让网站上的访客能在第一时间内了解企业的最新动向。 C． 加强企业之间的交流与合作 3． 网站策划建设阶段的推广：也就是从网站正式发布前就开始了推广的准备，在网站建设过程中从网站结构、内容等方面对google、百度等搜索引擎进行优化设计(SEO优化技术) 4． 网站发布初期的基本推广手段：登录10个主要搜索引擎和分类目录（列出计划登录网站的名单）、与部分合作伙伴建立网站链接。另外，配合公司其他营销活动，在部分媒体和行业网站发布企业新闻。 5． 网站稳定期的推广：结合公司新产品促销，不定期发送在线优惠卷；参与行业内的排行评比等活动，以期获得新闻价值；在条件成熟的情况下，建设一个中立的与企业核心产品相关的行业信息类网站来进行辅助推广。 6． 推广效果的评价：对主要网站推广措施的效果进行跟踪，定期进行网站流量统计分析，必要时与专业网络顾问机构合作进行网络营销诊断，改进或者取消效果不佳的推广手段，在效果明显的推广策略方面加大投入比重。 六． 市场潜力分析 1． 浏览用户群体 报告显示，我国上网用户总数为9400万，预计互动网络至2007年用户数量1000万，其中32%为商业用户（企业电子商务服务），68%为个人网用户(网上购物、交友娱乐、影视音乐、生活资讯等)。网站的运作是否成功，是依赖于是否得到了强大的浏览用户群体支持。（市场调查） 到目前为止，xx并没有一个综合且调动大众积极性，便于网民交流与查找xx本地咨讯的官方网站。对于网民来说，方便且实用是他们最大的需求。本站正是基于这样一个相对&amp;quot;忠实&amp;quot;的局域网用户群体建立起来的，由于其区域性、指向性强的特点，将更有利于其吸纳这样的网络用户群体。这群用户对运用网络充满热情，具有无限的市场潜力。 2． 网络资源运用不足 根据调查分析，访客浏览网页的主要目的是为了解各种资讯、在线聊天和收发电子邮件，但是阻止他们或潜在阻止他们上网的原因则有两个：INTERNET浏览速度太慢，全国性的网站缺少符合本地要求的个性化服务。正是这两个原因，造成了xx这种虽有得天独厚的网络资源而没有真正为广大本地网络用户带来更多的实惠，网络资源的运用存在较大的空白。所以地方性的综合咨询站具有很大的市场潜力。 3．竞争对手 七． 风险应变策略 1． 外部风险应变策略 政策环境的变化 经济环境的变化 法律环境的变化 人文/风俗的抵触 科技的发展/专利与知识产权的保护 2． 内部风险应变策略 资金的问题 市场的问题 管理的问题 公关的问题 人员的问题 3） 网站运营、管理、会员开发和广告经营不力，网站始终没有盈利点，无法进入良性的循环； 八． 投资与回报 任何投资活动的目标都是寻求未来的发展，投资机会决定投资环境的未来变化。如果企业投资到一个已经成熟的市场，或者说群雄争霸的市场，可以说，企业投资的风险相对小一些，但发展起来会有不少困难，尤其是想在市场上占有一席之地，会有不小的竞争。反过来说，企业如果投资到一个充满发展机会却又暂时没有头绪的市场，发展的机遇、盈利的机会相对较大，但风险也随之增大，即所谓风险是伴随着机会永远存在的。因此，企业所寻求的应该是寻找机会且又规避风险的投资。 对于互动网络而言，正是基于该投资主体的特殊性，才使得投资者拥有了一个前所未有的投资环境。现如今，网络的发展已经明显由多体向单体的方式转化，这种趋势只能说明了网络必然会更进一步的走向商业化。由此而引发的竞争将会使网络产生划时代的变革。设想未来的网络，必将是充分的互动和虚拟化，而正是这种特性决定了竞争的空前激烈和单体的不断涌现。因此，今后网络上的竞争已不仅只是技术，更需要注重市场，随着单体的存在，最终落实于智慧。这正象我们始终崇尚的理念 “网络还智慧于本源”。 对于投资者而言，投资者所关心的是如何才能规避投资所带来的风险。互动网络是一个极具严密性的完整体系，他所体现的先进理念是互联网时代决无仅有的，从而也使投资风险降到了最低。因此，当我们按不同的阶段、不同的策略，逐渐推出战略重点时，我们很容易看出：当年投资，当年即可见收入，第二年便可回收资金。 九． 结论 综上所述，互动网络这一项目不但在市场理念、资本运营手段上具有超前性，而且具有很高的投资的回率。 这是一个充满机遇和挑战的时代，世界首富比尔?</description>
+    </item>
+    
+    <item>
+      <title>Unix命令大全</title>
+      <link>http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/</link>
+      <pubDate>Sun, 26 Feb 2006 10:20:05 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/</guid>
+      <description>1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:
+telnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address
+1.2 登录步骤 login : _______ &amp;gt; 输入 username
+password : _______ &amp;gt; 输入密码
+1.3 登出步骤
+% logout 或 % exit 或 % 1.4 更改帐号密码
+% yppasswd &amp;gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ &amp;gt; 输入旧密码 New password: ______ &amp;gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ &amp;gt; 再输入一次密码 1.</description>
+    </item>
+    
+  </channel>
+</rss>

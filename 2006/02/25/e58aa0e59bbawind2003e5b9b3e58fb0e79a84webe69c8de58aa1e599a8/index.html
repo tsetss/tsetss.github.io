@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>加固Wind2003平台的WEB服务器 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP&#43;Access，因为我的程序都是PHP&#43;MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!
+服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。
+我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。
+举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。
+另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。
+我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。
+系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server
+安装配置操作系统
+安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。
+修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。
+服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:
+运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+注意:上面的注册表项是一个路径;它已换行以便于阅读。
+2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。
+要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="加固Wind2003平台的WEB服务器" />
+<meta property="og:description" content="基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP&#43;Access，因为我的程序都是PHP&#43;MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!
+服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。
+我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。
+举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。
+另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。
+我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。
+系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server
+安装配置操作系统
+安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。
+修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。
+服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:
+运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+注意:上面的注册表项是一个路径;它已换行以便于阅读。
+2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。
+要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:12:03+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:12:03+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="加固Wind2003平台的WEB服务器"/>
+<meta name="twitter:description" content="基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP&#43;Access，因为我的程序都是PHP&#43;MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!
+服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。
+我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。
+举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。
+另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。
+我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。
+系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server
+安装配置操作系统
+安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。
+修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。
+服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:
+运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+注意:上面的注册表项是一个路径;它已换行以便于阅读。
+2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。
+要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "加固Wind2003平台的WEB服务器",
+      "item": "http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "加固Wind2003平台的WEB服务器",
+  "name": "加固Wind2003平台的WEB服务器",
+  "description": "基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP+Access，因为我的程序都是PHP+MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!\n服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。\n我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。\n举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。\n另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。\n我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。\n系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server\n安装配置操作系统\n安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。\n修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。\n服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:\n运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\n注意:上面的注册表项是一个路径;它已换行以便于阅读。\n2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。\n要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:",
+  "keywords": [
+    
+  ],
+  "articleBody": "基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP+Access，因为我的程序都是PHP+MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!\n服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。\n我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。\n举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。\n另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。\n我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。\n系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server\n安装配置操作系统\n安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。\n修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。\n服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:\n运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\n注意:上面的注册表项是一个路径;它已换行以便于阅读。\n2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。\n要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:\nHKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\connection\n注意:上面的注册表项是一个路径;它已换行以便于阅读。\n3. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。\n注意:由于在终端服务器 4.0 版中尚未完全实现备用端口功能，因此只是“在合理的限度内尽量”提供支持，如果出现任何问题，Microsoft 可能要求您将端口重设为 3389。\n原文来源:微软知识库KB187623。当然为了达到更加安全的访问，还可以采用IPSec来保护远程桌面的连接访问。\n禁用不必要的服务不但可以降低服务器的资源占用减轻负担，而且可以增强安全性。下面列出了可以禁用的服务:\nApplication Experience Lookup Service\nAutomatic Updates\nBITS\nComputer Browser\nDHCP Client\nError Reporting Service\nHelp and Support\nNetwork Location Awareness\nPrint Spooler\nRemote Registry\nSecondary Logon\nServer\nSmartcard\nTCP/IP NetBIOS Helper\nWorkstation\nWindows Audio\nWindows Time\nWireless Configuration\n打开服务器本地计算机策略(gpedit.msc)，参考以下选择和修改对服务器进行加固:\n1. 设置帐号锁定阀值为5次无效登录，锁定时间为30分钟;\n2. 从通过网络访问此计算机中删除Everyone组;\n3. 在用户权利指派下，从通过网络访问此计算机中删除Power Users和Backup Operators;\n4. 为交互登录启动消息文本。\n5. 启用 不允许匿名访问SAM帐号和共享;\n6. 启用 不允许为网络验证存储凭据或Passport;\n7. 启用 在下一次密码变更时不存储LANMAN哈希值;\n8. 启用 清除虚拟内存页面文件;\n9. 禁止IIS匿名用户在本地登录;\n10. 启用 交互登录:不显示上次的用户名;\n11. 从文件共享中删除允许匿名登录的DFS$和COMCFG;\n12. 禁用活动桌面。\n强化TCP协议栈:\nWindows Registry Editor Version 5.00\n[HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters]\n“SynAttackProtect”=dword:00000001\n“EnablePMTUDiscovery”=dword:00000000\n“NoNameReleaseOnDemand”=dword:00000001\n“EnableDeadGWDetect”=dword:00000000\n“KeepAliveTime”=dword:00300000\n“PerformRouterDiscovery”=dword:00000000\n“TcpMaxConnectResponseRetransmissions”=dword:00000003\n“TcpMaxHalfOpen”=dword:00000100\n“TcpMaxHalfOpenRetried”=dword:00000080\n“TcpMaxPortsExhausted”=dword:00000005\n安装和配置IIS\n进入Windows组件安装，找到应用程序服务器，进入详细信息，勾选ASP.NET后，IIS必须的组件就会被自动选择，如果你的服务器需要运行ASP脚本，那么还需要进入Internet信息服务(IIS)-万维网服务下勾选Active Server Pages。完成安装后，应当在其他逻辑分区上单独建立一个目录用来存储WEB网站程序及数据。\n一台WEB服务器上都运行着多个网站，他们之间可能互不相干，所以为了起到隔离和提高安全性，需要建立一个匿名WEB用户组，为每一个站点创建一个匿名访问账号，将这些匿名账号添加到之前建立的匿名WEB用户组中，并在本地计算机策略中禁止此组有本地登录权限。\n最后优化IIS6应用程序池设置:\n1. 禁用缺省应用程序池的空闲超时;\n2. 禁用缓存ISAPI扩展;\n3. 将应用程序池标识从NetworlService改为LocalService;\n4. 禁用快速失败保护;\n5. 将关机时间限制从\n",
+  "wordCount" : "188",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:12:03Z",
+  "dateModified": "2006-02-25T16:12:03Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      加固Wind2003平台的WEB服务器
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:12:03 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP+Access，因为我的程序都是PHP+MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!</p>
+<p>　　服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。</p>
+<p>　　我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。</p>
+<p>　　举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。</p>
+<p>　　另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。</p>
+<p>　　我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。</p>
+<p>　　系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server</p>
+<p>　　安装配置操作系统</p>
+<p>　　安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。</p>
+<p>　　修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。</p>
+<p>　　服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:</p>
+<ol>
+<li>运行 Regedt32 并转到此项:</li>
+</ol>
+<p>　　HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</p>
+<p>　　注意:上面的注册表项是一个路径;它已换行以便于阅读。</p>
+<p>　　2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。</p>
+<p>　　要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:</p>
+<p>　　HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\connection</p>
+<p>　　注意:上面的注册表项是一个路径;它已换行以便于阅读。</p>
+<p>　　3. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。</p>
+<p>　　注意:由于在终端服务器 4.0 版中尚未完全实现备用端口功能，因此只是“在合理的限度内尽量”提供支持，如果出现任何问题，Microsoft 可能要求您将端口重设为 3389。</p>
+<p>　　原文来源:微软知识库KB187623。当然为了达到更加安全的访问，还可以采用IPSec来保护远程桌面的连接访问。</p>
+<p>　　禁用不必要的服务不但可以降低服务器的资源占用减轻负担，而且可以增强安全性。下面列出了可以禁用的服务:</p>
+<p>　　Application Experience Lookup Service</p>
+<p>　　Automatic Updates</p>
+<p>　　BITS</p>
+<p>　　Computer Browser</p>
+<p>　　DHCP Client</p>
+<p>　　Error Reporting Service</p>
+<p>　　Help and Support</p>
+<p>　　Network Location Awareness</p>
+<p>　　Print Spooler</p>
+<p>　　Remote Registry</p>
+<p>　　Secondary Logon</p>
+<p>　　Server</p>
+<p>　　Smartcard</p>
+<p>　　TCP/IP NetBIOS Helper</p>
+<p>　　Workstation</p>
+<p>　　Windows Audio</p>
+<p>　　Windows Time</p>
+<p>　　Wireless Configuration</p>
+<p>　　打开服务器本地计算机策略(gpedit.msc)，参考以下选择和修改对服务器进行加固:</p>
+<p>　　1. 设置帐号锁定阀值为5次无效登录，锁定时间为30分钟;</p>
+<p>　　2. 从通过网络访问此计算机中删除Everyone组;</p>
+<p>　　3. 在用户权利指派下，从通过网络访问此计算机中删除Power Users和Backup Operators;</p>
+<p>　　4. 为交互登录启动消息文本。</p>
+<p>　　5. 启用 不允许匿名访问SAM帐号和共享;</p>
+<p>　　6. 启用 不允许为网络验证存储凭据或Passport;</p>
+<p>　　7. 启用 在下一次密码变更时不存储LANMAN哈希值;</p>
+<p>　　8. 启用 清除虚拟内存页面文件;</p>
+<p>　　9. 禁止IIS匿名用户在本地登录;</p>
+<p>　　10. 启用 交互登录:不显示上次的用户名;</p>
+<p>　　11. 从文件共享中删除允许匿名登录的DFS$和COMCFG;</p>
+<p>　　12. 禁用活动桌面。</p>
+<p>　　强化TCP协议栈:</p>
+<p>　　Windows Registry Editor Version 5.00</p>
+<p>　　[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters]</p>
+<p>　　&ldquo;SynAttackProtect&rdquo;=dword:00000001</p>
+<p>　　&ldquo;EnablePMTUDiscovery&rdquo;=dword:00000000</p>
+<p>　　&ldquo;NoNameReleaseOnDemand&rdquo;=dword:00000001</p>
+<p>　　&ldquo;EnableDeadGWDetect&rdquo;=dword:00000000</p>
+<p>　　&ldquo;KeepAliveTime&rdquo;=dword:00300000</p>
+<p>　　&ldquo;PerformRouterDiscovery&rdquo;=dword:00000000</p>
+<p>　　&ldquo;TcpMaxConnectResponseRetransmissions&rdquo;=dword:00000003</p>
+<p>　　&ldquo;TcpMaxHalfOpen&rdquo;=dword:00000100</p>
+<p>　　&ldquo;TcpMaxHalfOpenRetried&rdquo;=dword:00000080</p>
+<p>　　&ldquo;TcpMaxPortsExhausted&rdquo;=dword:00000005</p>
+<p>　　安装和配置IIS</p>
+<p>　　进入Windows组件安装，找到应用程序服务器，进入详细信息，勾选ASP.NET后，IIS必须的组件就会被自动选择，如果你的服务器需要运行ASP脚本，那么还需要进入Internet信息服务(IIS)-万维网服务下勾选Active Server Pages。完成安装后，应当在其他逻辑分区上单独建立一个目录用来存储WEB网站程序及数据。</p>
+<p>　　一台WEB服务器上都运行着多个网站，他们之间可能互不相干，所以为了起到隔离和提高安全性，需要建立一个匿名WEB用户组，为每一个站点创建一个匿名访问账号，将这些匿名账号添加到之前建立的匿名WEB用户组中，并在本地计算机策略中禁止此组有本地登录权限。</p>
+<p>　　最后优化IIS6应用程序池设置:</p>
+<p>　　1. 禁用缺省应用程序池的空闲超时;</p>
+<p>　　2. 禁用缓存ISAPI扩展;</p>
+<p>　　3. 将应用程序池标识从NetworlService改为LocalService;</p>
+<p>　　4. 禁用快速失败保护;</p>
+<p>　　5. 将关机时间限制从</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

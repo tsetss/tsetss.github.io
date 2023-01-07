@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+OpenVZ
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/openvz/</link>
+    <description>Recent content in 
+OpenVZ
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Jan 2014 05:37:38 +0000</lastBuildDate><atom:link href="http://example.org/tags/openvz/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debian openvz vps 优化</title>
+      <link>http://example.org/2014/01/08/debian-openvz-vps-optimize/</link>
+      <pubDate>Wed, 08 Jan 2014 05:37:38 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/08/debian-openvz-vps-optimize/</guid>
+      <description>比较喜欢 debian vps ，系统比较简洁，而且很省内存，但大部分的 vps 商都使用的标准模版，带了不少垃圾东西。
+首先进行系统更新
+apt-get update &amp;amp;&amp;amp; apt-get upgrade 安装sysv-rc-conf做为开机管理项
+apt-get install sysv-rc-conf 先删除 apache 相关，使用 nginx 代替
+apt-get remove --purge apache* 删除sendmail 相关
+apt-get remove --purge sendmail* sasl2-bin 删除bind9相关
+apt-get remove --purge bind9-* 删除xinetd 相关
+apt-get remove --purge xinetd 删除samba相关
+apt-get remove --purge samba-* 删除rpcbind相关
+apt-get remove --purge rpcbind </description>
+    </item>
+    
+    <item>
+      <title>debain OpenVZ 删除 apache</title>
+      <link>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</link>
+      <pubDate>Mon, 06 Jan 2014 13:39:35 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</guid>
+      <description>debain 系统的 vps ,如 directspace 一般初始都安装了 apache 而我要用 nginx ，但直接用 aptitude 删除，竟然删不掉
+aptitude remove apache2 在次使用 aptitude
+aptitude remove apache2-doc apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common 还是没删掉，始用 dpkg
+dpkg --purge apache2-doc apache2.2-common 终于清附掉了..</description>
+    </item>
+    
+  </channel>
+</rss>

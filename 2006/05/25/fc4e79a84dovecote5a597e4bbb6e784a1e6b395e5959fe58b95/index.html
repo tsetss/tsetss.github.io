@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>FC4的dovecot套件無法啟動 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(&lsquo;EXTERNAL DIGEST-MD5?&hellip;&hellip;..&rsquo;)dnl dnl define(&lsquo;confAUTH_MECHANISMS&rsquo;, &lsquo;EX&hellip;&hellip;LOGIN PLAIN&rsquo;).. 以上&hellip;.是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(&rsquo;&hellip;..ADDR=0.0.0.0,&hellip;.&rsquo;)dnl 把127.0.0.1&ndash;&gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="FC4的dovecot套件無法啟動" />
+<meta property="og:description" content="fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(&lsquo;EXTERNAL DIGEST-MD5?&hellip;&hellip;..&rsquo;)dnl dnl define(&lsquo;confAUTH_MECHANISMS&rsquo;, &lsquo;EX&hellip;&hellip;LOGIN PLAIN&rsquo;).. 以上&hellip;.是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(&rsquo;&hellip;..ADDR=0.0.0.0,&hellip;.&rsquo;)dnl 把127.0.0.1&ndash;&gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-25T14:02:22+00:00" />
+<meta property="article:modified_time" content="2006-05-25T14:02:22+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FC4的dovecot套件無法啟動"/>
+<meta name="twitter:description" content="fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(&lsquo;EXTERNAL DIGEST-MD5?&hellip;&hellip;..&rsquo;)dnl dnl define(&lsquo;confAUTH_MECHANISMS&rsquo;, &lsquo;EX&hellip;&hellip;LOGIN PLAIN&rsquo;).. 以上&hellip;.是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(&rsquo;&hellip;..ADDR=0.0.0.0,&hellip;.&rsquo;)dnl 把127.0.0.1&ndash;&gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "FC4的dovecot套件無法啟動",
+      "item": "http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FC4的dovecot套件無法啟動",
+  "name": "FC4的dovecot套件無法啟動",
+  "description": "fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(\u0026lsquo;EXTERNAL DIGEST-MD5?\u0026hellip;\u0026hellip;..\u0026rsquo;)dnl dnl define(\u0026lsquo;confAUTH_MECHANISMS\u0026rsquo;, \u0026lsquo;EX\u0026hellip;\u0026hellip;LOGIN PLAIN\u0026rsquo;).. 以上\u0026hellip;.是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(\u0026rsquo;\u0026hellip;..ADDR=0.0.0.0,\u0026hellip;.\u0026rsquo;)dnl 把127.0.0.1\u0026ndash;\u0026gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail.",
+  "keywords": [
+    
+  ],
+  "articleBody": "fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(‘EXTERNAL DIGEST-MD5?……..’)dnl dnl define(‘confAUTH_MECHANISMS’, ‘EX……LOGIN PLAIN’).. 以上….是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(’…..ADDR=0.0.0.0,….’)dnl 把127.0.0.1–\u003e0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail.cf檔 將/etc/mail/sendmail.cf 更名為sendmail.cf.old 將 /usr/share/sendmail-cf/cf/ 下產生的sendmail.cf 覆蓋 /etc/mail/sendmail.cf 重新啟動服務 #/etc/rc.d/init.d/saslauthd restart #/etc/rc.d/init.d/sendmail restart 以上我試驗過 有時要重複 重新啟動 兩次 才會正常 檢查開機時啟動 這樣就不用另外寫 script來啟動 #ntsysv\n原文:http://www.fedora.tw/modules/newbb/viewtopic.php?topic_id=301\u0026forum;=1\u0026viewmode;=flatℴ=DESC\u0026start;=0\n",
+  "wordCount" : "93",
+  "inLanguage": "en",
+  "datePublished": "2006-05-25T14:02:22Z",
+  "dateModified": "2006-05-25T14:02:22Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      FC4的dovecot套件無法啟動
+    </h1>
+    <div class="post-meta"><span title='2006-05-25 14:02:22 +0000 UTC'>May 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="還有sendmail已經正確安裝">fc4下
+dovecot-0.99.14-4.fc4.i386.rpm
+測試正常歐
+上方也有連結可以更新
+不過這版本就是fc4內附的版本阿
+還是樓主
+本身沒從光碟安裝這套件 是另外下載的?
+另外
+關於sasl安裝 教學如下
+以下是我從我的筆記上 擷取出來的
+有疑問再發問歐 (我也不一定能解決  )
+安裝前 確認防火牆打開了 110 143 25 三個
+沒開的 執行 #system-config-securitylevel-tui 來打開
+還有sendmail已經正確安裝</h2>
+<p>先確認有無安裝 #代表登入root時
+#rpm -qa | grep sasl
+檢查以下三個rpm的安裝情形
+cyrus-sasl
+cyrus-sasl-md5
+cyrus-sasl-plain
+沒有的話 就要從光碟裡找找
+編輯 /etc/mail/sendmail.mc 檔
+找到
+dnl TRUST_AUTH_MECH(&lsquo;EXTERNAL DIGEST-MD5?&hellip;&hellip;..&rsquo;)dnl
+dnl define(&lsquo;confAUTH_MECHANISMS&rsquo;, &lsquo;EX&hellip;&hellip;LOGIN PLAIN&rsquo;)..
+以上&hellip;.是我偷懶懶的打字
+刪去 行首的 dnl與緊接的後方空白
+修改
+DAEMON_OPTIONS(&rsquo;&hellip;..ADDR=0.0.0.0,&hellip;.&rsquo;)dnl
+把127.0.0.1&ndash;&gt;0.0.0.0
+產生sendmail.cf
+先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下
+終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下
+利用
+#sh Build sendmail.cf
+來產生sendmail.cf檔
+將/etc/mail/sendmail.cf 更名為sendmail.cf.old
+將 /usr/share/sendmail-cf/cf/ 下產生的sendmail.cf
+覆蓋 /etc/mail/sendmail.cf
+重新啟動服務
+#/etc/rc.d/init.d/saslauthd restart
+#/etc/rc.d/init.d/sendmail restart
+以上我試驗過 有時要重複 重新啟動 兩次 才會正常
+檢查開機時啟動 這樣就不用另外寫 script來啟動
+#ntsysv</p>
+<p>原文:http://www.fedora.tw/modules/newbb/viewtopic.php?topic_id=301&amp;forum;=1&amp;viewmode;=flatℴ=DESC&amp;start;=0</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

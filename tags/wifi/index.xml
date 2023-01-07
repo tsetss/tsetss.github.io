@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+wifi
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/wifi/</link>
+    <description>Recent content in 
+wifi
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Sep 2012 17:06:25 +0000</lastBuildDate><atom:link href="http://example.org/tags/wifi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>freebsd无线配置静态ip</title>
+      <link>http://example.org/2012/09/28/freebsd-wifi-staticip/</link>
+      <pubDate>Fri, 28 Sep 2012 17:06:25 +0000</pubDate>
+      
+      <guid>http://example.org/2012/09/28/freebsd-wifi-staticip/</guid>
+      <description>修改 /etc/rc.conf 写入
+静态ip
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA inet 192.168.1.100 netmask 255.255.255.0&amp;quot; dhcp 获取
+wlans_ath0=&amp;quot;wlan0&amp;quot; ifconfig_wlan0=&amp;quot;WPA DHCP&amp;quot; wpa 配置 /etc/wpa_supplicant.conf
+network={ ssid=&amp;quot;YourAPssid&amp;quot; psk=&amp;quot;YourAPpassword&amp;quot; } 完成，可以上网喽</description>
+    </item>
+    
+  </channel>
+</rss>

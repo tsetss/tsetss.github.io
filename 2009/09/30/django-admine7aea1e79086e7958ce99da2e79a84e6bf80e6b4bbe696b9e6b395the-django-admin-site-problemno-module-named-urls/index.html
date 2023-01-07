@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls) | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&quot;django.contrib.admin&quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models&hellip; 0 errors found.
+Django version 0.96-pre, using settings &lsquo;mysite.settings&rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)" />
+<meta property="og:description" content="problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&quot;django.contrib.admin&quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models&hellip; 0 errors found.
+Django version 0.96-pre, using settings &lsquo;mysite.settings&rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-09-30T10:02:50+00:00" />
+<meta property="article:modified_time" content="2009-09-30T10:02:50+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)"/>
+<meta name="twitter:description" content="problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：
+class Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把&quot;django.contrib.admin&quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：
+from django.conf.urls.defaults import * urlpatterns = patterns(&#39;&#39;, (r&#39;^admin/&#39;, include(&#39;django.contrib.admin.urls&#39;)), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models&hellip; 0 errors found.
+Django version 0.96-pre, using settings &lsquo;mysite.settings&rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)",
+      "item": "http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)",
+  "name": "django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)",
+  "description": "problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：\nclass Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把\u0026quot;django.contrib.admin\u0026quot;添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：\nfrom django.conf.urls.defaults import * urlpatterns = patterns('', (r'^admin/', include('django.contrib.admin.urls')), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models\u0026hellip; 0 errors found.\nDjango version 0.96-pre, using settings \u0026lsquo;mysite.settings\u0026rsquo; Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C.",
+  "keywords": [
+    
+  ],
+  "articleBody": "problem description: 1，向你的模型添加admin metadata 并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型 上一章的Book模型添加一个管理界面的方法就是：\nclass Book(models.Model): title = models.CharField(maxlength=100) authors = models.ManyToManyField(Author) publisher = models.ForeignKey(Publisher) publication_date = models.DateField() class Admin: pass Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项 目前我们采用默认值，所以我们使用pass来表示Admin类是空的 如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意 2，安装admin模型，简单的把\"django.contrib.admin\"添加到你的INSTALLED_APPS设置里 然后运行python manage.py syncdb来安装admin使用的额外的表 注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser 如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py 来创建一个admin用户，否则你就不能登录到管理界面里去 3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能 已经在那儿了，但是被注释掉了，你的URL模式应该像这样：\nfrom django.conf.urls.defaults import * urlpatterns = patterns('', (r'^admin/', include('django.contrib.admin.urls')), ) 就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息： Validating models… 0 errors found.\nDjango version 0.96-pre, using settings ‘mysite.settings’ Development server is running at http://127.0.0.1:8000/ Quit the server with CONTROL-C.\n但当我进入http://127.0.0.1:8000/admin/时。。。。就会出现\nImportError at /admin/\nNo module named urls\n错误。。。怎么解决呢。。。请各位高手帮帮忙吧！\n我看到在我的django.contrib.admin 目录下没有urls.py文件啊！\nSolution: 看的是以前的文档，装的最新版django。 强烈建议在做实验的时候，所看的文档与安装的环境版本一致。 不同的版本，其中的不同的地方还是很多的！\n激活管理界面： 1、给需要管理的数据表模块添加admin配置 方式： 新建一个 admin.py Code:\nfrom django.contrib import admin from models import Publisher,Author,Book admin.site.register(Publisher) admin.site.register(Author) admin.site.register(Book) 2、新增配置信息\n#1.0新增 admin 时遇到\nTEMPLATE_CONTEXT_PROCESSORS = ( 'django.core.context_processors.auth', ) 修改INSTALLED_APPS #添加模型位置\nINSTALLED_APPS = ( #'django.contrib.auth', #'django.contrib.contenttypes', #'django.contrib.sessions', #'django.contrib.sites', 'mysite.books', 'django.contrib.admin', 'django.contrib.contenttypes', 'django.contrib.sessions', ) 3、urls.py 新增：\nfrom django.contrib import admin admin.autodiscover() (r'^admin/(.*)', admin.site.root), 关于admin界面的汉化其实很简单，在setting.py里将LANGUAGE_CODE从en-us改为zh-CN\n",
+  "wordCount" : "135",
+  "inLanguage": "en",
+  "datePublished": "2009-09-30T10:02:50Z",
+  "dateModified": "2009-09-30T10:02:50Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/09/30/django-admine7aea1e79086e7958ce99da2e79a84e6bf80e6b4bbe696b9e6b395the-django-admin-site-problemno-module-named-urls/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      django Admin管理界面的激活方法,The Django Admin Site problem(No module named urls)
+    </h1>
+    <div class="post-meta"><span title='2009-09-30 10:02:50 +0000 UTC'>September 30, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="problem-description">problem description:<a hidden class="anchor" aria-hidden="true" href="#problem-description">#</a></h2>
+<p>1，向你的模型添加admin metadata
+并不是所有的模型都可以或者应该被admin用户编辑，所以你需要标记那些需要管理界面的模型
+上一章的Book模型添加一个管理界面的方法就是：</p>
+<pre><code>class Book(models.Model): 
+title = models.CharField(maxlength=100) 
+authors = models.ManyToManyField(Author) 
+publisher = models.ForeignKey(Publisher) 
+publication_date = models.DateField() 
+
+class Admin: 
+pass 
+</code></pre>
+<p>Admin声明标记这个类拥有一个管理界面，在Admin之下你可以配置许多选项
+目前我们采用默认值，所以我们使用pass来表示Admin类是空的
+如果你正在按这个例子写自己的代码，现在给Publisher和Author类添加Admin声明是个好主意
+2，安装admin模型，简单的把&quot;django.contrib.admin&quot;添加到你的INSTALLED_APPS设置里
+然后运行python manage.py syncdb来安装admin使用的额外的表
+注意，在你第一次运行syncdb时，你很可能被问起是否创建一个superuser
+如果那时你没有创建superuser，你需要运行djang/contrib/auth/bin/create_superuser.py
+来创建一个admin用户，否则你就不能登录到管理界面里去
+3，把URL模式添加到urls.py，如果仍在使用startproject创建的工程，admin的URL模式可能
+已经在那儿了，但是被注释掉了，你的URL模式应该像这样：</p>
+<pre><code>from django.conf.urls.defaults import * 
+
+urlpatterns = patterns('', 
+(r'^admin/', include('django.contrib.admin.urls')), 
+) 
+</code></pre>
+<p>就这样，现在运行python manage.py runserver来启动服务器，你将看到如下信息：
+Validating models&hellip;
+0 errors found.</p>
+<p>Django version 0.96-pre, using settings &lsquo;mysite.settings&rsquo;
+Development server is running at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.</p>
+<p>但当我进入http://127.0.0.1:8000/admin/时。。。。就会出现</p>
+<p>ImportError at /admin/</p>
+<p>No module named urls</p>
+<p>错误。。。怎么解决呢。。。请各位高手帮帮忙吧！</p>
+<p>我看到在我的django.contrib.admin 目录下没有urls.py文件啊！</p>
+<h2 id="solution">Solution:<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h2>
+<p>看的是以前的文档，装的最新版django。
+强烈建议在做实验的时候，所看的文档与安装的环境版本一致。
+不同的版本，其中的不同的地方还是很多的！</p>
+<h2 id="激活管理界面">激活管理界面：<a hidden class="anchor" aria-hidden="true" href="#激活管理界面">#</a></h2>
+<p>1、给需要管理的数据表模块添加admin配置
+方式：
+新建一个 admin.py
+Code:</p>
+<pre><code>from django.contrib import admin
+from models import Publisher,Author,Book
+
+admin.site.register(Publisher)
+admin.site.register(Author)
+admin.site.register(Book)
+</code></pre>
+<p>2、新增配置信息</p>
+<p>#1.0新增 admin 时遇到</p>
+<pre><code>TEMPLATE_CONTEXT_PROCESSORS = ( 
+                               'django.core.context_processors.auth', 
+                               ) 
+</code></pre>
+<p>修改INSTALLED_APPS
+#添加模型位置</p>
+<pre><code>INSTALLED_APPS = (
+    #'django.contrib.auth',
+    #'django.contrib.contenttypes',
+    #'django.contrib.sessions',
+    #'django.contrib.sites',
+    'mysite.books',
+    'django.contrib.admin',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+)
+</code></pre>
+<p>3、urls.py 新增：</p>
+<pre><code>from django.contrib import admin
+admin.autodiscover()
+(r'^admin/(.*)', admin.site.root),
+</code></pre>
+<p>关于admin界面的汉化其实很简单，在setting.py里将LANGUAGE_CODE从en-us改为zh-CN</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>python的logging  [转自python mail list] | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &quot;log.log&quot; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&quot;dddddd&quot;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&quot;%(message)s&quot;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a&#43;&#39;) ... logging.debug(&quot;Line: %s updated...&quot; % (line_ref)) 实际应用时建议使用">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="python的logging  [转自python mail list]" />
+<meta property="og:description" content="我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &quot;log.log&quot; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&quot;dddddd&quot;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&quot;%(message)s&quot;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a&#43;&#39;) ... logging.debug(&quot;Line: %s updated...&quot; % (line_ref)) 实际应用时建议使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-10-08T16:55:03+00:00" />
+<meta property="article:modified_time" content="2009-10-08T16:55:03+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="python的logging  [转自python mail list]"/>
+<meta name="twitter:description" content="我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+1.Setting.py中设置
+LOG_FILE = &quot;log.log&quot; 2.创建utils/log.py:
+import logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter(&#39;%(asctime)s %(levelname)s % (message)s&#39;) hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：
+from utils import log log.getlog().debug(&quot;dddddd&quot;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd
+更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:
+我们知道在java或者.net中大部分都是使用apache的log4&hellip;, python里面本身就自带了logging模块。同样在django中也可以用：
+嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:
+import logging logging.basicConfig(level=logging.DEBUG, format=&#39;[%(asctime)s]%(levelname)-8s&quot;%(message)s&quot;&#39;, datefmt=&#39;%Y-%m-%d %a %H:%M:%S&#39;, filename=&#39;bo_update.log&#39;, filemode=&#39;a&#43;&#39;) ... logging.debug(&quot;Line: %s updated...&quot; % (line_ref)) 实际应用时建议使用"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "python的logging  [转自python mail list]",
+      "item": "http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "python的logging  [转自python mail list]",
+  "name": "python的logging  [转自python mail list]",
+  "description": "我们知道在java或者.net中大部分都是使用apache的log4\u0026hellip;, python里面本身就自带了logging模块。同样在django中也可以用：\n1.Setting.py中设置\nLOG_FILE = \u0026quot;log.log\u0026quot; 2.创建utils/log.py:\nimport logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter('%(asctime)s %(levelname)s % (message)s') hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：\nfrom utils import log log.getlog().debug(\u0026quot;dddddd\u0026quot;) 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd\n更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:\n我们知道在java或者.net中大部分都是使用apache的log4\u0026hellip;, python里面本身就自带了logging模块。同样在django中也可以用：\n嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:\nimport logging logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s]%(levelname)-8s\u0026quot;%(message)s\u0026quot;', datefmt='%Y-%m-%d %a %H:%M:%S', filename='bo_update.log', filemode='a+') ... logging.debug(\u0026quot;Line: %s updated...\u0026quot; % (line_ref)) 实际应用时建议使用",
+  "keywords": [
+    
+  ],
+  "articleBody": "我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：\n1.Setting.py中设置\nLOG_FILE = \"log.log\" 2.创建utils/log.py:\nimport logging from django.conf import settings def getlog(): logger = logging.getLogger() hdlr = logging.FileHandler(settings.LOG_FILE) formatter = logging.Formatter('%(asctime)s %(levelname)s % (message)s') hdlr.setFormatter(formatter) logger.addHandler(hdlr) logger.setLevel(logging.NOTSET) return logger 3.使用：\nfrom utils import log log.getlog().debug(\"dddddd\") 你就可以看到你的django project的根目录下有一文件log.log 2007-02-13 07:02:07,780 DEBUG dddddd\n更多参考: http://www.onlamp.com/pub/a/python/2005/06/02/logging.html On 2/13/07, map...@gmail.com wrote:\n我们知道在java或者.net中大部分都是使用apache的log4…, python里面本身就自带了logging模块。同样在django中也可以用：\n嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用 每个需要的py 中:\nimport logging logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s]%(levelname)-8s\"%(message)s\"', datefmt='%Y-%m-%d %a %H:%M:%S', filename='bo_update.log', filemode='a+') ... logging.debug(\"Line: %s updated...\" % (line_ref)) 实际应用时建议使用\nformatter = logging.Formatter('[%(asctime)s]%(levelname)-8s\"%(message)s\"','%Y-%m-%d %a %H:%M:%S') 这样可以获得 [2007-02-13 Tue 15:50:28]DEBUG “{‘cchoice’: {‘M’: ‘’, ‘V’: ‘’}, ‘uinfo’: {}}” [2007-02-13 Tue 15:50:28]INFO “{‘cchoice’: {‘M’: ‘’, ‘V’: ‘’}, ‘uinfo’: {}}”\n这样整齐的日志头…\n",
+  "wordCount" : "98",
+  "inLanguage": "en",
+  "datePublished": "2009-10-08T16:55:03Z",
+  "dateModified": "2009-10-08T16:55:03Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/10/08/pythone79a84logging-e8bdace887aapython-mail-list/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      python的logging  [转自python mail list]
+    </h1>
+    <div class="post-meta"><span title='2009-10-08 16:55:03 +0000 UTC'>October 8, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>我们知道在java或者.net中大部分都是使用apache的log4&hellip;,
+python里面本身就自带了logging模块。同样在django中也可以用：</p>
+<p>1.Setting.py中设置</p>
+<pre><code>LOG_FILE = &quot;log.log&quot; 
+</code></pre>
+<p>2.创建utils/log.py:</p>
+<pre><code>import logging 
+from django.conf import settings 
+
+
+def getlog(): 
+    logger = logging.getLogger() 
+    hdlr = logging.FileHandler(settings.LOG_FILE) 
+    formatter = logging.Formatter('%(asctime)s %(levelname)s % (message)s') 
+    hdlr.setFormatter(formatter) 
+    logger.addHandler(hdlr) 
+    logger.setLevel(logging.NOTSET) 
+
+    return logger 
+</code></pre>
+<p>3.使用：</p>
+<pre><code>from utils import log 
+log.getlog().debug(&quot;dddddd&quot;) 
+</code></pre>
+<p>你就可以看到你的django project的根目录下有一文件log.log
+2007-02-13 07:02:07,780 DEBUG dddddd</p>
+<h2 id="httpwwwonlampcompubapython20050602logginghtml">更多参考:
+<a href="http://www.onlamp.com/pub/a/python/2005/06/02/logging.html">http://www.onlamp.com/pub/a/python/2005/06/02/logging.html</a></h2>
+<p>On 2/13/07, <a href="mailto:map...@gmail.com">map...@gmail.com</a>  wrote:</p>
+<blockquote>
+<p>我们知道在java或者.net中大部分都是使用apache的log4&hellip;,
+python里面本身就自带了logging模块。同样在django中也可以用：</p>
+</blockquote>
+<p>嗯嗯嗯!比俺使用的聪明,俺是生硬的直接使用
+每个需要的py 中:</p>
+<pre><code>import logging 
+logging.basicConfig(level=logging.DEBUG, 
+                    format='[%(asctime)s]%(levelname)-8s&quot;%(message)s&quot;', 
+                    datefmt='%Y-%m-%d %a %H:%M:%S', 
+                    filename='bo_update.log', 
+                    filemode='a+') 
+... 
+logging.debug(&quot;Line: %s updated...&quot; % (line_ref)) 
+</code></pre>
+<hr>
+<p>实际应用时建议使用</p>
+<pre><code>formatter = logging.Formatter('[%(asctime)s]%(levelname)-8s&quot;%(message)s&quot;','%Y-%m-%d 
+%a %H:%M:%S') 
+</code></pre>
+<p>这样可以获得
+[2007-02-13 Tue 15:50:28]DEBUG   &ldquo;{&lsquo;cchoice&rsquo;: {&lsquo;M&rsquo;: &lsquo;&rsquo;, &lsquo;V&rsquo;: &lsquo;&rsquo;}, &lsquo;uinfo&rsquo;: {}}&rdquo;
+[2007-02-13 Tue 15:50:28]INFO    &ldquo;{&lsquo;cchoice&rsquo;: {&lsquo;M&rsquo;: &lsquo;&rsquo;, &lsquo;V&rsquo;: &lsquo;&rsquo;}, &lsquo;uinfo&rsquo;: {}}&rdquo;</p>
+<p>这样整齐的日志头&hellip;</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+Lighttpd
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/tags/lighttpd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/lighttpd/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+Lighttpd
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/tags/lighttpd/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+Lighttpd
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+Lighttpd
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD环境下的Lighttpd 参数配置与性能优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>简单说一下：Lighttpd是一个轻量级的Web 服务器，支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。它具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。其静态文件的响应能力远高于Apache，可谓Web服务器的后期之秀。
+许多技术专家认为，在Web 服务器中Lighttpd比Apache更小更轻量，却拥有比后者更高的性能。虽然Lighttpd在Web服务器方面只占很小的市场份额，“但它正极速增长，日后必将是Web服务器领域的有力竞争者。” 针对我们的普遍应用情况下，对配置文件进行一些修改。Time per request: 能达到0.65 [ms]左右相对于以前测的0.734[ms]左右，性能有很大提高。如果有大量的时间对每个性能指标进行测试，去掉不必要的模块和特性，应该在性能上还会有所提高，估计最好能到0.61[ms]左右。最近测试如下： lighttpd 配置文件：去掉了很多不必要的特性。
+#######lighttpd.conf. server.port = 7983 , server.modules = (&#34;mod_access&#34;) server.document-root = &#34;/usr/home/yangjian/lighttpd/doc/&#34; server.pid-file = &#34;/usr/home/yangjian/lighttpd/lighttpd.pid&#34; mimetype.assign = ( &#34;.html&#34; =&gt; &#34;text/html&#34;, &#34;.js&#34; =&gt; &#34;text/javascript&#34;, ) server.max-keep-alive-requests =4000 dir-listing.activate = “disable”
+LiteSpeed的测试都是在默认配置下。它的结果不太稳定，最好的记录是0.603ms，这是lighttpd所没有过的好成绩，但大多数情况下都在 0.70左右，有好多次在0.76以上。我这里说的都是LiteSpeed的标准版，pro版是要花钱的性能当然要好些。LiteSpeed是同过web 管理的，这是它的一个比较好的特性。如果经过优化我想它和lighttpd应该还是不差上下的。 我暂时先选择相对稳定点的lighttpd作为我们的web server，然后对它的配置和优化进行说明。Lighttpd配置文件很简单，相信大家配过apache的都能看明白。我就只对影响性能的指标挑出来讨论。参考文章http://www.lighttpd.net/documentation 可以看出我上面的那个配置文件非常简短。我去掉了所有不必要的特性。添加的模块只有mod_access，如果没有它访问是就会出现403错误。除了它之外系统默认启用的模块有 mod_indexfiles ，mod_dirlisting， mod_staticfile。但在默认已经编译进去的模块清单如下： 对于这些已经编译进去的在启用时就非常简单了，enable一下就ok了。Lighttpd想添加一个功能一般情况下只需要添加一两行指令到配置文件中，比apache易配置多了。
+Plugins: enabled: mod_access
+mod_accesslog mod_alias
+mod_auth mod_cgi mod_compress mod_dirlisting mod_evhost mod_expire mod_fastcgi
+mod_indexfiles mod_proxy mod_rrdtool mod_scgi mod_secdownload mod_setenv mod_simple_vhost mod_staticfile mod_status mod_userdir mod_usertrack mod_webdav disabled: mod_cml mod_mysql_vhost mod_redirect mod_rewrite...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:34:24 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD环境下的Lighttpd 参数配置与性能优化" href="http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>python的dict,set,list,tuple应用 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((&rsquo;love&rsquo;, &lsquo;honor&rsquo;), True) =&gt;{&rsquo;love&rsquo;: True, &lsquo;honor&rsquo;: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 &lt; &lt;= 表示 子集，&gt; &gt;=表示超集 | 表示联合 &amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="python的dict,set,list,tuple应用" />
+<meta property="og:description" content="字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((&rsquo;love&rsquo;, &lsquo;honor&rsquo;), True) =&gt;{&rsquo;love&rsquo;: True, &lsquo;honor&rsquo;: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 &lt; &lt;= 表示 子集，&gt; &gt;=表示超集 | 表示联合 &amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-12-03T09:00:29+00:00" />
+<meta property="article:modified_time" content="2009-12-03T09:00:29+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="python的dict,set,list,tuple应用"/>
+<meta name="twitter:description" content="字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((&rsquo;love&rsquo;, &lsquo;honor&rsquo;), True) =&gt;{&rsquo;love&rsquo;: True, &lsquo;honor&rsquo;: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 &lt; &lt;= 表示 子集，&gt; &gt;=表示超集 | 表示联合 &amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "python的dict,set,list,tuple应用",
+      "item": "http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "python的dict,set,list,tuple应用",
+  "name": "python的dict,set,list,tuple应用",
+  "description": "字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((\u0026rsquo;love\u0026rsquo;, \u0026lsquo;honor\u0026rsquo;), True) =\u0026gt;{\u0026rsquo;love\u0026rsquo;: True, \u0026lsquo;honor\u0026rsquo;: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 \u0026lt; \u0026lt;= 表示 子集，\u0026gt; \u0026gt;=表示超集 | 表示联合 \u0026amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。",
+  "keywords": [
+    
+  ],
+  "articleBody": "字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((’love’, ‘honor’), True) =\u003e{’love’: True, ‘honor’: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 \u003c \u003c= 表示 子集，\u003e \u003e=表示超集 | 表示联合 \u0026 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。\n元组的索引用tuple[i]的形式，而不是tuple(i)。 和列表类似，使用tuple(seq)可把其它序列类型转换成元组。\n",
+  "wordCount" : "74",
+  "inLanguage": "en",
+  "datePublished": "2009-12-03T09:00:29Z",
+  "dateModified": "2009-12-03T09:00:29Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      python的dict,set,list,tuple应用
+    </h1>
+    <div class="post-meta"><span title='2009-12-03 09:00:29 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>字典(dict)
+dict 用 {} 包围
+dict.keys(),dict.values(),dict.items()
+hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key
+del 或 dict.pop可以删除一个item,clear清除所有的内容
+sorted(dict)可以吧dict排序
+dict.get()可以查找没存在的key，dict.[]不可以
+dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。
+{}.fromkeys()创建一个dict，例如: {}.fromkeys((&rsquo;love&rsquo;, &lsquo;honor&rsquo;), True) =&gt;{&rsquo;love&rsquo;: True, &lsquo;honor&rsquo;: True}
+不允许一个键对应多个值
+键值必须是哈希的，用hash()测试
+一个对象，如果实现_hash()_方法可以作为键值使用
+集合(set)
+集合是一个数学概念，用set()创建
+set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法
+set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错
+&lt; &lt;= 表示 子集，&gt; &gt;=表示超集
+| 表示联合 &amp; 表示交集 - 表示差集 ^ 差分集里啊
+列表(list)
+列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。
+append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。
+count(x) 返回对象x在列表中出现的次数。
+extend(L) 将列表L中的表项添加到列表中。返回None。
+Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。
+insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。
+pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。
+remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。
+reverse() 颠倒列表元素的顺序。
+sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。
+元组(tuple)
+tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。
+tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。
+和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。<br>
+元组的索引用tuple[i]的形式，而不是tuple(i)。
+和列表类似，使用tuple(seq)可把其它序列类型转换成元组。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

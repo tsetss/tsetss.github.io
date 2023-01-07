@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+优化
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E4%BC%98%E5%8C%96/</link>
+    <description>Recent content in 
+优化
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 31 May 2009 22:13:29 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nginx freebsd 官方网站优化</title>
+      <link>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</link>
+      <pubDate>Sun, 31 May 2009 22:13:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/</guid>
+      <description>OS &amp;amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp;amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from &amp;ldquo;http://wiki.nginx.org/FreeBSDOptimizations&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>［翻译］［注解］Innodb Performance Optimization Basics</title>
+      <link>http://example.org/2009/04/19/innodb-performance-optimization-basics/</link>
+      <pubDate>Sun, 19 Apr 2009 14:47:07 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/innodb-performance-optimization-basics/</guid>
+      <description>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4.</description>
+    </item>
+    
+    <item>
+      <title>MySQL分表优化试验</title>
+      <link>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</link>
+      <pubDate>Wed, 18 Mar 2009 10:11:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</guid>
+      <description>我们的项目中有好多不等于的情况。今天写这篇文章简单的分析一下怎么个优化法。 这里的分表逻辑是根据t_group表的user_name组的个数来分的。 因为这种情况单独user_name字段上的索引就属于烂索引。起不了啥名明显的效果。
+1、试验PROCEDURE. DELIMITER $$ DROP PROCEDURE `t_girl`.`sp_split_table`$$ CREATE PROCEDURE `t_girl`.`sp_split_table`() BEGIN declare done int default 0; declare v_user_name varchar(20) default &#39;&#39;; declare v_table_name varchar(64) default &#39;&#39;; -- Get all users&#39; name. declare cur1 cursor for select user_name from t_group group by user_name; -- Deal with error or warnings. declare continue handler for 1329 set done = 1; -- Open cursor. open cur1; while done &amp;lt;&amp;gt; 1 do fetch cur1 into v_user_name; if not done then -- Get table name.</description>
+    </item>
+    
+  </channel>
+</rss>

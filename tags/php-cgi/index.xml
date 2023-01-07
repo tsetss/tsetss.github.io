@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+php-cgi
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/php-cgi/</link>
+    <description>Recent content in 
+php-cgi
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 Jun 2009 06:56:44 +0000</lastBuildDate><atom:link href="http://example.org/tags/php-cgi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spawn-fcgi 独立出来了,不错</title>
+      <link>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</link>
+      <pubDate>Fri, 19 Jun 2009 06:56:44 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/</guid>
+      <description>原来一直用php-fpm ,但是更新好像不太及时,上次改了半天ports 才通过编译
+/usr/ports/www/spawn-fcgi 以后可以用这个了,但重要载入php.ini 要重起</description>
+    </item>
+    
+  </channel>
+</rss>

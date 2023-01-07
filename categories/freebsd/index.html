@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+freebsd
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/freebsd/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+freebsd
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/freebsd/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+freebsd
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+freebsd
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mysql my.cnf 详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&#34;–help&#34;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-31 04:00:57 +0000 UTC'>December 31, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql my.cnf 详解" href="http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>psyco 真的很神奇
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>测试代码 http://www.timestretch.com/FractalBenchmark.html#e7142f2f73f8eb4245f1b25aa6340470
+没有使用 psyco 3.4 左右，生成 pyc 3.14 ，用了 psyco 0.34 真是太强大了，
+freebsd 安装 psyco
+cd /usr/ports/devel/py-psyco make install clean 开启
+import psyco psyco.full() </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-19 12:15:04 +0000 UTC'>December 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to psyco 真的很神奇" href="http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>VBoxManage命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-17 06:12:35 +0000 UTC'>December 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VBoxManage命令详解" href="http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php tokyo_tyrant扩展安装
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>tokyo_tyrant 还是beta 版，freebsd 的 ports 还没有，有点不爽，用 pecl 安装吧，
+pecl install tokyo_tyrant pecl: Command not found. 先安装 pear 呵呵
+cd /usr/ports/devel/pear make install clean pecl install tokyo_tyrant Failed to download pecl/tokyo_tyrant within preferred state &#34;stable&#34;, latest release is version 0.1.2, stability &#34;beta&#34;, use &#34;channel://pecl.php.net/tokyo_tyrant-0.1.2&#34; to install install failed 还是不行，要加入beta 才行哦
+pecl install tokyo_tyrant-beta ee /usr/local/etc/php/extensions.ini 加入 extension=tokyo_tyrant.so OK 安装完成 重起php进程，用phpinfo 查看一下 freebsd 真是太强大了，喜欢哦!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-12 01:29:34 +0000 UTC'>December 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php tokyo_tyrant扩展安装" href="http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>memcachedb
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>memcachedb是为了持久化而产生的一个分布式 “key-value&#34;存储系统，你可以认为是memcached&#43;berkeley DB&#43;sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data …………………..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-07 16:11:16 +0000 UTC'>December 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to memcachedb" href="http://example.org/2009/12/07/memcachedb/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下python程序打包工具 ── cx_Freeze
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 15:38:35 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下python程序打包工具 ── cx_Freeze" href="http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>进程信号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-30 01:50:25 +0000 UTC'>November 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 进程信号" href="http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>用Python写简单守护进程【转】
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I’ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it’s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-28 08:39:42 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用Python写简单守护进程【转】" href="http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Django and Memcached
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-28 03:50:34 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Django and Memcached" href="http://example.org/2009/11/28/django-and-memcached/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>TCP连接状态
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>CLOSED: 表示初始状态。
+LISTEN: 表示服务器端的某个SOCKET处于监听状态，可以接受连接。
+SYN_SENT:在服务端监听后，客户端SOCKET执行CONNECT连接时，客户端发送SYN报文，此时客户端就进入SYN_SENT状态，等待服务端的确认
+SYN_RCVD: 表示服务端接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。
+ESTABLISHED：表示连接已经建立了。
+FIN_WAIT_1: 这个是已经建立连接之后，其中一方请求终止连接，等待对方的FIN报文。FIN_WAIT_1状态是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。
+FIN_WAIT_2：实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。
+TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。
+CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到(或同时收到)对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。
+CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。
+LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-22 09:48:51 +0000 UTC'>November 22, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to TCP连接状态" href="http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/freebsd/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

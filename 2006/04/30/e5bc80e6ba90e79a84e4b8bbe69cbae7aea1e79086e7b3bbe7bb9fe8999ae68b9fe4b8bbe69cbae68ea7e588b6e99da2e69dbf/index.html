@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>开源的主机管理系统/虚拟主机控制面板 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux &#43; Apache &#43; PHP作为广泛使用Web服务器，与WinNT &#43; IIS &#43; ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache &#43; PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz&#43;QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf&#43;zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK&#43;of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="开源的主机管理系统/虚拟主机控制面板" />
+<meta property="og:description" content="搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux &#43; Apache &#43; PHP作为广泛使用Web服务器，与WinNT &#43; IIS &#43; ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache &#43; PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz&#43;QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf&#43;zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK&#43;of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-30T04:15:04+00:00" />
+<meta property="article:modified_time" content="2006-04-30T04:15:04+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="开源的主机管理系统/虚拟主机控制面板"/>
+<meta name="twitter:description" content="搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如
+等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux &#43; Apache &#43; PHP作为广泛使用Web服务器，与WinNT &#43; IIS &#43; ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache &#43; PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz&#43;QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf&#43;zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK&#43;of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "开源的主机管理系统/虚拟主机控制面板",
+      "item": "http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "开源的主机管理系统/虚拟主机控制面板",
+  "name": "开源的主机管理系统\/虚拟主机控制面板",
+  "description": "搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如\n等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux + Apache + PHP作为广泛使用Web服务器，与WinNT + IIS + ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache + PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz+QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf+zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK+of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd.",
+  "keywords": [
+    
+  ],
+  "articleBody": "搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。 搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。 GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。 一、基本组成和使用方法 1、网页数据收集 Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。 2、网页数据过滤 由于html文件中存在大量的标记，如\n等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。 3、目录服务 目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。 使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。 通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。 4、查询程序设计 搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux + Apache + PHP作为广泛使用Web服务器，与WinNT + IIS + ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache + PHP 以及缺省的ldap、pgsql、imap等模块。 5、计划任务 搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。 二、具体步骤和注意事项 1、配置Wget软件 在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。 2、配置Openldap服务 在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。 Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。 3、编制数据过滤和LDIF文件生成脚本 为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。 基本的LDIF文件格式如下： dn: dc=27jd,dc=zzb objectclass: top objectclass: organization  dn: link= http://freemail.27jd.zzh/index.html, dc=27jd ,dc=zzb link: http://freemail.27jd.zzh/index.html title: Webmail主页 modifydate: 2001年2月8日 contents:: CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t KqyerH69PKz+QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ T1AzOiBmcm VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00 8O7p7/awe 6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/ 2sHuOqChoa AgIKHyzOG5qbf+zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1 LK+of IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK CqAKCg o= objectclass:webpage  基本的slapd.conf文件如下： defaultaccess read include /etc/openldap/slapd.at.conf #include /etc/openldap/slapd.oc.conf schemacheck off sizelimit 20000 pidfile /var/run/slapd.pid argsfile /var/run/slapd.args #######################################################################\nldbm database definitions ####################################################################### database ldbm dbcachesize 1000000 index contents,title suffix “dc=27jd, dc=zzb” directory /usr/tmp rootdn “cn=root,dc=27jd, dc=zzb” rootpw secret  通过对一个4万个网页（约300M左右）的本地html文件目录进行过滤后生成的LDIF文件约180M左右，如果只取文字数据的前400个字符作为网页内容，则生成文件约35M左右。 4、配置PHP+LDAP服务 在Redhat6.2中已经集成了PHP3和php-ldap模块，选择完全安装时便已经安装到/usr/lib/apache目录中，注意检查/etc/httpd/php3.ini中的动态扩展（Dynamic Extensions）中的extension=ldap.so是否被选择。PHP3中提供了丰富的LDAP存取函数，能够方便完成对目录数据的搜索功能。有关Apach + PHP编程方面的资料较多，在此不在赘述。注意在PHP3中的LDAP搜索函数ldap_search不能处理其返回结果超过目录服务设定的最大检索数据，所以可以根据具体情况，在slapd的配置文件中设定较大的检索数据限制(sizelimit)，此问题在PHP4中已经解决。 5、任务调度 在Redhat6.2中已经集成了crond并且缺省安装后便已经启动。其相关配置文件有/etc/crontab、/etc/cron.daily、/etc/cron.hourly、/etc/weekly、/etc/monthly，你只需要根据数据的更新频度，将网页收集、网页过滤、生成LDIF文件、停止目录服务、更新目录数据、重新启动目录服务，作为一个简单的Shell程序放入到相应的目录中即可。 三、效果与思考 以上简单的介绍了我们的搜索引擎的实现方法和注意事项，这仅仅是我们在对GNU/Linux了解得非常肤浅的情况下设计的以目录服务为核心的满足内部网需要的搜索引擎系统，并不能代表GNU/Linux和它集成的大量软件的真正实力。 通过在一台安装RedHat Linux 6.2 的Sparc Ultra 250上实际测试，对拥有4万个网页的目录数据进行搜索时，基于上述方法设计的搜索引擎响应速度一般在3秒左右，目录数据完全更新大约需要4小时左右，能够满足内部网的需要。实际上，限制搜索响应速度的关键是PHP3的ldap_search函数没有提供数据限制的功能，导致在查询结果集过大时系统响应速度变慢，因为每次用户能够浏览的查询结果实际是非常少的，而服务器端每次的查询总是返回全部结果，在PHP4中的ldap_search通过指定sizelimit参数，能够有效解决该问题。 目录服务的应用范围非常广泛，实际上作为大型的信息站点为了提高客户访问效率，都或多或少采用了目录服务的技术。目录服务根据具体的应用需求的优化设计方法，对我们决定应用系统的开发无疑是一个启发，应该说在基于索引信息的领域LDAP服务远远优于传统的关系数据库系统。 基于GNU/Linux进行网络服务器程序设计，能够充分体会到开放源代码的魅力和实力，它既能够简化系统的设计，又大大地提高了工作效率，同时也有效降低了系统的成本。程序设计由一切从零开始的复杂繁琐的重复劳动，简化为问题抽象、功能分解、查找资源、组合系统四个部分，更加强调对系统的认识、开阔的视野和学习的能力，同时开放源代码也为系统进一步优化提供了坚实的基础\n",
+  "wordCount" : "137",
+  "inLanguage": "en",
+  "datePublished": "2006-04-30T04:15:04Z",
+  "dateModified": "2006-04-30T04:15:04Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/30/e5bc80e6ba90e79a84e4b8bbe69cbae7aea1e79086e7b3bbe7bb9fe8999ae68b9fe4b8bbe69cbae68ea7e588b6e99da2e69dbf/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      开源的主机管理系统/虚拟主机控制面板
+    </h1>
+    <div class="post-meta"><span title='2006-04-30 04:15:04 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>搜索引擎是为用户提供快速获取网页信息的工具，其主要的功能是系统通过用户输入关键字，检索后端网页数据库，将相关网页的链接和摘要信息反馈给用户。从搜索的范围上一般分为站内网页搜索和全局网页搜索。随着网页数量的急剧增加，搜索引擎已经成为上网查询信息的必须手段，各个大型网站均已经提供网页数据搜索服务，并且出现了许多为大型网站提供专业搜索引擎服务的公司，如为Yahoo提供搜索服务的Google，为新浪网和263等国内网站提供服务的百度公司等。专业的搜索服务费用高而免费的搜索引擎软件基本都是基于英文的检索，所以都不太适合Intranet环境（如校园网等）的需要。
+搜索引擎的基本组成一般分为网页收集程序、网页后端数据组织存储、网页数据检索三部分。决定搜索引擎好坏的关键因素是数据查询的响应时间，即如何组织好满足全文检索需要的大量网页数据。
+GNU/Linux作为一个优秀的网络操作系统，其发行版本中集成了大量的网络应用软件，如 Web服务器（Apache ＋ PHP）、目录服务器（OpenLDAP）、脚本语言（Perl）、网页收集程序（Wget）等。所以，通过将它们集中进行应用，便可以实现一个简单、高效的搜索引擎服务器。
+一、基本组成和使用方法
+1、网页数据收集
+Wget程序是一个优秀的网页收集程序，它采用多线程设计能够方便地将网站内容镜像到本地目录中，并且能够灵活定制收集网页的类型、递归收集层次、目录限额、收集时间等。通过专用的收集程序完成网页的收集工作，既降低了设计的难度又提高了系统的性能。为了减小本地数据的规模，可只收集能够查询的html文件、txt文件、脚本程序asp和php只使用缺省的结果，而不收集如图形文件或是其他的数据文件。
+2、网页数据过滤
+由于html文件中存在大量的标记，如</p>
+<p>等，这些标记数据没有实际的搜索价值，所以加入数据库前必须对收集的数据进行过滤。Perl作为广泛使用的脚本语言，拥有非常强大而丰富的程序库，可以方便地完成网页的过滤。通过使用HTML-Parser库可以方便地提取出网页中包含的文字数据、标题数据、链接数据等。该程序库可以在www.cpan.net中下载，并且该网站收集的Perl程序涉及范围之广，远远超出我们的现象。
+3、目录服务
+目录服务是针对大量数据检索需要开发的服务，最早出现在X.500协议集中，后来扩展到TCP/IP中发展成为LDAP（Lightweight Directory Acess Protocol）协议，其相关的标准为1995年制定的RFC1777和1997年制定的RFC2251等。LDAP协议已经作为工业标准被Sun、Lotus、微软等公司广泛应用到其相关产品中，但是专用的基于Windows平台的目录服务器却较少见，OpenLDAP是免费的运行于Unix系统的目录服务器，其产品的性能优秀，已经被许多的Linux发行版本收集（Redhat、Mandrake等），并且提供了包括C、Perl、PHP等的开发接口。
+使用目录服务技术代替普通的关系数据库作为网页数据的后端存取平台主要基于目录服务的技术优势。目录服务简化了数据处理类型，去掉了通用关系数据库的费时的事务机制，而是采用全局替换的策略对数据进行更新，其应用的重点是大量数据的检索服务（一般数据更新和检索的频率比例要求在1:10以上），强调检索速度和全文查询，提供完整的数据备份，非常适合搜索引擎之类服务的需要。从目录服务技术解决问题的重点不难看出其在数据检索上的优势，它的提出时间远远落后于关系数据库的提出时间，实际上反映了根据具体问题优化数据解决方案的原则。这与目前广泛存在的凡是涉及大量数据处理必选SQL Server的处理方法形成鲜明对比。
+通过选用成熟的目录服务技术提高网页查询的效率，能够简洁有效地提高数据处理能力。这也充分显示了GNU/Linux系统运行开放软件的优势，毕竟不能方便地获得运行于其他平台的目录服务器。
+4、查询程序设计
+搜索引擎的前端界面是网页，用户通过在特定的网页中输入关键字提交给Web服务器进行处理。运行在Apache Web服务器上的PHP脚本通过运行其相关ldap函数便可以执行关键字的查询工作。主要进行的工作是根据关键字构造查询、向目录服务器提交查询、显示查询结果等。Linux + Apache + PHP作为广泛使用Web服务器，与WinNT + IIS + ASP相比其性能毫不逊色，在目前的Linux发行版本中都集成了Apache + PHP 以及缺省的ldap、pgsql、imap等模块。
+5、计划任务
+搜索引擎的网页数据收集、数据过滤、加入目录数据库等工作都应该是自动完成的，在UNIX系统中有cron进程来专门完成按照特定时间调度任务，为了不影响系统的运行，一般可以把这些工作安排到深夜进行。
+二、具体步骤和注意事项
+1、配置Wget软件
+在RedHat 6.2发行版中已经集成了该软件包，可以直接进行安装。将需要镜像的站点地址编辑为一个文件中，通过 -I 参数读入该文件；为镜像的站点指定一个本地下载目录；为了避免内部网中链接的重复引用，一般只镜像该站点内的数据；还可以根据网站的具体情况，指定其镜像的深度。
+2、配置Openldap服务
+在RedHat 6.2发行版中已经集成了Openldap-1.2.9，其配置文件存放在/etc/openldap的目录中。主要的配置文件是slapd.conf，关键要打开对检索速度至关重要的index选项，可以使用setup工具，将ldap在系统引导后作为缺省服务启动。
+Ldap服务可以通过文本文件方式存放数据，即LDIF文件格式。使用此方式可以高效地更新目录服务数据，需要注意LDIF格式是通过空行对数据进行分隔的，并且通过运行ldif2lbm将LDIF格式数据导入目录数据库中时需要暂停目录服务。
+3、编制数据过滤和LDIF文件生成脚本
+为了方便地过滤网页数据，可以调用Perl的HTML-Parser库函数，该程序包下载后需要进行编译，在eg目录下生成了相关的htext，htitle程序，在Perl中可以通过调用外部程序的方式运行该程序，并对其过滤结果通过重定向的方法生成临时文件。本搜索引擎设计的目录数据属性有dn、link、title、modifydate、contents，其中的dn通过Link进行唯一性标识，将过滤后的网页文本内容通过/usr/sbin/ldif程序进行自动编码后放入LDIF文件中。
+基本的LDIF文件格式如下：
+dn: dc=27jd,dc=zzb
+objectclass: top
+objectclass: organization
+
+dn: link= <a href="http://freemail.27jd.zzh/index.html">http://freemail.27jd.zzh/index.html</a>, dc=27jd ,dc=zzb
+link: <a href="http://freemail.27jd.zzh/index.html">http://freemail.27jd.zzh/index.html</a>
+title: Webmail主页
+modifydate: 2001年2月8日
+contents::
+CgpXZWJtYWls1vfSswoKCgoKIKHvoaG7ttOtyrnTw1dlYm1haWzPtc2zoaGh7yDO0t
+KqyerH69PKz+QhISFPdXRsb29rxeTWw6O6U01UUDogZnJlZW1haWwuMjdqZC56emJQ
+T1AzOiBmcm
+VlbWFpbC4yN2pkLnp6YkROUyA6IDExLjk5LjY0Ljiy4srU08O7p6O6bWFpbGd1ZXN00
+8O7p7/awe
+6jum1haWxndWVzdNLR16Ky4dPDu6cg08O7p8P7OkAgZnJlZW1haWwuMjdqZC56emK/
+2sHuOqChoa
+AgIKHyzOG5qbf+zvEgofKzo7z7zsrM4iCh8s2o0bbCvKHyICCh8sq1z9bUrcDtIKHywfTR1
+LK+of
+IgofK8vMr1sr/W99Kzsb7Ptc2z08nK1NHpvLzK9bK/zfjC59bQ0MS9qMGius3OrLukCgoK
+CqAKCg
+o=
+objectclass:webpage
+
+基本的slapd.conf文件如下：
+defaultaccess read
+include /etc/openldap/slapd.at.conf
+#include /etc/openldap/slapd.oc.conf
+schemacheck off
+sizelimit 20000
+pidfile /var/run/slapd.pid
+argsfile /var/run/slapd.args
+#######################################################################</p>
+<h1 id="ldbm-database-definitions">ldbm database definitions<a hidden class="anchor" aria-hidden="true" href="#ldbm-database-definitions">#</a></h1>
+<p>#######################################################################
+database ldbm
+dbcachesize 1000000
+index contents,title
+suffix &ldquo;dc=27jd, dc=zzb&rdquo;
+directory /usr/tmp
+rootdn &ldquo;cn=root,dc=27jd, dc=zzb&rdquo;
+rootpw secret
+
+通过对一个4万个网页（约300M左右）的本地html文件目录进行过滤后生成的LDIF文件约180M左右，如果只取文字数据的前400个字符作为网页内容，则生成文件约35M左右。
+4、配置PHP+LDAP服务
+在Redhat6.2中已经集成了PHP3和php-ldap模块，选择完全安装时便已经安装到/usr/lib/apache目录中，注意检查/etc/httpd/php3.ini中的动态扩展（Dynamic Extensions）中的extension=ldap.so是否被选择。PHP3中提供了丰富的LDAP存取函数，能够方便完成对目录数据的搜索功能。有关Apach + PHP编程方面的资料较多，在此不在赘述。注意在PHP3中的LDAP搜索函数ldap_search不能处理其返回结果超过目录服务设定的最大检索数据，所以可以根据具体情况，在slapd的配置文件中设定较大的检索数据限制(sizelimit)，此问题在PHP4中已经解决。
+5、任务调度
+在Redhat6.2中已经集成了crond并且缺省安装后便已经启动。其相关配置文件有/etc/crontab、/etc/cron.daily、/etc/cron.hourly、/etc/weekly、/etc/monthly，你只需要根据数据的更新频度，将网页收集、网页过滤、生成LDIF文件、停止目录服务、更新目录数据、重新启动目录服务，作为一个简单的Shell程序放入到相应的目录中即可。
+三、效果与思考
+以上简单的介绍了我们的搜索引擎的实现方法和注意事项，这仅仅是我们在对GNU/Linux了解得非常肤浅的情况下设计的以目录服务为核心的满足内部网需要的搜索引擎系统，并不能代表GNU/Linux和它集成的大量软件的真正实力。
+通过在一台安装RedHat Linux 6.2 的Sparc Ultra 250上实际测试，对拥有4万个网页的目录数据进行搜索时，基于上述方法设计的搜索引擎响应速度一般在3秒左右，目录数据完全更新大约需要4小时左右，能够满足内部网的需要。实际上，限制搜索响应速度的关键是PHP3的ldap_search函数没有提供数据限制的功能，导致在查询结果集过大时系统响应速度变慢，因为每次用户能够浏览的查询结果实际是非常少的，而服务器端每次的查询总是返回全部结果，在PHP4中的ldap_search通过指定sizelimit参数，能够有效解决该问题。
+目录服务的应用范围非常广泛，实际上作为大型的信息站点为了提高客户访问效率，都或多或少采用了目录服务的技术。目录服务根据具体的应用需求的优化设计方法，对我们决定应用系统的开发无疑是一个启发，应该说在基于索引信息的领域LDAP服务远远优于传统的关系数据库系统。
+基于GNU/Linux进行网络服务器程序设计，能够充分体会到开放源代码的魅力和实力，它既能够简化系统的设计，又大大地提高了工作效率，同时也有效降低了系统的成本。程序设计由一切从零开始的复杂繁琐的重复劳动，简化为问题抽象、功能分解、查找资源、组合系统四个部分，更加强调对系统的认识、开阔的视野和学习的能力，同时开放源代码也为系统进一步优化提供了坚实的基础</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

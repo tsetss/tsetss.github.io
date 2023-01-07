@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>cocos2d-x jsb 绑定 removeAllDelegates
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>html5版为
+cc.Director.getInstance().getTouchDispatcher().removeAllDelegates()； 但 jsb 下没有，绑定一下。
+void JSTouchDelegate::removeAllDelegates() { CCDirector* pDirector = CCDirector::sharedDirector(); pDirector-&gt;getTouchDispatcher()-&gt;removeAllDelegates(); } JSBool js_cocos2dx_JSTouchDelegate_removeAllDelegates(JSContext *cx, uint32_t argc, jsval *vp) { if (argc == 0) { JSTouchDelegate *touch = new JSTouchDelegate(); touch-&gt;autorelease(); touch-&gt;removeAllDelegates(); return JS_TRUE; } JS_ReportError(cx, &#34;wrong number of arguments&#34;); return JS_FALSE; } JS_DefineFunction(cx, ns, &#34;removeAllDelegates&#34;, js_cocos2dx_JSTouchDelegate_removeAllDelegates, 1, JSPROP_READONLY | JSPROP_PERMANENT); </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-12-10 13:20:52 +0000 UTC'>December 10, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to cocos2d-x jsb 绑定 removeAllDelegates" href="http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>阿里云(aliyun)青岛节点挂载硬盘io测试
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>杭州节点已经停售了，在青岛订购了一台，贴上测试结果。
+fdisk -l Disk /dev/xvda: 21.5 GB, 21474754560 bytes 255 heads, 63 sectors/track, 2610 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00090497 Device Boot Start End Blocks Id System /dev/xvda1 * 1 2611 20969472 83 Linux Disk /dev/xvdb: 53.7 GB, 53687091200 bytes 255 heads, 63 sectors/track, 6527 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00000000 Disk /dev/xvdb doesn&#39;t contain a valid partition table 分区...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-12-06 12:24:36 +0000 UTC'>December 6, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 阿里云(aliyun)青岛节点挂载硬盘io测试" href="http://example.org/2013/12/06/aliyun-shandong-mount-disk-io-test/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>debian 下安装 lxc
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文安装环境 debian 6.0
+安装 lxc debootstrap 工具
+aptitude install lxc bridge-utils debootstrap 设置网络
+auto eth1 iface eth1 inet manual auto br0 iface br0 inet static bridge_ports eth1 #根据自己实际网卡设置 bridge_fd 0 address 10.0.0.100 netmask 255.255.255.0 gateway 10.100.0.1 dns-nameservers 10.20.0.2 加载 cgroup 编辑 /etc/fstab
+cgroup /sys/fs/cgroup cgroup defaults 0 0 立即加载
+mount /sys/fs/cgroup 接下来创建一下虚拟机
+#下载 squeeze 64位 debootstrap --verbose --variant=minbase --arch=amd64 --include ifupdown,locales,libui-dialog-perl,\ dialog,netbase,net-tools,iproute,openssh-server,vim,apt-utils,proxychains \ squeeze /var/cache/lxc/debian/rootfs-amd64 http://mirrors.163.com/debian/ mkdir -p /lxc/vm0 #存放目录 /usr/lib/lxc/templates/lxc-debian -p /lxc/vm0/ # 创建虚拟机 配置虚拟机网络,在 /lxc/vm0/config 文件填加些文本...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-11-23 07:48:26 +0000 UTC'>November 23, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to debian 下安装 lxc" href="http://example.org/2013/11/23/lxc-on-debian-squeeze/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>debian 下 lxc 限制内存出错
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>起动 vm 的时候出现
+lxc-start: open /cgroup/vm0/memory.limit_in_bytes : No such file or directory lxc-start: failed to setup the cgroups for ‘vm0’ lxc-start: failed to setup the container lxc-start: invalid sequence number 1. expected 2 lxc-start: failed to spawn ‘vm0’
+在 /etc/default/grub 文件填加
+GRUB_CMDLINE_LINUX=&#34;cgroup_enable=memory&#34; 0# lxc-checkconfig Kernel config /proc/config.gz not found, looking in other places... Found kernel config file /boot/config-2.6.32-5-amd64 --- Namespaces --- Namespaces: enabled Utsname namespace: enabled Ipc namespace: enabled Pid namespace: enabled User namespace: enabled Network namespace: enabled Multiple /dev/pts instances: enabled --- Control groups --- Cgroup: enabled Cgroup namespace: enabled Cgroup device: enabled Cgroup sched: enabled Cgroup cpu account: enabled Cgroup memory controller: missing Cgroup cpuset: enabled --- Misc --- Veth pair device: enabled Macvlan: enabled Vlan: enabled File capabilities: enabled </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-11-23 06:53:40 +0000 UTC'>November 23, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to debian 下 lxc 限制内存出错" href="http://example.org/2013/11/23/debian-lxc-memory-limit_in_bytes-no-such-file-or-directory/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>debian  bridge 网卡参数说明
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>bridge_fd is the bridge forward delay time, in seconds, default 15.
+bridge_hello is the bridge hello time, in seconds, default 2.
+bridge_maxage is the bridge’s maximum message time, in seconds, default is 20.
+bridge_stp controls the spanning tree protocol, on or off. Default is off, and is recommended to stay that way.</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-11-23 05:43:29 +0000 UTC'>November 23, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to debian  bridge 网卡参数说明" href="http://example.org/2013/11/23/debian-bridge-opt/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>lxc guest 报错 respawning too disabled minutes
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>INIT: Id &#34;c1&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c4&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c1&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c2&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c3&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c4&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c1&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c2&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c3&#34; respawning too fast: disabled for 5 minutes INIT: Id &#34;c4&#34; respawning too fast: disabled for 5 minutes 解决方法 编辑 /etc/inittab...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-11-23 05:24:29 +0000 UTC'>November 23, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to lxc guest 报错 respawning too disabled minutes" href="http://example.org/2013/11/23/lxc-guest-respawning-too-disabled-minutes/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql 5.5 半同步停止工作
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>两台 mysql 5.5 服务器互为主从，使且半同步模式，网络终断后，但是 同步未能恢复
+mysql&gt; show status like &#39;Rpl_%&#39;; &#43;--------------------------------------------&#43;-------------&#43; | Variable_name | Value | &#43;--------------------------------------------&#43;-------------&#43; | Rpl_semi_sync_master_clients | 0 | | Rpl_semi_sync_master_net_avg_wait_time | 213 | | Rpl_semi_sync_master_net_wait_time | 51387187879 | | Rpl_semi_sync_master_net_waits | 240543674 | | Rpl_semi_sync_master_no_times | 2 | | Rpl_semi_sync_master_no_tx | 6402 | | Rpl_semi_sync_master_status | OFF | | Rpl_semi_sync_master_timefunc_failures | 0 | | Rpl_semi_sync_master_tx_avg_wait_time | 276 | | Rpl_semi_sync_master_tx_wait_time | 68522585281 | | Rpl_semi_sync_master_tx_waits | 248230976 | | Rpl_semi_sync_master_wait_pos_backtraverse | 1101735 | | Rpl_semi_sync_master_wait_sessions | 0 | | Rpl_semi_sync_master_yes_tx | 240799932 | | Rpl_semi_sync_slave_status | ON | | Rpl_status | AUTH_MASTER | &#43;--------------------------------------------&#43;-------------&#43; 恢复操作...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-11-22 12:10:34 +0000 UTC'>November 22, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql 5.5 半同步停止工作" href="http://example.org/2013/11/22/mysql-5-5-semi_sync-stop/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>cocos2d-x 2.1.5 jsb 读取 plist
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>static JSBool js_cocos2dx_CCFileUtils_createDictionaryWithContentsOfFile(JSContext *cx, uint32_t argc, jsval *vp) { jsval *argv = JS_ARGV(cx, vp); JSBool ok = JS_TRUE; JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCFileUtils* cobj = (cocos2d::CCFileUtils *)(proxy ? proxy-&gt;ptr : NULL); JSB_PRECONDITION2( cobj, cx, JS_FALSE, &#34;Invalid Native Object&#34;); if (argc == 1) { std::string arg0; ok &amp;= jsval_to_std_string(cx, argv[0], &amp;arg0;); JSB_PRECONDITION2(ok, cx, JS_FALSE, &#34;Error processing arguments&#34;); cocos2d::CCDictionary* ret = CCDictionary::createWithContentsOfFile(arg0.c_str()); jsval jsret; jsret = ccdictionary_to_jsval(cx, ret); JS_SET_RVAL(cx, vp, jsret); return JS_TRUE; } JS_ReportError(cx, &#34;wrong number of arguments: %d, was expecting %d&#34;, argc, 1); return JS_FALSE; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-10-17 09:15:32 +0000 UTC'>October 17, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to cocos2d-x 2.1.5 jsb 读取 plist" href="http://example.org/2013/10/17/cocos2d-x-2-1-5-jsb-read-plist/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>cocos2d-x 2.1.5 clippingNode在 jsb 下无效的修改
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>**http://cocos2d-x.org/boards/6/topics/20141?r=20567#message-20567 **
+for iOS: in AppController replace the gl-view creation with:
+EAGLView *__glView = [EAGLView viewWithFrame: [window bounds] pixelFormat: kEAGLColorFormatRGBA8 depthFormat: GL_DEPTH24_STENCIL8_OES preserveBackbuffer: NO sharegroup: nil multiSampling: NO numberOfSamples: 0]; for Android: in game activity:
+public Cocos2dxGLSurfaceView onCreateView() { Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this); glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8); return glSurfaceView; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-09-23 13:25:54 +0000 UTC'>September 23, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to cocos2d-x 2.1.5 clippingNode在 jsb 下无效的修改" href="http://example.org/2013/09/23/cocos2d-x-clippingnode-jsb-fix/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>bae联通节点更新ip,广州长宽终于正常了
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>bae 联通节点之前一直用的是 63开头的ip,长城宽带一直打不开。。有时 hao123 都打不开。。 ,今天打开 blog 一下就开了。。发现联通节点变成了 202.108.23.200 速度还真不错，不知道是不是前几天我在群里反应长城宽带打不开网站就调整了哈。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-09-16 15:54:37 +0000 UTC'>September 16, 2013</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to bae联通节点更新ip,广州长宽终于正常了" href="http://example.org/2013/09/16/bae-unicom-change-ip-gwbn/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/2/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/4/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下python程序打包工具 ── cx_Freeze
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 15:38:35 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下python程序打包工具 ── cx_Freeze" href="http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Python date测试
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>import datetime, calendar
+today = datetime.date.today() oneday = datetime.timedelta(days=1) # loop back to most recent Friday (could be today) # takes care of end of month and even leap years friday = today while friday.weekday() != calendar.FRIDAY: friday -=oneday oneweek = datetime.timedelta(days=7) nextweek = today &#43; oneweek nextyear = today.replace(year=today.year&#43;1) print &#34;Today (year-month-day) = &#34;, today print &#34;Most recent Friday = &#34;, friday print &#34;One week from today = &#34;, nextweek print &#34;One year from today = &#34;, nextyear print &#34;Current time = &#34;, datetime....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 14:18:54 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Python date测试" href="http://example.org/2009/12/04/python-datee6b58be8af95/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>當Deferred遇上Thread
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>當Deferred遇上Thread Deferred不會自動實現將阻塞過程轉為非阻塞過程，雖然它已經有那樣的機制但還是要你去多走一步。要將阻塞過程轉為真正的非阻塞過程，那　只有借用線程。但至於線程調用你不用太擔心，twisted已為你準備好一個方便的用法。就是將Deferred綁在Thread上，這樣就有了deferToThread，味道不比牛奶加巧克力差。 deferToThread在twisted文檔的說明，洋墨水喝得比較少，就不照字面翻譯了。大概意思是將函數f放在線程裡並作為Deferred返回，args和kwargs是函數f的參數。也就是使用deferToThread返回的是一個帶線程的Deferred，並自動使用callback調用指定的函數f。相當於在線程中運行下面的代碼 d=defer.Deferred().addCallback(f) d.callback(result)
+def deferToThread(f, *args, **kwargs): (source) Run a function in a thread and return the result as a Deferred. Parameters f The function to call.
+*args positional arguments to pass to f.
+**kwargs keyword arguments to pass to f.
+Returns A Deferred which fires a callback with the result of f, or an errback with a twisted.python.failure.Failure if f throws an exception.
+#!/usr/bin/env python #coding=utf-8 from twisted....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 05:32:46 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 當Deferred遇上Thread" href="http://example.org/2009/12/04/e795b6deferrede98187e4b88athread/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Deferred筆記一
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Deferred的簡單套路
+從twisted的文檔入手，將Deferred獨立出來簡單的說明作用與使用方法，這樣更能快速對Deferred有深刻的了解。
+一、學習資料 1、主要參考資料 官方文檔 http://twistedmatrix.com/projects/core/documentation/howto/deferredindepth.html 關聯譯文 http://wiki.woodpecker.org.cn/moin/twistedTUT00?action=AttachFile&amp;do;=get&amp;target;=deferred_tutorial.html（此鏈接將會下載離線文檔）
+2、關聯資源 http://wiki.woodpecker.org.cn/moin/TwistedTUT
+二、Deferred的作用 Deferred的主要作用可以用一句話比較形象說明，“不要打電話給我,我會打給你的(Don’t Call Us, We’ll Call You)”。相當於做好計劃後，執行交給Deferred，完成後再找我，我可要到一邊Happy去了。 它會根據callback運行結果（正常、發生例外）從callback鏈表中選擇執行已註冊的相應的callback函數，從而實現事件方式來驅動程序。 callback的運行不影響主程序的運行，Deferred.callback執行後馬上返回。(這點有待在後面證明)
+三、Deferred實例 from twisted.internet import defer d=defer.Deferred() 實例化後就可以對Deferred進行操作。
+四、callback鏈表 鏈表是用來放置callback函數，鏈表中的函數可以響應三類事件，正常結束、例外結束、任意（包括前面兩者），它們分別用addCallback、addErrback、addBoth註冊到鏈表中。也就是說函數正常結束返回調用addCallback註冊的函數，發生例外則調用addErrback註冊的函數，使用addBoth註冊的函數無論返回什　結果都會被調用。
+五、callback函數註冊 除了上面提過的addCallback、addErrback、addBoth三個註冊函數外，還有另外一個addCallbacks可以同時註冊處理正常結束和例外結束的函數。
+1 2 3 4 5 6 def deferredExample(): d = defer.Deferred() d.addCallback(failAtHandlingResult) d.addCallbacks(yesDecision, noDecisionPassthru) d.addCallback(handleResult) # - A - d.addErrback(handleFailure)
+上面代碼中第4行的addCallbacks效果如同 d.addCallback(yesDecision) d.addErrback(noDecisionPassthru)
+另外，我們也可以將註冊過程寫成下面形式。 d=refer.Deferred().addCallback(failAtHandlingResult).addCallbacks(yesDecision, noDecisionPassthru).addCallback(handleResult).addErrback(handleFailure)
+六、callback鏈執行順序 Deferred的鏈表是按順序從第一個註冊函數開始直到最後一個函數。如果發生例外時，有多個例外處理函數，則會調用發生例外函數下面第一個例外處理函數。後面的例外處理函數將不會被調用，除非第一個例外處理函數將這個例外向下傳遞。
+七、其它一些特性 Deferred實例中還有另外一些函數，如pause,unpause,setTimeout,timeoutCall,chainDeferred，這些將留作下一步的測試。 另外還沒涉及到的是Deferred上一級的defer庫中的函數及其它類的使用，從一些代碼看來這些函數將會進一步有利於Deferred的應用，但這也有待後面的進上步學習。
+八、總結 經過Deferred are beautiful一節學習，了解Deferred的使用方法及其事件響應機制。
+創建於2009年8月31日
+原文 http://sites.google.com/site/mypynotes/twisted-1/deferred 可以被gw了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-04 05:19:29 +0000 UTC'>December 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Deferred筆記一" href="http://example.org/2009/12/04/deferrede7ad86e8a898e4b880/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Python 语法运用
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>u=[“a”,“b”,“c”] l = [“name=%s” % user for user in u ]
+结果: [“name=a”, “name=b”,“name=c”]
+l ={“a”:1,“b”:2,“c”:3} [k for k,v in l.items()] 结果: [“a”,“b”,“c”]
+l ={“a”:1,“b”:2,“c”:3} [&#34;%s=%s&#34; % (k,v) for k,v in l.items()] [“a=1”,“b=2”,“c=3”]
+2.lambda lambda 是预代理,代替要生成方法的指针,我这样理解的
+d.addCallback(lambda m: &#34;status of %s : %s&#34; % (msg,m)) d.addCallback(lambda m: self.msg(user,m)) 3.文件的操作 这是方指的是txt文件操作
+注意路径只能是 / 的方式处理, 打开的模式,你可以采用 help(file)的方式来查. f = file(“c:/tmp/abc.txt”,“r”) for line in f: user,status = line.split(&#34;:&#34;,1) user = user.strip() status = status....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-03 09:04:07 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Python 语法运用" href="http://example.org/2009/12/03/python-e8afade6b395e8bf90e794a8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>python的dict,set,list,tuple应用
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>字典(dict) dict 用 {} 包围 dict.keys(),dict.values(),dict.items() hash(obj)返回obj的哈希值，如果返回表示可以作为dict的key del 或 dict.pop可以删除一个item,clear清除所有的内容 sorted(dict)可以吧dict排序 dict.get()可以查找没存在的key，dict.[]不可以 dict.setdefault() 检查字典中是否含有某键。 如果字典中这个键存在，你可以取到它的值。 如果所找的键在字典中不存在，你可以给这个键赋默认值并返回此值。 {}.fromkeys()创建一个dict，例如: {}.fromkeys((’love’, ‘honor’), True) =&gt;{’love’: True, ‘honor’: True} 不允许一个键对应多个值 键值必须是哈希的，用hash()测试 一个对象，如果实现_hash()_方法可以作为键值使用 集合(set) 集合是一个数学概念，用set()创建 set.add(),set.update.set.remove，添加更新删除，-= 可以做set减法 set.discard 和 set.remove不同在于如果删除的元素不在集合内，discard不报错，remove 报错 &lt; &lt;= 表示 子集，&gt; &gt;=表示超集 | 表示联合 &amp; 表示交集 - 表示差集 ^ 差分集里啊 列表(list) 列表是序列对象，可包含任意的Python数据信息，如字符串、数字、列表、元组等。列表的数据是可变的，我们可通过对象方法对列表中的数据进行增加、修改、删除等操作。可以通过list(seq)函数把一个序列类型转换成一个列表。 append(x) 在列表尾部追加单个对象x。使用多个参数会引起异常。 count(x) 返回对象x在列表中出现的次数。 extend(L) 将列表L中的表项添加到列表中。返回None。 Index(x) 返回列表中匹配对象x的第一个列表项的索引。无匹配元素时产生异常。 insert(i,x) 在索引为i的元素前插入对象x。如list.insert(0,x)在第一项前插入对象。返回None。 pop(x) 删除列表中索引为x的表项，并返回该表项的值。若未指定索引，pop返回列表最后一项。 remove(x) 删除列表中匹配对象x的第一个元素。匹配元素时产生异常。返回None。 reverse() 颠倒列表元素的顺序。 sort() 对列表排序，返回none。bisect模块可用于排序列表项的添加和删除。 元组(tuple) tuple=(1,)，这是单个元素的元组表示，需加额外的逗号。 tuple=1，2，3，4，这也可以是一个元组，在不使用圆括号而不会导致混淆时，Python允许不使用圆括号的元组。 和列表一样，可对元组进行索引、分片、连接和重复。也可用len()求元组长度。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-03 09:00:29 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to python的dict,set,list,tuple应用" href="http://example.org/2009/12/03/pythone79a84dictsetlisttuplee5ba94e794a8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Deferred Object In Twisted
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-03 04:57:12 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Deferred Object In Twisted" href="http://example.org/2009/12/03/deferred-object-in-twisted/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Python 类型
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1.Dictionry {} 相录于一个 key value的内容
+mys={“a”:1,“b”:2,“c”:3} mys[“a”] = 1 mys.keys() mys.values()
+for k,v in mys.items(): print k,v
+2.List 是一个列表 [] mys=[“a”,“b”,1] mys[0] mys[1] mys[-1]
+for v in mys: print v;
+Tuple 一个不能改变的list （） mys=(1,2,“a”) mys[0] mys[1]
+for v in mys: print v;
+这三种类型可以完全结合 mys=[(2,3),(4,5),(“a”,“b”)] mys={“a”:[2,3,4],“b”:[3,4,5]} mys[“a”].pop() 可以这样的写。</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-03 04:53:54 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Python 类型" href="http://example.org/2009/12/03/python-e7b1bbe59e8b/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>进程信号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-30 01:50:25 +0000 UTC'>November 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 进程信号" href="http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>用Python写简单守护进程【转】
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I’ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it’s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-28 08:39:42 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用Python写简单守护进程【转】" href="http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/7/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/9/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

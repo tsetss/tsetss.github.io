@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+linux
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/linux/</link>
+    <description>Recent content in 
+linux
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Sep 2011 09:55:49 +0000</lastBuildDate><atom:link href="http://example.org/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装 ntop 提示 Missing Dependency: librrd_th.so.2 错误</title>
+      <link>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</link>
+      <pubDate>Fri, 02 Sep 2011 09:55:49 +0000</pubDate>
+      
+      <guid>http://example.org/2011/09/02/e5ae89e8a385-ntop-e68f90e7a4ba-missing-dependency-librrd_th-so-2-e99499e8afaf/</guid>
+      <description>centos 5.6 x64 安装 ntop 提示以下错误
+Resolving Dependencies --&amp;gt; Running transaction check ---&amp;gt; Package ntop.x86_64 0:3.3.9-7.el5 set to be updated --&amp;gt; Processing Dependency: graphviz for package: ntop --&amp;gt; Processing Dependency: librrd_th.so.2()(64bit) for package: ntop --&amp;gt; Processing Dependency: libnetsnmp.so.10()(64bit) for package: ntop --&amp;gt; Processing Dependency: libGeoIP.so.1()(64bit) for package: ntop --&amp;gt; Running transaction check ---&amp;gt; Package geoip.x86_64 0:1.4.6-1.el5.rf set to be updated ---&amp;gt; Package graphviz.x86_64 0:2.22.0-4.el5.rf set to be updated --&amp;gt; Processing Dependency: libXt.</description>
+    </item>
+    
+    <item>
+      <title>centos 5.6 x64 同步时间 更改时区</title>
+      <link>http://example.org/2011/09/02/centos-5-6-x64-e5908ce6ada5e697b6e997b4-e69bb4e694b9e697b6e58cba/</link>
+      <pubDate>Fri, 02 Sep 2011 05:48:00 +0000</pubDate>
+      
+      <guid>http://example.org/2011/09/02/centos-5-6-x64-e5908ce6ada5e697b6e997b4-e69bb4e694b9e697b6e58cba/</guid>
+      <description>ntpdate pool.ntp.org
+如无 ntpdate 命令安装 ntp 即可
+执行
+yum install -y ntp
+更改时区
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</description>
+    </item>
+    
+    <item>
+      <title>mysql my.cnf 详解</title>
+      <link>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</link>
+      <pubDate>Thu, 31 Dec 2009 04:00:57 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/</guid>
+      <description>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&amp;quot;&amp;ndash;help&amp;quot;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接.</description>
+    </item>
+    
+    <item>
+      <title>memcachedb</title>
+      <link>http://example.org/2009/12/07/memcachedb/</link>
+      <pubDate>Mon, 07 Dec 2009 16:11:16 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/07/memcachedb/</guid>
+      <description>memcachedb是为了持久化而产生的一个分布式 &amp;ldquo;key-value&amp;quot;存储系统，你可以认为是memcached+berkeley DB+sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他</description>
+    </item>
+    
+    <item>
+      <title>freebsd下python程序打包工具 ── cx_Freeze</title>
+      <link>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</link>
+      <pubDate>Fri, 04 Dec 2009 15:38:35 +0000</pubDate>
+      
+      <guid>http://example.org/2009/12/04/freebsde4b88bpythone7a88be5ba8fe68993e58c85e5b7a5e585b7-e29480e29480-cx_freeze/</guid>
+      <description>cx_Freeze是一个类似py2exe的工具，它们区别是py2exe是将python程序打包成windows下可以执行的exe文件的，而cx_Freeze则是将python程序打包为linux下可以直接执行的ELF格式的二进制可执行文件（看说明好像也能生成windows的可执行文件，号称跨平台）。 cx_Freeze的作用就是让你的python程序可以脱离python运行环境，在没有安装python的微型linux系统（例如cdlinux、tinycore等）里，方便地运行你的python程序。从功能上来说，也可以将其理解为一个python程序的编译器，将你的源码隐藏起来。
+安装
+cd /usr/ports/devel/cx_Freeze make install clean 打包程序
+cxfreeze 你的程序文件.py --target-dir dist </description>
+    </item>
+    
+    <item>
+      <title>进程信号</title>
+      <link>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</link>
+      <pubDate>Mon, 30 Nov 2009 01:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/30/e8bf9be7a88be4bfa1e58fb7/</guid>
+      <description>转载：http://blog.csdn.net/ljx0305/archive/2008/09/09/2904056.aspx
+SIGHUP 终止进程 终端线路挂断 SIGINT 终止进程 中断进程 SIGQUIT 建立CORE文件终止进程，并且生成core文件 SIGILL 建立CORE文件 非法指令 SIGTRAP 建立CORE文件 跟踪自陷 SIGBUS 建立CORE文件 总线错误 SIGSEGV 建立CORE文件 段非法错误 SIGFPE 建立CORE文件 浮点异常 SIGIOT 建立CORE文件 执行I/O自陷 SIGKILL 终止进程 杀死进程 SIGPIPE 终止进程 向一个没有读进程的管道写数据 SIGALARM 终止进程 计时器到时 SIGTERM 终止进程 软件终止信号 SIGSTOP 停止进程 非终端来的停止信号 SIGTSTP 停止进程 终端来的停止信号 SIGCONT 忽略信号 继续执行一个停止的进程 SIGURG 忽略信号 I/O紧急信号 SIGIO 忽略信号 描述符上可以进行I/O SIGCHLD 忽略信号 当子进程停止或退出时通知父进程 SIGTTOU 停止进程 后台进程写终端 SIGTTIN 停止进程 后台进程读终端 SIGXGPU 终止进程 CPU时限超时 SIGXFSZ 终止进程 文件长度过长 SIGWINCH 忽略信号 窗口大小发生变化 SIGPROF 终止进程 统计分布图用计时器到时 SIGUSR1 终止进程 用户定义信号1 SIGUSR2 终止进程 用户定义信号2 SIGVTALRM 终止进程 虚拟计时器到时</description>
+    </item>
+    
+    <item>
+      <title>用Python写简单守护进程【转】</title>
+      <link>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</link>
+      <pubDate>Sat, 28 Nov 2009 08:39:42 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/e794a8pythone58699e7ae80e58d95e5ae88e68aa4e8bf9be7a88be38090e8bdace38091/</guid>
+      <description>[转载自]http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+I&amp;rsquo;ve written a simple Python class for creating daemons on unix/linux systems. It was pieced together for various other examples, mostly corrections to various Python Cookbook articles and a couple of examples posted to the Python mailing lists. It has support for a pidfile to keep track of the process. I hope it&amp;rsquo;s useful to someone.
+Below is the Daemon class. To use it, simply subclass it and implement the run() method.</description>
+    </item>
+    
+    <item>
+      <title>Django and Memcached</title>
+      <link>http://example.org/2009/11/28/django-and-memcached/</link>
+      <pubDate>Sat, 28 Nov 2009 03:50:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/28/django-and-memcached/</guid>
+      <description>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build.</description>
+    </item>
+    
+    <item>
+      <title>TCP连接状态</title>
+      <link>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</link>
+      <pubDate>Sun, 22 Nov 2009 09:48:51 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/22/tcpe8bf9ee68ea5e78ab6e68081/</guid>
+      <description>CLOSED: 表示初始状态。
+LISTEN: 表示服务器端的某个SOCKET处于监听状态，可以接受连接。
+SYN_SENT:在服务端监听后，客户端SOCKET执行CONNECT连接时，客户端发送SYN报文，此时客户端就进入SYN_SENT状态，等待服务端的确认
+SYN_RCVD: 表示服务端接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。
+ESTABLISHED：表示连接已经建立了。
+FIN_WAIT_1: 这个是已经建立连接之后，其中一方请求终止连接，等待对方的FIN报文。FIN_WAIT_1状态是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。
+FIN_WAIT_2：实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。
+TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。
+CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到(或同时收到)对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。
+CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。
+LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</description>
+    </item>
+    
+    <item>
+      <title>mydns-ng mydns 的后继版</title>
+      <link>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</link>
+      <pubDate>Wed, 30 Sep 2009 03:33:28 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/</guid>
+      <description>无意间在 ports 看到 mydns-ng
+MyDNS-ng is a free DNS server for UNIX. It was implemented from scratch and is designed to serve records directly from an SQL database (currently either MySQL or PostgreSQL).
+MyDNS-ng is based on MyDNS originaly writen by Don Moore bboy@bboy.net Oficial Site http://mydns.bboy.net.
+MyDNS is licensed under the GNU General Public License.
+以后可以用它了</description>
+    </item>
+    
+    <item>
+      <title>nginx做透明代理</title>
+      <link>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</link>
+      <pubDate>Wed, 23 Sep 2009 14:49:23 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/</guid>
+      <description>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</description>
+    </item>
+    
+    <item>
+      <title>BOM--字节序标记</title>
+      <link>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</link>
+      <pubDate>Wed, 23 Sep 2009 02:00:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/09/23/bom-e5ad97e88a82e5ba8fe6a087e8aeb0/</guid>
+      <description>读代码的时候看到这样一段 $template_content = str_replace(&amp;quot;\xEF\xBB\xBF&amp;quot;, &amp;lsquo;&amp;rsquo;, $template_content); 不知道是何作用,经过一番查找资料,终于解开了这个疑问 资料如下:
+在window下面用记事本编辑文件的时候，如果保存为UNICODE或UTF-8，分别会在文件的开头加上两个字节“\xFF\xFE”和三个字节“\xEF\xBB\xBF”。在读取的时候就可能会遇到问题，但是不同的环境对这几个多于字符的处理也不一样。(其他的文本编辑工具也存在这个问题,但是可以选择去除bom,如editplus的设置:参数选择-&amp;gt;文件-&amp;gt;utf-8, 选择总是删除签名) 如果前面三个字符“\xef\xbb\xbf”则保存格式是utf-8 如果前两个字符是“\xff\xfe”则保存格式是Unicode Unicode规范中有一个BOM的概念。 BOM——Byte Order Mark，就是字节序标记。在这里找到一段关于BOM的说明： 在UCS 编码中有一个叫做&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。UCS规范建议我们在传输字节流前，先传输字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;。这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little- Endian的。因此字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;又被称作BOM。 UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符&amp;quot;ZERO WIDTH NO-BREAK SPACE&amp;quot;的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。Windows就是使用BOM来标记文本文件的编码方式的。 容易导致header session_star ob_start的问题,utf－8编码的文件中，BOM占3个字节，由于php设计时没有考虑BOM的问题，这三个字节会直接输出，如果这时在程序里调用了session函数，就会出问题了 附：文件应该使用 Unicode (UTF-8) 编码保存。同时不要使用 字节序标记(BOM) 。与 UTF-16 和 UTF-32 不同，UTF-8 编码的文件不需要指明字节序，而且 字节序标记(BOM) 在PHP中会产生预期之外的输出，阻止了应用程序设置它自己的 头信息。应该使用Unix 格式的行结束符(LF)。</description>
+    </item>
+    
+    <item>
+      <title>rpmbuild command not found</title>
+      <link>http://example.org/2009/06/24/rpmbuild-command-not-found/</link>
+      <pubDate>Wed, 24 Jun 2009 04:29:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/24/rpmbuild-command-not-found/</guid>
+      <description>rpmbuild command not found
+安装 rpm-build 组件
+yum install rpm-build </description>
+    </item>
+    
+    <item>
+      <title>Extmail1.1登录显示：Unix::Syslog not found</title>
+      <link>http://example.org/2009/06/23/extmail1-1e799bbe5bd95e698bee7a4baefbc9aunixsyslog-not-found/</link>
+      <pubDate>Tue, 23 Jun 2009 07:28:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/06/23/extmail1-1e799bbe5bd95e698bee7a4baefbc9aunixsyslog-not-found/</guid>
+      <description>Unix::Syslog not found, please install it first! (in cleanup) Undefined subroutine &amp;amp;Ext;::Logger::do_closelog called at /var/www/extsuite/extmail/libs/Ext/Logger.pm line 87. 没装perl-Unix-Syslog包,
+安装方法
+perl -MCPAN -e shell cpan&amp;gt;install Unix::Syslog </description>
+    </item>
+    
+    <item>
+      <title>freebsd下 nginx 日志每天分割</title>
+      <link>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</link>
+      <pubDate>Wed, 13 May 2009 18:42:06 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/</guid>
+      <description>#!/bin/sh date today=date +&amp;quot;%Y_%m_%d&amp;quot; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &amp;gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime +$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </description>
+    </item>
+    
+    <item>
+      <title>Mysql安装&amp;同步</title>
+      <link>http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/</link>
+      <pubDate>Sat, 28 Mar 2009 20:59:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/mysqle5ae89e8a385e5908ce6ada5/</guid>
+      <description>装mysql压缩文件格式的MySQL二进制分发版
+一． 安装的软件：
+1. Red Hat Enterprise Linux 4.0 update5
+mysql-5.0.45-linux-i686-icc-glibc23.tar.gz 二、装步骤如下：
+首先检查是否安装了Red Hat Enterprise Linux 4.0中自带的mysql服务，检查系统是否安装了mysql软件包，在终端执行如下命令：
+Shell&amp;gt; rpm –aq | grep mysql –ri
+显示如下：
+mysql-4.1.12-3.RHEL4.1
+Mod_auth_mysql-2.6.1-2.2 等软件包
+在安装mysql二进制分发版之前请先卸载mysql rpm软件包
+Shell&amp;gt; rpm －e mysql-4.1.12-3.RHEL4.1 将相关的rpm包逐一掉。
+shell&amp;gt; groupadd mysql
+shell&amp;gt; useradd -g mysql mysql 为mysql增加一个登录用户和组
+shell&amp;gt; cd /usr/local
+shell&amp;gt; tar –zxvf mysql-5.0.45-linux-i686-icc-glibc23.tar.gz
+shell&amp;gt; ln -s mysql-5.0.45-linux-i686-icc-glibc23 mysql
+shell&amp;gt; cd mysql
+shell&amp;gt; scripts/mysql_install_db &amp;ndash;user=mysql
+/如果你用root运行命令，应当使用&amp;ndash;user选项。选项的值应与你在第一步为运行服务器所创建的登录账户相同。如果你用该用户登录来运行命令，可以省略&amp;ndash;user选项。/
+shell&amp;gt; chown -R root .
+shell&amp;gt; chown -R mysql data</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>tar zxfk filename.tar.gz -k,--keep-old-files 不覆盖已存在文件</title>
+      <link>http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/</link>
+      <pubDate>Thu, 26 Mar 2009 10:43:34 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/26/tar-zxfk-filenametargz-k-keep-old-files-e4b88de8a686e79b96e5b7b2e5ad98e59ca8e69687e4bbb6/</guid>
+      <description>版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明。 http://windtear.net/archives/2005/09/22/000777.html
+倒数据当然推荐rsync 不过当文件数超级多 或者网络条件等不具备时 tar 打包就是首选了
+数据运到目的地后 解包时需要注意别覆盖
+tar 工具的 -k 参数就提供干这事 -k,&amp;ndash;keep-old-files 不覆盖已存在文件
+-k, --keep-old-files keep existing files; don&#39;t overwrite them from archive 如: tar zxfk filename.tar.gz</description>
+    </item>
+    
+    <item>
+      <title>tar命令详解 (推荐)</title>
+      <link>http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/</link>
+      <pubDate>Thu, 26 Mar 2009 07:02:17 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/</guid>
+      <description>tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &amp;lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc.</description>
+    </item>
+    
+    <item>
+      <title>Netseek牛年拜年力作：Nginx 常见应用技术指南[Nginx Tips] 第二版</title>
+      <link>http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/</link>
+      <pubDate>Tue, 24 Mar 2009 09:18:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/24/netseeke7899be5b9b4e68b9ce5b9b4e58a9be4bd9cefbc9anginx-e5b8b8e8a781e5ba94e794a8e68a80e69cafe68c87e58d97nginx-tips-e7acace4ba8ce78988/</guid>
+      <description>作者:NetSeek http://www.linuxtone.org (IT运维专家网|集群架构|性能调优) 欢迎转载,转载时请务必以超链接形式标明文章原始出处和作者信息及本声明. 首发时间: 2008-11-25 更新时间:2009-1-14
+目 录 一、 Nginx 基础知识 二、 Nginx 安装及调试 三、 Nginx Rewrite 四、 Nginx Redirect 五、 Nginx 目录自动加斜线: 六、 Nginx Location 七、 Nginx expires 八、 Nginx 防盗链 九、 Nginx 访问控制 十、 Nginx日志处理 十一、 Nginx Cache 十二、 Nginx负载均衡 十三、 Nginx简单优化 十四、 如何构建高性能的LEMP环境 十五、 Nginx服务监控 十六、 常见问题与错误处理. 十七、 相关资源下载
+【前言】： 编写此技术指南在于推广普及NGINX在国内的使用，更方便的帮助大家了解和掌握NGINX的一些使用技巧。本指南很多技巧来自于网络和工作中或网络上朋友们问我的问题.在此对网络上愿意分享的朋友们表示感谢和致意！欢迎大家和我一起丰富本技术指南提出更好的建议！请朋友们关注: http://www.linuxtone.org 技术分享社区! 互想学习共同进步!
+一、 Nginx 基础知识 1、简介 Nginx (&amp;ldquo;engine x&amp;rdquo;) 是一个高性能的 HTTP 和 反向代理 服务器，也是一个 IMAP/POP3/SMTP 代理服务器。 Nginx 是由 Igor Sysoev 为俄罗斯访问量第二的 Rambler.</description>
+    </item>
+    
+    <item>
+      <title>Linux基金会本周买下Linux.com域名</title>
+      <link>http://example.org/2009/03/21/linuxe59fbae98791e4bc9ae69cace591a8e4b9b0e4b88blinuxcome59f9fe5908d/</link>
+      <pubDate>Sat, 21 Mar 2009 16:03:47 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/21/linuxe59fbae98791e4bc9ae69cace591a8e4b9b0e4b88blinuxcome59f9fe5908d/</guid>
+      <description>Linux基金会本周买下了Linux.com域名,将把它建设为Linux用户和开发者的活跃社区,有分析人士认为,Linux基金会此举是为了吸引更多的商业用户使用Linux操作系统.
+Linux.com之前只是一个简单的新闻站点,去年的访问量上升了21%.目前Linux基金会正在准备重新发布新网站,预计新网站将在数月之内上线.SourceFourge也表示将继续销售Linux.com的推广广告来支持Linux基金会.
+Linux基金会还计划把当前的www.linuxfoundation.org网站上内容与社区项目都移植到新网站,并向商业用户提供更多有关使用Linux的信息,以吸引更多的商业用户使用Linux这样的开源操作系统.
+Linux基金会执行主管吉姆·泽姆林(Jim Zemlin)表示,“能够得到Linux.com这个域名并通过它为用户提供信息与服务,Linux社区感到非常兴奋.我们将向世人展示Linux社区成员是如何通过Linux.com网站进行协作的.”</description>
+    </item>
+    
+    <item>
+      <title>PHP 5.2.9 Released!</title>
+      <link>http://example.org/2009/03/19/php-529-released/</link>
+      <pubDate>Thu, 19 Mar 2009 14:36:17 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/php-529-released/</guid>
+      <description>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </description>
+    </item>
+    
+    <item>
+      <title>linux下的ImageMagick安装方法。</title>
+      <link>http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/</link>
+      <pubDate>Wed, 14 Jun 2006 17:54:58 +0000</pubDate>
+      
+      <guid>http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/</guid>
+      <description>linux下的ImageMagick安装方法。
+首先从网上下载 ImageMagick
+官方网址是： www.imagemagick.org
+从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net
+然后下载下来解压缩，
+./configure &amp;ndash;prefix=/usr/local/imagemagick &amp;ndash;enable-lzw &amp;ndash;with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+基本上这样就可以了。
+默认的就支持jpeg，png等图片
+你也可以加入&amp;ndash;without-xxx来禁止一些选项，具体的就 ./configure &amp;ndash;help | grep without吧。
+ok编译好了，需要的时间漫长的。
+然后就可以测试了。
+/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg
+就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。
+具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 </description>
+    </item>
+    
+    <item>
+      <title>FC4的dovecot套件無法啟動</title>
+      <link>http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/</link>
+      <pubDate>Thu, 25 May 2006 14:02:22 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/25/fc4e79a84dovecote5a597e4bbb6e784a1e6b395e5959fe58b95/</guid>
+      <description>fc4下 dovecot-0.99.14-4.fc4.i386.rpm 測試正常歐 上方也有連結可以更新 不過這版本就是fc4內附的版本阿 還是樓主 本身沒從光碟安裝這套件 是另外下載的? 另外 關於sasl安裝 教學如下 以下是我從我的筆記上 擷取出來的 有疑問再發問歐 (我也不一定能解決 ) 安裝前 確認防火牆打開了 110 143 25 三個 沒開的 執行 #system-config-securitylevel-tui 來打開 還有sendmail已經正確安裝 先確認有無安裝 #代表登入root時 #rpm -qa | grep sasl 檢查以下三個rpm的安裝情形 cyrus-sasl cyrus-sasl-md5 cyrus-sasl-plain 沒有的話 就要從光碟裡找找 編輯 /etc/mail/sendmail.mc 檔 找到 dnl TRUST_AUTH_MECH(&amp;lsquo;EXTERNAL DIGEST-MD5?&amp;hellip;&amp;hellip;..&amp;rsquo;)dnl dnl define(&amp;lsquo;confAUTH_MECHANISMS&amp;rsquo;, &amp;lsquo;EX&amp;hellip;&amp;hellip;LOGIN PLAIN&amp;rsquo;).. 以上&amp;hellip;.是我偷懶懶的打字 刪去 行首的 dnl與緊接的後方空白 修改 DAEMON_OPTIONS(&amp;rsquo;&amp;hellip;..ADDR=0.0.0.0,&amp;hellip;.&amp;rsquo;)dnl 把127.0.0.1&amp;ndash;&amp;gt;0.0.0.0 產生sendmail.cf 先把 /etc/mail/sendmail.mc 複製到 /usr/share/sendmail-cf/cf/下 終端機內 切換目錄到 /usr/share/sendmail-cf/cf/下 利用 #sh Build sendmail.cf 來產生sendmail.</description>
+    </item>
+    
+    <item>
+      <title>sendmail 配置</title>
+      <link>http://example.org/2006/05/25/sendmail-e9858de7bdae/</link>
+      <pubDate>Thu, 25 May 2006 13:58:15 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/25/sendmail-e9858de7bdae/</guid>
+      <description>作者：Christopher Shumway. sendmail(8) 是 FreeBSD 中的默认邮件传输代理 (MTA)。 sendmail 的任务是从邮件用户代理 (MUA) 接收邮件然后根据配置文件的定义把它们送给配置好的的寄送程序。 sendmail 也能接受网络连接，并且发送邮件到本地邮箱或者发送它到其它程序。 sendmail 使用下列配置文件： 文件名功能 /etc/mail/access sendmail 访问数据库文件 /etc/mail/aliases 邮箱别名 /etc/mail/local-host-names sendmail 接收邮件主机列表 /etc/mail/mailer.conf 邮寄配置程序 /etc/mail/mailertable 邮件分发列表 /etc/mail/sendmail.cf sendmail的主配置文件 /etc/mail/virtusertable 虚拟用户和域列表 25.3.1 /etc/mail/access
+访问数据库定义了什么主机或者 IP 地址可以访问本地邮件服务器和它们是哪种类型的访问。主机可能会列出 OK、 REJECT、RELAY 或者简单的通过 sendmail 的出错处理程序检测一个给定的邮件错误。 主机默认列出 OK，允许传送邮件到主机， 只要邮件的最后目的地是本地主机。列出 REJECT 将拒绝所有的邮件连接。如果带有 RELAY 选项的主机将被允许通过这个邮件服务器发送邮件到任何地方。 例 25-1. 配置 sendmail 的访问许可数据库 cyberspammer.com 550 We do not accept mail from spammers FREE.STEALTH.MAILER@ 550 We do not accept mail from spammers another.</description>
+    </item>
+    
+    <item>
+      <title>十分钟快速架设Linux下的WebMail</title>
+      <link>http://example.org/2006/05/18/e58d81e58886e9929fe5bfabe9809fe69eb6e8aebelinuxe4b88be79a84webmail/</link>
+      <pubDate>Thu, 18 May 2006 11:44:56 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/18/e58d81e58886e9929fe5bfabe9809fe69eb6e8aebelinuxe4b88be79a84webmail/</guid>
+      <description>目前，网上能找到不少WebMail软件，但多为商业软件，动辄支持百万级用户。它们虽然功能很强，但对一般单位来讲，有点儿“大材小用”。那么，能否找到这样一个WebMail：免费的、对中文支持较好、能够让用户既保留原有使用习惯又能通过Web界面收发邮件？ Open WebMail由Perl编写，遵循GPL版权，可运行于多种版本Linux/Unix上，对系统要求低，只需拥有支持CGI的Web Server和Perl 5.005及以上版本即可，无需数据库支持，安装容易，维护方便。作为一个轻量级的Webmail软件，Open WebMail较好地实现了收发邮件的各项功能，完全能满足一般的应用。它对系统要求低，维护方便，非常适合在科研院所、大专院校中使用。笔者所在实验室(运行环境为：邮件服务器 DELL L667r，配置为PⅢ667MHz/128M/15GB，RedHat6.2/Apache 1.3.12/Perl 5.005_03，用户数120人左右)已使用它半年多，运行良好，得到了用户的认可。 下面就以RedHat 6.2为例，介绍一下Open WebMail 的安装方法。我们假设所有软件存放于/tmp目录，所有操作以Root身份进行。 1.准备工作 从网站下载如下软件包： CGI.pm-2.74.tar.gz MIME-Base64-2.12.tar.gz Authen-PAM-0.12.tar.gz ispell-3.1.20.tar.gz hc-30.tar.gz 以CGI.pm为例，安装方法如下： cd /tmp tar -zxvf CGI.pm-2.74.tar.gz cd CGI.pm-2.74 perl Makefile.PL make make install 其它软件包的安装类似。 2.下载openwebmail-X.XX.tgz (其中X.XX为版本号，截至2001年11月的稳定版本为1.51)，做如下操作： cd /home/httpd tar -zxvBpf /tmp/openwebmail- X.XX.tgz mv data/openwebmail html/ rmdir data 3.配置 (1)在/home/httpd/cgi-bin/ openwebmail目录下修改 openwebmail.pl、openwebmail-main.pl、openwebmail-prefs.pl、spellcheck.pl和checkmail.pl，把其中的/usr/local/www/cgi-bin/ openwebmail改为/home/httpd/ cgi-bin/openwebmail 。 (2)修改 auth_unix.pl 把 设为 /etc/shadow 把 设为 none (3)修改 /home/httpd/cgi-bin/ openwebmail/etc/openwebmail.conf，根据机器配置调整mailspooldir、ow_htmldir、ow_cgidir、spellcheck 等参数，并设定 Webmail 的缺省参数，如邮件夹限额、闲置时间、背景、缺省签名档等。 (4)修改/etc/sendmail.cf，在Trusted users中加入Thttpd_user，其中httpd_user根据系统设置来定，如nobody或apache。 4.</description>
+    </item>
+    
+    <item>
+      <title>web.xml配置详细说明</title>
+      <link>http://example.org/2006/04/30/webxmle9858de7bdaee8afa6e7bb86e8afb4e6988e/</link>
+      <pubDate>Sun, 30 Apr 2006 13:49:39 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/webxmle9858de7bdaee8afa6e7bb86e8afb4e6988e/</guid>
+      <description>1 定义头和根元素
+部署描述符文件就像所有XML文件一样，必须以一个XML头开始。这个头声明可以使用的XML版本并给出文件的字符编码。
+DOCYTPE声明必须立即出现在此头之后。这个声明告诉服务器适用的servlet规范的版本（如2.2或2.3）并指定管理此文件其余部分内容的语法的DTD(Document Type Definition，文档类型定义)。
+所有部署描述符文件的顶层（根）元素为web-app。请注意，XML元素不像HTML，他们是大小写敏感的。因此，web-App和WEB-APP都是不合法的，web-app必须用小写。
+2 部署描述符文件内的元素次序
+XML 元素不仅是大小写敏感的，而且它们还对出现在其他元素中的次序敏感。例如，XML头必须是文件中的第一项，DOCTYPE声明必须是第二项，而web- app元素必须是第三项。在web-app元素内，元素的次序也很重要。服务器不一定强制要求这种次序，但它们允许（实际上有些服务器就是这样做的）完全拒绝执行含有次序不正确的元素的Web应用。这表示使用非标准元素次序的web.xml文件是不可移植的。
+下面的列表给出了所有可直接出现在web-app元素内的合法元素所必需的次序。例如，此列表说明servlet元素必须出现在所有servlet-mapping元素之前。请注意，所有这些元素都是可选的。因此，可以省略掉某一元素，但不能把它放于不正确的位置。
+l icon icon元素指出IDE和GUI工具用来表示Web应用的一个和两个图像文件的位置。
+l display-name display-name元素提供GUI工具可能会用来标记这个特定的Web应用的一个名称。
+l description description元素给出与此有关的说明性文本。
+l context-param context-param元素声明应用范围内的初始化参数。
+l filter 过滤器元素将一个名字与一个实现javax.servlet.Filter接口的类相关联。
+l filter-mapping 一旦命名了一个过滤器，就要利用filter-mapping元素把它与一个或多个servlet或JSP页面相关联。
+l listener servlet API的版本2.3增加了对事件监听程序的支持，事件监听程序在建立、修改和删除会话或servlet环境时得到通知。Listener元素指出事件监听程序类。
+l servlet 在向servlet或JSP页面制定初始化参数或定制URL时，必须首先命名servlet或JSP页面。Servlet元素就是用来完成此项任务的。
+l servlet-mapping 服务器一般为servlet提供一个缺省的URL：http://host/webAppPrefix/servlet/ServletName。但是，常常会更改这个URL，以便servlet可以访问初始化参数或更容易地处理相对URL。在更改缺省URL时，使用servlet-mapping元素。
+l session-config 如果某个会话在一定时间内未被访问，服务器可以抛弃它以节省内存。可通过使用HttpSession的setMaxInactiveInterval方法明确设置单个会话对象的超时值，或者可利用session-config元素制定缺省超时值。
+l mime-mapping 如果Web应用具有想到特殊的文件，希望能保证给他们分配特定的MIME类型，则mime-mapping元素提供这种保证。
+l welcom-file-list welcome-file-list元素指示服务器在收到引用一个目录名而不是文件名的URL时，使用哪个文件。
+l error-page error-page元素使得在返回特定HTTP状态代码时，或者特定类型的异常被抛出时，能够制定将要显示的页面。
+l taglib taglib元素对标记库描述符文件（Tag Libraryu Descriptor file）指定别名。此功能使你能够更改TLD文件的位置，而不用编辑使用这些文件的JSP页面。
+l resource-env-ref resource-env-ref元素声明与资源相关的一个管理对象。
+l resource-ref resource-ref元素声明一个资源工厂使用的外部资源。
+l security-constraint security-constraint元素制定应该保护的URL。它与login-config元素联合使用
+l login-config 用login-config元素来指定服务器应该怎样给试图访问受保护页面的用户授权。它与sercurity-constraint元素联合使用。</description>
+    </item>
+    
+    <item>
+      <title>Linux 下网络蜘蛛wget使用</title>
+      <link>http://example.org/2006/04/30/linux-e4b88be7bd91e7bb9ce89c98e89b9bwgete4bdbfe794a8/</link>
+      <pubDate>Sun, 30 Apr 2006 09:54:17 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/linux-e4b88be7bd91e7bb9ce89c98e89b9bwgete4bdbfe794a8/</guid>
+      <description>wget 是linux自带的工具。补丁程序：http://www.smth.edu.cn/bbscon.php?bid=69&amp;amp;id;=118152≈=500
+使用举列:
+wget -r -np --level=0 -k http://www.cnread.net/cnread1/dnwl/cxsj/c/cyyb/ walker 04-12-21, 09:11 $ wget --help GNU Wget 1.9.1，非交互式的网络文件下载工具。 用法： wget [选项]... [URL]... 长选项必须用的参数在使用短选项时也是必须的。 启动： -V, --version 显示 Wget 的版本并且退出。 -h, --help 打印此帮助。 -b, -background 启动后进入后台操作。 -e, -execute=COMMAND 运行‘.wgetrc’形式的命令。 日志记录及输入文件： -o, --output-file=文件 将日志消息写入到指定文件中。 -a, --append-output=文件 将日志消息追加到指定文件的末端。 -d, --debug 打印调试输出。 -q, --quiet 安静模式(不输出信息)。 -v, --verbose 详细输出模式(默认)。 -nv, --non-verbose 关闭详细输出模式，但不进入安静模式。 -i, --input-file=文件 下载从指定文件中找到的 URL。 -F, --force-html 以 HTML 方式处理输入文件。 -B, --base=URL 使用 -F -i 文件选项时，在相对链接前添加指定的 URL。 下载： -t, --tries=次数 配置重试次数（0 表示无限）。 --retry-connrefused 即使拒绝连接也重试。 -O --output-document=文件 将数据写入此文件中。 -nc, --no-clobber 不更改已经存在的文件，也不使用在文件名后 添加 .</description>
+    </item>
+    
+    <item>
+      <title>Linux / Unix Command: wget</title>
+      <link>http://example.org/2006/04/30/linux-unix-command-wget/</link>
+      <pubDate>Sun, 30 Apr 2006 09:08:31 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/linux-unix-command-wget/</guid>
+      <description>NAME wget - GNU Wget Manual SYNOPSIS wget [option]... [URL]... DESCRIPTION GNU Wget is a free utility for non-interactive download of files from the Web. It supports HTTP, HTTPS, and FTP protocols, as well as retrieval through HTTP proxies. Wget is non-interactive, meaning that it can work in the background, while the user is not logged on. This allows you to start a retrieval and disconnect from the system, letting Wget finish the work.</description>
+    </item>
+    
+    <item>
+      <title>SSH登录linux妙用后台命令</title>
+      <link>http://example.org/2006/04/30/sshe799bbe5bd95linuxe5a699e794a8e5908ee58fb0e591bde4bba4/</link>
+      <pubDate>Sun, 30 Apr 2006 08:57:23 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/sshe799bbe5bd95linuxe5a699e794a8e5908ee58fb0e591bde4bba4/</guid>
+      <description>用SSH管理linux服务器,有时可能要下载点大的软件或者文件包.又或者要打包一个上5G的文件夹,那是多么漫长的等待&amp;hellip;.
+更麻烦的是,下载的时候如果SSH 客户端N久没动作会断掉连接,于是下载到一半的东西也会跟着死掉.
+当然,你说我可以打开多个SSH客户窗口来操作&amp;hellip;.,那我不得不说,这是个笨办法.
+比如我想打包一个文件夹,可以用如下的命令
+#tar zcvf file.tar.gz /path/document/*
+不想等,就把他放到后台去(后面加个&amp;amp;)
+#tar zcvf file.tar.gz /path/document/* &amp;amp;
+如果你要回来.就使用fg 命令
+我们想当然的,下载也是这样
+#wget http://www.phpv.net/file.tar.gz &amp;amp;
+但如果你超时或者有事离开而退出SSH 那正在下载的file.tar.gz 文件也会随之停下了&amp;hellip;
+怎么办?让我们用nohup 来完成/
+NAME nohup - run a command immune to hangups, with output to a non-tty
+SYNOPSIS nohup COMMAND [ARG]&amp;hellip; nohup OPTION
+DESCRIPTION Run COMMAND, ignoring hangup signals.
+--help display this help and exit --version output version information and exit REPORTING BUGS Report bugs to &amp;lt;bug-coreutils@gnu.org&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>使用rsync来实现文件同步</title>
+      <link>http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/</link>
+      <pubDate>Sun, 30 Apr 2006 08:57:06 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/30/e4bdbfe794a8rsynce69da5e5ae9ee78eb0e69687e4bbb6e5908ce6ada5/</guid>
+      <description>使用rsync来实现文件同步 部分参考 www.xfocus.net/articles/200107/214.html 先对这个dd进行简介，当你的网站访问量大了，一台服务器承受不住了 那好，这个时候，rsync来了。 rsync -&amp;raquo;&amp;gt; remote synchronize 呵呵，不用解释了吧 第一步，先来下载这个免费的软件。 rsync.samba.org/ 或者 samba.anu.edu.au/rsync 解压缩后，编译很简单
+./configure –prefix=/usr/local/rsync &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install 然后先来配置服务端吧 先来编辑服务端配置文件 #vi /etc/rsyncd.conf uid = root gid = root hosts allow = testhost1 hosts deny = 192.168.0.*/24 use chroot = no # 不使用chroot max connections = 10 # 最大连接数为4 pid file = /var/run/rsyncd.pid lock file = /var/run/rsync.lock log file = /var/log/rsyncd.log # 日志记录文件 [sync_files] # 这里是认证的模块名，在client端需要指定 path = /root/sync_files # 需要做镜像的目录 comment = rsync 192.</description>
+    </item>
+    
+    <item>
+      <title>Linux常用命令简介</title>
+      <link>http://example.org/2006/04/22/linuxe5b8b8e794a8e591bde4bba4e7ae80e4bb8b/</link>
+      <pubDate>Sat, 22 Apr 2006 22:33:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/22/linuxe5b8b8e794a8e591bde4bba4e7ae80e4bb8b/</guid>
+      <description>su su命令是最基本的命令之一，常用于不同用户间切换。例如，如果登录为 user1，要切换为user2，只要用如下命令： $su user2 然后系统提示输入user2口令，输入正确的口令之后就可以切换到user2。完成之后就可以用exit命令返回到user1。 su命令的常见用法是变成根用户或超级用户。如果发出不带用户名的su命令 ，则系统提示输入根口令，输入之后则可切换为根用户。 如果登录为根用户，则可以用su命令成为系统上任何用户而不需要口令。
+pwd pwd命令也是最常用最基本的命令之一，用于显示用户当前所在的目录。
+cd cd命令不仅显示当前状态，还改变当前状态，它的用发跟dos下的cd命令基本一致。 cd ..可进入上一层目录 cd -可进入上一个进入的目录 cd ~可进入用户的home目录
+ls ls命令跟dos下的dir命令一样，用于显示当前目录的内容。 如果想取得详细的信息，可用ls -l命令， 这样就可以显示目录内容的详细信息。 如果目录下的文件太多，用一屏显示不了，可以用ls -l |more分屏显示 。
+find find命令用于查找文件。这个命令可以按文件名、建立或修改日期、所有者(通常是建立文件的用户)、文件长度或文件类型进行搜索。 find命令的基本结构如下： $find 其中指定从哪个目录开始搜索。指定搜索条件。表示找到文件怎么处理。一般来说，要用-print动作，显示 整个文件路径和名称。如果没有这个动作，则find命令进行所要搜索而不显示结果，等于白费劲。 例如，要搜索系统上所有名称为ye的文件，可用如下命令： $find / -name ye -print 这样就可以显示出系统上所有名称为ye的文件。
+tar tar最初用于建立磁带备份系统，目前广泛用于建立文件发布档案。可用如下方法建立tar档案： $tar cvf 例如，如果要将当前目录中所有文件存档到ye.tar中，可用如下命令： $tar cvf ye.tar . 要浏览档案内容，将c选项变成t。如果要浏览ye.tar档案中的内容，可用如下命令： $tar tvf ye.tar 要取出档案内的内容，将c选项变成x。如果要将ye.tar档案中的内容取到当前目录中，可用如下命令： $tar xvf ye.tar
+gzip gzip命令用于压缩文件。 例如，如果要将ye.txt文件压缩，可用如下命令： $gzip ye.txt 这样就可以压缩文件并在文件名后面加上gz扩展名，变成文件ye.txt.gz。 解压缩文件可用gzip -d命令实现： $gzip -d ye.txt.gz 这样就可以解压缩文件并删除gz扩展名。除此之外还可以用gunzip命令来解 压缩文件，效果跟用gzip -d命令一样。 旧版的tar命令不压缩档案，可用gzip压缩。例如： $tar cvf ye.</description>
+    </item>
+    
+    <item>
+      <title>Linux&#43;Apache&#43;PHP&#43;MySQL&#43;Zend Optimizer整合</title>
+      <link>http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/</link>
+      <pubDate>Sat, 22 Apr 2006 21:48:37 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/22/linuxapachephpmysqlzend-optimizere695b4e59088/</guid>
+      <description>一、前言
+发现本版中很多用户的问题都是关于空间搭建的，所以写了这篇作文希望对大家有所帮助，这也是版主职责嘛，呵呵。这篇文章所描述的整合过程是针对Discuz!而写的，旨在让Discuz!更好的运行。原则就是用不到的东西就不装、不编、不配，最大程度让系统干净快速。
+二、准备程序
+以下所有程序的版本都是推荐使用的，并且是截止到本文发布时最新的版本。
+Apache 2.0.55 下载地址：http://apache.justdn.org/httpd/httpd-2.0.55.tar.gz
+PHP 4.4.1 下载地址：http://cn.php.net/get/php-4.4.1.tar.gz/from/cn2.php.net/mirror
+MySQL 4.0.26 下载地址： http://downloads.mysql.com/archi &amp;hellip; t-4.0.26-0.i386.rpm http://downloads.mysql.com/archi &amp;hellip; r-4.0.26-0.i386.rpm
+Zend Optimizer 2.6.0 下载地址：http://prdownloads.sourceforge.n &amp;hellip; pl1.tar.gz?download
+PHPMyAdmin 2.7.0-pl1 下载地址：https://www.phpmyadmin.net 三、安装整合环境
+1、准备工作：
+由于Discuz!4.0的水印功能需要调用GD库实现，所以请先确定你的系统中已经安装了GD环境： QUOTE:
+rpm -qa | grep zlib rpm -qa | grep libpng rpm -qa | grep freetype rpm -qa | grep jpeg rpm -qa | grep gd 如果没有安装的话，可以按照下面的步骤手动安装： QUOTE: (1) 安装zlib
+tar zxvf zlib-1.2.2.tar.gz cd zlib-1.2.2 ./configure make make install (2) 安装libpng</description>
+    </item>
+    
+    <item>
+      <title>lamp,weblucene,awstats</title>
+      <link>http://example.org/2005/12/31/lampwebluceneawstats/</link>
+      <pubDate>Sat, 31 Dec 2005 18:19:50 +0000</pubDate>
+      
+      <guid>http://example.org/2005/12/31/lampwebluceneawstats/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

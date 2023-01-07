@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+network
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/network/</link>
+    <description>Recent content in 
+network
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2013 05:43:29 +0000</lastBuildDate><atom:link href="http://example.org/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debian  bridge 网卡参数说明</title>
+      <link>http://example.org/2013/11/23/debian-bridge-opt/</link>
+      <pubDate>Sat, 23 Nov 2013 05:43:29 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/23/debian-bridge-opt/</guid>
+      <description>bridge_fd is the bridge forward delay time, in seconds, default 15.
+bridge_hello is the bridge hello time, in seconds, default 2.
+bridge_maxage is the bridge’s maximum message time, in seconds, default is 20.
+bridge_stp controls the spanning tree protocol, on or off. Default is off, and is recommended to stay that way.</description>
+    </item>
+    
+  </channel>
+</rss>

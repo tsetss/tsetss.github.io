@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>安全维护 IIS asp 站点的高级技巧 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="一. 前言
+（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）
+人说，一朝被蛇咬，十年怕&hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&quot;梦&quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）
+二. 安装过程中的IIS 与 ASP安全防护
+（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）
+首先，开始重装IIS。
+这次安装的策略就是安全，够用。去掉一些多余的东西。
+1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）
+2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。
+3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如： d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。
+4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。
+5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。
+6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。
+三. 有目的进行安全配置
+①、开发前的工作。
+首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。
+然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。
+刚才我的老弟&quot;梦&quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。
+如：connstr=&ldquo;&ldquo;Provider=SQLOLEDB.1;Password=passw;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..&rdquo;
+2 然后建立一个文件夹include，放在根目录里。
+3 然后每一个文件用下面的办法打开连接。
+如： set conn=server.createobject(&ldquo;adodb.connection&rdquo;) conn.open connstr
+4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。
+这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。
+当然，还有一些比较好的文件策略你可以参考一下：
+如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。
+所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。
+如，采用下列结构比较好
+d:\web\ASPtest\static (放置*.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="安全维护 IIS asp 站点的高级技巧" />
+<meta property="og:description" content="一. 前言
+（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）
+人说，一朝被蛇咬，十年怕&hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&quot;梦&quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）
+二. 安装过程中的IIS 与 ASP安全防护
+（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）
+首先，开始重装IIS。
+这次安装的策略就是安全，够用。去掉一些多余的东西。
+1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）
+2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。
+3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如： d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。
+4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。
+5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。
+6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。
+三. 有目的进行安全配置
+①、开发前的工作。
+首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。
+然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。
+刚才我的老弟&quot;梦&quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。
+如：connstr=&ldquo;&ldquo;Provider=SQLOLEDB.1;Password=passw;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..&rdquo;
+2 然后建立一个文件夹include，放在根目录里。
+3 然后每一个文件用下面的办法打开连接。
+如： set conn=server.createobject(&ldquo;adodb.connection&rdquo;) conn.open connstr
+4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。
+这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。
+当然，还有一些比较好的文件策略你可以参考一下：
+如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。
+所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。
+如，采用下列结构比较好
+d:\web\ASPtest\static (放置*." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T03:36:42+00:00" />
+<meta property="article:modified_time" content="2006-02-25T03:36:42+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安全维护 IIS asp 站点的高级技巧"/>
+<meta name="twitter:description" content="一. 前言
+（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）
+人说，一朝被蛇咬，十年怕&hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&quot;梦&quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）
+二. 安装过程中的IIS 与 ASP安全防护
+（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）
+首先，开始重装IIS。
+这次安装的策略就是安全，够用。去掉一些多余的东西。
+1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）
+2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。
+3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如： d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。
+4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。
+5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。
+6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。
+三. 有目的进行安全配置
+①、开发前的工作。
+首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。
+然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。
+刚才我的老弟&quot;梦&quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。
+如：connstr=&ldquo;&ldquo;Provider=SQLOLEDB.1;Password=passw;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..&rdquo;
+2 然后建立一个文件夹include，放在根目录里。
+3 然后每一个文件用下面的办法打开连接。
+如： set conn=server.createobject(&ldquo;adodb.connection&rdquo;) conn.open connstr
+4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。
+这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。
+当然，还有一些比较好的文件策略你可以参考一下：
+如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。
+所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。
+如，采用下列结构比较好
+d:\web\ASPtest\static (放置*."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "安全维护 IIS asp 站点的高级技巧",
+      "item": "http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "安全维护 IIS asp 站点的高级技巧",
+  "name": "安全维护 IIS asp 站点的高级技巧",
+  "description": "一. 前言\n（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）\n人说，一朝被蛇咬，十年怕\u0026hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的\u0026quot;梦\u0026quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）\n二. 安装过程中的IIS 与 ASP安全防护\n（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）\n首先，开始重装IIS。\n这次安装的策略就是安全，够用。去掉一些多余的东西。\n1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）\n2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。\n3. 安装时选择站点目录，建议不要用缺省目录c:\\inetpub，最好安装道不是系统盘的盘上。如： d:\\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。\n4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。\n5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。\n6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。\n三. 有目的进行安全配置\n①、开发前的工作。\n首先，启动IIS后，看有没有\\iissamples,\\IIShelp,\\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。\n然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。\n刚才我的老弟\u0026quot;梦\u0026quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。\n如：connstr=\u0026ldquo;\u0026ldquo;Provider=SQLOLEDB.1;Password=passw;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;\u0026hellip;..\u0026rdquo;\n2 然后建立一个文件夹include，放在根目录里。\n3 然后每一个文件用下面的办法打开连接。\n如： set conn=server.createobject(\u0026ldquo;adodb.connection\u0026rdquo;) conn.open connstr\n4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。\n这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。\n当然，还有一些比较好的文件策略你可以参考一下：\n如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。\n所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。\n如，采用下列结构比较好\nd:\\web\\ASPtest\\static (放置*.",
+  "keywords": [
+    
+  ],
+  "articleBody": "一. 前言\n（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）\n人说，一朝被蛇咬，十年怕…..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的\"梦\"老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）\n二. 安装过程中的IIS 与 ASP安全防护\n（这里只考虑是Web服务器，而不是本地机子上的web开发平台。） 接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）\n首先，开始重装IIS。\n这次安装的策略就是安全，够用。去掉一些多余的东西。\n1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）\n2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。\n3. 安装时选择站点目录，建议不要用缺省目录c:\\inetpub，最好安装道不是系统盘的盘上。如： d:\\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。\n4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。\n5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。\n6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。\n三. 有目的进行安全配置\n①、开发前的工作。\n首先，启动IIS后，看有没有\\iissamples,\\IIShelp,\\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。\n然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。\n刚才我的老弟\"梦\"还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！ 1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。\n如：connstr=““Provider=SQLOLEDB.1;Password=passw;………………..”\n2 然后建立一个文件夹include，放在根目录里。\n3 然后每一个文件用下面的办法打开连接。\n如： set conn=server.createobject(“adodb.connection”) conn.open connstr\n4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。\n这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。\n当然，还有一些比较好的文件策略你可以参考一下：\n如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。\n所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。\n如，采用下列结构比较好\nd:\\web\\ASPtest\\static (放置*.htm) d:\\web\\ASPtest\\script (放置*.ASP) d:\\web\\ASPtest\\include(放置*.inc) d:\\web\\ASPtest\\images (放置*.gif,*.jpg)\n这样你就可以用上面的方法来达到安全目的了。\n②、启用日志监测\n这是亡羊补牢的好工具，至少你可以用它来监测谁通过web干了什么。当然，你还要保护该日志的权限只能是被系统管理员和超级管理所控制。这样避免某些人的干了某些事而不留痕迹。为了留好现场而又不影响IIS的响应速度，还是建议选则w3c扩展日志格式比较好。（以前别人介绍我用ODBC，看来比较方便，但实际上不是这样。它受到数据库的影响很大，而且速度较慢了）。\n可以考虑纪录下一下现场数据：\n客户 IP 地址 用户名 方法 URI 资源 HTTP 状态 Win32 状态 用户代理 服务器 IP 地址 服务器端口\n如果在一台计算机上有多个 Web 服务器，则后两种属性非常有用。Win32 状态属性对于调试非常有用。\n检查日志时，密切注意错误5 ，这意味着访问被拒绝。在命令行上输入 net helpmsg err，可找出其它Win32 错误的含义，其中 err 是要查找的错误号。\n③、配置合适的脚本映射\n相信我，大部分的ASP源代码泄漏都是通过不安全或是有错误的脚本映射导致的。而他们中的大多数可能你用不到，如下面我说的：\n1 *.htr这是一个比较厉害的文件，他是web应用程序的一种。同hta一样。这是些比较厉害的功能，但介绍很少。hta就是一种html 格式的 application，功能比较强大。切安全性比htm要低。所以可能会导致功能强大的操作。比如htr就可以通过web来重设密码。相信我们大多数的ASP程序员和NT网管不需要这个。那好，把他的对应选项删掉好了。否则，任何人都可以通过你的web来进行非法操作，甚至格式化掉你的硬盘。\n2 .hta 这个我已经说过了，他是把双刃剑，用的好，你可以通过他来访问nt的很多操作，在ASP上开nt用户也是可能的。但大多数的工作可以不通过web来事最好的。而.hta在web很少用到，虽然他在iis4.0就推出了。比如，你把一个文件保存成*.hta，你就可以用ie打开。看看，很奇怪的界面吧。听ms的工程师说.net中把*.hta换了个说法，功能加大了。看来网管的工作又该加大了。如果你想安全一些，删掉吧。\n3 *.idc 这个东东是个比较老的数据库连接方法了，现在大多数都直接用ASP文件。不用idc了，所以删掉他。\n4 *.printer这个是打印机文件，去掉他好了\n5 *.htw , *.ida *.idq这些都是索引文件，也可以去掉了。\n④、好的安全习惯\n要注意多上ms的站点，看看安全公告。（MS的访问量就是这样长期排行世界前三的！）还要准备好一些第三方的工具。如扫描工具，模拟攻击工具。多上安全站点看看。\n如果你可以交道一些比较好的黑道朋友（我另一个师兄家家的方法），也是比较好的。（黑道是黑客走的路！）\n⑤、防止ASP代码被泄漏\n这里只能说是防止，我只有从已经发现的看ASP方法的漏洞入手，现在对于iis4.0则几乎有20种以上的办法，但安装了sp6a后有两种，可以到微软的网站安全公告下载2000-8月后的补丁可以解决。但如果你用了本文上面的方法。可以装到sp6就可以了。\n如果是win2000 server，则有两种方法。安了sp1后，还有一种，所以你必须倒微软安全公告栏去下载相应的hotfix。可以解决。\n⑥、防止恶意的破坏\n这个功能能对付一些被你监测到的不良分子，你可以在日志中或第三方工具看到到底是谁在不停的探测、破坏你的IIS。那么把他列为不收欢迎的黑名单，这样，你再配置站点时可以对其IP或域进行拒绝访问，不过这一过程是要付出代价的，你的IIS要担任反向查找的功能。可能会比较耗时。\n⑦、安全的话题\n以上还只是IIS与ASP的。如果你要用到数据库，用到远程管理，用到远程连接数据库，那还要分别注意。正如我说的，没有绝对的安全，而这也才是安全的需要。关于安全的话题，没有结束，只有待续。\n",
+  "wordCount" : "138",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T03:36:42Z",
+  "dateModified": "2006-02-25T03:36:42Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/e5ae89e585a8e7bbb4e68aa4-iis-asp-e7ab99e782b9e79a84e9ab98e7baa7e68a80e5b7a7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      安全维护 IIS asp 站点的高级技巧
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 03:36:42 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>一. 前言</p>
+<p>　　（仅以此文感谢好友bigeagle。不是他，我可能不用这么担心win2000安全问题的。呵呵！）</p>
+<p>　　人说，一朝被蛇咬，十年怕&hellip;..，就是这样。2000年初，当我终于摆脱winnt 4.0 server那可怕的补丁之旅，迈向win2000 server时。我终于可以比较放心我的服务器了。但随着SQL SERVER的补丁出现。我知道，与微软的补丁因缘又开始轮回了。但还好。win2000自动化的管理还是让我放心好多，而以前管理winnt后的失眠症状也逐渐消失了。偶尔还能见到我的&quot;梦&quot;老弟。但这一切都伴随者同bigeagle的一次知心交谈中付之东流了。一次，bigeagle发来qq，给我看了一段代码。我一看就知道这不是bigeagle写的代码，那么烂，不过有点熟悉。再一看，啊？！这不是我的数据库连接字符串吗！！GOD。顿时觉得有一种不祥的预兆。不过还好，这个只是个access的，我还用了一些手段防止他被下载。但这足以让我长时间的失眠又来了。（再次说明，bigeagle不是蛇，他是鹰）</p>
+<p>二. 安装过程中的IIS 与 ASP安全防护</p>
+<p>　　（这里只考虑是Web服务器，而不是本地机子上的web开发平台。）
+接下来的几天有是几个难熬的日子。我开始重新部署win2000 web服务器的安全策略。找到ASP代码被泄漏的原因。原来，我的补丁每次打得都比较及时的。但一次因为卸载FTP时，重装了IIS，而这之后，我并没有再打补丁而导致最新的漏洞web解析出错。（就是那个较新的漏洞 Translate :f， 用这个加上一些工具就可以看到ASP的代码了。）</p>
+<p>　　首先，开始重装IIS。</p>
+<p>　　这次安装的策略就是安全，够用。去掉一些多余的东西。</p>
+<p>　　1. FTP不要安装了，功能不好，还容易出错，并且漏洞很大。Ftp缺省传输密码的过程可是明文传送，很容易被人截获。（可以考虑用第三方工具。）</p>
+<p>　　2. 一切实例、文档也不要安装了。这是在web服务器上，最好不要这些例子，事实证明可以从这些例子站点突破IIS的防线的。</p>
+<p>　　3. 安装时选择站点目录，建议不要用缺省目录c:\inetpub，最好安装道不是系统盘的盘上。如：
+d:\IISWEB，可以考虑自建目录。这样即使IIS被突破，也能尽可能的保护好系统文件了。</p>
+<p>　4. 不要安装html的远程管理。html的远程管理在winnt 4.0还能用的上，但漏洞比较大，而且比较危险，端口号虽然是随机的，但很容易被人扫描道，从而留下隐患。事实上，我们可以通过另一台服务器上的IIS来管理他。这样比较安全。</p>
+<p>　　5. 多余的服务也不要安了，如NNtp，如果不做新闻组。就不要安了。smtp，如果有更好的邮件服务，也不要装它了。</p>
+<p>　　6. 索引服务器。这个索引真的是很有用，但我没有用过他。否则，你可以用他建立个整个站点的文件搜索的，但现在好像大多数的ASP网页都是一个网页，动态从数据库里查询。所以根本用不上索引服务器了，（不是索引不好，而是本身上面的那种ASP文件结构就不适合）所以可以不要安装。</p>
+<p>三. 有目的进行安全配置</p>
+<p>　　①、开发前的工作。</p>
+<p>　　首先，启动IIS后，看有没有\iissamples,\IIShelp,\msadc,这些目录，如果有，他们大多是用来作为例子，帮助安装的，删掉他们，再把脚本库也删掉，直到web目录只留下干静的新建的虚拟目录即可。如果有管理的web站点，也删掉他。没有它，我们一样可以工作的更好。 还有看看有没有printer的文件夹，他们大多数都是些通过web来访问打印机的。MS就是怪。为了表示我的功力强大，允许通过web来远程打印。相信没有哪个网络公司是通过web网来打印的把。也不可能让网友来使用你的计算机吧。那好，去掉它。</p>
+<p>　　然后。开始详细配置各个web虚拟目录的安全。大概的策略是这样的。分类每个文件夹管理，如可以把扩展名是相同的分配到同一目录，如*.ASP的，和*.inc就尽量分开。如果是*.ASP的，则开放虚拟目录权限，但将实际目录权限授予administrator,system(完全控制)everyone (rc)即可。这样可以通过web允许读取。但实际上你可以加大安全力度，如果你认为它是比较保密的。如果是*.inc的，则开放目录权限，但不允许通过直接访问。这里又一个技巧了。比如，你可以允许实际目录被everyone访问，但在IIS中，你把改目录浏览项去掉，而包含文件只能被源文件读取，但不允许被直接读取。这样，黑客就不可能下载到你的单机数据库了，而且你的*.inc文件也不会被浏览器直接阅读。</p>
+<p>　　刚才我的老弟&quot;梦&quot;还在问我，有没有办法可以让别人看不到你的连接字符串，你可以试试下面的方法！
+　　1 首先建立连接字符串，并建立一个单独的文件*.inc（要是*.inc的，不要*.ASP的）你把你的连接字符串用变量复制进来。</p>
+<p>　　如：connstr=&ldquo;&ldquo;Provider=SQLOLEDB.1;Password=passw;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..&rdquo;</p>
+<p>　　2 然后建立一个文件夹include，放在根目录里。</p>
+<p>　　3 然后每一个文件用下面的办法打开连接。</p>
+<p>　　如：
+　　set conn=server.createobject(&ldquo;adodb.connection&rdquo;)
+　　conn.open connstr</p>
+<p>　　4 最后在iis里把include 文件夹用拒绝读的方法保护起来。你会发现，你的连接可以照常打开，但是如果对方看到你的源代码，他也看不到连接字符串，即使他看到了包含文件路径及名称。他也无法下载，或是用ie 打开。所以，可以保护你的连接字符串了。</p>
+<p>　　这里用的方法是NT权限与 IIS权限的共同审核。我们知道，为了让用户从web上访问道服务器的文件，每个安装了IIS后的服务器都会有两个内置账号。I_USExxxxxx，I_WAMxxxxxx（x为你的机器名），这样你就可以有的放矢地预防某些从你的web网络查看你的必要信息的用户了。</p>
+<p>　　当然，还有一些比较好的文件策略你可以参考一下：</p>
+<p>　　如：CGI (.exe, .dll, .cmd, .pl)Everyone (X)不允许读，只能运行。Administrators（完全控制）System（完全控制）。</p>
+<p>　　所以，你在编写ASP应用程序时，尽量归类好你的目录。方便用IIS和NT进行管理。</p>
+<p>　　如，采用下列结构比较好</p>
+<p>　　d:\web\ASPtest\static (放置*.htm)
+　　d:\web\ASPtest\script (放置*.ASP)
+　　d:\web\ASPtest\include(放置*.inc)
+　　d:\web\ASPtest\images (放置*.gif,*.jpg)</p>
+<p>　　这样你就可以用上面的方法来达到安全目的了。</p>
+<p>　②、启用日志监测</p>
+<p>　　这是亡羊补牢的好工具，至少你可以用它来监测谁通过web干了什么。当然，你还要保护该日志的权限只能是被系统管理员和超级管理所控制。这样避免某些人的干了某些事而不留痕迹。为了留好现场而又不影响IIS的响应速度，还是建议选则w3c扩展日志格式比较好。（以前别人介绍我用ODBC，看来比较方便，但实际上不是这样。它受到数据库的影响很大，而且速度较慢了）。</p>
+<p>　　可以考虑纪录下一下现场数据：</p>
+<p>　　客户 IP 地址
+　　用户名
+　　方法
+　　URI 资源
+　　HTTP 状态
+　　Win32 状态
+　　用户代理
+　　服务器 IP 地址
+　　服务器端口</p>
+<p>　　如果在一台计算机上有多个 Web 服务器，则后两种属性非常有用。Win32 状态属性对于调试非常有用。</p>
+<p>　　检查日志时，密切注意错误5 ，这意味着访问被拒绝。在命令行上输入 net helpmsg err，可找出其它Win32 错误的含义，其中 err 是要查找的错误号。</p>
+<p>　③、配置合适的脚本映射</p>
+<p>　　相信我，大部分的ASP源代码泄漏都是通过不安全或是有错误的脚本映射导致的。而他们中的大多数可能你用不到，如下面我说的：</p>
+<p>　　1 *.htr这是一个比较厉害的文件，他是web应用程序的一种。同hta一样。这是些比较厉害的功能，但介绍很少。hta就是一种html 格式的 application，功能比较强大。切安全性比htm要低。所以可能会导致功能强大的操作。比如htr就可以通过web来重设密码。相信我们大多数的ASP程序员和NT网管不需要这个。那好，把他的对应选项删掉好了。否则，任何人都可以通过你的web来进行非法操作，甚至格式化掉你的硬盘。</p>
+<p>　　2 <em>.hta 这个我已经说过了，他是把双刃剑，用的好，你可以通过他来访问nt的很多操作，在ASP上开nt用户也是可能的。但大多数的工作可以不通过web来事最好的。而</em>.hta在web很少用到，虽然他在iis4.0就推出了。比如，你把一个文件保存成*.hta，你就可以用ie打开。看看，很奇怪的界面吧。听ms的工程师说.net中把*.hta换了个说法，功能加大了。看来网管的工作又该加大了。如果你想安全一些，删掉吧。</p>
+<p>　　3 *.idc 这个东东是个比较老的数据库连接方法了，现在大多数都直接用ASP文件。不用idc了，所以删掉他。</p>
+<p>　　4 *.printer这个是打印机文件，去掉他好了</p>
+<p>　　5 *.htw , *.ida *.idq这些都是索引文件，也可以去掉了。</p>
+<p>　　④、好的安全习惯</p>
+<p>　　要注意多上ms的站点，看看安全公告。（MS的访问量就是这样长期排行世界前三的！）还要准备好一些第三方的工具。如扫描工具，模拟攻击工具。多上安全站点看看。</p>
+<p>　　如果你可以交道一些比较好的黑道朋友（我另一个师兄家家的方法），也是比较好的。（黑道是黑客走的路！）</p>
+<p>　　⑤、防止ASP代码被泄漏</p>
+<p>　　这里只能说是防止，我只有从已经发现的看ASP方法的漏洞入手，现在对于iis4.0则几乎有20种以上的办法，但安装了sp6a后有两种，可以到微软的网站安全公告下载2000-8月后的补丁可以解决。但如果你用了本文上面的方法。可以装到sp6就可以了。</p>
+<p>　　如果是win2000 server，则有两种方法。安了sp1后，还有一种，所以你必须倒微软安全公告栏去下载相应的hotfix。可以解决。</p>
+<p>　　⑥、防止恶意的破坏</p>
+<p>　　这个功能能对付一些被你监测到的不良分子，你可以在日志中或第三方工具看到到底是谁在不停的探测、破坏你的IIS。那么把他列为不收欢迎的黑名单，这样，你再配置站点时可以对其IP或域进行拒绝访问，不过这一过程是要付出代价的，你的IIS要担任反向查找的功能。可能会比较耗时。</p>
+<p>　　 ⑦、安全的话题</p>
+<p>　　以上还只是IIS与ASP的。如果你要用到数据库，用到远程管理，用到远程连接数据库，那还要分别注意。正如我说的，没有绝对的安全，而这也才是安全的需要。关于安全的话题，没有结束，只有待续。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

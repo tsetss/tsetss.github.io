@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Django and Memcached | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/11/28/django-and-memcached/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Django and Memcached" />
+<meta property="og:description" content="just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/11/28/django-and-memcached/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-11-28T03:50:34+00:00" />
+<meta property="article:modified_time" content="2009-11-28T03:50:34+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Django and Memcached"/>
+<meta name="twitter:description" content="just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:
+‘CmemcacheObject’ has no member named ‘mc_ctxt’
+First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Django and Memcached",
+      "item": "http://example.org/2009/11/28/django-and-memcached/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Django and Memcached",
+  "name": "Django and Memcached",
+  "description": "just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:\n‘CmemcacheObject’ has no member named ‘mc_ctxt’\nFirst I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build.",
+  "keywords": [
+    
+  ],
+  "articleBody": "just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:\n‘CmemcacheObject’ has no member named ‘mc_ctxt’\nFirst I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build. Here the steps to compile and install cmemcache:\ncd ~ wget http://people.freebsd.org/~seanc/libmemcache/libmemcache-1.4.0.rc2.tar.bz2 wget http://gijsbert.org/downloads/cmemcache/libmemcache-1.4.0.rc2.patch wget http://gijsbert.org/downloads/cmemcache/cmemcache-0.95.tar.bz2\nthe patch was made using a folder called reference mkdir reference cd reference tar xjvf ../libmemcache-1.4.0.rc2.tar.bz2 cd .. patch -p0 \u003c libmemcache-1.4.0.rc2.patch cd reference/libmemcache-1.4.0.rc2 ./configure \u0026\u0026 make sudo make install cd ../../ tar xjvf cmemcache-0.95.tar.bz2 cd cmemcache-0.95 ./configure \u0026\u0026 make sudo make install After doing these steps you should be able to do this in your python console:\nimport cmemcache Instead of the cmemcache library you can also install python-memcache, that is a memcache library completely written in python. But the cmemcache is definitely faster and if you have installed both libraries, django will favor the c implementation in front of the python one.\nThe other problem with memcached and django relies on a misunderstanding of mine. I thought, that if I define several memcached instances in my CACHE_BACKEND setting of django, it sends every new or changed key/value pair to each server in the list and holds each one redundant on all memcached instances.\nSo I’ve defined the following CACHE_BACKEND setting on Django Server A (192.168.1.1):\nCACHE_BACKEND = ‘memcached://192.168.1.1:11211;192.168.1.2:11211/’ and on Django Server B (192.168.1.2):\nCACHE_BACKEND = ‘memcached://192.168.1.2:11211;192.168.1.1:11211/’ and assumed, when a request on the cache was made, that Django Server B would first try to access the memcache instance on Server B. This assumption was totally wrong and on top of that I also recognized, that no saved cache-entry from Django Server A was available on Django Server B.\nSo I’ve started to read the documentation of memcached and came across the following faq entry. There you can read, how memcached is working and how values are saved across several instances:\nWhen doing a memcached lookup, first the client hashes the key against the whole list of servers\nA result of this is, that the setting of CACHE_BACKEND for memcached servers must be the same on all django installations. Otherwise the hash for a key/value pair would be a different one on each server and you are not able to access cached values across the installations. Another result is, that a cascade of memcached servers act as one big cache server with the main goal to scale large. You never know on which of the memached servers your cached value is saved.\nAdditional note! If you are running memcached instances on servers that are far distant from each other (like a server in Germany and one in the US), you shouldn’t use several memcached instances as one cluster. Replicate your memcached instances with the modified memcached server called repcached instead. Otherwise the cache lookups will be too slow.\nby http://blog.uxebu.com/2008/06/30/django-and-memcached/\n",
+  "wordCount" : "514",
+  "inLanguage": "en",
+  "datePublished": "2009-11-28T03:50:34Z",
+  "dateModified": "2009-11-28T03:50:34Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/11/28/django-and-memcached/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Django and Memcached
+    </h1>
+    <div class="post-meta"><span title='2009-11-28 03:50:34 +0000 UTC'>November 28, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>just ran into several problems while setting up memcached for a django installation, that is replicated over several servers. One of the problems was the compiling of cmemcache, a python extension for libmemcache, where I received the following error:</p>
+<p>‘CmemcacheObject’ has no member named ‘mc_ctxt’</p>
+<p>First I didn’t realized the additional file, that resides at the file list of downloadable cmemcache versions. With this file you can patch the libmemcache library so cmemcache can be build. Here the steps to compile and install cmemcache:</p>
+<p>cd ~
+wget <a href="http://people.freebsd.org/~seanc/libmemcache/libmemcache-1.4.0.rc2.tar.bz2">http://people.freebsd.org/~seanc/libmemcache/libmemcache-1.4.0.rc2.tar.bz2</a>
+wget <a href="http://gijsbert.org/downloads/cmemcache/libmemcache-1.4.0.rc2.patch">http://gijsbert.org/downloads/cmemcache/libmemcache-1.4.0.rc2.patch</a>
+wget <a href="http://gijsbert.org/downloads/cmemcache/cmemcache-0.95.tar.bz2">http://gijsbert.org/downloads/cmemcache/cmemcache-0.95.tar.bz2</a></p>
+<h1 id="the-patch-was-made-using-a-folder-called-reference">the patch was made using a folder called reference<a hidden class="anchor" aria-hidden="true" href="#the-patch-was-made-using-a-folder-called-reference">#</a></h1>
+<p>mkdir reference
+cd reference
+tar xjvf ../libmemcache-1.4.0.rc2.tar.bz2
+cd ..
+patch -p0 &lt; libmemcache-1.4.0.rc2.patch
+cd reference/libmemcache-1.4.0.rc2
+./configure &amp;&amp; make
+sudo make install
+cd ../../
+tar xjvf cmemcache-0.95.tar.bz2
+cd cmemcache-0.95
+./configure &amp;&amp; make
+sudo make install
+After doing these steps you should be able to do this in your python console:</p>
+<p>import cmemcache
+Instead of the cmemcache library you can also install python-memcache, that is a memcache library completely written in python. But the cmemcache is definitely faster and if you have installed both libraries, django will favor the c implementation in front of the python one.</p>
+<p>The other problem with memcached and django relies on a misunderstanding of mine. I thought, that if I define several memcached instances in my CACHE_BACKEND setting of django, it sends every new or changed key/value pair to each server in the list and holds each one redundant on all memcached instances.</p>
+<p>So I’ve defined the following CACHE_BACKEND setting on Django Server A (192.168.1.1):</p>
+<p>CACHE_BACKEND = &lsquo;memcached://192.168.1.1:11211;192.168.1.2:11211/&rsquo;
+and on Django Server B (192.168.1.2):</p>
+<p>CACHE_BACKEND = &lsquo;memcached://192.168.1.2:11211;192.168.1.1:11211/&rsquo;
+and assumed, when a request on the cache was made, that Django Server B would first try to access the memcache instance on Server B. This assumption was totally wrong and on top of that I also recognized, that no saved cache-entry from Django Server A was available on Django Server B.</p>
+<p>So I’ve started to read the documentation of memcached and came across the following faq entry. There you can read, how memcached is working and how values are saved across several instances:</p>
+<p>When doing a memcached lookup, first the client hashes the key against the whole list of servers</p>
+<p>A result of this is, that the setting of CACHE_BACKEND for memcached servers must be the same on all django installations. Otherwise the hash for a key/value pair would be a different one on each server and you are not able to access cached values across the installations. Another result is, that a cascade of memcached servers act as one big cache server with the main goal to scale large. You never know on which of the memached servers your cached value is saved.</p>
+<p>Additional note!
+If you are running memcached instances on servers that are far distant from each other (like a server in Germany and one in the US), you shouldn’t use several memcached instances as one cluster. Replicate your memcached instances with the modified memcached server called repcached instead. Otherwise the cache lookups will be too slow.</p>
+<p>by <a href="http://blog.uxebu.com/2008/06/30/django-and-memcached/">http://blog.uxebu.com/2008/06/30/django-and-memcached/</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+jsb
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/jsb/</link>
+    <description>Recent content in 
+jsb
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Dec 2013 13:29:54 +0000</lastBuildDate><atom:link href="http://example.org/tags/jsb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cocos2d-x jsb 绑定 ClippingNode</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</link>
+      <pubDate>Tue, 10 Dec 2013 13:29:54 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-clippingnode/</guid>
+      <description>JSClass *jsb_ClippingNode_class; JSObject *jsb_ClippingNode_prototype; JSBool js_cocos2dx_ClippingNode_isInverted(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ? proxy-&amp;gt;ptr : NULL); JSB_PRECONDITION2( cobj, cx, JS_FALSE, &amp;quot;Invalid Native Object&amp;quot;); if (argc == 0) { bool ret = cobj-&amp;gt;isInverted(); jsval jsret; jsret = BOOLEAN_TO_JSVAL(ret); JS_SET_RVAL(cx, vp, jsret); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments: %d, was expecting %d&amp;quot;, argc, 0); return JS_FALSE; } JSBool js_cocos2dx_ClippingNode_visit(JSContext *cx, uint32_t argc, jsval *vp) { JSObject *obj = JS_THIS_OBJECT(cx, vp); js_proxy_t *proxy = jsb_get_js_proxy(obj); cocos2d::CCClippingNode* cobj = (cocos2d::CCClippingNode *)(proxy ?</description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x jsb 绑定 removeAllDelegates</title>
+      <link>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</link>
+      <pubDate>Tue, 10 Dec 2013 13:20:52 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/10/cocos2d-x-jsb-binding-removealldelegates/</guid>
+      <description>html5版为
+cc.Director.getInstance().getTouchDispatcher().removeAllDelegates()； 但 jsb 下没有，绑定一下。
+void JSTouchDelegate::removeAllDelegates() { CCDirector* pDirector = CCDirector::sharedDirector(); pDirector-&amp;gt;getTouchDispatcher()-&amp;gt;removeAllDelegates(); } JSBool js_cocos2dx_JSTouchDelegate_removeAllDelegates(JSContext *cx, uint32_t argc, jsval *vp) { if (argc == 0) { JSTouchDelegate *touch = new JSTouchDelegate(); touch-&amp;gt;autorelease(); touch-&amp;gt;removeAllDelegates(); return JS_TRUE; } JS_ReportError(cx, &amp;quot;wrong number of arguments&amp;quot;); return JS_FALSE; } JS_DefineFunction(cx, ns, &amp;quot;removeAllDelegates&amp;quot;, js_cocos2dx_JSTouchDelegate_removeAllDelegates, 1, JSPROP_READONLY | JSPROP_PERMANENT); </description>
+    </item>
+    
+    <item>
+      <title>cocos2d-x 2.1.5 clippingNode在 jsb 下无效的修改</title>
+      <link>http://example.org/2013/09/23/cocos2d-x-clippingnode-jsb-fix/</link>
+      <pubDate>Mon, 23 Sep 2013 13:25:54 +0000</pubDate>
+      
+      <guid>http://example.org/2013/09/23/cocos2d-x-clippingnode-jsb-fix/</guid>
+      <description>**http://cocos2d-x.org/boards/6/topics/20141?r=20567#message-20567 **
+for iOS: in AppController replace the gl-view creation with:
+EAGLView *__glView = [EAGLView viewWithFrame: [window bounds] pixelFormat: kEAGLColorFormatRGBA8 depthFormat: GL_DEPTH24_STENCIL8_OES preserveBackbuffer: NO sharegroup: nil multiSampling: NO numberOfSamples: 0]; for Android: in game activity:
+public Cocos2dxGLSurfaceView onCreateView() { Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this); glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8); return glSurfaceView; } </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Windows2003下Asp配置技巧 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。
+在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。
+第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制
+二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\WINDOWS\system32\inetsrv\MetaBase.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Windows2003下Asp配置技巧" />
+<meta property="og:description" content="装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。
+在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。
+第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制
+二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\WINDOWS\system32\inetsrv\MetaBase." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:08:38+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:08:38+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows2003下Asp配置技巧"/>
+<meta name="twitter:description" content="装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。
+在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。
+第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制
+二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\WINDOWS\system32\inetsrv\MetaBase."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Windows2003下Asp配置技巧",
+      "item": "http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Windows2003下Asp配置技巧",
+  "name": "Windows2003下Asp配置技巧",
+  "description": "装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。\n在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。\n第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制\n二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\\system32\\inesrv\\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\\WINDOWS\\system32\\inetsrv\\MetaBase.",
+  "keywords": [
+    
+  ],
+  "articleBody": "装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为 Error Code 16389 超出系统资源 这是没有手动配置asp环境的缘故。\n在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。 一、启用Asp支持 Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。\n第一步，启用Asp，进入： 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许 控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许 第二步,启用父路径支持。 IIS-网站－主目录－配置－选项－启用父路径 第三步，权限分配 IIS-网站－（具体站点）－（右键）权限－Users完全控制\n二、解决windows2003最大只能上载200K的限制。 先在服务里关闭iis admin service服务，找到windows\\system32\\inesrv\\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务 1、在web服务扩展 允许 active server pages和在服务器端的包含文件 2、修改各站点的属性 主目录－配置－选项－启用父路径 3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了) c:\\WINDOWS\\system32\\inetsrv\\MetaBase.xml （企业版的windows2003在第592行，默认为 AspMaxRequestEntityAllowed=“204800” 即200K 将其加两个0，即改为，现在最大就可以上载20M了。 AspMaxRequestEntityAllowed=“20480000” 按照上述步骤配置以后，asp就可以在本机正常调用了。\n",
+  "wordCount" : "81",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:08:38Z",
+  "dateModified": "2006-02-25T16:08:38Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/windows2003e4b88baspe9858de7bdaee68a80e5b7a7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Windows2003下Asp配置技巧
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:08:38 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>装了2003以后，默认支持.net架构，抛弃了asp，所以刚刚安装了IIS的时候，访问是会出错的，错误提示为
+Error Code 16389
+超出系统资源
+这是没有手动配置asp环境的缘故。</p>
+<p>在 IIS 6.0 中，默认设置是特别严格和安全的，这样可以最大限度地减少因以前太宽松的超时和限制而造成的攻击。比如说默认配置数据库属性实施的最大 ASP 张贴大小为 204,800 个字节，并将各个字段限制为 100 KB。在 IIS 6.0 之前的版本中，没有张贴限制。导致我们学校里面的应用系统往2003移植经常会出错。这几天走了几个学校发现了一些问题，现汇总解决方案如下。
+一、启用Asp支持
+Windows Server 2003 默认安装，是不安装 IIS 6 的，需要另外安装。安装完 IIS 6，还需要单独开启对于 ASP 的支持。</p>
+<p>第一步，启用Asp，进入：
+控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - Active Server Pages - 允许
+控制面板 - 管理工具 -IIS(Internet 服务器)- Web服务扩展 - 在服务端的包含文件 - 允许
+第二步,启用父路径支持。
+IIS-网站－主目录－配置－选项－启用父路径
+第三步，权限分配
+IIS-网站－（具体站点）－（右键）权限－Users完全控制</p>
+<p>二、解决windows2003最大只能上载200K的限制。
+先在服务里关闭iis admin service服务，找到windows\system32\inesrv\下的metabase.xml,打开，找到ASPMaxRequestEntityAllowed 把他修改为需要的值，然后重启iis admin service服务
+1、在web服务扩展 允许 active server pages和在服务器端的包含文件
+2、修改各站点的属性
+主目录－配置－选项－启用父路径
+3、使之可以上传大于 200k的文件(修改成您要的大小就可以了，如在后面补两个0，就允许20m了)
+c:\WINDOWS\system32\inetsrv\MetaBase.xml
+（企业版的windows2003在第592行，默认为 AspMaxRequestEntityAllowed=&ldquo;204800&rdquo; 即200K
+将其加两个0，即改为，现在最大就可以上载20M了。
+AspMaxRequestEntityAllowed=&ldquo;20480000&rdquo;
+按照上述步骤配置以后，asp就可以在本机正常调用了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>vsFTPd 服务器初学者指南（欢迎大家参与补充） | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="1、vsFTPd，目前常用FTP服务器套件；
+vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；
+目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；
+2、ftp 用户管理解说；
+FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；
+推荐文章： 《Linux 用户（user）和用户组（group）管理概述》
+2.1、匿名ftp 用户和用户组的理解；
+当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；
+ftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；
+如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；
+在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：
+/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；
+在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；
+ftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；
+关于ftp用户组的理解：
+我们查看 /etc/group 的时候，会发现类似这样一条；
+ftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；
+2.2、匿名ftp 用户和ftp用户组是否可以删除
+在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="vsFTPd 服务器初学者指南（欢迎大家参与补充）" />
+<meta property="og:description" content="1、vsFTPd，目前常用FTP服务器套件；
+vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；
+目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；
+2、ftp 用户管理解说；
+FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；
+推荐文章： 《Linux 用户（user）和用户组（group）管理概述》
+2.1、匿名ftp 用户和用户组的理解；
+当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；
+ftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；
+如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；
+在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：
+/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；
+在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；
+ftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；
+关于ftp用户组的理解：
+我们查看 /etc/group 的时候，会发现类似这样一条；
+ftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；
+2.2、匿名ftp 用户和ftp用户组是否可以删除
+在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-26T04:03:07+00:00" />
+<meta property="article:modified_time" content="2006-04-26T04:03:07+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="vsFTPd 服务器初学者指南（欢迎大家参与补充）"/>
+<meta name="twitter:description" content="1、vsFTPd，目前常用FTP服务器套件；
+vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；
+目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；
+2、ftp 用户管理解说；
+FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；
+推荐文章： 《Linux 用户（user）和用户组（group）管理概述》
+2.1、匿名ftp 用户和用户组的理解；
+当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；
+ftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；
+如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；
+在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：
+/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；
+在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；
+ftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；
+关于ftp用户组的理解：
+我们查看 /etc/group 的时候，会发现类似这样一条；
+ftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；
+2.2、匿名ftp 用户和ftp用户组是否可以删除
+在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "vsFTPd 服务器初学者指南（欢迎大家参与补充）",
+      "item": "http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "vsFTPd 服务器初学者指南（欢迎大家参与补充）",
+  "name": "vsFTPd 服务器初学者指南（欢迎大家参与补充）",
+  "description": "1、vsFTPd，目前常用FTP服务器套件；\nvsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；\n目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；\n2、ftp 用户管理解说；\nFTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；\n推荐文章： 《Linux 用户（user）和用户组（group）管理概述》\n2.1、匿名ftp 用户和用户组的理解；\n当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；\nftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；\n如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；\n在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；\nftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：\n/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；\n在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；\nftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；\n关于ftp用户组的理解：\n我们查看 /etc/group 的时候，会发现类似这样一条；\nftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；\n2.2、匿名ftp 用户和ftp用户组是否可以删除\n在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。",
+  "keywords": [
+    
+  ],
+  "articleBody": "1、vsFTPd，目前常用FTP服务器套件；\nvsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；\n目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；\n2、ftp 用户管理解说；\nFTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；\n推荐文章： 《Linux 用户（user）和用户组（group）管理概述》\n2.1、匿名ftp 用户和用户组的理解；\n当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；\nftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；\n如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；\n在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；\nftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：\n/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；\n在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；\nftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；\n关于ftp用户组的理解：\n我们查看 /etc/group 的时候，会发现类似这样一条；\nftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；\n2.2、匿名ftp 用户和ftp用户组是否可以删除\n在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。\n虽然不能删除，但对/etc/passwd及/etc/group中的ftp用户及ftp用户组的一些相关的东西是能修改的；比如我们可以把ftp用户的家目录改掉，也可以把ftp用户的UID改掉 … … 前提是你对用户管理有所了解，系统用户管理是一切应用基础之一，可能初学Linux的弟兄并不了解用户管理的重要性，但慢慢您就会发现这个道理；\n3、vsFTPd的安装；\n在最新的各大发行版中的安装盘中都有vsFTPd的软件包，您用相应发行版提供的软件包管理工具就能安装上；当然您可以到各大发行版的FTP镜像中找到vsftpd的软件包；当然也能用软件包的管理工具在线安装；vsftpd的软件包本来不大，花不了多长时间，两分钟就够了吧；因为本文是初学者教程，我严重推荐您用发行版提供的软件来安装，不推荐您自己来编译源码包的安装方式；\n如果您用的是Fedora 或Redhat 系统，可以用下面的命令在线安装；\n[root@localhost ~]# yum install vsftpd 如果是debian 类系统，可以用apt 来在线安装；\n[root@localhost ~]# apt-get install vsftpd 如果您是RPM的系统，也可以找到vsftpd-xxxx.rpm 的包来通过rpm命令来安装；\n[root@localhost ~]# rpm -ivh vsftpd*.rpm 您可以下载源码包来安装\n比如我们下载的是 vsftpd-2.0.3.tar.gz ；\n[root@localhost ~]# tar zxvf vsftpd-2.0.3.tar.gz [root@localhost ~]# cd vsftpd-2.0.3 [root@localhost ~]# make ;make install [root@localhost ~]# cp vsftpd.conf /etc 然后修改/etc/vsftpd.conf ，在配置文件的最后一行加入下面一行；\nlisten=yes 源码包安装的方法，如果您的系统是RPM包管理的系统，可以删除/etc/xinetd.d/vsftpd 这个文件；然后启动xinetd 服务器；\n[root@localhost ~]# /etc/init.d/xinetd restart 停止 xinetd： [ 确定 ] 启动 xinetd： [ 确定 ] vsFTPd运行有两种模式，在RPM包管理的系重审统，大多是由Fedora/Redhat 开发而来，对于这样的系统有xinted服务器一说；对于非RPM包管理的系统，一般没有xinted这一说。为了保证本文档的统一，我们都不要用xinetd模式，而用initd运行模式来启动和管理服务器，也就是独立运行模式； 至于什么是xinted和inted 模式，您可以参考《 用vsFTPd自架Linux网络安装服务器》\n4、vsFTPd的服务器的启动和关闭；\nvsFTPd服务器启动和关闭是极容易的；我们可以直接把服务器运行调到后台运行；这是几乎所有服务器管理的运行方式；\n4.1、vsFTPd服务器启动和关闭的通用方法；\n运行vsftpd命令，要用到root权限，如果您当前操作用户并非是root，可以用su切换到root权限；关于root权限的切换，您有两种方式，一种是su，另一种是sudo；请参考： 《Linux 系统中的超级权限的控制》\nvsFTPd服务器的运行；\n[root@localhost ~]# /usr/sbin/vsftpd \u0026 [root@localhost ~]# /usr/local/sbin/vsftpd \u0026 vsFTPd服务器是否运行起来；\n我们可以通过pgrep vsftpd 来查看vsftpd是否运行起来；\n[root@localhost ~]# pgrep vsftpd 4248 上面显示vsFTPd服务器运行起来了，您可以通过ftp命令、lftp工具或gftp或其它的FTP客户端来测试连接；\nvsFTPd 服务器关闭：\n我们用pkill vsftpd 来杀死vsftpd进程，这样就把vsFTPd关闭，用psgrep vsftpd 来查看进程，如果没有进程，证明vsFTPd已经关掉；当然也要用到root权限。\n[root@localhost ~]# pkill vsftpd [root@localhost ~]# pgrep vsftpd 4.2、在Fedora/Redhat/CentOS中vsFTPd 服务器的启动和关闭：\n在Fedora/Redhat/CentOS中，也可以用下面的方法来启动vsFTPd；当然也要用到root权限；\n[root@localhost beinan]# /etc/init.d/vsftpd start 为 vsftpd 启动 vsftpd： [ 确定 ] 重新启动vsFTPd用下面的命令；\n[root@localhost beinan]# /etc/init.d/vsftpd restart 关闭 vsftpd： [ 确定 ] 为 vsftpd 启动 vsftpd： [ 确定 ] 关掉vsFTPd服务器，应该用下面的命令；\n[root@localhost beinan]# /etc/init.d/vsftpd stop 关闭 vsftpd： [ 确定 ]\n5、vsFTPd的服务器和防火墙及SELINUX的关系；（重要）\n我在论坛上看到有些弟兄说vsFTPd服务器启动正常，但却不能访问或用户不能上传文件，我感觉应该是防火墙或SELINUX的事；可能FTPD服务器被防火墙或SELINUX的安全机制防住了。所以您必须要让防火墙通过ftp，当然也要让SELINUX通过ftp服务器才行；\n在Fedora/Redhat/CentOS中，您要设置一下防火墙，可以把防火墙关掉，或者在自定义中让ftp “通过”防火墙；\n[root@localhost ~]# system-config-securitylevel-tui 或者运行一下如下的命令，清除防火墙规则（通用）；\n[root@localhost beinan]# iptables -F 关于SELINUX服务器的解说 ，可能老手或新手对SELINUX都有点麻烦，建议您SELINUX；或者让vsFTPd服务器跳过SELINUX启动；也就是说要用到 4.1、vsFTPd服务器启动和关闭的通用方法；；这在Fedora/Redhat/CentOS中这样启动vsFTPd服务器是有效的；\n当然您可也可以关掉SELINUX，在/etc/selinux/config 配置文件如下；\n/etc/selinux/config\nThis file controls the state of SELinux on the system. SELINUX= can take one of these three values: enforcing - SELinux security policy is enforced. permissive - SELinux prints warnings instead of enforcing. disabled - SELinux is fully disabled. SELINUX=Disabled #这样就把SELINUX服务器关掉了，请重新启动系统；\nSELINUXTYPE= type of policy in use. Possible values are: targeted - Only targeted network daemons are protected. strict - Full SELinux protection. SELINUXTYPE=targeted\n6、500 OOPS: vsftpd: refusing to run with writable anonymous root\n如果我们已经把vsFTPd服务器启动好了，但登录测试是会出现类似下面的提示；\n500 OOPS: vsftpd: refusing to run with writable anonymous root\n这表示ftp用户的家目录的权限不对，应该改过才对；\n[root@localhost ~]# more /etc/passwd |grep ftp ftp:x:1000:1000:FTP User:/var/ftp:/sbin/nologin 我们发现ftp用户的家目录在/var/ftp，就是这个/var/ftp的权限不对所致，这个目录的权限是不能打开所有权限的；是您运行了chmod 777 /var/ftp所致；如果没有ftp用户这个家目录，当然您要自己建一个；\n如下FTP用户的家目录是不能针对所有用户、用户组、其它用户组完全开放；\n[root@localhost ~]# ls -ld /var/ftp drwxrwxrwx 3 root root 4096 2005-03-23 /var/ftp 修正这个错误，应该用下面的办法；\n[root@localhost ~]# chown root:root /var/ftp [root@localhost ~]# chmod 755 /var/ftp 有的弟兄可能会说，那匿名用户的可读、可下载、可上传怎么办呢？这也简单，在/var/ftp下再建一个目录，权限是777的就行了，再改一改vsftpd.conf就OK了；没有什么难的；\nvsFTPd出于安全考虑，是不准让ftp用户的家目录的权限是完全没有限制的，您可以去读一下vsFTPd的文档就明白的了；否则也不能称为最安全的FTP服务器了，对不对？\n7、关于vsFTPd配置文件的说明；\nvsftpd.conf是vsFTPd服务器的配置文件，此文件一般是/etc/vsftpd.conf或/etc/vsftpd/vsftpd.conf ，以系统为准吧。。\nvsftpd.conf配置文件就是vsFTPd服务器的全局控制文件，此配置文件中，每行应该算做一个规则；前面带有#号的服务器不会解释，这和apache 的配置文件类似；#后所接的内容一般是说明性的，或者是关掉某些功能的选项；\nvsftpd.conf 这个配置文件并不包括所有您想实现的功能，有些功能的实现，我们要自己动手来解决，我们要学会查vsFTPd的文档和FAQ等，虽然是英文的，但都是比较简单的；我们要习惯看洋文文档，为什么呢？因为Linux本来就是洋人厉害，重量级的软件都是洋人的。呵，兄弟不要抱怨，谁让我们落后了呢？\n注意：修改完配置文件后，一定要重启vsFTPd服务器才能生效，切记~~\n8、关于vsFTPd服务器的一些常用功能的实现；\n8.1、关于匿名上传下载的实现；\n关于匿名上传，其实也比较简单，首先我们要修改一下vsftpd.conf ，此文件位于 /etc/目录下，可能是/etc/vsftpd.conf，也可能是/etc/vsftpd/vsftpd.conf文件。以您的系统环境为准；\n首先：我们要改一下vsftpd.conf，确保有以下几行；\nanonymous_enable=YES anon_upload_enable=YES anon_mkdir_write_enable=YES anon_umask=022 其次：在ftp用户家目录的下建一个文件夹，并修改其权限为完全开放；\nftp用户的家目录在哪？我们前面已经说了，要通过/etc/passwd来查看；也可以通过finger ftp来查看；\n[root@localhost beinan]# finger ftp Login: ftp Name: FTP User Directory: /var/ftp Shell: /sbin/nologin 这说明ftp用户的家目录在/var/ftp ，我们要在这个目录下建一个目录，然后把他的权限设置为任何用户可读可写可执行就行了；一般的情况下，在发行版中，有一个/var/ftp/pub的目录，如果没有，您也可以自己建一个；把配置文件改好后，只要把/var/ftp下的任何一个目录的权限打开，都可以用来匿名上传和下载；\n比如您想让匿名用户上传和下载都在/var/ftp/pub，就可以把/var/ftp/pub的权限打开，如果没有这个目录，您要自己建一个；\n[root@localhost ~]# mkdir /var/ftp/pub [root@localhost ~]# chmod 777 /var/ftp/pub 这样上传的时候传到pub目录就OK了，对不对？？\n8.2、关于添加本地用户及打开读写权限示例；\nFTP用户一般是不能登录系统的，这也是为了安全。在系统中，没有权限登录系统的用户一般也被称之为虚拟用户；虚拟用户也是要写进/etc/passwd中；这只是一种虚拟用户的方法，但说实在的并不是真正的虚拟用户，只是把他登录SHELL的权限去掉了，所以他没有能力登录系统；\n如果我们想把beinan这个用户目录定位在/opt/beinan这个目录中，并且不能登录系统；我们应该如下操作\n[root@localhost ~]# adduser -d /opt/beinan -g ftp -s /sbin/nologin beinan [root@localhost ~]# passwd beinan Changing password for user beinan. New password: Retype new password: passwd: all authentication tokens updated successfully. [root@localhost ~]# 其实这还是不够的，还要改一下配置文件vsftpd.conf ，以确保本地虚拟用户能有读写权限；\nlocal_enable=YES write_enable=YES local_umask=022 8.4、如何实现虚拟路径？\n比如：\n/home/a 映射为 ftp://localhost/a /home/b/c 则为 ftp://localhost/c 其实这个不能说是vsFTPd的内容，其实我们早就接触过了，可能我们没有注意，我们可以通过如下的方法来实现。\n[root@localhost ~]# mount –bind [原有的目录] [新目录] 比如我的ftp的默认目录是/var/ftp，我想把/mnt/LinG/WinSoft文件夹，映射到/var/ftp目录中，我就如下操作\n我们要先在/var/ftp目录中建一个目录\n[root@localhost ~]# mkdir /var/ftp/WinSoft 然后执行mount命令\n[root@localhost ~]# mount –bind /mnt/LinG/WinSoft /var/ftp/WinSoft 这样就OK了。\n8.5、打开vsFTP服务器的日志功能；\n把下面xferlog_file前面的#号对掉，也就是把vsftp的log功能打开，这样我们就能在/var/log目录下查看vsftpd.log。这是vsFTP的日志功能，这对于我们来说是极为重要的。\nxferlog_file=/var/log/vsftpd.log 8.6、如何定制欢迎信息；\n如何定制欢迎信息，也就是我们登入有些FTP之后，会出现类似：欢迎您来到LinuxSir FTP，在这里，您会得到最真诚的帮助，如果有什么问题和建议，请来信，多谢。\n实现这个并不难，我们可以查看vsftpd.conf文件中，是否有这行。\ndirmessage_enable=YES message_file=.message 如果没有就加上，如果dirmessage_enable=YES前面有#号，就把#号去掉。其实FTP信息默认的就是.message，所以可以不加 message_file= 来指定。自己指定也行，无所谓的事；\n然后我们制定一个.message文件，写上您想要写的东西，比如是.message的内容是如下的：\n–欢迎您来到LinuxSir FTP！ –在这里，您会得到最真诚的帮助； –如果有什么问题和建议，请来信，多谢。 我们可以用编辑器来写这个.message，我想这个过程就不用说了吧。\n然后我们把.message这个文件复制到各个用户的家目录中。比如我的FTP的一个用户是beinan，这个用户所在的家目录是/opt/beinan 我们就要把.message放在/opt/beinan这个目录下。如果系统用户ftp，他的目录就是/var/ftp这个目录，这个是默认的，当匿名用户登入时就访问的是/var/ftp这个目录。我们要让匿名用户能看到欢迎信息。就要把.message放在/var/ftp目录中。其它的用户，也无非就是类似的操作。\n8.7、硬盘空间有限，如何把帐号ftp默认的家目录更改到别处？\n我的硬盘空间有限，如何把帐号ftp默认的路径/var/ftp更改到别处？或者是，我的linux所有的目录都放在/根分区，因为空间紧张，我能否把ftp这个用户的默认路径放到别的分区？？\n对于ftp这个用户的管理，我们应该查看/etc/passwd ，然后修改ftp用户那行；\nftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 比如我们想把ftp用户的家目录改为/opt/ftp，则要把类似上一行改为\nftp:x:14:50:FTP User:/opt/ftp:/sbin/nologin 然后我们要建立ftp用户的新的家目录；\n[root@localhost ~]# mkdir /opt/ftp [root@localhost ~]# chmod 755 /opt/ftp [root@localhost ~]# chown root:root /opt/ftp 如果默认的ftp磁盘空间紧张，我们其实也可以用虚拟路径映射的方法来解决；也就是mount –bind的办法；看情况吧，哪个适合就是最好的方法；\n8.8、如何让vsFTP服务器限制链接数，以及每个IP最大的链接数？\n应该改vsFTPd服务器的配制文件vsftpd.conf，加入下面的两行：\nmax_clients=数字 max_per_ip=数字 举例：我想让我的vsFTP最大支持链接数为100个，每个IP，最多能支持5个链接，所以我应该在vsftpd.conf中加上如下的两行：\nmax_clients=100 max_per_ip=5 改好了配制文件，不要忘记启动vsftp服务器。\n8.9、如何限制传输速度？\nanon_max_rate=数字 注：这是匿名的速度\nlocal_max_rate=数字 注：这是vsFTP服务器上本地用户的速度\n注：这个数字的单位是byte，所以我们要计算一下。比如我想让匿名用户和vsFTP上的用户都以80KB下载，所以这个数字应该是1024x80=81920 所以我们要在vsftpd.conf中加入下面的两行\nanon_max_rate=81920 local_max_rate=81920\n8.10、如何有选择的把用户限制在家目录中呢？\n我们要自己建一个文件，在/etc目录中或/etc/vsftpd目录中（假如您的vsftpd配置文件都是放在这个目录的话）；\n#touch /etc/vsftpd.chroot_list 以beinan和nanbei这两个用户限制在他们所在的家目录中，而其它的FTP用户不做此限制。\n在vsftpd.chroot_list这个文件中，把beinan和nanbei添上去就行，注意，每个用户占一行。\nbeinan nanbei 然后改/etc/vsftpd/vsftpd.conf文件，找如下的两行\nchroot_list_enable=YES chroot_list_file=/etc/vsftpd.chroot_list 如果没有这样的两行，就可以自己添加上去也是一样的。\n设置好后，重新vsFTPD服务器。\n补充一之补充：如何把系统内所有的FTP用户都限制在家目录中呢？？经juliaugong兄的提示，我查找了vsFTPd的洋文说明，证明这个选项是一刀切的解决所有的用户都能限制在家目录中\n我们可以通过更改vsftpd.conf文件，加入如下的一行\nchroot_local_user=YES 改完配制文件，不要忘记重启vsFTPd服务器；\n8.11、如何让绑定IP到vsFTPd？\n如何让绑定IP到vsFTPd？也就是说，如何让用户只能通过某个IP来访问FTP。其实这个功能很有意思。如果绑定的是内网的IP，外部是没有办法访问的。如果绑定的是对外服务的IP，内网也只能通过对外服务的IP来访问FTP\n在vsftpd.conf中加一行，以我的局域网为例，请看第一帖中的操作环境，这样外网就不能访问我的FTP了，内网也可能通过192.168.0.2来访问FTP；\nlisten_address=192.168.0.2\n",
+  "wordCount" : "569",
+  "inLanguage": "en",
+  "datePublished": "2006-04-26T04:03:07Z",
+  "dateModified": "2006-04-26T04:03:07Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      vsFTPd 服务器初学者指南（欢迎大家参与补充）
+    </h1>
+    <div class="post-meta"><span title='2006-04-26 04:03:07 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>1、vsFTPd，目前常用FTP服务器套件；</p>
+<p>vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；</p>
+<p>目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；</p>
+<p>2、ftp 用户管理解说；</p>
+<p>FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；</p>
+<p>推荐文章： 《Linux 用户（user）和用户组（group）管理概述》</p>
+<p>2.1、匿名ftp 用户和用户组的理解；</p>
+<p>当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；</p>
+<p><a href="ftp://mirrors.kernel.org">ftp://mirrors.kernel.org</a>
+或
+<a href="ftp://ftp:ftp@mirrors.kernel.org">ftp://ftp:ftp@mirrors.kernel.org</a>
+我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 <a href="ftp://mirrors.kernel.org">ftp://mirrors.kernel.org</a> 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 <a href="ftp://mirrors.kernel.org">ftp://mirrors.kernel.org</a>；</p>
+<p>如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；</p>
+<p>在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；</p>
+<p>ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+说明：</p>
+<p>/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；</p>
+<p>在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；</p>
+<p>ftp 是用户名
+x 是密码字段，是隐藏的；
+14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题；
+50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题；
+FTP User 是用户说明字段；
+/var/ftp 是ftp用户的家目录，可以自己来定义；
+/sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；</p>
+<p>关于ftp用户组的理解：</p>
+<p>我们查看 /etc/group 的时候，会发现类似这样一条；</p>
+<p>ftp:x:50:
+/etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；</p>
+<p>2.2、匿名ftp 用户和ftp用户组是否可以删除</p>
+<p>在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。</p>
+<p>虽然不能删除，但对/etc/passwd及/etc/group中的ftp用户及ftp用户组的一些相关的东西是能修改的；比如我们可以把ftp用户的家目录改掉，也可以把ftp用户的UID改掉 &hellip; &hellip; 前提是你对用户管理有所了解，系统用户管理是一切应用基础之一，可能初学Linux的弟兄并不了解用户管理的重要性，但慢慢您就会发现这个道理；</p>
+<p>3、vsFTPd的安装；</p>
+<p>在最新的各大发行版中的安装盘中都有vsFTPd的软件包，您用相应发行版提供的软件包管理工具就能安装上；当然您可以到各大发行版的FTP镜像中找到vsftpd的软件包；当然也能用软件包的管理工具在线安装；vsftpd的软件包本来不大，花不了多长时间，两分钟就够了吧；因为本文是初学者教程，我严重推荐您用发行版提供的软件来安装，不推荐您自己来编译源码包的安装方式；</p>
+<p>如果您用的是Fedora 或Redhat 系统，可以用下面的命令在线安装；</p>
+<p>[root@localhost ~]# yum install vsftpd
+如果是debian 类系统，可以用apt 来在线安装；</p>
+<p>[root@localhost ~]# apt-get install vsftpd
+如果您是RPM的系统，也可以找到vsftpd-xxxx.rpm 的包来通过rpm命令来安装；</p>
+<p>[root@localhost ~]# rpm -ivh vsftpd*.rpm
+您可以下载源码包来安装</p>
+<p>比如我们下载的是 vsftpd-2.0.3.tar.gz ；</p>
+<p>[root@localhost ~]# tar zxvf vsftpd-2.0.3.tar.gz
+[root@localhost ~]# cd vsftpd-2.0.3
+[root@localhost ~]# make ;make install
+[root@localhost ~]# cp vsftpd.conf /etc
+然后修改/etc/vsftpd.conf ，在配置文件的最后一行加入下面一行；</p>
+<p>listen=yes
+源码包安装的方法，如果您的系统是RPM包管理的系统，可以删除/etc/xinetd.d/vsftpd 这个文件；然后启动xinetd 服务器；</p>
+<p>[root@localhost ~]# /etc/init.d/xinetd restart
+停止 xinetd： [ 确定 ]
+启动 xinetd： [ 确定 ]
+vsFTPd运行有两种模式，在RPM包管理的系重审统，大多是由Fedora/Redhat 开发而来，对于这样的系统有xinted服务器一说；对于非RPM包管理的系统，一般没有xinted这一说。为了保证本文档的统一，我们都不要用xinetd模式，而用initd运行模式来启动和管理服务器，也就是独立运行模式； 至于什么是xinted和inted 模式，您可以参考《 用vsFTPd自架Linux网络安装服务器》</p>
+<p>4、vsFTPd的服务器的启动和关闭；</p>
+<p>vsFTPd服务器启动和关闭是极容易的；我们可以直接把服务器运行调到后台运行；这是几乎所有服务器管理的运行方式；</p>
+<p>4.1、vsFTPd服务器启动和关闭的通用方法；</p>
+<p>运行vsftpd命令，要用到root权限，如果您当前操作用户并非是root，可以用su切换到root权限；关于root权限的切换，您有两种方式，一种是su，另一种是sudo；请参考： 《Linux 系统中的超级权限的控制》</p>
+<p>vsFTPd服务器的运行；</p>
+<p>[root@localhost ~]# /usr/sbin/vsftpd &amp;
+[root@localhost ~]# /usr/local/sbin/vsftpd &amp;
+vsFTPd服务器是否运行起来；</p>
+<p>我们可以通过pgrep vsftpd 来查看vsftpd是否运行起来；</p>
+<p>[root@localhost ~]# pgrep vsftpd
+4248
+上面显示vsFTPd服务器运行起来了，您可以通过ftp命令、lftp工具或gftp或其它的FTP客户端来测试连接；</p>
+<p>vsFTPd 服务器关闭：</p>
+<p>我们用pkill vsftpd 来杀死vsftpd进程，这样就把vsFTPd关闭，用psgrep vsftpd 来查看进程，如果没有进程，证明vsFTPd已经关掉；当然也要用到root权限。</p>
+<p>[root@localhost ~]# pkill vsftpd
+[root@localhost ~]# pgrep vsftpd
+4.2、在Fedora/Redhat/CentOS中vsFTPd 服务器的启动和关闭：</p>
+<p>在Fedora/Redhat/CentOS中，也可以用下面的方法来启动vsFTPd；当然也要用到root权限；</p>
+<p>[root@localhost beinan]# /etc/init.d/vsftpd start
+为 vsftpd 启动 vsftpd： [ 确定 ]
+重新启动vsFTPd用下面的命令；</p>
+<p>[root@localhost beinan]# /etc/init.d/vsftpd restart
+关闭 vsftpd： [ 确定 ]
+为 vsftpd 启动 vsftpd： [ 确定 ]
+关掉vsFTPd服务器，应该用下面的命令；</p>
+<p>[root@localhost beinan]# /etc/init.d/vsftpd stop
+关闭 vsftpd： [ 确定 ]</p>
+<p>5、vsFTPd的服务器和防火墙及SELINUX的关系；（重要）</p>
+<p>我在论坛上看到有些弟兄说vsFTPd服务器启动正常，但却不能访问或用户不能上传文件，我感觉应该是防火墙或SELINUX的事；可能FTPD服务器被防火墙或SELINUX的安全机制防住了。所以您必须要让防火墙通过ftp，当然也要让SELINUX通过ftp服务器才行；</p>
+<p>在Fedora/Redhat/CentOS中，您要设置一下防火墙，可以把防火墙关掉，或者在自定义中让ftp “通过”防火墙；</p>
+<p>[root@localhost ~]# system-config-securitylevel-tui
+或者运行一下如下的命令，清除防火墙规则（通用）；</p>
+<p>[root@localhost beinan]# iptables -F
+关于SELINUX服务器的解说 ，可能老手或新手对SELINUX都有点麻烦，建议您SELINUX；或者让vsFTPd服务器跳过SELINUX启动；也就是说要用到 4.1、vsFTPd服务器启动和关闭的通用方法；；这在Fedora/Redhat/CentOS中这样启动vsFTPd服务器是有效的；</p>
+<p>当然您可也可以关掉SELINUX，在/etc/selinux/config 配置文件如下；</p>
+<p>/etc/selinux/config</p>
+<h1 id="this-file-controls-the-state-of-selinux-on-the-system">This file controls the state of SELinux on the system.<a hidden class="anchor" aria-hidden="true" href="#this-file-controls-the-state-of-selinux-on-the-system">#</a></h1>
+<h1 id="selinux-can-take-one-of-these-three-values">SELINUX= can take one of these three values:<a hidden class="anchor" aria-hidden="true" href="#selinux-can-take-one-of-these-three-values">#</a></h1>
+<h1 id="enforcing---selinux-security-policy-is-enforced">enforcing - SELinux security policy is enforced.<a hidden class="anchor" aria-hidden="true" href="#enforcing---selinux-security-policy-is-enforced">#</a></h1>
+<h1 id="permissive---selinux-prints-warnings-instead-of-enforcing">permissive - SELinux prints warnings instead of enforcing.<a hidden class="anchor" aria-hidden="true" href="#permissive---selinux-prints-warnings-instead-of-enforcing">#</a></h1>
+<h1 id="disabled---selinux-is-fully-disabled">disabled - SELinux is fully disabled.<a hidden class="anchor" aria-hidden="true" href="#disabled---selinux-is-fully-disabled">#</a></h1>
+<p>SELINUX=Disabled #这样就把SELINUX服务器关掉了，请重新启动系统；</p>
+<h1 id="selinuxtype-type-of-policy-in-use-possible-values-are">SELINUXTYPE= type of policy in use. Possible values are:<a hidden class="anchor" aria-hidden="true" href="#selinuxtype-type-of-policy-in-use-possible-values-are">#</a></h1>
+<h1 id="targeted---only-targeted-network-daemons-are-protected">targeted - Only targeted network daemons are protected.<a hidden class="anchor" aria-hidden="true" href="#targeted---only-targeted-network-daemons-are-protected">#</a></h1>
+<h1 id="strict---full-selinux-protection">strict - Full SELinux protection.<a hidden class="anchor" aria-hidden="true" href="#strict---full-selinux-protection">#</a></h1>
+<p>SELINUXTYPE=targeted</p>
+<p>6、500 OOPS: vsftpd: refusing to run with writable anonymous root</p>
+<p>如果我们已经把vsFTPd服务器启动好了，但登录测试是会出现类似下面的提示；</p>
+<p>500 OOPS: vsftpd: refusing to run with writable anonymous root</p>
+<p>这表示ftp用户的家目录的权限不对，应该改过才对；</p>
+<p>[root@localhost ~]# more /etc/passwd |grep ftp
+ftp:x:1000:1000:FTP User:/var/ftp:/sbin/nologin
+我们发现ftp用户的家目录在/var/ftp，就是这个/var/ftp的权限不对所致，这个目录的权限是不能打开所有权限的；是您运行了chmod 777 /var/ftp所致；如果没有ftp用户这个家目录，当然您要自己建一个；</p>
+<p>如下FTP用户的家目录是不能针对所有用户、用户组、其它用户组完全开放；</p>
+<p>[root@localhost ~]# ls -ld /var/ftp
+drwxrwxrwx 3 root root 4096 2005-03-23 /var/ftp
+修正这个错误，应该用下面的办法；</p>
+<p>[root@localhost ~]# chown root:root /var/ftp
+[root@localhost ~]# chmod 755 /var/ftp
+有的弟兄可能会说，那匿名用户的可读、可下载、可上传怎么办呢？这也简单，在/var/ftp下再建一个目录，权限是777的就行了，再改一改vsftpd.conf就OK了；没有什么难的；</p>
+<p>vsFTPd出于安全考虑，是不准让ftp用户的家目录的权限是完全没有限制的，您可以去读一下vsFTPd的文档就明白的了；否则也不能称为最安全的FTP服务器了，对不对？</p>
+<p>7、关于vsFTPd配置文件的说明；</p>
+<p>vsftpd.conf是vsFTPd服务器的配置文件，此文件一般是/etc/vsftpd.conf或/etc/vsftpd/vsftpd.conf ，以系统为准吧。。</p>
+<p>vsftpd.conf配置文件就是vsFTPd服务器的全局控制文件，此配置文件中，每行应该算做一个规则；前面带有#号的服务器不会解释，这和apache 的配置文件类似；#后所接的内容一般是说明性的，或者是关掉某些功能的选项；</p>
+<p>vsftpd.conf 这个配置文件并不包括所有您想实现的功能，有些功能的实现，我们要自己动手来解决，我们要学会查vsFTPd的文档和FAQ等，虽然是英文的，但都是比较简单的；我们要习惯看洋文文档，为什么呢？因为Linux本来就是洋人厉害，重量级的软件都是洋人的。呵，兄弟不要抱怨，谁让我们落后了呢？</p>
+<p>注意：修改完配置文件后，一定要重启vsFTPd服务器才能生效，切记~~</p>
+<p>8、关于vsFTPd服务器的一些常用功能的实现；</p>
+<p>8.1、关于匿名上传下载的实现；</p>
+<p>关于匿名上传，其实也比较简单，首先我们要修改一下vsftpd.conf ，此文件位于 /etc/目录下，可能是/etc/vsftpd.conf，也可能是/etc/vsftpd/vsftpd.conf文件。以您的系统环境为准；</p>
+<p>首先：我们要改一下vsftpd.conf，确保有以下几行；</p>
+<p>anonymous_enable=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_umask=022
+其次：在ftp用户家目录的下建一个文件夹，并修改其权限为完全开放；</p>
+<p>ftp用户的家目录在哪？我们前面已经说了，要通过/etc/passwd来查看；也可以通过finger ftp来查看；</p>
+<p>[root@localhost beinan]# finger ftp
+Login: ftp Name: FTP User
+Directory: /var/ftp Shell: /sbin/nologin
+这说明ftp用户的家目录在/var/ftp ，我们要在这个目录下建一个目录，然后把他的权限设置为任何用户可读可写可执行就行了；一般的情况下，在发行版中，有一个/var/ftp/pub的目录，如果没有，您也可以自己建一个；把配置文件改好后，只要把/var/ftp下的任何一个目录的权限打开，都可以用来匿名上传和下载；</p>
+<p>比如您想让匿名用户上传和下载都在/var/ftp/pub，就可以把/var/ftp/pub的权限打开，如果没有这个目录，您要自己建一个；</p>
+<p>[root@localhost ~]# mkdir /var/ftp/pub
+[root@localhost ~]# chmod 777 /var/ftp/pub
+这样上传的时候传到pub目录就OK了，对不对？？</p>
+<p>8.2、关于添加本地用户及打开读写权限示例；</p>
+<p>FTP用户一般是不能登录系统的，这也是为了安全。在系统中，没有权限登录系统的用户一般也被称之为虚拟用户；虚拟用户也是要写进/etc/passwd中；这只是一种虚拟用户的方法，但说实在的并不是真正的虚拟用户，只是把他登录SHELL的权限去掉了，所以他没有能力登录系统；</p>
+<p>如果我们想把beinan这个用户目录定位在/opt/beinan这个目录中，并且不能登录系统；我们应该如下操作</p>
+<p>[root@localhost ~]# adduser -d /opt/beinan -g ftp -s /sbin/nologin beinan
+[root@localhost ~]# passwd beinan
+Changing password for user beinan.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@localhost ~]#
+其实这还是不够的，还要改一下配置文件vsftpd.conf ，以确保本地虚拟用户能有读写权限；</p>
+<p>local_enable=YES
+write_enable=YES
+local_umask=022
+8.4、如何实现虚拟路径？</p>
+<p>比如：</p>
+<p>/home/a 映射为 ftp://localhost/a
+/home/b/c 则为 ftp://localhost/c
+其实这个不能说是vsFTPd的内容，其实我们早就接触过了，可能我们没有注意，我们可以通过如下的方法来实现。</p>
+<p>[root@localhost ~]# mount &ndash;bind [原有的目录] [新目录]
+比如我的ftp的默认目录是/var/ftp，我想把/mnt/LinG/WinSoft文件夹，映射到/var/ftp目录中，我就如下操作</p>
+<p>我们要先在/var/ftp目录中建一个目录</p>
+<p>[root@localhost ~]# mkdir /var/ftp/WinSoft
+然后执行mount命令</p>
+<p>[root@localhost ~]# mount &ndash;bind /mnt/LinG/WinSoft /var/ftp/WinSoft
+这样就OK了。</p>
+<p>8.5、打开vsFTP服务器的日志功能；</p>
+<p>把下面xferlog_file前面的#号对掉，也就是把vsftp的log功能打开，这样我们就能在/var/log目录下查看vsftpd.log。这是vsFTP的日志功能，这对于我们来说是极为重要的。</p>
+<p>xferlog_file=/var/log/vsftpd.log
+8.6、如何定制欢迎信息；</p>
+<p>如何定制欢迎信息，也就是我们登入有些FTP之后，会出现类似：欢迎您来到LinuxSir FTP，在这里，您会得到最真诚的帮助，如果有什么问题和建议，请来信，多谢。</p>
+<p>实现这个并不难，我们可以查看vsftpd.conf文件中，是否有这行。</p>
+<p>dirmessage_enable=YES
+message_file=.message
+如果没有就加上，如果dirmessage_enable=YES前面有#号，就把#号去掉。其实FTP信息默认的就是.message，所以可以不加 message_file= 来指定。自己指定也行，无所谓的事；</p>
+<p>然后我们制定一个.message文件，写上您想要写的东西，比如是.message的内容是如下的：</p>
+<p>&ndash;欢迎您来到LinuxSir FTP！
+&ndash;在这里，您会得到最真诚的帮助；
+&ndash;如果有什么问题和建议，请来信，多谢。
+我们可以用编辑器来写这个.message，我想这个过程就不用说了吧。</p>
+<p>然后我们把.message这个文件复制到各个用户的家目录中。比如我的FTP的一个用户是beinan，这个用户所在的家目录是/opt/beinan
+我们就要把.message放在/opt/beinan这个目录下。如果系统用户ftp，他的目录就是/var/ftp这个目录，这个是默认的，当匿名用户登入时就访问的是/var/ftp这个目录。我们要让匿名用户能看到欢迎信息。就要把.message放在/var/ftp目录中。其它的用户，也无非就是类似的操作。</p>
+<p>8.7、硬盘空间有限，如何把帐号ftp默认的家目录更改到别处？</p>
+<p>我的硬盘空间有限，如何把帐号ftp默认的路径/var/ftp更改到别处？或者是，我的linux所有的目录都放在/根分区，因为空间紧张，我能否把ftp这个用户的默认路径放到别的分区？？</p>
+<p>对于ftp这个用户的管理，我们应该查看/etc/passwd ，然后修改ftp用户那行；</p>
+<p>ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+比如我们想把ftp用户的家目录改为/opt/ftp，则要把类似上一行改为</p>
+<p>ftp:x:14:50:FTP User:/opt/ftp:/sbin/nologin
+然后我们要建立ftp用户的新的家目录；</p>
+<p>[root@localhost ~]# mkdir /opt/ftp
+[root@localhost ~]# chmod 755 /opt/ftp
+[root@localhost ~]# chown root:root /opt/ftp
+如果默认的ftp磁盘空间紧张，我们其实也可以用虚拟路径映射的方法来解决；也就是mount &ndash;bind的办法；看情况吧，哪个适合就是最好的方法；</p>
+<p>8.8、如何让vsFTP服务器限制链接数，以及每个IP最大的链接数？</p>
+<p>应该改vsFTPd服务器的配制文件vsftpd.conf，加入下面的两行：</p>
+<p>max_clients=数字
+max_per_ip=数字
+举例：我想让我的vsFTP最大支持链接数为100个，每个IP，最多能支持5个链接，所以我应该在vsftpd.conf中加上如下的两行：</p>
+<p>max_clients=100
+max_per_ip=5
+改好了配制文件，不要忘记启动vsftp服务器。</p>
+<p>8.9、如何限制传输速度？</p>
+<p>anon_max_rate=数字
+注：这是匿名的速度</p>
+<p>local_max_rate=数字
+注：这是vsFTP服务器上本地用户的速度</p>
+<p>注：这个数字的单位是byte，所以我们要计算一下。比如我想让匿名用户和vsFTP上的用户都以80KB下载，所以这个数字应该是1024x80=81920
+所以我们要在vsftpd.conf中加入下面的两行</p>
+<p>anon_max_rate=81920
+local_max_rate=81920</p>
+<p>8.10、如何有选择的把用户限制在家目录中呢？</p>
+<p>我们要自己建一个文件，在/etc目录中或/etc/vsftpd目录中（假如您的vsftpd配置文件都是放在这个目录的话）；</p>
+<p>#touch /etc/vsftpd.chroot_list
+以beinan和nanbei这两个用户限制在他们所在的家目录中，而其它的FTP用户不做此限制。</p>
+<p>在vsftpd.chroot_list这个文件中，把beinan和nanbei添上去就行，注意，每个用户占一行。</p>
+<p>beinan
+nanbei
+然后改/etc/vsftpd/vsftpd.conf文件，找如下的两行</p>
+<p>chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd.chroot_list
+如果没有这样的两行，就可以自己添加上去也是一样的。</p>
+<p>设置好后，重新vsFTPD服务器。</p>
+<p>补充一之补充：如何把系统内所有的FTP用户都限制在家目录中呢？？经juliaugong兄的提示，我查找了vsFTPd的洋文说明，证明这个选项是一刀切的解决所有的用户都能限制在家目录中</p>
+<p>我们可以通过更改vsftpd.conf文件，加入如下的一行</p>
+<p>chroot_local_user=YES
+改完配制文件，不要忘记重启vsFTPd服务器；</p>
+<p>8.11、如何让绑定IP到vsFTPd？</p>
+<p>如何让绑定IP到vsFTPd？也就是说，如何让用户只能通过某个IP来访问FTP。其实这个功能很有意思。如果绑定的是内网的IP，外部是没有办法访问的。如果绑定的是对外服务的IP，内网也只能通过对外服务的IP来访问FTP</p>
+<p>在vsftpd.conf中加一行，以我的局域网为例，请看第一帖中的操作环境，这样外网就不能访问我的FTP了，内网也可能通过192.168.0.2来访问FTP；</p>
+<p>listen_address=192.168.0.2</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

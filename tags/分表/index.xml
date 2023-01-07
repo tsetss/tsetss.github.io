@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+分表
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E5%88%86%E8%A1%A8/</link>
+    <description>Recent content in 
+分表
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Mar 2009 10:11:18 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E5%88%86%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL分表优化试验</title>
+      <link>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</link>
+      <pubDate>Wed, 18 Mar 2009 10:11:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</guid>
+      <description>我们的项目中有好多不等于的情况。今天写这篇文章简单的分析一下怎么个优化法。 这里的分表逻辑是根据t_group表的user_name组的个数来分的。 因为这种情况单独user_name字段上的索引就属于烂索引。起不了啥名明显的效果。
+1、试验PROCEDURE. DELIMITER $$ DROP PROCEDURE `t_girl`.`sp_split_table`$$ CREATE PROCEDURE `t_girl`.`sp_split_table`() BEGIN declare done int default 0; declare v_user_name varchar(20) default &#39;&#39;; declare v_table_name varchar(64) default &#39;&#39;; -- Get all users&#39; name. declare cur1 cursor for select user_name from t_group group by user_name; -- Deal with error or warnings. declare continue handler for 1329 set done = 1; -- Open cursor. open cur1; while done &amp;lt;&amp;gt; 1 do fetch cur1 into v_user_name; if not done then -- Get table name.</description>
+    </item>
+    
+  </channel>
+</rss>

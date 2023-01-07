@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>PHP中的日期处理 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。
+本文包含以下内容： 1、 得到目前的日期和时间－我们有多少种方式？ 2、 改变日期显示的方式－日期和时间的显示形式 3、 转换现在的日期为Unix的时间戳值 4、 改变日期 a. 增加时间 b. 减去时间 c. 找出两日期之间的间隔 5、 为PHP添加DateAdd函数 6、 为PHP添加DateDiff函数
+**得到目前的日期和时间
+在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。 如果我们有这样一段的代码： ? echo time(); ? 将返回值958905820 而此时的时间为2000年5月21日12时43分。 你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。 你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。
+改变日期显示的方式－日期和时间的显示形式
+PHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。 格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。 我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为： ‘H’ －24 小时制的小时 ‘i’－ 分钟 ‘l’－ 星期几的英文全名 ‘d’－ 本月的第几日 ‘F’－ 月份的英文全名 因此我们的格式化字符串为”Hhi l d F”， PHP代码为： ? echo date (&ldquo;Hhi l d F&rdquo; ,time()); ? 当我们执行这段代码，我们发现我们所得到的结果为： 180609 Sunday 21 May 这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”： echo date (&ldquo;Hhi l d F&rdquo;, time()); 我们得到这样的结果： 18h12 Sunday 21 May 这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？ 答案当然是不。我们使用另一个函数strftime()。 strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。 strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下： ?">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/03/01/phpe4b8ade79a84e697a5e69c9fe5a484e79086/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="PHP中的日期处理" />
+<meta property="og:description" content="我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。
+本文包含以下内容： 1、 得到目前的日期和时间－我们有多少种方式？ 2、 改变日期显示的方式－日期和时间的显示形式 3、 转换现在的日期为Unix的时间戳值 4、 改变日期 a. 增加时间 b. 减去时间 c. 找出两日期之间的间隔 5、 为PHP添加DateAdd函数 6、 为PHP添加DateDiff函数
+**得到目前的日期和时间
+在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。 如果我们有这样一段的代码： ? echo time(); ? 将返回值958905820 而此时的时间为2000年5月21日12时43分。 你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。 你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。
+改变日期显示的方式－日期和时间的显示形式
+PHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。 格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。 我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为： ‘H’ －24 小时制的小时 ‘i’－ 分钟 ‘l’－ 星期几的英文全名 ‘d’－ 本月的第几日 ‘F’－ 月份的英文全名 因此我们的格式化字符串为”Hhi l d F”， PHP代码为： ? echo date (&ldquo;Hhi l d F&rdquo; ,time()); ? 当我们执行这段代码，我们发现我们所得到的结果为： 180609 Sunday 21 May 这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”： echo date (&ldquo;Hhi l d F&rdquo;, time()); 我们得到这样的结果： 18h12 Sunday 21 May 这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？ 答案当然是不。我们使用另一个函数strftime()。 strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。 strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下： ?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/03/01/phpe4b8ade79a84e697a5e69c9fe5a484e79086/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-03-01T17:10:18+00:00" />
+<meta property="article:modified_time" content="2006-03-01T17:10:18+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP中的日期处理"/>
+<meta name="twitter:description" content="我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。
+本文包含以下内容： 1、 得到目前的日期和时间－我们有多少种方式？ 2、 改变日期显示的方式－日期和时间的显示形式 3、 转换现在的日期为Unix的时间戳值 4、 改变日期 a. 增加时间 b. 减去时间 c. 找出两日期之间的间隔 5、 为PHP添加DateAdd函数 6、 为PHP添加DateDiff函数
+**得到目前的日期和时间
+在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。 如果我们有这样一段的代码： ? echo time(); ? 将返回值958905820 而此时的时间为2000年5月21日12时43分。 你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。 你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。
+改变日期显示的方式－日期和时间的显示形式
+PHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。 格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。 我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为： ‘H’ －24 小时制的小时 ‘i’－ 分钟 ‘l’－ 星期几的英文全名 ‘d’－ 本月的第几日 ‘F’－ 月份的英文全名 因此我们的格式化字符串为”Hhi l d F”， PHP代码为： ? echo date (&ldquo;Hhi l d F&rdquo; ,time()); ? 当我们执行这段代码，我们发现我们所得到的结果为： 180609 Sunday 21 May 这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”： echo date (&ldquo;Hhi l d F&rdquo;, time()); 我们得到这样的结果： 18h12 Sunday 21 May 这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？ 答案当然是不。我们使用另一个函数strftime()。 strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。 strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下： ?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "PHP中的日期处理",
+      "item": "http://example.org/2006/03/01/phpe4b8ade79a84e697a5e69c9fe5a484e79086/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PHP中的日期处理",
+  "name": "PHP中的日期处理",
+  "description": "我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。\n本文包含以下内容： 1、 得到目前的日期和时间－我们有多少种方式？ 2、 改变日期显示的方式－日期和时间的显示形式 3、 转换现在的日期为Unix的时间戳值 4、 改变日期 a. 增加时间 b. 减去时间 c. 找出两日期之间的间隔 5、 为PHP添加DateAdd函数 6、 为PHP添加DateDiff函数\n**得到目前的日期和时间\n在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。 如果我们有这样一段的代码： ? echo time(); ? 将返回值958905820 而此时的时间为2000年5月21日12时43分。 你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。 你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。\n改变日期显示的方式－日期和时间的显示形式\nPHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。 格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。 我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为： ‘H’ －24 小时制的小时 ‘i’－ 分钟 ‘l’－ 星期几的英文全名 ‘d’－ 本月的第几日 ‘F’－ 月份的英文全名 因此我们的格式化字符串为”Hhi l d F”， PHP代码为： ? echo date (\u0026ldquo;Hhi l d F\u0026rdquo; ,time()); ? 当我们执行这段代码，我们发现我们所得到的结果为： 180609 Sunday 21 May 这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”： echo date (\u0026ldquo;Hhi l d F\u0026rdquo;, time()); 我们得到这样的结果： 18h12 Sunday 21 May 这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？ 答案当然是不。我们使用另一个函数strftime()。 strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。 strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下： ?",
+  "keywords": [
+    
+  ],
+  "articleBody": "我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。\n本文包含以下内容： 1、 得到目前的日期和时间－我们有多少种方式？ 2、 改变日期显示的方式－日期和时间的显示形式 3、 转换现在的日期为Unix的时间戳值 4、 改变日期 a. 增加时间 b. 减去时间 c. 找出两日期之间的间隔 5、 为PHP添加DateAdd函数 6、 为PHP添加DateDiff函数\n**得到目前的日期和时间\n在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。 如果我们有这样一段的代码： ? echo time(); ? 将返回值958905820 而此时的时间为2000年5月21日12时43分。 你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。 你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。\n改变日期显示的方式－日期和时间的显示形式\nPHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。 格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。 我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为： ‘H’ －24 小时制的小时 ‘i’－ 分钟 ‘l’－ 星期几的英文全名 ‘d’－ 本月的第几日 ‘F’－ 月份的英文全名 因此我们的格式化字符串为”Hhi l d F”， PHP代码为： ? echo date (“Hhi l d F” ,time()); ? 当我们执行这段代码，我们发现我们所得到的结果为： 180609 Sunday 21 May 这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”： echo date (“Hhi l d F”, time()); 我们得到这样的结果： 18h12 Sunday 21 May 这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？ 答案当然是不。我们使用另一个函数strftime()。 strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。 strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下： ? echo strftime (\"%Hh%M %A %d %b\" ,time()); ? 结果为： 18h24 Sunday 21 May 这也许看起来将简化繁，但考虑一下如果你所需要的显示的为\"Today is Sunday 21 May 2000. The time is somewhere close to 18h24.\" 我想使用date()函数无疑令人感到厌烦。 在开始的时候，我提及我们有两种方式可以从Unix时间戳值中得到有用的数据。我们刚刚了解了date()和strftime()。另一个getdate()。这个函数只需要Unix 的时间戳值作为参数，而函数的返回值为日期和时间的数组。 下面是一个例子： ? $date_time_array = getdate (time()); echo $date_time_array[ “weekday”]; ? 返回的结果为： Sunday 除了\"weekday\"，该数组的其他部分为： “seconds” –秒 “minutes” –分 “hours” –小时 “mday\" - 本月的第几天 “wday” -本周的第几天（数字） “mon” -月（数字） “year” –年 “yday” - r本年的第几天（数字） “month” -月份全名 我们现在可以得到容易辨认的日期和时间。那么其他呢？\n**转换现在的日期为Unix的时间戳值\n通常你必须处理一些日期或时间格式的数据。打开M$的一个Access数据库，所有的日期都以YYYY/MM/DD的格式存储，加入目前的日前即为2000/05/27。Mktime()函数可以将一个时间转换成Unix的时间戳值。 函数的格式为：int mktime(int hour, int minute, int second, int month, int day, int year, int [is_dst] ); 从左往右你必须提供小时、分、秒、月、天和年。最后一个参数用于指定你是否处于夏令时，此参数是可选的，所以我们将忽略它。 代码如下： ? echo mktime (0, 0,0 ,5, 27,2000 ); ? 由于不知道小时、分和秒同时这些参数必须填写，我将其设置为0。设置为0意味着时间为午夜。 ? $access_date = “2000/05/27”; //explode()函数用一个字符串作为分界来分解另一个字符串。这个例子$access_date通过字符串”/”来分解 $date_elements = explode(\"/\" ,$access_date); // 此时 // $date_elements[0] = 2000 // $date_elements[1] = 5 // $date_elements[2] = 27 echo mktime (0, 0,0 ,$date_elements [1], $date_elements[ 2],$date_elements [0]); ? 我们看一个比从Access数据库单纯获得日期更复杂的情况，我们得到一个以下格式的日期和时间：2000/05/27 02:40:21 PM ? // 来自Access的字符串 $date_time_string = “2000/05/27 02:40:21 PM”; // 将字符串分解成3部分－日期、时间和上午/下午 $dt_elements = explode(\" \" ,$date_time_string); // 分解日期 $date_elements = explode(\"/\" ,$dt_elements[ 0]); // 分解时间 $time_elements = explode(\":\" ,$dt_elements[ 1]); // 如果是下午，我们将时间增加12小时以便得到24小时制的时间 if ($dt_elements [2]== “PM”) { $time_elements[ 0]+=12;} // 输出结果 echo mktime ($time_elements [0], $time_elements[ 1], $time_elements[ 2], $date_elements[1], $date_elements[2], $date_elements[0]); ?\n**修改日期\n有时我们需要知道6小时以后是什么时间，35天前的日期或者从你最后一次玩Quake3后已过去多少秒。我们已经知道如何用mktime()函数从单独的日期和时间中获得Unix的时间戳值。如果我们需要的并非目前日期和时间的Unix时间戳值，我们该咋办？下面是一些练习可以帮助说明我们后面所要做的。 正如前面所见，mktime()使用以下参数：小时、分、秒、月、天和年。想想第二节，getdate()函数可以为我们获得这些参数。 ? // 将目前的时间戳值放入一数组内 $timestamp = time(); echo $timestamp; echo “p”; $date_time_array = getdate( $timestamp); // 用mktime()函数重新产生Unix时间戳值 $timestamp = mktime($date_time_array [“hours”], $date_time_array[“minutes” ],$date_time_array[ “seconds”],$date_time_array [“mon”], $date_time_array[“mday” ],$date_time_array[ “year”]); echo $timestamp; ? 看起来有一些令人感到迷惑。我将用一些变量来使上面的程序看起来更容易了解。 ? // 将目前的时间戳值放入一数组内 $timestamp = time(); echo $timestamp; echo “p”; $date_time_array = getdate( $timestamp); $hours = $date_time_array[ “hours”]; $minutes = $date_time_array[“minutes”]; $seconds = $date_time_array[ “seconds”]; $month = $date_time_array[“mon”]; $day = $date_time_array[“mday”]; $year = $date_time_array[“year”]; // 用mktime()函数重新产生Unix时间戳值 $timestamp = mktime($hours ,$minutes, $seconds,$month ,$day,$year); echo $timestamp; ? 现在我们将由getdate()所产生的时间戳值放入相对应的名称变量中，所以代码变得相对容易阅读和理解。现在如果我们需要在目前的时间上加上19个小时，我们用$hours+19代替mktime()函数中的$hours。mktime()将自动为我们将时间转到第二天。 ? // 将目前的时间戳值放入一数组内 $timestamp = time(); echo strftime( “%Hh%M %A %d %b”,$timestamp); echo “p”; $date_time_array = getdate($timestamp); $hours = $date_time_array[“hours”]; $minutes = $date_time_array[“minutes”]; $seconds = $date_time_array[“seconds”]; $month = $date_time_array[“mon”]; $day = $date_time_array[“mday”]; $year = $date_time_array[“year”]; // 用mktime()函数重新产生Unix时间戳值 // 增加19小时 $timestamp = mktime($hours + 19, $minutes,$seconds ,$month, $day,$year); echo strftime( “%Hh%M %A %d %b”,$timestamp); echo “br~E after adding 19 hours”; ? 运行后得到： 14h58 Saturday 03 Jun 09h58 Sunday 04 Jun ~E after adding 19 hours 减少时间也是同样的－你只需要减少相应变量的值即可。 得到两个不同时间值的差同样也是非常简单。你所需要做的只是将两个时间值转换为Unix的时间戳值，然后两者相减即可。两者之差即为两个时间所相隔的秒数。另外一些算法可以很快地将秒转为天、小时、分和秒。\n**为PHP添加DateAdd函数\n正如在文章一开始我所说的－写本文的原因是因为我在PHP中找不到类似ASP的DateDiff函数。在介绍完PHP是如何处理日期和时间，让我们将ASP中常用的两个函数移植到PHP。第一个函数是DateAdd。 根据Vbscript的文档，DateAdd(interval,number,date)函数的定义为“返回已添加指定时间间隔的日期。” Inetrval为表示要添加的时间间隔字符串表达式，例如分或天；number为表示要添加的时间间隔的个数的数值表达式；Date表示日期。 Interval（时间间隔字符串表达式）可以是以下任意值: yyyy year年 q Quarter季度 m Month月 y Day of year一年的数 d Day天 w Weekday一周的天数 ww Week of year周 h Hour小时 n Minute分 s Second秒 w、y和d的作用是完全一样的，即在目前的日期上加一天，q加3个月，ww加7天。 ? function DateAdd ($interval, $number, $date) { $date_time_array = getdate($date); $hours = $date_time_array[“hours”]; $minutes = $date_time_array[“minutes”]; $seconds = $date_time_array[“seconds”]; $month = $date_time_array[“mon”]; $day = $date_time_array[“mday”]; $year = $date_time_array[“year”]; switch ($interval) { case “yyyy”: $year +=$number; break; case “q”: $month +=($number3); break; case “m”: $month +=$number; break; case “y”: case “d”: case “w”: $day+=$number; break; case “ww”: $day+=($number7); break; case “h”: $hours+=$number; break; case “n”: $minutes+=$number; break; case “s”: $seconds+=$number; break; } $timestamp = mktime($hours ,$minutes, $seconds,$month ,$day, $year); return $timestamp;} ? 我们可以将上面的代码保存为dateadd.inc文件，然后运行以下代码： ? include(‘dateadd.inc’); $temptime = time(); echo strftime( “%Hh%M %A %d %b”,$temptime); $temptime = DateAdd(“n” ,50,$temptime); echo “p”; echo strftime( “%Hh%M %A %d %b”,$temptime); ? 我们将得到： 15h41 Saturday 03 Jun 16h31 Saturday 03 Jun 为PHP添加DateDiff函数 现在DateAdd已经完成，那么DateDiff呢？ 根据文档，DateDiff(interval,date1,date2)函数的定义为“返回两个日期之间的时间间隔”。 Intervals参数的用法与DateAdd函数中的相同。出于避免过于复杂的考虑，我们决定忽略Vbscript中DateDiff函数中其它复杂的参数，即其两个可选的参数变量[firstdayofweek[, firstweekofyear]]（它们用于决定星期中第一天是星期天还是星期一和一年中第一周的常数。而且我们只允许intervals有以下五个值：“w”(周)、“d”（天）、“h”（小时）、“n”（分钟） 和\"s\"（秒）。\nLet’s see what we can come up with: 下面的代码是我们所需要的： ? Function DateDiff ($interval, $date1,$date2) { // 得到两日期之间间隔的秒数 $timedifference = $date2 - $date1; switch ($interval) { case “w”: $retval = bcdiv($timedifference ,604800); break; case “d”: $retval = bcdiv( $timedifference,86400); break; case “h”: $retval = bcdiv ($timedifference,3600); break; case “n”: $retval = bcdiv( $timedifference,60); break; case “s”: $retval = $timedifference; break; } return $retval;} ? 将上面的代码存为datediff.inc文件，然后运行下面的代码： ? include(‘datediff.inc’); include(‘dateadd.inc’); $currenttime = time(); echo “Current time: “. strftime(\"%Hh%M %A %d %b” ,$currenttime).“br”; $newtime = DateAdd (“n”,50 ,$currenttime); echo “Time plus 50 minutes: “. strftime(\"%Hh%M %A %d %b” ,$newtime).“br”; $temptime = DateDiff (“n”,$currenttime ,$newtime); echo “Interval between two times: “.$temptime; ? 如果一切顺利，你可以看到以下结果： Current time: 16h23 Saturday 03 Jun Time plus 50 minutes: 17h13 Saturday 03 Jun Interval between two times: 50 如果你在Unix机器上运行PHP，你必须编译PHP支持BC高精度函数。你必须从以下地址http://www.php.net/extra/number4.tar.gz下载BC库，然后将其解压到PHP4的根目录下，重新编译PHP，编译时要加上–enable-bcmath的选项。（详细说明见PHP4中README.BCMATH）。PHP4的Windows版本则不需要做任何修补即可直接使用BC高精度函数。 现在你已经得到处理日期和时间的函数，剩下的就是如何将其运用到你的PHP程序中。\n",
+  "wordCount" : "706",
+  "inLanguage": "en",
+  "datePublished": "2006-03-01T17:10:18Z",
+  "dateModified": "2006-03-01T17:10:18Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/03/01/phpe4b8ade79a84e697a5e69c9fe5a484e79086/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      PHP中的日期处理
+    </h1>
+    <div class="post-meta"><span title='2006-03-01 17:10:18 +0000 UTC'>March 1, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>我正打算用PHP编写一种帮助处理系统。我发现我必须知道处理完最后一位客户的问题后已经过去了多长时间？当我过去用ASP时解决这个问题相当简单，ASP有相应的函数DateDiff可以给出两个日期间间隔多少月、多少天和多少秒。当我搜寻完PHP手册后我发现PHP并没有类似的函数。</p>
+<p>本文包含以下内容：
+1、 得到目前的日期和时间－我们有多少种方式？
+2、 改变日期显示的方式－日期和时间的显示形式
+3、 转换现在的日期为Unix的时间戳值
+4、 改变日期
+a. 增加时间
+b. 减去时间
+c. 找出两日期之间的间隔
+5、 为PHP添加DateAdd函数
+6、 为PHP添加DateDiff函数</p>
+<p>**得到目前的日期和时间</p>
+<p>在Unix中，时间的表示方式为计算从1970年1月1日零时起所过去的秒数，这称为UNIX 时间戳(Unix Epoch)。
+如果我们有这样一段的代码：
+?
+echo time();
+?
+将返回值958905820
+而此时的时间为2000年5月21日12时43分。
+你也许会说这相当不错。当这对我毫无帮助，或者只有一点帮助。在PHP中，对日期处理的函数都必须用到由time()返回的时间戳值。同时，由于PHP在Unix和Windows系统中均使用同样的时间戳值，这就允许你不需要修改代码即可在不同的系统间移植。另外的一个好处是time()函数返回的是一个整数，你可以将其作为整数字段或文本字段存入数据库，而不必使用特别的日期/时间字段。
+你已经基本了解了Unix的时间戳值，现在让我们来展示它的实际用途。</p>
+<p>改变日期显示的方式－日期和时间的显示形式</p>
+<p>PHP提供两个办法来将Unix的时间戳值转换成为有用的数据。第一个是date()函数。这个函数有两个参数－第一个字符串用于设定你所希望返回的格式，第二个为Unix的时间戳值。
+格式化字符串通过一些简单的特殊格式化字符来显示你所希望看到的格式的日期和时间。假设你希望日期以这样的格式显示“18h01 Sunday 21 May”。
+我们需要对字符串中的每一部分使用一个特殊格式化字符，你可以从PHP手册中日期和时间函数库中找到。这样的特殊格式化字符数量不少，他们所表示的类似于星期几、月的英文名、用2位或4位数表示的年份，是否是上午（AM）或下午（PM）以及其他。对于这个例子我们需要的特殊字符为：
+‘H’ －24 小时制的小时
+‘i’－ 分钟
+‘l’－ 星期几的英文全名
+‘d’－ 本月的第几日
+‘F’－ 月份的英文全名
+因此我们的格式化字符串为”Hhi l d F”， PHP代码为：
+?
+echo date (&ldquo;Hhi l d F&rdquo; ,time());
+?
+当我们执行这段代码，我们发现我们所得到的结果为：
+180609 Sunday 21 May
+这样的结果看起来有些奇怪。让我们再查一下PHP手册，原来’h’所代表的是12 小时制的小时数。这再次证明了一句真理：“计算机只做你所告诉它该做的，而不是你想要它做的”。我们有两个选择。第一个是在h前使用转义字符“”：
+echo date (&ldquo;Hhi l d F&rdquo;, time());
+我们得到这样的结果：
+18h12 Sunday 21 May
+这正是我们所要的。但如果我们在一个十分复杂的句子中需要包含日期和时间，我们是否需要对每个字符使用转义字符？
+答案当然是不。我们使用另一个函数strftime()。
+strftime()有两个好处。第一个好处我们并不在本文讨论范围内－如果你使用setlocale()函数，你可以通过strftime得到相应语言的月份的名称。另外的一个好处是你可以将特别的日期和时间的格式化字符包含在你的字符串中。这同时也意味着无论你是否要学习date()函数的所有特殊格式化字符，你都必须学习一整套完全不同的格式化字符。
+strftime()工作的方式和date()没有什么不同，除了特殊格式化字符的前面必须添加一个百分号%。如果用strftime()函数，前面例子的代码如下：
+?
+echo strftime (&quot;%Hh%M %A %d %b&quot; ,time());
+?
+结果为：
+18h24 Sunday 21 May
+这也许看起来将简化繁，但考虑一下如果你所需要的显示的为&quot;Today is Sunday 21 May 2000. The time is somewhere close to 18h24.&quot; 我想使用date()函数无疑令人感到厌烦。
+在开始的时候，我提及我们有两种方式可以从Unix时间戳值中得到有用的数据。我们刚刚了解了date()和strftime()。另一个getdate()。这个函数只需要Unix 的时间戳值作为参数，而函数的返回值为日期和时间的数组。
+下面是一个例子：
+?
+$date_time_array = getdate (time());
+echo $date_time_array[ &ldquo;weekday&rdquo;];
+?
+返回的结果为：
+Sunday
+除了&quot;weekday&quot;，该数组的其他部分为：
+&ldquo;seconds&rdquo; –秒
+&ldquo;minutes&rdquo; –分
+&ldquo;hours&rdquo; –小时
+“mday&quot; - 本月的第几天
+&ldquo;wday&rdquo; -本周的第几天（数字）
+&ldquo;mon&rdquo; -月（数字）
+&ldquo;year&rdquo; –年
+&ldquo;yday&rdquo; - r本年的第几天（数字）
+&ldquo;month&rdquo; -月份全名
+我们现在可以得到容易辨认的日期和时间。那么其他呢？</p>
+<p>**转换现在的日期为Unix的时间戳值</p>
+<p>通常你必须处理一些日期或时间格式的数据。打开M$的一个Access数据库，所有的日期都以YYYY/MM/DD的格式存储，加入目前的日前即为2000/05/27。Mktime()函数可以将一个时间转换成Unix的时间戳值。
+函数的格式为：int mktime(int hour, int minute, int second, int month, int day, int year, int [is_dst] );
+从左往右你必须提供小时、分、秒、月、天和年。最后一个参数用于指定你是否处于夏令时，此参数是可选的，所以我们将忽略它。
+代码如下：
+?
+echo mktime (0, 0,0 ,5, 27,2000 );
+?
+由于不知道小时、分和秒同时这些参数必须填写，我将其设置为0。设置为0意味着时间为午夜。
+?
+$access_date = &ldquo;2000/05/27&rdquo;;
+//explode()函数用一个字符串作为分界来分解另一个字符串。这个例子$access_date通过字符串”/”来分解
+$date_elements = explode(&quot;/&quot; ,$access_date);
+// 此时
+// $date_elements[0] = 2000
+// $date_elements[1] = 5
+// $date_elements[2] = 27
+echo mktime (0, 0,0 ,$date_elements [1], $date_elements[ 2],$date_elements [0]);
+?
+我们看一个比从Access数据库单纯获得日期更复杂的情况，我们得到一个以下格式的日期和时间：2000/05/27 02:40:21 PM
+?
+// 来自Access的字符串
+$date_time_string = &ldquo;2000/05/27 02:40:21 PM&rdquo;;
+// 将字符串分解成3部分－日期、时间和上午/下午
+$dt_elements = explode(&quot; &quot; ,$date_time_string);
+// 分解日期
+$date_elements = explode(&quot;/&quot; ,$dt_elements[ 0]);
+// 分解时间
+$time_elements = explode(&quot;:&quot; ,$dt_elements[ 1]);
+// 如果是下午，我们将时间增加12小时以便得到24小时制的时间
+if ($dt_elements [2]== &ldquo;PM&rdquo;) { $time_elements[ 0]+=12;}
+// 输出结果
+echo mktime ($time_elements [0], $time_elements[ 1], $time_elements[ 2], $date_elements[1], $date_elements[2], $date_elements[0]);
+?</p>
+<p>**修改日期</p>
+<p>有时我们需要知道6小时以后是什么时间，35天前的日期或者从你最后一次玩Quake3后已过去多少秒。我们已经知道如何用mktime()函数从单独的日期和时间中获得Unix的时间戳值。如果我们需要的并非目前日期和时间的Unix时间戳值，我们该咋办？下面是一些练习可以帮助说明我们后面所要做的。
+正如前面所见，mktime()使用以下参数：小时、分、秒、月、天和年。想想第二节，getdate()函数可以为我们获得这些参数。
+?
+// 将目前的时间戳值放入一数组内
+$timestamp = time();
+echo $timestamp;
+echo &ldquo;p&rdquo;;
+$date_time_array = getdate( $timestamp);
+// 用mktime()函数重新产生Unix时间戳值
+$timestamp = mktime($date_time_array [&ldquo;hours&rdquo;], $date_time_array[&ldquo;minutes&rdquo; ],$date_time_array[ &ldquo;seconds&rdquo;],$date_time_array [&ldquo;mon&rdquo;], $date_time_array[&ldquo;mday&rdquo; ],$date_time_array[ &ldquo;year&rdquo;]);
+echo $timestamp;
+?
+看起来有一些令人感到迷惑。我将用一些变量来使上面的程序看起来更容易了解。
+?
+// 将目前的时间戳值放入一数组内
+$timestamp = time();
+echo $timestamp;
+echo &ldquo;p&rdquo;;
+$date_time_array = getdate( $timestamp);
+$hours = $date_time_array[ &ldquo;hours&rdquo;];
+$minutes = $date_time_array[&ldquo;minutes&rdquo;];
+$seconds = $date_time_array[ &ldquo;seconds&rdquo;];
+$month = $date_time_array[&ldquo;mon&rdquo;];
+$day = $date_time_array[&ldquo;mday&rdquo;];
+$year = $date_time_array[&ldquo;year&rdquo;];
+// 用mktime()函数重新产生Unix时间戳值
+$timestamp = mktime($hours ,$minutes, $seconds,$month ,$day,$year);
+echo $timestamp;
+?
+现在我们将由getdate()所产生的时间戳值放入相对应的名称变量中，所以代码变得相对容易阅读和理解。现在如果我们需要在目前的时间上加上19个小时，我们用$hours+19代替mktime()函数中的$hours。mktime()将自动为我们将时间转到第二天。
+?
+// 将目前的时间戳值放入一数组内
+$timestamp = time();
+echo strftime( &ldquo;%Hh%M %A %d %b&rdquo;,$timestamp);
+echo &ldquo;p&rdquo;;
+$date_time_array = getdate($timestamp);
+$hours = $date_time_array[&ldquo;hours&rdquo;];
+$minutes = $date_time_array[&ldquo;minutes&rdquo;];
+$seconds = $date_time_array[&ldquo;seconds&rdquo;];
+$month = $date_time_array[&ldquo;mon&rdquo;];
+$day = $date_time_array[&ldquo;mday&rdquo;];
+$year = $date_time_array[&ldquo;year&rdquo;];
+// 用mktime()函数重新产生Unix时间戳值
+// 增加19小时
+$timestamp = mktime($hours + 19, $minutes,$seconds ,$month, $day,$year);
+echo strftime( &ldquo;%Hh%M %A %d %b&rdquo;,$timestamp);
+echo &ldquo;br~E after adding 19 hours&rdquo;;
+?
+运行后得到：
+14h58 Saturday 03 Jun
+09h58 Sunday 04 Jun
+~E after adding 19 hours
+减少时间也是同样的－你只需要减少相应变量的值即可。
+得到两个不同时间值的差同样也是非常简单。你所需要做的只是将两个时间值转换为Unix的时间戳值，然后两者相减即可。两者之差即为两个时间所相隔的秒数。另外一些算法可以很快地将秒转为天、小时、分和秒。</p>
+<p>**为PHP添加DateAdd函数</p>
+<p>正如在文章一开始我所说的－写本文的原因是因为我在PHP中找不到类似ASP的DateDiff函数。在介绍完PHP是如何处理日期和时间，让我们将ASP中常用的两个函数移植到PHP。第一个函数是DateAdd。
+根据Vbscript的文档，DateAdd(interval,number,date)函数的定义为“返回已添加指定时间间隔的日期。”
+Inetrval为表示要添加的时间间隔字符串表达式，例如分或天；number为表示要添加的时间间隔的个数的数值表达式；Date表示日期。
+Interval（时间间隔字符串表达式）可以是以下任意值:
+yyyy year年
+q Quarter季度
+m Month月
+y Day of year一年的数
+d Day天
+w Weekday一周的天数
+ww Week of year周
+h Hour小时
+n Minute分
+s Second秒
+w、y和d的作用是完全一样的，即在目前的日期上加一天，q加3个月，ww加7天。
+?
+function DateAdd ($interval, $number, $date) {
+$date_time_array = getdate($date);
+$hours = $date_time_array[&ldquo;hours&rdquo;];
+$minutes = $date_time_array[&ldquo;minutes&rdquo;];
+$seconds = $date_time_array[&ldquo;seconds&rdquo;];
+$month = $date_time_array[&ldquo;mon&rdquo;];
+$day = $date_time_array[&ldquo;mday&rdquo;];
+$year = $date_time_array[&ldquo;year&rdquo;];
+switch ($interval) {
+case &ldquo;yyyy&rdquo;: $year +=$number; break;
+case &ldquo;q&rdquo;: $month +=($number<em>3); break;
+case &ldquo;m&rdquo;: $month +=$number; break;
+case &ldquo;y&rdquo;:
+case &ldquo;d&rdquo;:
+case &ldquo;w&rdquo;: $day+=$number; break;
+case &ldquo;ww&rdquo;: $day+=($number</em>7); break;
+case &ldquo;h&rdquo;: $hours+=$number; break;
+case &ldquo;n&rdquo;: $minutes+=$number; break;
+case &ldquo;s&rdquo;: $seconds+=$number; break;
+}
+$timestamp = mktime($hours ,$minutes, $seconds,$month ,$day, $year);
+return $timestamp;}
+?
+我们可以将上面的代码保存为dateadd.inc文件，然后运行以下代码：
+?
+include(&lsquo;dateadd.inc&rsquo;);
+$temptime = time();
+echo strftime( &ldquo;%Hh%M %A %d %b&rdquo;,$temptime);
+$temptime = DateAdd(&ldquo;n&rdquo; ,50,$temptime);
+echo &ldquo;p&rdquo;;
+echo strftime( &ldquo;%Hh%M %A %d %b&rdquo;,$temptime);
+?
+我们将得到：
+15h41 Saturday 03 Jun
+16h31 Saturday 03 Jun
+为PHP添加DateDiff函数
+现在DateAdd已经完成，那么DateDiff呢？
+根据文档，DateDiff(interval,date1,date2)函数的定义为“返回两个日期之间的时间间隔”。
+Intervals参数的用法与DateAdd函数中的相同。出于避免过于复杂的考虑，我们决定忽略Vbscript中DateDiff函数中其它复杂的参数，即其两个可选的参数变量[firstdayofweek[, firstweekofyear]]（它们用于决定星期中第一天是星期天还是星期一和一年中第一周的常数。而且我们只允许intervals有以下五个值：&ldquo;w&rdquo;(周)、&ldquo;d&rdquo;（天）、&ldquo;h&rdquo;（小时）、&ldquo;n&rdquo;（分钟） 和&quot;s&quot;（秒）。</p>
+<p>Let&rsquo;s see what we can come up with: 下面的代码是我们所需要的：
+?
+Function DateDiff ($interval, $date1,$date2) {
+// 得到两日期之间间隔的秒数
+$timedifference = $date2 - $date1;
+switch ($interval) {
+case &ldquo;w&rdquo;: $retval = bcdiv($timedifference ,604800); break;
+case &ldquo;d&rdquo;: $retval = bcdiv( $timedifference,86400); break;
+case &ldquo;h&rdquo;: $retval = bcdiv ($timedifference,3600); break;
+case &ldquo;n&rdquo;: $retval = bcdiv( $timedifference,60); break;
+case &ldquo;s&rdquo;: $retval = $timedifference; break;
+}
+return $retval;}
+?
+将上面的代码存为datediff.inc文件，然后运行下面的代码：
+?
+include(&lsquo;datediff.inc&rsquo;);
+include(&lsquo;dateadd.inc&rsquo;);
+$currenttime = time();
+echo &ldquo;Current time: &ldquo;. strftime(&quot;%Hh%M %A %d %b&rdquo; ,$currenttime).&ldquo;br&rdquo;;
+$newtime = DateAdd (&ldquo;n&rdquo;,50 ,$currenttime);
+echo &ldquo;Time plus 50 minutes: &ldquo;. strftime(&quot;%Hh%M %A %d %b&rdquo; ,$newtime).&ldquo;br&rdquo;;
+$temptime = DateDiff (&ldquo;n&rdquo;,$currenttime ,$newtime);
+echo &ldquo;Interval between two times: &ldquo;.$temptime;
+?
+如果一切顺利，你可以看到以下结果：
+Current time: 16h23 Saturday 03 Jun
+Time plus 50 minutes: 17h13 Saturday 03 Jun
+Interval between two times: 50
+如果你在Unix机器上运行PHP，你必须编译PHP支持BC高精度函数。你必须从以下地址http://www.php.net/extra/number4.tar.gz下载BC库，然后将其解压到PHP4的根目录下，重新编译PHP，编译时要加上&ndash;enable-bcmath的选项。（详细说明见PHP4中README.BCMATH）。PHP4的Windows版本则不需要做任何修补即可直接使用BC高精度函数。
+现在你已经得到处理日期和时间的函数，剩下的就是如何将其运用到你的PHP程序中。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

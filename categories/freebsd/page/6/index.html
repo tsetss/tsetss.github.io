@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+freebsd
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/freebsd/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+freebsd
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/freebsd/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+freebsd
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+freebsd
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Find 指令用法教學
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>筆記一下自己常用的 find 指令，適用於 FreeBSD 或者是 Linux 各大 distribution，系統管理這個指令就相當重要了，在搭配 grep，sed，awk，perl 可以快速找到自己要的檔案。我自己本身很常用到 grep，find，awk 這些撰寫 shell script。
+底下先來介紹一下 find：
+找出 . 底下的 php 檔案
+find . -name “*.php”
+找出 . 底下非 php 副檔名檔案
+find . -not -name “*.php”
+刪除 . 底下 php 檔案，有兩種作法
+系統詢問之後才刪除 先把 -exec 後面的東西先清掉， 用 -print 來先確認輸出 rm 可以多用 -i 的參數來加以確認 find . -name “*.php” -exec rm -i {} ;
+系統直接刪除 find . -delete -name “.php” find . -name “.php” | xargs /bin/rm -rf...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 13:47:18 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Find 指令用法教學" href="http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Webalizer-利用ApacheLog達成流量統計圖表化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。 【作業環境】
+FreeBSD 5.2、6.2-RELEASE
+webalizer-2.01-10、2.1.10_12
+libiconv-1.9.2_2
+【安裝及設定】
+Step1.安裝 webalizer 及 libiconv 套件
+將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2007-06-30 19:56:15 +0000 UTC'>June 30, 2007</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Webalizer-利用ApacheLog達成流量統計圖表化" href="http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD 下的TOP的使用方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (&#43; selects all users) 顺序显示下面三个常规的信息...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-18 03:46:13 +0000 UTC'>October 18, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD 下的TOP的使用方法" href="http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd命令大全
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1 man 在线查询 man ls
+2 ls 查看目录与档案 ls -la 3 ln 建立链接文件 ln -fs /usr/local/apache/etc/httpd.conf /etc/httpd.conf
+4 more 分页显示 more 文件名称
+5 cd 切换目录 cd /usr/local/apache
+6 mkdir 建立新的目录 mkdir /usr/temp
+7 rmdir 删除目录 rmdir /usr/temp
+8 rm 删除目录或档案 rm -f 文件名称
+9 cp 复制目录或档案 cp 来源档案 目标档案
+10 pwd 显示目前的工作目录 Pwd
+11 mv 目录或档案更名或搬移 mv 来源档案 目标档案
+12 find 寻找目录或档案 find /etc -name 文件名称
+13 fetch 取得档案 fetch ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-16 01:33:39 +0000 UTC'>October 16, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd命令大全" href="http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>SYN攻击原理以及防范技术
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术……
+据统计，在所 TCP握手协议 有黑客攻击事件中，SYN攻击是最常见又最容易被利用的一种攻击手法。相信很多人还记得2000年YAHOO网站遭受的攻击事例，当时黑客利用的就是简单而有效的SYN攻击，有些网络蠕虫病毒配合SYN攻击造成更大的破坏。本文介绍SYN攻击的基本原理、工具及检测方法，并全面探讨SYN攻击防范技术。
+一、TCP握手协议
+在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。
+第一次握手：建立连接时，客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
+第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j&#43;1），同时自己也发送一个SYN包（syn=k），即SYN&#43;ACK包，此时服务器进入SYN_RECV状态；
+第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k&#43;1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
+完成三次握手，客户端与服务器开始传送数据，在上述过程中，还有一些重要的概念：
+未连接队列：在三次握手协议中，服务器维护一个未连接队列，该队列为每个客户端的SYN包（syn=j）开设一个条目，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。 Backlog参数：表示未连接队列的最大容纳数目。
+SYN-ACK 重传次数　服务器发送完SYN－ACK包，如果未收到客户确认包，服务器进行首次重传，等待一段时间仍未收到客户确认包，进行第二次重传，如果重传次数超过系统规定的最大重传次数，系统将该连接信息从半连接队列中删除。注意，每次重传等待的时间不一定相同。
+半连接存活时间：是指半连接队列的条目存活的最长时间，也即服务从收到SYN包到确认这个报文无效的最长时间，该时间值是所有重传请求包的最长等待时间总和。有时我们也称半连接存活时间为Timeout时间、SYN_RECV存活时间。
+二、SYN攻击原理
+SYN攻击属于DOS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。从上图可看到，服务器接收到连接请求（syn=j），将此信息加入未连接队列，并发送请求包给客户（syn=k,ack=j&#43;1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。
+三、SYN攻击工具
+SYN攻击实现起来非常的简单，互联网上有大量现成的SYN攻击工具。
+1、windows系统下的SYN工具
+以synkill.exe为例，运行工具，选择随机的源地址和源端囗，并填写目标机器地址和TCP端囗，激活运行，很快就会发现目标系统运行缓慢。如果攻击效果不明显，可能是目标机器并未开启所填写的TCP端囗或者防火墙拒绝访问该端囗，此时可选择允许访问的TCP端囗，通常，windows系统开放tcp139端囗，UNIX系统开放tcp7、21、23等端囗。
+四、检测SYN攻击
+检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击。我们使用系统自带的netstat 工具来检测SYN攻击：
+# netstat -n -p TCP tcp　0　0 10.11.11.11:23　124.173.152.8:25882　SYN_RECV　- tcp　0　0 10.11.11.11:23　236.15.133.204:2577　SYN_RECV　- tcp　0　0 10.11.11.11:23　127.160.6.129:51748　SYN_RECV　- tcp　0　0 10.11.11.11:23　222.220.13.25:47393　SYN_RECV　- tcp　0　0 10.11.11.11:23　212.200.204.182:60427 SYN_RECV　- tcp　0　0 10.11.11.11:23　232.115.18.38:278　SYN_RECV　- tcp　0　0 10....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-15 10:31:42 +0000 UTC'>October 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to SYN攻击原理以及防范技术" href="http://example.org/2006/10/15/syne694bbe587bbe58e9fe79086e4bba5e58f8ae998b2e88c83e68a80e69caf/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/freebsd/page/5/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

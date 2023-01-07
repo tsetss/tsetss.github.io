@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ROS常用命令简介 | 白天’s Blog</title>
+<meta name="keywords" content="
+ROUTEROS
+      ">
+<meta name="description" content="ROUTEROS常用命令
+/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] &gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] &gt; [admin@MikroTik] ip&gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip&gt; 列出可用的命令和菜单并有简短的描述到下一个项目.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/11/ros-everyday-commands/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ROS常用命令简介" />
+<meta property="og:description" content="ROUTEROS常用命令
+/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] &gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] &gt; [admin@MikroTik] ip&gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip&gt; 列出可用的命令和菜单并有简短的描述到下一个项目." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/11/ros-everyday-commands/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-11T17:39:04+00:00" />
+<meta property="article:modified_time" content="2009-04-11T17:39:04+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ROS常用命令简介"/>
+<meta name="twitter:description" content="ROUTEROS常用命令
+/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] &gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] &gt; [admin@MikroTik] ip&gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip&gt; 列出可用的命令和菜单并有简短的描述到下一个项目."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ROS常用命令简介",
+      "item": "http://example.org/2009/04/11/ros-everyday-commands/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ROS常用命令简介",
+  "name": "ROS常用命令简介",
+  "description": "ROUTEROS常用命令\n/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] \u0026gt; Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] \u0026gt; [admin@MikroTik] ip\u0026gt; accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip\u0026gt; 列出可用的命令和菜单并有简短的描述到下一个项目.",
+  "keywords": [
+    "\nROUTEROS\n      "
+  ],
+  "articleBody": "ROUTEROS常用命令\n/sy reset 恢复路由原始状态 /sy reboot 重启路由 /sy showdown 关机 /sy ide set name=机器名 设置机器名 /export 查看配置 /ip export 查看IP配置 /sy backup 回车 save name=你要设置文件名 备份路由 LOAD NAME=你要设置文件名 恢复备份 /interface print 查看网卡状态 0 X ether1 ether 1500 这个是网卡没有开启 0 R ether1 ether 1500 这个是正常状态 /int en 0 激活0网卡 /int di 0 禁掉0网卡 /ip fir con print 查看当前所有网络边接 /ip service set www port=81 改变www服务端口为81 /ip hotspot user add name=user1 password=1 增加用户 [admin@MikroTik] \u003e Certificate———-证书管理 Driver—————设备管理 File——————当地路由器文件的存储 interface ————接口配置 log ——————系统记录 password ————改变密码 ping —————-发送,回送ICMP数据包 port —————–串行端口 quit —————-退出控制 radius—————Radius客户机设置 redo——————- Redo previosly undone action setup —————-基本的系统设置 snmp —————–SNMP 设置 special-login———–专用的登陆用户 undo—————– 取先前的效果 user——————-用户管理 ip——————— IP 选项 queue ———————-带宽管理 system——————- 系统信息和有效的程序 tool———————– 诊断工具 export ——————–显示或保存导出的脚本那是用来恢复的 配置 [admin@MikroTik] \u003e [admin@MikroTik] ip\u003e accounting ————————交通统计 address —————————地址管理 arp —————————ARP 进入管理 dns ————————DNS 设置 firewall ——————防火墙管理 neighbor ———————邻居 packing ———————数据打包设定 pool ————————-IP地址池 route———————– 路由管理 service ———————IP 服务 policy-routing —————-路由政策 upnp ————————- Universal 即插即用 vrrp————————虚拟路由沉余协议 socks ———————-SOCKS 版本4代理 hotspot——————– HotSpot 管理 ipsec ——————IP安全 web-proxy —————–HTTP 代理 export————————显示或保存导出的脚本那是用来恢复的configuration [admin@MikroTik] ip\u003e 列出可用的命令和菜单并有简短的描述到下一个项目. 你可以移到你想到的那层菜单通过键入它的命令名和敲入这个 [Enter] , 实例: [admin@MikroTik] \u003e 基层的菜单 [admin@MikroTik] \u003e driver / 键入 \\’driver\\’ 可以移动到设备这层菜单 [admin@MikroTik] driver\u003e / 键入 \\’/\\’ 从任一层返回基层的菜单 [admin@MikroTik] \u003e interface /键入 \\’interface\\’ 移动到接口这层菜单 [admin@MikroTik] interface\u003e /ip /键入 \\’/ip\\’移动到IP这层菜单 [admin@MikroTik] ip\u003e 一个命令或如果它是不完整的. 实例, 输入这个命令 interface你可以输入in 或 int. 然后按 [Tab]键即可自动输入完整的命令.这个命令可以从菜单层调用, 在它们位于的地方, 通过键入这个名字. 如果指令是在不同的菜单层,如果你想调用它要使用它的完整的路径, 例如: [admin@MikroTik] ip route\u003e print /显示路由表 [admin@MikroTik] ip route\u003e .. /地址显示和显示这IP地址表 [admin@MikroTik] ip route\u003e /IP地址显示和显示这IP地址表 这个命令可能有参数. 参数有它们的名字和价值.有些命令,可能会有参数但没有名字 摘要在执行命令和导航菜单 命令作用 command [Enter] 执行这个命令 [?] 显示出所有可用的命令列表 command [?] 在命令和列表参数显示帮助 command argument [?] 命令参数显示帮助 [Tab] 完善命令/字符. 如果你不明确输入, 另一个 [Tab] 显示可能有选择 / 移动到基本的菜单层 /命令字——— 执行这层的命令 .. 移动到另一层 “” 指定空的字符串 “word1 word2″规定一串2个词或包含空的 你在这层可以用缩写名字.命令或参数像IP地址的配置, 而不是使用 \\’address\\’和\\’netmask\\’ 参数,在多数情况下 你可以指定地址加上数字代理网络掩码, 没有必要分开指定 \\’netmask\\’. 因此,下面两种输入的方式是等同的: /ip address add address 10.0.0.1/24 interface ether1 /ip address add address 10.0.0.1 netmask 255.255.255.0 interface ether1 注意 在地址参数中你必须指定网络掩码的大小, 即使它是32-bit 的子网, 使用 10.0.0.1/32 代替 address=10.0.0.1 netmask=255.255.255.255 基本的配置作业 描述 接口管理 以后配置这个 IP地址和路由请检查这个 /interface 菜单查看可用的接口列表.如果在路由器中安装了即插即用的网卡, 多数设备驱动都会自动载入系统中, 和有关的接口都会出现在 /interface print 命令列表中, 实例: [admin@MikroTik] interface\u003e print Flags: X - disabled, D - dynamic, R - running # NAME TYPE RX-RATE TX-RATE MTU 0 R ether1 ether 0 0 1500 1 R ether2 ether 0 0 1500 2 X wavelan1 wavelan 0 0 1500 3 X prism1 wlan 0 0 1500 [admin@MikroTik] interface\u003e 如果你想使用它通讯,你必须打开这个接口.. 使用这个 /interface enable name 命令打开接口并给出名字,编号. 实例: [admin@MikroTik] interface\u003e print Flags: X - disabled, D - dynamic, R - running # NAME TYPE RX-RATE TX-RATE MTU 0 X ether1 ether 0 0 1500 1 X ether2 ether 0 0 1500 [admin@MikroTik] interface\u003e enable 0 [admin@MikroTik] interface\u003e enable ether2 [admin@MikroTik] interface\u003e print Flags: X - disabled, D - dynamic, R - running # NAME TYPE RX-RATE TX-RATE MTU 0 R ether1 ether 0 0 1500 1 R ether2 ether 0 0 1500 [admin@MikroTik] interface\u003e 用来改变一个或多个接口的名字使用 /interface set 命令: [admin@MikroTik] interface\u003e set 0 name=Local; set 1 name=Public [admin@MikroTik] interface\u003e print Flags: X - disabled, D - dynamic, R - running # NAME TYPE RX-RATE TX-RATE MTU 0 R Local ether 0 0 1500 1 R Public ether 0 0 1500 [admin@MikroTik] interface\u003e 使用这个 \\’setup\\’命令 通过这个初始设置就可以完成路由器的简单设置,这个 /setup 命令可以打开接口,分配地址/网路掩码,配置缺省的路由. 如果你没有使用 setup 命令, 而且需要修改/添加设定地址和路由,请使用以下几步描述. 注释 载入的设备是 NE2000 或兼容的 ISA 网卡你需要在/drivers 菜单下使用add 命令. 实例, 装入网卡的 IO 地址 0×280 和 IRQ 5, 输入完整的命令: [admin@MikroTik] driver\u003e add name=ne2k-isa io=0×280 [admin@MikroTik] driver\u003e print Flags: I - invalid, D - dynamic # DRIVER IRQ IO MEMORY ISDN-PROTOCOL 0 D RealTek 8139 1 D Intel EtherExpressPro 2 D PCI NE2000 3 ISA NE2000 280 4 Moxa C101 Synchronous C8000 [admin@MikroTik] driver\u003e There are some other drivers that should be added manually. 请阅读手册的部分章节, 详细的说明请参照如何装载设备. 基本的实例 假定在以下的网络设置中你需要配置这台 MikroTik 路由器:在当前的实例中我们使用两快网卡: ? 当地的网卡IP地址是 192.168.0.0 和24-bit 网络掩码: 255.255.255.0. 路由器地址是在 192.168.0.254 网络中. ? ISP\\’s 网络地址是 10.0.0.0 和 24-bit网络掩码255.255.255.0. 路由器地址是在10.0.0.217 网络中 在以下命令中观察和使用这个地址是如何添加的: [admin@MikroTik] ip address\u003e add address 10.0.0.217/24 interface Public [admin@MikroTik] ip address\u003e add address 192.168.0.254/24 interface Local [admin@MikroTik] ip address\u003e print Flags: X - disabled, I - invalid, D - dynamic # ADDRESS NETWORK BROADCAST INTERFACE 0 10.0.0.217/24 10.0.0.217 10.0.0.255 Public 1 192.168.0.254/24 192.168.0.0 192.168.0.255 Local [admin@MikroTik] ip address\u003e 这里, 这个地址参数的网络掩码的范围必须在指定的范围之内. 作为选择, 这个参数 \\’netmask\\’ 这个值可以用 \\’255.255.255.0\\’代替. 这个网路和广播地址不用提前指定在你输入时因为它可以自动计算. 请注意路由器在不同的网路这个地址分配给不同的接口. 观察路由 你可以看到两个动态dynamic (D) and 已连接connected (C) 路由, 当地址已添加了上面那个会自己添加. 在上面的这个例子: [admin@MikroTik] ip route\u003e print Flags: X - disabled, I - invalid, D - dynamic, J - rejected, C - connect, S - static, R - rip, O - ospf, B - bgp # DST-ADDRESS G GATEWAY DISTANCE INTERFACE(目的地址 G-网关 经过接口) 0 DC 192.168.0.0/24 r 0.0.0.0 0 Local 1 DC 10.0.0.0/24 r 0.0.0.0 0 Public [admin@MikroTik] ip route\u003e print detail (打印详情) Flags: X – disabled(禁止), I – invalid(无效的), D – dynamic(动态的), J - rejected,(丢弃)C – connect(连接), S – static(静态), R - rip, O - ospf, B - bgp 0 DC dst-address=192.168.0.0/24 preferred-source=192.168.0.254 gateway=0.0.0.0 gateway-state=reachable distance=0 interface=Local 1 DC dst-address=10.0.0.0/24 preferred-source=10.0.0.217 gateway=0.0.0.0 gateway-state=reachable distance=0 interface=Public [admin@MikroTik] ip route\u003e 显示这些路由, 这些 IP数据包到达目的地址10.0.0.0/24是通过 Public 接口发送, 然而IP 数据包到达目的地址 192.168.0.0/24 是通过 Local 接口发送. 然而,你需要指定数据包应该向那个路由器转发,那个目的地不同的网络直接连接到这台路由器上. 添加缺省路由 在以下这个缺省的路由器 (destination 0.0.0.0 (any), netmask 0.0.0.0 (any)) 将要添加. 在这种情况下它是ISP\\’s 网关 10.0.0.1, 通过这个 Public 接口到达. [admin@MikroTik] ip route\u003e add gateway=10.0.0.1 [admin@MikroTik] ip route\u003e print Flags: X - disabled, I - invalid, D - dynamic, J - rejected, C - connect, S - static, R - rip, O - ospf, B - bgp # DST-ADDRESS G GATEWAY DISTANCE INTERFACE 0 S 0.0.0.0/0 r 10.0.0.1 1 Public 1 DC 192.168.0.0/24 r 0.0.0.0 0 Local 2 DC 10.0.0.0/24 r 0.0.0.0 0 Public [admin@MikroTik] ip route\u003e 在这,这个缺省的路由列表是 #0. 像我们看到的, 这个网关 10.0.0.1 可以通过这个 \\’Public\\’ 接口到达.如果这个网关指定是不正确的, 这个值在这个参数\\’interface\\’ 是不知的. 注意 你不能添加两条路由到相同的目的地, 目的地—-地址/网路掩码! 它试用于缺省的路由.代替, 对于目的地你可以键入多条网关.至于更多的信息请在IP 路由中, 请阅读 Routes, Equal cost Multipath Routing, Policy Routing 手册. 如果你偶然的添加了不必要的静态路由, 使用这个 remove 命令删除一条不必要的路由. 你不能删除动态的(DC) 路由. 他们被自动的添加并描绘出路由器直接连接到这个网络中. 测试这个网路连接 从现在开始, 这个 /ping 命令可以在两者的端口测试网路的连通性. 在这个路由器连接的网络中你可以到达任一台主机. /ping 命令工作的方式: [admin@MikroTik] ip route\u003e /ping 10.0.0.4 10.0.0.4 64 byte ping: ttl=255 time=7 ms 10.0.0.4 64 byte ping: ttl=255 time=5 ms 10.0.0.4 64 byte ping: ttl=255 time=5 ms 3 packets transmitted, 3 packets received, 0% packet loss round-trip min/avg/max = 5/5.6/7 ms [admin@MikroTik] ip route\u003e [admin@MikroTik] ip route\u003e /ping 192.168.0.1 192.168.0.1 64 byte ping: ttl=255 time=1 ms 192.168.0.1 64 byte ping: ttl=255 time=1 ms 192.168.0.1 64 byte ping: ttl=255 time=1 ms 3 packets transmitted, 3 packets received, 0% packet loss round-trip min/avg/max = 1/1.0/1 ms [admin@MikroTik] ip route\u003e 这台工作站和膝上型电脑能够达到 (ping)在本地地址192.168.0.254的路由器, 如果这路由器的地址192.168.0.254 是当作缺省网关必须在这台工作站和膝上型电脑的TCP/IP 配置中指定. 当你ping这台路由器: C:\\\\\u003eping 192.168.0.254 Reply from 192.168.0.254: bytes=32 time=10ms TTL=253 Reply from 192.168.0.254: bytes=32 time\u003c10ms TTL=253 Reply from 192.168.0.254: bytes=32 time\u003c10ms TTL=253 C:\\\\\u003eping 10.0.0.217 Reply from 10.0.0.217: bytes=32 time=10ms TTL=253 Reply from 10.0.0.217: bytes=32 time\u003c10ms TTL=253 Reply from 10.0.0.217: bytes=32 time\u003c10ms TTL=253 C:\\\\\u003eping 10.0.0.4 Request timed out. Request timed out. Request timed out. 注意 你不能够接入到远程的路由器 (network 10.0.0.0/24 and the Internet), 除非你作了下列各向项之一: ? 这使用MikroTik 路由器把你的你私人的LAN 192.168.0.0/24 (看下面的说明) \\’hide\\’翻译 (冒充)成源网络地址, 或 ? 在ISP\\’s 网关 10.0.0.1添加静态的路由, 那指定的网咯主机 192.168.0.0/24 的网关是 10.0.0.217. 然后ISP上所有上的主机,包括服务器, 都能于这个LAN中的主机连通. 为要建立路由,它必须要求你懂得更多的TCP/IP 网路配置知识.如果你在配置你的网路计划中有困难,这http://www.private.org.il/tcpip_rl.html.有广泛的IP资源内容是由 Uri Raz 编译的.我们强烈的支持您获得更多的知识,. 高级的配置作业 描述 下一个我们讨论的情形是用 ISP给定的一个地址10.0.0.217.\\’hiding\\’ 私人 LAN 192.168.0.0/24 \\’behind\\’ . 应用实例 with Masquerading 如果你想用 ISP给定的一个地址10.0.0.217.\\’hiding\\’ 私人 LAN 192.168.0.0/24 \\’behind\\’ , 你应该使用MikroTik路由器的源网路地址翻译(masquerading) 特点. 如果你访问ISP的网络和Internet时在ISP的网络中出现的所有的请求都是来自主机 10.0.0.217, 冒充是有用的.当数据包通过网路192.168.0.0/24 到这个地址的 10.0.0.217 路由器时, 这个冒充将改变这个数据包的源 IP 地址和端口.伪装转换要求的全球的IP地址的数字并且它让整个的网路使用一个单个的IP地址连接到世界的网路.为了使用冒充, 和激活\\’masquerade\\’都必须添加一条源 NAT 规则到防火墙. 配置: [admin@MikroTik] ip firewall src-nat\u003e add action=masquerade out-interface=Public [admin@MikroTik] ip firewall src-nat\u003e print Flags: X - disabled, I - invalid, D - dynamic 0 out-interface=Public action=masquerade src-address=192.168.0.0/24 [admin@MikroTik] ip firewall src-nat\u003e 注意 在使用冒充时更多的说明请参考 Network Address Translation. 带宽管理实例 假如你想限制在LAN中所有的主机的带宽下载时128kbps上传是64kbps 带宽限制是在你的流量控制中稳妥的使用于输出接口队列. 它可以添加一条充足得队列到你的MikroTik路由器. [admin@MikroTik] queue simple\u003e add max-limit=64000/128000 interface=Local [admin@MikroTik] queue simple\u003e print Flags: X - disabled, I - invalid, D - dynamic 0 name=”queue1″ target-address=0.0.0.0/0 dst-address=0.0.0.0/0 interface=Local queue=default priority=8 limit-at=0/0 max-limit=64000/128000 [admin@MikroTik] queue simple\u003e 作为整体由缺省值的其他的另外参数.限制时到本地网的值近似128kbps(下载)和到达客户机的本地网64kbps(上传). NAT的应用实例 假如 ,我们移动我们的服务器在我们私人的实例从公用的网路到我们当地的网路: 这个服务器的地址是192.168.0.4,并且我们运行web服务器它监听这个TCP的80端口 我们需要获得一个可以可到达的访问Internet的地址和端口10.0.0.217:80. 在MikroTik的路由器中他可以通过这种方法实现网路地址的翻译(NAT).这个Public的地址10.0.0.217:80 能够翻译成Local地址192.168.0.4:80任何目的NAT 规则都要求翻译成这个目标地址和端口: [admin@MikroTik] ip firewall dst-nat\u003e add action=nat protocol=tcp \\\\ dst-address=10.0.0.217/32:80 to-dst-address=192.168.0.4 [admin@MikroTik] ip firewall dst-nat\u003e print Flags: X - disabled, I - invalid, D - dynamic 0 dst-address=10.0.0.217/32:80 protocol=tcp action=nat to-dst-address=192.168.0.4 [admin@MikroTik] ip firewall dst-nat\u003e 原文 http://i.mop.com/doodie/blog/2007/05/10/3912743.html\n",
+  "wordCount" : "1213",
+  "inLanguage": "en",
+  "datePublished": "2009-04-11T17:39:04Z",
+  "dateModified": "2009-04-11T17:39:04Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/11/ros-everyday-commands/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ROS常用命令简介
+    </h1>
+    <div class="post-meta"><span title='2009-04-11 17:39:04 +0000 UTC'>April 11, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>ROUTEROS常用命令</p>
+<pre><code>/sy reset                              恢复路由原始状态
+/sy reboot                                重启路由
+/sy showdown                              关机
+/sy ide set name=机器名      设置机器名 
+/export                                  查看配置 
+/ip export                              查看IP配置
+/sy backup 回车
+save name=你要设置文件名                  备份路由
+LOAD NAME=你要设置文件名                  恢复备份
+/interface print                         查看网卡状态
+0 X ether1 ether 1500 这个是网卡没有开启
+0 R ether1 ether 1500 这个是正常状态
+/int  en 0                               激活0网卡
+/int  di 0                               禁掉0网卡
+/ip fir con print                        查看当前所有网络边接
+/ip service set www port=81              改变www服务端口为81
+/ip hotspot user add name=user1 password=1  增加用户
+[admin@MikroTik] &gt; 
+Certificate———-证书管理 
+Driver—————设备管理 
+File——————当地路由器文件的存储 
+interface ————接口配置 
+log ——————系统记录 
+password ————改变密码 
+ping —————-发送,回送ICMP数据包 
+port —————–串行端口 
+quit —————-退出控制 
+radius—————Radius客户机设置 
+redo——————- Redo previosly undone action 
+setup —————-基本的系统设置 
+snmp —————–SNMP 设置 
+special-login———–专用的登陆用户 
+undo—————– 取先前的效果 
+user——————-用户管理 
+ip——————— IP 选项 
+queue ———————-带宽管理 
+system——————- 系统信息和有效的程序 
+tool———————– 诊断工具 
+export ——————–显示或保存导出的脚本那是用来恢复的 
+配置 
+[admin@MikroTik] &gt; 
+[admin@MikroTik] ip&gt; 
+accounting ————————交通统计 
+address —————————地址管理 
+arp —————————ARP 进入管理 
+dns ————————DNS 设置 
+firewall ——————防火墙管理 
+neighbor ———————邻居 
+packing ———————数据打包设定 
+pool ————————-IP地址池 
+route———————– 路由管理 
+service ———————IP 服务 
+policy-routing —————-路由政策 
+upnp ————————- Universal 即插即用 
+vrrp————————虚拟路由沉余协议 
+socks ———————-SOCKS 版本4代理 
+hotspot——————– HotSpot 管理 
+ipsec ——————IP安全 
+web-proxy —————–HTTP 代理 
+export————————显示或保存导出的脚本那是用来恢复的configuration 
+[admin@MikroTik] ip&gt; 
+列出可用的命令和菜单并有简短的描述到下一个项目. 
+你可以移到你想到的那层菜单通过键入它的命令名和敲入这个 [Enter] , 
+实例: 
+[admin@MikroTik] &gt; 基层的菜单 
+[admin@MikroTik] &gt; driver / 键入 \’driver\’ 可以移动到设备这层菜单 
+[admin@MikroTik] driver&gt; / 键入 \’/\’ 从任一层返回基层的菜单 
+[admin@MikroTik] &gt; interface /键入 \’interface\’ 移动到接口这层菜单 
+[admin@MikroTik] interface&gt; /ip /键入 \’/ip\’移动到IP这层菜单 
+[admin@MikroTik] ip&gt; 
+一个命令或如果它是不完整的. 
+实例, 
+输入这个命令 interface你可以输入in 或 int. 然后按 [Tab]键即可自动输入完整的命令.这个命令可以从菜单层调用, 在它们位于的地方, 通过键入这个名字. 如果指令是在不同的菜单层,如果你想调用它要使用它的完整的路径, 
+例如: 
+[admin@MikroTik] ip route&gt; print /显示路由表 
+[admin@MikroTik] ip route&gt; .. /地址显示和显示这IP地址表 
+[admin@MikroTik] ip route&gt; /IP地址显示和显示这IP地址表 
+这个命令可能有参数. 参数有它们的名字和价值.有些命令,可能会有参数但没有名字 
+摘要在执行命令和导航菜单 
+命令作用 
+command [Enter] 执行这个命令 
+[?] 显示出所有可用的命令列表 
+command [?] 在命令和列表参数显示帮助 
+command argument [?] 命令参数显示帮助 
+[Tab] 完善命令/字符. 如果你不明确输入, 另一个 [Tab] 显示可能有选择 
+/ 移动到基本的菜单层 
+/命令字——— 执行这层的命令 
+.. 移动到另一层 
+“” 指定空的字符串 
+“word1 word2″规定一串2个词或包含空的 
+你在这层可以用缩写名字.命令或参数像IP地址的配置, 而不是使用 \’address\’和\’netmask\’ 参数,在多数情况下 你可以指定地址加上数字代理网络掩码, 没有必要分开指定 \’netmask\’. 因此,下面两种输入的方式是等同的: 
+/ip address add address 10.0.0.1/24 interface ether1 
+/ip address add address 10.0.0.1 netmask 255.255.255.0 interface ether1 
+注意 
+在地址参数中你必须指定网络掩码的大小, 即使它是32-bit 的子网, 使用 10.0.0.1/32 代替 address=10.0.0.1 netmask=255.255.255.255 
+基本的配置作业 
+描述 
+接口管理 
+以后配置这个 IP地址和路由请检查这个 /interface 菜单查看可用的接口列表.如果在路由器中安装了即插即用的网卡, 多数设备驱动都会自动载入系统中, 和有关的接口都会出现在 /interface print 命令列表中, 
+实例: 
+[admin@MikroTik] interface&gt; print 
+Flags: X - disabled, D - dynamic, R - running 
+# NAME TYPE RX-RATE TX-RATE MTU 
+0 R ether1 ether 0 0 1500 
+1 R ether2 ether 0 0 1500 
+2 X wavelan1 wavelan 0 0 1500 
+3 X prism1 wlan 0 0 1500 
+[admin@MikroTik] interface&gt; 
+如果你想使用它通讯,你必须打开这个接口.. 使用这个 /interface enable name 命令打开接口并给出名字,编号. 
+实例: 
+[admin@MikroTik] interface&gt; print 
+Flags: X - disabled, D - dynamic, R - running 
+# NAME TYPE RX-RATE TX-RATE MTU 
+0 X ether1 ether 0 0 1500 
+1 X ether2 ether 0 0 1500 
+[admin@MikroTik] interface&gt; enable 0 
+[admin@MikroTik] interface&gt; enable ether2 
+[admin@MikroTik] interface&gt; print 
+Flags: X - disabled, D - dynamic, R - running 
+# NAME TYPE RX-RATE TX-RATE MTU 
+0 R ether1 ether 0 0 1500 
+1 R ether2 ether 0 0 1500 
+[admin@MikroTik] interface&gt; 
+用来改变一个或多个接口的名字使用 /interface set 命令: 
+[admin@MikroTik] interface&gt; set 0 name=Local; set 1 name=Public 
+[admin@MikroTik] interface&gt; print 
+Flags: X - disabled, D - dynamic, R - running 
+# NAME TYPE RX-RATE TX-RATE MTU 
+0 R Local ether 0 0 1500 
+1 R Public ether 0 0 1500 
+[admin@MikroTik] interface&gt; 
+使用这个 \’setup\’命令 
+通过这个初始设置就可以完成路由器的简单设置,这个 /setup 命令可以打开接口,分配地址/网路掩码,配置缺省的路由. 如果你没有使用 setup 命令, 而且需要修改/添加设定地址和路由,请使用以下几步描述. 
+注释 
+载入的设备是 NE2000 或兼容的 ISA 网卡你需要在/drivers 菜单下使用add 命令. 实例, 装入网卡的 IO 地址 0×280 和 IRQ 5, 输入完整的命令: 
+[admin@MikroTik] driver&gt; add name=ne2k-isa io=0×280 
+[admin@MikroTik] driver&gt; print 
+Flags: I - invalid, D - dynamic 
+# DRIVER IRQ IO MEMORY ISDN-PROTOCOL 
+0 D RealTek 8139 
+1 D Intel EtherExpressPro 
+2 D PCI NE2000 
+3 ISA NE2000 280 
+4 Moxa C101 Synchronous C8000 
+[admin@MikroTik] driver&gt; 
+There are some other drivers that should be added manually. 
+请阅读手册的部分章节, 详细的说明请参照如何装载设备. 
+基本的实例 
+假定在以下的网络设置中你需要配置这台 MikroTik 路由器:在当前的实例中我们使用两快网卡: 
+? 当地的网卡IP地址是 192.168.0.0 和24-bit 网络掩码: 255.255.255.0. 路由器地址是在 192.168.0.254 网络中. 
+? ISP\’s 网络地址是 10.0.0.0 和 24-bit网络掩码255.255.255.0. 路由器地址是在10.0.0.217 网络中 在以下命令中观察和使用这个地址是如何添加的: 
+[admin@MikroTik] ip address&gt; add address 10.0.0.217/24 interface Public 
+[admin@MikroTik] ip address&gt; add address 192.168.0.254/24 interface Local 
+[admin@MikroTik] ip address&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic 
+# ADDRESS NETWORK BROADCAST INTERFACE 
+0 10.0.0.217/24 10.0.0.217 10.0.0.255 Public 
+1 192.168.0.254/24 192.168.0.0 192.168.0.255 Local 
+[admin@MikroTik] ip address&gt; 
+这里, 这个地址参数的网络掩码的范围必须在指定的范围之内. 
+作为选择, 这个参数 \’netmask\’ 这个值可以用 \’255.255.255.0\’代替. 这个网路和广播地址不用提前指定在你输入时因为它可以自动计算. 
+请注意路由器在不同的网路这个地址分配给不同的接口. 
+观察路由 
+你可以看到两个动态dynamic (D) and 已连接connected (C) 路由, 
+当地址已添加了上面那个会自己添加. 在上面的这个例子: 
+[admin@MikroTik] ip route&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic, J - rejected, 
+C - connect, S - static, R - rip, O - ospf, B - bgp 
+# DST-ADDRESS G GATEWAY DISTANCE INTERFACE(目的地址 G-网关 经过接口) 
+0 DC 192.168.0.0/24 r 0.0.0.0 0 Local 
+1 DC 10.0.0.0/24 r 0.0.0.0 0 Public 
+[admin@MikroTik] ip route&gt; print detail (打印详情) 
+Flags: X – disabled(禁止), I – invalid(无效的), D – dynamic(动态的), 
+J - rejected,(丢弃)C – connect(连接), S – static(静态), 
+R - rip, O - ospf, B - bgp 
+0 DC dst-address=192.168.0.0/24 preferred-source=192.168.0.254 
+gateway=0.0.0.0 gateway-state=reachable distance=0 interface=Local 
+1 DC dst-address=10.0.0.0/24 preferred-source=10.0.0.217 gateway=0.0.0.0 
+gateway-state=reachable distance=0 interface=Public 
+[admin@MikroTik] ip route&gt; 
+显示这些路由, 这些 IP数据包到达目的地址10.0.0.0/24是通过 Public 接口发送, 然而IP 数据包到达目的地址 192.168.0.0/24 是通过 Local 接口发送. 
+然而,你需要指定数据包应该向那个路由器转发,那个目的地不同的网络直接连接到这台路由器上. 
+添加缺省路由 
+在以下这个缺省的路由器 (destination 0.0.0.0 (any), netmask 0.0.0.0 (any)) 将要添加. 
+在这种情况下它是ISP\’s 网关 10.0.0.1, 通过这个 Public 接口到达. 
+[admin@MikroTik] ip route&gt; add gateway=10.0.0.1 
+[admin@MikroTik] ip route&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic, J - rejected, 
+C - connect, S - static, R - rip, O - ospf, B - bgp 
+# DST-ADDRESS G GATEWAY DISTANCE INTERFACE 
+0 S 0.0.0.0/0 r 10.0.0.1 1 Public 
+1 DC 192.168.0.0/24 r 0.0.0.0 0 Local 
+2 DC 10.0.0.0/24 r 0.0.0.0 0 Public 
+[admin@MikroTik] ip route&gt; 
+在这,这个缺省的路由列表是 #0. 像我们看到的, 这个网关 10.0.0.1 可以通过这个 \’Public\’ 接口到达.如果这个网关指定是不正确的, 这个值在这个参数\’interface\’ 是不知的. 
+注意 
+你不能添加两条路由到相同的目的地, 目的地—-地址/网路掩码! 它试用于缺省的路由.代替, 对于目的地你可以键入多条网关.至于更多的信息请在IP 路由中, 请阅读 Routes, Equal cost Multipath Routing, Policy Routing 手册. 
+如果你偶然的添加了不必要的静态路由, 使用这个 remove 命令删除一条不必要的路由. 你不能删除动态的(DC) 路由. 
+他们被自动的添加并描绘出路由器直接连接到这个网络中. 
+测试这个网路连接 
+从现在开始, 这个 /ping 命令可以在两者的端口测试网路的连通性. 
+在这个路由器连接的网络中你可以到达任一台主机. 
+/ping 命令工作的方式: 
+[admin@MikroTik] ip route&gt; /ping 10.0.0.4 
+10.0.0.4 64 byte ping: ttl=255 time=7 ms 
+10.0.0.4 64 byte ping: ttl=255 time=5 ms 
+10.0.0.4 64 byte ping: ttl=255 time=5 ms 
+3 packets transmitted, 3 packets received, 0% packet loss 
+round-trip min/avg/max = 5/5.6/7 ms 
+[admin@MikroTik] ip route&gt; 
+[admin@MikroTik] ip route&gt; /ping 192.168.0.1 
+192.168.0.1 64 byte ping: ttl=255 time=1 ms 
+192.168.0.1 64 byte ping: ttl=255 time=1 ms 
+192.168.0.1 64 byte ping: ttl=255 time=1 ms 
+3 packets transmitted, 3 packets received, 0% packet loss 
+round-trip min/avg/max = 1/1.0/1 ms 
+[admin@MikroTik] ip route&gt; 
+这台工作站和膝上型电脑能够达到 (ping)在本地地址192.168.0.254的路由器, 如果这路由器的地址192.168.0.254 是当作缺省网关必须在这台工作站和膝上型电脑的TCP/IP 配置中指定. 
+当你ping这台路由器: 
+C:\\&gt;ping 192.168.0.254 
+Reply from 192.168.0.254: bytes=32 time=10ms TTL=253 
+Reply from 192.168.0.254: bytes=32 time&lt;10ms TTL=253 
+Reply from 192.168.0.254: bytes=32 time&lt;10ms TTL=253 
+C:\\&gt;ping 10.0.0.217 
+Reply from 10.0.0.217: bytes=32 time=10ms TTL=253 
+Reply from 10.0.0.217: bytes=32 time&lt;10ms TTL=253 
+Reply from 10.0.0.217: bytes=32 time&lt;10ms TTL=253 
+C:\\&gt;ping 10.0.0.4 
+Request timed out. 
+Request timed out. 
+Request timed out. 
+注意 
+你不能够接入到远程的路由器 (network 10.0.0.0/24 and the Internet), 
+除非你作了下列各向项之一: 
+? 这使用MikroTik 路由器把你的你私人的LAN 192.168.0.0/24 (看下面的说明) \’hide\’翻译 (冒充)成源网络地址, 或 
+? 在ISP\’s 网关 10.0.0.1添加静态的路由, 那指定的网咯主机 192.168.0.0/24 的网关是 10.0.0.217. 然后ISP上所有上的主机,包括服务器, 都能于这个LAN中的主机连通. 
+为要建立路由,它必须要求你懂得更多的TCP/IP 网路配置知识.如果你在配置你的网路计划中有困难,这http://www.private.org.il/tcpip_rl.html.有广泛的IP资源内容是由 Uri Raz 编译的.我们强烈的支持您获得更多的知识,. 
+高级的配置作业 
+描述 
+下一个我们讨论的情形是用 ISP给定的一个地址10.0.0.217.\’hiding\’ 私人 LAN 192.168.0.0/24 \’behind\’ . 
+应用实例 with Masquerading 
+如果你想用 ISP给定的一个地址10.0.0.217.\’hiding\’ 私人 LAN 192.168.0.0/24 \’behind\’ , 你应该使用MikroTik路由器的源网路地址翻译(masquerading) 特点. 如果你访问ISP的网络和Internet时在ISP的网络中出现的所有的请求都是来自主机 10.0.0.217, 冒充是有用的.当数据包通过网路192.168.0.0/24 到这个地址的 10.0.0.217 路由器时, 这个冒充将改变这个数据包的源 IP 地址和端口.伪装转换要求的全球的IP地址的数字并且它让整个的网路使用一个单个的IP地址连接到世界的网路.为了使用冒充, 和激活\’masquerade\’都必须添加一条源 NAT 规则到防火墙. 
+配置: 
+[admin@MikroTik] ip firewall src-nat&gt; add action=masquerade out-interface=Public 
+[admin@MikroTik] ip firewall src-nat&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic 
+0 out-interface=Public action=masquerade src-address=192.168.0.0/24 
+[admin@MikroTik] ip firewall src-nat&gt; 
+注意 
+在使用冒充时更多的说明请参考 Network Address Translation. 
+带宽管理实例 
+假如你想限制在LAN中所有的主机的带宽下载时128kbps上传是64kbps 
+带宽限制是在你的流量控制中稳妥的使用于输出接口队列. 
+它可以添加一条充足得队列到你的MikroTik路由器. 
+[admin@MikroTik] queue simple&gt; add max-limit=64000/128000 interface=Local 
+[admin@MikroTik] queue simple&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic 
+0 name=”queue1″ target-address=0.0.0.0/0 dst-address=0.0.0.0/0 
+interface=Local queue=default priority=8 limit-at=0/0 
+max-limit=64000/128000 
+[admin@MikroTik] queue simple&gt; 
+作为整体由缺省值的其他的另外参数.限制时到本地网的值近似128kbps(下载)和到达客户机的本地网64kbps(上传). 
+NAT的应用实例 
+假如 ,我们移动我们的服务器在我们私人的实例从公用的网路到我们当地的网路: 
+这个服务器的地址是192.168.0.4,并且我们运行web服务器它监听这个TCP的80端口 我们需要获得一个可以可到达的访问Internet的地址和端口10.0.0.217:80. 
+在MikroTik的路由器中他可以通过这种方法实现网路地址的翻译(NAT).这个Public的地址10.0.0.217:80 能够翻译成Local地址192.168.0.4:80任何目的NAT 规则都要求翻译成这个目标地址和端口: 
+[admin@MikroTik] ip firewall dst-nat&gt; add action=nat protocol=tcp \\ 
+dst-address=10.0.0.217/32:80 to-dst-address=192.168.0.4 
+[admin@MikroTik] ip firewall dst-nat&gt; print 
+Flags: X - disabled, I - invalid, D - dynamic 
+0 dst-address=10.0.0.217/32:80 protocol=tcp action=nat 
+to-dst-address=192.168.0.4 
+[admin@MikroTik] ip firewall dst-nat&gt;
+</code></pre>
+<p>原文 <a href="http://i.mop.com/doodie/blog/2007/05/10/3912743.html">http://i.mop.com/doodie/blog/2007/05/10/3912743.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/routeros/">
+ROUTEROS
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+skydrive
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/skydrive/</link>
+    <description>Recent content in 
+skydrive
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Aug 2012 02:05:31 +0000</lastBuildDate><atom:link href="http://example.org/tags/skydrive/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>skydrive终于更新界面了，清新多了</title>
+      <link>http://example.org/2012/08/15/skydrive-upgrade-outlook/</link>
+      <pubDate>Wed, 15 Aug 2012 02:05:31 +0000</pubDate>
+      
+      <guid>http://example.org/2012/08/15/skydrive-upgrade-outlook/</guid>
+      <description>skydrive 是个不错的产品，可惜界面长年不更新，和众多网盘真是有可比性，今天登录 skydrive 突然感觉一下亲切多了，界面升级到和 outlook 的一样了，估计也是为了 windows 8 吧，而且上传速度也有所提升，哈哈，这下用 skydrive 同学有福喽。。</description>
+    </item>
+    
+  </channel>
+</rss>

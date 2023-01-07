@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Installing MySQL 5.1 on FreeBSD | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/28/installing-mysql-51-on-freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Installing MySQL 5.1 on FreeBSD" />
+<meta property="og:description" content="This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/28/installing-mysql-51-on-freebsd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-28T15:14:05+00:00" />
+<meta property="article:modified_time" content="2009-03-28T15:14:05+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Installing MySQL 5.1 on FreeBSD"/>
+<meta name="twitter:description" content="This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.
+Step 1: Install wget
+cd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code
+mkdir /usr/tmp cd /usr/tmp wget &quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user
+adduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Installing MySQL 5.1 on FreeBSD",
+      "item": "http://example.org/2009/03/28/installing-mysql-51-on-freebsd/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Installing MySQL 5.1 on FreeBSD",
+  "name": "Installing MySQL 5.1 on FreeBSD",
+  "description": "This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.\nStep 1: Install wget\ncd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code\nmkdir /usr/tmp cd /usr/tmp wget \u0026quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/\u0026quot; tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user\nadduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql",
+  "keywords": [
+    
+  ],
+  "articleBody": "This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.\nStep 1: Install wget\ncd /usr/ports/ftp/wget make make install Step 2: Download MySQL 5.1 source code\nmkdir /usr/tmp cd /usr/tmp wget \"http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/\" tar xvzf mysql-5.1.24-rc.tar.gz Step 3: Create mysql user\nadduser Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql\nStep 4: Compile and Install MySQL with InnoDB support\ncd /usr/tmp/mysql-5.1.24-rc ./configure --with-innodb make all make install Step 5: Install default MySQL tables\ncd /usr/local/bin ./mysql_install_db cd /usr/local chown -R mysql:mysql var Step 6: Startup MySQL and connect to it\n/usr/local/bin/mysqld_safe \u0026 /usr/local/bin/mysql Step 7: Set MySQL to start automatically when the machine reboots\nSave the file below under /usr/local/etc/rc.d and call it mysqlstart.sh\n/usr/local/bin/mysqld_safe \u0026 Mark it as an executable\nchmod 755 /usr/local/etc/rc.d/mysqlstart.sh Step 8: Customizations\nThe following steps are optional.\nBy this point you should have MySQL installed and running on your new FreeBSD machine.\nThe customizations below are things that we do here at SoftwareProjects and are designed to get the most juice out of MySQL 5.1 in our environment. All of our MySQL database machines run on FreeBSD 6/7 with a minimum of 4GB memory.\nShutdown the MySQL database\n/usr/local/bin/mysqladmin shutdown Move the data directory to /usr/local/mysql/data\nmv /usr/local/var /usr/local/mysql/data Save our custom MySQL configuration file under /etc/my.cnf\nNote: Be sure to assign a unique server-id and note the auto-increment field - this is useful for master/master setups.\nStep 9: Lift process size restrictions\nFreeBSD limits process max size in memory to 512MB. We’re going to want to use more for MySQL.\nTo lift FreeBSD process size restrictions, we have to update /boot/loader.conf with:\nsl_aacu_load=\"YES\" kern.maxdsiz=\"2073741824\" # 2GB kern.dfldsiz=\"2073741824\" # 2GB #kern.maxssiz=\"536870912\" # 512MB And then reboot the machine\nStep 10: Populate database with data\nTypically when we install a new database server, we want to populate it with data from another database.\nThe absolute easiest way to populate a secondary MySQL database machine with data from another MySQL database, is by using a script called InnoDBBackup by the makers of InnoDB.\nInstall both ibbackup and the Perl innobackup script on the master database machine (the one you are looking to transfer data from)\ncreate a backup of the database (the great thing about this is you never have to take the database down):\n./innobackup /etc/my.cnf /usr/local/mysql/databackup Once the backup completes, transfer all the data over from the master to this new machine we are setting up -\nOn the new machine we are setting up, create a new directory to hold the backup:\nmkdir /usr/local/mysql/databackup chmod a+rw /usr/local/mysql/databackup On the master machine, issue this tar command:\ntar -czpf - /usr/local/mysql/databackup --exclude mysql | ssh -lUSERNAME NEWHOST.COM tar -xzpf - -C /usr/local/mysql/databackup Once the tar is done, copy ibbackup and innobackup to the destination machine under /usr/tmp and run these two commands:\n./innobackup --apply-log /etc/my.cnf /usr/local/mysql/databackup/2008-05-02_09-34-03/backup-my.cnf ./innobackup --copy-back /etc/my.cnf /usr/local/mysql/databackup/2008-05-02_09-34-03/backup-my.cnf Replace the 2008-05-02... with the name of your backup folder Important: If you have a lot of databases, you may get “Too many open files” EMFILE error 24.\nTo fix this, you need to increase the number of file descriptors.\nUpdate your /etc/sysctl.conf with the settings below and reboot the machine before retrying:\nkern.maxfiles=65535 kern.maxfilesperproc=56384 kern.maxproc=50000 vfs.vmiodirenable=1 net.inet.tcp.msl=2000 net.inet.tcp.rfc1323=1 net.inet.tcp.delayed_ack=0 net.inet.tcp.restrict_rst=1 kern.ipc.maxsockbuf=2097152 kern.ipc.somaxconn=4096 kern.ipc.maxsockets=52328 net.inet.ip.portrange.first=20000 net.inet.ip.portrange.last=65535 net.inet.ip.portrange.hifirst=20000 net.inet.ip.portrange.hilast=65535 转自http://www.softwareprojects.com/resources/programming/t-installing-mysql-51-on-freebsd-1510.html\n",
+  "wordCount" : "564",
+  "inLanguage": "en",
+  "datePublished": "2009-03-28T15:14:05Z",
+  "dateModified": "2009-03-28T15:14:05Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/28/installing-mysql-51-on-freebsd/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Installing MySQL 5.1 on FreeBSD
+    </h1>
+    <div class="post-meta"><span title='2009-03-28 15:14:05 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>This step by step tutorial is everything you need to install MySQL 5.1 (from source) on a virgin FreeBSD 4.x - 7.x machine.</p>
+<p>Step 1: Install wget</p>
+<pre><code>cd /usr/ports/ftp/wget
+make 
+make install 
+</code></pre>
+<p>Step 2: Download MySQL 5.1 source code</p>
+<pre><code>mkdir /usr/tmp
+cd /usr/tmp
+wget &quot;http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.24-rc.tar.gz/from/http://mysql.he.net/&quot;
+tar xvzf mysql-5.1.24-rc.tar.gz
+</code></pre>
+<p>Step 3: Create mysql user</p>
+<p>adduser
+Follow the prompts to create a mysql user and mysql group with a default directory of /usr/local/mysql</p>
+<p>Step 4: Compile and Install MySQL with InnoDB support</p>
+<pre><code>cd /usr/tmp/mysql-5.1.24-rc
+./configure --with-innodb
+make all
+make install
+</code></pre>
+<p>Step 5: Install default MySQL tables</p>
+<pre><code>cd /usr/local/bin
+./mysql_install_db
+cd /usr/local
+chown -R mysql:mysql var
+</code></pre>
+<p>Step 6: Startup MySQL and connect to it</p>
+<pre><code>/usr/local/bin/mysqld_safe &amp;
+/usr/local/bin/mysql
+</code></pre>
+<p>Step 7: Set MySQL to start automatically when the machine reboots</p>
+<p>Save the file below under /usr/local/etc/rc.d and call it mysqlstart.sh</p>
+<pre><code>/usr/local/bin/mysqld_safe &amp;
+</code></pre>
+<p>Mark it as an executable</p>
+<pre><code>chmod 755 /usr/local/etc/rc.d/mysqlstart.sh
+</code></pre>
+<p>Step 8: Customizations</p>
+<p>The following steps are optional.</p>
+<p>By this point you should have MySQL installed and running on your new FreeBSD machine.</p>
+<p>The customizations below are things that we do here at SoftwareProjects and are designed to get the most juice out of MySQL 5.1 in our environment.
+All of our MySQL database machines run on FreeBSD 6/7 with a minimum of 4GB memory.</p>
+<p>Shutdown the MySQL database</p>
+<pre><code>/usr/local/bin/mysqladmin shutdown
+</code></pre>
+<p>Move the data directory to /usr/local/mysql/data</p>
+<p>mv /usr/local/var /usr/local/mysql/data
+Save our custom MySQL configuration file under /etc/my.cnf</p>
+<p>Note: Be sure to assign a unique server-id and note the auto-increment field - this is useful for master/master setups.</p>
+<p>Step 9: Lift process size restrictions</p>
+<p>FreeBSD limits process max size in memory to 512MB. We&rsquo;re going to want to use more for MySQL.</p>
+<p>To lift FreeBSD process size restrictions, we have to update /boot/loader.conf with:</p>
+<pre><code>sl_aacu_load=&quot;YES&quot;
+kern.maxdsiz=&quot;2073741824&quot; # 2GB
+kern.dfldsiz=&quot;2073741824&quot; # 2GB
+#kern.maxssiz=&quot;536870912&quot; # 512MB
+</code></pre>
+<p>And then reboot the machine</p>
+<p>Step 10: Populate database with data</p>
+<p>Typically when we install a new database server, we want to populate it with data from another database.</p>
+<p>The absolute easiest way to populate a secondary MySQL database machine with data from another MySQL database, is by using a script called InnoDBBackup by the makers of InnoDB.</p>
+<p>Install both ibbackup and the Perl innobackup script on the master database machine (the one you are looking to transfer data from)</p>
+<p>create a backup of the database (the great thing about this is you never have to take the database down):</p>
+<pre><code>./innobackup /etc/my.cnf /usr/local/mysql/databackup
+</code></pre>
+<p>Once the backup completes, transfer all the data over from the master to this new machine we are setting up -</p>
+<p>On the new machine we are setting up, create a new directory to hold the backup:</p>
+<pre><code>mkdir /usr/local/mysql/databackup
+chmod a+rw /usr/local/mysql/databackup
+</code></pre>
+<p>On the master machine, issue this tar command:</p>
+<pre><code>tar -czpf - /usr/local/mysql/databackup --exclude mysql | ssh -lUSERNAME NEWHOST.COM tar -xzpf - -C /usr/local/mysql/databackup
+</code></pre>
+<p>Once the tar is done, copy ibbackup and innobackup to the destination machine under /usr/tmp and run these two commands:</p>
+<pre><code>./innobackup --apply-log /etc/my.cnf /usr/local/mysql/databackup/2008-05-02_09-34-03/backup-my.cnf 
+
+./innobackup --copy-back /etc/my.cnf /usr/local/mysql/databackup/2008-05-02_09-34-03/backup-my.cnf
+Replace the 2008-05-02... with the name of your backup folder
+</code></pre>
+<p>Important: If you have a lot of databases, you may get &ldquo;Too many open files&rdquo; EMFILE error 24.</p>
+<p>To fix this, you need to increase the number of file descriptors.</p>
+<p>Update your /etc/sysctl.conf with the settings below and reboot the machine before retrying:</p>
+<pre><code>kern.maxfiles=65535
+kern.maxfilesperproc=56384
+kern.maxproc=50000
+
+vfs.vmiodirenable=1
+net.inet.tcp.msl=2000
+
+net.inet.tcp.rfc1323=1
+net.inet.tcp.delayed_ack=0
+net.inet.tcp.restrict_rst=1
+kern.ipc.maxsockbuf=2097152
+kern.ipc.somaxconn=4096
+kern.ipc.maxsockets=52328
+net.inet.ip.portrange.first=20000
+
+net.inet.ip.portrange.last=65535
+net.inet.ip.portrange.hifirst=20000
+net.inet.ip.portrange.hilast=65535
+</code></pre>
+<p>转自http://www.softwareprojects.com/resources/programming/t-installing-mysql-51-on-freebsd-1510.html</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

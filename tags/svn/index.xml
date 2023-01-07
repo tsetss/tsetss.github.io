@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+svn
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/svn/</link>
+    <description>Recent content in 
+svn
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Jul 2009 13:27:16 +0000</lastBuildDate><atom:link href="http://example.org/tags/svn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>将svnserver 注册为系统服务</title>
+      <link>http://example.org/2009/07/07/e5b086svnserver-e6b3a8e5868ce4b8bae7b3bbe7bb9fe69c8de58aa1/</link>
+      <pubDate>Tue, 07 Jul 2009 13:27:16 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/07/e5b086svnserver-e6b3a8e5868ce4b8bae7b3bbe7bb9fe69c8de58aa1/</guid>
+      <description>sc create svn binpath= &amp;ldquo;D:\soft\Subversion\bin\svnserve.exe &amp;ndash;service -r E:\svn\local&amp;rdquo; displayname= &amp;ldquo;Subversion Server&amp;rdquo; depend= Tcpip start= auto
+刚重装完系统记录一下，</description>
+    </item>
+    
+  </channel>
+</rss>

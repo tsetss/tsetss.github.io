@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Unix命令大全 | 白天’s Blog</title>
+<meta name="keywords" content="
+shell
+      , 
+unix
+      ">
+<meta name="description" content="1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:
+telnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address
+1.2 登录步骤 login : _______ &gt; 输入 username
+password : _______ &gt; 输入密码
+1.3 登出步骤
+% logout 或 % exit 或 % 1.4 更改帐号密码
+% yppasswd &gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ &gt; 输入旧密码 New password: ______ &gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ &gt; 再输入一次密码 1.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Unix命令大全" />
+<meta property="og:description" content="1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:
+telnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address
+1.2 登录步骤 login : _______ &gt; 输入 username
+password : _______ &gt; 输入密码
+1.3 登出步骤
+% logout 或 % exit 或 % 1.4 更改帐号密码
+% yppasswd &gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ &gt; 输入旧密码 New password: ______ &gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ &gt; 再输入一次密码 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-26T10:20:05+00:00" />
+<meta property="article:modified_time" content="2006-02-26T10:20:05+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unix命令大全"/>
+<meta name="twitter:description" content="1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:
+telnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address
+1.2 登录步骤 login : _______ &gt; 输入 username
+password : _______ &gt; 输入密码
+1.3 登出步骤
+% logout 或 % exit 或 % 1.4 更改帐号密码
+% yppasswd &gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ &gt; 输入旧密码 New password: ______ &gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ &gt; 再输入一次密码 1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Unix命令大全",
+      "item": "http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Unix命令大全",
+  "name": "Unix命令大全",
+  "description": "1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:\ntelnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address\n1.2 登录步骤 login : _______ \u0026gt; 输入 username\npassword : _______ \u0026gt; 输入密码\n1.3 登出步骤\n% logout 或 % exit 或 % 1.4 更改帐号密码\n% yppasswd \u0026gt; 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ \u0026gt; 输入旧密码 New password: ______ \u0026gt; 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ \u0026gt; 再输入一次密码 1.",
+  "keywords": [
+    "\nshell\n      ", "\nunix\n      "
+  ],
+  "articleBody": "1.登录工作站 1.1 透过 PC 登录工作站 执行格式：telnet hostname (在 dos 下执行) telnet ip-address Example:\ntelnet doc telnet 140.122.77.120 注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address\n1.2 登录步骤 login : _______ \u003e 输入 username\npassword : _______ \u003e 输入密码\n1.3 登出步骤\n% logout 或 % exit 或 % 1.4 更改帐号密码\n% yppasswd \u003e 执行后将会出现下列信息 Changing NIS password for user on ice. Old password: ______ \u003e 输入旧密码 New password: ______ \u003e 输入新密码(最好6-8字，英文字母与数字混合) Retype new password: ______ \u003e 再输入一次密码 1.5 在线帮助指令说明 执行格式： man command-name\nExample: % man ls 1.6 进入远端电脑系统 执行格式：rlogin hostname [-1 username] Example:\n%rlogin doc remote login 进入工作站 doc 中。 %rlogin doc -l user 使用 user 帐号进入工作站 doc 中。 执行格式：telnet hostname 或 telnet IP address Example:\n%telnet doc or %telnet 140.109.20.251 2. 文件或目录处理 2.1 列出文件或目录下之文件名称 执行格式： ls [-atFlgR] [name] ( name 可为文件名或目录名称。)\nExample :\nls 列出目前目录下之文件名。 ls –a 列出包含以.起始的隐藏档所有文件名。 ls –t 依照文件最后修改时间之顺序，依序列出文件名。 ls –F 列出目前目录下之文件名及其类型。”/” 结尾表示为目录名称， “*” 结尾表示为执行档，”@” 结尾表示为 symblic link。\nls –l 列出目录下所有文件之许可权、拥有者、文件大小、修改时间及名称。 ls –lg 同上，并显示出文件之拥有者群组名称。 ls –R 显示出目录下，以及其所有子目录之文件名。( recursive listing ) 2.2 目录之缩写：\n～ 使用者 login 时的 working directory ( 起始目录 ) ～username 指定某位 user 的 working directory ( 起始目录 ) .. 目前的工作目录 ( current working directory ) .. 目前目录的上一层目录 ( parent of working directory) 2.3 改变工作目录位置 执行格式：cd [name] ：name 可为目录名称、路径或目录缩写。\nExample:\ncd 改变目录位置，至使用者 login 时的 working directory (起始目录)。 cd dir1 改变目录位置，至 dir1 之目录位置下。 cd ~user 改变目录位置，至使用者的 working directory (起始目录)。 cd .. 改变目录位置，至目前目录的上层( 即 parent of working directory) cd ../user 改变目录位置，至相对路径 user 之目录位置下。 cd /../.. 改变目录位置，至绝对路径( Full path ) 之目录位置下。 2.4 复制文件 执行格式: cp [-r] source destination\nExample:\ncp file1 file2 将文件 file1 复制成 file2 cp file1 dir1 将文件 file1 复制到目录 dir1 下，文件名仍为 file1。 cp /tmp/file1 将目录 /tmp 下的文件 file1 复制到现行目录下，文件名仍为 file1。 cp /tmp/file1 file2 将目录 /tmp 下的文件 file1 复制到现行目录下，文件名为 file2 cp -r dir1 dir2 (recursive copy) 复制整个目录。 若目录 dir2 不存在，则将目录 dir1，及其所有文件和子目录，复制到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，复制为目录 dir2。\n2.5 移动或更改文件、目录名称 执行格式： mv source destination\nExample:\nmv file1 file2 将文件 file1，更改文件名为 file2。 mv file1 dir1 将文件 file1，移到目录 dir1下，文件名仍为 file1。 mv dir1 dir2 若目录 dir2 不存在，则将目录 dir1，及其所有文件和子目录，移到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，更改为目录 dir2。 2.6 建立新目录 执行格式： mkdir directory-name\nExmaple ：\nmkdir dir1 建立一新目录 dir1。 2.7 删除目录 执行格式： rmdir directory-name 或 rm directory-name\nExample ：\nrmdir dir1 删除目录 dir1，但 dir1 下必须没有文件存在，否则无法删除。 rm -r dir1 删除目录 dir1，及其下所有文件及子目录。 2.8 删除文件 执行格式： rm filename (filename 可为文件名，或文件名缩写符号。)\nExample ：\nrm file1 删除文件名为 file1 之文件。 rm file? 删除文件名中有五个字符，前四个字符为file 之所有文件。 rm f* 删除文件名中，以 f 为字首之所有文件。 2.9 文件名的缩写符号 ? 代表文件名称中之单一字符。\n代表文件名称中之一字串。 2.10 列出目前所在之目录位置 执行格式： pwd\n2.11 查看文件内容 执行格式： cat filename Example ：\ncat file1 以连续显示方式，查看文件名 file1 之内容。 执行格式： more filename 或 cat filename | more Example ：\nmore file1 以分页方式，查看文件名 file1 之内容。 cat file1 | more 同上。 2.12 查看目录所占磁盘容量 执行格式: du [-s] directory Example :\ndu dir1 显示目录 dir1 的总容量及其次目录的容量(以 k byte 为容量)。 du -s dir1 显示目录 dir1 的总容量。 2.13 查看自己的 disk quota 使用状况 disk quota : 工作站磁盘空间的使用限额。 执行格式: quota -v Example :\nquota -v 将会显示下列信息 Filesystem usage quota limit timeleft files quota limit timelef. /home/ice/u01 9344 8192 12288 1.9 days 160 0 0 栏位解说: usage : 目前的磁盘用量。 quota : 你的磁盘使用额度。当你的 usage 超过 quota 时，虽然可以继续使用，但是必须七天之内降到 quota 以下，否则即使用量没有超 limit(最高限额)，也无法再写入或复制任何文件。 limit : 最高使用额度。当你的 usage 达到 limit 时，无法再写入或复制任何文件。\n3. 文件传输 3.1 拷贝文件或目录至远端工作站 执行格式： rcp [-r] source hostnome:destination source 可为文件名、目录名或路径，hostnome 为工作站站名，destination 为路径名称. Example ：\nrcp file1 doc:/home/user 将文件 file1，拷贝到工作站 doc 路径 /home/user 之目录下。 rcp -r dir1 doc:/home/user 将目录 dir1，拷贝到工作站 doc 路径/home/user 之目录下。 3.2 自远端工作站，拷贝文件或目录 执行格式： rcp [-r] hostname:source destination ( hostname 为工作站名，source 为路径名，destination 可为文件名、目录名或路径 )。 Example ：\nrcp doc:/home/user/file1 file2 将工作站 doc 中，位于 /home/user 目录下之目录 dir1，拷贝到目前工作站之目录下，目录名称仍为 dir1。 rcp -r doc:/home/user/dir1 . 将工作站 iis1 中，位于 /home/user 目录下之目录 dir1，拷贝到目前工作站之目录下目录名称仍为 dir1。 3.3 本地工作站与远端工作站之间文件传输 ( 必须拥有远端工作站之帐号及密码，才可进行传输工作 ) 执行格式： ftp hostname or ftp ip_address Example ：\nftp doc 与远端工作站 doc ，进行文件传输 Name (doc:user-name) : 输入帐号 Password (doc:user-name): 输入密码 ftp\u003e help 列出 ftp 文件传输，可使用之任何命令。 ftp\u003e !ls 列出本地工作站，目前目录下之所有文件名。 ftp\u003e !pwd 列出本地工作站，目前所在之工作目录位置。 ftp\u003e ls 列出远端工作站目前目录下之所有文件名。 ftp\u003e dir 列出远端工作站目前目录下之所有文件名(略同于 UNIX 的 ls -l 指令). ftp\u003e dir . |more 同上，但每页会暂停(可能不适用 Unix 以外的 ftp)。 ftp\u003e pwd 列出远端工作站目前所在之目录位置。 ftp\u003e cd dir1 更改远端工作站之工作目录位置至 dir1 之下。 ftp\u003e get file1 将远端工作站之文件 file1 ，拷贝到本地工作站中。 ftp\u003e put file2 将本地工作站之文件 file2 ，拷贝到远端工作站中。 ftp\u003e mget *.c 将远端工作站中，副文件名为 c 之所有文件，拷贝到本地工作站中。 ftp\u003e mput *.txt 将本地工作站中，副文件名为 txt 之所有文件，拷贝远端工作站中。 ftp\u003e prompt 切换交谈式指令(使用 mput/mget 时不用每个文件皆询问yes/no)。 ftp\u003e quit 结束 ftp 工作。 ftp\u003e bye 结束 ftp 工作。 注: 从PC与工作站间的文件传输也可透过在 PC端的 FTP指令进行文件传输，指令用法与上所述大致相同。\n4. 文件模式之设定 4.1 改变文件或目录之读、写、执行之允许权 执行格式：chmod [-R] mode name ( name 可为文件名或目录名;mode可为 3 个 8 位元之数字，或利用ls -l 命令，列出文件或目录之读、写、执行允许权之文字缩写。) mode : rwx rwx rwx r:read w:write x:execute user group other 缩写 : (u) (g) (o) Example :\n%chmod 755 dir1 将目录dir1，设定成任何使用者，皆有读取及执行之权利，但只有拥有者可做修改。 %chmod 700 file1 将文件file1，设定只有拥有者可以读、写和执行。 %chmod o+x file2 将文件file2，增加拥有者可以执行之权利。 %chmod g+x file3 将文件file3，增加群组使用者可执行之权利。 %chmod o-r file4 将文件file4，除去其它使用者可读取之权利。 4.2 改变文件或目录之拥有权 执行格式：chown [-R] username name ( name 可为文件名或目录名。) Example ：\n%chown user file1 将文件 file1 之拥有权，改为使用者 user 所有。 %chown -R user dir1 将目录 dir1，及其下所有文件和子目录之拥有权，改为使用者 user 所有。 4.3 检查自己所属之群组名称 执行格式：groups\n4.4 改变文件或目录之群组拥有权 执行格式：chgrp [-R] groupname name ( name 可为文件名或目录名 ) Example :\n%chgrp vlsi file1 将文件 file1 之群组拥有权，改为 vlsi 群组。 %chgrp -R image dir1 将目录dir1，及其下所有文件和子目录，改为 image 群组。 4.5 改变文件或目录之最后修改时间 执行格式：touch name ( name 可为文件或目录名称。)\n4.6 文件之连结 同一文件，可拥有一个以上之名称，可将文件做数个连结。 执行格式：ln oldname newname ( Hard link ) Example ：\nln file1 file2 将名称 file2，连结至文件 file1。 执行格式：ln -s oldname newname ( Symblick link ) Example ：\nln -s file3 file4　将名称 file4，连结至文件file3。 4.7 文件之字串找寻 执行格式：grep string file Example ：\ngrep abc file1 寻找文件file1中，列出字串 abc 所在之整行文字内容。\n4.8 找寻文件或命令之路径 执行格式：whereis command ( 显示命令之路径。) 执行格式：which command ( 显示命令之路径，及使用者所定义之别名。) 执行格式：whatis command ( 显示命令功能之摘要。) 执行格式：find search-path -name filename -print ( 搜寻指定路径下，某文件之路径 。) Example ：\n%find / -name file1 -print ( 自根目录下，寻找文件名为 file1 之路径。. 4.9 比较文件或目录之内容 执行格式：diff [-r] name1 name2 ( name1 name2 可同时为文件名，或目录名称。) Example :\n%diff file1 file2 比较文件 file1 与 file2 内，各行之不同处。 %diff -r dir1 dir2 比较目录 dir1 与 dir2 内，各文件之不同处。 4.10 文件打印输出 使用者可用 .login 档中之 setenv PRINTER，来设定打印资料时的打印机名。 printername :sp1 或 sp2 Example ：\n%setenv PRINTER sp2 设定自 sp2 打印资料。 4.11 一般文件之打印 执行格式：lpr [-Pprinter-name] filename %lpr file1 或 lpr -Psp2 file1 自 sp2，打印文件 file1。 执行格式：enscript [-Pprinter-name] filename %enscript file3 或 enscript -Psp1 file3 自 sp1 打印文件 file3。\n4.12 troff 文件之打印 执行格式：ptroff [-Pprinter-name] [-man][-ms] filename\n%ptroff -man /usr/local/man/man1/ptroff.1 以 troff 格式，自 Apple laser writer 打印 ptroff 命令之使用说明。 %ptroff -Psp2 -man /usr/man/man1/lpr1 以 troff 格式，自 sp2 打印 lpr 命令之使用说明。 5. 打印机控制命令 5.1 检查打印机状态，及打印工作顺序编号和使用者名称 执行格式：lpq [-Pprinter -name]\n%lpq 或 lpq -Psp1 检查 sp1 打印机之状态。 5.2 删除打印机内之打印工作 (使用者仅可删除自己的打印工作 ) 执行格式：lprm [-Pprinter -name] username 或 job number\n%lprm user 或 lprm -Psp1 user 删除 sp1 中，使用者 user 的打印工作，此时使用者名称必须为 user。 %lprm -Psp2 456 删除 sp2 编号为 456 之打印工作。 6. Job 之控制 UNIX O.S.,可于 foregrourd 及 background 同时处理多个 process。\n一般使用者执行命令时，皆是在 foreground 交谈式地执行 process，亦可将 process置于 background 中，以非交谈式来执行 process。\n6.1 查看系统之 process 执行格式：ps [-aux] Example:\n%ps 或 ps –x (查看系统中，属于自己的 process。) %ps –au (查看系统中，所有使用者的 process。) %ps –aux (查看系统中，包含系统内部，及所有使用者的 process。) 6.2 结束或终止 process 执行格式：kill [-9] PID ( PID 为利用 ps 命令所查出之 process ID。) Example:\n%kill 456 或 kill -9 456 终止 process ID 为 456 之 process。 6.3 在 background 执行 process 的方式 执行格式：command \u0026 (于 command 后面加入一 “\u0026” 符号即可。) Example:\n%cc file1.c \u0026 将编译 file1.c 文件之工作，置于 background 执行。 执行格式：按下 “Control Z” 键，暂停正在执行的 process。键入 “bg” 命令，将所暂停的 process，置入 background 中继续执行。 Example: %cc file2.c ^Z Stopped %bg\n6.4 查看正在 background 中执行的 process 执行格式：jobs\n6.5 结束或终止在 background 中的 process 执行格式：kill %n (n 为利用 “jobs” 命令，所查看出的 background job 编号) Example: %kill % 终止在 background 中的第一个 job。 %kill %2 终止在 background 中的第二个 job。\n7. shell varialbe 7.1 查看 shell variable 之设定值 执行格式：set 查看所有 shell variable 之设定值。 %set 执行格式：echo $variable-name 显示指定的 shell variable 之设定值。 %echo $PRINTER sp1\n7.2 设定 shell variable 执行格式：set var value Example: %set termvt100 设定 shell variable “term” 为 VT100 终端机之型式。\n7.3 删除 shell variable 执行格式：unset var Example: %unset PRINTER 删除 shell variable “PRINTER” 之设定值。\n8. environment variable 8.1 查看 environment variable 之设定值 执行格式：setenv 查看所有 environment variable 之设定值。 Example: %setenv 执行格式：echo $NAME 显示指定的 environment variable “NAME” 之设定值。 Example: %echo $PRINTER 显示 environment variable “PRINTER” 打印机名称之设定值。\n8.2 设定 environment variable 执行格式：setenv NAME word Example: %setenv PRINTER sp1 设定 environment variable “PRINTER” 打印机名称为 sp1。\n8.3 删除 environment variable 执行格式：unsetenv NAME Example: %unsetenv PRINTER 删除 environment variable “PRINTER” 打印机名称之设定值。\n9. alias 9.1 查看所定义的命令之 alias 执行格式： alias 查看自己目前定义之所有命令，及所对应之 alias 名称。 执行格式： alias name 查看指定之 alias 名称所定义之命令。 Example: %alias dir (查看别名 dir 所定义之命令) ls -atl\n9.2 定义命令之 alias 执行格式： alias name \\’command line\\’ Example: % alias dir \\’ls -l\\’ 将命令 “ls - l” 定义别名为 dir。\n9.3 删除所定义之 alias 执行格式： unalias name Example: %unalias dir (删除别名为 dir 之定义。) %unalias * (删除所有别名之设定。)\n10. history 10.1 设定命令记录表之长度 执行格式： set history n\nExample:\n%set history 40\n设定命令记录表之长度为 40 (可记载执行过之前面 40 个命令)。\n10.2查看命令记录表之内容 执行格式： history\n10.3 使用命令记录表 执行格式： !!\nExample: %!! (重复执行前一个命令) 执行格式： !n ( n 为命令记录表之命令编号。) Example: %!5 ( 执行命令记录表中第五个命令。) 执行格式： !string ( 重复前面执行过以 string 为起始字符之命令。) Example: %!cat ( 重复前面执行过，以 cat 为起始字符之命令。) 10.4 显示前一个命令之内容 执行格式： !!：p\n10.5 更改前一命令之内容并执行之 执行格式： ^oldstring ^newstring 将前一命令中 oldstring 的部份，改成 newstring，并执行之。 Example: %find . -name file1.c -print ^file1.c^core %find . -name core -print 注：文件 core 为执行程序或命令发生错误时，系统所产生的文件。作为侦错(debug)之，因其所占空间极大，通常将之删除。\n11. 资料之压缩 为了避免不常用的文件或资料，占用太大的磁盘空间，请使用者将之压缩。欲使用压缩过的文件或资料前，将之反压缩，即可还原成原来之资料型式。凡是经过压缩处理之文件，会在文件名后面附加 ” .Z ” 之字符，表示此为一压缩文件。\n11.1 压缩资料 执行格式：compress filename 压缩文件 执行格式：compressdir directory-name 压缩目录\n11.2 解压缩还原资料\n执行格式：uncompress filename 反压缩文件 执行格式：uncompressdir directory-name 反压缩目录 12. pipe-line 之使用 执行格式：command1 | command2 将 command1 执行结果，送到 command2 做为 command2 的输入。 Example:\n%ls -Rl | more 以分页方式，列出目前目录下所有文件，及子目录之名称。 %cat file1 | more 以分页方式，列出文件 file1 之内容。 13. I/O control 13.1 标准输入之控制 执行格式：command-line \u003c file 将 file 做为 command-line 之输入。 Example: %mail -s “mail test” user@iis.sinica.edu.tw \u003c file1 将文件 file1 当做信件之内容，Subject 名称为 mail test,送给收信人。\n13.2 标准输出之控制 执行格式：command \u003e filename 将 command 之执行结果，送至指定的 filename 中。 Example: %ls -l \u003e list 将执行 “ls -l” 命令之结果，写入文件 list 中。 执行格式：command \u003e! filename 同上，若 filename 之文件已经存在，则强迫 overwrite。 Example: %ls -lg \u003e! list 将执行 “ls - lg” 命令之结果，强迫写入文件 list 中。 执行格式：command \u003e\u0026 filename 将 command 执行时，屏幕上所产生的任何信息，写入指定的 filename 中。 Example: %cc file1.c \u003e\u0026 error 将编译 file1.c 文件时，所产生之任何信息，写入文件 error 中。 执行格式：command » filename 将 command 执行结果，附加(append)到指定的 filename 中。 Example: %ls - lag » list 将执行 “ls - lag” 命令之结果，附加(append)到文件 list 中。 执行格式：command »\u0026 filename 将 command 执行时，屏幕上所产生的任何信息，附加于指定的 filename中。 Example: %cc file2.c »\u0026 error 将编译 file2.c 文件时，屏幕所产生之任何信息，附加于文件 error 中。\n14. 查看系统中的使用者 执行格式： who 或 finger 执行格式： w 执行格式： finger username or finger username@domainname\n15. 改变自己的 username 进入其他使用者的帐号，拥有其使用权利。 执行格式： su username Example: %su user 进入使用者 user 之帐号 passwrod: 输入使用者 user 之密码\n16. 查看 username 执行格式： whoami 查看 login 时，自己的 username。 执行格式： whoami 查看目前的 username。若已执行过 “su”命令tch user)，则显示出此 user 之 username。\n17. 查看目前本地所有工作站的使用者 执行格式: rusers\n结束\n18. 与某工作站上的使用者交谈 执行格式: talk username@hostname 或 talk username@ip_address Example:\n可先利用 rusers 指令查看网路上的使用者 假设自己的帐号是 u84987 ，在工作站 indian 上使用，现在想要与 doc 上的u84123 交谈。 %talk u84123@doc \u003e 此时屏幕上将会出现等待画面 在对方(u84123)屏幕上将会出现下列信息 Message from Talk_Daemon@Local_host_name at xx:xx talk: connection requested by u84987@indian talk: respond with: talk u84987@indian 此时对方(u84123) 必须执行 talk u84987@indian 即可互相交谈。最后可按结束。 19. 检查远端电脑系统是否正常 执行格式：ping hostname 或 ping IP-Address Example: %ping doc\n20. 电子邮件(E-mail)的使用简介 20.1将文件当做 E-mail 的内容送出 执行格式：mail -s “Subject-string” username@address \u003c filename %mail -s “program” user \u003c file.c 将 file.c 当做 mail 的内容，送至 user, subject name 为 program。 20.2 传送 E-mail 给本地使用者 执行格式：mail username %mail user 20.3 传送 E-mail 至 外地 执行格式： mail username@receiver-address Example %mail paul@gate.sinica.edu.tw Subject : mail test : : 键入信文内容 : : 按下 “Control D” 键或 ” . ” 键结束信文。 连按两次 “Control C” 键，则中断工作，不送此信件。 Cc: ( Carbon copy : 复制一份信文，给其他的收信人 )\n20.4 检查所传送之 E-mail 是否送出，或滞留于本所之邮件伺服站中 执行格式：/usr/lib/sendmail -bp\n( 若屏幕显示为 “Mail queue is empty” 之信息，表示 mail 已送出。\n若为其它错误信息，表示 E-mail 因故尚未送出。)\n20.5 读取信件 执行格式: mail\n常用指令如下:\ncd [directory] chdir to directory or home if none given\nd [message list] delete messages\nh print out active message headers\nm [user list] mail to specific users\nn goto and type next message\np [message list] print messages\nq quit, saving unresolved messages in mbox\nr [message list] reply to sender (only) of messages\nR [message list] reply to sender and all recipients of messages\ns [message list] file append messages to file\nt [message list] type messages (same as print)\nu [message list] undelete messages\nv [message list] edit messages with display editor\nw [message list] file append messages to file, without from line\nx quit, do not change system mailbox\nz [-] display next [previous] page of headers\n! shell escape\n21.文件编辑器 vi 之使用方法简介 vi、celvis(cvi) 是在工作站上被广大使用的中英文编辑软体。对初学者而言，常因其特殊的使用方法，而不得其门而入；对已经在使用 vi 的使用者来说，也常见因对 vi 的不熟悉或不够了解，而无法发挥出 vi 强大的编辑能力，以下将介绍 vi 之使用方法简介。\n21.1本文内容大纲 进入 vi\n离开 vi\n输入模式\n如何进入输入模式\n如何离开输入模式\n指令模式\n光标的移动\n视窗的移动\n删除、复制及修改指令介绍(delete、change、yank)\n删除与修改(delete、replace)\n移动与复制(delete/put、yank/put)\n指令重复\n取消前一动作(undo)\n字串搜寻\n资料的连接与分行\n环境的设定\nex 指令\n其它方面\n中文编辑\n恢复编辑时被中断的文件\n编辑多个文件\nvi 是 visual editor 的缩写，是 UNIX 所提供的编辑器之一。它提供使用者一个视窗的编辑环境，在此视窗下，使用者可编辑所要的文件。\n21.2 进入vi 直接执行 vi编辑程序即可：\n%vi test\n此刻屏幕上会出现 vi 的编辑视窗，同时 vi 会将文件复制一份至记忆体中的缓冲区 (buffer) 。 vi会保留在磁盘中的文件不变，而先对缓冲区的文件作编辑，编辑完成后，使用者可决定是否要取代原来旧有的文件。\n21.3 离开vi 若在输入模式下，则先利用《ESC》进入指令模式，而后即可选用下列指令\n离开vi。\n：q! 离开vi，并放弃刚在缓冲区内编辑的内容。\n：wq 将缓冲区内的资料写入磁盘中，并离开vi。\n：ZZ 同wq。\n：x 同wq。\n：w 将缓冲区内的资料写入磁盘中，但并不离开vi。\n：q 离开vi，若文件被修改过，则会被要求确认是否放弃修改的内容。\n此指令可与：w 配合使用。\n21.4 vi 的操作模式 vi 提供两种操作模式：输入模式(insert mode)和指令模式(command mode)。当使用者进入 vi 后，即处在指令模式下，此刻键入之任何字符皆被视为指令。在此模式下可进行删除、修改等动作。若要输入资料，则需进入输入模式。\n21.5 输入模式 如何进入输入模式\nl a (append) 由光标之后加入资料。\nl A 由该行之末加入资料。\nl i (insert) 由光标之前加入资料。\nl I 由该行之首加入资料。\nl o (open) 新增一行于该行之下供输入资料之用。\nl 新增一行于该行之上供输入资料之用。\n如何离开输入模式\nl 《ESC》 结束输入模式。\n21.6 指令模式 光标之移动\nl h 向左移一个字符。\nl J 向上移一个字符。\nl K 向下移一个字符。\nl L 向右移一个字符。\nl 移至该行之首\nl $ 移至该行之末。\nl ^ 移至该行的第一个字符处。\nl H 移至视窗的第一列。\nl M 移至视窗的中间那列。\nl L 移至视窗的最后一列。\nl G 移至该文件的最后一列。\nl + 移至下一列的第一个字符处。\nl - 移至上一列的第一个字符处。\nl ( 移至该句之首。 (注一)\nl ) 移至该句之末。\nl { 移至该段落之首。 (注二)\nl } 移至该段落之末。\nl nG 移至该文件的第 n 列。\nl n+ 移至光标所在位置之后的第 n 列。\nl 移至光标所在位置之前的第 n 列。\nl 会显示该行之行号、文件名称、文件中最末行之行号、光标所在行号占总行号之百分比。\n注一：句子(sentence)在vi中是指以『！』、『.』或『？』结束的一串字。\n注二：段落(paragraph)在vi中是指以空白行隔开的文字。\n21.7 视窗的移动\nl 视窗往下卷一页。 l 视窗往上卷一页。 l 视窗往下卷半页。 l 视窗往上卷半页。 l 视窗往下卷一行。 l 视窗往上卷一行。 21.8 删除、复制及修改指令介绍 (此单元较少使用) d(delete)、c(change)和y(yank)这一类的指令在 vi 中的指令格式为：\nOperator + Scope command\n(运算子) (范围)\n运算子：\nl d 删除指令。删除资料，但会将删除资料复制到记忆体缓冲区。\nl y 将资料(字组、行列、句子或段落)复制到缓冲区。\nl p 放置(put)指令，与 d 和 y 配和使用。可将最后delete或yank的资料放置于光标所在位置之行列下。\nl c 修改(change)指令，类似delete与insert的组和。删除一个字组、句子等之资料，并插入新键资料。\n范围：\nl e 由光标所在位置至该字串的最后一个字符。\nl w 由光标所在位置至下一个字串的第一个字符。\nl b 由光标所在位置至前一个字串的第一个字符。\nl $ 由光标所在位置至该行的最后一个字符。\nl 由光标所在位置至该行的第一个字符。\nl ) 由光标所在位置至下一个句子的第一个字符。\nl ( 由光标所在位置至该句子的第一个字符。\nl { 由光标所在位置至该段落的最后一个字符。\nl } 由光标所在位置至该段落的第一个字符。\n整行动作：\nl dd 删除整行。\nl D 以行为单位，删除光标后之所有字符。\nl cc 修改整行的内容。\nl yy yank整行，使光标所在该行复制到记忆体缓冲区。\n21.9 删除与修改 l x 删除光标所在该字符。\nl X 删除光标所在之前一字符。\nl dd 删除光标所在该行。\nl r 用接于此指令之后的字符取代(replace)光标所在字符。如： ra 将光标所在字符以 a 取代之。\nl R 进入取代状态，直到《ESC》为止。\nl s 删除光标所在之字符，并进入输入模式直到《ESC》。\nl S 删除光标所在之该行资料，并进入输入模式直到《ESC》。\n21.10 移动与复制 利用 delete 及 put 指令可完成资料移动之目的。\n利用 yank 及 put 指令可完成资料复制之目的。 yank 和 delete 可将指定的资料复制到记忆体缓冲区，而藉由 put 指令可将缓冲区内的资料复制到屏幕上。 例： 移动一行 .在该行执行 dd .光标移至目的地 .执行 p 复制一行 .在该行执行 yy .光标移至目的地 .执行 p 21.11 指令重复 在指令模式中，可在指令前面加入一数字 n，则此指令动作会重复执行 n次。\n例： 删除10行 .10dd 复制10行 .10yy 指标往下移10行 .10j 21.12 取消前一动作(Undo) 即复原执行上一指令前的内容。\nu 恢复最后一个指令之前的结果。 U 恢复光标该行之所有改变。 21.13 搜寻 在vi中可搜寻某一字串，使光标移至该处。\n/字串 往光标之后寻找该字串。 ?字串 往光标之前寻找该字串。 n 往下继续寻找下一个相同的字串。 N 往上继续寻找下一个相同的字串。 21.14资料的连接 J 句子的连接。将光标所在之下一行连接至光标该行的后面。\n若某行资料太长亦可将其分成两行，只要将光标移至分开点，进入输入模式 (可利用 a、i等指令)再按《Enter》即可。\n21.15 环境的设定 ：set nu 设定资料的行号。\n：set nonu 取消行号设定。 ：set ai 自动内缩。 ：set noai 取消自动内缩。 自动内缩(automatic indentation)\n在编辑文件或程序时，有时会遇到需要内缩的状况，『：set ai』即提供自动内缩的功能，用下例解释之： .vi test .(进入编辑视窗后) this is the test for auto indent 《Tab》start indent ← ：set ai (设自动内缩) 《Tab》data 《Tab》data 《Tab》data ← ：set noai (取消自动内缩) the end of auto indent. .注： 可删除《Tab》字符。 21.16 ex指令 读写资料\n：w 将缓冲区的资料写入磁盘中。 ：10,20w test 将第10行至第20行的资料写入test文件。 ：10,20w\u003e\u003etest 将第10行至第20行的资料加在test文件之后。 ：r test 将test文件的资料读入编辑缓冲区的最后。 删除、复制及移动\n：10,20d 删除第10行至第20行的资料。 ：10d 删除第10行的资料。 ：%d 删除整个编辑缓冲区。 ：10,20co30 将第10行至第20行的资料复制至第30行之后。 ：10,20mo30 将第10行至第20行的资料移动至第30行之后。 字串搜寻与取代\ns(substitute)指令可搜寻某行列范围。g(global)指令则可搜寻整个编辑缓冲区的资料。\ns指令以第一个满足该条件的字串为其取代的对象，若该行有数个满足该条件的字串，也仅能取代第一个，若想取代所有的字串则需加上g参数。\n：1,$s/old/new/g 将文件中所有的『old』改成『new』。 ：10,20s/^/ / 将第10行至第20行资料的最前面插入5个空白。 ：%s/old/new/g 将编辑缓冲区中所有的『old』改成『new』。 21.17 恢复编辑时被中断的文件 在编辑过程中，若系统当掉或连线中断，而缓冲区的资料并还未被写回磁盘时，当再度回到系统，执行下列指令即可回复中断前的文件内容。\n%vi -r filename\n21.18 编辑多个文件\nvi亦提供同时编辑多个文件的功能，方法如下：\n%vi file1 file2 …\n当第一个文件编修完成后，可利用『：w』将该缓冲区存档，而后再利用 『：n』载入下一个文件。\n",
+  "wordCount" : "2381",
+  "inLanguage": "en",
+  "datePublished": "2006-02-26T10:20:05Z",
+  "dateModified": "2006-02-26T10:20:05Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/26/unixe591bde4bba4e5a4a7e585a8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Unix命令大全
+    </h1>
+    <div class="post-meta"><span title='2006-02-26 10:20:05 +0000 UTC'>February 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong>1.登录工作站</strong>
+<strong>1.1 透过 PC 登录工作站</strong>
+执行格式：telnet hostname     (在 dos 下执行)
+telnet ip-address
+Example:</p>
+<pre><code>telnet doc           telnet 140.122.77.120
+</code></pre>
+<p>注: 可利用指令 arp hostname 或 arp domain_name 查询 ip_address</p>
+<p><strong>1.2 登录步骤</strong>
+login    : _______  &gt; 输入 username</p>
+<p>password : _______  &gt; 输入密码</p>
+<p><strong>1.3 登出步骤</strong></p>
+<pre><code>% logout
+或  % exit
+或  %
+</code></pre>
+<p><strong>1.4 更改帐号密码</strong></p>
+<pre><code>% yppasswd                   &gt; 执行后将会出现下列信息
+Changing NIS password for user on ice.
+Old password: ______   &gt; 输入旧密码
+New password: ______ &gt; 输入新密码(最好6-8字，英文字母与数字混合)
+Retype new password: ______ &gt; 再输入一次密码
+</code></pre>
+<p><strong>1.5 在线帮助指令说明</strong>
+执行格式： man command-name</p>
+<pre><code>Example:  % man ls
+</code></pre>
+<p><strong>1.6 进入远端电脑系统</strong>
+执行格式：rlogin hostname [-1 username]
+Example:</p>
+<pre><code>%rlogin doc
+remote login 进入工作站 doc 中。
+%rlogin doc -l user
+使用 user 帐号进入工作站 doc 中。
+</code></pre>
+<p>执行格式：telnet hostname 或 telnet IP address
+Example:</p>
+<pre><code>%telnet doc    or %telnet 140.109.20.251
+</code></pre>
+<p><strong>2. 文件或目录处理</strong>
+<strong>2.1 列出文件或目录下之文件名称</strong>
+执行格式： ls [-atFlgR] [name]  ( name 可为文件名或目录名称。)</p>
+<p>Example :</p>
+<pre><code>ls            列出目前目录下之文件名。
+ls –a        列出包含以.起始的隐藏档所有文件名。
+ls –t        依照文件最后修改时间之顺序，依序列出文件名。
+ls –F              列出目前目录下之文件名及其类型。”/” 结尾表示为目录名称，
+</code></pre>
+<p>“*” 结尾表示为执行档，”@” 结尾表示为 symblic link。</p>
+<pre><code>ls –l               列出目录下所有文件之许可权、拥有者、文件大小、修改时间及名称。
+ls –lg       同上，并显示出文件之拥有者群组名称。
+ls –R       显示出目录下，以及其所有子目录之文件名。( recursive listing )
+</code></pre>
+<p><strong>2.2 目录之缩写：</strong></p>
+<pre><code>～                  使用者 login 时的 working directory ( 起始目录 )
+～username    指定某位 user 的 working directory ( 起始目录 )
+..                   目前的工作目录 ( current working directory )
+..                   目前目录的上一层目录 ( parent of working directory)
+</code></pre>
+<p><strong>2.3 改变工作目录位置</strong>
+执行格式：cd  [name]   ：name 可为目录名称、路径或目录缩写。</p>
+<p>Example:</p>
+<pre><code>cd                  改变目录位置，至使用者 login 时的 working directory (起始目录)。
+cd  dir1         改变目录位置，至 dir1 之目录位置下。
+cd  ~user      改变目录位置，至使用者的 working directory (起始目录)。
+cd  ..            改变目录位置，至目前目录的上层( 即 parent of working directory)
+cd  ../user     改变目录位置，至相对路径 user 之目录位置下。
+cd  /../..        改变目录位置，至绝对路径( Full path ) 之目录位置下。
+</code></pre>
+<p><strong>2.4 复制文件</strong>
+执行格式: cp [-r] source destination</p>
+<p>Example:</p>
+<pre><code>cp file1 file2    将文件 file1 复制成 file2
+cp file1 dir1    将文件 file1 复制到目录 dir1 下，文件名仍为 file1。
+cp /tmp/file1   将目录 /tmp 下的文件 file1 复制到现行目录下，文件名仍为 file1。
+cp /tmp/file1 file2   将目录 /tmp 下的文件 file1 复制到现行目录下，文件名为 file2
+cp -r dir1 dir2        (recursive copy) 复制整个目录。
+</code></pre>
+<p>若目录 dir2 不存在，则将目录 dir1，及其所有文件和子目录，复制到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，复制为目录 dir2。</p>
+<p><strong>2.5 移动或更改文件、目录名称</strong>
+执行格式： mv source destination</p>
+<p>Example:</p>
+<pre><code>mv file1 file2   将文件 file1，更改文件名为 file2。
+mv file1 dir1   将文件 file1，移到目录 dir1下，文件名仍为 file1。
+mv dir1 dir2    若目录 dir2 不存在，则将目录 dir1，及其所有文件和子目录，移到目录 dir2 下，新目录名称为 dir1。若目录 dir2 不存在，则将dir1，及其所有文件和子目录，更改为目录 dir2。
+</code></pre>
+<p><strong>2.6 建立新目录</strong>
+执行格式： mkdir directory-name</p>
+<p>Exmaple ：</p>
+<pre><code>mkdir dir1      建立一新目录 dir1。
+</code></pre>
+<p><strong>2.7 删除目录</strong>
+执行格式： rmdir directory-name 或 rm directory-name</p>
+<p>Example ：</p>
+<pre><code>rmdir dir1       删除目录 dir1，但 dir1 下必须没有文件存在，否则无法删除。
+rm -r dir1              删除目录 dir1，及其下所有文件及子目录。
+</code></pre>
+<p><strong>2.8 删除文件</strong>
+执行格式： rm  filename  (filename 可为文件名，或文件名缩写符号。)</p>
+<p>Example ：</p>
+<pre><code>rm  file1        删除文件名为 file1 之文件。
+rm  file?        删除文件名中有五个字符，前四个字符为file 之所有文件。
+rm  f*           删除文件名中，以 f 为字首之所有文件。
+</code></pre>
+<p><strong>2.9 文件名的缩写符号</strong>
+?   代表文件名称中之单一字符。</p>
+<ul>
+<li>代表文件名称中之一字串。</li>
+</ul>
+<p><strong>2.10 列出目前所在之目录位置</strong>
+执行格式： pwd</p>
+<p><strong>2.11 查看文件内容</strong>
+执行格式： cat filename
+Example ：</p>
+<pre><code>cat file1          以连续显示方式，查看文件名 file1 之内容。
+</code></pre>
+<p>执行格式： more filename 或 cat filename | more
+Example ：</p>
+<pre><code>more file1              以分页方式，查看文件名 file1 之内容。
+cat file1 | more              同上。
+</code></pre>
+<p><strong>2.12 查看目录所占磁盘容量</strong>
+执行格式: du [-s] directory
+Example :</p>
+<pre><code>du dir1    显示目录 dir1 的总容量及其次目录的容量(以 k byte 为容量)。
+du -s dir1       显示目录 dir1 的总容量。
+</code></pre>
+<p><strong>2.13 查看自己的 disk quota 使用状况</strong>
+disk quota : 工作站磁盘空间的使用限额。
+执行格式: quota -v
+Example :</p>
+<pre><code>quota -v   将会显示下列信息
+Filesystem          usage      quota      limit        timeleft          files       quota      limit    timelef.
+/home/ice/u01     9344     8192              12288     1.9 days         160         0        0
+</code></pre>
+<p>栏位解说:
+usage : 目前的磁盘用量。
+quota : 你的磁盘使用额度。当你的 usage 超过 quota 时，虽然可以继续使用，但是必须七天之内降到 quota 以下，否则即使用量没有超 limit(最高限额)，也无法再写入或复制任何文件。
+limit : 最高使用额度。当你的 usage 达到 limit 时，无法再写入或复制任何文件。</p>
+<p><strong>3. 文件传输</strong>
+<strong>3.1 拷贝文件或目录至远端工作站</strong>
+执行格式： rcp [-r] source hostnome:destination
+source 可为文件名、目录名或路径，hostnome 为工作站站名，destination 为路径名称.
+Example ：</p>
+<pre><code>rcp file1 doc:/home/user
+将文件 file1，拷贝到工作站 doc 路径 /home/user 之目录下。
+rcp -r dir1 doc:/home/user
+将目录 dir1，拷贝到工作站 doc 路径/home/user 之目录下。
+</code></pre>
+<p><strong>3.2 自远端工作站，拷贝文件或目录</strong>
+执行格式： rcp [-r] hostname:source destination
+( hostname 为工作站名，source 为路径名，destination 可为文件名、目录名或路径 )。
+Example  ：</p>
+<pre><code>rcp doc:/home/user/file1 file2
+将工作站 doc 中，位于 /home/user 目录下之目录 dir1，拷贝到目前工作站之目录下，目录名称仍为 dir1。
+rcp -r doc:/home/user/dir1 .
+将工作站 iis1 中，位于 /home/user 目录下之目录 dir1，拷贝到目前工作站之目录下目录名称仍为 dir1。
+</code></pre>
+<p><strong>3.3 本地工作站与远端工作站之间文件传输</strong>
+( 必须拥有远端工作站之帐号及密码，才可进行传输工作 )
+执行格式： ftp hostname or ftp ip_address
+Example ：</p>
+<pre><code>ftp doc        与远端工作站 doc ，进行文件传输
+Name (doc:user-name)   : 输入帐号
+Password (doc:user-name): 输入密码
+ftp&gt; help        列出 ftp 文件传输，可使用之任何命令。
+ftp&gt; !ls           列出本地工作站，目前目录下之所有文件名。
+ftp&gt; !pwd              列出本地工作站，目前所在之工作目录位置。
+ftp&gt; ls            列出远端工作站目前目录下之所有文件名。
+ftp&gt; dir                 列出远端工作站目前目录下之所有文件名(略同于 UNIX 的 ls -l 指令).
+ftp&gt; dir . |more 同上，但每页会暂停(可能不适用 Unix 以外的 ftp)。
+ftp&gt; pwd        列出远端工作站目前所在之目录位置。
+ftp&gt; cd  dir1  更改远端工作站之工作目录位置至 dir1 之下。
+ftp&gt; get file1   将远端工作站之文件 file1 ，拷贝到本地工作站中。
+ftp&gt; put file2   将本地工作站之文件 file2 ，拷贝到远端工作站中。
+ftp&gt; mget *.c  将远端工作站中，副文件名为 c 之所有文件，拷贝到本地工作站中。
+ftp&gt; mput *.txt      将本地工作站中，副文件名为 txt 之所有文件，拷贝远端工作站中。
+ftp&gt; prompt    切换交谈式指令(使用 mput/mget 时不用每个文件皆询问yes/no)。
+ftp&gt; quit         结束 ftp 工作。
+ftp&gt; bye         结束 ftp 工作。
+</code></pre>
+<p>注: 从PC与工作站间的文件传输也可透过在 PC端的 FTP指令进行文件传输，指令用法与上所述大致相同。</p>
+<p><strong>4. 文件模式之设定</strong>
+<strong>4.1 改变文件或目录之读、写、执行之允许权</strong>
+执行格式：chmod [-R] mode name
+( name 可为文件名或目录名;mode可为 3 个 8 位元之数字，或利用ls -l 命令，列出文件或目录之读、写、执行允许权之文字缩写。)
+mode :  rwx   rwx    rwx   r:read   w:write   x:execute
+user  group  other
+缩写 :   (u)   (g)    (o)
+Example :</p>
+<pre><code>%chmod  755  dir1
+将目录dir1，设定成任何使用者，皆有读取及执行之权利，但只有拥有者可做修改。
+%chmod  700  file1
+将文件file1，设定只有拥有者可以读、写和执行。
+%chmod  o+x  file2
+将文件file2，增加拥有者可以执行之权利。
+%chmod  g+x  file3
+将文件file3，增加群组使用者可执行之权利。
+%chmod  o-r  file4
+将文件file4，除去其它使用者可读取之权利。
+</code></pre>
+<p><strong>4.2 改变文件或目录之拥有权</strong>
+执行格式：chown [-R] username  name     ( name 可为文件名或目录名。)
+Example ：</p>
+<pre><code>%chown user file1
+将文件 file1 之拥有权，改为使用者 user 所有。
+%chown -R user dir1
+将目录 dir1，及其下所有文件和子目录之拥有权，改为使用者 user 所有。
+</code></pre>
+<p><strong>4.3 检查自己所属之群组名称</strong>
+执行格式：groups</p>
+<p><strong>4.4 改变文件或目录之群组拥有权</strong>
+执行格式：chgrp [-R] groupname name   ( name 可为文件名或目录名 )
+Example :</p>
+<pre><code>%chgrp vlsi file1
+将文件 file1 之群组拥有权，改为 vlsi 群组。
+%chgrp -R image dir1
+将目录dir1，及其下所有文件和子目录，改为 image 群组。
+</code></pre>
+<p><strong>4.5 改变文件或目录之最后修改时间</strong>
+执行格式：touch name     ( name 可为文件或目录名称。)</p>
+<p><strong>4.6 文件之连结</strong>
+同一文件，可拥有一个以上之名称，可将文件做数个连结。
+执行格式：ln oldname newname  ( Hard link )
+Example ：</p>
+<pre><code>ln  file1  file2  　　将名称 file2，连结至文件 file1。
+</code></pre>
+<p>执行格式：ln -s  oldname  newname  ( Symblick link )
+Example ：</p>
+<pre><code>ln  -s  file3  file4　将名称 file4，连结至文件file3。
+</code></pre>
+<p><strong>4.7 文件之字串找寻</strong>
+执行格式：grep string file
+Example ：</p>
+<pre><code>grep abc file1
+</code></pre>
+<p>寻找文件file1中，列出字串 abc 所在之整行文字内容。</p>
+<p><strong>4.8 找寻文件或命令之路径</strong>
+执行格式：whereis command      ( 显示命令之路径。)
+执行格式：which command ( 显示命令之路径，及使用者所定义之别名。)
+执行格式：whatis command       ( 显示命令功能之摘要。)
+执行格式：find  search-path  -name  filename  -print
+( 搜寻指定路径下，某文件之路径 。)
+Example ：</p>
+<pre><code>%find  /  -name  file1  -print ( 自根目录下，寻找文件名为 file1 之路径。.
+</code></pre>
+<p><strong>4.9 比较文件或目录之内容</strong>
+执行格式：diff [-r] name1 name2 ( name1 name2 可同时为文件名，或目录名称。)
+Example :</p>
+<pre><code>%diff file1 file2
+比较文件 file1 与 file2 内，各行之不同处。
+%diff -r dir1 dir2
+比较目录 dir1 与 dir2 内，各文件之不同处。
+</code></pre>
+<p><strong>4.10 文件打印输出</strong>
+使用者可用 .login 档中之 setenv PRINTER，来设定打印资料时的打印机名。
+printername :sp1 或 sp2
+Example ：</p>
+<pre><code>%setenv PRINTER sp2    设定自 sp2 打印资料。
+</code></pre>
+<p><strong>4.11 一般文件之打印</strong>
+执行格式：lpr [-Pprinter-name] filename
+%lpr file1  或  lpr -Psp2 file1
+自 sp2，打印文件 file1。
+执行格式：enscript [-Pprinter-name] filename
+%enscript file3  或  enscript -Psp1 file3
+自 sp1 打印文件 file3。</p>
+<p><strong>4.12 troff 文件之打印</strong>
+执行格式：ptroff [-Pprinter-name] [-man][-ms] filename</p>
+<pre><code>%ptroff -man /usr/local/man/man1/ptroff.1
+以 troff 格式，自 Apple laser writer 打印 ptroff 命令之使用说明。
+%ptroff -Psp2 -man /usr/man/man1/lpr1
+以 troff 格式，自 sp2 打印 lpr 命令之使用说明。
+</code></pre>
+<p><strong>5. 打印机控制命令</strong>
+<strong>5.1 检查打印机状态，及打印工作顺序编号和使用者名称</strong>
+执行格式：lpq [-Pprinter -name]</p>
+<pre><code>%lpq 或 lpq -Psp1
+检查 sp1 打印机之状态。
+</code></pre>
+<p><strong>5.2 删除打印机内之打印工作  (使用者仅可删除自己的打印工作 )</strong>
+执行格式：lprm [-Pprinter -name] username 或 job number</p>
+<pre><code>%lprm  user     或  lprm -Psp1 user
+删除 sp1 中，使用者 user 的打印工作，此时使用者名称必须为 user。
+%lprm -Psp2 456
+删除 sp2 编号为 456 之打印工作。
+</code></pre>
+<p><strong>6. Job 之控制</strong>
+UNIX O.S.,可于 foregrourd 及 background 同时处理多个 process。</p>
+<p>一般使用者执行命令时，皆是在 foreground 交谈式地执行 process，亦可将 process置于 background 中，以非交谈式来执行 process。</p>
+<p>6.1 查看系统之 process
+执行格式：ps [-aux]
+Example:</p>
+<pre><code>%ps 或 ps –x              (查看系统中，属于自己的 process。)
+%ps –au                (查看系统中，所有使用者的 process。)
+%ps –aux                     (查看系统中，包含系统内部，及所有使用者的 process。)
+</code></pre>
+<p><strong>6.2 结束或终止 process</strong>
+执行格式：kill [-9] PID  ( PID 为利用 ps 命令所查出之 process ID。)
+Example:</p>
+<pre><code>%kill 456  或  kill -9 456
+终止 process ID 为 456 之 process。
+</code></pre>
+<p><strong>6.3 在 background 执行 process 的方式</strong>
+执行格式：command &amp;  (于 command 后面加入一 “&amp;” 符号即可。)
+Example:</p>
+<pre><code>%cc file1.c &amp;
+将编译 file1.c 文件之工作，置于 background 执行。
+</code></pre>
+<p>执行格式：按下 “Control Z” 键，暂停正在执行的 process。键入 “bg” 命令，将所暂停的 process，置入 background 中继续执行。
+Example:
+%cc file2.c
+^Z
+Stopped
+%bg</p>
+<p><strong>6.4 查看正在 background 中执行的 process</strong>
+执行格式：jobs</p>
+<p><strong>6.5 结束或终止在 background 中的 process</strong>
+执行格式：kill  %n
+(n 为利用 “jobs” 命令，所查看出的 background job 编号)
+Example:
+%kill  %       终止在 background 中的第一个 job。
+%kill  %2      终止在 background 中的第二个 job。</p>
+<p><strong>7. shell varialbe</strong>
+<strong>7.1 查看 shell variable 之设定值</strong>
+执行格式：set     查看所有 shell variable 之设定值。
+%set
+执行格式：echo  $variable-name  显示指定的 shell variable 之设定值。
+%echo $PRINTER
+sp1</p>
+<p><strong>7.2 设定 shell variable</strong>
+执行格式：set var  value
+Example:
+%set termvt100
+设定 shell variable “term” 为 VT100 终端机之型式。</p>
+<p><strong>7.3 删除 shell variable</strong>
+执行格式：unset var
+Example:
+%unset PRINTER
+删除 shell variable “PRINTER” 之设定值。</p>
+<p><strong>8. environment variable</strong>
+<strong>8.1 查看 environment variable 之设定值</strong>
+执行格式：setenv 　查看所有 environment variable 之设定值。
+Example:  %setenv
+执行格式：echo $NAME  显示指定的 environment variable “NAME” 之设定值。
+Example:
+%echo $PRINTER
+显示 environment variable “PRINTER” 打印机名称之设定值。</p>
+<p><strong>8.2 设定 environment variable</strong>
+执行格式：setenv NAME word
+Example:
+%setenv PRINTER sp1
+设定 environment variable “PRINTER” 打印机名称为 sp1。</p>
+<p><strong>8.3 删除 environment variable</strong>
+执行格式：unsetenv NAME
+Example:
+%unsetenv PRINTER
+删除 environment variable “PRINTER” 打印机名称之设定值。</p>
+<p><strong>9. alias</strong>
+<strong>9.1 查看所定义的命令之 alias</strong>
+执行格式： alias  查看自己目前定义之所有命令，及所对应之 alias 名称。
+执行格式： alias name   查看指定之 alias 名称所定义之命令。
+Example:
+%alias dir              (查看别名 dir 所定义之命令)
+ls -atl</p>
+<p><strong>9.2 定义命令之 alias</strong>
+执行格式： alias   name   \’command line\’
+Example:
+% alias dir \’ls -l\’
+将命令 “ls - l” 定义别名为 dir。</p>
+<p><strong>9.3 删除所定义之 alias</strong>
+执行格式： unalias name
+Example:
+%unalias dir           (删除别名为 dir 之定义。)
+%unalias *             (删除所有别名之设定。)</p>
+<p><strong>10. history</strong>
+<strong>10.1 设定命令记录表之长度</strong>
+执行格式： set history  n</p>
+<p>Example:</p>
+<p>%set history  40</p>
+<p>设定命令记录表之长度为 40 (可记载执行过之前面 40 个命令)。</p>
+<p><strong>10.2查看命令记录表之内容</strong>
+执行格式： history</p>
+<p><strong>10.3 使用命令记录表</strong>
+执行格式： !!</p>
+<pre><code>Example: %!!         (重复执行前一个命令)
+执行格式： !n      ( n 为命令记录表之命令编号。)
+Example: %!5        ( 执行命令记录表中第五个命令。)
+执行格式： !string       ( 重复前面执行过以 string 为起始字符之命令。)
+Example: %!cat             ( 重复前面执行过，以 cat 为起始字符之命令。)
+</code></pre>
+<p><strong>10.4 显示前一个命令之内容</strong>
+执行格式： !!：p</p>
+<p><strong>10.5 更改前一命令之内容并执行之</strong>
+执行格式： ^oldstring ^newstring
+将前一命令中 oldstring 的部份，改成 newstring，并执行之。
+Example:
+%find . -name file1.c -print
+^file1.c^core
+%find . -name core -print
+注：文件 core 为执行程序或命令发生错误时，系统所产生的文件。作为侦错(debug)之，因其所占空间极大，通常将之删除。</p>
+<p><strong>11. 资料之压缩</strong>
+为了避免不常用的文件或资料，占用太大的磁盘空间，请使用者将之压缩。欲使用压缩过的文件或资料前，将之反压缩，即可还原成原来之资料型式。凡是经过压缩处理之文件，会在文件名后面附加 ” .Z ” 之字符，表示此为一压缩文件。</p>
+<p><strong>11.1 压缩资料</strong>
+<strong>执行格式：compress filename                   压缩文件
+执行格式：compressdir directory-name      压缩目录</strong></p>
+<p><strong>11.2 解压缩还原资料</strong></p>
+<pre><code>执行格式：uncompress filename                反压缩文件
+执行格式：uncompressdir directory-name  反压缩目录
+</code></pre>
+<p><strong>12. pipe-line 之使用</strong>
+执行格式：command1 | command2
+将 command1 执行结果，送到 command2 做为 command2 的输入。
+Example:</p>
+<pre><code>%ls -Rl | more
+以分页方式，列出目前目录下所有文件，及子目录之名称。
+%cat file1 | more
+以分页方式，列出文件 file1 之内容。
+</code></pre>
+<p><strong>13. I/O control</strong>
+<strong>13.1 标准输入之控制</strong>
+执行格式：command-line &lt; file
+将 file 做为 command-line 之输入。
+Example:
+%mail -s &ldquo;mail test&rdquo; <a href="mailto:user@iis.sinica.edu.tw">user@iis.sinica.edu.tw</a> &lt; file1
+将文件 file1 当做信件之内容，Subject 名称为 mail test,送给收信人。</p>
+<p><strong>13.2 标准输出之控制</strong>
+执行格式：command &gt; filename
+将 command 之执行结果，送至指定的 filename 中。
+Example: %ls -l &gt; list
+将执行 “ls -l” 命令之结果，写入文件 list 中。
+执行格式：command &gt;! filename
+同上，若 filename 之文件已经存在，则强迫 overwrite。
+Example: %ls -lg &gt;! list
+将执行 “ls - lg” 命令之结果，强迫写入文件 list 中。
+执行格式：command &gt;&amp; filename
+将 command 执行时，屏幕上所产生的任何信息，写入指定的 filename 中。
+Example: %cc file1.c &gt;&amp; error
+将编译 file1.c 文件时，所产生之任何信息，写入文件 error 中。
+执行格式：command &raquo; filename
+将 command 执行结果，附加(append)到指定的 filename 中。
+Example: %ls - lag &raquo; list
+将执行 “ls - lag” 命令之结果，附加(append)到文件 list 中。
+执行格式：command &raquo;&amp; filename
+将 command 执行时，屏幕上所产生的任何信息，附加于指定的 filename中。
+Example: %cc file2.c &raquo;&amp; error
+将编译 file2.c 文件时，屏幕所产生之任何信息，附加于文件 error 中。</p>
+<p><strong>14. 查看系统中的使用者</strong>
+执行格式： who  或  finger
+执行格式： w
+执行格式： finger username or finger username@domainname</p>
+<p><strong>15. 改变自己的 username 进入其他使用者的帐号，拥有其使用权利。</strong>
+执行格式： su username
+Example:
+%su user        进入使用者 user 之帐号
+passwrod:       输入使用者 user 之密码</p>
+<p><strong>16. 查看 username</strong>
+执行格式：    whoami   查看 login 时，自己的 username。
+执行格式：    whoami   查看目前的 username。若已执行过 “su”命令tch user)，则显示出此 user 之 username。</p>
+<p><strong>17. 查看目前本地所有工作站的使用者</strong>
+执行格式: rusers</p>
+<blockquote>
+<p>结束</p>
+</blockquote>
+<p><strong>18. 与某工作站上的使用者交谈</strong>
+执行格式: talk username@hostname  或 talk username@ip_address
+Example:</p>
+<ol>
+<li>可先利用 rusers 指令查看网路上的使用者</li>
+<li>假设自己的帐号是 u84987 ，在工作站 indian 上使用，现在想要与 doc 上的u84123 交谈。
+%talk u84123@doc &gt; 此时屏幕上将会出现等待画面
+在对方(u84123)屏幕上将会出现下列信息
+Message from Talk_Daemon@Local_host_name at xx:xx
+talk: connection requested by u84987@indian
+talk: respond with: talk u84987@indian
+此时对方(u84123) 必须执行 talk u84987@indian 即可互相交谈。最后可按结束。</li>
+</ol>
+<p><strong>19. 检查远端电脑系统是否正常</strong>
+执行格式：ping hostname 或 ping IP-Address
+Example:
+%ping doc</p>
+<p><strong>20. 电子邮件(E-mail)的使用简介</strong>
+<strong>20.1将文件当做 E-mail 的内容送出</strong>
+执行格式：mail -s “Subject-string” username@address &lt; filename
+%mail -s &ldquo;program&rdquo; user &lt; file.c
+将 file.c 当做 mail 的内容，送至 user, subject name 为 program。
+<strong>20.2 传送 E-mail 给本地使用者</strong>
+执行格式：mail username
+%mail user
+<strong>20.3 传送 E-mail 至 外地</strong>
+执行格式：   mail username@receiver-address
+Example
+%mail <a href="mailto:paul@gate.sinica.edu.tw">paul@gate.sinica.edu.tw</a>
+Subject : mail test
+:
+:
+键入信文内容
+:
+:
+按下 “Control D” 键或 ” . ” 键结束信文。
+连按两次 “Control C” 键，则中断工作，不送此信件。
+Cc:
+( Carbon copy : 复制一份信文，给其他的收信人 )</p>
+<p>20.4 检查所传送之 E-mail 是否送出，或滞留于本所之邮件伺服站中
+执行格式：/usr/lib/sendmail  -bp</p>
+<p>( 若屏幕显示为 “Mail queue is empty” 之信息，表示 mail 已送出。</p>
+<p>若为其它错误信息，表示 E-mail 因故尚未送出。)</p>
+<p>20.5 读取信件
+执行格式: mail</p>
+<p>常用指令如下:</p>
+<p>cd [directory]               chdir to directory or home if none given</p>
+<p>d [message list]             delete messages</p>
+<p>h                                 print out active message headers</p>
+<p>m [user list]                  mail to specific users</p>
+<p>n                                 goto and type next message</p>
+<p>p [message list]             print messages</p>
+<p>q                                 quit, saving unresolved messages in mbox</p>
+<p>r [message list]             reply to sender (only) of messages</p>
+<p>R [message list]            reply to sender and all recipients of messages</p>
+<p>s [message list] file        append messages to file</p>
+<p>t [message list]                     type messages (same as print)</p>
+<p>u [message list]             undelete messages</p>
+<p>v [message list]             edit messages with display editor</p>
+<p>w [message list] file              append messages to file, without from line</p>
+<p>x                                 quit, do not change system mailbox</p>
+<p>z [-]                             display next [previous] page of headers</p>
+<p>!                                  shell escape</p>
+<p>21.文件编辑器 vi 之使用方法简介
+vi、celvis(cvi) 是在工作站上被广大使用的中英文编辑软体。对初学者而言，常因其特殊的使用方法，而不得其门而入；对已经在使用 vi 的使用者来说，也常见因对 vi 的不熟悉或不够了解，而无法发挥出 vi 强大的编辑能力，以下将介绍 vi 之使用方法简介。</p>
+<p>21.1本文内容大纲
+进入 vi</p>
+<p>离开 vi</p>
+<p>输入模式</p>
+<p>如何进入输入模式</p>
+<p>如何离开输入模式</p>
+<p>指令模式</p>
+<p>光标的移动</p>
+<p>视窗的移动</p>
+<p>删除、复制及修改指令介绍(delete、change、yank)</p>
+<p>删除与修改(delete、replace)</p>
+<p>移动与复制(delete/put、yank/put)</p>
+<p>指令重复</p>
+<p>取消前一动作(undo)</p>
+<p>字串搜寻</p>
+<p>资料的连接与分行</p>
+<p>环境的设定</p>
+<p>ex 指令</p>
+<p>其它方面</p>
+<p>中文编辑</p>
+<p>恢复编辑时被中断的文件</p>
+<p>编辑多个文件</p>
+<p>vi 是 visual editor 的缩写，是 UNIX 所提供的编辑器之一。它提供使用者一个视窗的编辑环境，在此视窗下，使用者可编辑所要的文件。</p>
+<p>21.2 进入vi
+直接执行 vi编辑程序即可：</p>
+<p>%vi test</p>
+<p>此刻屏幕上会出现 vi 的编辑视窗，同时 vi 会将文件复制一份至记忆体中的缓冲区 (buffer) 。  vi会保留在磁盘中的文件不变，而先对缓冲区的文件作编辑，编辑完成后，使用者可决定是否要取代原来旧有的文件。</p>
+<p>21.3 离开vi
+若在输入模式下，则先利用《ESC》进入指令模式，而后即可选用下列指令</p>
+<p>离开vi。</p>
+<p>：q!    离开vi，并放弃刚在缓冲区内编辑的内容。</p>
+<p>：wq    将缓冲区内的资料写入磁盘中，并离开vi。</p>
+<p>：ZZ    同wq。</p>
+<p>：x     同wq。</p>
+<p>：w     将缓冲区内的资料写入磁盘中，但并不离开vi。</p>
+<p>：q     离开vi，若文件被修改过，则会被要求确认是否放弃修改的内容。</p>
+<p>此指令可与：w 配合使用。</p>
+<p>21.4 vi 的操作模式
+vi 提供两种操作模式：输入模式(insert mode)和指令模式(command mode)。当使用者进入 vi 后，即处在指令模式下，此刻键入之任何字符皆被视为指令。在此模式下可进行删除、修改等动作。若要输入资料，则需进入输入模式。</p>
+<p>21.5 输入模式
+如何进入输入模式</p>
+<p>l           a (append)      由光标之后加入资料。</p>
+<p>l           A                   由该行之末加入资料。</p>
+<p>l           i (insert)         由光标之前加入资料。</p>
+<p>l           I                    由该行之首加入资料。</p>
+<p>l           o (open)         新增一行于该行之下供输入资料之用。</p>
+<p>l           新增一行于该行之上供输入资料之用。</p>
+<p>如何离开输入模式</p>
+<p>l           《ESC》 结束输入模式。</p>
+<p>21.6 指令模式
+光标之移动</p>
+<p>l           h            向左移一个字符。</p>
+<p>l           J             向上移一个字符。</p>
+<p>l           K            向下移一个字符。</p>
+<p>l           L            向右移一个字符。</p>
+<p>l           移至该行之首</p>
+<p>l           $            移至该行之末。</p>
+<p>l           ^             移至该行的第一个字符处。</p>
+<p>l           H            移至视窗的第一列。</p>
+<p>l           M           移至视窗的中间那列。</p>
+<p>l           L            移至视窗的最后一列。</p>
+<p>l           G            移至该文件的最后一列。</p>
+<p>l           +            移至下一列的第一个字符处。</p>
+<p>l           -             移至上一列的第一个字符处。</p>
+<p>l           (             移至该句之首。   (注一)</p>
+<p>l           )             移至该句之末。</p>
+<p>l           {            移至该段落之首。       (注二)</p>
+<p>l           }            移至该段落之末。</p>
+<p>l           nG          移至该文件的第 n 列。</p>
+<p>l           n+          移至光标所在位置之后的第 n 列。</p>
+<p>l           移至光标所在位置之前的第 n 列。</p>
+<p>l                 会显示该行之行号、文件名称、文件中最末行之行号、光标所在行号占总行号之百分比。</p>
+<p>注一：句子(sentence)在vi中是指以『！』、『.』或『？』结束的一串字。</p>
+<p>注二：段落(paragraph)在vi中是指以空白行隔开的文字。</p>
+<p><strong>21.7 视窗的移动</strong></p>
+<pre><code>l                  视窗往下卷一页。
+l           &lt;strong&gt;      视窗往上卷一页。
+l                 视窗往下卷半页。
+l                 视窗往上卷半页。
+l                 视窗往下卷一行。
+l                 视窗往上卷一行。&lt;/strong&gt;
+</code></pre>
+<p><strong>21.8 删除、复制及修改指令介绍 (此单元较少使用)</strong>
+d(delete)、c(change)和y(yank)这一类的指令在 vi 中的指令格式为：</p>
+<p>Operator + Scope  command</p>
+<p>(运算子)  (范围)</p>
+<p>运算子：</p>
+<p>l           d     删除指令。删除资料，但会将删除资料复制到记忆体缓冲区。</p>
+<p>l           y     将资料(字组、行列、句子或段落)复制到缓冲区。</p>
+<p>l           p     放置(put)指令，与 d 和 y 配和使用。可将最后delete或yank的资料放置于光标所在位置之行列下。</p>
+<p>l           c     修改(change)指令，类似delete与insert的组和。删除一个字组、句子等之资料，并插入新键资料。</p>
+<p>范围：</p>
+<p>l           e      由光标所在位置至该字串的最后一个字符。</p>
+<p>l           w    由光标所在位置至下一个字串的第一个字符。</p>
+<p>l           b     由光标所在位置至前一个字串的第一个字符。</p>
+<p>l           $     由光标所在位置至该行的最后一个字符。</p>
+<p>l           由光标所在位置至该行的第一个字符。</p>
+<p>l           )      由光标所在位置至下一个句子的第一个字符。</p>
+<p>l           (      由光标所在位置至该句子的第一个字符。</p>
+<p>l           {     由光标所在位置至该段落的最后一个字符。</p>
+<p>l           }     由光标所在位置至该段落的第一个字符。</p>
+<p>整行动作：</p>
+<p>l           dd    删除整行。</p>
+<p>l           D     以行为单位，删除光标后之所有字符。</p>
+<p>l           cc    修改整行的内容。</p>
+<p>l           yy    yank整行，使光标所在该行复制到记忆体缓冲区。</p>
+<p><strong>21.9 删除与修改</strong>
+l           x     删除光标所在该字符。</p>
+<p>l           X     删除光标所在之前一字符。</p>
+<p>l           dd    删除光标所在该行。</p>
+<p>l           r      用接于此指令之后的字符取代(replace)光标所在字符。如： ra 将光标所在字符以 a 取代之。</p>
+<p>l           R     进入取代状态，直到《ESC》为止。</p>
+<p>l           s      删除光标所在之字符，并进入输入模式直到《ESC》。</p>
+<p>l           S     删除光标所在之该行资料，并进入输入模式直到《ESC》。</p>
+<p><strong>21.10 移动与复制</strong>
+利用 delete 及 put 指令可完成资料移动之目的。</p>
+<pre><code>    利用 yank 及 put 指令可完成资料复制之目的。
+
+    yank 和 delete 可将指定的资料复制到记忆体缓冲区，而藉由 put 指令可将缓冲区内的资料复制到屏幕上。
+
+    例：
+
+    移动一行        .在该行执行 dd
+
+                    .光标移至目的地
+
+                    .执行 p
+
+    复制一行        .在该行执行 yy
+
+                    .光标移至目的地
+
+                    .执行 p
+</code></pre>
+<p><strong>21.11 指令重复</strong>
+在指令模式中，可在指令前面加入一数字 n，则此指令动作会重复执行 n次。</p>
+<pre><code>    例：
+
+    删除10行                .10dd
+
+    复制10行                .10yy
+
+    指标往下移10行  .10j
+</code></pre>
+<p><strong>21.12 取消前一动作(Undo)</strong>
+即复原执行上一指令前的内容。</p>
+<pre><code>    u       恢复最后一个指令之前的结果。
+
+    U       恢复光标该行之所有改变。
+</code></pre>
+<p><strong>21.13 搜寻</strong>
+在vi中可搜寻某一字串，使光标移至该处。</p>
+<pre><code>    /字串           往光标之后寻找该字串。
+
+    ?字串           往光标之前寻找该字串。
+
+    n               往下继续寻找下一个相同的字串。
+
+    N               往上继续寻找下一个相同的字串。
+</code></pre>
+<p><strong>21.14资料的连接</strong>
+J     句子的连接。将光标所在之下一行连接至光标该行的后面。</p>
+<p>若某行资料太长亦可将其分成两行，只要将光标移至分开点，进入输入模式 (可利用 a、i等指令)再按《Enter》即可。</p>
+<p><strong>21.15 环境的设定</strong>
+：set nu                设定资料的行号。</p>
+<pre><code>    ：set nonu              取消行号设定。
+
+    ：set ai                自动内缩。
+
+    ：set noai              取消自动内缩。
+</code></pre>
+<p>自动内缩(automatic indentation)</p>
+<pre><code>    在编辑文件或程序时，有时会遇到需要内缩的状况，『：set ai』即提供自动内缩的功能，用下例解释之：
+
+    .vi test
+
+    .(进入编辑视窗后)
+
+      this is the test for auto indent
+
+      《Tab》start indent           ← ：set ai (设自动内缩)
+
+      《Tab》data
+
+      《Tab》data
+
+      《Tab》data                 ← ：set noai (取消自动内缩)
+
+    the end of auto indent.
+
+    .注： 可删除《Tab》字符。
+</code></pre>
+<p><strong>21.16  ex指令</strong>
+读写资料</p>
+<pre><code>    ：w                      将缓冲区的资料写入磁盘中。
+
+    ：10,20w test        将第10行至第20行的资料写入test文件。
+
+    ：10,20w&gt;&gt;test     将第10行至第20行的资料加在test文件之后。
+
+    ：r test                 将test文件的资料读入编辑缓冲区的最后。
+</code></pre>
+<p>删除、复制及移动</p>
+<pre><code>    ：10,20d                     删除第10行至第20行的资料。
+
+    ：10d                   删除第10行的资料。
+
+    ：%d                   删除整个编辑缓冲区。
+
+    ：10,20co30   将第10行至第20行的资料复制至第30行之后。
+
+    ：10,20mo30  将第10行至第20行的资料移动至第30行之后。
+</code></pre>
+<p>字串搜寻与取代</p>
+<p>s(substitute)指令可搜寻某行列范围。g(global)指令则可搜寻整个编辑缓冲区的资料。</p>
+<p>s指令以第一个满足该条件的字串为其取代的对象，若该行有数个满足该条件的字串，也仅能取代第一个，若想取代所有的字串则需加上g参数。</p>
+<pre><code>    ：1,$s/old/new/g    将文件中所有的『old』改成『new』。
+
+    ：10,20s/^/   /     将第10行至第20行资料的最前面插入5个空白。
+
+    ：%s/old/new/g          将编辑缓冲区中所有的『old』改成『new』。
+</code></pre>
+<p><strong>21.17 恢复编辑时被中断的文件</strong>
+在编辑过程中，若系统当掉或连线中断，而缓冲区的资料并还未被写回磁盘时，当再度回到系统，执行下列指令即可回复中断前的文件内容。</p>
+<p>%vi -r filename</p>
+<p><strong>21.18 编辑多个文件</strong></p>
+<p>vi亦提供同时编辑多个文件的功能，方法如下：</p>
+<p>%vi file1 file2 …</p>
+<p>当第一个文件编修完成后，可利用『：w』将该缓冲区存档，而后再利用 『：n』载入下一个文件。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/shell/">
+shell
+      </a></li>
+      <li><a href="http://example.org/tags/unix/">
+unix
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

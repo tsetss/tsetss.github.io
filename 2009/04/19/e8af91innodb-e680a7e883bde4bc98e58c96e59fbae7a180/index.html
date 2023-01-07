@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[译]Innodb 性能优化基础 | 白天’s Blog</title>
+<meta name="keywords" content="
+innodb
+      , 
+mysql
+      , 
+性能
+      , 
+调优
+      ">
+<meta name="description" content="Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="[译]Innodb 性能优化基础" />
+<meta property="og:description" content="Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-19T14:50:25+00:00" />
+<meta property="article:modified_time" content="2009-04-19T14:50:25+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[译]Innodb 性能优化基础"/>
+<meta name="twitter:description" content="Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[译]Innodb 性能优化基础",
+      "item": "http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[译]Innodb 性能优化基础",
+  "name": "[译]Innodb 性能优化基础",
+  "description": "Innodb 性能优化基础\n原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改\n问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?\n硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.\n操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)\nMYSQL 的Innodb 设置 最重要的地方有:\ninnodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.\n其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/\n应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).",
+  "keywords": [
+    "\ninnodb\n      ", "\nmysql\n      ", "\n性能\n      ", "\n调优\n      "
+  ],
+  "articleBody": "Innodb 性能优化基础\n原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改\n问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?\n硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.\n操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)\nMYSQL 的Innodb 设置 最重要的地方有:\ninnodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.\n其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/\n应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).\n使用这些基本的innodb性能优化技术,你就会比一般按照默认配置来运行mysql用户上了一个层次.\nhttp://yahoon.blog.51cto.com/13184/76592\n",
+  "wordCount" : "73",
+  "inLanguage": "en",
+  "datePublished": "2009-04-19T14:50:25Z",
+  "dateModified": "2009-04-19T14:50:25Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      [译]Innodb 性能优化基础
+    </h1>
+    <div class="post-meta"><span title='2009-04-19 14:50:25 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong>Innodb 性能优化基础</strong></p>
+<p>原文链接 <a href="http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/">http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/</a>
+以便于理解,略作删改</p>
+<p>问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?</p>
+<p><strong>硬件</strong>
+如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.</p>
+<p><strong>操作系统</strong>
+首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory.
+(最后这句话不知道该如何翻译)</p>
+<p><strong>MYSQL 的Innodb 设置</strong>
+最重要的地方有:</p>
+<pre><code>innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G.
+UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/
+innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡.
+innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点.
+innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率.
+innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值.
+innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦.
+innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用.
+</code></pre>
+<p>查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.</p>
+<p>其他的可以参考
+<a href="http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/">http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/</a>
+<a href="http://www.mysqlperformanceblog.com/mysql-performance-presentations/">http://www.mysqlperformanceblog.com/mysql-performance-presentations/</a></p>
+<p><strong>应用程序的优化</strong>
+如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处.
+其次如果你的应用有写操作的话要注意处理死锁问题.
+第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).</p>
+<p>使用这些基本的innodb性能优化技术,你就会比一般按照默认配置来运行mysql用户上了一个层次.</p>
+<p><a href="http://yahoon.blog.51cto.com/13184/76592">http://yahoon.blog.51cto.com/13184/76592</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/innodb/">
+innodb
+      </a></li>
+      <li><a href="http://example.org/tags/mysql/">
+mysql
+      </a></li>
+      <li><a href="http://example.org/tags/%E6%80%A7%E8%83%BD/">
+性能
+      </a></li>
+      <li><a href="http://example.org/tags/%E8%B0%83%E4%BC%98/">
+调优
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

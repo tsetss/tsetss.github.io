@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>在FreeBSD中安装虚拟机(使用于BSD) | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="原来BSD中也有虚拟机的.速度不亚于VM
+在FreeBSD6.2中,
+#cd /usr/ports/emulators/qemu
+#make WITH_KQEMU=yes install clean
+选项默认
+安装好后，就可以用了
+要重起一下电脑,如不重起,可以
+#rehash
+#kldload kqemu.ko
+速度真的很快！但对我最重要的是，它很简洁.
+原来在xp用VM装了openBSD
+用qemu来运行.
+挂载 mount -t ntfs /dev/ad0s1 /mnt
+然后
+#cd /mnt/OpenBSD #qemu Other.vmdk
+启动成功！
+下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）
+#df -h
+看看自己的硬盘空间，看装在哪里合适
+我的/usr还有很多空间，就装在这里吧
+#mkdir /usr/qemu
+#cd /usr/qemu
+#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)
+#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256
+-hda 指定硬盘
+-cdrom 指定光驱
+/dev/acd0 (iso就是文件路径）
+-boot d a软盘 c 硬盘 d 光驱
+-m 内存大小
+其间可能要出现错误:
+Bad system call (用kldload aio解决）">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="在FreeBSD中安装虚拟机(使用于BSD)" />
+<meta property="og:description" content="原来BSD中也有虚拟机的.速度不亚于VM
+在FreeBSD6.2中,
+#cd /usr/ports/emulators/qemu
+#make WITH_KQEMU=yes install clean
+选项默认
+安装好后，就可以用了
+要重起一下电脑,如不重起,可以
+#rehash
+#kldload kqemu.ko
+速度真的很快！但对我最重要的是，它很简洁.
+原来在xp用VM装了openBSD
+用qemu来运行.
+挂载 mount -t ntfs /dev/ad0s1 /mnt
+然后
+#cd /mnt/OpenBSD #qemu Other.vmdk
+启动成功！
+下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）
+#df -h
+看看自己的硬盘空间，看装在哪里合适
+我的/usr还有很多空间，就装在这里吧
+#mkdir /usr/qemu
+#cd /usr/qemu
+#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)
+#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256
+-hda 指定硬盘
+-cdrom 指定光驱
+/dev/acd0 (iso就是文件路径）
+-boot d a软盘 c 硬盘 d 光驱
+-m 内存大小
+其间可能要出现错误:
+Bad system call (用kldload aio解决）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-11T13:56:31+00:00" />
+<meta property="article:modified_time" content="2009-04-11T13:56:31+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在FreeBSD中安装虚拟机(使用于BSD)"/>
+<meta name="twitter:description" content="原来BSD中也有虚拟机的.速度不亚于VM
+在FreeBSD6.2中,
+#cd /usr/ports/emulators/qemu
+#make WITH_KQEMU=yes install clean
+选项默认
+安装好后，就可以用了
+要重起一下电脑,如不重起,可以
+#rehash
+#kldload kqemu.ko
+速度真的很快！但对我最重要的是，它很简洁.
+原来在xp用VM装了openBSD
+用qemu来运行.
+挂载 mount -t ntfs /dev/ad0s1 /mnt
+然后
+#cd /mnt/OpenBSD #qemu Other.vmdk
+启动成功！
+下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）
+#df -h
+看看自己的硬盘空间，看装在哪里合适
+我的/usr还有很多空间，就装在这里吧
+#mkdir /usr/qemu
+#cd /usr/qemu
+#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)
+#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256
+-hda 指定硬盘
+-cdrom 指定光驱
+/dev/acd0 (iso就是文件路径）
+-boot d a软盘 c 硬盘 d 光驱
+-m 内存大小
+其间可能要出现错误:
+Bad system call (用kldload aio解决）"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "在FreeBSD中安装虚拟机(使用于BSD)",
+      "item": "http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "在FreeBSD中安装虚拟机(使用于BSD)",
+  "name": "在FreeBSD中安装虚拟机(使用于BSD)",
+  "description": "原来BSD中也有虚拟机的.速度不亚于VM\n在FreeBSD6.2中,\n#cd /usr/ports/emulators/qemu\n#make WITH_KQEMU=yes install clean\n选项默认\n安装好后，就可以用了\n要重起一下电脑,如不重起,可以\n#rehash\n#kldload kqemu.ko\n速度真的很快！但对我最重要的是，它很简洁.\n原来在xp用VM装了openBSD\n用qemu来运行.\n挂载 mount -t ntfs /dev/ad0s1 /mnt\n然后\n#cd /mnt/OpenBSD #qemu Other.vmdk\n启动成功！\n下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）\n#df -h\n看看自己的硬盘空间，看装在哪里合适\n我的/usr还有很多空间，就装在这里吧\n#mkdir /usr/qemu\n#cd /usr/qemu\n#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)\n#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256\n-hda 指定硬盘\n-cdrom 指定光驱\n/dev/acd0 (iso就是文件路径）\n-boot d a软盘 c 硬盘 d 光驱\n-m 内存大小\n其间可能要出现错误:\nBad system call (用kldload aio解决）",
+  "keywords": [
+    
+  ],
+  "articleBody": "原来BSD中也有虚拟机的.速度不亚于VM\n在FreeBSD6.2中,\n#cd /usr/ports/emulators/qemu\n#make WITH_KQEMU=yes install clean\n选项默认\n安装好后，就可以用了\n要重起一下电脑,如不重起,可以\n#rehash\n#kldload kqemu.ko\n速度真的很快！但对我最重要的是，它很简洁.\n原来在xp用VM装了openBSD\n用qemu来运行.\n挂载 mount -t ntfs /dev/ad0s1 /mnt\n然后\n#cd /mnt/OpenBSD #qemu Other.vmdk\n启动成功！\n下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）\n#df -h\n看看自己的硬盘空间，看装在哪里合适\n我的/usr还有很多空间，就装在这里吧\n#mkdir /usr/qemu\n#cd /usr/qemu\n#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)\n#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256\n-hda 指定硬盘\n-cdrom 指定光驱\n/dev/acd0 (iso就是文件路径）\n-boot d a软盘 c 硬盘 d 光驱\n-m 内存大小\n其间可能要出现错误:\nBad system call (用kldload aio解决）\n还有 kldload kqemu.ko\n就好了…\n原文 http://www.linuxext.com/bbs/read.php?tid=12763\u0026fpage;=4\n真是好东东哦,原来一真以为要等xen对bsd 支持呢\n",
+  "wordCount" : "82",
+  "inLanguage": "en",
+  "datePublished": "2009-04-11T13:56:31Z",
+  "dateModified": "2009-04-11T13:56:31Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/11/e59ca8freebsde4b8ade5ae89e8a385e8999ae68b9fe69cbae4bdbfe794a8e4ba8ebsd/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      在FreeBSD中安装虚拟机(使用于BSD)
+    </h1>
+    <div class="post-meta"><span title='2009-04-11 13:56:31 +0000 UTC'>April 11, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>原来BSD中也有虚拟机的.速度不亚于VM</p>
+<p>在FreeBSD6.2中,</p>
+<p>#cd /usr/ports/emulators/qemu</p>
+<p>#make WITH_KQEMU=yes install clean</p>
+<p>选项默认</p>
+<p>安装好后，就可以用了</p>
+<p>要重起一下电脑,如不重起,可以</p>
+<p>#rehash</p>
+<p>#kldload kqemu.ko</p>
+<p>速度真的很快！但对我最重要的是，它很简洁.</p>
+<p>原来在xp用VM装了openBSD</p>
+<p>用qemu来运行.</p>
+<p>挂载 mount -t ntfs /dev/ad0s1 /mnt</p>
+<p>然后</p>
+<p>#cd /mnt/OpenBSD
+#qemu Other.vmdk</p>
+<p>启动成功！</p>
+<p>下来怎么新安装一个虚拟系统：( 我是在边安装边写的，:-)，网上说的和实际有点出入的）</p>
+<p>#df -h</p>
+<p>看看自己的硬盘空间，看装在哪里合适</p>
+<p>我的/usr还有很多空间，就装在这里吧</p>
+<p>#mkdir /usr/qemu</p>
+<p>#cd /usr/qemu</p>
+<p>#qemu-img create FreeBSD.img 3G (这里是建立一个镜像文件，给它多大空间，我给3G，名叫FreeBSD.img.)</p>
+<p>#qemu -hda FreeBSD.img -cdrom /dev/acd0 -boot d -m 256</p>
+<p>-hda 指定硬盘</p>
+<p>-cdrom 指定光驱</p>
+<p>/dev/acd0 (iso就是文件路径）</p>
+<p>-boot d a软盘 c 硬盘 d 光驱</p>
+<p>-m 内存大小</p>
+<p>其间可能要出现错误:</p>
+<p>Bad system call (用kldload aio解决）</p>
+<p>还有 kldload kqemu.ko</p>
+<p>就好了&hellip;</p>
+<p>原文 <a href="http://www.linuxext.com/bbs/read.php?tid=12763&amp;fpage;=4">http://www.linuxext.com/bbs/read.php?tid=12763&amp;fpage;=4</a></p>
+<p>真是好东东哦,原来一真以为要等xen对bsd 支持呢</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

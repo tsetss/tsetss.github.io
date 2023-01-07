@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+freebsd
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/tags/freebsd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/freebsd/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+freebsd
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/tags/freebsd/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+freebsd
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+freebsd
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Webalizer-利用ApacheLog達成流量統計圖表化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>【前言】[webalizer] - A web server log file analysis tool.即可利用 Apache 的 Log 來達成流量統計圖表化的套件。 【作業環境】
+FreeBSD 5.2、6.2-RELEASE
+webalizer-2.01-10、2.1.10_12
+libiconv-1.9.2_2
+【安裝及設定】
+Step1.安裝 webalizer 及 libiconv 套件
+將顏國雄老師中文亂碼修正檔-webalizer patch.pl 放到 /usr/ports/www/webalizer 目錄下，等一下先安裝完預設的中文語系檔，但因為 GD 圖表無法正確顯示中文所以這時便執行顏國雄老師中文亂碼修正檔將 GD 圖表內中文字改回英文便不會發現 GD 圖表內文字為亂碼的現象，至於安裝前為何要將語系檔轉換為 UTF-8 格式？因為若是不轉換的話當執行完流量統計後你會發現 Search String 內容會為亂碼。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2007-06-30 19:56:15 +0000 UTC'>June 30, 2007</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Webalizer-利用ApacheLog達成流量統計圖表化" href="http://example.org/2007/06/30/webalizer-e588a9e794a8apacheloge98194e68890e6b581e9878fe7b5b1e8a888e59c96e8a1a8e58c96/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD 下的TOP的使用方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (&#43; selects all users) 顺序显示下面三个常规的信息...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-18 03:46:13 +0000 UTC'>October 18, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD 下的TOP的使用方法" href="http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd命令大全
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1 man 在线查询 man ls
+2 ls 查看目录与档案 ls -la 3 ln 建立链接文件 ln -fs /usr/local/apache/etc/httpd.conf /etc/httpd.conf
+4 more 分页显示 more 文件名称
+5 cd 切换目录 cd /usr/local/apache
+6 mkdir 建立新的目录 mkdir /usr/temp
+7 rmdir 删除目录 rmdir /usr/temp
+8 rm 删除目录或档案 rm -f 文件名称
+9 cp 复制目录或档案 cp 来源档案 目标档案
+10 pwd 显示目前的工作目录 Pwd
+11 mv 目录或档案更名或搬移 mv 来源档案 目标档案
+12 find 寻找目录或档案 find /etc -name 文件名称
+13 fetch 取得档案 fetch ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-16 01:33:39 +0000 UTC'>October 16, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd命令大全" href="http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>阿新FreeBSD服务器安装流程
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如果简单安装一个web服务器 FreeBSD 安装是非常傻瓜和友好的
+1，安装系统 我的分区 120G为例 256M / 2048M swap (1G内存) 10240M /var 4096M /usr 1024M /home 1025M /tmp 剩下的 /pub 实验证明 这种分区目前美掉过数据 选择MINI安装，FreeBSD安装可能是所有系统中最快的，大概 4-5分钟 2，系通更新 cvsup down回来最新的源代码 cd /usr/src make buildworld 修改内核 make buildkernel KERNCONF=NEWKERNEL make installkernel KERNCONF=NEWKERNEL make installworld mergemaster -cv 输入 i 安装新的 reboot 正常启动 系统更新ok 这是个漫长的过程，这段时间我一般都在CS 3，安装应用程序 cvsup down回最新的ports库 1,perl cd /usr/ports/lang/perl5.8 make install clean 2,apache cd /usr/ports/lang/apache13-modssl make APACHE_HARD_SERVER_LIMIT=1024 install clean APACHE_HARD_SERVER_LIMIT=1024 apache最大连接数 3,mysql cd /usr/ports/databases/mysql40-server make WITH_CHARSET=gbk WITH_XCHARSET=all WITH_OPENSSL=yes WITH_PROC_SCOPE_PTH=yes BUILD_OPTIMIZED=yes install clean 进站了 在火车上再写 继续 4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-05-16 12:42:38 +0000 UTC'>May 16, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 阿新FreeBSD服务器安装流程" href="http://example.org/2006/05/16/e998bfe696b0freebsde69c8de58aa1e599a8e5ae89e8a385e6b581e7a88b/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/tags/freebsd/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

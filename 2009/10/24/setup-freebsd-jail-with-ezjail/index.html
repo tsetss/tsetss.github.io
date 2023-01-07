@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Setup FreeBSD Jail With ezjail | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I&rsquo;d like to set one jail for mail and another for web server via 2 public IP address.
+Each jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Setup FreeBSD Jail With ezjail" />
+<meta property="og:description" content="How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I&rsquo;d like to set one jail for mail and another for web server via 2 public IP address.
+Each jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-10-24T06:06:18+00:00" />
+<meta property="article:modified_time" content="2009-10-24T06:06:18+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Setup FreeBSD Jail With ezjail"/>
+<meta name="twitter:description" content="How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I&rsquo;d like to set one jail for mail and another for web server via 2 public IP address.
+Each jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Setup FreeBSD Jail With ezjail",
+      "item": "http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Setup FreeBSD Jail With ezjail",
+  "name": "Setup FreeBSD Jail With ezjail",
+  "description": "How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I\u0026rsquo;d like to set one jail for mail and another for web server via 2 public IP address.\nEach jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system.",
+  "keywords": [
+    
+  ],
+  "articleBody": "How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I’d like to set one jail for mail and another for web server via 2 public IP address.\nEach jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system. The easiest way to set, create and modify jails is using a framework called ezjail.\nWARNING! You need to modify host server daemons to listen to only 127.0.0.1 or a single private or public IP such as 202.54.1.2. At least you need to modify sshd, syslogd and other services before you configure jails. Sample Setup server.nixcraft.net.in : FreeBSD host server running v7.2 with 202.54.1.2 smtpd.nixcraft.net.in : Mail server jail with 202.54.1.3 httpd.nixcraft.net.in : Web server jail with 202.54.1.4 Step # 1: Update Your Host System Make sure you are running updated kernel and base system. Use cvsup command to install the latest kernel and base system. See detailed tutorial about upgrading FreeBSD operating system.\nStep # 2: Install ezjail Type the following commands to install ezjail port which contains two scripts to easily create, manipulate and run FreeBSD jails.\ncd /usr/ports/sysutils/ezjail make install clean ezjail Default File Locations /usr/jails/ : Default location to store base jail system template. /usr/jails/flavours/ : Customization for each jail can be done via flavours. For e.g. adding default /etc/resolv.conf file or updating existing /etc/make.conf can be done here. /usr/jails/basejail/ : Base jail will be exported and mounted as read only for each jail. This will save disk space. /usr/local/etc/rc.d/ezjail.sh : Stop / Start / Restart jails script. /usr/local/etc/ezjail.conf : Configuration file for ezjail script. contains settings that control the operation of the ezjail rc script. It is also read by the ezjail-admin utility to figure out where it should perform its actions. /usr/local/etc/ezjail/ : All your jail configuration files are stored here. Step # 2: Create Base Jail Template Type the following command to creates or updates ezjail’s environment (aka basejail) from source, enter:\nezjail-admin update -p -i Where,\n-p : Provide ports for jail. -i : Do not run make world. This will save time and it will use existing buildworld done in step # 1. If you do not have source in /usr/src and never run make buildword, than you can also install it from ftp servers, use ezjail-admin install command as follows:\nezjail-admin install Step # 3: Create SMTPD Mail Server Jail Type the following command to create smtpd.nixcraft.net.in jail with 202.54.1.3 IP address at /jails/smtpd.nixcraft.net.in directory:\nezjail-admin create -r /jails/smtpd.nixcraft.net.in smtpd.nixcraft.net.in 202.54.1.3 Update SMTPD Jail Config File The default config file is located at /usr/local/etc/ezjail/smtpd_nixcraft_net_in. Open this file using vi text editor:\nvi /usr/local/etc/ezjail/smtpd_nixcraft_net_in Set hostname and multiple IP address as required:\nexport jail_smtpd_nixcraft_net_in_hostname=“smtpd.nixcraft.net.in” export jail_smtpd_nixcraft_net_in_ip=“202.54.1.3,10.21.51.12\"Save and close the file.\nStep # 4: Turn On jail Service Type the following command:\necho ’ezjail_enable=“YES”’ » /etc/rc.conf How do I start all Jails?\n/usr/local/etc/rc.d/ezjail.sh start How do I stop all Jails?\n/usr/local/etc/rc.d/ezjail.sh stop How do I restart all Jails?\n/usr/local/etc/rc.d/ezjail.sh restart You can also start / stop / restart particular jail using the following syntax:\n/usr/local/etc/rc.d/ezjail.sh {start/stop/restart} jail-name /usr/local/etc/rc.d/ezjail.sh start httpd /usr/local/etc/rc.d/ezjail.sh stop smtpd.nixcraft.net.in How Do I List All Jails? Use jls command to lists all jails:\njls To display more verbose information including cpusets, jail state, multi-IP, etc. enter:\njls -v How Do I Login To My Jail From The Host Itself? Use jexec command as follows to attach a console to jail:\njexec jid csh jid can be obtained using jls command. Connect to jail called smtpd.nixcraft.net.in with jid # 2:\njexec 2 csh Now, you can install any software and do work with jails. Update your /etc/resolv.conf file:\nvi /etc/resolv.conf Install bash shell, enter:\npkg_add -r -v bash Install Apache 2.2 server:\ncd /usr/ports/www/apache22 make install clean How Do I Login Remotely (Directly) To Jail? First, login using jexec command. Add the following line to jail /etc/rc.conf:\necho ‘sshd_enable=“YES”’ » /etc/rc.conf Open sshd_config file and update listen parameter to bind to jail IP only. Start OpenSSH server inside the jail:\n/etc/rc.d/sshd start sockstat -4 How Do I Upgrade FreeBSD Jail? Simply run the following command:\n/usr/local/etc/rc.d/ezjail.sh stop ezjail-admin update -p -i /usr/local/etc/rc.d/ezjail.sh start How Do I Upgrade Only Ports Tree? No need to stop jails, just run the following to update ports tree for all jails:\nezjail-admin update -P Jail Log Files The default jail console file is located at /var/log directory. For e.g. view log file for smtpd.nixcraft.net.in jail. enter:\ntail -f jail_smtpd_nixcraft_net_in_console.log grep ’error’ jail_smtpd_nixcraft_net_in_console.log How Do I Add Additional Jails? Create httpd jail, enter:\nezjail-admin create -r /jails/httpd.nixcraft.net.in httpd.nixcraft.net.in 202.54.1.4 vi /usr/local/etc/ezjail/httpd_nixcraft_net_in /usr/local/etc/rc.d/ezjail.sh start httpd.nixcraft.net.in jls -v jexec id csh How Do I Backup Jails? Use tar, rsync or dump command to backup jail to other server or tape device. For e.g. tar command to backup smtpd.nixcraft.net.in to tape:\ntar -zcvf /dev/sa0 /jails/smtpd.nixcraft.net.in You can also use dump command to backup all jails stored on /jails partition:\n/sbin/dump -0uLf /dev/sa0 /jails/ Later just dump incremental updates:\n/sbin/dump -1uLf /dev/sa0 /jails/ Recommend Readings: FreeBSD Jail chapter from the official FreeBSD handbook. man pages jexec, jls, jail, dump, restore\nhttp://www.cyberciti.biz/faq/howto-setup-freebsd-jail-with-ezjail/\n",
+  "wordCount" : "875",
+  "inLanguage": "en",
+  "datePublished": "2009-10-24T06:06:18Z",
+  "dateModified": "2009-10-24T06:06:18Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/10/24/setup-freebsd-jail-with-ezjail/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Setup FreeBSD Jail With ezjail
+    </h1>
+    <div class="post-meta"><span title='2009-10-24 06:06:18 +0000 UTC'>October 24, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>How do I setup operating system-level virtualization that allows me to partition my FreeBSD-based server system into several independent mini-systems called jails.? I&rsquo;d like to set one jail for mail and another for web server via 2 public IP address.</p>
+<p>Each jail under FreeBSD virtual environment runs on the host machine with its own files, processes, user and superuser accounts. From within a jailed process, the environment is almost indistinguishable from a real system. The easiest way to set, create and modify jails is using a framework called ezjail.</p>
+<p>WARNING! You need to modify host server daemons to listen to only 127.0.0.1 or a single private or public IP such as 202.54.1.2. At least you need to modify sshd, syslogd and other services before you configure jails.
+Sample Setup
+server.nixcraft.net.in : FreeBSD host server running v7.2 with 202.54.1.2
+smtpd.nixcraft.net.in : Mail server jail with 202.54.1.3
+httpd.nixcraft.net.in : Web server jail with 202.54.1.4
+Step # 1: Update Your Host System
+Make sure you are running updated kernel and base system. Use cvsup command to install the latest kernel and base system. See detailed tutorial about upgrading FreeBSD operating system.</p>
+<p>Step # 2: Install ezjail
+Type the following commands to install ezjail port which contains two scripts to easily create, manipulate and run FreeBSD jails.</p>
+<h1 id="cd-usrportssysutilsezjail">cd /usr/ports/sysutils/ezjail<a hidden class="anchor" aria-hidden="true" href="#cd-usrportssysutilsezjail">#</a></h1>
+<h1 id="make-install-clean">make install clean<a hidden class="anchor" aria-hidden="true" href="#make-install-clean">#</a></h1>
+<p>ezjail Default File Locations
+/usr/jails/ : Default location to store base jail system template.
+/usr/jails/flavours/ : Customization for each jail can be done via flavours. For e.g. adding default /etc/resolv.conf file or updating existing /etc/make.conf can be done here.
+/usr/jails/basejail/ : Base jail will be exported and mounted as read only for each jail. This will save disk space.
+/usr/local/etc/rc.d/ezjail.sh : Stop / Start / Restart jails script.
+/usr/local/etc/ezjail.conf : Configuration file for ezjail script. contains settings that control the operation of the ezjail rc script. It is also read by the ezjail-admin utility to figure out where it should perform its actions.
+/usr/local/etc/ezjail/ : All your jail configuration files are stored here.
+Step # 2: Create Base Jail Template
+Type the following command to creates or updates ezjail&rsquo;s environment (aka basejail) from source, enter:</p>
+<h1 id="ezjail-admin-update--p--i">ezjail-admin update -p -i<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-update--p--i">#</a></h1>
+<p>Where,</p>
+<p>-p : Provide ports for jail.
+-i : Do not run make world. This will save time and it will use existing buildworld done in step # 1.
+If you do not have source in /usr/src and never run make buildword, than you can also install it from ftp servers, use ezjail-admin install command as follows:</p>
+<h1 id="ezjail-admin-install">ezjail-admin install<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-install">#</a></h1>
+<p>Step # 3: Create SMTPD Mail Server Jail
+Type the following command to create smtpd.nixcraft.net.in jail with 202.54.1.3 IP address at /jails/smtpd.nixcraft.net.in directory:</p>
+<h1 id="ezjail-admin-create--r-jailssmtpdnixcraftnetin-smtpdnixcraftnetin-2025413">ezjail-admin create -r /jails/smtpd.nixcraft.net.in smtpd.nixcraft.net.in 202.54.1.3<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-create--r-jailssmtpdnixcraftnetin-smtpdnixcraftnetin-2025413">#</a></h1>
+<p>Update SMTPD Jail Config File
+The default config file is located at /usr/local/etc/ezjail/smtpd_nixcraft_net_in. Open this file using vi text editor:</p>
+<h1 id="vi-usrlocaletcezjailsmtpd_nixcraft_net_in">vi /usr/local/etc/ezjail/smtpd_nixcraft_net_in<a hidden class="anchor" aria-hidden="true" href="#vi-usrlocaletcezjailsmtpd_nixcraft_net_in">#</a></h1>
+<p>Set hostname and multiple IP address as required:</p>
+<p>export jail_smtpd_nixcraft_net_in_hostname=&ldquo;smtpd.nixcraft.net.in&rdquo;
+export jail_smtpd_nixcraft_net_in_ip=&ldquo;202.54.1.3,10.21.51.12&quot;Save and close the file.</p>
+<p>Step # 4: Turn On jail Service
+Type the following command:</p>
+<h1 id="echo-ezjail_enableyes--etcrcconf">echo &rsquo;ezjail_enable=&ldquo;YES&rdquo;&rsquo; &raquo; /etc/rc.conf<a hidden class="anchor" aria-hidden="true" href="#echo-ezjail_enableyes--etcrcconf">#</a></h1>
+<p>How do I start all Jails?</p>
+<h1 id="usrlocaletcrcdezjailsh-start">/usr/local/etc/rc.d/ezjail.sh start<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-start">#</a></h1>
+<p>How do I stop all Jails?</p>
+<h1 id="usrlocaletcrcdezjailsh-stop">/usr/local/etc/rc.d/ezjail.sh stop<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-stop">#</a></h1>
+<p>How do I restart all Jails?</p>
+<h1 id="usrlocaletcrcdezjailsh-restart">/usr/local/etc/rc.d/ezjail.sh restart<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-restart">#</a></h1>
+<p>You can also start / stop / restart particular jail using the following syntax:</p>
+<h1 id="usrlocaletcrcdezjailsh-startstoprestart-jail-name">/usr/local/etc/rc.d/ezjail.sh {start/stop/restart} jail-name<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-startstoprestart-jail-name">#</a></h1>
+<h1 id="usrlocaletcrcdezjailsh-start-httpd">/usr/local/etc/rc.d/ezjail.sh start httpd<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-start-httpd">#</a></h1>
+<h1 id="usrlocaletcrcdezjailsh-stop-smtpdnixcraftnetin">/usr/local/etc/rc.d/ezjail.sh stop smtpd.nixcraft.net.in<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-stop-smtpdnixcraftnetin">#</a></h1>
+<p>How Do I List All Jails?
+Use jls command to lists all jails:</p>
+<h1 id="jls">jls<a hidden class="anchor" aria-hidden="true" href="#jls">#</a></h1>
+<p>To display more verbose information including cpusets, jail state, multi-IP, etc. enter:</p>
+<h1 id="jls--v">jls -v<a hidden class="anchor" aria-hidden="true" href="#jls--v">#</a></h1>
+<p>How Do I Login To My Jail From The Host Itself?
+Use jexec command as follows to attach a console to jail:</p>
+<h1 id="jexec-jid-csh">jexec jid csh<a hidden class="anchor" aria-hidden="true" href="#jexec-jid-csh">#</a></h1>
+<p>jid can be obtained using jls command. Connect to jail called smtpd.nixcraft.net.in with jid # 2:</p>
+<h1 id="jexec-2-csh">jexec 2 csh<a hidden class="anchor" aria-hidden="true" href="#jexec-2-csh">#</a></h1>
+<p>Now, you can install any software and do work with jails. Update your /etc/resolv.conf file:</p>
+<h1 id="vi-etcresolvconf">vi /etc/resolv.conf<a hidden class="anchor" aria-hidden="true" href="#vi-etcresolvconf">#</a></h1>
+<p>Install bash shell, enter:</p>
+<h1 id="pkg_add--r--v-bash">pkg_add -r -v bash<a hidden class="anchor" aria-hidden="true" href="#pkg_add--r--v-bash">#</a></h1>
+<p>Install Apache 2.2 server:</p>
+<h1 id="cd-usrportswwwapache22">cd /usr/ports/www/apache22<a hidden class="anchor" aria-hidden="true" href="#cd-usrportswwwapache22">#</a></h1>
+<h1 id="make-install-clean-1">make install clean<a hidden class="anchor" aria-hidden="true" href="#make-install-clean-1">#</a></h1>
+<p>How Do I Login Remotely (Directly) To Jail?
+First, login using jexec command. Add the following line to jail /etc/rc.conf:</p>
+<h1 id="echo-sshd_enableyes--etcrcconf">echo &lsquo;sshd_enable=&ldquo;YES&rdquo;&rsquo; &raquo; /etc/rc.conf<a hidden class="anchor" aria-hidden="true" href="#echo-sshd_enableyes--etcrcconf">#</a></h1>
+<p>Open sshd_config file and update listen parameter to bind to jail IP only. Start OpenSSH server inside the jail:</p>
+<h1 id="etcrcdsshd-start">/etc/rc.d/sshd start<a hidden class="anchor" aria-hidden="true" href="#etcrcdsshd-start">#</a></h1>
+<h1 id="sockstat--4">sockstat -4<a hidden class="anchor" aria-hidden="true" href="#sockstat--4">#</a></h1>
+<p>How Do I Upgrade FreeBSD Jail?
+Simply run the following command:</p>
+<h1 id="usrlocaletcrcdezjailsh-stop-1">/usr/local/etc/rc.d/ezjail.sh stop<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-stop-1">#</a></h1>
+<h1 id="ezjail-admin-update--p--i-1">ezjail-admin update -p -i<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-update--p--i-1">#</a></h1>
+<h1 id="usrlocaletcrcdezjailsh-start-1">/usr/local/etc/rc.d/ezjail.sh start<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-start-1">#</a></h1>
+<p>How Do I Upgrade Only Ports Tree?
+No need to stop jails, just run the following to update ports tree for all jails:</p>
+<h1 id="ezjail-admin-update--p">ezjail-admin update -P<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-update--p">#</a></h1>
+<p>Jail Log Files
+The default jail console file is located at /var/log directory. For e.g. view log file for smtpd.nixcraft.net.in jail. enter:</p>
+<h1 id="tail--f-jail_smtpd_nixcraft_net_in_consolelog">tail -f jail_smtpd_nixcraft_net_in_console.log<a hidden class="anchor" aria-hidden="true" href="#tail--f-jail_smtpd_nixcraft_net_in_consolelog">#</a></h1>
+<h1 id="grep-error-jail_smtpd_nixcraft_net_in_consolelog">grep &rsquo;error&rsquo; jail_smtpd_nixcraft_net_in_console.log<a hidden class="anchor" aria-hidden="true" href="#grep-error-jail_smtpd_nixcraft_net_in_consolelog">#</a></h1>
+<p>How Do I Add Additional Jails?
+Create httpd jail, enter:</p>
+<h1 id="ezjail-admin-create--r-jailshttpdnixcraftnetin-httpdnixcraftnetin-2025414">ezjail-admin create -r /jails/httpd.nixcraft.net.in httpd.nixcraft.net.in 202.54.1.4<a hidden class="anchor" aria-hidden="true" href="#ezjail-admin-create--r-jailshttpdnixcraftnetin-httpdnixcraftnetin-2025414">#</a></h1>
+<h1 id="vi-usrlocaletcezjailhttpd_nixcraft_net_in">vi /usr/local/etc/ezjail/httpd_nixcraft_net_in<a hidden class="anchor" aria-hidden="true" href="#vi-usrlocaletcezjailhttpd_nixcraft_net_in">#</a></h1>
+<h1 id="usrlocaletcrcdezjailsh-start-httpdnixcraftnetin">/usr/local/etc/rc.d/ezjail.sh start httpd.nixcraft.net.in<a hidden class="anchor" aria-hidden="true" href="#usrlocaletcrcdezjailsh-start-httpdnixcraftnetin">#</a></h1>
+<h1 id="jls--v-1">jls -v<a hidden class="anchor" aria-hidden="true" href="#jls--v-1">#</a></h1>
+<h1 id="jexec-id-csh">jexec id csh<a hidden class="anchor" aria-hidden="true" href="#jexec-id-csh">#</a></h1>
+<p>How Do I Backup Jails?
+Use tar, rsync or dump command to backup jail to other server or tape device. For e.g. tar command to backup smtpd.nixcraft.net.in to tape:</p>
+<h1 id="tar--zcvf-devsa0-jailssmtpdnixcraftnetin">tar -zcvf /dev/sa0 /jails/smtpd.nixcraft.net.in<a hidden class="anchor" aria-hidden="true" href="#tar--zcvf-devsa0-jailssmtpdnixcraftnetin">#</a></h1>
+<p>You can also use dump command to backup all jails stored on /jails partition:</p>
+<h1 id="sbindump--0ulf-devsa0-jails">/sbin/dump -0uLf /dev/sa0 /jails/<a hidden class="anchor" aria-hidden="true" href="#sbindump--0ulf-devsa0-jails">#</a></h1>
+<p>Later just dump incremental updates:</p>
+<h1 id="sbindump--1ulf-devsa0-jails">/sbin/dump -1uLf /dev/sa0 /jails/<a hidden class="anchor" aria-hidden="true" href="#sbindump--1ulf-devsa0-jails">#</a></h1>
+<p>Recommend Readings:
+FreeBSD Jail chapter from the official FreeBSD handbook.
+man pages jexec, jls, jail, dump, restore</p>
+<p><a href="http://www.cyberciti.biz/faq/howto-setup-freebsd-jail-with-ezjail/">http://www.cyberciti.biz/faq/howto-setup-freebsd-jail-with-ezjail/</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

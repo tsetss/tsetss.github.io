@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Deferred Object In Twisted | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain).">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/12/03/deferred-object-in-twisted/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Deferred Object In Twisted" />
+<meta property="og:description" content="Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/12/03/deferred-object-in-twisted/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-12-03T04:57:12+00:00" />
+<meta property="article:modified_time" content="2009-12-03T04:57:12+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deferred Object In Twisted"/>
+<meta name="twitter:description" content="Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Deferred Object In Twisted",
+      "item": "http://example.org/2009/12/03/deferred-object-in-twisted/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Deferred Object In Twisted",
+  "name": "Deferred Object In Twisted",
+  "description": "Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain).",
+  "keywords": [
+    
+  ],
+  "articleBody": "Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain). The asychronous library code calls the first callback when the result is available, or the first errback when an error occurs, and the Deferred object then hands the results of each callback or errback function to the next function in the chain.\nThe Problem that Deferreds Solve\nIt is the second class of concurrency problem - non-computationally intensive tasks that involve an appreciable delay - that Deferreds are designed to help solve. Functions that wait on hard drive access, database access, and network access all fall into this class, although the time delay varies.\nDeferreds are designed to enable Twisted programs to wait for data without hanging until that data arrives. They do this by giving a simple management interface for callbacks to libraries and applications. Libraries know that they always make their results available by calling Deferred.callback and error by calling Deferred.errback. Applications set up result handlers by attaching callbacks and errbacks to deferreds in the order they want them called.\nThe basic idea behind Deferreds, and other solutions to this problem, is to keep the CPU as active as possible. If one task is waiting on data, rather than have the CPU(and the program!) idle waiting for that data(a process normally called “blocking”), the program performs other operations in the meantime, and waits for some singnal that data is ready to be processed before returning to that process.\nIn Twisted, a function signals to the calling function that it is waiting by returning a Deferred. When the data is available, the program activeates the callbacks on that Deferred to process the data.\nDeferreds - a signal that data is yet to come\nIn our email sending example above, a parent functions calls a function to connect to the remote server. Asynchrony requires that this connection function return without waiting for the result so that the parent function can do other things. So how does the parent function or its controlling program know that the connection doesn’t exist yet, and how does it use the connection once it does exist?\nTwisted has an object that signals this situation. When the connection function returns, it signals that the operation is imcomplete by returning a twisted.internet.defer.Deferred object.\nThe Deferred has two purposes. The first is that it says “I am a signal that the result of whatever you wanted me to do is still pending.”. The second is that you can ask the Deferred to run things when the data does arrive.\nCallbacks\nThe way you tell a Deferred what to do with the data once it arrives is by adding a callback - asking the Deferred to call a function once the data arrives.\nOne Twisted library function that returns a Deferred is twisted.web.client.getPage. In this example, we call getPage, which returns a Deferred, and we attach a callback to handle the contents of the page once the data is available:\nPython代码\nfrom twisted.web.client import getPage from twisted.internet import reactor def printContents(contents): ''''' This is the 'callback' function, added to the Deferred and called by it when the promised data is available ''' print \"The Deferred has called printContents with the following contents:\" print contents #Stop the Twisted event handling system -- this is usually handled #in higher lever ways reactor.stop() #call getPage, which returns immediately with a Deferred, promissing to #pass the page contents onto our callbacks when the contents are available deferred = getPage('http://www.google.com') #added a callback to the deferred -- request that it run printContents when #the page content has been downloaded deferred.addCallback(printContents) #Begin the Twisted event handling system to manage the process -- again # this isn't the usual way to do this reactor.run() from twisted.web.client import getPage from twisted.internet import reactor def printContents(contents): ''' This is the 'callback' function, added to the Deferred and called by it when the promised data is available ''' print \"The Deferred has called printContents with the following contents:\" print contents #Stop the Twisted event handling system -- this is usually handled #in higher lever ways reactor.stop() #call getPage, which returns immediately with a Deferred, promissing to #pass the page contents onto our callbacks when the contents are available deferred = getPage('http://www.google.com') #added a callback to the deferred -- request that it run printContents when #the page content has been downloaded deferred.addCallback(printContents) #Begin the Twisted event handling system to manage the process -- again # this isn't the usual way to do this reactor.run() A very common use of Deferreds is to attach two callbacks. The result of the first callback is passed to the second callback:\nPython代码\nfrom twisted.web.client import getPage from twisted.internet import reactor def lowerCaseContents(contents): ''''' This is a 'callback' function, added to the Deferred and called by it when the promised data is available. It converts all the data to lower case. ''' return contents.lower() def printContents(contents): ''''' This a 'callback' function, added to the Deferred after lowerCaseContents and called by it with the results of lowerCaseContents ''' print contents reactor.stop() deferred = getPage('http://www.google.com') #add two callbacks to the deferred -- request that it run lowerCaseContents #when the page content has been downloaded, and then run printContents with #the result of lowerCaseContents deferred.addCallback(lowerCaseContents) deferred.addCallback(printContents) reactor.run() from twisted.web.client import getPage from twisted.internet import reactor def lowerCaseContents(contents): ''' This is a 'callback' function, added to the Deferred and called by it when the promised data is available. It converts all the data to lower case. ''' return contents.lower() def printContents(contents): ''' This a 'callback' function, added to the Deferred after lowerCaseContents and called by it with the results of lowerCaseContents ''' print contents reactor.stop() deferred = getPage('http://www.google.com') #add two callbacks to the deferred -- request that it run lowerCaseContents #when the page content has been downloaded, and then run printContents with #the result of lowerCaseContents deferred.addCallback(lowerCaseContents) deferred.addCallback(printContents) reactor.run() Error handling: errbacks\nJust as a asynchronous function returns before its result is available, it may also return before it is possible to detect errors: failed connections, erroneous data, protocol errors, and so on. Just as you can add callbacks to a Deferred which it calls when the data you are expecting is available, you can add error handlers(errbacks) to a Deferred for it to call when an error occurs and it cannot obtain the data:\nPython代码\nfrom twisted.web.client import getPage from twisted.internet import reactor def errorHandler(err): ''''' This is an 'errback' function, added to the Deferred which will call it in the event of an error ''' #this isn't a very effective handling of the error, we just print it out: print \"An error has occurred: \u003c%s\u003e\" % str(err) #and then we stop the entire process: reactor.stop() def printContents(contents): ''''' This is a 'callback' function, added to the Deferred and called by it which the page content ''' print contents reactor.stop() #we request a page which doesn't exist in order to demonstrate the #error chain deferred = getPage(\"http://www.google.com/does-not-exits\") #add the callback to the Deferred to handle the page content deferred.addCallback(printContents) #add the errback to the Deferred to handle any errors deferred.addErrback(errorHandler) reactor.run() by blog http://huangro.javaeye.com/blog/365988\n",
+  "wordCount" : "1242",
+  "inLanguage": "en",
+  "datePublished": "2009-12-03T04:57:12Z",
+  "dateModified": "2009-12-03T04:57:12Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/12/03/deferred-object-in-twisted/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Deferred Object In Twisted
+    </h1>
+    <div class="post-meta"><span title='2009-12-03 04:57:12 +0000 UTC'>December 3, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>Twisted uses the Deferred object to manage the callback sequence. The client application attaches a series of functions to the deferred to be called in order when the results of the asychronous request are available(this series of functions is known as a series of callbacks, or a callback chain), together with a series of functions to be called if there is an error in the asychronous request(known as a series of errbacks or an errback chain). The asychronous library code calls the first callback when the result is available, or the first errback when an error occurs, and the Deferred object then hands the results of each callback or errback function to the next function in the chain.</p>
+<p>The Problem that Deferreds Solve</p>
+<p>It is the second class of concurrency problem - non-computationally intensive tasks that involve an appreciable delay - that Deferreds are designed to help solve. Functions that wait on hard drive access, database access, and network access all fall into this class, although the time delay varies.</p>
+<p>Deferreds are designed to enable Twisted programs to wait for data without hanging until that data arrives. They do this by giving a simple management interface for callbacks to libraries and applications.  Libraries know that they always make their results available by calling Deferred.callback and error by calling Deferred.errback. Applications set up result handlers by attaching callbacks and errbacks to deferreds in the order they want them called.</p>
+<p>The basic idea behind Deferreds, and other solutions to this problem, is to keep the CPU as active as possible. If one task is waiting on data, rather than have the CPU(and the program!) idle waiting for that data(a process normally called &ldquo;blocking&rdquo;), the program performs other operations in the meantime, and waits for some singnal that data is ready to be processed before returning to that process.</p>
+<p>In Twisted, a function signals to the calling function that it is waiting by returning a Deferred. When the data is available, the program activeates the callbacks on that Deferred to process the data.</p>
+<p>Deferreds - a signal that data is yet to come</p>
+<p>In our email sending example above, a parent functions calls a function to connect to the remote server. Asynchrony requires that this connection function return without waiting for the result so that the parent function can do other things. So how does the parent function or its controlling program know that the connection doesn&rsquo;t exist yet, and how does it use the connection once it does exist?</p>
+<p>Twisted has an object that signals this situation. When the connection function returns, it signals that the operation is imcomplete by returning a twisted.internet.defer.Deferred object.</p>
+<p>The Deferred has two purposes. The first is that it says &ldquo;I am a signal that the result of whatever you wanted me to do is still pending.&rdquo;. The second is that you can ask the Deferred to run things when the data does arrive.</p>
+<p>Callbacks</p>
+<p>The way you tell a Deferred what to do with the data once it arrives is by adding a callback - asking the Deferred to call a function once the data arrives.</p>
+<p>One Twisted library function that returns a Deferred is twisted.web.client.getPage. In this example, we call getPage, which returns a Deferred, and we attach a callback to handle the contents of the page once the data is available:</p>
+<p>Python代码</p>
+<pre><code>from twisted.web.client import getPage   
+from twisted.internet import reactor   
+  
+def printContents(contents):   
+    '''''  
+    This is the 'callback' function, added to the Deferred and called by it when the promised data is available  
+    '''  
+  
+    print &quot;The Deferred has called printContents with the following contents:&quot;  
+    print contents    
+  
+    #Stop the Twisted event handling system -- this is usually handled   
+    #in higher lever ways   
+  
+    reactor.stop()    
+  
+   #call getPage, which returns immediately with a Deferred, promissing to   
+   #pass the page contents onto our callbacks when the contents are available   
+  
+deferred = getPage('http://www.google.com')   
+  
+#added a callback to the deferred -- request that it run printContents when   
+#the page content has been downloaded   
+  
+deferred.addCallback(printContents)   
+  
+#Begin the Twisted event handling system to manage the process -- again   
+# this isn't the usual way to do this   
+  
+reactor.run()  
+
+from twisted.web.client import getPage
+from twisted.internet import reactor
+
+def printContents(contents):
+    '''
+    This is the 'callback' function, added to the Deferred and called by it when the promised data is available
+    '''
+
+    print &quot;The Deferred has called printContents with the following contents:&quot;
+    print contents 
+
+    #Stop the Twisted event handling system -- this is usually handled
+    #in higher lever ways
+
+    reactor.stop() 
+
+   #call getPage, which returns immediately with a Deferred, promissing to
+   #pass the page contents onto our callbacks when the contents are available
+
+deferred = getPage('http://www.google.com')
+
+#added a callback to the deferred -- request that it run printContents when
+#the page content has been downloaded
+
+deferred.addCallback(printContents)
+
+#Begin the Twisted event handling system to manage the process -- again
+# this isn't the usual way to do this
+
+reactor.run()
+</code></pre>
+<p>A very common use of Deferreds is to attach two callbacks. The result of the first callback is passed to the second callback:</p>
+<p>Python代码</p>
+<pre><code>from twisted.web.client import getPage   
+from twisted.internet import reactor   
+  
+def lowerCaseContents(contents):   
+     '''''  
+     This is a 'callback' function, added to the Deferred and called by  
+     it when the promised data is available. It converts all the data to lower  
+     case.  
+     '''  
+  
+     return contents.lower()   
+  
+def printContents(contents):   
+  
+    '''''  
+    This a 'callback' function, added to the Deferred after lowerCaseContents  
+    and called by it with the results of lowerCaseContents  
+    '''  
+    print contents   
+    reactor.stop()   
+  
+deferred = getPage('http://www.google.com')   
+  
+#add two callbacks to the deferred -- request that it run lowerCaseContents   
+#when the page content has been downloaded, and then run printContents with   
+#the result of lowerCaseContents   
+  
+deferred.addCallback(lowerCaseContents)   
+  
+deferred.addCallback(printContents)   
+  
+reactor.run() 
+
+
+
+
+
+from twisted.web.client import getPage
+from twisted.internet import reactor
+
+def lowerCaseContents(contents):
+     '''
+     This is a 'callback' function, added to the Deferred and called by
+     it when the promised data is available. It converts all the data to lower
+     case.
+     '''
+
+     return contents.lower()
+
+def printContents(contents):
+
+    '''
+    This a 'callback' function, added to the Deferred after lowerCaseContents
+    and called by it with the results of lowerCaseContents
+    '''
+    print contents
+    reactor.stop()
+
+deferred = getPage('http://www.google.com')
+
+#add two callbacks to the deferred -- request that it run lowerCaseContents
+#when the page content has been downloaded, and then run printContents with
+#the result of lowerCaseContents
+
+deferred.addCallback(lowerCaseContents)
+
+deferred.addCallback(printContents)
+
+reactor.run()
+</code></pre>
+<p>Error handling: errbacks</p>
+<p>Just as a asynchronous function returns before its result is available, it may also return before it is possible to detect errors: failed connections, erroneous data, protocol errors, and so on. Just as you can add callbacks to a Deferred which it calls when the data you are expecting is available, you can add error handlers(errbacks) to a Deferred for it to call when an error occurs and it cannot obtain the data:</p>
+<p>Python代码</p>
+<pre><code>from twisted.web.client import getPage   
+from twisted.internet import reactor   
+  
+def errorHandler(err):   
+    '''''  
+    This is an 'errback' function, added to the Deferred which will call it in   
+    the event of an error  
+     '''  
+    #this isn't a very effective handling of the error, we just print it out:   
+    
+    print &quot;An error has occurred: &lt;%s&gt;&quot; % str(err)   
+    #and then we stop the entire process:   
+    reactor.stop()   
+  
+def printContents(contents):   
+    '''''  
+    This is a 'callback' function, added to the Deferred and called by it which   
+    the page content  
+    '''  
+    print contents   
+    reactor.stop()   
+  
+#we request a page which doesn't exist in order to demonstrate the   
+#error chain   
+  
+deferred = getPage(&quot;http://www.google.com/does-not-exits&quot;)   
+  
+#add the callback to the Deferred to handle the page content   
+  
+deferred.addCallback(printContents)   
+  
+#add the errback to the Deferred to handle any errors   
+  
+deferred.addErrback(errorHandler)   
+  
+reactor.run()  
+</code></pre>
+<p>by blog <a href="http://huangro.javaeye.com/blog/365988">http://huangro.javaeye.com/blog/365988</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

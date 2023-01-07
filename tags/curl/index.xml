@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+curl
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/curl/</link>
+    <description>Recent content in 
+curl
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Apr 2009 08:51:54 +0000</lastBuildDate><atom:link href="http://example.org/tags/curl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>利用Curl、socket、file_get_contents POST数据</title>
+      <link>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</link>
+      <pubDate>Mon, 06 Apr 2009 08:51:54 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/06/use-curl-socket-file_get_contents-post-data/</guid>
+      <description>array( &amp;lsquo;method&amp;rsquo;=&amp;gt;&amp;lsquo;POST&amp;rsquo;, &amp;lsquo;header&amp;rsquo;=&amp;gt;&amp;lsquo;Content-type: application/x-www-form-urlencoded&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;User-Agent : Jimmy&#39;s POST Example beta&amp;rsquo;.&amp;quot;\r\n&amp;quot;. &amp;lsquo;Content-length: &amp;lsquo;.strlen($post_string)+8, &amp;lsquo;content&amp;rsquo;=&amp;gt;&amp;lsquo;mypost=&amp;rsquo;.$post_string) ); $stream_context = stream_context_create($context); $data = file_get_contents($remote_server,FALSE,$stream_context); return $data; }
+?&amp;gt; 转自 http://hi.baidu.com/xsite/blog/item/1ae57963be3e38680d33fa6b.html</description>
+    </item>
+    
+  </channel>
+</rss>

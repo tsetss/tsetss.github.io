@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+ftp
+       on 白天’s Blog</title>
+    <link>http://example.org/categories/ftp/</link>
+    <description>Recent content in 
+ftp
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Apr 2006 04:08:38 +0000</lastBuildDate><atom:link href="http://example.org/categories/ftp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vsftp安装配置</title>
+      <link>http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/</link>
+      <pubDate>Wed, 26 Apr 2006 04:08:38 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/26/vsftpe5ae89e8a385e9858de7bdae/</guid>
+      <description>公司要配置一台FreBSD的服务器,虽然以前没接触过着个系统,可是老板的话就是命令,没办法^_^,那就动手吧,看了不少资料,自己也在VMware里测试了多次,把自己的操作过程记录一下,供大家参考.如有不足不对之处请大家指点. 配置网站服务器,FTP服务必不可少,那就先来这个了,再罗嗦有人要扔砖了,呵呵.
+1、安装 通过ports安装，这个方式比较简单。 # cd /usr/ports/ftp/vsftp # make install 2、配置 (1)编辑/usr/local/etc/vsftpd.conf # ee /usr/local/etc/vsftpd.conf Anonymous_enable=NO (禁止匿名登陆) Local_enable=YES (允许本地用户登陆) Local_umask=022 (FTP上本地的文件权限755，默认是077) Connect_form_port_20=yes (启用FTP数据端口的数据连接) Xferlog_enable=yes (激活上传和下传的日志) Xferlog_std_format=yes (使用标准的日志格式) Idle_session_timeout=120(秒) (用户会话空闲后2分钟) Data_connection_timeout=300(秒) (将数据连接空闲5分钟断) Ascii_upload_enable=YES (起用ASCII方式上传) Ascii_download_enable=YES帮带(起用ASCII方式下载) Ftpd_banner=Welcome to blah FTP service. (FTP服务器登陆欢迎信息) Chroot_list_enable=YES (开启锁定用户目录) Chroot_list_file=/任意路径/vsftpd.chroot_list (要锁定目录的用户保存文件，格式为每个用户一行) 注：如果想把本地的任何用户都锁定在自己的目录中的话，把上面两行注释掉，再增加这一样 Chroot_local_user＝YES 保存退出 (2)编辑/etc/inetd.conf # ee /etc/inetd.conf 增加这一行并去掉前面的注释(#号) #ftp stream tcp nowait root /usr/local/libexec/vsftpd vsftpd 保存退出 (3)编辑/etc/rc.conf # ee /etc/rc.conf 增加下面内容： inetd_enable=&amp;quot;YES&amp;quot; 注：以上是以inetd的方式启动vsftp的，我们也可以以独立进程的方式启动vsftp，具体如下： a、注释掉inetd里面的vsftpd这一行。 b、在vsftpd.conf文件里增加listen＝YES这句。 c、进入/usr/local/libexec/目录，执行./vsftpd &amp;amp; 。 d、想要让vsftp随系统启动，可在/usr/local/etc/rc.</description>
+    </item>
+    
+    <item>
+      <title>vsFTPd 服务器初学者指南（欢迎大家参与补充）</title>
+      <link>http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/</link>
+      <pubDate>Wed, 26 Apr 2006 04:03:07 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/26/vsftpd-e69c8de58aa1e599a8e5889de5ada6e88085e68c87e58d97efbc88e6aca2e8bf8ee5a4a7e5aeb6e58f82e4b88ee8a1a5e58585efbc89/</guid>
+      <description>1、vsFTPd，目前常用FTP服务器套件；
+vsFTPd是一款在Linux发行版中最受推崇的FTP服务器程序；特点是小巧轻快，安全易用；能让其自身特点得发发挥和掌握，也然最主要的是会用；
+目前在开源操作系统中常用的FTPD套件主要有ProFTPD、PureFTPd和wuftpd等；至于哪个FTP服务器套件更好，哪个是你最熟悉的，哪个就是最好的；
+2、ftp 用户管理解说；
+FTP服务器对用户的管理，在默认的情况下是根据 /etc/passwd及/etc/group 来进行的，所以我们一定要了解Linux系统用户和用户组的管理，用户和用户组的管理是一切应用的的基础，有的弟兄不想去了解基础的东西，就想一步成架好各种服务器，事实证明这种学习方法是最不明智的；虽然在您可能在几分钟启动了ftp服务器，但遇到问题时，您不一定能知道是哪里出错；所以基础还是极为重要的；
+推荐文章： 《Linux 用户（user）和用户组（group）管理概述》
+2.1、匿名ftp 用户和用户组的理解；
+当我们访问各大FTP上访问时，可能我们不去想我们以什么身份登录的，如果他的FTP允许匿名登录的话；比如我们在浏览器上打入；
+ftp://mirrors.kernel.org 或 ftp://ftp:ftp@mirrors.kernel.org 我们会发现上面的两行最终都能访问，而且显示的结果也完全一样，最终都跳到 ftp://mirrors.kernel.org 地址；那我们访问这个FTP时，是不是有用户和密码呢？是的，也是需要在的，只是在服务器端允许匿名访问，而匿名访问的用户名和密码都是ftp，只是我们因为匿名访问，没有感觉到他有用户名和密码罢了。第二个地址就是以ftp用户，密码也是ftp来访问 ftp://mirrors.kernel.org；
+如果我们以ftp命令连接 mirrors.kernel.org 时，我们会发现需要输入用户ftp，密码ftp才能访问；
+在FTP服务器中，匿名用户的用户名和密码都是ftp ；这个用户可以在您的操作系统中的 /etc/passwd 中能找得到；可能有类似下面的一行；
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin 说明：
+/etc/passwd 是系统用户的配置文件；/etc/group是系统用户组配置文件，您可以通过 《Linux 用户（user）和用户组（group）管理概述》 及其相关文档中了解一些用户管理的一些基础知识；
+在ftp用户这行中，我们看到七个字段，每个字段写字段之间用:号分割；
+ftp 是用户名 x 是密码字段，是隐藏的； 14 是用户的UID字段，可以自己来设定，不要和其它用户的UID相同，否则会造成系统安全问题； 50 用用户组的GID，可以自己设定，不要和其它用户组共用FTP的GID，否则会造成系统全全问题； FTP User 是用户说明字段； /var/ftp 是ftp用户的家目录，可以自己来定义； /sbin/nologin 这是用户登录SHELL ，这个也是可以定义的，/sbin/nologin 表示不能登录系统；系统虚拟帐号（也被称为伪用户）一般都是这么设置。比如我们把ftp用户的/sbin/nologin 改为 /bin/bash ，这样ftp用户通过本地或者远程工具ssh或telnet以真实用户身份登录到系统。这样做对系统来说是不安全的；如果您认为一个用户没有太大的必要登录到系统，就可以只给他FTP帐号的权限，也就是说只给他FTP的权限，而不要把他的SHELL设置成 /bin/bash 等；
+关于ftp用户组的理解：
+我们查看 /etc/group 的时候，会发现类似这样一条；
+ftp:x:50: /etc/group 是用户组的管理配置文件，上面这行表示用户组ftp，x是密码段，50是GID；我们对照在/etc/passwd中的ftp那行得知ftp用户是属于ftp用户组的，因为ftp用户那行中的GID和ftp用户组的GID是相同的；
+2.2、匿名ftp 用户和ftp用户组是否可以删除
+在一般情况下是不能把/etc/passwd和/etc/group 中有把ftp用户和用户组的行删除的，因为FTP服务器是需要他们来对FTP用户实现管理，在默认的情况下。</description>
+    </item>
+    
+    <item>
+      <title>ftP教程</title>
+      <link>http://example.org/2006/04/26/ftpe69599e7a88b/</link>
+      <pubDate>Wed, 26 Apr 2006 03:13:50 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/26/ftpe69599e7a88b/</guid>
+      <description>很久没有上来了，也很久没有碰电脑了。本来想当北南南北那样的写手，呵呵，自己想了半天，还没有出来。于是把我论文里的其中一段搬上来。（里面也有抄的） Linux下VsFTP配置全方案 纲要： 一， VsFTPd的简述 二， 企业Linux下vsFTPD方案 三， VsFTPD相关配置文件详解 一,VsFTPd的简述: VSFTP（Very Secure FTP Daemon，非常安全的FTP服务器）。顾名思义，VSFTPD设计的出发点就是安全性。同时随着版本的不断升级，VSFTPD在性能和稳定性上也取得了极大的进展。除了安全和性能方面很优秀的外，还有很好的易用性。Red Hat公司在自己的FTP服务器(ftp.redhat.com)上就使用了vsFTPd 二，企业Linux下vsFTPD实战方案 要求：
+用户:netseek_com；FTP：ftp.netseek.com(192.168.0.21,我已经配置好了相关的DNS) 禁止匿名登陆，禁止用户离开用户目录 命令通道端口使用5021，数据通道端口使用5020（你可以改成你想设置的端口如1021,1020） 允许使用被动模式使用端口范围为10010~10020. 用户带宽设置为200kps；用户空间大小限制为300M，允许宽限期限内有10MB的缓冲 具体操作步骤如下： 为了更完全的描述安装全过程，我在我的另一台主机（netseek）上进行配置，在台机IP:192.168.0.20上绑定了192.168.0.21,也配置好了相关的DNS解析，在这里我就不多说了请参照”Linux全能web服务器架设”。 1． 配置相关服务 启动服务： [root@netseek root]# #rpm –qa | grep vsftpd ；查看是否安装vsftpd服务 #/etc/init.d/vsftpd start ;启动服务 #chkconfig vsftpd on ;让系统服务随着系统启动而启动 配置相关文档： #vi /etc/vsftpd/vsftpd.conf 禁止匿名用户访问： anonymous_enable=YES,将YES改为NO 在文件末尾加如下的设置： new added by netseek listen_port=5021 ;命令通道端口，默认为21 listen_data_port=5020 ;数据通道端口，默认为20 pasv_enable=YES ;允许被动模式 pasv_min_port=10000 ；被动模式使用端口范围 pasv_max_port=10010 local_max_rate=200000 ；用户宽带限制 chroot_local_user=YES ；禁用户离开主目录 listen_address=192.168.0.21 ；让他监听ip:192.168.0.21 注：在添加过程中请不要加上”;”和这些中文注释，在这里我上为了方便大家了解才加上的。 2． 添加虚拟主机用户 添加用户netseek_com,用户目录指定为/var/www/netseek.</description>
+    </item>
+    
+    <item>
+      <title>一个完整的ftp远程批量shell</title>
+      <link>http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell-2/</link>
+      <pubDate>Mon, 17 Apr 2006 05:55:03 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell-2/</guid>
+      <description>单位有30多台远程主机须不定期升级程序，为了方便传送文件，整理如下FTP批量处理程式，主文件为main.sh内容格式固定，调用程序autopro.sh文件可根据传送文件及目录随时更改 main.sh文件内容如下：
+hostlist=&#39;198.1.1.1 198.1.1.2 198.1.1.3 .......................&#39; ＃有多少主机IP，就一起写上吧！ echo echo &amp;quot;-----远程FTP批量数据传送------&amp;quot; echo -n &amp;quot;\n 请输入登录用户名:&amp;quot;;read username echo -n &amp;quot; 请输入用户口令 :&amp;quot; stty -echo　＃将输入的口令隐起来 read userpwd stty echo echo &amp;quot;\n 发往以下主机：[用户名:$username]&amp;quot; echo &amp;quot; $hostlist&amp;quot; echo &amp;quot;\n 开始传送程序，按回车键开始 ..........&amp;quot; read goenter for host in $hostlist ＃所有主机IP循环语句 do echo &amp;quot;正在向服务器　$host 正在传送数据 ..........&amp;quot; sh autopro.sh $host $username $userpwd #参数一为主机IP，参数二为用户名，参数三为口令 echo &amp;quot;服务器　$host 传送数据完成!!&amp;quot; echo &amp;quot;OK&amp;quot; sleep 2 done echo &amp;quot;\n全部数据传送完毕\n&amp;quot; autopro.sh　文件内容如下： ftp -niv $1 &amp;lt; </description>
+    </item>
+    
+    <item>
+      <title>一个完整的ftp远程批量shell</title>
+      <link>http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell/</link>
+      <pubDate>Mon, 17 Apr 2006 05:54:34 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/17/e4b880e4b8aae5ae8ce695b4e79a84ftpe8bf9ce7a88be689b9e9878fshell/</guid>
+      <description>单位有30多台远程主机须不定期升级程序，为了方便传送文件，整理如下FTP批量处理程式，主文件为main.sh内容格式固定，调用程序autopro.sh文件可根据传送文件及目录随时更改 main.sh文件内容如下：
+hostlist=&amp;lsquo;198.1.1.1 198.1.1.2 198.1.1.3 &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;..&amp;rsquo; ＃有多少主机IP，就一起写上吧！ echo echo &amp;ldquo;&amp;mdash;&amp;ndash;远程FTP批量数据传送&amp;mdash;&amp;mdash;&amp;rdquo; echo -n &amp;ldquo;\n 请输入登录用户名:&amp;quot;;read username echo -n &amp;quot; 请输入用户口令 :&amp;rdquo; stty -echo　＃将输入的口令隐起来 read userpwd stty echo echo &amp;ldquo;\n 发往以下主机：[用户名:$username]&amp;rdquo; echo &amp;quot; $hostlist&amp;quot; echo &amp;ldquo;\n 开始传送程序，按回车键开始 &amp;hellip;&amp;hellip;&amp;hellip;.&amp;rdquo; read goenter
+for host in $hostlist ＃所有主机IP循环语句 do echo &amp;ldquo;正在向服务器　$host 正在传送数据 &amp;hellip;&amp;hellip;&amp;hellip;.&amp;rdquo; sh autopro.sh $host $username $userpwd #参数一为主机IP，参数二为用户名，参数三为口令 echo &amp;ldquo;服务器　$host 传送数据完成!!&amp;rdquo; echo &amp;ldquo;OK&amp;rdquo; sleep 2 done echo &amp;ldquo;\n全部数据传送完毕\n&amp;rdquo;
+autopro.sh　文件内容如下：
+ftp -niv $1 &amp;lt;</description>
+    </item>
+    
+    <item>
+      <title>VSFTP＋MySQL虚拟用户配置</title>
+      <link>http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/</link>
+      <pubDate>Mon, 17 Apr 2006 02:42:42 +0000</pubDate>
+      
+      <guid>http://example.org/2006/04/17/vsftpefbc8bmysqle8999ae68b9fe794a8e688b7e9858de7bdae/</guid>
+      <description>VSFTPD是一种在UNIX/Linux中非常安全且快速的FTP服务器，目前已经被许多大型站点所采用。VSFTPD支持将用户名和口令保存在数据库文件或数据库服务器中。VSFTPD称这种形式的用户为虚拟用户。相对于FTP的本地（系统）用户来说，虚拟用户只是FTP服务器的专有用户，虚拟用户只能访问FTP服务器所提供的资源，这大大增强系统本身的安全性。相对于匿名用户而言，虚拟用户需要用户名和密码才能获取FTP服务器中的文件，增加了对用户和下载的可管理性。对于需要提供下载服务，但又不希望所有人都可以匿名下载；既需要对下载用户进行管理，又考虑到主机安全和管理方便的FTP站点来说，虚拟用户是一种极好的解决方案。本文介绍在RedHat Linux 9上如何将VSFTPD的虚拟用户名和密码保存在MySQL数据库服务器中。
+一、VSFTPD的安装
+目前，VSFTPD的最新版本是1.2.0版。官方下载地址为ftp://vsftpd.beasts.org/users/cevans/vsftpd-1.2.0.tar.gz。在安装前，需要先做以下准备工作：
+VSFTPD默认配置中需要“nobody”用户。在系统中添加此用户，如果用户已经存在，useradd命令有相应提示。 [root@hpe45 root]# useradd nobody useradd: user nobody exists
+VSFTPD默认配置中需要“/usr/share/empty”目录。在系统中此目录，如果目录已经存在，mkdir命令有相应提示。 [root@hpe45 root]# mkdir /usr/share/empty/ mkdir: cannot create directory &amp;lsquo;/usr/share/empty&amp;rsquo;: File exists
+VSFTPD提供匿名FTP服务时，需要“ftp”用户和一个有效的匿名目录。 [root@hpe45 root]# mkdir /var/ftp/ [root@hpe45 root]# useradd -d /var/ftp ftp 接下来的操作对于ftp用户是否已经存在都是有用的。 [root@hpe45 root]# chown root.root /var/ftp [root@hpe45 root]# chmod og-w /var/ftp
+以上准备工作完成后，我们就可以开始编译源代码了。假定我们下载的vsftpd-1.2.0.tar.gz在/root目录，执行以下命令： [root@hpe45 root]# tar zxvf vsftpd-1.2.0.tar.gz [root@hpe45 root]# cd vsftpd-1.2.0 [root@hpe45 vsftpd-1.2.0]# make [root@hpe45 vsftpd-1.2.0]# make install
+上面的“make install”命令将编译好的二进制文件、手册等复制到相应目录。在RHL9上，可能需要手动执行以下复制： [root@hpe45 vsftpd-1.2.0]# cp vsftpd /usr/local/sbin/vsftpd [root@hpe45 vsftpd-1.</description>
+    </item>
+    
+  </channel>
+</rss>

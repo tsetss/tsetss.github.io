@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+vmware
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/vmware/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/vmware/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+vmware
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/vmware/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+vmware
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+vmware
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>VBoxManage命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-17 06:12:35 +0000 UTC'>December 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VBoxManage命令详解" href="http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>VMware server序列号
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VMware Workstation4.5.2 Build 8848 for Windows
+ZHDH1-UR90N-W844G-4PTN6
+G1NP0-T88AL-M016F-4P8N2
+VMware-workstation-4.5.2-8848 for Linux
+ZC14J-4U16A-0A04G-4MEZP
+J1WF8-58LDE-881DG-4M8Q3
+VMware Workstation 5 For Windows
+LUXRM-WP0DN-A256U-4M9Q3
+DJXDR-NDT27-Y2NDU-4YTZK
+VMware Workstation 5 for Linux
+DA925-HP80U-Z8HDC-4WXXP
+3KW2W-AYR2C-88M6F-4MDQ2
+VMware.GSX.Server.3.1.0-9089.for.Windows
+98XY4-54VA4-4216V-4PDZ6
+WH0M5-XW50J-WA4FU-4MTZ3
+VMware-gsx-server-3.1.0-9089.for Linux
+N218N-NR66R-F0JDF-4P9NP
+H2W8H-X82DC-J8N6G-4M9Q6
+VMWare ESX Server 2.x
+0VHD0-0P86V-0C0AH-4018N SMP 0KR08-02CAH-0DJ2H-48124
+02M8R-0HA2N-0CK8M-42JAN SMP 0AMDE-0UWFP-0E601-42J84
+VMware Ace 1.0.0
+admin:8H18E-8U505-HA14Z-4P8QL
+RCT0X-XHN8U-H20FY-4W9ZP
+player:WC94X-3H90R-K05DU-4MTN3
+DHHF8-K0P6P-Z25DY-4YENK
+workstation:TKN8T-1UD2Q-70N4C-4YXXQ
+AJMMN-3YUDP-8ANFG-4WWX2
+VMware VirtualCenterV1.2.0
+[attach]1150[/attach]
+VC管理GSX的SN：
+QU9HW-NM5FT-VAJ4G-5W9N3
+VHM05-U0Q27-E0HFA-5WRXL
+virtualcenter 最全和最强的license
+virtualcenter : 921H4-7WR4V-T2NDC-5YDZK
+vmotion : 8VN44-Q8PD9-P0NFY-5PWZL
+esx： XL584-9PH2Z-02H4C-5P9XL
+gsx: EH8M0-5RP8Y-M804F-5MRN3...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-10 06:12:35 +0000 UTC'>September 10, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VMware server序列号" href="http://example.org/2009/09/10/vmware-servere5ba8fe58897e58fb7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd7.x安装vmware-tools
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>刚开始搞freebsd，先在vmware里试试。 先要安装compat6x 在/usr/ports/misc/compat6x 然后执行
+ln -s /usr/local/lib/compat/libc.so.6 /lib 原文 http://bbs3.chinaunix.net/thread-1364897-1-5.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-13 16:11:37 +0000 UTC'>April 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd7.x安装vmware-tools" href="http://example.org/2009/04/13/freebsd7x-install-vmware-tools/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-08 17:43:49 +0000 UTC'>April 8, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)" href="http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>vmware freebsd 时间不准解决办法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>/boot/loader.conf
+加入
+kern.hz=100 hint.apic.0.disabled=1 The default “tick” on FreeBSD is 1000 Hz, which is far greater than what a virtual machine can keep up with accurately, 100Hz is more reasonable value. APIC has been known to cause issues with FreeBSD, but is required if you are using SMP in your guest (2 or more processors).
+原文 http://peterkieser.com/technical/vmware-server-issues/</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-08 14:02:24 +0000 UTC'>April 8, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to vmware freebsd 时间不准解决办法" href="http://example.org/2009/04/08/vmware-e697b6e997b4e4b88de58786e8a7a3e586b3e58a9ee6b395/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>VMware Server、VMware GSX Server、VMware ESX Server,VI说明
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>免费的VMware Server：还在VMware推行它宏伟的虚拟化蓝图之前，ESX Server的上一代版本GSX Server已经销售了五年之久，它当时的售价接近现在的ESX Server。和ESX Server一样，GSX Server也是专注于数据中心的布置，后来VMware发布了企业管理工具VirtualCenter，可以使管理GSX Server和 ESX Server完全一样。
+自从2001年VMware推出GSX Server至今，已有300多家著名大公司采用了该系统。2005年末，VMware终于推出了该公司史上第一款虚拟化产品VMware Play。接下来，又做出决定把即将推出的GSX Server 4.0转为免费，并重新命名为Server 1.0。这就是VMware Server的由来。 说白了，免费的VMware Server就是VMware GSX，也就是ESX的上一代产品。
+GSX Server和ESX Server，两个产品都可以提供多操作系统运行支持。但这两个产品采取的实现方式不同，GSX Server在宿主操作系统中以应用程序的方式运行服务器仿真会话，比如在Windows 2000系统中运行多个服务器仿真系统。而GSX Server的后继产品 ESX Server则基于专有的系统平台，使用分立的分区来隔离每一个虚拟系统，这消除了GSX Server无法避免的性能瓶颈，且可以将计算性能动态分配给有计算任务的虚拟服务器。
+VMware Workstation是用在个人桌面系统中的，而VMware GSX Server与VMWare ESX Server用于服务器的，VMware Workstation与VMware GSX Server需要操作系统的支持，而VMWare ESX Server不需要操作系统的支持，即在主机没有操作系统的情况下也可以安装。 VMware GSX Server是界于VMware Workstation与VMWare ESX Server的一个版本。VI，也就是VMware Infrastructure，可在硬件上直接運作。因為性能的考慮，一般在主生產環境中建議使用 VI3。
+ESX企业级，GSX工作组级，Workstation单机级
+有的文章说：VMware Workstation与GSX Server的一个区别在于Workstation不能进行远程控制，要维护该虚拟机，必须要到宿主机上进行物理操作，不知道它们所说的Workstation是什么版本的，我在VMware Workstation 6.0.3版本下进行远程控制维护是成功的。
+Esx Server 是一个全新的架构，它本身就有一个基于 linux 的操作系统，基于虚拟服务器进行了优化，所以效率会比以上版本都高。 一、ESX Server 2.5.x的设计 下面我们讨论的体系结构和设计中，我们假设一个应用环境，它由最少两个ESXServer系统、共享的SAN存储、VirtualCenter和VMotion。
+1.ESX Server 2.5.x特性概述 ESX Server 2.5.x有下面的特性 ESX server物理机 ·每ESX Server支持16个逻辑CPU ·每ESX Server支持80个虚拟机CPU ·每ESX Server支持64GB内存 ·支持8个swap文件，每个swap文件的最大容量为64GB ·每系统支持64个适配器 ·支持8个千兆网卡或者16个百兆网卡 ·每个虚拟交换机支持32个虚拟机 ·每ESX Server支持16个光纤通道卡 ·每个存储阵列支持128个LUN ·每ESX Server支持128个LUN...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-05 10:45:11 +0000 UTC'>April 5, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VMware Server、VMware GSX Server、VMware ESX Server,VI说明" href="http://example.org/2009/04/05/vmware-servere38081vmware-gsx-servere38081vmware-esx-servervie8afb4e6988e/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

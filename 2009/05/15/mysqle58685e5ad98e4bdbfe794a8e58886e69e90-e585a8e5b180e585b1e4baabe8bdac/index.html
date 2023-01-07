@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>MySQL内存使用分析-全局共享[转] | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="MySQL内存使用分析-全局共享[转]" />
+<meta property="og:description" content="全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-05-15T01:59:40+00:00" />
+<meta property="article:modified_time" content="2009-05-15T01:59:40+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MySQL内存使用分析-全局共享[转]"/>
+<meta name="twitter:description" content="全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "MySQL内存使用分析-全局共享[转]",
+      "item": "http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MySQL内存使用分析-全局共享[转]",
+  "name": "MySQL内存使用分析-全局共享[转]",
+  "description": "全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5.",
+  "keywords": [
+    
+  ],
+  "articleBody": "全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5.1.3之前的版本通过 table_cache 参数设置，但从MySQL5.1.3开始改为 table_open_cache来设置其大小。当我们的客户端程序提交 Query 给 MySQL 的时候，MySQL 需要对 Query所涉及到的每一个表都取得一个表文件句柄信息，如果没有 Table Cache，那么 MySQL就不得不频繁的进行打开关闭文件操作，无疑会对系统性能产生一定的影响，Table Cache 正是为了解决这一问题而产生的。在有了 TableCache 之后，MySQL 每次需要获取某个表文件的句柄信息的时候，首先会到 Table Cache中查找是否存在空闲状态的表文件句柄。如果有，则取出直接使用，没有的话就只能进行打开文件操作获得文件句柄信息。在使用完之后，MySQL会将该文件句柄信息再放回 Table Cache池中，以供其他线程使用。注意，这里设置的是可以缓存的表文件句柄信息的数目，而不是内存空间的大小。 表定义信息缓存（Table definition Cache）：表定义信息缓存是从MySQL5.1.3 版本才开始引入的一个新的缓存区，用来存放表定义信息。当我们的 MySQL中使用了较多的表的时候，此缓存无疑会提高对表定义信息的访问效率。MySQL 提供了 table_definition_cache参数给我们设置可以缓存的表的数量。在 MySQL5.1.25 之前的版本中，默认值为128，从 MySQL5.1.25版本开始，则将默认值调整为 256 了，最大设置值为524288。注意，这里设置的是可以缓存的表定义信息的数目，而不是内存空间的大小。 二进制日志缓冲区（Binlog Buffer）：二进制日志缓冲区主要用来缓存由于各种数据变更操做所产生的Binary Log 信息。为了提高系统的性能，MySQL 并不是每次都是将二进制日志直接写入 Log File，而是先将信息写入Binlog Buffer 中，当满足某些特定的条件（如 sync_binlog参数设置）之后再一次写入 Log File 中。我们可以通过binlog_cache_size 来设置其可以使用的内存大小，同时通过 max_binlog_cache_size限制其最大大小（当单个事务过大的时候 MySQL 会申请更多的内存）。当所需内存大于 max_binlog_cache_size参数设置的时候，MySQL 会报错：“Multi-statement transaction required more than‘max_binlog_cache_size’ bytes of storage”。 MyISAM索引缓存（Key Buffer）：MyISAM 索引缓存将 MyISAM 表的索引信息缓存在内存中，以提高其访问性能。这个缓存可以说是影响 MyISAM 存储引擎性能的最重要因素之一了，通过 key_buffere_size 设置可以使用的最大内存空间。 ** InnoDB 日志缓冲区（InnoDB Log Buffer）**：这是 InnoDB存储引擎的事务日志所使用的缓冲区。类似于 Binlog Buffer，InnoDB 在写事务日志的时候，为了提高性能，也是先将信息写入Innofb Log Buffer 中，当满足 innodb_flush_log_trx_commit参数所设置的相应条件（或者日志缓冲区写满）之后，才会将日志写到文件（或者同步到磁盘）中。可以通过 innodb_log_buffer_size参数设置其可以使用的最大内存空间。 _注：innodb_flush_log_trx_commit 参数对 InnoDB Log 的写入性能有非常关键的影响。该参数可以设置为0，1，2，解释如下： _\n0：log buffer中的数据将以每秒一次的频率写入到log file中，且同时会进行文件系统到磁盘的同步操作，但是每个事务的commit并不会触发任何log buffer 到log file的刷新或者文件系统到磁盘的刷新操作；\n1：在每次事务提交的时候将log buffer 中的数据都会写入到log file，同时也会触发文件系统到磁盘的同步；\n2：事务提交会触发log buffer 到log file的刷新，但并不会触发磁盘文件系统到磁盘的同步。此外，每秒会有一次文件系统到磁盘同步操作。\n此外，MySQL文档中还提到，这几种设置中的每秒同步一次的机制，可能并不会完全确保非常准确的每秒就一定会发生同步，还取决于进程调度的问题。实际上，InnoDB 能否真正满足此参数所设置值代表的意义正常 Recovery 还是受到了不同 OS下文件系统以及磁盘本身的限制，可能有些时候在并没有真正完成磁盘同步的情况下也会告诉 mysqld 已经完成了磁盘同步。 InnoDB 数据和索引缓存（InnoDB Buffer Pool）：InnoDB BufferPool 对 InnoDB 存储引擎的作用类似于 Key Buffer Cache 对 MyISAM 存储引擎的影响，主要的不同在于InnoDB Buffer Pool 不仅仅缓存索引数据，还会缓存表的数据，而且完全按照数据文件中的数据快结构信息来缓存，这一点和Oracle SGA 中的 database buffer cache 非常类似。所以，InnoDB Buffer Pool 对 InnoDB存储引擎的性能影响之大就可想而知了。可以通过 (Innodb_buffer_pool_read_requests -Innodb_buffer_pool_reads) / Innodb_buffer_pool_read_requests * 100%计算得到 InnoDB Buffer Pool 的命中率。 InnoDB 字典信息缓存（InnoDB Additional Memory Pool）:InnoDB字典信息缓存主要用来存放 InnoDB 存储引擎的字典信息以及一些 internal 的共享数据结构信息。所以其大小也与系统中所使用的InnoDB 存储引擎表的数量有较大关系。不过，如果我们通过 innodb_additional_mem_pool_size参数所设置的内存大小不够，InnoDB 会自动申请更多的内存，并在 MySQL 的 Error Log 中记录警告信息。 这里所列举的各种共享内存，是我个人认为对 MySQL 性能有较大影响的集中主要的共享内存。实际上，除了这些共享内存之外，MySQL 还存在很多其他的共享内存信息，如当同时请求连接过多的时候用来存放连接请求信息的back_log队列等。 以上内容可能存在分析不妥之处，欢迎各位朋友拍砖，一起交流。\n原文出自： Sky.Jian 朝阳的天空 MySQL内存使用 - 全局共享\n",
+  "wordCount" : "280",
+  "inLanguage": "en",
+  "datePublished": "2009-05-15T01:59:40Z",
+  "dateModified": "2009-05-15T01:59:40Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      MySQL内存使用分析-全局共享[转]
+    </h1>
+    <div class="post-meta"><span title='2009-05-15 01:59:40 +0000 UTC'>May 15, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。
+<strong>查询缓存（Query Cache）</strong>：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。
+<strong>连接线程缓存（Thread Cache）</strong>：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。
+<strong>表缓存（Table Cache）</strong>：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5.1.3之前的版本通过 table_cache 参数设置，但从MySQL5.1.3开始改为 table_open_cache来设置其大小。当我们的客户端程序提交 Query 给 MySQL 的时候，MySQL 需要对 Query所涉及到的每一个表都取得一个表文件句柄信息，如果没有 Table Cache，那么 MySQL就不得不频繁的进行打开关闭文件操作，无疑会对系统性能产生一定的影响，Table Cache 正是为了解决这一问题而产生的。在有了 TableCache 之后，MySQL 每次需要获取某个表文件的句柄信息的时候，首先会到 Table Cache中查找是否存在空闲状态的表文件句柄。如果有，则取出直接使用，没有的话就只能进行打开文件操作获得文件句柄信息。在使用完之后，MySQL会将该文件句柄信息再放回 Table Cache池中，以供其他线程使用。注意，这里设置的是可以缓存的表文件句柄信息的数目，而不是内存空间的大小。
+<strong>表定义信息缓存（Table definition Cache）</strong>：表定义信息缓存是从MySQL5.1.3 版本才开始引入的一个新的缓存区，用来存放表定义信息。当我们的 MySQL中使用了较多的表的时候，此缓存无疑会提高对表定义信息的访问效率。MySQL 提供了 table_definition_cache参数给我们设置可以缓存的表的数量。在 MySQL5.1.25 之前的版本中，默认值为128，从 MySQL5.1.25版本开始，则将默认值调整为 256 了，最大设置值为524288。注意，这里设置的是可以缓存的表定义信息的数目，而不是内存空间的大小。
+<strong>二进制日志缓冲区（Binlog Buffer）</strong>：二进制日志缓冲区主要用来缓存由于各种数据变更操做所产生的Binary Log 信息。为了提高系统的性能，MySQL 并不是每次都是将二进制日志直接写入 Log File，而是先将信息写入Binlog Buffer 中，当满足某些特定的条件（如 sync_binlog参数设置）之后再一次写入 Log File 中。我们可以通过binlog_cache_size 来设置其可以使用的内存大小，同时通过 max_binlog_cache_size限制其最大大小（当单个事务过大的时候 MySQL 会申请更多的内存）。当所需内存大于 max_binlog_cache_size参数设置的时候，MySQL 会报错：“Multi-statement transaction required more than‘max_binlog_cache_size’ bytes of storage”。
+<strong>MyISAM索引缓存（Key Buffer）</strong>：MyISAM 索引缓存将 MyISAM 表的索引信息缓存在内存中，以提高其访问性能。这个缓存可以说是影响 MyISAM 存储引擎性能的最重要因素之一了，通过 key_buffere_size 设置可以使用的最大内存空间。
+**
+InnoDB 日志缓冲区（InnoDB Log Buffer）**：这是 InnoDB存储引擎的事务日志所使用的缓冲区。类似于 Binlog Buffer，InnoDB 在写事务日志的时候，为了提高性能，也是先将信息写入Innofb Log Buffer 中，当满足 innodb_flush_log_trx_commit参数所设置的相应条件（或者日志缓冲区写满）之后，才会将日志写到文件（或者同步到磁盘）中。可以通过 innodb_log_buffer_size参数设置其可以使用的最大内存空间。
+_注：innodb_flush_log_trx_commit 参数对 InnoDB Log 的写入性能有非常关键的影响。该参数可以设置为0，1，2，解释如下：
+_</p>
+<ul>
+<li>
+<p><em>0：log buffer中的数据将以每秒一次的频率写入到log file中，且同时会进行文件系统到磁盘的同步操作，但是每个事务的commit并不会触发任何log buffer 到log file的刷新或者文件系统到磁盘的刷新操作；</em></p>
+</li>
+<li>
+<p><em>1：在每次事务提交的时候将log buffer 中的数据都会写入到log file，同时也会触发文件系统到磁盘的同步；</em></p>
+</li>
+<li>
+<p><em>2：事务提交会触发log buffer 到log file的刷新，但并不会触发磁盘文件系统到磁盘的同步。此外，每秒会有一次文件系统到磁盘同步操作。</em></p>
+</li>
+</ul>
+<p><em>此外，MySQL文档中还提到，这几种设置中的每秒同步一次的机制，可能并不会完全确保非常准确的每秒就一定会发生同步，还取决于进程调度的问题。实际上，InnoDB 能否真正满足此参数所设置值代表的意义正常 Recovery 还是受到了不同 OS下文件系统以及磁盘本身的限制，可能有些时候在并没有真正完成磁盘同步的情况下也会告诉 mysqld 已经完成了磁盘同步。</em>
+<strong>InnoDB 数据和索引缓存（InnoDB Buffer Pool）</strong>：InnoDB BufferPool 对 InnoDB 存储引擎的作用类似于 Key Buffer Cache 对 MyISAM 存储引擎的影响，主要的不同在于InnoDB Buffer Pool 不仅仅缓存索引数据，还会缓存表的数据，而且完全按照数据文件中的数据快结构信息来缓存，这一点和Oracle SGA 中的 database buffer cache 非常类似。所以，InnoDB Buffer Pool 对 InnoDB存储引擎的性能影响之大就可想而知了。可以通过 (Innodb_buffer_pool_read_requests -Innodb_buffer_pool_reads) / Innodb_buffer_pool_read_requests * 100%计算得到 InnoDB Buffer Pool 的命中率。
+<strong>InnoDB 字典信息缓存（InnoDB Additional Memory Pool）</strong>:InnoDB字典信息缓存主要用来存放 InnoDB 存储引擎的字典信息以及一些 internal 的共享数据结构信息。所以其大小也与系统中所使用的InnoDB 存储引擎表的数量有较大关系。不过，如果我们通过 innodb_additional_mem_pool_size参数所设置的内存大小不够，InnoDB 会自动申请更多的内存，并在 MySQL 的 Error Log 中记录警告信息。
+这里所列举的各种共享内存，是我个人认为对 MySQL 性能有较大影响的集中主要的共享内存。实际上，除了这些共享内存之外，MySQL 还存在很多其他的共享内存信息，如当同时请求连接过多的时候用来存放连接请求信息的back_log队列等。
+以上内容可能存在分析不妥之处，欢迎各位朋友拍砖，一起交流。</p>
+<p>原文出自： <a href="http://www.jianzhaoyang.com/">Sky.Jian 朝阳的天空</a>    <a href="http://www.jianzhaoyang.com/database/mysql-memory-global-shared">MySQL内存使用 - 全局共享</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

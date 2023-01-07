@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64) | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)" />
+<meta property="og:description" content="cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-08T17:43:49+00:00" />
+<meta property="article:modified_time" content="2009-04-08T17:43:49+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)"/>
+<meta name="twitter:description" content="cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)",
+      "item": "http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)",
+  "name": "Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD\/amd64)",
+  "description": "cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables.",
+  "keywords": [
+    
+  ],
+  "articleBody": "cpu HAMMER ident VMWARE options SCHED_ULE # ULE scheduler options PREEMPTION # Enable kernel thread preemption options INET # InterNETworking options INET6 # IPv6 communications protocols options SCTP # Stream Control Transmission Protocol options FFS # Berkeley Fast Filesystem options SOFTUPDATES # Enable FFS soft updates support options UFS_ACL # Support for access control lists options UFS_DIRHASH # Improve performance on big directories options UFS_GJOURNAL # Enable gjournal-based UFS journaling options MD_ROOT # MD is a potential root device options NFSCLIENT # Network Filesystem Client options NFSSERVER # Network Filesystem Server options NFSLOCKD # Network Lock Manager options NFS_ROOT # NFS usable as /, requires NFSCLIENT options NTFS # NT File System options MSDOSFS # MSDOS Filesystem options CD9660 # ISO 9660 Filesystem options PROCFS # Process filesystem (requires PSEUDOFS) options PSEUDOFS # Pseudo-filesystem framework options GEOM_PART_GPT # GUID Partition Tables. options GEOM_LABEL # Provides labelization options COMPAT_43TTY # BSD 4.3 TTY compat [KEEP THIS!] options COMPAT_IA32 # Compatible with i386 binaries options COMPAT_FREEBSD4 # Compatible with FreeBSD4 options COMPAT_FREEBSD5 # Compatible with FreeBSD5 options COMPAT_FREEBSD6 # Compatible with FreeBSD6 options SCSI_DELAY=5000 # Delay (in ms) before probing SCSI options KTRACE # ktrace(1) support options STACK # stack(9) support options SYSVSHM # SYSV-style shared memory options SYSVMSG # SYSV-style message queues options SYSVSEM # SYSV-style semaphores options _KPOSIX_PRIORITY_SCHEDULING # POSIX P1003_1B real-time extensions options KBD_INSTALL_CDEV # install a CDEV entry in /dev options ADAPTIVE_GIANT # Giant mutex is adaptive. options STOP_NMI # Stop CPUS using NMI instead of IPI options AUDIT # Security event auditing #options KDTRACE_FRAME # Ensure frames are compiled in #options KDTRACE_HOOKS # Kernel DTrace hooks # Make an SMP-capable kernel by default options SMP # Symmetric MultiProcessor Kernel # CPU frequency control device cpufreq # Bus support. device acpi device pci # Floppy drives device fdc # ATA and ATAPI devices device ata device atadisk # ATA disk drives device atapicd # ATAPI CDROM drives options ATA_STATIC_ID # Static device numbering # SCSI Controllers device mpt # LSI-Logic MPT-Fusion # SCSI peripherals device scbus # SCSI bus (required for SCSI) device ch # SCSI media changers device da # Direct Access (disks) device cd # CD device pass # Passthrough device (direct SCSI access) device ses # SCSI Environmental Services (and SAF-TE) # atkbdc0 controls both the keyboard and the PS/2 mouse device atkbdc # AT keyboard controller device atkbd # AT keyboard device psm # PS/2 mouse device kbdmux # keyboard multiplexer device vga # VGA video card driver # syscons is the default console driver, resembling an SCO console device sc # Serial (COM) ports device sio # 8250, 16[45]50 based serial ports device uart # Generic UART driver # Parallel port device ppc device ppbus # Parallel port bus (required) device ppi # Parallel port interface device #device vpo # Requires scbus and da # PCI Ethernet NICs. device em # Intel PRO/1000 Gigabit Ethernet Family # Pseudo devices. device loop # Network loopback device random # Entropy device device ether # Ethernet support device sl # Kernel SLIP device ppp # Kernel PPP device tun # Packet tunnel. device pty # Pseudo-ttys (telnet etc) device md # Memory \"disks\" device gif # IPv6 and IPv4 tunneling device faith # IPv6-to-IPv4 relaying (translation) device firmware # firmware assist module # The `bpf' device enables the Berkeley Packet Filter. # Be aware of the administrative consequences of enabling this! # Note that 'bpf' is required for DHCP. device bpf # Berkeley packet filter 原文 http://off-koss.blogspot.com/search/label/FreeBSD\n",
+  "wordCount" : "581",
+  "inLanguage": "en",
+  "datePublished": "2009-04-08T17:43:49Z",
+  "dateModified": "2009-04-08T17:43:49Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/04/08/d0bad0bed0bdd184d0b8d0b3-d18fd0b4d180d0b0-freebsd-7-d0b4d0bbd18f-d180d0b0d0b1d0bed182d18b-d0b2-vmware-esxi-freebsdamd64/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Конфиг ядра FreeBSD 7 для работы в VMware ESXi (FreeBSD/amd64)
+    </h1>
+    <div class="post-meta"><span title='2009-04-08 17:43:49 +0000 UTC'>April 8, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><pre><code>cpu    HAMMER
+ident  VMWARE
+
+options  SCHED_ULE     # ULE scheduler
+options  PREEMPTION    # Enable kernel thread preemption
+options  INET          # InterNETworking
+options  INET6         # IPv6 communications protocols
+options  SCTP          # Stream Control Transmission Protocol
+options  FFS           # Berkeley Fast Filesystem
+options  SOFTUPDATES   # Enable FFS soft updates support
+options  UFS_ACL       # Support for access control lists
+options  UFS_DIRHASH   # Improve performance on big directories
+options  UFS_GJOURNAL  # Enable gjournal-based UFS journaling
+options  MD_ROOT       # MD is a potential root device
+options  NFSCLIENT     # Network Filesystem Client
+options  NFSSERVER     # Network Filesystem Server
+options  NFSLOCKD      # Network Lock Manager
+options  NFS_ROOT      # NFS usable as /, requires NFSCLIENT
+options  NTFS          # NT File System
+options  MSDOSFS       # MSDOS Filesystem
+options  CD9660        # ISO 9660 Filesystem
+options  PROCFS        # Process filesystem (requires PSEUDOFS)
+options  PSEUDOFS      # Pseudo-filesystem framework
+options  GEOM_PART_GPT # GUID Partition Tables.
+options  GEOM_LABEL    # Provides labelization
+options  COMPAT_43TTY  # BSD 4.3 TTY compat [KEEP THIS!]
+options  COMPAT_IA32   # Compatible with i386 binaries
+options  COMPAT_FREEBSD4  # Compatible with FreeBSD4
+options  COMPAT_FREEBSD5  # Compatible with FreeBSD5
+options  COMPAT_FREEBSD6  # Compatible with FreeBSD6
+options  SCSI_DELAY=5000  # Delay (in ms) before probing SCSI
+options  KTRACE        # ktrace(1) support
+options  STACK         # stack(9) support
+options  SYSVSHM       # SYSV-style shared memory
+options  SYSVMSG       # SYSV-style message queues
+options  SYSVSEM       # SYSV-style semaphores
+options  _KPOSIX_PRIORITY_SCHEDULING # POSIX P1003_1B real-time extensions
+options  KBD_INSTALL_CDEV # install a CDEV entry in /dev
+options  ADAPTIVE_GIANT   # Giant mutex is adaptive.
+options  STOP_NMI         # Stop CPUS using NMI instead of IPI
+options  AUDIT            # Security event auditing
+#options  KDTRACE_FRAME   # Ensure frames are compiled in
+#options  KDTRACE_HOOKS   # Kernel DTrace hooks
+
+# Make an SMP-capable kernel by default
+options  SMP   # Symmetric MultiProcessor Kernel
+
+# CPU frequency control
+device  cpufreq
+
+# Bus support.
+device  acpi
+device  pci
+
+# Floppy drives
+device  fdc
+
+# ATA and ATAPI devices
+device  ata
+device  atadisk        # ATA disk drives
+device  atapicd        # ATAPI CDROM drives
+options  ATA_STATIC_ID # Static device numbering
+
+# SCSI Controllers
+device  mpt  # LSI-Logic MPT-Fusion
+
+# SCSI peripherals
+device  scbus  # SCSI bus (required for SCSI)
+device  ch     # SCSI media changers
+device  da     # Direct Access (disks)
+device  cd     # CD
+device  pass   # Passthrough device (direct SCSI access)
+device  ses    # SCSI Environmental Services (and SAF-TE)
+
+# atkbdc0 controls both the keyboard and the PS/2 mouse
+device  atkbdc  # AT keyboard controller
+device  atkbd   # AT keyboard
+device  psm     # PS/2 mouse
+
+device  kbdmux  # keyboard multiplexer
+
+device  vga     # VGA video card driver
+
+# syscons is the default console driver, resembling an SCO console
+device  sc
+
+# Serial (COM) ports
+device  sio     # 8250, 16[45]50 based serial ports
+device  uart    # Generic UART driver
+
+# Parallel port
+device  ppc
+device  ppbus   # Parallel port bus (required)
+device  ppi     # Parallel port interface device
+#device  vpo    # Requires scbus and da
+
+# PCI Ethernet NICs.
+device  em      # Intel PRO/1000 Gigabit Ethernet Family
+
+# Pseudo devices.
+device  loop     # Network loopback
+device  random   # Entropy device
+device  ether    # Ethernet support
+device  sl       # Kernel SLIP
+device  ppp      # Kernel PPP
+device  tun      # Packet tunnel.
+device  pty      # Pseudo-ttys (telnet etc)
+device  md       # Memory &quot;disks&quot;
+device  gif      # IPv6 and IPv4 tunneling
+device  faith    # IPv6-to-IPv4 relaying (translation)
+device  firmware # firmware assist module
+
+# The `bpf' device enables the Berkeley Packet Filter.
+# Be aware of the administrative consequences of enabling this!
+# Note that 'bpf' is required for DHCP.
+device  bpf      # Berkeley packet filter
+</code></pre>
+<p>原文 <a href="http://off-koss.blogspot.com/search/label/FreeBSD">http://off-koss.blogspot.com/search/label/FreeBSD</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

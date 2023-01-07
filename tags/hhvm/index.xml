@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+hhvm
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/hhvm/</link>
+    <description>Recent content in 
+hhvm
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jan 2014 06:41:53 +0000</lastBuildDate><atom:link href="http://example.org/tags/hhvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于 Quercus 的手游项目终于上线了</title>
+      <link>http://example.org/2014/01/27/quercus-php-ngame/</link>
+      <pubDate>Mon, 27 Jan 2014 06:41:53 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/27/quercus-php-ngame/</guid>
+      <description>经过半年的开发，我们第一款手游戏终于开发完毕，架构使用了 netty + Quercus 实现用 php 通过 websocket 与客户端通信。
+项目上线近一个月，基本稳定。而且不存在性能方面问题，之前在内网测试，pc 机 4G 内存，在线 1000 人，没有卡动感觉。 这个数
+字足以满足我们的需求， 想用 Quercus 大胆的用吧，到 4.0.39 应该会更完美，希望支持 Quercus 的多起来，与 hhvm 的火爆程度
+真是是没法比。</description>
+    </item>
+    
+  </channel>
+</rss>

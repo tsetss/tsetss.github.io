@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+绑定域名
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D/</link>
+    <description>Recent content in 
+绑定域名
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Dec 2013 11:59:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bae关闭域名绑定功能</title>
+      <link>http://example.org/2013/12/27/bae-close-bind-domain/</link>
+      <pubDate>Fri, 27 Dec 2013 11:59:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/27/bae-close-bind-domain/</guid>
+      <description>bae 最牛的地方莫过于可以绑定未备案的域名，现在突然关闭了绑定域名功能。
+希望不要对以前未备案的域名下手。。</description>
+    </item>
+    
+  </channel>
+</rss>

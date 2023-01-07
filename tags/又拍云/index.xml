@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+又拍云
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E5%8F%88%E6%8B%8D%E4%BA%91/</link>
+    <description>Recent content in 
+又拍云
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Dec 2013 16:42:26 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E5%8F%88%E6%8B%8D%E4%BA%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>给又拍云用户的一封致歉信‏</title>
+      <link>http://example.org/2013/12/11/upyun-apologize/</link>
+      <pubDate>Wed, 11 Dec 2013 16:42:26 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/11/upyun-apologize/</guid>
+      <description>从去年开始用又拍云，收到的第一封故障信，总的来说，还是不错的，如果能像七牛一样，后付费就更好了
+亲爱的又拍云存储用户：
+2013年11月26日12时，又拍云监控系统报警，提示一部分新数据未能通过API接口上传。技术人员迅速排查，发现一台用于业务数据存储的MySQL服务器异常退出。技术人员当即启动应急预案，将这部分服务切换到灾备数据库，并进行了数据同步，至13时左右服务恢复正常。
+服务恢复后，经过全面复检确认：该问题原因是又拍云的数据量级近期暴增，触发了MySQL Bug #63815 Reorganization May Make a Page Incompressible (http://bugs.mysql.com/bug.php?id=63815)，导致MySQL数据分块损坏，无法启动服务。现已对主库的数据进行了恢复和校验，并于27日凌晨已完成数据切换。
+我们为未能及时做好此问题的防范，给一部分用户带来了影响，在此表示万分的抱歉。我们已于27日上午开始进行数据库的升级准备工作，并将尽快部署完成。在万分抱歉的同时，我们希望此问题不至于给您带来过多的困扰。云存储的发展始终伴随着承载更高数据的挑战，在这一挑战过程中必定伴随着一些没有经历大数据存储就很难知悉的问题。恳请大家相信，又拍云团队在8年的发展和磨练中，具备了对未知情况最大可能的预见能力和在最短时间内解决问题的能力。这次问题对于我们是一个深刻的教训，又拍云将着手进行持续的大数据的模拟，确保在更大数据量来临前，我们为大家做好了最安全的防范措施。
+同时，也请这个故障时间段内未出现上传故障、未受到影响的各位用户放心，所有用户的数据外部访问和老数据的存储都未受影响，您的服务在此期间确保正常。如对上述情况有疑问，请您立即联系我们进行沟通，我们将竭尽全力协助您获得满意的结果。
+最后，再一次向受此故障影响的各位支持又拍云的朋友们表示万分的歉意。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下 nginx 日志每天分割
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>#!/bin/sh date today=date &#43;&#34;%Y_%m_%d&#34; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime &#43;$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-13 18:42:06 +0000 UTC'>May 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下 nginx 日志每天分割" href="http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>MSClass (Class Of Marquee Scroll通用不间断滚动JS封装类)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>可惜好像官方网站打不开了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-08 06:22:04 +0000 UTC'>May 8, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MSClass (Class Of Marquee Scroll通用不间断滚动JS封装类)" href="http://example.org/2009/05/08/msclass-class-of-marquee-scrolle9809ae794a8e4b88de997b4e696ade6bb9ae58aa8jse5b081e8a385e7b1bb/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>smarty 颜色选择框扩展
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-07 18:48:50 +0000 UTC'>May 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to smarty 颜色选择框扩展" href="http://example.org/2009/05/07/smarty-e9a29ce889b2e98089e68ba9e6a186e689a9e5b195/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>如何加密PHP文件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>由于安全原因，有些时候需要把PHP文件加密。zend是收费的软件，而且价格不菲，让人望尘莫及。这里介绍另一种加密方法：php-screw。 php-screw是一款开源，免费，自由使用的软件，它不仅使用方便，而且可以自定义加密字符串，字符串的长度不受限制。下面这些操作是在Debian环境下实现的。 1、下载软件包。到http://sourceforge.net/projects/php-screw/下载php-screw。下载得到的是tar包。 2、安装必须的软件环境：apt-get install php5-dev php5 3、把在第一步中得到的软件包解压：tar -zxvf php_screw-1.3.tgz 4、进入解压缩后得到的目录：cd php_screw-1.3，然后执行命令：phpize生成一些配置安装文件。 5、检查编译环境： ./configure　#检查编译环境 自定义加密字符串，你据自己的意愿，修改文件my_screw.h内容，这里面主要记录的是加密字符串。 make　#编译 6、把文件modules/php_screw.so拷贝到/usr/lib/php5/2006*/目录下。 7、修改文件/etc/php5/apache2/php.ini，在需要位置添加如下内容： extension=php_screw.so 8、在WEB服务器的根目录里创建文件phpinfo.php，文件的内容如下： 9、在浏览器里输入http:///phpinfo.php，看看php_screw是否生效。 10、进入tools目录，执行命令： make 生成文件screw。 11、进入需要加密的PHP文件所在的文件夹，执行命令 /full/path/of/screw .php 这时的文件便被加密了，原来的文件被重新命名为：.php.screw。 12、screw这个命令只支持单个文件的加密，不支持/full/path/of/screw .php这种命令格式。如果需要把整个目录下的文件加密需要用如下命令： find . -name ‘.php’ -exec /full/of/path/of/screw {} ; 以上写的这些是在Debian环境下实现的，如果在window平台下，只要加载了php_screw这个模块，加密的文件也可以正常显示，但不能在windows平台下进行加密。 好了，用php_screw加密php文件介绍完了。如果您对这个工具感兴趣，不防试一试。
+转自 http://afericazebra.blog.163.com/blog/static/300504082008101902427449/
+不错,freebsd 的port 也有,在 /usr/ports/www/php-screw ,正好用一下</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-06 10:54:25 +0000 UTC'>May 6, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 如何加密PHP文件" href="http://example.org/2009/05/06/e5a682e4bd95e58aa0e5af86phpe69687e4bbb6e38080/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>[译]Innodb 性能优化基础
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-19 14:50:25 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [译]Innodb 性能优化基础" href="http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>［翻译］［注解］Innodb Performance Optimization Basics
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-19 14:47:07 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ［翻译］［注解］Innodb Performance Optimization Basics" href="http://example.org/2009/04/19/innodb-performance-optimization-basics/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>什么时候该增加MySQL数据库的内存？
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>除了优化好数据库配置文件外，更换/增加MySQL数据库服务器的硬件，是提高数据库性能最直接有效的方法。
+这里先从最便宜的内存入手。（服务器内存和硬盘价格一般是台式机的5倍左右）
+最便捷的方法是使用 mysqlreport，来持续关注报告里面‘Key’和‘InnoDB Buffer Pool’这两个部分。如果你的my.cnf参数设置正确，但是Read hit一直低于99%，那么就要考虑增加内存了。
+那么Read hit是怎么计算出来的呢？为什么要持续关注？在MySQL的命令行下：
+mysql&gt; show status like &#39;key_read%&#39;; &#43;-------------------&#43;------------&#43; | Variable_name | Value | &#43;-------------------&#43;------------&#43; | Key_read_requests | 3041374401 | | Key_reads | 60959876 | &#43;-------------------&#43;------------&#43; 2 rows in set (0.02 sec) key_efficiency(Read hit) = 1 - (Key_reads / Key_read_requests) = 97.995647100207184% mysql&gt; show status like &#39;Innodb_buffer_pool_read%&#39;; &#43;-----------------------------------&#43;------------&#43; | Variable_name | Value | &#43;-----------------------------------&#43;------------&#43; | Innodb_buffer_pool_read_ahead_rnd | 1660545 | | Innodb_buffer_pool_read_ahead_seq | 576767 | | Innodb_buffer_pool_read_requests | 2080081461 | | Innodb_buffer_pool_reads | 292415839 | &#43;-----------------------------------&#43;------------&#43; 4 rows in set (0....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-18 22:46:45 +0000 UTC'>April 18, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 什么时候该增加MySQL数据库的内存？" href="http://example.org/2009/04/18/mysql-when-add-memory/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql中InnoDB的强制恢复
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如果数据库页被破坏，你可能想要用SELECT INTO OUTFILE从从数据库转储你的表，通常以这种方法获取的大多数数据是完好的。即使这样，损坏可能导致SELECT * FROM tbl_name或者InnoDB后台操作崩溃或断言，或者甚至使得InnoDB前滚恢复崩溃。 尽管如此，你可以用它来强制InnoDB存储引擎启动同时阻止后台操作运行，以便你能转储你的表。例如：你可以在重启服务器之前，在选项文件的[mysqld]节添加如下的行：
+[mysqld] innodb_force_recovery = 4 innodb_force_recovery 被允许的非零值如下。一个更大的数字包含所有更小数字的预防措施。如果你能够用一个多数是4的选项值来转储你的表，那么你是比较安全的，只有一些在损坏的单独页面上的数据会丢失。一个为6的值更夸张，因为数据库页被留在一个陈旧的状态，这个状态反过来可以引发对B树和其它数据库结构的更多破坏。
+· 1 (SRV_FORCE_IGNORE_CORRUPT)
+即使服务器检测到一个损坏的页，也让服务器运行着；试着让SELECT * FROM tbl_name 跳过损坏的索引记录和页，这样有助于转储表。
+· 2 (SRV_FORCE_NO_BACKGROUND)
+阻止主线程运行，如果崩溃可能在净化操作过程中发生，这将阻止它。
+· 3 (SRV_FORCE_NO_TRX_UNDO)
+恢复后不运行事务回滚。
+· 4 (SRV_FORCE_NO_IBUF_MERGE)
+也阻止插入缓冲合并操作。如果你可能会导致一个崩溃。最好不要做这些操作，不要计算表统计表。
+· 5 (SRV_FORCE_NO_UNDO_LOG_SCAN)
+启动数据库之时不查看未完成日志：InnoDB把未完成的事务视为已提交的。
+· 6 (SRV_FORCE_NO_LOG_REDO)
+不要在恢复连接中做日志前滚。
+数据库不能另外地带着这些选项中被允许的选项来使用。作为一个安全措施，当innodb_force_recovery被设置为大于0的值时，InnoDB阻止用户执行INSERT, UPDATE或DELETE操作.
+即使强制恢复被使用，你也可以DROP或CREATE表。如果你知道一个给定的表正在导致回滚崩溃，你可以移除它。你也可以用这个来停止由失败的大宗导入或失败的ALTER TABLE导致的失控回滚。你可以杀掉mysqld进程，然后设置innodb_force_recovery为3，使得数据库被挂起而不需要回滚，然后舍弃导致失控回滚的表。
+本文地址：http://www.bhcode.net/article/20090227/4256.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-17 17:58:26 +0000 UTC'>April 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql中InnoDB的强制恢复" href="http://example.org/2009/04/17/mysql-innodb-force-recover/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>只有一个ibd文件如何恢复数据表
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如果目前只有一个ibd的文件，那么我们该怎么恢复整个数据库？原文的作者给出了两种恢复的方法。这两种方法的前提有两个：
+1、一是知道所有需要恢复表的创建语句
+2、需要一个16进制的编辑器，修改表id
+具体的内容请看原文：
+Sometime you may need to recover a table when all you have is the .ibd file. In this case, if you try to load it into a new instance, your likely to encounter some errors about the table id not matching. And there is not really a way around this.
+However, I’ve found two work-arounds for this:
+Note: You will need the .ibd file and the CREATE TABLE statement for each table you want to recover using these methods....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-17 17:50:28 +0000 UTC'>April 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 只有一个ibd文件如何恢复数据表" href="http://example.org/2009/04/17/recover-mysql-databases-table-width-idb/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>更新與安裝 - Install Apache 2.2.11 or Upgrade on FreeBSD
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Apache 2.2.11 主要是更新了個錯誤 步驟如下
+1.更新 FreeBSD 的 src 與 ports 到目前最新版
+cd /usr/src make update 就個人經驗而言,最好是將相關的 apache-, php5- , pear-* , pecl-* , Smarty , eaccelerator , webmail 等都備份後移除 然後再一步一步安裝更新上去 這樣雖然很麻煩,卻最能避免產生問題後無法處理的情況 PS : 都安裝好了,沒有錯誤訊息, Apache 卻開不起來
+2.先備份設定後,然後將相關套件及設定全數移除
+pkg_info |sort &gt; /root/pkg.info.txt tar -zcvf /root/etc.tar.gz /etc tar -zcvf /root/usr.local.etc.tar.gz /usr/local/etc tar -zcvf /root/etc.namedb.tar.gz /var/named/etc/namedb tar -zcvf /root/ports_options.tar.gz /var/db/ports pkg_delete -f /var/db/pkg/apache* pkg_delete -f /var/db/pkg/pecl* pkg_delete -f /var/db/pkg/eaccelerator* pkg_delete -f /var/db/pkg/smarty* pkg_delete -f /var/db/pkg/joomla* pkg_delete -f /var/db/pkg/eGroupware* pkg_delete -f /var/db/pkg/pear* pkg_delete -f /var/db/pkg/php5* 3....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-17 08:02:04 +0000 UTC'>April 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 更新與安裝 - Install Apache 2.2.11 or Upgrade on FreeBSD" href="http://example.org/2009/04/17/install-apache-or-upgrade-on-freebsd/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/12/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/14/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

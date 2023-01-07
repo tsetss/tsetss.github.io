@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>nginx源代码分析 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i&#43;&#43;) { ngx_modules[i]-&gt;index = ngx_max_module&#43;&#43;; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;ngx;_core_module, &amp;ngx;_errlog_module, &amp;ngx;_conf_module, &amp;ngx;_events_module, &amp;ngx;_event_core_module, &amp;ngx;_epoll_module, &amp;ngx;_http_module, &amp;ngx;_http_core_module, &amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： .">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="nginx源代码分析" />
+<meta property="og:description" content="Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i&#43;&#43;) { ngx_modules[i]-&gt;index = ngx_max_module&#43;&#43;; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;ngx;_core_module, &amp;ngx;_errlog_module, &amp;ngx;_conf_module, &amp;ngx;_events_module, &amp;ngx;_event_core_module, &amp;ngx;_epoll_module, &amp;ngx;_http_module, &amp;ngx;_http_core_module, &amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-23T15:07:27+00:00" />
+<meta property="article:modified_time" content="2009-03-23T15:07:27+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx源代码分析"/>
+<meta name="twitter:description" content="Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i&#43;&#43;) { ngx_modules[i]-&gt;index = ngx_max_module&#43;&#43;; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;ngx;_core_module, &amp;ngx;_errlog_module, &amp;ngx;_conf_module, &amp;ngx;_events_module, &amp;ngx;_event_core_module, &amp;ngx;_epoll_module, &amp;ngx;_http_module, &amp;ngx;_http_core_module, &amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： ."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "nginx源代码分析",
+      "item": "http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "nginx源代码分析",
+  "name": "nginx源代码分析",
+  "description": "Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。\n每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。\n如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。\n如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。\n因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。\n从源代码级别上看nginx由以下几个元素组成：\n1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i++) { ngx_modules[i]-\u0026gt;index = ngx_max_module++; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： \u0026amp;ngx;_core_module, \u0026amp;ngx;_errlog_module, \u0026amp;ngx;_conf_module, \u0026amp;ngx;_events_module, \u0026amp;ngx;_event_core_module, \u0026amp;ngx;_epoll_module, \u0026amp;ngx;_http_module, \u0026amp;ngx;_http_core_module, \u0026amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： .",
+  "keywords": [
+    
+  ],
+  "articleBody": " Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。\n每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。\n如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。\n如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。\n因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。\n从源代码级别上看nginx由以下几个元素组成：\n1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i++) { ngx_modules[i]-\u003eindex = ngx_max_module++; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： \u0026ngx;_core_module, \u0026ngx;_errlog_module, \u0026ngx;_conf_module, \u0026ngx;_events_module, \u0026ngx;_event_core_module, \u0026ngx;_epoll_module, \u0026ngx;_http_module, \u0026ngx;_http_core_module, \u0026ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： ... cycle-\u003econnections = ngx_alloc(sizeof(ngx_connection_t) * ecf-\u003econnections, cycle-\u003elog); ... i = cycle-\u003econnection_n; next = NULL; do { i--; c[i].data = next; c[i].read = \u0026cycle-;\u003eread_events[i]; c[i].write = \u0026cycle-;\u003ewrite_events[i]; c[i].fd = (ngx_socket_t) -1; next = \u0026c;[i]; #if (NGX_THREADS) c[i].lock = 0; #endif } while (i); cycle-\u003efree_connections = next; cycle-\u003efree_connection_n = ecf-\u003econnections; 在内存池里为所有connection分配空间，并依次初始化，并依次初始化各连接的链表关系，也就是在data上存下一个connection的指针。 在具体应用中通过ngx_get_connection()函数取出空闲的connection并使用。 至于event是一个双向链表，链表的入队和出队有下面的定义： #define ngx_locked_post_event(ev, queue) \\ \\ if (ev-\u003eprev == NULL) { \\ ev-\u003enext = (ngx_event_t *) *queue; \\ ev-\u003eprev = (ngx_event_t **) queue; \\ *queue = ev; \\ \\ if (ev-\u003enext) { \\ ev-\u003enext-\u003eprev = \u0026ev-;\u003enext; \\ } \\ \\ ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-\u003elog, 0, \"post event %p\", ev); \\ \\ } else { \\ ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-\u003elog, 0, \\ \"update posted event %p\", ev); \\ } #define ngx_post_event(ev, queue) \\ \\ ngx_mutex_lock(ngx_posted_events_mutex); \\ ngx_locked_post_event(ev, queue); \\ ngx_mutex_unlock(ngx_posted_events_mutex); #define ngx_delete_posted_event(ev) \\ \\ *(ev-\u003eprev) = ev-\u003enext; \\ \\ if (ev-\u003enext) { \\ ev-\u003enext-\u003eprev = ev-\u003eprev; \\ } \\ \\ ev-\u003eprev = NULL; \\ ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-\u003elog, 0, \\ \"delete posted event %p\", ev); 简单说 ngx_post_event 用于插入事件、ngx_delete_posted_event 用于删除事件。这两个是宏定义，会比函数定义用起来节省。 整个程序就围绕这event和connection进行。不断的投入、拿出。 nginx的模块处理 nginx由若干模块组成，但所有模块全部采用静态编译的办法。我们以rewrite模块为例， 我们输入./configure --help 命令可以查看的有关rewrite模块的描述 --without-http_rewrite_module disable ngx_http_rewrite_module 这是在auto/options下定义的，在auto/soruces里面指定了与这个模块有关的源代码位置 HTTP_REWRITE_MODULE=ngx_http_rewrite_module HTTP_REWRITE_SRCS=src/http/modules/ngx_http_rewrite_module.c 在auto/summary下提供了关于rewrite模块的依赖条件检查: if [ $HTTP_REWRITE = YES ]; then if [ $USE_PCRE = DISABLED ]; then cat \u003c\u003c END $0: error: the HTTP rewrite module requires the PCRE library. You can either disable the module by using --without-http_rewrite_module option or you have to enable the PCRE support. END exit 1 fi if [ $PCRE = NONE -o $PCRE = NO ]; then cat \u003c\u003c END $0: error: the HTTP rewrite module requires the PCRE library. You can either disable the module by using --without-http_rewrite_module option, or install the PCRE library into the system, or build the PCRE library statically from the source with nginx by using --with-pcre= option. END exit 1 fi fi 下面是对rewrite模块代码分析，其它模块也带有同样的结构。 一般模块都会有一个ngx_command_t结构，存放在ngingx配置文件中，这个模块的一些语法命令，详细结构为： struct ngx_command_s { ngx_str_t name; ngx_uint_t type; char *(*set)(ngx_conf_t *cf, ngx_command_t *cmd, void *conf); ngx_uint_t conf; ngx_uint_t offset; void *post; }; name 是名称 type 是类型 set 是处理这个命令的具体函数 conf 属于那种配置，一共三种 main结构、server结构、location结构。 offset 在配置文件中的偏移量。 post 没见到用到。 下面是和rewrite模块中的代码： static ngx_command_t ngx_http_rewrite_commands[] = { { ngx_string(\"rewrite\"), NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF |NGX_CONF_TAKE23, ngx_http_rewrite, NGX_HTTP_LOC_CONF_OFFSET, 0, NULL }, { ngx_string(\"return\"), NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF |NGX_CONF_TAKE1, ngx_http_rewrite_return, NGX_HTTP_LOC_CONF_OFFSET, 0, NULL }, { ngx_string(\"break\"), NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF |NGX_CONF_NOARGS, ngx_http_rewrite_break, NGX_HTTP_LOC_CONF_OFFSET, 0, NULL }, { ngx_string(\"if\"), NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_BLOCK|NGX_CONF_1MORE, ngx_http_rewrite_if, NGX_HTTP_LOC_CONF_OFFSET, 0, NULL }, { ngx_string(\"set\"), NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF |NGX_CONF_TAKE2, ngx_http_rewrite_set, NGX_HTTP_LOC_CONF_OFFSET, 0, NULL }, { ngx_string(\"rewrite_log\"), NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF |NGX_HTTP_LIF_CONF|NGX_CONF_FLAG, ngx_conf_set_flag_slot, NGX_HTTP_LOC_CONF_OFFSET, offsetof(ngx_http_rewrite_loc_conf_t, log), NULL }, { ngx_string(\"uninitialized_variable_warn\"), NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF |NGX_HTTP_LIF_CONF|NGX_CONF_FLAG, ngx_conf_set_flag_slot, NGX_HTTP_LOC_CONF_OFFSET, offsetof(ngx_http_rewrite_loc_conf_t, uninitialized_variable_warn), NULL }, ngx_null_command }; rewrite模块内部一共有四类函数，关键的一类为一类是动作处理函数，一共有： ngx_http_rewrite_init 模块初始化函数。 ngx_http_rewrite_handler 在具体请求中的处理函数。 这两个函数通过在模块初始化的过程中，把handler推送到phases结构中，这是一个简单数组，请求会对数组中存放的每一个handler依次进行处理。如果我们自己写什么模块也应该放进去，例如同样的ngx_http_access_init()等初始化函数也是把自己模块的ngx_http_access_handler注册进去。 nginx在内部已经定义了所有可以在http请求中被处理的模块列表： typedef enum { NGX_HTTP_POST_READ_PHASE = 0, NGX_HTTP_SERVER_REWRITE_PHASE, NGX_HTTP_FIND_CONFIG_PHASE, NGX_HTTP_REWRITE_PHASE, NGX_HTTP_POST_REWRITE_PHASE, NGX_HTTP_PREACCESS_PHASE, NGX_HTTP_ACCESS_PHASE, NGX_HTTP_POST_ACCESS_PHASE, NGX_HTTP_CONTENT_PHASE, NGX_HTTP_LOG_PHASE } ngx_http_phases; 和rewrite有关的一共是两个，都是在ngx_http_rewrite_handler()函数中进行处理 一类为与配置文件有关的创建和合并函数，一共有： ngx_http_rewrite_create_loc_conf ngx_http_rewrite_merge_loc_conf 一类作为common命令的解析函数，一共有： ngx_http_rewrite ngx_http_rewrite_return ngx_http_rewrite_break ngx_http_rewrite_if ngx_http_rewrite_set 一类为解析命令中内部使用的函数，一共有： ngx_http_rewrite_if_condition ngx_http_rewrite_variable ngx_http_rewrite_value ngx_http_rewrite_var langwan 2008.11 http://hi.baidu.com/langwan\n",
+  "wordCount" : "508",
+  "inLanguage": "en",
+  "datePublished": "2009-03-23T15:07:27Z",
+  "dateModified": "2009-03-23T15:07:27Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      nginx源代码分析
+    </h1>
+    <div class="post-meta"><span title='2009-03-23 15:07:27 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p><img loading="lazy" src="http://hiphotos.baidu.com/langwan/pic/item/8fdab41169914b62ca80c4ac.jpg" alt=""  />
+</p>
+<p>Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。</p>
+<p>每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。</p>
+<p>如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。</p>
+<p>如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。</p>
+<p>因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。</p>
+<p>从源代码级别上看nginx由以下几个元素组成：</p>
+<pre><code>1. worker（进程）
+2. thread（线程）
+3. connection（连接）
+4. event（事件）
+5. module（模块）
+6. pool（内存池）
+7. cycle（全局设置）
+8. log（日志）
+
+大概就这些元素组成的。
+
+整个程序从main()开始算
+
+    ngx_max_module = 0;
+    for (i = 0; ngx_modules[i]; i++) {
+        ngx_modules[i]-&gt;index = ngx_max_module++;
+    }
+
+这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。
+
+接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。
+
+ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。
+
+任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。
+
+模块按照先后顺序依次初始化，大概是这样的：
+
+    &amp;ngx;_core_module,
+    &amp;ngx;_errlog_module,
+    &amp;ngx;_conf_module,
+    &amp;ngx;_events_module,
+    &amp;ngx;_event_core_module,
+    &amp;ngx;_epoll_module,
+    &amp;ngx;_http_module,
+    &amp;ngx;_http_core_module,
+    &amp;ngx;_http_log_module,
+
+首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。
+
+epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。
+
+在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。
+
+在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。
+
+并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。
+
+ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。
+
+
+ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。
+
+ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。
+
+在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。
+
+nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。
+
+nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下：
+
+    ...
+    
+    cycle-&gt;connections = ngx_alloc(sizeof(ngx_connection_t) * ecf-&gt;connections,
+                                   cycle-&gt;log);
+
+    ...
+
+    i = cycle-&gt;connection_n;
+    next = NULL;
+
+    do {
+        i--;
+
+        c[i].data = next;
+        c[i].read = &amp;cycle-;&gt;read_events[i];
+        c[i].write = &amp;cycle-;&gt;write_events[i];
+        c[i].fd = (ngx_socket_t) -1;
+
+        next = &amp;c;[i];
+
+#if (NGX_THREADS)
+        c[i].lock = 0;
+#endif
+    } while (i);
+
+    cycle-&gt;free_connections = next;
+    cycle-&gt;free_connection_n = ecf-&gt;connections;
+
+在内存池里为所有connection分配空间，并依次初始化，并依次初始化各连接的链表关系，也就是在data上存下一个connection的指针。
+
+在具体应用中通过ngx_get_connection()函数取出空闲的connection并使用。
+
+至于event是一个双向链表，链表的入队和出队有下面的定义：
+
+#define ngx_locked_post_event(ev, queue)                                      \
+                                                                              \
+    if (ev-&gt;prev == NULL) {                                                   \
+        ev-&gt;next = (ngx_event_t *) *queue;                                    \
+        ev-&gt;prev = (ngx_event_t **) queue;                                    \
+        *queue = ev;                                                          \
+                                                                              \
+        if (ev-&gt;next) {                                                       \
+            ev-&gt;next-&gt;prev = &amp;ev-;&gt;next;                                       \
+        }                                                                     \
+                                                                              \
+        ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-&gt;log, 0, &quot;post event %p&quot;, ev); \
+                                                                              \
+    } else {                                                                 \
+        ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-&gt;log, 0,                        \
+                       &quot;update posted event %p&quot;, ev);                         \
+    }
+
+
+#define ngx_post_event(ev, queue)                                             \
+                                                                              \
+    ngx_mutex_lock(ngx_posted_events_mutex);                                  \
+    ngx_locked_post_event(ev, queue);                                         \
+    ngx_mutex_unlock(ngx_posted_events_mutex);
+
+
+#define ngx_delete_posted_event(ev)                                           \
+                                                                              \
+    *(ev-&gt;prev) = ev-&gt;next;                                                   \
+                                                                              \
+    if (ev-&gt;next) {                                                           \
+        ev-&gt;next-&gt;prev = ev-&gt;prev;                                            \
+    }                                                                         \
+                                                                              \
+    ev-&gt;prev = NULL;                                                          \
+    ngx_log_debug1(NGX_LOG_DEBUG_CORE, ev-&gt;log, 0,                            \
+                   &quot;delete posted event %p&quot;, ev);
+
+简单说 ngx_post_event 用于插入事件、ngx_delete_posted_event 用于删除事件。这两个是宏定义，会比函数定义用起来节省。
+
+整个程序就围绕这event和connection进行。不断的投入、拿出。
+
+nginx的模块处理
+
+nginx由若干模块组成，但所有模块全部采用静态编译的办法。我们以rewrite模块为例，
+我们输入./configure --help 命令可以查看的有关rewrite模块的描述
+
+--without-http_rewrite_module      disable ngx_http_rewrite_module
+
+这是在auto/options下定义的，在auto/soruces里面指定了与这个模块有关的源代码位置
+
+HTTP_REWRITE_MODULE=ngx_http_rewrite_module
+HTTP_REWRITE_SRCS=src/http/modules/ngx_http_rewrite_module.c
+
+在auto/summary下提供了关于rewrite模块的依赖条件检查:
+
+if [ $HTTP_REWRITE = YES ]; then
+    if [ $USE_PCRE = DISABLED ]; then
+
+cat &lt;&lt; END
+$0: error: the HTTP rewrite module requires the PCRE library.
+You can either disable the module by using --without-http_rewrite_module
+option or you have to enable the PCRE support.
+
+END
+        exit 1
+    fi
+
+    if [ $PCRE = NONE -o $PCRE = NO ]; then
+
+cat &lt;&lt; END
+$0: error: the HTTP rewrite module requires the PCRE library.
+You can either disable the module by using --without-http_rewrite_module
+option, or install the PCRE library into the system, or build the PCRE library
+statically from the source with nginx by using --with-pcre=&lt;path&gt; option.
+
+END
+
+        exit 1
+    fi
+fi
+
+下面是对rewrite模块代码分析，其它模块也带有同样的结构。
+
+一般模块都会有一个ngx_command_t结构，存放在ngingx配置文件中，这个模块的一些语法命令，详细结构为：
+
+struct ngx_command_s {
+    ngx_str_t             name;
+    ngx_uint_t            type;
+    char               *(*set)(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+    ngx_uint_t            conf;
+    ngx_uint_t            offset;
+    void                 *post;
+};
+
+name 是名称
+type 是类型
+set 是处理这个命令的具体函数
+conf 属于那种配置，一共三种 main结构、server结构、location结构。
+offset 在配置文件中的偏移量。
+post 没见到用到。
+
+下面是和rewrite模块中的代码：
+
+static ngx_command_t ngx_http_rewrite_commands[] = {
+
+    { ngx_string(&quot;rewrite&quot;),
+      NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
+                       |NGX_CONF_TAKE23,
+      ngx_http_rewrite,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      0,
+      NULL },
+
+    { ngx_string(&quot;return&quot;),
+      NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
+                       |NGX_CONF_TAKE1,
+      ngx_http_rewrite_return,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      0,
+      NULL },
+
+    { ngx_string(&quot;break&quot;),
+      NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
+                       |NGX_CONF_NOARGS,
+      ngx_http_rewrite_break,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      0,
+      NULL },
+
+    { ngx_string(&quot;if&quot;),
+      NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_BLOCK|NGX_CONF_1MORE,
+      ngx_http_rewrite_if,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      0,
+      NULL },
+
+    { ngx_string(&quot;set&quot;),
+      NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF
+                       |NGX_CONF_TAKE2,
+      ngx_http_rewrite_set,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      0,
+      NULL },
+
+    { ngx_string(&quot;rewrite_log&quot;),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF
+                        |NGX_HTTP_LIF_CONF|NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_rewrite_loc_conf_t, log),
+      NULL },
+
+    { ngx_string(&quot;uninitialized_variable_warn&quot;),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_SIF_CONF|NGX_HTTP_LOC_CONF
+                        |NGX_HTTP_LIF_CONF|NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_rewrite_loc_conf_t, uninitialized_variable_warn),
+      NULL },
+
+      ngx_null_command
+};
+
+rewrite模块内部一共有四类函数，关键的一类为一类是动作处理函数，一共有：
+
+ngx_http_rewrite_init 模块初始化函数。
+ngx_http_rewrite_handler 在具体请求中的处理函数。
+
+这两个函数通过在模块初始化的过程中，把handler推送到phases结构中，这是一个简单数组，请求会对数组中存放的每一个handler依次进行处理。如果我们自己写什么模块也应该放进去，例如同样的ngx_http_access_init()等初始化函数也是把自己模块的ngx_http_access_handler注册进去。
+
+nginx在内部已经定义了所有可以在http请求中被处理的模块列表：
+
+typedef enum {
+    NGX_HTTP_POST_READ_PHASE = 0,
+
+    NGX_HTTP_SERVER_REWRITE_PHASE,
+
+    NGX_HTTP_FIND_CONFIG_PHASE,
+    NGX_HTTP_REWRITE_PHASE,
+    NGX_HTTP_POST_REWRITE_PHASE,
+
+    NGX_HTTP_PREACCESS_PHASE,
+
+    NGX_HTTP_ACCESS_PHASE,
+    NGX_HTTP_POST_ACCESS_PHASE,
+
+    NGX_HTTP_CONTENT_PHASE,
+
+    NGX_HTTP_LOG_PHASE
+} ngx_http_phases;
+
+和rewrite有关的一共是两个，都是在ngx_http_rewrite_handler()函数中进行处理
+
+一类为与配置文件有关的创建和合并函数，一共有：
+
+ngx_http_rewrite_create_loc_conf
+ngx_http_rewrite_merge_loc_conf
+
+
+一类作为common命令的解析函数，一共有：
+
+ngx_http_rewrite
+ngx_http_rewrite_return
+ngx_http_rewrite_break
+ngx_http_rewrite_if
+ngx_http_rewrite_set
+
+一类为解析命令中内部使用的函数，一共有：
+
+ngx_http_rewrite_if_condition
+ngx_http_rewrite_variable
+ngx_http_rewrite_value
+ngx_http_rewrite_var
+</code></pre>
+<p>langwan 2008.11
+<a href="http://hi.baidu.com/langwan">http://hi.baidu.com/langwan</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

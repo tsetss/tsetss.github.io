@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+swoole
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/swoole/</link>
+    <description>Recent content in 
+swoole
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Dec 2013 03:53:45 +0000</lastBuildDate><atom:link href="http://example.org/tags/swoole/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php实现websocket手游架构设想</title>
+      <link>http://example.org/2013/12/20/php-websocket-game/</link>
+      <pubDate>Fri, 20 Dec 2013 03:53:45 +0000</pubDate>
+      
+      <guid>http://example.org/2013/12/20/php-websocket-game/</guid>
+      <description>众所周知 php 的开发效率确实块。但在 socket 这块一直没有什么大的发展，设想用 两种方案用 php 实现 websocket game 开发
+方案1 netty+quercus+php
+方案2 Swoole + php
+两种方案感觉都可行，quercus 近期更新力度很大，已经解决 mysql 乱码问题。 php 转成 java 测试性能确实不错
+Swoole 是近期关注比较多的了，php 原生实现，作者更新速度很快，但缺少实际项目案例。
+两种方案选择了 quercus ，感觉应该更稳定一些，实践中，期待项目上线测试效果</description>
+    </item>
+    
+  </channel>
+</rss>

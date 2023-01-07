@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+directspace
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/directspace/</link>
+    <description>Recent content in 
+directspace
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Jan 2014 13:39:35 +0000</lastBuildDate><atom:link href="http://example.org/tags/directspace/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>debain OpenVZ 删除 apache</title>
+      <link>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</link>
+      <pubDate>Mon, 06 Jan 2014 13:39:35 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/06/debain-openvz-vps-remove-apache/</guid>
+      <description>debain 系统的 vps ,如 directspace 一般初始都安装了 apache 而我要用 nginx ，但直接用 aptitude 删除，竟然删不掉
+aptitude remove apache2 在次使用 aptitude
+aptitude remove apache2-doc apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common 还是没删掉，始用 dpkg
+dpkg --purge apache2-doc apache2.2-common 终于清附掉了..</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+状态
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/%E7%8A%B6%E6%80%81/</link>
+    <description>Recent content in 
+状态
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Mar 2009 18:31:19 +0000</lastBuildDate><atom:link href="http://example.org/tags/%E7%8A%B6%E6%80%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>QQ 批量查询显示状态 js!</title>
+      <link>http://example.org/2009/03/19/qq-e689b9e9878fe69fa5e8afa2e698bee7a4bae78ab6e68081-js/</link>
+      <pubDate>Thu, 19 Mar 2009 18:31:19 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/19/qq-e689b9e9878fe69fa5e8afa2e698bee7a4bae78ab6e68081-js/</guid>
+      <description>&amp;lt;script src=&amp;quot;http://webpresence.qq.com/getonline?Type=1&amp;amp;669811:1026811:65861413:&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; 调用
+&amp;lt;script&amp;gt;line(online[0],&#39;白天&#39;,669811)&amp;lt;/script&amp;gt; 效果页面见 http://cd-dns.com/freebsd-hosting
+不过现在已经被TX禁了,找个时间在重写一下吧</description>
+    </item>
+    
+  </channel>
+</rss>

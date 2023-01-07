@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+Xtrabackup
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/xtrabackup/</link>
+    <description>Recent content in 
+Xtrabackup
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Nov 2009 05:21:29 +0000</lastBuildDate><atom:link href="http://example.org/tags/xtrabackup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Xtrabackup备份和恢复MySQL</title>
+      <link>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</link>
+      <pubDate>Tue, 24 Nov 2009 05:21:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</guid>
+      <description>Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&amp;quot;innodb innodb2&amp;quot; /bak/ 压缩备份（不加&amp;ndash;databases，默认全部数据库） innobackupex-1.</description>
+    </item>
+    
+  </channel>
+</rss>

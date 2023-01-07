@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>CLUCENE-0.9.10 索引与优化过程 | 白天’s Blog</title>
+<meta name="keywords" content="
+clucene
+      ">
+<meta name="description" content="一.文件索引过程 主要流程描述
+IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-&gt;add(*new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程
+1.IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); directory = FSDirectory::getDirectory(&quot;ndx&quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-&gt;makeLock(&quot;write.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="CLUCENE-0.9.10 索引与优化过程" />
+<meta property="og:description" content="一.文件索引过程 主要流程描述
+IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-&gt;add(*new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程
+1.IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); directory = FSDirectory::getDirectory(&quot;ndx&quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-&gt;makeLock(&quot;write." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-14T02:34:27+00:00" />
+<meta property="article:modified_time" content="2006-05-14T02:34:27+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CLUCENE-0.9.10 索引与优化过程"/>
+<meta name="twitter:description" content="一.文件索引过程 主要流程描述
+IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-&gt;add(*new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程
+1.IndexWriter writer(&quot;ndx&quot;, &amp;an;, true); directory = FSDirectory::getDirectory(&quot;ndx&quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-&gt;makeLock(&quot;write."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CLUCENE-0.9.10 索引与优化过程",
+      "item": "http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CLUCENE-0.9.10 索引与优化过程",
+  "name": "CLUCENE-0.9.10 索引与优化过程",
+  "description": "一.文件索引过程 主要流程描述\nIndexWriter writer(\u0026quot;ndx\u0026quot;, \u0026amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-\u0026gt;add(*new Field(\u0026quot;content\u0026quot;, \u0026quot;This is demo content.\u0026quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程\n1.IndexWriter writer(\u0026quot;ndx\u0026quot;, \u0026amp;an;, true); directory = FSDirectory::getDirectory(\u0026quot;ndx\u0026quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-\u0026gt;makeLock(\u0026quot;write.",
+  "keywords": [
+    "\nclucene\n      "
+  ],
+  "articleBody": "一.文件索引过程 主要流程描述\nIndexWriter writer(\"ndx\", \u0026an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-\u003eadd(*new Field(\"content\", \"This is demo content.\", true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程\n1.IndexWriter writer(\"ndx\", \u0026an;, true); directory = FSDirectory::getDirectory(\"ndx\", true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-\u003emakeLock(\"write.lock\"); 建立了一个FSLock文件锁对象，并不同时建立文件 该文件锁用于写时锁定，会同时在IndexReader进行文档删除时使用 newLock-\u003eobtain(LUCENE_WRITE_LOCK_TIMEOUT); writeLock = newLock; 建立文件锁的文件 建立方法:_open(lockFile, O_RDWR | O_CREAT | O_RANDOM , _S_IREAD | _S_IWRITE) LuceneLock* lock = directory-\u003emakeLock(\"commit.lock\"); IndexWriterLockWith with ( lock,LUCENE_WRITE_LOCK_TIMEOUT,this,create ); LOCK_MUTEX(directory-\u003eDIR_OBJ); with.run(); UNLOCK_MUTEX(directory-\u003eDIR_OBJ); _CLDELETE(lock); 建立了一个用于事务提交的锁 锁住directory-\u003eDIR_OBJ 锁住事务锁 如果建立新的目录，则调用writer-\u003esegmentInfos-\u003ewrite(writer-\u003egetDirectory()); 建立文件segments.new 将segmentInfos信息写入到该文件中(格式\\版本号\\总seg数\\(seg名称\\seg中文档数,...)) 将文件改名为segments 每写一次版本号都+1 否则调用writer-\u003esegmentInfos-\u003eread(writer-\u003egetDirectory()); 打开segments文件 读入格式\\版本号\\总seg数 依次读入各seg的名称和文档数，生成SegmengInfo对象并加入到列表中 解事务锁 解directory-\u003eDIR_OBJ锁 2.writer.setMergeFactor(10); 设置合并频率，具体含义见后面的函数解释 3.writer.setMinMergeDocs(10); 设置最小缓冲文档数 4.Document *lpDoc = new Document; boost = 1.0f; 设置文档的权重乘数为1.0f(表示不改变) fieldList = NULL; 初始化字段列表为NULL 一个字段列表对象包括一个指向Field*的指针和一个指向下一个字段列表的指针DocumentFieldList* next; 对段列表对象析构时,会自动其指向的删除Field对象和下一个DocumentFieldList对象 5.LpDoc-\u003eadd(*new Field(\"content\", \"This is demo content.\", true, true, true) ); new Field(\"content\", \"This is demo content.\", true, true, true) name = CLStringIntern::intern( Name CL_FILELINE); 在字符串缓冲表中查找该字符串，如找到则增加引用计数并返回找到的，否则复制Name然后放在缓冲中并返回 该操作并不是线程安全的，没有采用互斥量，是否有问题呢？ 与intern对应的函数是unintern，即减少引用计数，为1时删除复制的字符串 _stringValue = stringDuplicate( String ); 复制字段值 _readerValue = NULL; 未设置读字段对象 _isStored = store; 是否保存字段值到索引中 _isIndexed = index; 是否索引该字段 _isTokenized = token; 是否对字段值进行分词 this-\u003estoreTermVector = storeTermVector; ?????，缺省值为false boost=1.0f; 设置字段的权重乘数为1.0f(表示不改变) fieldList = _CLNEW DocumentFieldList(\u0026field;, fieldList); 生成一个新的字段列表对象，并放在原来的列表开头 6.writer.addDocument(lpDoc); SCOPED_LOCK_MUTEX(THIS_LOCK); 建立一个互斥量对象并调用lock，在析构时会调用unlock，文件锁write.lock已经保证不会存在多个写索引的对象 该锁只保证本对象不被同时多次调用即可 ramDirectory-\u003etransStart(); 检查是否有异常状态(两个列表都为空，且未开始事务) 然后设置状态为事务开始 try { char* segmentName = newSegmentName(); 生成一个新的seg的名称，线程安全格式为'-'字符+segmentinfos.counter的36进制 分配了内存来保存该名称 try { DocumentWriter* dw = _CLNEW DocumentWriter(ramDirectory, analyzer, similarity, maxFieldLength); 生成一个DocumentWriter对象，注意最大分词token数量为maxFieldLength，缺省为10000，超过则异常 可以通过IndexWriter对象的setMaxFieldLength函数修改该缺省值 analyzer = analyzer, directory = ramDirectory maxFieldLength = maxFieldLength; fieldInfos = NULL 包含一个字段信息FieldInfo对象列表，可根据字段名称查找FieldInfo对象 FieldInfo对象的字段名称从字符串缓冲中取得，析构时释放 fieldLengths = NULL similarity = similarity fieldPositions = NULL fieldBoosts = NULL termBuffer(_CLNEW Term( LUCENE_BLANK_STRING, LUCENE_BLANK_STRING ,false)) 初始化时设置好分词对象、目录对象、最大分词数、计分对象，以及Term级冲 Term对象为一个FieldName与FieldValue组合，其中FieldName从字符串缓冲中取得，FieldValue 为复制的字符串，都在Term对象析构时释放。 try { dw-\u003eaddDocument(segmentName, doc); 将文档写入到内存目录的segmenmt片段中 fieldInfos = _CLNEW FieldInfos(); fieldInfos-\u003eadd(doc); 生成一个字段信息列表对象，并将文档中的所有字段加入到列表中(不包括字段值) const char* buf = Misc::segmentname(segment, \".fnm\"); fieldInfos-\u003ewrite(directory, buf); _CLDELETE_CaARRAY(buf); 将字段信息列表写入到segname.fnm文件中，格式: (总字段数\\字段名称\\是否索引及保存term标志) FieldsWriter fieldsWriter(directory, segment, fieldInfos); try { fieldsWriter.addDocument(doc); } _CLFINALLY( fieldsWriter.close() ); 打开segname.fdt和segname.fdx文件，其中fdt保存了文档中需要保存的字段，格式为 (字段序号\\分词标志\\字段值的长度\\字段值) clearPostingTable(); 清空Term*= Posting*列表，该列表不会自动删除key和value对象 什么时候删除Term*和Posting*对象呢??? fieldLengths = _CL_NEWARRAY(int32_t,fieldInfos-\u003esize()); 生成字段长度列表，表示字段的token数，总元素为字段数 fieldPositions = _CL_NEWARRAY(int32_t,fieldInfos-\u003esize()); 生成字段位置列表，表示字段的token的Position总和，总元素为字段数 int32_t fbl = fieldInfos-\u003esize(); float_t fbd = doc-\u003egetBoost(); fieldBoosts = _CL_NEWARRAY(float_t,fbl); 生成计分乘值列表，表示计分乘值(文档*字段)，总元素为字段数 { for ( int32_t i=0;ifieldBoostsIdea [I] = fbd; } 将计分乘值初始化为文档的计分乘值 { for ( int32_t i=0;isize();i++ ) fieldLengthsIdea [I] = 0; } 将字段长度列表初始化为0 ???没有初始化字段位置列表??? invertDocument(doc); 对所有字段分词并生成term，然后保存到postingTable中 同样的term会保存一个位置列表和数量 同时填写fieldLengths、fieldPositions和fieldBoosts fieldPositions中每个字段的Term的Position总是从0开始 并不写入到目录 Posting** postings = NULL; int32_t postingsLength = 0; sortPostingTable(postings,postingsLength); 将postingTable复制到数组并按Term字段名和值排序，不影响原来的postingTable 结果数组保存在postings中，大小保存在postingsLength中 数组在该函数结束时删除 writePostings(postings,postingsLength, segment); 建立四个文件segname.frq和segname.prx，以及segname.tii和segname.tis segname.tii和segname.tis文件格式相同，如下： 文件头\\Term\\包含该Term的文档数\\ 该Term在frq中的位置\\该Term在prx中的位置 该Term的skipOffset??? (这个字段是什么意思？) 该Term在tis文档中的位置 frq文件格式如下： 出现次数为1 1 否则写入 0 该Term在文档中出现的次数 prx文件格式如下： 依次写入该Term在文档中出现的位置 如果选择storeTermVector，则还会生成三个文件：segname.tvx, .tvd, .tvf 这三个文件的具体格式是什么？什么情况下需要storeTermVector？ writeNorms(doc, segment); 写入每个字段的分值到segment.f\u003c字段序号\u003e的文件中，用一个字节表示 } _CLFINALLY(_CLDELETE(dw);); SegmentInfo* si = _CLNEW SegmentInfo(segmentName, 1, ramDirectory); segmentInfos-\u003eadd(si); 将当前segment加入到segmeng列表中去 } _CLFINALLY(_CLDELETE_CaARRAY(segmentName);); 释放segmentName的内存 maybeMergeSegments(); 合并频率为mergeFactor，每minMergeDocs个文档合并成一个segment，然后: (1)每mergeFactor个含minMergeDocs个文档的segment合并成一个segment (2)每mergeFactor个含minMergeDocs*mergeFactor文档的segment合并成一个segment (3)... mergeFactor的值越大，合并频率越小，同时打开的文件数越多，检索速度会更慢；一般情况下取10 minMergeDocs值越大，合并频率越小，需要内存越多。 合并级数越大，则每次合并的时间越长，总的合并时间也越长，最好合并级数控制在二级，最多三级 因此，原则是，尽量取大的mergeFactor和minMergeDocs值可显著的缩小索引合并时间。 以500万记录为例，取mergeFactor为10，则minMergeDocs值为5万时，合并次数为二级，最后生成10个50万记录的索引文件 以下对mergeSegments(minSegment)函数详细说明(参数表示从该seg开始往后的seg合成一个)： CLVector segmentsToDelete(false); 一个用于保存合并后需要删除的seg的列表，该列表并不会在析构时自动删除对象 const char* mergedName = newSegmentName(); 新的索引，用于保存多个seg合并后的新的seg SegmentMerger merger(directory, mergedName, useCompoundFile); 定义一个用于合并操作的对象，构造函数参数描述合并后的seg for (int32_t i = minSegment; i \u003c segmentInfos-\u003esize(); i++) { SegmentInfo* si = segmentInfos-\u003einfo(i); SegmentReader* reader = _CLNEW SegmentReader(si); merger.add(reader); if ((reader-\u003egetDirectory() == this-\u003edirectory) || reader-\u003egetDirectory() == this-\u003eramDirectory)) { segmentsToDelete.push_back((SegmentReader*)reader); } 对于每个要合并的seg生成一个SegmentReader对象，并加入到合并对象中 这些生成的reader会在合并对象merger析构时被删除 合并完成后，只与本IndexWriter对象所属目录相关的seg实际内容才会被删除，不会 删除保存在其它目录中seg的实际内容。 } int32_t mergedDocCount = merger.merge(); 执行合并操作，将多个seg合并到一个seg，返回的是合并的文档数量 此时只是生成了新的seg的内容，如果失败，不影响现有seg ???函数细节??? segmentInfos-\u003eclearto(minSegment); 从seg列表中将被合并的seg对象删除，此时并没有删除seg的实际文件内容 ???这儿有内存泄漏，因为segmentInfos并不会自动删除value??? segmentInfos-\u003eadd( _CLNEW SegmentInfo(mergedName, mergedDocCount, directory)); 将合并后的seg加入到seg列表中 merger.closeReaders(); 关闭所有被合并的seg的reader对象，但此时并没有删除这些对象（析构时删除） LuceneLock* lock = directory-\u003emakeLock(\"commit.lock\"); IndexWriterLockWith2 with ( lock,LUCENE_COMMIT_LOCK_TIMEOUT,this,\u0026segmentsToDelete; ); LOCK_MUTEX(directory-\u003eDIR_OBJ); with.run(); writer-\u003esegmentInfos-\u003ewrite(writer-\u003egetDirectory()); 将seg信息写入到writer所属目录中 ???如果有来自其它目录的seg呢，因为实际seg内容并不在本目录，是否不正确??? ???两种操作有这种情况：1.合并其它目录时; 2.ramdir中还有数据未刷到本目录中时??? writer-\u003edeleteSegments(segmentsToDelete); UNLOCK_MUTEX(directory-\u003eDIR_OBJ); _CLDELETE( lock ); _CLDELETE_CaARRAY( mergedName ); 删除锁对象和mergeName的内存，这儿从逻辑上来讲应该是有问题的，如果前面合并失败， mergedName的内存无法释放，如果with.run失败，则目录中的锁都无法释放，会导致目录不能操作。 另外，还会导致新建的seg无法删除，会占用大量的多余空间。 } catch (...) { ramDirectory-\u003etransAbort(); 出错时回退本文档操作，实际为将备份文件copy回目录中，并删除新增的文件 throw; ???此时如果是在maybeMergeSegments函数里出错，是否会导致索引格式非法??? } ramDirectory-\u003etransCommit(); 提交本文档操作，实际为清空保留的备份文件 7.delete lpDoc; 删除文档对象，同时删除其所属的字段 8.writer.close(); 将内存数据刷到目录中，删除内存目录对象 必要时关闭目录(???如果不需要关闭目录时，也删除了该目录对象，确认为BUG???) 二.优化索引文件过程 主要流程描述 IndexWriter writer(\"ndx\", \u0026an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); writer.optimize(); writer.close(); 最终应该组合成一个seg 其它过程都比较简单，这儿只描述writer.optimize() SCOPED_LOCK_MUTEX(optimize_LOCK); 建立合并锁，以防止合并过程同时被调用，该锁会在函数退出时自动解锁 flushRamSegments(); 将内存中的segment写入到目录中去，会将segmentInfos中从后往前连续的ramdir的seg合并成一个seg存放在目录中 调用该函数后，可以保证segmentInfos最后一个seg肯定是在目录中的。 ???这种方法在合并目录时有问题，比如先加几个文件，然后合并一个IndexReader方式的目录，则不符合上述条件??? ???这种情况下索引会出错的，内存中的seg内容并没有写入到目录中??? while (segmentInfos-\u003esize() \u003e 1 || (segmentInfos-\u003esize() == 1 \u0026\u0026 (SegmentReader::hasDeletions(segmentInfos-\u003einfo(0)) || segmentInfos-\u003einfo(0)-\u003egetDir()!=directory || (useCompoundFile \u0026\u0026 (!SegmentReader::usesCompoundFile(segmentInfos-\u003einfo(0)) || SegmentReader::hasSeparateNorms(segmentInfos-\u003einfo(0)) ) ) ) ) ) 条件是： 0.没有seg时不执行 1.不止一个seg时一定执行 2.或者，有被删除的记录 3.或者，第一个seg不是本目录时 4.或者，当采用组合文件且第一个seg不是组合文件或采用了分离的norms文件时。 { int32_t minSegment = segmentInfos-\u003esize() - mergeFactor; 这儿比较奇怪，为什么不直接用minSegment=0，而是分批合并？ mergeSegments(minSegment \u003c 0 ? 0 : minSegment); 执行合并操作 } 三：问题 for(int i = 0; i \u003c 10; i ++) { StandGBAnalyzer an; IndexWriter writer(\"index1\", \u0026an;, (i == 0)); writer.setMergeFactor(2); writer.setMinMergeDocs(10); writer.setUseCompoundFile(true); for(int j = 0; j \u003c 20; j ++) { writer.addDocument(lpDoc); } writer.close(); } StandGBAnalyzer an; IndexWriter writer(\"index1\", \u0026an;, false); writer.setMergeFactor(2); writer.setMinMergeDocs(2); writer.optimize(); 这样会在index1目录下生成几个文件？ 按我的理解应该为1个.cfs文件+deletable+segments，实际上会生成41个文件，其中39个.cfs文件+deletable+segments，为什么呢？ http://spaces.msn.com/chenjm/Blog/cns!1p_4MqRmezVYLBO0XPor_HdQ!161.entry\n",
+  "wordCount" : "634",
+  "inLanguage": "en",
+  "datePublished": "2006-05-14T02:34:27Z",
+  "dateModified": "2006-05-14T02:34:27Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      CLUCENE-0.9.10 索引与优化过程
+    </h1>
+    <div class="post-meta"><span title='2006-05-14 02:34:27 +0000 UTC'>May 14, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>一.文件索引过程
+主要流程描述</p>
+<pre><code>IndexWriter writer(&quot;ndx&quot;, &amp;an;, true);
+writer.setMergeFactor(10);
+writer.setMinMergeDocs(10);
+Document *lpDoc = new Document;
+lpDoc-&gt;add(*new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true) );
+writer.addDocument(lpDoc);
+delete lpDoc;
+writer.close();
+</code></pre>
+<p>下面描述该流程</p>
+<pre><code>1.IndexWriter writer(&quot;ndx&quot;, &amp;an;, true);
+directory = FSDirectory::getDirectory(&quot;ndx&quot;, true);
+从一个全局的列表中取得一个对象
+如果对象不存在，则新建一个并加入到列表中
+主要目的是为了使用同一个目录只使用同一个FSDirectory对象
+新建目录时删除该目录下所有文件级子目录
+analyzer = an;
+该对象由对象外部创建
+segmentInfos = _CLNEW SegmentInfos;
+建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表
+建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象
+一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数
+closeDir = true;
+指定是否在索引对象关闭close时，是否同时调用目录的close函数
+缺省为关闭目录对象
+similarity = CL_NS(search)::Similarity::getDefault();
+取得缺省的文档分值score计算对象，如果不存在则建立
+可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的
+变量Similarity* _defaultImpl用于保存缺省对象
+ramDirectory = _CLNEW TransactionalRAMDirectory;
+建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表
+同时还包含一个当前文件列表
+恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除
+LuceneLock* newLock = directory-&gt;makeLock(&quot;write.lock&quot;);
+建立了一个FSLock文件锁对象，并不同时建立文件
+该文件锁用于写时锁定，会同时在IndexReader进行文档删除时使用
+newLock-&gt;obtain(LUCENE_WRITE_LOCK_TIMEOUT);
+writeLock = newLock;
+建立文件锁的文件
+建立方法:_open(lockFile, O_RDWR | O_CREAT | O_RANDOM , _S_IREAD | _S_IWRITE)
+LuceneLock* lock = directory-&gt;makeLock(&quot;commit.lock&quot;);
+IndexWriterLockWith with ( lock,LUCENE_WRITE_LOCK_TIMEOUT,this,create );
+LOCK_MUTEX(directory-&gt;DIR_OBJ);
+with.run();
+UNLOCK_MUTEX(directory-&gt;DIR_OBJ);
+_CLDELETE(lock);
+建立了一个用于事务提交的锁
+锁住directory-&gt;DIR_OBJ
+锁住事务锁
+如果建立新的目录，则调用writer-&gt;segmentInfos-&gt;write(writer-&gt;getDirectory());
+建立文件segments.new
+将segmentInfos信息写入到该文件中(格式\版本号\总seg数\(seg名称\seg中文档数,...))
+将文件改名为segments
+每写一次版本号都+1
+否则调用writer-&gt;segmentInfos-&gt;read(writer-&gt;getDirectory());
+打开segments文件
+读入格式\版本号\总seg数
+依次读入各seg的名称和文档数，生成SegmengInfo对象并加入到列表中
+解事务锁
+解directory-&gt;DIR_OBJ锁
+2.writer.setMergeFactor(10);
+设置合并频率，具体含义见后面的函数解释
+3.writer.setMinMergeDocs(10);
+设置最小缓冲文档数
+4.Document *lpDoc = new Document;
+boost = 1.0f;
+设置文档的权重乘数为1.0f(表示不改变)
+fieldList = NULL;
+初始化字段列表为NULL
+一个字段列表对象包括一个指向Field*的指针和一个指向下一个字段列表的指针DocumentFieldList* next;
+对段列表对象析构时,会自动其指向的删除Field对象和下一个DocumentFieldList对象
+5.LpDoc-&gt;add(*new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true) );
+new Field(&quot;content&quot;, &quot;This is demo content.&quot;, true, true, true)
+name = CLStringIntern::intern( Name CL_FILELINE);
+在字符串缓冲表中查找该字符串，如找到则增加引用计数并返回找到的，否则复制Name然后放在缓冲中并返回
+该操作并不是线程安全的，没有采用互斥量，是否有问题呢？
+与intern对应的函数是unintern，即减少引用计数，为1时删除复制的字符串
+_stringValue = stringDuplicate( String );
+复制字段值
+_readerValue = NULL;
+未设置读字段对象
+_isStored = store;
+是否保存字段值到索引中
+_isIndexed = index;
+是否索引该字段
+_isTokenized = token;
+是否对字段值进行分词
+this-&gt;storeTermVector = storeTermVector;
+?????，缺省值为false
+boost=1.0f;
+设置字段的权重乘数为1.0f(表示不改变)
+fieldList = _CLNEW DocumentFieldList(&amp;field;, fieldList);
+生成一个新的字段列表对象，并放在原来的列表开头
+6.writer.addDocument(lpDoc);
+SCOPED_LOCK_MUTEX(THIS_LOCK);
+建立一个互斥量对象并调用lock，在析构时会调用unlock，文件锁write.lock已经保证不会存在多个写索引的对象
+该锁只保证本对象不被同时多次调用即可
+ramDirectory-&gt;transStart();
+检查是否有异常状态(两个列表都为空，且未开始事务)
+然后设置状态为事务开始
+try
+{
+char* segmentName = newSegmentName();
+生成一个新的seg的名称，线程安全格式为'-'字符+segmentinfos.counter的36进制
+分配了内存来保存该名称
+try
+{
+DocumentWriter* dw = _CLNEW DocumentWriter(ramDirectory, analyzer, similarity, maxFieldLength);
+生成一个DocumentWriter对象，注意最大分词token数量为maxFieldLength，缺省为10000，超过则异常
+可以通过IndexWriter对象的setMaxFieldLength函数修改该缺省值
+analyzer = analyzer,
+directory = ramDirectory
+maxFieldLength = maxFieldLength;
+fieldInfos = NULL
+包含一个字段信息FieldInfo对象列表，可根据字段名称查找FieldInfo对象
+FieldInfo对象的字段名称从字符串缓冲中取得，析构时释放
+fieldLengths = NULL
+similarity = similarity
+fieldPositions = NULL
+fieldBoosts = NULL
+termBuffer(_CLNEW Term( LUCENE_BLANK_STRING, LUCENE_BLANK_STRING ,false))
+初始化时设置好分词对象、目录对象、最大分词数、计分对象，以及Term级冲
+Term对象为一个FieldName与FieldValue组合，其中FieldName从字符串缓冲中取得，FieldValue
+为复制的字符串，都在Term对象析构时释放。
+try
+{
+dw-&gt;addDocument(segmentName, doc);
+将文档写入到内存目录的segmenmt片段中
+fieldInfos = _CLNEW FieldInfos();
+fieldInfos-&gt;add(doc);
+生成一个字段信息列表对象，并将文档中的所有字段加入到列表中(不包括字段值)
+const char* buf = Misc::segmentname(segment, &quot;.fnm&quot;);
+fieldInfos-&gt;write(directory, buf);
+_CLDELETE_CaARRAY(buf);
+将字段信息列表写入到segname.fnm文件中，格式:
+(总字段数\字段名称\是否索引及保存term标志)
+FieldsWriter fieldsWriter(directory, segment, fieldInfos);
+try
+{
+fieldsWriter.addDocument(doc);
+}
+_CLFINALLY( fieldsWriter.close() );
+打开segname.fdt和segname.fdx文件，其中fdt保存了文档中需要保存的字段，格式为
+(字段序号\分词标志\字段值的长度\字段值)
+clearPostingTable();
+清空Term*= Posting*列表，该列表不会自动删除key和value对象
+什么时候删除Term*和Posting*对象呢???
+fieldLengths = _CL_NEWARRAY(int32_t,fieldInfos-&gt;size());
+生成字段长度列表，表示字段的token数，总元素为字段数
+fieldPositions = _CL_NEWARRAY(int32_t,fieldInfos-&gt;size());
+生成字段位置列表，表示字段的token的Position总和，总元素为字段数
+int32_t fbl = fieldInfos-&gt;size();
+float_t fbd = doc-&gt;getBoost();
+fieldBoosts = _CL_NEWARRAY(float_t,fbl);
+生成计分乘值列表，表示计分乘值(文档*字段)，总元素为字段数
+{
+for ( int32_t i=0;ifieldBoostsIdea [I] = fbd;
+}
+将计分乘值初始化为文档的计分乘值
+{
+for ( int32_t i=0;isize();i++ )
+fieldLengthsIdea [I] = 0;
+}
+将字段长度列表初始化为0
+???没有初始化字段位置列表???
+invertDocument(doc);
+对所有字段分词并生成term，然后保存到postingTable中
+同样的term会保存一个位置列表和数量
+同时填写fieldLengths、fieldPositions和fieldBoosts
+fieldPositions中每个字段的Term的Position总是从0开始
+并不写入到目录
+Posting** postings = NULL;
+int32_t postingsLength = 0;
+sortPostingTable(postings,postingsLength);
+将postingTable复制到数组并按Term字段名和值排序，不影响原来的postingTable
+结果数组保存在postings中，大小保存在postingsLength中
+数组在该函数结束时删除
+writePostings(postings,postingsLength, segment);
+建立四个文件segname.frq和segname.prx，以及segname.tii和segname.tis
+segname.tii和segname.tis文件格式相同，如下：
+文件头\Term\包含该Term的文档数\
+该Term在frq中的位置\该Term在prx中的位置
+该Term的skipOffset??? (这个字段是什么意思？)
+该Term在tis文档中的位置
+frq文件格式如下：
+出现次数为1
+1
+否则写入
+0
+该Term在文档中出现的次数
+prx文件格式如下：
+依次写入该Term在文档中出现的位置
+如果选择storeTermVector，则还会生成三个文件：segname.tvx, .tvd, .tvf
+这三个文件的具体格式是什么？什么情况下需要storeTermVector？
+writeNorms(doc, segment);
+写入每个字段的分值到segment.f&lt;字段序号&gt;的文件中，用一个字节表示
+}
+_CLFINALLY(_CLDELETE(dw););
+SegmentInfo* si = _CLNEW SegmentInfo(segmentName, 1, ramDirectory);
+segmentInfos-&gt;add(si);
+将当前segment加入到segmeng列表中去
+}
+_CLFINALLY(_CLDELETE_CaARRAY(segmentName););
+释放segmentName的内存
+maybeMergeSegments();
+合并频率为mergeFactor，每minMergeDocs个文档合并成一个segment，然后:
+(1)每mergeFactor个含minMergeDocs个文档的segment合并成一个segment
+(2)每mergeFactor个含minMergeDocs*mergeFactor文档的segment合并成一个segment
+(3)...
+mergeFactor的值越大，合并频率越小，同时打开的文件数越多，检索速度会更慢；一般情况下取10
+minMergeDocs值越大，合并频率越小，需要内存越多。
+合并级数越大，则每次合并的时间越长，总的合并时间也越长，最好合并级数控制在二级，最多三级
+因此，原则是，尽量取大的mergeFactor和minMergeDocs值可显著的缩小索引合并时间。
+以500万记录为例，取mergeFactor为10，则minMergeDocs值为5万时，合并次数为二级，最后生成10个50万记录的索引文件
+以下对mergeSegments(minSegment)函数详细说明(参数表示从该seg开始往后的seg合成一个)：
+CLVector segmentsToDelete(false);
+一个用于保存合并后需要删除的seg的列表，该列表并不会在析构时自动删除对象
+const char* mergedName = newSegmentName();
+新的索引，用于保存多个seg合并后的新的seg
+SegmentMerger merger(directory, mergedName, useCompoundFile);
+定义一个用于合并操作的对象，构造函数参数描述合并后的seg
+for (int32_t i = minSegment; i &lt; segmentInfos-&gt;size(); i++)
+{
+SegmentInfo* si = segmentInfos-&gt;info(i);
+SegmentReader* reader = _CLNEW SegmentReader(si);
+merger.add(reader);
+if ((reader-&gt;getDirectory() == this-&gt;directory) ||
+reader-&gt;getDirectory() == this-&gt;ramDirectory))
+{
+segmentsToDelete.push_back((SegmentReader*)reader);
+}
+对于每个要合并的seg生成一个SegmentReader对象，并加入到合并对象中
+这些生成的reader会在合并对象merger析构时被删除
+合并完成后，只与本IndexWriter对象所属目录相关的seg实际内容才会被删除，不会
+删除保存在其它目录中seg的实际内容。
+}
+int32_t mergedDocCount = merger.merge();
+执行合并操作，将多个seg合并到一个seg，返回的是合并的文档数量
+此时只是生成了新的seg的内容，如果失败，不影响现有seg
+???函数细节???
+segmentInfos-&gt;clearto(minSegment);
+从seg列表中将被合并的seg对象删除，此时并没有删除seg的实际文件内容
+???这儿有内存泄漏，因为segmentInfos并不会自动删除value???
+segmentInfos-&gt;add( _CLNEW SegmentInfo(mergedName, mergedDocCount, directory));
+将合并后的seg加入到seg列表中
+merger.closeReaders();
+关闭所有被合并的seg的reader对象，但此时并没有删除这些对象（析构时删除）
+LuceneLock* lock = directory-&gt;makeLock(&quot;commit.lock&quot;);
+IndexWriterLockWith2 with ( lock,LUCENE_COMMIT_LOCK_TIMEOUT,this,&amp;segmentsToDelete; );
+LOCK_MUTEX(directory-&gt;DIR_OBJ);
+with.run();
+writer-&gt;segmentInfos-&gt;write(writer-&gt;getDirectory());
+将seg信息写入到writer所属目录中
+???如果有来自其它目录的seg呢，因为实际seg内容并不在本目录，是否不正确???
+???两种操作有这种情况：1.合并其它目录时; 2.ramdir中还有数据未刷到本目录中时???
+writer-&gt;deleteSegments(segmentsToDelete);
+UNLOCK_MUTEX(directory-&gt;DIR_OBJ);
+_CLDELETE( lock );
+_CLDELETE_CaARRAY( mergedName );
+删除锁对象和mergeName的内存，这儿从逻辑上来讲应该是有问题的，如果前面合并失败，
+mergedName的内存无法释放，如果with.run失败，则目录中的锁都无法释放，会导致目录不能操作。
+另外，还会导致新建的seg无法删除，会占用大量的多余空间。
+}
+catch (...)
+{
+ramDirectory-&gt;transAbort();
+出错时回退本文档操作，实际为将备份文件copy回目录中，并删除新增的文件
+throw;
+???此时如果是在maybeMergeSegments函数里出错，是否会导致索引格式非法???
+}
+ramDirectory-&gt;transCommit();
+提交本文档操作，实际为清空保留的备份文件
+7.delete lpDoc;
+删除文档对象，同时删除其所属的字段
+8.writer.close();
+将内存数据刷到目录中，删除内存目录对象
+必要时关闭目录(???如果不需要关闭目录时，也删除了该目录对象，确认为BUG???)
+二.优化索引文件过程
+主要流程描述
+IndexWriter writer(&quot;ndx&quot;, &amp;an;, true);
+writer.setMergeFactor(10);
+writer.setMinMergeDocs(10);
+writer.optimize();
+writer.close();
+最终应该组合成一个seg
+其它过程都比较简单，这儿只描述writer.optimize()
+SCOPED_LOCK_MUTEX(optimize_LOCK);
+建立合并锁，以防止合并过程同时被调用，该锁会在函数退出时自动解锁
+flushRamSegments();
+将内存中的segment写入到目录中去，会将segmentInfos中从后往前连续的ramdir的seg合并成一个seg存放在目录中
+调用该函数后，可以保证segmentInfos最后一个seg肯定是在目录中的。
+???这种方法在合并目录时有问题，比如先加几个文件，然后合并一个IndexReader方式的目录，则不符合上述条件???
+???这种情况下索引会出错的，内存中的seg内容并没有写入到目录中???
+while (segmentInfos-&gt;size() &gt; 1 ||
+(segmentInfos-&gt;size() == 1 &amp;&amp;
+(SegmentReader::hasDeletions(segmentInfos-&gt;info(0)) ||
+segmentInfos-&gt;info(0)-&gt;getDir()!=directory ||
+(useCompoundFile &amp;&amp;
+(!SegmentReader::usesCompoundFile(segmentInfos-&gt;info(0)) ||
+SegmentReader::hasSeparateNorms(segmentInfos-&gt;info(0))
+)
+)
+)
+)
+)
+条件是：
+0.没有seg时不执行
+1.不止一个seg时一定执行
+2.或者，有被删除的记录
+3.或者，第一个seg不是本目录时
+4.或者，当采用组合文件且第一个seg不是组合文件或采用了分离的norms文件时。
+{
+int32_t minSegment = segmentInfos-&gt;size() - mergeFactor;
+这儿比较奇怪，为什么不直接用minSegment=0，而是分批合并？
+mergeSegments(minSegment &lt; 0 ? 0 : minSegment);
+执行合并操作
+}
+三：问题
+for(int i = 0; i &lt; 10; i ++)
+{
+StandGBAnalyzer an;
+IndexWriter writer(&quot;index1&quot;, &amp;an;, (i == 0));
+writer.setMergeFactor(2);
+writer.setMinMergeDocs(10);
+writer.setUseCompoundFile(true);
+for(int j = 0; j &lt; 20; j ++)
+{
+writer.addDocument(lpDoc);
+}
+writer.close();
+}
+StandGBAnalyzer an;
+IndexWriter writer(&quot;index1&quot;, &amp;an;, false);
+writer.setMergeFactor(2);
+writer.setMinMergeDocs(2);
+writer.optimize();
+这样会在index1目录下生成几个文件？ 按我的理解应该为1个.cfs文件+deletable+segments，实际上会生成41个文件，其中39个.cfs文件+deletable+segments，为什么呢？
+</code></pre>
+<p><a href="http://spaces.msn.com/chenjm/Blog/cns!1p_4MqRmezVYLBO0XPor_HdQ!161.entry">http://spaces.msn.com/chenjm/Blog/cns!1p_4MqRmezVYLBO0XPor_HdQ!161.entry</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://example.org/tags/clucene/">
+clucene
+      </a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+apache
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/apache/</link>
+    <description>Recent content in 
+apache
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 02 Jan 2014 07:08:43 +0000</lastBuildDate><atom:link href="http://example.org/tags/apache/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2013年最后一个月 12月 全球Web服务器份额iis狂升</title>
+      <link>http://example.org/2014/01/02/2013-12-web-server-survey/</link>
+      <pubDate>Thu, 02 Jan 2014 07:08:43 +0000</pubDate>
+      
+      <guid>http://example.org/2014/01/02/2013-12-web-server-survey/</guid>
+      <description>2013年12月，Netcraft从全球861,023,217家网站调查数据统计
+Apache 相比 11月份 下滑 3 个点，占有率跌到 41.26% IIS 上升明显，比 11 月份上升 4 个点， 占有率升到 28.08% Nginx 稳步上升，占有率达到 14.69% Google 下跌至 4.44%</description>
+    </item>
+    
+    <item>
+      <title>apache 403 错误 client denied by server</title>
+      <link>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</link>
+      <pubDate>Fri, 27 Jul 2012 10:24:35 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/27/apache-403-error-client-denied-by-server/</guid>
+      <description>由于前段时间给一台服务器在前加了个 nginx 做代理，今天大量用户反应网站出现 403 服务器日志显示 client denied by server 看一下访问日志都是 127.0.0.1 这才想起应该是 apache 防 ddos 模块的问题，把每个 vhost 的链接都当做 一个链接了，先去掉 mod_evasive ,恢复正常，为了上 apache 得到真实 ip 要安装 mod_rpaf 这个模块就 OK 了，
+cd /usr/ports/www/mod_rpaf make install clean 安装模块， freebsd 就是让人偷懒呀。编译完成 修改 httpd.conf 打开 mod_rpaf 模块 ，去掉 mod_rpaf 的 # 号, 添加
+RPAFenable On RPAFsethostname On RPAFproxy_ips 127.0.0.1 RPAFheader X-Forwarded-For 重起 apache ,终于一切正常了,收工回家.</description>
+    </item>
+    
+    <item>
+      <title>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证</title>
+      <link>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</link>
+      <pubDate>Wed, 25 Mar 2009 08:54:05 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/</guid>
+      <description>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x + PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</description>
+    </item>
+    
+    <item>
+      <title>php &#43; xapian extension的安装</title>
+      <link>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Mon, 11 Dec 2006 05:56:16 +0000</pubDate>
+      
+      <guid>http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/</guid>
+      <description>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C++编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd + apache 2.2 + php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&amp;lt;/a&amp;gt; wget &amp;lt;a href=&amp;quot;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;quot;&amp;gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&amp;lt;/a&amp;gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian.</description>
+    </item>
+    
+    <item>
+      <title>apache mod_limitipconn 的配置方法</title>
+      <link>http://example.org/2006/05/26/apache-mod_limitipconn-e79a84e9858de7bdaee696b9e6b395/</link>
+      <pubDate>Fri, 26 May 2006 18:25:01 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/26/apache-mod_limitipconn-e79a84e9858de7bdaee696b9e6b395/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

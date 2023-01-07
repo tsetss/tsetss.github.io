@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+openshift
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/openshift/</link>
+    <description>Recent content in 
+openshift
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 13 Oct 2012 09:19:08 +0000</lastBuildDate><atom:link href="http://example.org/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>openshift集成了 zend server</title>
+      <link>http://example.org/2012/10/13/openshift-zend-server/</link>
+      <pubDate>Sat, 13 Oct 2012 09:19:08 +0000</pubDate>
+      
+      <guid>http://example.org/2012/10/13/openshift-zend-server/</guid>
+      <description>今天收到邮 openshift 已经开始支持 zend server 了，这是 openshift 对 php 支持另一种试，强大呀，有兴趣的同学可以去试试，在创建 app 的时候选择 zend server 就可以了。</description>
+    </item>
+    
+    <item>
+      <title>openshift 绑定域名</title>
+      <link>http://example.org/2012/07/29/domain-name-to-openshift/</link>
+      <pubDate>Sun, 29 Jul 2012 11:39:08 +0000</pubDate>
+      
+      <guid>http://example.org/2012/07/29/domain-name-to-openshift/</guid>
+      <description>openshift 的自由性真是让人喜欢，不过要绑定域名必须安装 client tools ,ruby的产物，要求 ruby1.8.7以上, freebsd 下安装
+安装 ruby
+cd /usr/ports/lang/ruby18 make install clean 按装 ruybgames
+cd /usr/ports/devel/ruby-gems make install clean rehash 安装 client tools
+gem install rhc 绑定域名
+rhc setup // 输入用户名密码等 rhc app add-alias -a appName --alias blog.andsky.com // 要确认密码 然后到 app 管理应该会在 Aliases 看到刚刚添加的域名 然后将 blog.andsky.com cname 到 appName-namespace.rhcloud.com</description>
+    </item>
+    
+  </channel>
+</rss>

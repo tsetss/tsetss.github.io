@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。
+在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。
+造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。
+例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。
+所以，解决问题的关键，是把这几个值都设置成相应的正确的值。
+问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。
+在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的&rsquo;gb2312&rsquo; =&gt; &lsquo;gb2312&rsquo;改为&rsquo;gb2312&rsquo; =&gt; &rsquo;latin1&rsquo;； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将&rsquo;zh- gb2312&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;)改为&rsquo;zh-gb2312-utf-8&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。
+说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。
+结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题" />
+<meta property="og:description" content="在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。
+在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。
+造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。
+例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。
+所以，解决问题的关键，是把这几个值都设置成相应的正确的值。
+问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。
+在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的&rsquo;gb2312&rsquo; =&gt; &lsquo;gb2312&rsquo;改为&rsquo;gb2312&rsquo; =&gt; &rsquo;latin1&rsquo;； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将&rsquo;zh- gb2312&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;)改为&rsquo;zh-gb2312-utf-8&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。
+说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。
+结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-04-26T04:52:47+00:00" />
+<meta property="article:modified_time" content="2006-04-26T04:52:47+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题"/>
+<meta name="twitter:description" content="在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。
+在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。
+造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。
+例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。
+所以，解决问题的关键，是把这几个值都设置成相应的正确的值。
+问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。
+在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的&rsquo;gb2312&rsquo; =&gt; &lsquo;gb2312&rsquo;改为&rsquo;gb2312&rsquo; =&gt; &rsquo;latin1&rsquo;； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将&rsquo;zh- gb2312&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;)改为&rsquo;zh-gb2312-utf-8&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。
+说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。
+结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题",
+      "item": "http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题",
+  "name": "phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题",
+  "description": "在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。\n在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。\n造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。\n例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。\n所以，解决问题的关键，是把这几个值都设置成相应的正确的值。\n问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。\n在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的\u0026rsquo;gb2312\u0026rsquo; =\u0026gt; \u0026lsquo;gb2312\u0026rsquo;改为\u0026rsquo;gb2312\u0026rsquo; =\u0026gt; \u0026rsquo;latin1\u0026rsquo;； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将\u0026rsquo;zh- gb2312\u0026rsquo; =\u0026gt; array(\u0026lsquo;zh|chinese simplified\u0026rsquo;, \u0026lsquo;chinese_simplified-gb2312\u0026rsquo;, \u0026lsquo;zh\u0026rsquo;)改为\u0026rsquo;zh-gb2312-utf-8\u0026rsquo; =\u0026gt; array(\u0026lsquo;zh|chinese simplified\u0026rsquo;, \u0026lsquo;chinese_simplified-gb2312\u0026rsquo;, \u0026lsquo;zh\u0026rsquo;) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。\n说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。\n结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。",
+  "keywords": [
+    
+  ],
+  "articleBody": "在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱 码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。\n在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL -3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本 MySQL不会出现上述问题。\n造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字 符集，以及页面显示的字符编码没有对应到正确的值。\n例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的 latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是 在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述 问题。\n所以，解决问题的关键，是把这几个值都设置成相应的正确的值。\n问题解决： 为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以 上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正 常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。\n在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值 段，将其中的’gb2312’ =\u003e ‘gb2312’改为’gb2312’ =\u003e ’latin1’； 在libararies/select_lang.lib.php文件中，找到$available_languages赋值 段，将’zh- gb2312’ =\u003e array(‘zh|chinese simplified’, ‘chinese_simplified-gb2312’, ‘zh’)改为’zh-gb2312-utf-8’ =\u003e array(‘zh|chinese simplified’, ‘chinese_simplified-gb2312’, ‘zh’) 修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。\n说明： 原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确 的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言 选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但 是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项， 所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页 面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf- 8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用 gb2312字符编码。\n结论： 以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库 字符集和页面显示字符集的设定。\n",
+  "wordCount" : "56",
+  "inLanguage": "en",
+  "datePublished": "2006-04-26T04:52:47Z",
+  "dateModified": "2006-04-26T04:52:47Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/04/26/phpmyadmin-260e4bba5e4b88ae78988e69cace698bee7a4bamysqle695b0e68daee5ba93e4b8ade69687e4b9b1e7a081e997aee9a298/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      phpMyAdmin-2.6.0以上版本显示MySQL数据库中文乱码问题
+    </h1>
+    <div class="post-meta"><span title='2006-04-26 04:52:47 +0000 UTC'>April 26, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>在使用phpMyAdmin-2.6.0以上版本进行数据库管理操作时，页面上显示的中文为乱
+码。更改页面的语言设置和连接校对都没有作用，依然显示乱码。</p>
+<p>在MySQL-4.0以上和phpMyAdmin-2.6.0以上版本组合中，会出现以上问题；在MySQL
+-3.x和任意版本phpMyAdmin，或者phpMyAdmin-2.6.0一下(含2.6.0)和任意版本
+MySQL不会出现上述问题。</p>
+<p>造成以上问题的原因在于，数据库存储时的字符集，和phpMyAdmin认为的数据库字
+符集，以及页面显示的字符编码没有对应到正确的值。</p>
+<p>例如：在prima中，数据库内容的字符集为gb2312，数据库字符集是默认的
+latin1，这样的数据库内容在小于等于phpMyAdmin- 2.6.0上显示没有问题，但是
+在phpMyAdmin-2.6.0以上版本，默认数据库字符集都是utf-8，这时就产生了上述
+问题。</p>
+<p>所以，解决问题的关键，是把这几个值都设置成相应的正确的值。</p>
+<ol start="3">
+<li>问题解决：</li>
+</ol>
+<p>为了便于描述，这里拿prima来作为示例。当用户自己升级了phpMyAdmin到2.6.0以
+上版本之后，登录之后发现中文都变成了乱码，但是，这时站点页面上的显示是正
+常的。这是，只需要改phpMyAdmin文件中的两处，即可解决。</p>
+<ol>
+<li>在libararies/select_lang.lib.php文件中，找到$mysql_charset_map的赋值
+段，将其中的&rsquo;gb2312&rsquo; =&gt; &lsquo;gb2312&rsquo;改为&rsquo;gb2312&rsquo; =&gt; &rsquo;latin1&rsquo;；</li>
+<li>在libararies/select_lang.lib.php文件中，找到$available_languages赋值
+段，将&rsquo;zh- gb2312&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;)改为&rsquo;zh-gb2312-utf-8&rsquo; =&gt; array(&lsquo;zh|chinese simplified&rsquo;, &lsquo;chinese_simplified-gb2312&rsquo;, &lsquo;zh&rsquo;)</li>
+</ol>
+<p>修改之后，保存文件，这时登录phpMyAdmin，语言选择的时候，选择Chinese
+simplified (zh-gb2312-utf-8)，然后在查看数据库，这时就正常了。</p>
+<ol start="4">
+<li>说明：</li>
+</ol>
+<p>原则上，只需要做以上修改步骤中的第一步就可以解决问题。因为已经确定了正确
+的内容字符集和数据库字符集的对应关系。phpMyAdmin中，数据库字符集是和语言
+选择相关联的，所以这时只要选择Chinese simplified (zh-gb2312)就可以了。但
+是，由于phpMyAdmin的设计，在页面上并不能显示出非utf-8的语言字符集选项，
+所以，需要对$ available_languages进行修改。将zh-gb2312后边加上utf-8使页
+面能显示出这个选项，需要使用时，选择Chinese simplified (zh-gb2312-utf-
+8)。经测试，修改之后，用phpMyAdmin查看和修改数据库都没有问题，页面使用
+gb2312字符编码。</p>
+<ol start="5">
+<li>结论：</li>
+</ol>
+<p>以上只是通过prima来说明问题，其他情况可以参照以上方法解决，无非是数据库
+字符集和页面显示字符集的设定。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

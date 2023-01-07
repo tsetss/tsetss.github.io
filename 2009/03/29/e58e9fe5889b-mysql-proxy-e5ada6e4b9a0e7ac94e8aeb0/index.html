@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[原创] MySQL Proxy 学习笔记 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu
+【 测试平台 】
+**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32
+注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】
+$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/
+如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】
+执行 mysql-proxy &ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：
+管理功能选项">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="[原创] MySQL Proxy 学习笔记" />
+<meta property="og:description" content="作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu
+【 测试平台 】
+**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32
+注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】
+$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/
+如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】
+执行 mysql-proxy &ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：
+管理功能选项" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-29T16:25:50+00:00" />
+<meta property="article:modified_time" content="2009-03-29T16:25:50+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[原创] MySQL Proxy 学习笔记"/>
+<meta name="twitter:description" content="作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu
+【 测试平台 】
+**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32
+注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】
+$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/
+如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】
+执行 mysql-proxy &ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：
+管理功能选项"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[原创] MySQL Proxy 学习笔记",
+      "item": "http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[原创] MySQL Proxy 学习笔记",
+  "name": "[原创] MySQL Proxy 学习笔记",
+  "description": "作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu\n【 测试平台 】\n**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32\n注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】\n$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/\n如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】\n执行 mysql-proxy \u0026ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：\n管理功能选项",
+  "keywords": [
+    
+  ],
+  "articleBody": "作者：heiyeluren 时间：2008-1-28 博客：http://blog.csdn.net/heiyeshuwu\n【 测试平台 】\n**服务器端： **OS：FreeBSD 6.2 Lua： 5.1.1 MySQL Server：4.1.22-log MySQL Proxy： 0.6.0 客户端： OS：Windows XP Pro SP2 PHP： PHP 5.2.4 (cli) MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32\n注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0 ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。 【 MySQL Proxy 安装 】\n$ fetch http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz $ cd mysql-proxy-0.6.0-freebsd6-x86 $ cp sbin/mysql-proxy /usr/local/sbin/\n如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。 【 初步使用 】\n执行 mysql-proxy –help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：\n管理功能选项\n–admin-address=host:port — 指定一个mysqo-proxy的管理端口，缺省是 4041\n代理功能选项\n–proxy-address=host:port — 这个是mysql-proxy 服务器端的监听端口，缺省是 4040 –proxy-read-only-backend-addresses=host:port — 远程只读Slave服务器的地址和端口，缺省为不设置（本选项在mysql-proxy0.5.0版本中没有） –proxy-backend-addresses=host:port — 指定远程MySQL服务器地址和端口，可以设置多个，缺省是 127.0.0.1:3306 –proxy-skip-profiling — 关闭查询分析功能，缺省是打开的 –proxy-fix-bug-25371 — 修正 mysql的libmysql版本大于5.1.12的一个#25371号bug –proxy-lua-script=file — 指定一个Lua脚本程序来控制mysql-proxy的运行和设置，这个脚本在每次新建连接和脚本发生修改的的时候将重新调用\n其他选项\n–daemon — mysql-proxy以守护进程方式运行 –pid-file=file — 设置mysql-proxy的存储PID文件的路径\n我们执行试试，监听本地MySQL是3000端口： /usr/local/sbin/mysql-proxy –proxy-backend-addresses=127.0.0.1:3000\n然后从我的windows机器使用mysql客户端连接过去： mysql -uroot -h 192.168.0.2 -P 4040\nWelcome to the MySQL monitor. Commands end with ; or g. Your MySQL connection id is 3 Server version: 4.1.22-log Type ‘help;’ or ‘h’ for help. Type ‘c’ to clear the buffer. mysql\u003e\n远程的mysql-proxy缺省对外监听的是4040端口，它会对连接4040端口的连接做处理后丢给后端3000端口的mysql服务器处理，把结果返回。 我们执行一条sql试试：\nmysql\u003e select version(); +————+ | version() | +————+ | 4.1.22-log | +————+ 1 row in set (0.01 sec)\n【 对两台/多台MySQL的负载均衡 】\n首先我们目前MySQL Proxy 是支持多台后端MySQL数据库的，它可以支持同时设置多个 –proxy-backend-addresses 选项来使用多个MySQL，比如： /usr/local/sbin/mysql-proxy –proxy-address=192.168.0.2:3306 –proxy-backend-addresses=127.0.0.1:3000 –proxy-backend-addresses=192.168.0.2:4000 就分别连接了两台MySQL，一台是3000端口，一台是4000端口。\n假设有两台Slave的读数据服务器，我们使用mysql_proxy多个数据库的轮询技术来进行两台Slave数据库的负载均衡分散访问措施，mysql-proxy可以做到，缺省就具有了简单的均衡功能，它自带的均衡功能是当有多台MySQL服务器的时候，进行逐个访问的原则，比如有A、B两台MySQL服务器，那么第一个连接就访问A，第二个连接访问B，第三个连接访问A，一次分布，达到A、B两台MySQL访问均衡。\n对于mysql-proxy这个功能，我们进行检测一下。增加一个Lua检测脚本 test-conn.lua，就一个函数：\nfunction read_query( packet ) print(“read_query: connection.backend_ndx: “, proxy.connection.backend_ndx) end\n执行： /usr/local/sbin/mysql-proxy –proxy-address=192.168.0.2:3306 –proxy-backend-addresses=127.0.0.1:3000 –proxy-backend-addresses=192.168.0.2:4000 –proxy-lua-script=./test-conn.lua\n在windows上调用mysql客户端连接过去，打开多个cmd窗口进行连接：mysql -u root -h 192.168.0.2 -P 3306\n看到mysql-proxy服务器端输出结果：\nread_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2\n很明显是按照逐个来轮询，这样能够达到平均分配连接的目的。\n但是一个问题就是如果一台机器硬件设备比另外一台设备差，那么对数据库的连接就不能使用平均的方式了，那么完全使用Lua脚本构建自己的轮询连接算法，mysql-proxy的强大之处就在于能够支持Lua脚本进行各种控制，包括 连接服务器(connect_server)、连接握手(read_handshake)、提交验证(read_auth)、验证结果(read_auth_result)、提交查询(read_query)、查询结果(read_query_result) 等控制都是通过简单的在 –proxy-lua-script 选项中指定脚本来进行控制。\n现在我们来简单改进一下连接服务器连接分配的算法，就在Lua脚本中增加一个 connect_server 函数就行。 比如按照当前时间进行分布连接到两台MySQL上：\nfunction connect_server() if (tonumber(os.date(\"%M”)) % 2 == 0) then proxy.connection.backend_ndx = 2 else proxy.connection.backend_ndx = 1 end end\n或者我们采取随机方式，在两台MySQL之间随机挑选一台：\nfunction connect_server() local server_index = math.random(1, 2) proxy.connection.backend_ndx end\n我们客户端继续连接多次，监测连接的服务器，发现连接的机器是随机展开的：\nread_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 2 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 1 read_query: connection.backend_ndx: 2\n【 压力测试 】\n1. 连接数据库压力测试\n测试代码使用PHP5.2，测试文件 php_mysql_proxy.php 代码:\n//测试1 （连续连接1w次，每次连接后不关闭连接） test(10000);\nServer: mysql-proxy 的CPU占用是从0.1%一直升到 12.4% 左右，然后结束后慢慢减下来，mysqld 的cpu占用率很低，%0.2左右 Client: 客户端在连接后马上关闭连接的状态下，一直持续到3948个连接的时候无法再连接到mysql-proxy 客户端输出：\n… Connect mysql-proxy 3945.. close connection … Succeed Connect mysql-proxy 3946.. close connection … Succeed Connect mysql-proxy 3947.. close connection … Succeed Connect mysql-proxy 3948.. Warning: mysql_connect(): Can’t connect to MySQL server on ‘192.168.0.2’ (10048) in C:php_mysql_proxy.php on line 4 Could not connect: Can’t connect to MySQL server on ‘192.168.0.2’ (10048)\n//测试2（连续连接1w次，每次连接后不关闭连接） test(10000, false);\nServer: mysql-proxy 的CPU占用是从0.1%一直升到 14.5% 左右，然后结束后慢慢减下来, mysqld 的cpu占用率也很低，%0.2左右 Client: 客户端在连接后马上不关闭连接的状态下，一直持续到3946个连接的时候无法再连接到mysql-proxy，基本跟关闭连接的最终处理数量差不多 输出信息：\nConnect mysql-proxy 3944.. Succeed Connect mysql-proxy 3945.. Succeed Connect mysql-proxy 3946.. Warning: mysql_connect(): Can’t connect to MySQL server on ‘192.168.0.2’ (10048) in C:php_mysql_proxy.php on line 4 Could not connect:\n2. 执行查询测试\n测试脚本，php_mysql_proxy.php，代码如下：\n//执行测试1 $start_time = microtime_float(); test1(); $end_time = microtime_float(); echo “\\nExecute Time: “. ($end_time - $start_time) .\"\\n”;\n**测试结果：**PHP执行时间和服务器端cpu占用率 Execute Time: 39.4633390903 mysql-proxy: 17.56% mysqld-1: 5.26% mysqld-2: 2.12%\n//执行测试2 $start_time = microtime_float(); test2(); $end_time = microtime_float(); echo “\\nExecute Time: “. ($end_time - $start_time) .\"\\n”;\n**测试结果：**PHP执行时间和服务器端cpu占用率 Execute Time: 62.6189789772 mysql-proxy: 19.09% mysqld-1: 6.25% mysqld-2: 3.08%\n可以基本看出两者差别不是非常大，也可能是因为数据太少的缘故。 【 管理MySQL Proxy 】\n在启动 mysql-proxy 之后，就会打开两个端口，一个是4040，这个是缺省用于提供给MySQL客户端连接使用的端口，可以通过 –proxy-address 选项修改为其他的，比如设置为 –proxy-address=192.168.0.2:3306，就完全模拟成了一台MySQL数据库了。另外默认开放 4041 的端口，这个是用来提供给管理 mysql-proxy 使用的，可以使用标准的mysql客户端来连接，同样能够通过 –admin-address 选项来设置为其他管理端口。\n目前版本的管理功能还比较弱，只能够查看两个貌似是数据表的关于 mysql-proxy 的一些信息： mysql -u root -h 192.168.0.2 -P 4041\nWelcome to the MySQL monitor. Commands end with ; or g. Your MySQL connection id is 1 Server version: 5.1.20-agent MySQL Enterprise Agent\n说明这是一个版本为5.1.20的MySQL的代理程序，查看目前mysql-proxy的运行信息：\nmysql\u003e select * from proxy_connections; +——+——–+——-+————+ | id | type | state | db | +——+——–+——-+————+ | 0 | server | 0 | | | 1 | proxy | 0 | | | 2 | proxy | 10 | replaction | | 3 | server | 10 | | +——+——–+——-+————+ 4 rows in set (0.02 sec)\nmysql\u003e select * from proxy_config; +—————————-+——————+ | option | value | +—————————-+——————+ | admin.address | :4041 | | proxy.address | 192.168.0.2:3306 | | proxy.lua_script | NULL | | proxy.backend_addresses[0] | 127.0.0.1:3000 | | proxy.fix_bug_25371 | 0 | | proxy.profiling | 1 | +—————————-+——————+ 6 rows in set (0.02 sec)\n除了这两个状态信息，我貌似没有发现别的，不过基本的运行信息都包含了。 【 总结 】\n先说说优点，使用简单，安装方便，各种平台的二进制版都有（这个是MySQL的传统优点），同时性能不错。 再说说缺点，缺点同样很明显，说两个典型的缺点：\n1. 无法 Master/Slave 的区分 我一开始兴冲冲的以为 –proxy-read-only-backend-addresses 选项来构建一个支持Master/Slave的环境进行测试，但是我反复测试，发现无法实现，每次都是连接到Master，或者是做到每次都是按照连接算法来进行，mysql-proxy无法区分本次操作是写入操作还是读取操作而且划分到不同的MySQL机器。我后来又尝试也力求通过Lua脚本的方式来解决问题，自己定义连接情况，不过目前来看，定义的基本Lua接口，connect_server 是连接服务器，read_query 是整理SQL语句，我发现不论如何都是先执行了 connect_server 才去执行 read_query 的， 就是是先连接MySQL，然后执行的查询，这样就无法实现先拿到SQL语句，然后进行分析，发现是 insert/update/delete 全部拿到Master去执行，剩余的拿到Slave去执行，但是目前貌似无法实现，可能是我文档读的不够，或者是操作方法不对，非常希望在日后新版本中有比较方便简单的方式实现，因为一般使用 mysql-proxy 的人来说，都是因为负载高，数据连接太多或者是需要管理多台Slave机器，目前让 mysql-proxy 管理多台服务器是没有问题的，负载均衡也可以通过自行写Lua脚本控制。\n2. mysql-proxy admin的管理功能太弱 目前发现除了能够查看两项信息之外，mysql-proxy admin 功能没有别的，比如重启服务呀，或者是查看目前执行连接和执行的SQL语句等等都没有，稍微弱了一点，希望在后期版本中加强。\n大致功能都比较清楚了，测试速度也比较快，基本上目前来说，用于一些应用问题是不大的，稳定性也还好，毕竟目前是alpha版本，我们完全有热情去期待在正式版中会有很多新功能和对目前功能的改进，我无比的期待着。\n** 【 相关URL 】**\n[ MySQL Proxy 相关URL ] 下载地址：http://dev.mysql.com/downloads/mysql-proxy/index.html 官方手册：http://dev.mysql.com/doc/refman/5.1/en/mysql-proxy.html 官方wiki：http://forge.mysql.com/wiki/MySQL_Proxy\n[ Lua 相关URL ] Lua官方网站：http://www.lua.org/ Lua英文手册：http://www.lua.org/manual/5.1/ Lua中文手册：http://www.codingnow.com/2000/download/lua_manual.html （转载请著名来源：http://blog.csdn.net/heiyeshuwu，本文如有纰漏或者不正确的地方，欢迎指正，谢谢！） 【补充】\nadded 2008-01-29： 今天在InfoQ上面看到一篇文章《用MySQL-Proxy实现读写分离》文章使用了一个Lua脚本实现了读写分离的实现，大家可以参考。\n",
+  "wordCount" : "677",
+  "inLanguage": "en",
+  "datePublished": "2009-03-29T16:25:50Z",
+  "dateModified": "2009-03-29T16:25:50Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/29/e58e9fe5889b-mysql-proxy-e5ada6e4b9a0e7ac94e8aeb0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      [原创] MySQL Proxy 学习笔记
+    </h1>
+    <div class="post-meta"><span title='2009-03-29 16:25:50 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p><em>作者：heiyeluren
+时间：2008-1-28
+博客：</em><a href="http://blog.csdn.net/heiyeshuwu"><em>http://blog.csdn.net/heiyeshuwu</em></a></p>
+<p> </p>
+<p><strong>【 测试平台 】</strong></p>
+<p>**服务器端：
+**OS：FreeBSD 6.2
+Lua： 5.1.1
+MySQL  Server：4.1.22-log
+MySQL Proxy： 0.6.0
+<strong>客户端：</strong>
+OS：Windows XP Pro SP2
+PHP： PHP 5.2.4  (cli)
+MySQL Client： Ver 14.13 Distrib 5.1.19-beta for Win32</p>
+<p>注意：本文使用的是最新版本 MySQL Proxy alpha 0.6.0  ，如果是0.5.0版本可能部分选项和操作不一致，同样的，以后如果除了新版本，请参照新版本文档。
+<strong>【 MySQL Proxy 安装 】</strong></p>
+<p>$ fetch <a href="http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz">http://mirror.mysql-partners-jp.biz/Downloads/MySQL-Proxy/mysql-proxy-0.6.0-freebsd6-x86.tar.gz</a>
+$ tar zxvf mysql-proxy-0.6.0-freebsd6-x86.tar.gz
+$ cd mysql-proxy-0.6.0-freebsd6-x86
+$ cp sbin/mysql-proxy /usr/local/sbin/</p>
+<p>如果无法正常使用，请检查相应的其他组件是否安装了，mysql-proxy 需要依赖 lua、libtool、glib、libevent 等库。
+<strong>【 初步使用 】</strong></p>
+<p>执行 mysql-proxy &ndash;help-all 查看所有的设置选项，比较重要的选项大致描述一下功能：</p>
+<p><strong>管理功能选项</strong></p>
+<p>&ndash;admin-address=host:port — 指定一个mysqo-proxy的管理端口，缺省是 4041</p>
+<p><strong>代理功能选项</strong></p>
+<p>&ndash;proxy-address=host:port — 这个是mysql-proxy 服务器端的监听端口，缺省是 4040
+&ndash;proxy-read-only-backend-addresses=<a href="host:port">host:port</a> — 远程只读Slave服务器的地址和端口，缺省为不设置（本选项在mysql-proxy0.5.0版本中没有）
+&ndash;proxy-backend-addresses=host:port — 指定远程MySQL服务器地址和端口，可以设置多个，缺省是 127.0.0.1:3306
+&ndash;proxy-skip-profiling — 关闭查询分析功能，缺省是打开的
+&ndash;proxy-fix-bug-25371 — 修正 mysql的libmysql版本大于5.1.12的一个#25371号bug
+&ndash;proxy-lua-script=file — 指定一个Lua脚本程序来控制mysql-proxy的运行和设置，这个脚本在每次新建连接和脚本发生修改的的时候将重新调用</p>
+<p><strong>其他选项</strong></p>
+<p>&ndash;daemon — mysql-proxy以守护进程方式运行
+&ndash;pid-file=file — 设置mysql-proxy的存储PID文件的路径</p>
+<p>我们执行试试，监听本地MySQL是3000端口：
+/usr/local/sbin/mysql-proxy  &ndash;proxy-backend-addresses=127.0.0.1:3000</p>
+<p>然后从我的windows机器使用mysql客户端连接过去：
+mysql -uroot -h  192.168.0.2 -P 4040</p>
+<p> </p>
+<p>Welcome to the MySQL monitor.  Commands end with ; or g.
+Your MySQL connection id is 3
+Server version: 4.1.22-log
+Type &lsquo;help;&rsquo; or &lsquo;h&rsquo; for help. Type &lsquo;c&rsquo; to clear the buffer.
+mysql&gt;</p>
+<p>远程的mysql-proxy缺省对外监听的是4040端口，它会对连接4040端口的连接做处理后丢给后端3000端口的mysql服务器处理，把结果返回。
+我们执行一条sql试试：</p>
+<p>mysql&gt; select version();
++&mdash;&mdash;&mdash;&mdash;+
+| version()  |
++&mdash;&mdash;&mdash;&mdash;+
+| 4.1.22-log |
++&mdash;&mdash;&mdash;&mdash;+
+1 row in set (0.01 sec)</p>
+<p> </p>
+<p><strong>【 对两台/多台MySQL的负载均衡 】</strong></p>
+<p>首先我们目前MySQL Proxy 是支持多台后端MySQL数据库的，它可以支持同时设置多个 &ndash;proxy-backend-addresses  选项来使用多个MySQL，比如：
+/usr/local/sbin/mysql-proxy  &ndash;proxy-address=192.168.0.2:3306 &ndash;proxy-backend-addresses=127.0.0.1:3000  &ndash;proxy-backend-addresses=192.168.0.2:4000
+就分别连接了两台MySQL，一台是3000端口，一台是4000端口。</p>
+<p>假设有两台Slave的读数据服务器，我们使用mysql_proxy多个数据库的轮询技术来进行两台Slave数据库的负载均衡分散访问措施，mysql-proxy可以做到，缺省就具有了简单的均衡功能，它自带的均衡功能是当有多台MySQL服务器的时候，进行逐个访问的原则，比如有A、B两台MySQL服务器，那么第一个连接就访问A，第二个连接访问B，第三个连接访问A，一次分布，达到A、B两台MySQL访问均衡。</p>
+<p>对于mysql-proxy这个功能，我们进行检测一下。增加一个Lua检测脚本 test-conn.lua，就一个函数：</p>
+<p>function read_query( packet )
+    print(&ldquo;read_query: connection.backend_ndx: &ldquo;, proxy.connection.backend_ndx)
+end</p>
+<p>执行：
+/usr/local/sbin/mysql-proxy  &ndash;proxy-address=192.168.0.2:3306 &ndash;proxy-backend-addresses=127.0.0.1:3000  &ndash;proxy-backend-addresses=192.168.0.2:4000  &ndash;proxy-lua-script=./test-conn.lua</p>
+<p>在windows上调用mysql客户端连接过去，打开多个cmd窗口进行连接：mysql -u root -h 192.168.0.2 -P  3306</p>
+<p>看到mysql-proxy服务器端输出结果：</p>
+<p>read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2</p>
+<p>很明显是按照逐个来轮询，这样能够达到平均分配连接的目的。</p>
+<p>但是一个问题就是如果一台机器硬件设备比另外一台设备差，那么对数据库的连接就不能使用平均的方式了，那么完全使用Lua脚本构建自己的轮询连接算法，mysql-proxy的强大之处就在于能够支持Lua脚本进行各种控制，包括  连接服务器(connect_server)、连接握手(read_handshake)、提交验证(read_auth)、验证结果(read_auth_result)、提交查询(read_query)、查询结果(read_query_result)  等控制都是通过简单的在 &ndash;proxy-lua-script 选项中指定脚本来进行控制。</p>
+<p>现在我们来简单改进一下连接服务器连接分配的算法，就在Lua脚本中增加一个 connect_server  函数就行。
+比如按照当前时间进行分布连接到两台MySQL上：</p>
+<p>function connect_server()
+    if (tonumber(os.date(&quot;%M&rdquo;)) % 2 == 0) then
+        proxy.connection.backend_ndx = 2
+    else
+        proxy.connection.backend_ndx = 1
+    end
+end</p>
+<p>或者我们采取随机方式，在两台MySQL之间随机挑选一台：</p>
+<p>function connect_server()
+    local server_index = math.random(1, 2)
+    proxy.connection.backend_ndx
+end</p>
+<p>我们客户端继续连接多次，监测连接的服务器，发现连接的机器是随机展开的：</p>
+<p>read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     2
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     1
+read_query: connection.backend_ndx:     2</p>
+<p><strong>【 压力测试 】</strong></p>
+<p><strong>1. 连接数据库压力测试</strong></p>
+<p>测试代码使用PHP5.2，测试文件 php_mysql_proxy.php 代码:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>//测试1 （连续连接1w次，每次连接后不关闭连接）
+test(10000);</p>
+<p><strong>Server:</strong> mysql-proxy 的CPU占用是从0.1%一直升到 12.4%  左右，然后结束后慢慢减下来，mysqld 的cpu占用率很低，%0.2左右
+<strong>Client:</strong> 客户端在连接后马上关闭连接的状态下，一直持续到3948个连接的时候无法再连接到mysql-proxy
+客户端输出：</p>
+<p>&hellip;
+Connect mysql-proxy 3945.. close connection &hellip; Succeed
+Connect mysql-proxy 3946.. close connection &hellip; Succeed
+Connect mysql-proxy 3947.. close connection &hellip; Succeed
+Connect mysql-proxy 3948..
+Warning: mysql_connect(): Can&rsquo;t connect to MySQL server on &lsquo;192.168.0.2&rsquo; (10048)
+ in C:php_mysql_proxy.php on line 4
+Could not connect: Can&rsquo;t connect to MySQL server on &lsquo;192.168.0.2&rsquo; (10048)</p>
+<p>//测试2（连续连接1w次，每次连接后不关闭连接）
+test(10000,  false);</p>
+<p><strong>Server:</strong> mysql-proxy 的CPU占用是从0.1%一直升到 14.5% 左右，然后结束后慢慢减下来,  mysqld 的cpu占用率也很低，%0.2左右
+<strong>Client:</strong> 客户端在连接后马上不关闭连接的状态下，一直持续到3946个连接的时候无法再连接到mysql-proxy，基本跟关闭连接的最终处理数量差不多
+输出信息：</p>
+<p>Connect mysql-proxy 3944.. Succeed
+Connect mysql-proxy 3945.. Succeed
+Connect mysql-proxy 3946..
+Warning: mysql_connect(): Can&rsquo;t connect to MySQL server on &lsquo;192.168.0.2&rsquo; (10048)
+ in C:php_mysql_proxy.php on line 4
+Could not connect:</p>
+<p><strong>2. 执行查询测试</strong></p>
+<p>测试脚本，php_mysql_proxy.php，代码如下：</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>//执行测试1
+$start_time =  microtime_float();
+test1();
+$end_time = microtime_float();
+echo  &ldquo;\nExecute Time: &ldquo;. ($end_time - $start_time) .&quot;\n&rdquo;;</p>
+<p>**测试结果：**PHP执行时间和服务器端cpu占用率
+<strong>Execute  Time:</strong> 39.4633390903
+<strong>mysql-proxy:</strong> 17.56%
+<strong>mysqld-1:</strong> 5.26%
+<strong>mysqld-2:</strong> 2.12%</p>
+<p>//执行测试2
+$start_time =  microtime_float();
+test2();
+$end_time = microtime_float();
+echo  &ldquo;\nExecute Time: &ldquo;. ($end_time - $start_time) .&quot;\n&rdquo;;</p>
+<p>**测试结果：**PHP执行时间和服务器端cpu占用率
+<strong>Execute  Time:</strong> 62.6189789772
+<strong>mysql-proxy:</strong> 19.09%
+<strong>mysqld-1:</strong> 6.25%
+<strong>mysqld-2:</strong> 3.08%</p>
+<p>可以基本看出两者差别不是非常大，也可能是因为数据太少的缘故。
+<strong>【 管理MySQL Proxy 】</strong></p>
+<p>在启动 mysql-proxy 之后，就会打开两个端口，一个是4040，这个是缺省用于提供给MySQL客户端连接使用的端口，可以通过  &ndash;proxy-address 选项修改为其他的，比如设置为  &ndash;proxy-address=192.168.0.2:3306，就完全模拟成了一台MySQL数据库了。另外默认开放 4041 的端口，这个是用来提供给管理  mysql-proxy 使用的，可以使用标准的mysql客户端来连接，同样能够通过 &ndash;admin-address 选项来设置为其他管理端口。</p>
+<p>目前版本的管理功能还比较弱，只能够查看两个貌似是数据表的关于 mysql-proxy 的一些信息：
+ mysql -u root -h 192.168.0.2 -P 4041</p>
+<p>Welcome to the MySQL monitor.  Commands end with ; or g.
+Your MySQL connection id is 1
+Server version: 5.1.20-agent MySQL Enterprise Agent</p>
+<p> </p>
+<p>说明这是一个版本为5.1.20的MySQL的代理程序，查看目前mysql-proxy的运行信息：</p>
+<p>mysql&gt; select * from proxy_connections;
++&mdash;&mdash;+&mdash;&mdash;&ndash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+
+| id   | type   | state | db         |
++&mdash;&mdash;+&mdash;&mdash;&ndash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+
+|    0 | server | 0     |            |
+|    1 | proxy  | 0     |            |
+|    2 | proxy  | 10    | replaction |
+|    3 | server | 10    |            |
++&mdash;&mdash;+&mdash;&mdash;&ndash;+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+
+4 rows in set (0.02 sec)</p>
+<p>mysql&gt; select * from proxy_config;
++&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+
+| option                     | value            |
++&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+
+| admin.address              | :4041            |
+| proxy.address              | 192.168.0.2:3306 |
+| proxy.lua_script           | NULL             |
+| proxy.backend_addresses[0] | 127.0.0.1:3000   |
+| proxy.fix_bug_25371        | 0                |
+| proxy.profiling            | 1                |
++&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+
+6 rows in set (0.02 sec)</p>
+<p> 除了这两个状态信息，我貌似没有发现别的，不过基本的运行信息都包含了。
+<strong>【 总结 】</strong></p>
+<p>先说说优点，使用简单，安装方便，各种平台的二进制版都有（这个是MySQL的传统优点），同时性能不错。
+再说说缺点，缺点同样很明显，说两个典型的缺点：</p>
+<p><strong>1. 无法 Master/Slave 的区分</strong>
+我一开始兴冲冲的以为  &ndash;proxy-read-only-backend-addresses  选项来构建一个支持Master/Slave的环境进行测试，但是我反复测试，发现无法实现，每次都是连接到Master，或者是做到每次都是按照连接算法来进行，mysql-proxy无法区分本次操作是写入操作还是读取操作而且划分到不同的MySQL机器。我后来又尝试也力求通过Lua脚本的方式来解决问题，自己定义连接情况，不过目前来看，定义的基本Lua接口，connect_server  是连接服务器，read_query 是整理SQL语句，我发现不论如何都是先执行了 connect_server 才去执行 read_query 的，  就是是先连接MySQL，然后执行的查询，这样就无法实现先拿到SQL语句，然后进行分析，发现是 insert/update/delete  全部拿到Master去执行，剩余的拿到Slave去执行，但是目前貌似无法实现，可能是我文档读的不够，或者是操作方法不对，非常希望在日后新版本中有比较方便简单的方式实现，因为一般使用  mysql-proxy 的人来说，都是因为负载高，数据连接太多或者是需要管理多台Slave机器，目前让 mysql-proxy  管理多台服务器是没有问题的，负载均衡也可以通过自行写Lua脚本控制。</p>
+<p><strong>2. mysql-proxy admin的管理功能太弱</strong>
+目前发现除了能够查看两项信息之外，mysql-proxy  admin 功能没有别的，比如重启服务呀，或者是查看目前执行连接和执行的SQL语句等等都没有，稍微弱了一点，希望在后期版本中加强。</p>
+<p>大致功能都比较清楚了，测试速度也比较快，基本上目前来说，用于一些应用问题是不大的，稳定性也还好，毕竟目前是alpha版本，我们完全有热情去期待在正式版中会有很多新功能和对目前功能的改进，我无比的期待着。</p>
+<p>**
+【 相关URL 】**</p>
+<p>[ <strong>MySQL Proxy 相关URL</strong> ]
+下载地址：<a href="http://dev.mysql.com/downloads/mysql-proxy/index.html">http://dev.mysql.com/downloads/mysql-proxy/index.html</a>
+官方手册：<a href="http://dev.mysql.com/doc/refman/5.1/en/mysql-proxy.html">http://dev.mysql.com/doc/refman/5.1/en/mysql-proxy.html</a>
+官方wiki：<a href="http://forge.mysql.com/wiki/MySQL_Proxy">http://forge.mysql.com/wiki/MySQL_Proxy</a></p>
+<p>[ <strong>Lua 相关URL</strong> ]
+Lua官方网站：<a href="http://www.lua.org/">http://www.lua.org/</a>
+Lua英文手册：<a href="http://www.lua.org/manual/5.1/">http://www.lua.org/manual/5.1/</a>
+Lua中文手册：<a href="http://www.codingnow.com/2000/download/lua_manual.html">http://www.codingnow.com/2000/download/lua_manual.html</a>
+（转载请著名来源：<a href="http://blog.csdn.net/heiyeshuwu">http://blog.csdn.net/heiyeshuwu</a>，本文如有纰漏或者不正确的地方，欢迎指正，谢谢！）
+【补充】</p>
+<p>added 2008-01-29： 今天在InfoQ上面看到一篇文章《<a href="http://www.infoq.com/cn/news/2007/10/mysqlproxyrwsplitting">用MySQL-Proxy实现读写分离</a>》文章使用了一个Lua脚本实现了读写分离的实现，大家可以参考。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

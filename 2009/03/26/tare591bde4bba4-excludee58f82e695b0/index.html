@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>tar命令详解 (推荐) | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="tar命令详解 (推荐)" />
+<meta property="og:description" content="tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-26T07:02:17+00:00" />
+<meta property="article:modified_time" content="2009-03-26T07:02:17+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="tar命令详解 (推荐)"/>
+<meta name="twitter:description" content="tar [-cxtzjvfpPN] 文件与目录 …
+参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。
+-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！
+-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：
+范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar
+[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！
+[root@linux ~]# tar -zcvf /tmp/etc."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "tar命令详解 (推荐)",
+      "item": "http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "tar命令详解 (推荐)",
+  "name": "tar命令详解 (推荐)",
+  "description": "tar [-cxtzjvfpPN] 文件与目录 …\n参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。\n-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！\n-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：\n范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar\n[root@linux ~]# tar -cvf /tmp/etc.tar /etc \u0026lt;==仅打包，不压缩！\n[root@linux ~]# tar -zcvf /tmp/etc.",
+  "keywords": [
+    
+  ],
+  "articleBody": "tar [-cxtzjvfpPN] 文件与目录 …\n参数： -c ：建立一个压缩文件的参数指令(create 的意思)； -x ：解开一个压缩文件的参数指令！ -t ：查看 tarfile 里面的文件！ 特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。\n-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？ -j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？ -v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！ -f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！ 例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！\n-p ：使用原文件的原来属性（属性不会依据使用者而变） -P ：可以使用绝对路径来压缩！ -N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！ –exclude FILE：在压缩的过程中，不要将 FILE 打包！ 范例：\n范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar\n[root@linux ~]# tar -cvf /tmp/etc.tar /etc \u003c==仅打包，不压缩！\n[root@linux ~]# tar -zcvf /tmp/etc.tar.gz /etc \u003c==打包后，以 gzip 压缩\n[root@linux ~]# tar -jcvf /tmp/etc.tar.bz2 /etc \u003c==打包后，以 bzip2 压缩\n特别注意，在参数 f 之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。 如果加 z 参数，则以 .tar.gz 或 .tgz 来代表 gzip 压缩过的 tar file ～ 如果加 j 参数，则以 .tar.bz2 来作为附档名啊～ 上述指令在执行的时候，会显示一个警告讯息： 『tar: Removing leading `/’ from member names』那是关於绝对路径的特殊设定。 范例二：查阅上述 /tmp/etc.tar.gz 文件内有哪些文件？\n[root@linux ~]# tar -ztvf /tmp/etc.tar.gz\n由於我们使用 gzip 压缩，所以要查阅该 tar file 内的文件时， 就得要加上 z 这个参数了！这很重要的！ 范例三：将 /tmp/etc.tar.gz 文件解压缩在 /usr/local/src 底下\n[root@linux ~]# cd /usr/local/src\n[root@linux src]# tar -zxvf /tmp/etc.tar.gz\n在预设的情况下，我们可以将压缩档在任何地方解开的！以这个范例来说， 我先将工作目录变换到 /usr/local/src 底下，并且解开 /tmp/etc.tar.gz ， 则解开的目录会在 /usr/local/src/etc 呢！另外，如果您进入 /usr/local/src/etc 则会发现，该目录下的文件属性与 /etc/ 可能会有所不同喔！ 范例四：在 /tmp 底下，我只想要将 /tmp/etc.tar.gz 内的 etc/passwd 解开而已\n[root@linux ~]# cd /tmp\n[root@linux tmp]# tar -zxvf /tmp/etc.tar.gz etc/passwd\n我可以透过 tar -ztvf 来查阅 tarfile 内的文件名称，如果单只要一个文件， 就可以透过这个方式来下达！注意到！ etc.tar.gz 内的根目录 / 是被拿掉了！ 范例五：将 /etc/ 内的所有文件备份下来，并且保存其权限！\n[root@linux ~]# tar -zxvpf /tmp/etc.tar.gz /etc\n这个 -p 的属性是很重要的，尤其是当您要保留原本文件的属性时！ 范例六：在 /home 当中，比 2005/06/01 新的文件才备份\n[root@linux ~]# tar -N ‘2005/06/01′ -zcvf home.tar.gz /home\n范例七：我要备份 /home, /etc ，但不要 /home/dmtsai [root@linux ~]# tar –exclude /home/dmtsai -zcvf myfile.tar.gz /home/* /etc\n注意：经本人测试后发现相对用相对路径和绝对路径有不同的结果，请注意区分以下差别：\n#tar cvf aaa.tar –exclude=’/export/home/ipnet/tools/old/tools.client’ old old/ old/tools.client/ old/tools.client/conf.ini old/tools.client/tools.jar old/tools.client/fping old/tools.client/run.sh old/tools.client/fping.linux old/tools.client/nohup.out old/tools.server/ old/tools.server/run.sh old/tools.server/startserver old/tools.server/tools.jar old/tools.server/nohup.out\n#tar cvf bbb.tar –exclude=‘tools.client’ old old/ old/tools.server/ old/tools.server/run.sh old/tools.server/startserver old/tools.server/tools.jar old/tools.server/nohup.out\n#tar cvf aaa.tar –exclude=‘tools.client’ old old/ old/tools.server/ old/tools.server/run.sh old/tools.server/startserver old/tools.server/tools.jar old/tools.server/nohup.out old/aaa.tar\n#tar cvf aaa.tar –exclude=‘tools.client/’ old old/ old/tools.client/ old/tools.client/conf.ini old/tools.client/tools.jar old/tools.client/fping old/tools.client/run.sh old/tools.client/fping.linux old/tools.client/nohup.out old/tools.server/ old/tools.server/run.sh old/tools.server/startserver old/tools.server/tools.jar old/tools.server/nohup.out old/aaa.tar\n范例八：将 /etc/ 打包后直接解开在 /tmp 底下，而不产生文件！ [root@linux ~]# cd /tmp [root@linux tmp]# tar -cvf - /etc | tar -xvf -\n这个动作有点像是 cp -r /etc /tmp 啦～依旧是有其有用途的！ 要注意的地方在於输出档变成 - 而输入档也变成 - ，又有一个 | 存在～ 这分别代表 standard output, standard input 与管线命令啦！ http://hi.baidu.com/netalang/blog/item/a0feca02ddb94dea08fa9309.html\n",
+  "wordCount" : "325",
+  "inLanguage": "en",
+  "datePublished": "2009-03-26T07:02:17Z",
+  "dateModified": "2009-03-26T07:02:17Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/26/tare591bde4bba4-excludee58f82e695b0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      tar命令详解 (推荐)
+    </h1>
+    <div class="post-meta"><span title='2009-03-26 07:02:17 +0000 UTC'>March 26, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>tar [-cxtzjvfpPN] 文件与目录 …</p>
+<pre><code>  参数：
+</code></pre>
+<p>-c ：建立一个压缩文件的参数指令(create 的意思)；
+-x ：解开一个压缩文件的参数指令！
+-t ：查看 tarfile 里面的文件！
+特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。</p>
+<p>-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩？
+-j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩？
+-v ：压缩的过程中显示文件！这个常用，但不建议用在背景执行过程！
+-f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加参数！
+例如使用『 tar -zcvfP tfile sfile』就是错误的写法，要写成『 tar -zcvPf tfile sfile』才对喔！</p>
+<p>-p ：使用原文件的原来属性（属性不会依据使用者而变）
+-P ：可以使用绝对路径来压缩！
+-N ：比后面接的日期(yyyy/mm/dd)还要新的才会被打包进新建的文件中！
+–exclude FILE：在压缩的过程中，不要将 FILE 打包！
+范例：</p>
+<p>范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar</p>
+<p>[root@linux ~]# tar -cvf /tmp/etc.tar /etc &lt;==仅打包，不压缩！</p>
+<p>[root@linux ~]# tar -zcvf /tmp/etc.tar.gz /etc &lt;==打包后，以 gzip 压缩</p>
+<p>[root@linux ~]# tar -jcvf /tmp/etc.tar.bz2 /etc &lt;==打包后，以 bzip2 压缩</p>
+<h1 id="特别注意在参数-f-之后的文件档名是自己取的我们习惯上都用-tar-来作为辨识">特别注意，在参数 f 之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。<a hidden class="anchor" aria-hidden="true" href="#特别注意在参数-f-之后的文件档名是自己取的我们习惯上都用-tar-来作为辨识">#</a></h1>
+<h1 id="如果加-z-参数则以-targz-或-tgz-来代表-gzip-压缩过的-tar-file-">如果加 z 参数，则以 .tar.gz 或 .tgz 来代表 gzip 压缩过的 tar file ～<a hidden class="anchor" aria-hidden="true" href="#如果加-z-参数则以-targz-或-tgz-来代表-gzip-压缩过的-tar-file-">#</a></h1>
+<h1 id="如果加-j-参数则以-tarbz2-来作为附档名啊">如果加 j 参数，则以 .tar.bz2 来作为附档名啊～<a hidden class="anchor" aria-hidden="true" href="#如果加-j-参数则以-tarbz2-来作为附档名啊">#</a></h1>
+<h1 id="上述指令在执行的时候会显示一个警告讯息">上述指令在执行的时候，会显示一个警告讯息：<a hidden class="anchor" aria-hidden="true" href="#上述指令在执行的时候会显示一个警告讯息">#</a></h1>
+<h1 id="tar-removing-leading--from-member-names那是关於绝对路径的特殊设定">『tar: Removing leading `/’ from member names』那是关於绝对路径的特殊设定。<a hidden class="anchor" aria-hidden="true" href="#tar-removing-leading--from-member-names那是关於绝对路径的特殊设定">#</a></h1>
+<p>范例二：查阅上述 /tmp/etc.tar.gz 文件内有哪些文件？</p>
+<p>[root@linux ~]# tar -ztvf /tmp/etc.tar.gz</p>
+<h1 id="由於我们使用-gzip-压缩所以要查阅该-tar-file-内的文件时">由於我们使用 gzip 压缩，所以要查阅该 tar file 内的文件时，<a hidden class="anchor" aria-hidden="true" href="#由於我们使用-gzip-压缩所以要查阅该-tar-file-内的文件时">#</a></h1>
+<h1 id="就得要加上-z-这个参数了这很重要的">就得要加上 z 这个参数了！这很重要的！<a hidden class="anchor" aria-hidden="true" href="#就得要加上-z-这个参数了这很重要的">#</a></h1>
+<p>范例三：将 /tmp/etc.tar.gz 文件解压缩在 /usr/local/src 底下</p>
+<p>[root@linux ~]# cd /usr/local/src</p>
+<p>[root@linux src]# tar -zxvf /tmp/etc.tar.gz</p>
+<h1 id="在预设的情况下我们可以将压缩档在任何地方解开的以这个范例来说">在预设的情况下，我们可以将压缩档在任何地方解开的！以这个范例来说，<a hidden class="anchor" aria-hidden="true" href="#在预设的情况下我们可以将压缩档在任何地方解开的以这个范例来说">#</a></h1>
+<h1 id="我先将工作目录变换到-usrlocalsrc-底下并且解开-tmpetctargz-">我先将工作目录变换到 /usr/local/src 底下，并且解开 /tmp/etc.tar.gz ，<a hidden class="anchor" aria-hidden="true" href="#我先将工作目录变换到-usrlocalsrc-底下并且解开-tmpetctargz-">#</a></h1>
+<h1 id="则解开的目录会在-usrlocalsrcetc-呢另外如果您进入-usrlocalsrcetc">则解开的目录会在 /usr/local/src/etc 呢！另外，如果您进入 /usr/local/src/etc<a hidden class="anchor" aria-hidden="true" href="#则解开的目录会在-usrlocalsrcetc-呢另外如果您进入-usrlocalsrcetc">#</a></h1>
+<h1 id="则会发现该目录下的文件属性与-etc-可能会有所不同喔">则会发现，该目录下的文件属性与 /etc/ 可能会有所不同喔！<a hidden class="anchor" aria-hidden="true" href="#则会发现该目录下的文件属性与-etc-可能会有所不同喔">#</a></h1>
+<p>范例四：在 /tmp 底下，我只想要将 /tmp/etc.tar.gz 内的 etc/passwd 解开而已</p>
+<p>[root@linux ~]# cd /tmp</p>
+<p>[root@linux tmp]# tar -zxvf /tmp/etc.tar.gz etc/passwd</p>
+<h1 id="我可以透过-tar--ztvf-来查阅-tarfile-内的文件名称如果单只要一个文件">我可以透过 tar -ztvf 来查阅 tarfile 内的文件名称，如果单只要一个文件，<a hidden class="anchor" aria-hidden="true" href="#我可以透过-tar--ztvf-来查阅-tarfile-内的文件名称如果单只要一个文件">#</a></h1>
+<h1 id="就可以透过这个方式来下达注意到-etctargz-内的根目录--是被拿掉了">就可以透过这个方式来下达！注意到！ etc.tar.gz 内的根目录 / 是被拿掉了！<a hidden class="anchor" aria-hidden="true" href="#就可以透过这个方式来下达注意到-etctargz-内的根目录--是被拿掉了">#</a></h1>
+<p>范例五：将 /etc/ 内的所有文件备份下来，并且保存其权限！</p>
+<p>[root@linux ~]# tar -zxvpf /tmp/etc.tar.gz /etc</p>
+<h1 id="这个--p-的属性是很重要的尤其是当您要保留原本文件的属性时">这个 -p 的属性是很重要的，尤其是当您要保留原本文件的属性时！<a hidden class="anchor" aria-hidden="true" href="#这个--p-的属性是很重要的尤其是当您要保留原本文件的属性时">#</a></h1>
+<p>范例六：在 /home 当中，比 2005/06/01 新的文件才备份</p>
+<p>[root@linux ~]# tar -N ‘2005/06/01′ -zcvf home.tar.gz /home</p>
+<p>范例七：我要备份 /home, /etc ，但不要 /home/dmtsai
+[root@linux ~]# tar –exclude /home/dmtsai -zcvf myfile.tar.gz /home/* /etc</p>
+<p>注意：经本人测试后发现相对用相对路径和绝对路径有不同的结果，请注意区分以下差别：</p>
+<p>#tar cvf aaa.tar &ndash;exclude=&rsquo;/export/home/ipnet/tools/old/tools.client&rsquo; old
+old/
+old/tools.client/
+old/tools.client/conf.ini
+old/tools.client/tools.jar
+old/tools.client/fping
+old/tools.client/run.sh
+old/tools.client/fping.linux
+old/tools.client/nohup.out
+old/tools.server/
+old/tools.server/run.sh
+old/tools.server/startserver
+old/tools.server/tools.jar
+old/tools.server/nohup.out</p>
+<hr>
+<p>#tar cvf bbb.tar &ndash;exclude=&lsquo;tools.client&rsquo; old
+old/
+old/tools.server/
+old/tools.server/run.sh
+old/tools.server/startserver
+old/tools.server/tools.jar
+old/tools.server/nohup.out</p>
+<p>#tar cvf aaa.tar &ndash;exclude=&lsquo;tools.client&rsquo; old
+old/
+old/tools.server/
+old/tools.server/run.sh
+old/tools.server/startserver
+old/tools.server/tools.jar
+old/tools.server/nohup.out
+old/aaa.tar</p>
+<p>#tar cvf aaa.tar &ndash;exclude=&lsquo;tools.client/&rsquo; old
+old/
+old/tools.client/
+old/tools.client/conf.ini
+old/tools.client/tools.jar
+old/tools.client/fping
+old/tools.client/run.sh
+old/tools.client/fping.linux
+old/tools.client/nohup.out
+old/tools.server/
+old/tools.server/run.sh
+old/tools.server/startserver
+old/tools.server/tools.jar
+old/tools.server/nohup.out
+old/aaa.tar</p>
+<p>范例八：将 /etc/ 打包后直接解开在 /tmp 底下，而不产生文件！
+[root@linux ~]# cd /tmp
+[root@linux tmp]# tar -cvf - /etc | tar -xvf -</p>
+<h1 id="这个动作有点像是-cp--r-etc-tmp-啦依旧是有其有用途的">这个动作有点像是 cp -r /etc /tmp 啦～依旧是有其有用途的！<a hidden class="anchor" aria-hidden="true" href="#这个动作有点像是-cp--r-etc-tmp-啦依旧是有其有用途的">#</a></h1>
+<h1 id="要注意的地方在於输出档变成---而输入档也变成---又有一个--存在">要注意的地方在於输出档变成 - 而输入档也变成 - ，又有一个 | 存在～<a hidden class="anchor" aria-hidden="true" href="#要注意的地方在於输出档变成---而输入档也变成---又有一个--存在">#</a></h1>
+<h1 id="这分别代表-standard-output-standard-input-与管线命令啦">这分别代表 standard output, standard input 与管线命令啦！<a hidden class="anchor" aria-hidden="true" href="#这分别代表-standard-output-standard-input-与管线命令啦">#</a></h1>
+<p><a href="http://hi.baidu.com/netalang/blog/item/a0feca02ddb94dea08fa9309.html">http://hi.baidu.com/netalang/blog/item/a0feca02ddb94dea08fa9309.html</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

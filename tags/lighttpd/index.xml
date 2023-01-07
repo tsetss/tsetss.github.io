@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+Lighttpd
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/lighttpd/</link>
+    <description>Recent content in 
+Lighttpd
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Mar 2009 08:34:24 +0000</lastBuildDate><atom:link href="http://example.org/tags/lighttpd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FreeBSD环境下的Lighttpd 参数配置与性能优化</title>
+      <link>http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/</link>
+      <pubDate>Wed, 25 Mar 2009 08:34:24 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/25/freebsde78eafe5a283e4b88be79a84lighttpd-e58f82e695b0e9858de7bdaee4b88ee680a7e883bde4bc98e58c96/</guid>
+      <description>简单说一下：Lighttpd是一个轻量级的Web 服务器，支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。它具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。其静态文件的响应能力远高于Apache，可谓Web服务器的后期之秀。
+许多技术专家认为，在Web 服务器中Lighttpd比Apache更小更轻量，却拥有比后者更高的性能。虽然Lighttpd在Web服务器方面只占很小的市场份额，“但它正极速增长，日后必将是Web服务器领域的有力竞争者。” 针对我们的普遍应用情况下，对配置文件进行一些修改。Time per request: 能达到0.65 [ms]左右相对于以前测的0.734[ms]左右，性能有很大提高。如果有大量的时间对每个性能指标进行测试，去掉不必要的模块和特性，应该在性能上还会有所提高，估计最好能到0.61[ms]左右。最近测试如下： lighttpd 配置文件：去掉了很多不必要的特性。
+#######lighttpd.conf. server.port = 7983 , server.modules = (&amp;quot;mod_access&amp;quot;) server.document-root = &amp;quot;/usr/home/yangjian/lighttpd/doc/&amp;quot; server.pid-file = &amp;quot;/usr/home/yangjian/lighttpd/lighttpd.pid&amp;quot; mimetype.assign = ( &amp;quot;.html&amp;quot; =&amp;gt; &amp;quot;text/html&amp;quot;, &amp;quot;.js&amp;quot; =&amp;gt; &amp;quot;text/javascript&amp;quot;, ) server.max-keep-alive-requests =4000 dir-listing.activate = &amp;ldquo;disable&amp;rdquo;
+LiteSpeed的测试都是在默认配置下。它的结果不太稳定，最好的记录是0.603ms，这是lighttpd所没有过的好成绩，但大多数情况下都在 0.70左右，有好多次在0.76以上。我这里说的都是LiteSpeed的标准版，pro版是要花钱的性能当然要好些。LiteSpeed是同过web 管理的，这是它的一个比较好的特性。如果经过优化我想它和lighttpd应该还是不差上下的。 我暂时先选择相对稳定点的lighttpd作为我们的web server，然后对它的配置和优化进行说明。Lighttpd配置文件很简单，相信大家配过apache的都能看明白。我就只对影响性能的指标挑出来讨论。参考文章http://www.lighttpd.net/documentation 可以看出我上面的那个配置文件非常简短。我去掉了所有不必要的特性。添加的模块只有mod_access，如果没有它访问是就会出现403错误。除了它之外系统默认启用的模块有 mod_indexfiles ，mod_dirlisting， mod_staticfile。但在默认已经编译进去的模块清单如下： 对于这些已经编译进去的在启用时就非常简单了，enable一下就ok了。Lighttpd想添加一个功能一般情况下只需要添加一两行指令到配置文件中，比apache易配置多了。
+Plugins: enabled: mod_access
+mod_accesslog mod_alias
+mod_auth mod_cgi mod_compress mod_dirlisting mod_evhost mod_expire mod_fastcgi
+mod_indexfiles mod_proxy mod_rrdtool mod_scgi mod_secdownload mod_setenv mod_simple_vhost mod_staticfile mod_status mod_userdir mod_usertrack mod_webdav disabled: mod_cml mod_mysql_vhost mod_redirect mod_rewrite</description>
+    </item>
+    
+  </channel>
+</rss>

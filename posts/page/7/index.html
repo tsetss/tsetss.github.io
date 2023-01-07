@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - 白天’s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/posts/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/posts/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Posts
+  </h1>
+</header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>centos 5.6 x64 同步时间 更改时区
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>ntpdate pool.ntp.org
+如无 ntpdate 命令安装 ntp 即可
+执行
+yum install -y ntp
+更改时区
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-09-02 05:48:00 +0000 UTC'>September 2, 2011</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to centos 5.6 x64 同步时间 更改时区" href="http://example.org/2011/09/02/centos-5-6-x64-e5908ce6ada5e697b6e997b4-e69bb4e694b9e697b6e58cba/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>巴菲特推荐的十本书
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1、《聪明的投资者》（格雷厄姆著）。格雷厄姆专门为业余投资者所著，巴菲特称之为“有史以来最伟大的投资著作”。 2、《证券分析》（格雷厄姆 多德著）。格雷厄姆的经典名著，专业投资者必读之书，巴菲特认为每一个投资者都应该阅读此书十遍以上。 3、《怎样选择成长股》（费舍尔著）。巴菲特称自己的投资策略是“85%的格雷厄姆和15%的费舍尔”。他说：“运用费舍尔的技巧，可以了解这一行……有助于做出一个聪明的投资决定”。 4、《学以致富》（彼得·林奇著）（如果好他给自己的孙子送生日礼物，《学以致富》是最好不过的了。） 5、《杰克·韦尔奇自传》（杰克·韦尔奇著）（韦尔奇是管理界中的“老虎伍兹”，所有CEO都想效仿他。他们虽然赶不上他，但是如果仔细聆听他所说的话，就能更接近他一些。） 6、《赢》（杰克·韦尔奇著）。（有了《赢》，再也不需要其他管理著作了。） 7、《穷光蛋查理年鉴》（富兰克林著）（一个不幸的灵魂去年问查理：“如果感受不到阅读本书的喜悦，该怎么办？”他得到的芒格式的回答——“没问题，请把这本书赠给更有智慧的人。） 8、《寻找智慧——从达尔文到芒格〉〉》（Reter Bevelin著） 9、《客户的游艇在哪里》（Fred Schweb著）（这是以投资为主题出版过的书中最好的一本，它睿智地阐释了关于投资主题的许多真知灼见。） 10、《巴菲特致股东的信：股份公司教程》。本书搜集整理了20多年巴菲特致股东的信中的精华段落，巴菲特认为此书是整理其投资哲学的一流工作。
+转自: http://book.douban.com/review/2914704/</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-03-07 08:52:28 +0000 UTC'>March 7, 2011</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 巴菲特推荐的十本书" href="http://example.org/2011/03/07/e5b7b4e88fb2e789b9e68ea8e88d90e79a84e58d81e69cace4b9a6/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>python运算符与表达式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1.1. 数值操作 所有数值类型都提供下列运算:
+运算 描述 x &#43; y 加 x - y 减 x * y 乘 x / y 常规除 x // y 地板除 x ** y 乘方 (xy ) x % y 取模 (x mod y ) -x 改变操作数的符号位 &#43;x 什么也不做 ~x ~x=-(x&#43;1) 关于常规除 / 与地板除 //: 地板除在任何时候都会将小数部分舍为0，而常规除的行为依操作数的类型而有不同。 常规除 / : 整数除以整数时 / 与 // 除完全相同，商都会被舍去小数部分而返回一个整数。如7 / 4 的结果是 1,而不是1.75; 如果有一个操作数为浮点数，情形就不同了： 对于 / ，会返回一个双精度浮点数 对于 //，也会返回一个双精度浮点数，只不过小数部分被舍弃 取模操作返回 x/y 的余数，如7 % 4是3。对于浮点数，取模操作返回的是x - int(x / y ) * y。 对于复数，取模操作返回x - int((x / y )....</p>
+  </div>
+  <footer class="entry-footer"><span title='2010-03-08 09:38:01 +0000 UTC'>March 8, 2010</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to python运算符与表达式" href="http://example.org/2010/03/08/pythone8bf90e7ae97e7aca6e4b88ee8a1a8e8bebee5bc8f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>c笔记一
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>c的一些笔记 1:声明数组 ,一定要初始化memset(); eg:char buf[12][10]; memset(buf,’\0,sizeof(buf)’); 2:声明指针，给了值再用（貌似很简单可我犯错了） eg: struct qiao * P; p=(struct qiao *)maloc(sizeof(struct qiao)); p是可以用的。 3;memcpy函数 memcpy(void desc,voidsrc,int num); desc 和src的空间不能重叠，否则会覆盖src的部分值 4:c中的字符串处理; c的字符串用char数组表示，一定要在数组末尾加个’\0&#39;;
+5:字符串和数值的转换
+//把buf的数据放到struct gpsData中 /* *提取年月日 */ gpsData-&gt;year=(int)(atol(buf[8])%100); gpsData-&gt;month=(int)((atol(buf[8])%10000-gpsData-&gt;year)/100); gpsData-&gt;day=(int)(atol(buf[8])/10000); /* *提取时分秒毫秒 */ gpsData-&gt;hour=((int)atof(buf[0]))/10000; gpsData-&gt;second=((int)atof(buf[0]))%100; gpsData-&gt;minute=(((int)atof(buf[0]))%10000-gpsData-&gt;second)/100; gpsData-&gt;minisecond= (int)((long)(atof(buf[0])*1000)%1000); /* *提取经度和纬度 */ char temp[3]; char *tempPoint; memset(temp,&#39;\0&#39;,sizeof(temp)); memcpy(temp,buf[4],2); temp[3]=&#39;\0&#39;; gpsData-&gt;longitude=atoi(temp); tempPoint=buf[4]; gpsData-&gt;m_longitude=atof(tempPoint&#43;2); memcpy(temp,(char *)buf[2],2); temp[3]=&#39;\0&#39;; gpsData-&gt;latitude=atoi(temp); tempPoint=buf[2]; gpsData-&gt;m_latitude=atof(tempPoint&#43;2); 转自 http://kulinglei.javaeye.com/blog/392389</p>
+  </div>
+  <footer class="entry-footer"><span title='2010-01-02 13:21:47 +0000 UTC'>January 2, 2010</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to c笔记一" href="http://example.org/2010/01/02/ce7ac94e8aeb0e4b880/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql my.cnf 详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&#34;–help&#34;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-31 04:00:57 +0000 UTC'>December 31, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql my.cnf 详解" href="http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>psyco 真的很神奇
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>测试代码 http://www.timestretch.com/FractalBenchmark.html#e7142f2f73f8eb4245f1b25aa6340470
+没有使用 psyco 3.4 左右，生成 pyc 3.14 ，用了 psyco 0.34 真是太强大了，
+freebsd 安装 psyco
+cd /usr/ports/devel/py-psyco make install clean 开启
+import psyco psyco.full() </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-19 12:15:04 +0000 UTC'>December 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to psyco 真的很神奇" href="http://example.org/2009/12/19/psyco-e79c9fe79a84e5be88e7a59ee5a587/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>VBoxManage命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>VBoxManage命令详解 本人对vboxmange命令按我个人的理解作了解释，由于本人水平有限难免有错误的地方，希望大家帮我指正。
+VBoxManage [-v|-version] 显示virtualbox的版本号 VBoxManage -nologo 隐藏logo VBoxManage -convertSettings 允许自动转换设置文件 VBoxManage -convertSettingsBackup 允许自动转换设置文件，并在转换前作备份 VBoxManage -convertSettingsIgnore 允许自动转换设置文件，但是不保存结果
+VBoxManage list vms|runningvms 显示列表虚拟机|正在运行的虚拟机 |ostypes|hostdvds virtualbox支持的系统类型|宿主机的光盘驱动器 |hostfloppies 宿主机的软盘驱动器 |hostifs|hostinfo 宿主机的网络接口|宿主机的信息 |hdds|dvds 已注册的虚拟硬盘|已注册的虚拟光盘 |floppies|usbhost 已注册的虚拟软盘|宿主机的USB设备 |usbfilters USB筛选器 |systemproperties 虚拟机的基本信息
+VBoxManage showvminfo | 显示指定虚拟机的信息 [-details] 显示详细信息 [-statistics] 显示统计信息 [-machinereadable] 以清晰的格式显示虚拟机信息
+VBoxManage registervm 将指定文件所在的虚拟机添加到列表
+VBoxManage unregistervm | 从虚拟机列表清除指定的虚拟机 [-delete] 从虚拟机列表删除指定的虚拟机
+VBoxManage createvm -name 创建指定名称的虚拟机 [-register] 将创建的虚拟机添加到列表 [-basefolder 指定虚拟机的基础目录 [-settingsfile ] 指定虚拟机配置文件的基础目录 [-uuid ] 创建指定uuid的虚拟机
+VBoxManage modifyvm 编辑指定的虚拟机的配置 [-name ] 修改虚拟机的名称 [-ostype ]修改虚拟机的操作系统类型 [-memory ] 修改虚拟机的内存大小 [-vram ] 修改虚拟机的显存大小 [-acpi on|off] 启动或禁止acpi电源管理接口 [-ioapic on|off] 启动或禁止I/O APIC电源管理接口 [-pae on|off] 启动或禁止CPU的PAE支持，PAE是 Physical Address Extension : 物理地址扩展 [-hwvirtex on|off|default]启动或禁止CPU的硬件虚拟化支持 [-nestedpaging on|off] 开启或关闭CPU的嵌套页面列表支持 [-monitorcount ] 设置显示器数目，VRDP多用户模式时 [-bioslogofadein on|off] 开启或关闭bioslogo渐显效果 [-bioslogofadeout on|off] 开启或关闭bioslogo渐隐效果 [-bioslogodisplaytime ]设置bioslogo显示时间（以毫秒为单位) [-bioslogoimagepath ]设置bioslogo图像路径，用于自定义bioslogo [-biosbootmenu disabled| 设置是否显示bios启动菜单 关闭 menuonly| 只菜单 messageandmenu] 信息和菜单 [-biossystemtimeoffset ] 设置bios系统时间补偿（以毫秒为单位） [-biospxedebug on|off] 打开或关闭biospxe调试 [-boot&lt;1-4&gt; none|floppy|dvd|disk|net&gt;] 设置启动顺序 [-hd none||] 为虚拟机添加三个IDE设备之一（第2个主盘被vm保留作为光驱，不能占用）在三个IDE中，你可以指定（硬盘）的vdi文件名或者它的UUID [-idecontroller PIIX3|PIIX4] 设置IDE控制器的类型 [-sata on|off] 开启或关闭SATA硬盘控制器 [-sataportcount &lt;1-30&gt;] 设置虚拟机最多支持的SATA控制器数目 [-sataport&lt;1-30&gt; none| 没有硬盘连接到SATA控制器 | 指定uuid的硬盘连接到SATA控制器 ] 指定文件名的硬盘连接到SATA控制器 [-sataideemulation&lt;1-4&gt; &lt;1-30&gt;] 指定一个SATA设备工作在IDE兼容模式，IDE设备编号是1-4，SATA设备编号是1-30 [-dvd none| 不连接DVD光驱 | 指定UUID的DVD光驱连接 | 将指定的光盘映像文件挂接到DVD光驱 host:] 将宿主机的DVD光驱挂接到虚拟机的DVD光驱 [-dvdpassthrough on|off]打开|关闭虚拟机里光盘的刻录功能 [-floppy disabled| 不连接软驱 empty| 连接软驱但不插入软盘 | 指定UUID的软驱连接 | 将指定的软盘映像文件挂接到软驱驱 host:] 将宿主机的软驱驱挂接到虚拟机的软驱 [-nic&lt;1-N&gt; none| 虚拟机不添加网卡 null| 虚拟机有网卡但不连接 nat| 网络连接使用NAT模式 hostif| 网络连接使用桥接模式 intnet] 网络连接使用内部网络模式 [-nictype&lt;1-N&gt; Am79C970A| 虚拟机连接AMD PCNet PCI II网卡 Am79C973| 虚拟机连接AMD PCNet FAST III网卡（默认） 82540EM| 虚拟机连接Intel PRO/1000 MT Desktop网卡 82543GC] 虚拟机连接Intel PRO/1000 T Server网卡 [-cableconnected&lt;1-N&gt; on|off]插入或拔出网线 [-nictrace&lt;1-N&gt; on|off] 开启或关闭网络追踪 [-nictracefile&lt;1-N&gt; ] 将网络流量追踪数据保存到文件 [-nicspeed&lt;1-N&gt; ] 设置网络连接的速度 [-hostifdev&lt;1-N&gt; none| 不连接到主机网络接口 ] 桥接模式下连接到指定的主机接口 [-intnet&lt;1-N&gt; ] 内网模式下为虚拟机指定内部网络名称 [-natnet&lt;1-N&gt; | 配置NAT网络接口的地址 default] 默认NAT网络接口的地址是10....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-17 06:12:35 +0000 UTC'>December 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to VBoxManage命令详解" href="http://example.org/2009/12/17/vboxmanagee591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>php tokyo_tyrant扩展安装
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>tokyo_tyrant 还是beta 版，freebsd 的 ports 还没有，有点不爽，用 pecl 安装吧，
+pecl install tokyo_tyrant pecl: Command not found. 先安装 pear 呵呵
+cd /usr/ports/devel/pear make install clean pecl install tokyo_tyrant Failed to download pecl/tokyo_tyrant within preferred state &#34;stable&#34;, latest release is version 0.1.2, stability &#34;beta&#34;, use &#34;channel://pecl.php.net/tokyo_tyrant-0.1.2&#34; to install install failed 还是不行，要加入beta 才行哦
+pecl install tokyo_tyrant-beta ee /usr/local/etc/php/extensions.ini 加入 extension=tokyo_tyrant.so OK 安装完成 重起php进程，用phpinfo 查看一下 freebsd 真是太强大了，喜欢哦!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-12 01:29:34 +0000 UTC'>December 12, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php tokyo_tyrant扩展安装" href="http://example.org/2009/12/12/php-tokyo_tyrante689a9e5b195e5ae89e8a385/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>用pngencoder php(AMFPHP) 保存图片
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>转自:http://hi.baidu.com/harry1299/blog/item/d7a64e323ec976f01b4cff3a.html
+1.Flash端,通过adobe的类包,将BitmapData数据Encoder成ByteArray .然后，通过http或者amfphp发送到服务器端。 Code:
+var bd:BitmapData = new BitmapData(canvas.width,canvas.height); bd.draw(canvas); var jpgEncoder : PNGEncoder = new PNGEncoder(); var jpgBytes:ByteArray = PNGEncoder.encode(bd); 2.服务端的工作（针对amfphp而言）：接受ByteArray ，注意，php是直接支持ByteArray类型的，然后通过fwrite或者file_put_contents，写数据，并且输出文件，ok搞定 Code:
+public function createSavePngFile($ba,$savePoint) { date_default_timezone_set(&#39;Asia/Shanghai&#39;); $now = date(&#34;YmdHis&#34;); $path = &#34;resource/shareVideo/&#34;; $fileName = $path.$now.&#34;.png&#34;; $data = $ba-&gt;data; if(!file_exists($path.$now.&#34;.png&#34;)) { $input = file_put_contents( $fileName, $data);//写入二进制数据 if($input != 0 &amp;&amp; $input != -1) { return $this-&gt;serverPoxy-&gt;updateShareInfo($savePoint,$fileName); } else { return false; } } return false; } 注意：file_put_contents( $fileName, $data);中第二个参数是：$ba-&gt;data,而不是$ba,这是php的数据结构的规范。我就是搞错了这个，浪费了大侠我整个一个上午的时间，可恶^_^....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-10 02:01:35 +0000 UTC'>December 10, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 用pngencoder php(AMFPHP) 保存图片" href="http://example.org/2009/12/10/e794a8pngencoder-phpamfphp-e4bf9de5ad98e59bbee78987/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>memcachedb
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>memcachedb是为了持久化而产生的一个分布式 “key-value&#34;存储系统，你可以认为是memcached&#43;berkeley DB&#43;sina的一些东西的一个集成，这个东西主要是为了提高持久化对象的访问效率，而不是一个缓存，他的特点是：
+比传统的RDBMS速度快效率高 高并发环境下访问安全可靠，效率很不错 存储的数据比较小 总之：高效、安全的事物机制、memcached的分布式协议支持 是他的几大亮点.
+你可以将一些数据量不大，读写却很频繁的数据放再这里面，而不用往mysql等数据库里写，据说“sohu”的在线用户是存在这里面的，可见这东西还是挺可靠的。 在官方文档里明确指出，只提倡用此数据库保存如下类型的数据：
+Index, Counter, Flags Identity Management(Account, Profile, User config info, Score) Messaging Personal domain name meta data of distributed system Other non-relatonal data …………………..
+即，要求访问数据快、数据量不大，并且需要持久化到数据库中，却不需要sql查询的数据.
+下面我们来说应用： 如果你看过了上一片文章，并且已经成功安装memcachedb的话，那么，现在请启动你的memcachedb,命令如下： memcachedb -p21201 -d -r -u root -f 21201.db -H /data1/demo -N -P /data1/logs/21201.pid 参数说明如下：
+‘-p ’ TCP port number to listen on (default: 21201) tcp侦听端口
+‘-l ’ interface to listen on, default is INDRR ANY 这个不要管他...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-07 16:11:16 +0000 UTC'>December 7, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to memcachedb" href="http://example.org/2009/12/07/memcachedb/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/posts/page/6/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/posts/page/8/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

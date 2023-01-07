@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[转]MySQL与事务 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="[转]MySQL与事务" />
+<meta property="og:description" content="2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-29T12:51:33+00:00" />
+<meta property="article:modified_time" content="2009-03-29T12:51:33+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[转]MySQL与事务"/>
+<meta name="twitter:description" content="2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[转]MySQL与事务",
+      "item": "http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[转]MySQL与事务",
+  "name": "[转]MySQL与事务",
+  "description": "2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：\n这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1.",
+  "keywords": [
+    
+  ],
+  "articleBody": "2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：\n这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1. SELECT book_number FROM book WHERE book_id = 123; 这个时候，甲刚刚进行完第一步的操作，还没来得及做第二步操作，所以book_number一定大于零 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 表面上看甲乙的操作都成功了，他们都买到了书，但是库存只有一本，他们怎么可能都成功呢？再看看数据表里book_number的内容，已经变成“-1”了，这当然是不能允许的（实际上，声明这样的列类型应该加上unsigned的属性，以保证其不能为负，这里是为了说明问题所以没有这样设置） 好了，问题陈述清楚了，再来看看怎么利用事务来解决这个问题，打开MySQL手册，可以看到想用事务来保护你的SQL正确执行其实很简单，基本就是三个语句：开始，提交，回滚。 开始：START TRANSACTION或BEGIN语句可以开始一项新的事务 提交：COMMIT可以提交当前事务，是变更成为永久变更 回滚：ROLLBACK可以回滚当前事务，取消其变更 此外，SET AUTOCOMMIT = {0 | 1}可以禁用或启用默认的autocommit模式，用于当前连接。 那是不是只要用事务语句包一下我们的SQL语句就能保证正确了呢？比如下面代码： BEGIN; SELECT book_number FROM book WHERE book_id = 123; // ... UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; COMMIT; 答案是否定了，这样依然不能避免问题的发生，如果想避免这样的情况，实际应该如下： BEGIN; SELECT book_number FROM book WHERE book_id = 123 FOR UPDATE; // ... UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; COMMIT; 由于加入了FOR UPDATE，所以会在此条记录上加上一个行锁，如果此事务没有完全结束，那么其他的事务在使用SELECT … FOR UPDATE请求的时候就会处于等待状态，直到上一个事务结束，它才能继续，从而避免了问题的发生，需要注意的是，如果你其他的事务使用的是不带FOR UPDATE的SELECT语句，将得不到这种保护。 最后看看PHP + MySQL事务操作的代码演示： 实际LAMP应用中，一般PHP使用AdoDB操作MySQL，下面给出AdoDB相应的代码方便大家查阅： // ... $adodb-\u003estartTrans(); //实际，getOne所调用的查询也可以直接放到rowLock来进行，这里只是为了演示效果能更明显些。 $adodb-\u003erowLock('book', 'book_id = 123'); $bookNumber = $adodb-\u003egetOne(\"SELECT book_number FROM book WHERE book_id = 123\"); $adodb-\u003eexecute(\"UPDATE book SET book_number = book_number - 1 WHERE book_id = 123\"); $adodb-\u003ecompleteTrans(); // ... ?\u003e 其中，rowLock的方法就是调用的FOR UPDATE来实现的行锁，你可能会想把“FOR UPDATE”直接写到$adodb-\u003egetOne()调用的那条SQL语句里面去实现行锁的功能，不错，那样确实可以，但是并不是所有的数据库都使用“FOR UPDATE”语法来实现行锁功能，比如Sybase使用“HOLDLOCK”的语法来实现行锁功能，所以为了你的数据库抽象层保持可移植性，我还是劝你用rowLock来实现行锁功能，至于可移植性就交给AdoDB好了，嗯，有点扯远了，今儿就说到这里了。 附：\nAdoDB中存在一个setTransactionMode()方法，能够设置事务的隔离级别，如下： SetTransactionMode allows you to pass in the transaction mode to use for all subsequent transactions for that connection session. Note: if you have persistent connections and using mysql or mssql, you might have to explicitly reset your transaction mode at the beginning of each page request. This is only supported in postgresql, mssql, mysql with InnoDB and oci8 currently. For example: $db-\u003eSetTransactionMode(\"SERIALIZABLE\"); $db-\u003eBeginTrans(); $db-\u003eExecute(...); $db-\u003eExecute(...); $db-\u003eCommiTrans(); $db-\u003eSetTransactionMode(\"\"); // restore to default $db-\u003eStartTrans(); $db-\u003eExecute(...); $db-\u003eExecute(...); $db-\u003eCompleteTrans(); Supported values to pass in: * READ UNCOMMITTED (allows dirty reads, but fastest) * READ COMMITTED (default postgres, mssql and oci8) * REPEATABLE READ (default mysql) * SERIALIZABLE (slowest and most restrictive) You can also pass in database specific values such as 'SNAPSHOT' for mssql or 'READ ONLY' for oci8/postgres. 本文来自ChinaUnix博客，如果查看原文请点：http://blog.chinaunix.net/u1/38200/showart_1864830.html\n",
+  "wordCount" : "339",
+  "inLanguage": "en",
+  "datePublished": "2009-03-29T12:51:33Z",
+  "dateModified": "2009-03-29T12:51:33Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      [转]MySQL与事务
+    </h1>
+    <div class="post-meta"><span title='2009-03-29 12:51:33 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>2006年08月05日 星期六 下午 02:23
+作者：老王
+MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。
+先来明确一下事务涉及的相关知识：
+事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义：
+原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。
+一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。
+隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。
+持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。
+再来看看哪些问题会用到事务处理：</p>
+<h2 id="在具体分析之前先来看看数据表的定义">这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程：
+在具体分析之前，先来看看数据表的定义：</h2>
+<pre><code>create table book
+(
+    book_id unsigned int(10) not null auto_increment,
+    book_name varchar(100) not null,
+    book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元
+    book_number int(10) not null,
+    primary key (book_id)
+)
+type = innodb; #engine = innodb也行
+</code></pre>
+<hr>
+<h2 id="对于用户甲来说他的动作稍微比乙快一点点其购买过程所触发的动作大致是这样的">对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的：<a hidden class="anchor" aria-hidden="true" href="#对于用户甲来说他的动作稍微比乙快一点点其购买过程所触发的动作大致是这样的">#</a></h2>
+<pre><code>1. SELECT book_number FROM book WHERE  book_id = 123;
+book_number大于零，确认购买行为并更新book_number
+2. UPDATE book SET book_number = book_number - 1 WHERE  book_id = 123;
+</code></pre>
+<h2 id="购书成功">购书成功<a hidden class="anchor" aria-hidden="true" href="#购书成功">#</a></h2>
+<h2 id="而对于用户乙来说他的动作稍微比甲慢一点点其购买过程所触发的动作和甲相同">而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同：<a hidden class="anchor" aria-hidden="true" href="#而对于用户乙来说他的动作稍微比甲慢一点点其购买过程所触发的动作和甲相同">#</a></h2>
+<pre><code>1. SELECT book_number FROM book WHERE  book_id = 123;
+这个时候，甲刚刚进行完第一步的操作，还没来得及做第二步操作，所以book_number一定大于零
+2. UPDATE book SET book_number = book_number - 1 WHERE  book_id = 123;
+</code></pre>
+<h2 id="购书成功-1">购书成功<a hidden class="anchor" aria-hidden="true" href="#购书成功-1">#</a></h2>
+<h2 id="好了问题陈述清楚了再来看看怎么利用事务来解决这个问题打开mysql手册可以看到想用事务来保护你的sql正确执行其实很简单基本就是三个语句开始提交回滚">表面上看甲乙的操作都成功了，他们都买到了书，但是库存只有一本，他们怎么可能都成功呢？再看看数据表里book_number的内容，已经变成“-1”了，这当然是不能允许的（实际上，声明这样的列类型应该加上unsigned的属性，以保证其不能为负，这里是为了说明问题所以没有这样设置）
+好了，问题陈述清楚了，再来看看怎么利用事务来解决这个问题，打开MySQL手册，可以看到想用事务来保护你的SQL正确执行其实很简单，基本就是三个语句：开始，提交，回滚。</h2>
+<pre><code>开始：START TRANSACTION或BEGIN语句可以开始一项新的事务
+提交：COMMIT可以提交当前事务，是变更成为永久变更
+回滚：ROLLBACK可以回滚当前事务，取消其变更
+此外，SET AUTOCOMMIT = {0 | 1}可以禁用或启用默认的autocommit模式，用于当前连接。
+</code></pre>
+<hr>
+<h2 id="那是不是只要用事务语句包一下我们的sql语句就能保证正确了呢比如下面代码">那是不是只要用事务语句包一下我们的SQL语句就能保证正确了呢？比如下面代码：<a hidden class="anchor" aria-hidden="true" href="#那是不是只要用事务语句包一下我们的sql语句就能保证正确了呢比如下面代码">#</a></h2>
+<pre><code>BEGIN;
+SELECT book_number FROM book WHERE  book_id = 123;
+// ...
+UPDATE book SET book_number = book_number - 1 WHERE  book_id = 123;
+COMMIT;
+</code></pre>
+<hr>
+<h2 id="答案是否定了这样依然不能避免问题的发生如果想避免这样的情况实际应该如下">答案是否定了，这样依然不能避免问题的发生，如果想避免这样的情况，实际应该如下：<a hidden class="anchor" aria-hidden="true" href="#答案是否定了这样依然不能避免问题的发生如果想避免这样的情况实际应该如下">#</a></h2>
+<pre><code>BEGIN;
+SELECT book_number FROM book WHERE  book_id = 123 FOR UPDATE;
+// ...
+UPDATE book SET book_number = book_number - 1 WHERE  book_id = 123;
+COMMIT;
+</code></pre>
+<hr>
+<h2 id="实际lamp应用中一般php使用adodb操作mysql下面给出adodb相应的代码方便大家查阅">由于加入了FOR UPDATE，所以会在此条记录上加上一个行锁，如果此事务没有完全结束，那么其他的事务在使用SELECT &hellip; FOR UPDATE请求的时候就会处于等待状态，直到上一个事务结束，它才能继续，从而避免了问题的发生，需要注意的是，如果你其他的事务使用的是不带FOR UPDATE的SELECT语句，将得不到这种保护。
+最后看看PHP + MySQL事务操作的代码演示：
+实际LAMP应用中，一般PHP使用AdoDB操作MySQL，下面给出AdoDB相应的代码方便大家查阅：</h2>
+<pre><code>// ... 
+$adodb-&gt;startTrans(); 
+//实际，getOne所调用的查询也可以直接放到rowLock来进行，这里只是为了演示效果能更明显些。
+$adodb-&gt;rowLock('book', 'book_id = 123'); 
+$bookNumber = $adodb-&gt;getOne(&quot;SELECT book_number FROM book WHERE  book_id = 123&quot;); 
+$adodb-&gt;execute(&quot;UPDATE book SET book_number = book_number - 1 WHERE  book_id = 123&quot;); 
+$adodb-&gt;completeTrans(); 
+// ... 
+?&gt;
+</code></pre>
+<hr>
+<h2 id="其中rowlock的方法就是调用的for-update来实现的行锁你可能会想把for-update直接写到adodb-getone调用的那条sql语句里面去实现行锁的功能不错那样确实可以但是并不是所有的数据库都使用for-update语法来实现行锁功能比如sybase使用holdlock的语法来实现行锁功能所以为了你的数据库抽象层保持可移植性我还是劝你用rowlock来实现行锁功能至于可移植性就交给adodb好了嗯有点扯远了今儿就说到这里了">其中，rowLock的方法就是调用的FOR UPDATE来实现的行锁，你可能会想把“FOR UPDATE”直接写到$adodb-&gt;getOne()调用的那条SQL语句里面去实现行锁的功能，不错，那样确实可以，但是并不是所有的数据库都使用“FOR UPDATE”语法来实现行锁功能，比如Sybase使用“HOLDLOCK”的语法来实现行锁功能，所以为了你的数据库抽象层保持可移植性，我还是劝你用rowLock来实现行锁功能，至于可移植性就交给AdoDB好了，嗯，有点扯远了，今儿就说到这里了。<a hidden class="anchor" aria-hidden="true" href="#其中rowlock的方法就是调用的for-update来实现的行锁你可能会想把for-update直接写到adodb-getone调用的那条sql语句里面去实现行锁的功能不错那样确实可以但是并不是所有的数据库都使用for-update语法来实现行锁功能比如sybase使用holdlock的语法来实现行锁功能所以为了你的数据库抽象层保持可移植性我还是劝你用rowlock来实现行锁功能至于可移植性就交给adodb好了嗯有点扯远了今儿就说到这里了">#</a></h2>
+<p>附：</p>
+<pre><code>AdoDB中存在一个setTransactionMode()方法，能够设置事务的隔离级别，如下：
+SetTransactionMode allows you to pass in the transaction mode to use for all subsequent transactions for that connection session. Note: if you have persistent connections and using mysql or mssql, you might have to explicitly reset your transaction mode at the beginning of each page request. This is only supported in postgresql, mssql, mysql with InnoDB and oci8 currently. For example:
+$db-&gt;SetTransactionMode(&quot;SERIALIZABLE&quot;);
+$db-&gt;BeginTrans();
+$db-&gt;Execute(...); $db-&gt;Execute(...);
+$db-&gt;CommiTrans();
+$db-&gt;SetTransactionMode(&quot;&quot;); // restore to default
+$db-&gt;StartTrans();
+$db-&gt;Execute(...); $db-&gt;Execute(...);
+$db-&gt;CompleteTrans();
+Supported values to pass in:
+    * READ UNCOMMITTED (allows dirty reads, but fastest)
+    * READ COMMITTED (default postgres, mssql and oci8)
+    * REPEATABLE READ (default mysql)
+    * SERIALIZABLE (slowest and most restrictive) 
+You can also pass in database specific values such as 'SNAPSHOT' for mssql or 'READ ONLY' for oci8/postgres. 
+</code></pre>
+<p>本文来自ChinaUnix博客，如果查看原文请点：http://blog.chinaunix.net/u1/38200/showart_1864830.html</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

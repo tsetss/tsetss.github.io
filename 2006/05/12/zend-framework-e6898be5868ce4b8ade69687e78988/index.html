@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Zend Framework 手册中文版 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用 翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。 目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。 如果谁有兴趣参与，非常欢迎，请与我联系 msn &amp; email：haohappy at msn.com (at-&gt;@) 第一章. Zend 目录 1.1. 简介 1.2. Zend::loadFile() 1.3. Zend::loadClass() 1.4. Zend::loadInterface() 1.5. Zend::isReadable() 1.6. Zend::dump() 1.7. Zend::register() 1.8. Zend::registry() 1.1.简介 Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。 1.2. Zend::loadFile() Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。
+loadFile($filename, $dirs=null, $once=false) 参数： 文件，目录(路径)，是否只包含一次 $filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。 $dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注） $once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。 1.3. Zend::loadClass() Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。 (例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注) loadClass($class, $dirs) 参数： 类，目录 如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。 例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件 1.4. Zend::loadInterface() Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。 loadInterface($interface, $dirs) 同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。 1.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/05/12/zend-framework-e6898be5868ce4b8ade69687e78988/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Zend Framework 手册中文版" />
+<meta property="og:description" content="相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用 翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。 目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。 如果谁有兴趣参与，非常欢迎，请与我联系 msn &amp; email：haohappy at msn.com (at-&gt;@) 第一章. Zend 目录 1.1. 简介 1.2. Zend::loadFile() 1.3. Zend::loadClass() 1.4. Zend::loadInterface() 1.5. Zend::isReadable() 1.6. Zend::dump() 1.7. Zend::register() 1.8. Zend::registry() 1.1.简介 Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。 1.2. Zend::loadFile() Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。
+loadFile($filename, $dirs=null, $once=false) 参数： 文件，目录(路径)，是否只包含一次 $filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。 $dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注） $once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。 1.3. Zend::loadClass() Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。 (例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注) loadClass($class, $dirs) 参数： 类，目录 如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。 例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件 1.4. Zend::loadInterface() Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。 loadInterface($interface, $dirs) 同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/05/12/zend-framework-e6898be5868ce4b8ade69687e78988/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-05-12T14:29:54+00:00" />
+<meta property="article:modified_time" content="2006-05-12T14:29:54+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zend Framework 手册中文版"/>
+<meta name="twitter:description" content="相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用 翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。 目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。 如果谁有兴趣参与，非常欢迎，请与我联系 msn &amp; email：haohappy at msn.com (at-&gt;@) 第一章. Zend 目录 1.1. 简介 1.2. Zend::loadFile() 1.3. Zend::loadClass() 1.4. Zend::loadInterface() 1.5. Zend::isReadable() 1.6. Zend::dump() 1.7. Zend::register() 1.8. Zend::registry() 1.1.简介 Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。 1.2. Zend::loadFile() Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。
+loadFile($filename, $dirs=null, $once=false) 参数： 文件，目录(路径)，是否只包含一次 $filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。 $dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注） $once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。 1.3. Zend::loadClass() Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。 (例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注) loadClass($class, $dirs) 参数： 类，目录 如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。 例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件 1.4. Zend::loadInterface() Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。 loadInterface($interface, $dirs) 同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。 1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Zend Framework 手册中文版",
+      "item": "http://example.org/2006/05/12/zend-framework-e6898be5868ce4b8ade69687e78988/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Zend Framework 手册中文版",
+  "name": "Zend Framework 手册中文版",
+  "description": "相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用 翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。 目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。 如果谁有兴趣参与，非常欢迎，请与我联系 msn \u0026amp; email：haohappy at msn.com (at-\u0026gt;@) 第一章. Zend 目录 1.1. 简介 1.2. Zend::loadFile() 1.3. Zend::loadClass() 1.4. Zend::loadInterface() 1.5. Zend::isReadable() 1.6. Zend::dump() 1.7. Zend::register() 1.8. Zend::registry() 1.1.简介 Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。 1.2. Zend::loadFile() Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。\nloadFile($filename, $dirs=null, $once=false) 参数： 文件，目录(路径)，是否只包含一次 $filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。 $dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注） $once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。 1.3. Zend::loadClass() Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。 (例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注) loadClass($class, $dirs) 参数： 类，目录 如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。 例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件 1.4. Zend::loadInterface() Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。 loadInterface($interface, $dirs) 同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。 1.",
+  "keywords": [
+    
+  ],
+  "articleBody": "相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用 翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。 目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。 如果谁有兴趣参与，非常欢迎，请与我联系 msn \u0026 email：haohappy at msn.com (at-\u003e@) 第一章. Zend 目录 1.1. 简介 1.2. Zend::loadFile() 1.3. Zend::loadClass() 1.4. Zend::loadInterface() 1.5. Zend::isReadable() 1.6. Zend::dump() 1.7. Zend::register() 1.8. Zend::registry() 1.1.简介 Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。 1.2. Zend::loadFile() Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。\nloadFile($filename, $dirs=null, $once=false) 参数： 文件，目录(路径)，是否只包含一次 $filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。 $dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注） $once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。 1.3. Zend::loadClass() Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。 (例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注) loadClass($class, $dirs) 参数： 类，目录 如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。 例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件 1.4. Zend::loadInterface() Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。 loadInterface($interface, $dirs) 同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。 1.5. Zend::isReadable() 判定某个文件是否可读，可读则返回true，否则返回false。 isReadable($filename) 这个方法是将PHP函数is_readable()封装而成的， is_readable()不会自动查找include_path下的文件，而Zend::isReadable()可以。 1.6. Zend::dump() Zend::dump()打印和返回某个表达式或变量的信息。它是将var_dump()封装而成的。它默认带上了 (X)HTML的 标签，使输出更美观。 dump($var, $label=null, $echo=true) $label标签参数是用来加在输出信息之前的一段文本。 (这非常有用，例如你一次要查看多个变量的信息，你可以为不同变量设置不同label，如“user”，“password”等等，这样不会弄乱--Haohappy注) dump()总会返回信息，但不一定会输出，这取决于$echo参数，指定是否要将信息输出到屏幕。 1.7. Zend::register() 注册一个对象 register($name, $object) ZendFramework的\"注册表\"是一个提供单件对象(singleton instances)给应用程序的机制. 通过注册一个对象,你可以在你需要时再取得这个对象. $name是对象名称,指定后你可以通过$name来访问这个对象. $name参数必须是一个字符串。在注册库中只能存储对象，对象将不会被删除，而一个对象只能有一个实例。　如果不符合这几个条件，就会抛出一个Zend_Exception异常。 1.8. Zend::registry() 在“对象注册表”中返回一个对象，或者列出所有已经注册的对象 registry($name=null) 如果$name参数为空，会返回一个数组，key为对象名称，value为对象的类名称。 如果$name参数为字符串，将返回相应的对象。如果对象不存在，抛出Zend_Exception异常。 ",
+  "wordCount" : "105",
+  "inLanguage": "en",
+  "datePublished": "2006-05-12T14:29:54Z",
+  "dateModified": "2006-05-12T14:29:54Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/05/12/zend-framework-e6898be5868ce4b8ade69687e78988/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Zend Framework 手册中文版
+    </h1>
+    <div class="post-meta"><span title='2006-05-12 14:29:54 +0000 UTC'>May 12, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>相信Zend Framework对于很多人都有借鉴意义（即使你不支持MVC），我打算花点业余时间把Zend Framework的手册翻译过来。应该对新手，老手都有点用
+翻译的路线是按我自己的的兴趣来安排的呵呵，ZF提供的那些类库，不一定会全部一一说明，因为我觉得大家可能都有自己的类库，不一定要用ZF的。主要还是看看它的框架。
+目前打算在这个版块和我的Blog上同步更新，等全部完成后，打包成chm文档提供下载。
+如果谁有兴趣参与，非常欢迎，请与我联系
+msn &amp; email：haohappy at msn.com (at-&gt;@)
+第一章. Zend
+目录
+1.1. 简介
+1.2. Zend::loadFile()
+1.3. Zend::loadClass()
+1.4. Zend::loadInterface()
+1.5. Zend::isReadable()
+1.6. Zend::dump()
+1.7. Zend::register()
+1.8. Zend::registry()
+1.1.简介
+Zend类是Zend Framework的基类，之所以有这个类是为了使Zend Framework遵循DRY原则（Don’t Repeat Yourself）。这个类只包含静态方法，这些类方法具有Zend Framework中的很多组件都需要的功能。
+1.2. Zend::loadFile()
+Zend::loadFile()用来包含PHP文件。它其实是将PHP的include()函数封装而成的一个静态方法。当包含文件失败时，会抛出异常(Zend_Exception，见后面–Haohappy注)。</p>
+<pre><code>loadFile($filename, $dirs=null, $once=false)
+参数： 文件，目录(路径)，是否只包含一次
+$filename参数指定需要加载的文件，注意$filename不需要指定任何路径，只需要文件名即可。ZF会对文件作安全性检查。$filename只能由字母，数字，连接符-,下划线_及英文句号.组成(半角)。$dir则不限，可以使用中文等。
+$dirs参数用来指定文件所在目录，如果为空，则程序将会到系统的include_path下寻找文件是否存在（include_path可在php.ini中设置–Haohappy注）
+$once参数为布尔类型，只能是true或false，两者区别就和include()和include_once()的区别一样。
+
+
+1.3. Zend::loadClass()
+Zend::loadClass()用来加载一个PHP类文件，这个文件的文件名必须和文件中的类同名。loadClass()会检查文件中的类是否存在。如果文件中的类不存在，那么就会抛出一个Zend_Exception异常。
+(例：TestClass.php中有个类TestClass，使用Zend::loadClass(“TestClass”)就可加载这个类，这种作法类似于Java– Haohappy注)
+loadClass($class, $dirs)
+参数： 类，目录
+如果没有指定$dirs参数，而文件名中存在下划线，那么loadClass()会自动把下划线当成目录分隔符，去相应的目录中去查找文件。
+例如：loadClass(“Zend_Example_Class”) 没指定$dirs参数 ，则 loadClass()会自动到Zend/Example/目录下去查找Class.php文件
+
+1.4. Zend::loadInterface()
+Zend::loadInterface()和Zend::loadClass()的用法是一样的，区别在于loadInterface()是用来加载接口。Zend::loadClass() 不能用来加载接口，因为PHP函数class_exists()不能检查Interface是否存在（PHP 5.0.2之前版本），所以需要用Zend::loadInterface()来代替。
+loadInterface($interface, $dirs)
+同样，如果你没有指定目录，但是文件中含有下划线_，Zend::loadInterface()也会自动到相应目录去寻找文件，这和Zend::loadClass()是一样的。
+1.5. Zend::isReadable()
+判定某个文件是否可读，可读则返回true，否则返回false。
+isReadable($filename)
+这个方法是将PHP函数is_readable()封装而成的， is_readable()不会自动查找include_path下的文件，而Zend::isReadable()可以。
+1.6. Zend::dump()
+Zend::dump()打印和返回某个表达式或变量的信息。它是将var_dump()封装而成的。它默认带上了
+(X)HTML的
+标签，使输出更美观。
+
+
+dump($var, $label=null, $echo=true)
+
+$label标签参数是用来加在输出信息之前的一段文本。
+
+(这非常有用，例如你一次要查看多个变量的信息，你可以为不同变量设置不同label，如“user”，“password”等等，这样不会弄乱--Haohappy注)
+
+dump()总会返回信息，但不一定会输出，这取决于$echo参数，指定是否要将信息输出到屏幕。
+
+1.7. Zend::register()
+
+注册一个对象
+
+
+register($name, $object)
+
+ZendFramework的&quot;注册表&quot;是一个提供单件对象(singleton instances)给应用程序的机制. 通过注册一个对象,你可以在你需要时再取得这个对象.
+
+$name是对象名称,指定后你可以通过$name来访问这个对象.
+
+$name参数必须是一个字符串。在注册库中只能存储对象，对象将不会被删除，而一个对象只能有一个实例。　如果不符合这几个条件，就会抛出一个Zend_Exception异常。
+
+1.8. Zend::registry()
+
+在“对象注册表”中返回一个对象，或者列出所有已经注册的对象
+
+
+registry($name=null)
+
+如果$name参数为空，会返回一个数组，key为对象名称，value为对象的类名称。
+
+如果$name参数为字符串，将返回相应的对象。如果对象不存在，抛出Zend_Exception异常。
+</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

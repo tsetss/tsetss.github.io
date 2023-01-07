@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>linux下的ImageMagick安装方法。 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="linux下的ImageMagick安装方法。
+首先从网上下载 ImageMagick
+官方网址是： www.imagemagick.org
+从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net
+然后下载下来解压缩，
+./configure &ndash;prefix=/usr/local/imagemagick &ndash;enable-lzw &ndash;with-modules &amp;&amp; make &amp;&amp; make install
+基本上这样就可以了。
+默认的就支持jpeg，png等图片
+你也可以加入&ndash;without-xxx来禁止一些选项，具体的就 ./configure &ndash;help | grep without吧。
+ok编译好了，需要的时间漫长的。
+然后就可以测试了。
+/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg
+就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。
+具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 ">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="linux下的ImageMagick安装方法。" />
+<meta property="og:description" content="linux下的ImageMagick安装方法。
+首先从网上下载 ImageMagick
+官方网址是： www.imagemagick.org
+从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net
+然后下载下来解压缩，
+./configure &ndash;prefix=/usr/local/imagemagick &ndash;enable-lzw &ndash;with-modules &amp;&amp; make &amp;&amp; make install
+基本上这样就可以了。
+默认的就支持jpeg，png等图片
+你也可以加入&ndash;without-xxx来禁止一些选项，具体的就 ./configure &ndash;help | grep without吧。
+ok编译好了，需要的时间漫长的。
+然后就可以测试了。
+/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg
+就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。
+具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-06-14T17:54:58+00:00" />
+<meta property="article:modified_time" content="2006-06-14T17:54:58+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux下的ImageMagick安装方法。"/>
+<meta name="twitter:description" content="linux下的ImageMagick安装方法。
+首先从网上下载 ImageMagick
+官方网址是： www.imagemagick.org
+从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net
+然后下载下来解压缩，
+./configure &ndash;prefix=/usr/local/imagemagick &ndash;enable-lzw &ndash;with-modules &amp;&amp; make &amp;&amp; make install
+基本上这样就可以了。
+默认的就支持jpeg，png等图片
+你也可以加入&ndash;without-xxx来禁止一些选项，具体的就 ./configure &ndash;help | grep without吧。
+ok编译好了，需要的时间漫长的。
+然后就可以测试了。
+/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg
+就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。
+具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 "/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "linux下的ImageMagick安装方法。",
+      "item": "http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "linux下的ImageMagick安装方法。",
+  "name": "linux下的ImageMagick安装方法。",
+  "description": "linux下的ImageMagick安装方法。\n首先从网上下载 ImageMagick\n官方网址是： www.imagemagick.org\n从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net\n然后下载下来解压缩，\n./configure \u0026ndash;prefix=/usr/local/imagemagick \u0026ndash;enable-lzw \u0026ndash;with-modules \u0026amp;\u0026amp; make \u0026amp;\u0026amp; make install\n基本上这样就可以了。\n默认的就支持jpeg，png等图片\n你也可以加入\u0026ndash;without-xxx来禁止一些选项，具体的就 ./configure \u0026ndash;help | grep without吧。\nok编译好了，需要的时间漫长的。\n然后就可以测试了。\n/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg\n就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。\n具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 ",
+  "keywords": [
+    
+  ],
+  "articleBody": "linux下的ImageMagick安装方法。\n首先从网上下载 ImageMagick\n官方网址是： www.imagemagick.org\n从官方不好下载，提供 sourceforge的下载地址： imagemagick.sourceforge.net\n然后下载下来解压缩，\n./configure –prefix=/usr/local/imagemagick –enable-lzw –with-modules \u0026\u0026 make \u0026\u0026 make install\n基本上这样就可以了。\n默认的就支持jpeg，png等图片\n你也可以加入–without-xxx来禁止一些选项，具体的就 ./configure –help | grep without吧。\nok编译好了，需要的时间漫长的。\n然后就可以测试了。\n/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg\n就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。\n具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 ",
+  "wordCount" : "37",
+  "inLanguage": "en",
+  "datePublished": "2006-06-14T17:54:58Z",
+  "dateModified": "2006-06-14T17:54:58Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/06/14/linuxe4b88be79a84imagemagicke5ae89e8a385e696b9e6b395e38082/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      linux下的ImageMagick安装方法。
+    </h1>
+    <div class="post-meta"><span title='2006-06-14 17:54:58 +0000 UTC'>June 14, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>linux下的ImageMagick安装方法。</p>
+<p>首先从网上下载 ImageMagick</p>
+<p>官方网址是： <a href="http://www.imagemagick.org">www.imagemagick.org</a></p>
+<p>从官方不好下载，提供 sourceforge的下载地址： <a href="http://imagemagick.sourceforge.net">imagemagick.sourceforge.net</a></p>
+<p>然后下载下来解压缩，</p>
+<p>./configure &ndash;prefix=/usr/local/imagemagick &ndash;enable-lzw &ndash;with-modules &amp;&amp; make &amp;&amp; make install</p>
+<p>基本上这样就可以了。</p>
+<p>默认的就支持jpeg，png等图片</p>
+<p>你也可以加入&ndash;without-xxx来禁止一些选项，具体的就 ./configure &ndash;help | grep without吧。</p>
+<p>ok编译好了，需要的时间漫长的。</p>
+<p>然后就可以测试了。</p>
+<p>/usr/local/imagemagick/bin/convert -quality 90 -resize 100×100 /tmp/origine_image.jpg /tmp/small_100_100.jpg</p>
+<p>就是说将/tmp目录下的origine_image.jpg图片重新缩放成100×100的大小保存在/tmp目录下文件名为small_100_100.jpg，图片质量为90。</p>
+<p>具体更多的，用的时候就知道了，还可以用php把imagemagick编辑成为php的模块 <img loading="lazy" src="http://www.taoer.com/wp-includes/images/smilies/icon_smile.gif" alt=")"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

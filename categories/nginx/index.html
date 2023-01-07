@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+nginx
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/nginx/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/nginx/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+nginx
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/nginx/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+nginx
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+nginx
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx做透明代理
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>resolver 208.67.222.222;
+server { listen 8080; location / { proxy_pass http://$http_host$request_uri; } } 真是简单了，</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-23 14:49:23 +0000 UTC'>September 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx做透明代理" href="http://example.org/2009/09/23/nginxe5819ae9808fe6988ee4bba3e79086/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>spawn-fcgi: no fastcgi application given
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>刚装完spawn-fcgi 起动会遇到这个错误. 修改 spawn-fcgi 起动脚本 spawn_fcgi_app 加个 php-cgi 地址，或在rc.conf 加上也一样</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-08-16 17:32:36 +0000 UTC'>August 16, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to spawn-fcgi: no fastcgi application given" href="http://example.org/2009/08/16/spawn-fcgi-no-fastcgi-application-given/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>spawn-fcgi 独立出来了,不错
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原来一直用php-fpm ,但是更新好像不太及时,上次改了半天ports 才通过编译
+/usr/ports/www/spawn-fcgi 以后可以用这个了,但重要载入php.ini 要重起</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-06-19 06:56:44 +0000 UTC'>June 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to spawn-fcgi 独立出来了,不错" href="http://example.org/2009/06/19/spawn-fcgi-e78bace7ab8be587bae69da5e4ba86e4b88de99499/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx freebsd 官方网站优化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>OS &amp; Hardware FreeBSD 7.1 AMD64, dual-core CPU 4GB RAM Purpose Web server &amp; reverse proxy Load description 45K inactive keep-alive connections HTTP request is about 5,000 req/s, mostly small static files, all are cached by VM System config /boot/loader.conf:
+vm.kmem_size=1844M kern.maxbcache=64M kern.ipc.maxpipekva=4M /etc/sysctl.conf:
+kern.ipc.nmbjumbop=192000 kern.ipc.nmbclusters=229376 kern.ipc.maxsockets=204800 net.inet.tcp.maxtcptw=163840 kern.maxfiles=204800 kern.ipc.somaxconn=4096 Retrieved from “http://wiki.nginx.org/FreeBSDOptimizations&#34;</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-31 22:13:29 +0000 UTC'>May 31, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx freebsd 官方网站优化" href="http://example.org/2009/05/31/nginx-freebsd-e5ae98e696b9e7bd91e7ab99e4bc98e58c96/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd下 nginx 日志每天分割
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>#!/bin/sh date today=date &#43;&#34;%Y_%m_%d&#34; logdir=/pub/log daydir=/pub/log/$today expdays=7 if [ ! -d $daydir ] ; then mkdir -p $daydir fi
+cp /pub/log/wwwlogs.log $daydir/wwwlogs.log #清空当前日志 /usr/bin/true &gt; /pub/log/wwwlogs.log #删除7天前的过期文件 #find $daydir -type d -mtime &#43;$expdays -maxdepth 1 | xargs rm -rf #每天12点运行 #0 0 * * * /cut_nginx_log.sh </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-13 18:42:06 +0000 UTC'>May 13, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd下 nginx 日志每天分割" href="http://example.org/2009/05/13/freebsde4b88b-nginx-e697a5e5bf97e6af8fe5a4a9e58886e589b2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx 绑定多域名跳转问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如 server_name 是 andsky.com www.andsky.com
+www.andsky.com 會自動轉到 andsky.com
+用以下方法可以解决
+if (-d $request_filename){ rewrite ^/(.*)([^/])$ http://$host/$1$2/ permanent; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-04 15:49:44 +0000 UTC'>April 4, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx 绑定多域名跳转问题" href="http://example.org/2009/04/04/nginx-e7bb91e5ae9ae5a49ae59f9fe5908de8b7b3e8bdace997aee9a298/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>nginx echsop rewrite规则
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>从网上搜索到的规则,但不能用,修改了一下,
+rewrite ^/index.html$ /index.php; rewrite ^/category$ /index.php; rewrite ^/feed-c([0-9]&#43;).xml$ /feed.php?cat=$1; rewrite ^/feed-b([0-9]&#43;).xml$ /feed.php?brand=$1; rewrite ^/feed.xml$ /feed.php; rewrite ^/category-([0-9]&#43;)-b([0-9]&#43;)-min([0-9]&#43;)-max([0-9]&#43;)-attr([^-]*)-([0-9]&#43;)-(.&#43;)-([a-zA-Z]&#43;)(.*).html$ /category.php?id=$1&amp;brand;=$2&amp;price;_min=$3&amp;price;_max=$4&amp;filter;_attr=$5&amp;page;=$6&amp;sort;=$7&amp;order;=$8; rewrite ^/category-([0-9]&#43;)-b([0-9]&#43;)-min([0-9]&#43;)-max([0-9]&#43;)-attr([^-]*)(.*).html$ /category.php?id=$1&amp;brand;=$2&amp;price;_min=$3&amp;price;_max=$4&amp;filter;_attr=$5; rewrite ^/category-([0-9]&#43;)-b([0-9]&#43;)-([0-9]&#43;)-(.&#43;)-([a-zA-Z]&#43;)(.*).html$ /category.php?id=$1&amp;brand;=$2&amp;page;=$3&amp;sort;=$4&amp;order;=$5; rewrite ^/category-([0-9]&#43;)-b([0-9]&#43;)-([0-9]&#43;)(.*).html$ /category.php?id=$1&amp;brand;=$2&amp;page;=$3; rewrite ^/category-([0-9]&#43;)-b([0-9]&#43;)(.*).html$ /category.php?id=$1&amp;brand;=$2; rewrite ^/category-([0-9]&#43;)(.*).html$ /category.php?id=$1; rewrite ^/goods-([0-9]&#43;)(.*).html$ /goods.php?id=$1; rewrite ^/article_cat-([0-9]&#43;)-([0-9]&#43;)-(.&#43;)-([a-zA-Z]&#43;)(.*).html$ /article_cat.php?id=$1&amp;page;=$2&amp;sort;=$3&amp;order;=$4; rewrite ^/article_cat-([0-9]&#43;)-([0-9]&#43;)(.*).html$ /article_cat.php?id=$1&amp;page;=$2; rewrite ^/article_cat-([0-9]&#43;)(.*).html$ /article_cat.php?id=$1; rewrite ^/article-([0-9]&#43;)(.*).html$ /article.php?id=$1; rewrite ^/brand-([0-9]&#43;)-c([0-9]&#43;)-([0-9]&#43;)-(.&#43;)-([a-zA-Z]&#43;).html /brand.php?id=$1&amp;cat;=$2&amp;page;=$3&amp;sort;=$4&amp;order;=$5; rewrite ^/brand-([0-9]&#43;)-c([0-9]&#43;)-([0-9]&#43;)(.*).html /brand.php?id=$1&amp;cat;=$2&amp;page;=$3; rewrite ^/brand-([0-9]&#43;)-c([0-9]&#43;)(.*).html /brand.php?id=$1&amp;cat;=$2; rewrite ^/brand-([0-9]&#43;)(.*).html /brand.php?id=$1; rewrite ^/tag-(.*).html /search.php?keywords=$1; rewrite ^/snatch-([0-9]&#43;).html$ /snatch.php?id=$1; rewrite ^/group_buy-([0-9]&#43;).html$ /group_buy.php?act=view&amp;id;=$1; rewrite ^/auction-([0-9]&#43;)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-03 12:19:40 +0000 UTC'>April 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx echsop rewrite规则" href="http://example.org/2009/04/03/nginx-echsop-rewrite/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>If you’re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and “Too many connections” errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a “persistent” connection to the database. From the documentation: “the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect())....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-28 15:16:29 +0000 UTC'>March 28, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)" href="http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记得自己每一次知道nginx 还是在 群里讨论张老师的文章
+他的最新文章 Nginx 0.7.x &#43; PHP 5.2.8（FastCGI）搭建胜过Apache十倍的Web服务器（第4版）[原创] http://blog.s135.com/post/366/
+我自己是在 freebsd 7.0服务器上 硬件配置
+Intel(R) Xeon(R) CPU E5410 @ 2.33GHz *2 内存 4G sas 146 * 2 raid1 基本和张老师的配置差不多，
+nginx 配置
+user www www; worker_processes 8; #error_log logs/error.log; #error_log logs/error.log notice; #error_log logs/error.log info; #pid logs/nginx.pid; worker_rlimit_nofile 200000; events { worker_connections 200000; #use kqueue; } php-cgi 开启 128 进程
+实际结果， nginx 也许处理静态页面可以达到3W并发，但是如是果php 得估计不行，我自己用 webbench 开起1W连接，本机差点没死，但此时 php页面打开已经相当的慢了，但status 速度仍然很快，说明nginx 的承载能力确实很强，但php处理这块依然是最大的瓶颈,此文只是本人自己测试,也许是本本配置系统有问题,导致达不到3W并发!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-25 08:54:05 +0000 UTC'>March 25, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 关于Nginx&#43;PHP fastcgi 胜过Apache十倍 自己验证" href="http://example.org/2009/03/25/e585b3e4ba8enginxphp-fastcgi-e8839ce8bf87apachee58d81e5808d-e887aae5b7b1e9aa8ce8af81/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>NginxSimplePythonFCGI
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Dispatching TurboGears Python via FCGI This confirmed to run on Mac OS X 10.4.7 under Turbogears 0.9.9 and 1.1a (so, no reason not to run under the 1.0b release).
+Information was drawn from the Turbogears trac wiki (http://trac.turbogears.org/turbogears/wiki/NginxIntegration) which show how to use Nginx to proxy to TG, and the nearby [NginxFcgiExample] page, the latter detailing the PHP/FCGI process.
+This is for Nginx/FCGI/Turbogears
+Conventions Substitute thoughout with the values relevant to your own set-up:...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 11:20:53 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to NginxSimplePythonFCGI" href="http://example.org/2009/03/24/nginxsimplepythonfcgi/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/nginx/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

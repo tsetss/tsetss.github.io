@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>trackback 有罪
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者: sadly 出自: http://www.phpx.com
+昨天 4ngle 找俺 要俺帮他测试一下trackback防spam的功能：（ 好无聊，原来的那些js早没了，随便套了一个php的httpclient类库给他写了一个， 发现他的程序效果还是不错的。
+我不晓得机制是什么样，我再说一点点。 trackback 和 comment 是不有同的，对吗？ 往下看～
+不知到有没有人考虑过，trackback应该从哪里发出来？ 如果我在一篇blog里引用了你的文章，要对你发出trackback， 那么通常向你的服务器发trackback的应该是我的BSP的服务器， 它的ip地址和trackback里面url的ip地址应该是有一致性的吧？
+如果有一个trackback发出的 ip 地址是 202.108.1.1 , url是 www.abc.com/blog/1.html 但 www.abc.com 的ip地址是 203.121.1.1 那很显然，它大概是伪造的。
+如果你在用一个很大的BSP，那么不排除这种可能性， username0.bsp.com的ip地址是 202.108.1.1 username3.bsp.com的ip地址是 202.108.1.2 username5.bsp.com的ip地址是 202.108.1.3 而系统发trackback的时候使用的是 202.108.1.5 ，因为大的集群里由于负载均衡等等的需要可能 会存在这种分工，进出的ip不一样，但是他们的差异会有多大呢？
+多动脑子，少动嘴：） trackback 没有罪， 开放也没有罪， 但是不爱思考的程序员有罪。
+刚刚在dreamhost测试了一下～ www..com 的ip地址是 64.111××× 而 www..name 的ip地址是 208.××× 用同样的wordpress程序测试，得到的服务器出口的ip是 64.111.*** ，还好，出口的ip是一致的。
+如果改用白名单来控制哪些BSP / IP地址是可信的，那效果估计比过滤关键词，ip，网址之类的要 轻松不少吧， 还有上次说过那个问题 §时间§</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 21:43:46 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to trackback 有罪" href="http://example.org/2006/04/15/trackback-e69c89e7bdaa/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>从trackback说起
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&lt;终止id;$i&#43;&#43;) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 21:36:58 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 从trackback说起" href="http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>把握网站在搜索引擎中的资源
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>很多网站管理者每天只知道分析网站的流量，这样的工作对于提升自己的网站的流量来说是很不足够的。
+现在随着网站数量的剧增，搜索引擎的作用也就越来越引起重视了，我觉得有必要告诉大家的是，从搜索引擎引入的流量才是你网站的稳定的核心流量，因此我们有必要研究搜索引擎。
+记住这么一个原则，你在搜索引擎中搜索结果的排名是和通过此结果进入你网站的访问者的数量成正比的。这里我给大家说出这么一个经验说法，在搜索结果中排名为前10位的网站大约能够截走百分之六十的流量，排名为11-20的网站大约能截走百分之三十的流量，那么剩下的网站就在分享剩余的流量了。
+在这里我给大家提出这么一个概念-搜索引擎刷新频率。什么是搜索引擎刷新频率？也就是你的网站信息被搜索引擎蜘蛛捕捉的频率很高，从而搜索引擎给你的网站很快刷新，这个刷新频率也即是搜索引擎刷新频率。搜索引擎刷新频率在搜索引擎结果里并没有直观得表现出来的，这个需要我们认为的去分析，怎么去分析呢？其实很简单，每个搜索引擎结果后面都跟了一个日期，大家在一段时间里只需要跟踪这个日期数据就可以了，看看这个日期是不是每天连续的和持续的发生变化就可以了，如果是每天都会变化，那就说明网站的搜索引擎刷新频率很高。
+网站的搜索引擎刷新频率很高，这会给你的网站在搜索引擎结果里的排名带来很大的优势的，说直白一点就是它能提升你的网站在搜索引擎里的排名。
+当然也有很多站长已经注意到了这个问题了，但是我发现他们的做法很有局限。很多人只是一味地在关注网站首页的刷新频率，其实在他的很多站点里其他的页面的刷新频率要比首页快得多。
+所以这里我要提出我的一个观点，研究网站在搜索引擎中的形势，要基于一种从整体的角度出发想法，片面的热衷于首页可行度会有很大的折扣的。
+怎么样来观察整个网站在搜索引擎中的刷新频率？
+使用一个命令：site:网站域名（最好是去掉WWW）譬如： site:youdoman.com
+然后你可以在搜索结果中看到搜索引擎已经收录你的网站的页面的最后依次更新日期，然后花上一段时间跟踪这些数据，看看有那些页面的刷新频率更快。
+如何利用这些刷新频率快的页面？ 请不要盗链,内容来自www.chinahtml.com ,打造中国站长技术乐园 你网站中的刷新频率较快的页面对于各位站长来说是很重要的资源，只是大家都没有重视而已，那么下面我就来告诉大家，怎么去有效地去利用这些资源。搜索引擎之所以能自动抓取数量巨多的网页就是通过超级连接来实现的，刷新频率较高的网页是很受搜索引擎重视的，所以它上面的一些连接信息是很容易被搜索引擎抓取的。 中国站长资讯网,中国站长第一门户 1、均衡网站整体刷新频率
+其实我们可以通过在刷新频率较快的页面上来有目的布入其他刷新不是很快的页面的连接，这样可以通过刷新频率快的页面带动刷新频率不是很快的页面刷新频率，这样有助于整体提高网站的刷新频率，从而有效提升网站的页面在搜索引擎结果中的排名，当然这样良性循环造成的一个结果就是-你网站的访问量会增加！
+2、加强其他网站的搜索引擎登陆效果 中国站长资讯网,中国站长第一门户 我想很多人都不止拥有一个网站，但是有一个问题都很困惑他们，为什么有的网站能快速进入搜索引擎，但是有的却进入速度很慢？很多人采用的是从搜索引擎提供的入口登陆，一般来说登陆效果不是很明显。其实搜索引擎已经给大家提供了一个很明显的说明，去寻求友情连接吧。我的建议是，与其从搜索引擎提供的登陆入口登陆，还不如让一些在搜索引擎里刷新频率快的页面给你的其他网站做个连接！
+看了这篇文章有所收益么？赶紧行动吧，去发现并有效利用你网站在搜索引擎中既有的但是还未曾被你注意的资源吧</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 18:11:42 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 把握网站在搜索引擎中的资源" href="http://example.org/2006/04/15/e68a8ae68fa1e7bd91e7ab99e59ca8e6909ce7b4a2e5bc95e6938ee4b8ade79a84e8b584e6ba90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>中文搜索引擎技术揭密：排序技术
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>随着“眼球经济”席卷互联网，成千上万的资金迅速流向最能吸引浏览着眼球的搜索引擎市场。有大量调查显示搜索引擎市场正处在高速发展时期，成为了未来几年内最具发展潜力的产业之一。随着Google、百度、中国搜索等各具特色的搜索引擎逐渐成为人们最常用的网络工具，企业对搜索引擎的注意力也从“观察”升级为“动武”。 随着市场容量和使用者人数的不断激增，如何完善搜索功能使之更加公平、公开、标准和人性化也就随之成为了一个备受关注的话题。但是有一个矛盾体在这其中不断的显现出来：收费可以为搜索引擎公司带来利润，但同时会降低访问者的体验满意度。如何权衡金钱和用户需求之间的天平呢？ Google成功的秘密 到2004年为止，Google（http://www.google.com）已经连续两年被评为全球第一品牌，Google成立仅五年时间，最初只是两个斯坦福大学学生的研究项目。这不能不说是一个奇迹，就像比尔•盖茨创制奇迹一样。比尔•盖茨能创造奇迹，是因为他看准了个人计算机软件市场的趋势，所以创建的公司叫Microsoft（微软）：Micro（小）Soft（软件）。那么Google呢？在 Google出来之前已经有一些很有成就的搜索引擎公司，其实力也很强，看来不只是Google看见了搜索的趋势。Google究竟成功的秘密在哪儿？ Google 的成功有许多因素，最重要的是Google对搜索结果的排序比其它搜索引擎都要好。Google保证让绝大部分用搜索的人，都能在搜索结果的第一页找到他想要的结果。客户得到了满足，下一次还过来，而且会向其他人介绍，这一来一往，使用的人就多了。所以Google在没有做任何广告的前提下，让自己成为了全球最大的品牌。Google究竟采用了哪种排序技术？PageRank，即网页级别。 Google有一个创始人叫Larry Page，据说PageRank的专利是他申请的，于是依据他的名字就有了Page Rank。国内也有一家很成功的搜索引擎公司，叫百度（http://www.baidu.com）。百度的创始人李彦宏说，早在1996年他就申请了名为超链分析的专利，PageRank的原理和超链分析的原理是一样的，而且PageRank目前还在Paten-pending（专利申请中）。言下之意是这里面存在专利所有权的问题。这里不讨论专利所有权，只是从中可看出，成功搜索引擎的排序技术，就其原理上来说都差不多，那就是链接分析。超链分析和 PageRank都属于链接分析。 链接分析到底为何物？由于李彦宏的超链分析没有具体的介绍，笔者唯一看过的就是在美国专利局网站上关于李彦宏的专利介绍。PageRank的介绍倒是不少，而且目前Google毕竟是全球最大的搜索引擎，这里以PageRank为代表，详细介绍链接分析的原理。 PageRank揭密 PageRank 的原理类似于科技论文中的引用机制：谁的论文被引用次数多，谁就是权威。说的更白话一点：张三在谈话中提到了张曼玉，李四在谈话中也提到张曼玉，王五在谈话中还提到张曼玉，这就说明张曼玉一定是很有名的人。在互联网上，链接就相当于“引用”，在B网页中链接了A，相当于B在谈话时提到了A，如果在C、D、 E、F中都链接了A，那么说明A网页是最重要的，A网页的PageRank值也就最高。 如何计算PageRank值有一个简单的公式： 其中：系数为一个大于0，小于1的数。一般设置为0.85。网页1、网页2至网页N表示所有链接指向A的网页。 由以上公式可以看出三点： 1、链接指向A的网页越多，A的级别越高。即A的级别和指向A的网页个数成正比，在公式中表示，N越大， A的级别越高； 2、链接指向A的网页，其网页级别越高， A的级别也越高。即A的级别和指向A的网页自己的网页级别成正比，在公式中表示，网页N级别越高， A的级别也越高； 3、链接指向A的网页，其链出的个数越多，A的级别越低。即A的级别和指向A的网页自己的网页链出个数成反比，在公式中现实，网页N链出个数越多，A的级别越低。 每个网页有一个PageRank值，这样形成一个巨大的方程组，对这个方程组求解，就能得到每个网页的PageRank值。互联网上有上百亿个网页，那么这个方程组就有上百亿个未知数，这个方程虽然是有解，但计算毕竟太复杂了，不可能把这所有的页面放在一起去求解的。对具体的计算方法有兴趣的朋友可以去参考一些数值计算方面的书。 总之，PageRank有效地利用了互联网所拥有的庞大链接构造的特性。从网页A导向网页B的链接，用Google创始人的话讲，是页面A对页面B的支持投票，Google根据这个投票数来判断页面的重要性，但Google除了看投票数（链接数）以外，对投票者（链接的页面）也进行分析。「重要性」高的页面所投的票的评价会更高，因为接受这个投票页面会被理解为「重要的物品」。从新浪、雅虎、微软的首页都有我网页的三个链接的话，可能比我在其他网站找三十个链接还强。如果还有人不理解这个原理，就去想想有句成语叫：三人成虎。如果有三个人都说北京大街上有老虎，那么许多人会认为有老虎，如果这三个人都是国家领导人的话，那么所有人都会认为北京大街上有老虎。 每个网页都会有PageRank值，如果大家想知道自己网站的网页PageRank值是多少，最简单的办法就是下载一个Google的免费工具栏（http://toolbar.google.com/）， 每当你打开一个网页，都可以很清楚的看见此网页的PageRank值。当然这个值是一个大概数字。 据Google技术负责人介绍，Google除了用PageRank衡量网页的重要程度以外，还有其它上百种因素来参与排序。其它搜索引擎也是如此，不可能按照某一种规则来进行搜索结果的排序。 其他方法 HillTop算法： HillTop 同样是一项搜索引擎结果排序的专利，是Google的一个工程师Bharat在2001年获得的专利。Google的排序规则经常在变化，但变化最大的一次也就是基于HillTop算法进行了优化。HillTop究竟原理如何，值得Google如此青睐？ 其实HillTop算法的指导思想和PageRank的是一致的，都是通过网页被链接的数量和质量来确定搜索结果的排序权重。但HillTop认为只计算来自具有相同主题的相关文档链接对于搜索者的价值会更大：即主题相关网页之间的链接对于权重计算的贡献比主题不相关的链接价值要更高。如果网站是介绍“服装”的，有10个链接都是从“服装”相关的网站链接过来，那这10个链接比另外10个从“电器”相关网站链接过来的贡献要大。Bharat称这种对主题有影响的文档为“专家”文档，从这些专家文档页面到目标文档的链接决定了被链接网页“权重得分”的主要部分。 与PageRank结合HillTop算法确定网页与搜索关键词的匹配程度的基本排序过程取代了过份依靠PageRank的值去寻找那些权威页面的方法。这对于两个具有同样主题而且PR相近的网页排序过程中， HillTop算法就显得非常的重要了。HillTop同时也避免了许多想通过增加许多无效链接来提高网页PageRank值的做弊方法。 锚文本（Anchor Text） 锚文本名字听起来难以理解，实际上锚文本就是链接文本。例如，在个人网站上把中央电视台（www.cctv.com）做为新闻频道的链接，访问者通过点击网站上的“新闻频道”就能进入http://www.cctv.com网站，那么“新闻频道”就是中央电视台网站首页的锚文本。 锚文本可以做为锚文本所在的页面的内容的评估。正常来讲，页面中增加的链接都会和页面本身的内容有一定的关系。服装的行业网站上会增加一些同行网站的链接或者一些做服装的知名企业的链接；另一方面，锚文本能做为对所指向页面的评估。锚文本能精确的描述所指向页面的内容，个人网站上增加Google的链接，锚文本为 “搜索引擎”。这样通过锚文本本身就能知道，Google是搜索引擎。 锚文本对搜索引擎起的作用还表现为可以收集一些搜索引擎不能索引的文件。例如，网站上增加了一张张曼玉的照片，格式为jpg文件，搜索引擎目前很难索引（一般只处理文本）。若这张照片链接的锚文本为“张曼玉的照片”，那么搜索引擎就能识别这张图片是张曼玉的照片，以后访问者搜索“张曼玉”的时候，这张图片就能被搜索到。 由此可见，在网页设计中选择合适的锚文本，会让所在网页和所指向网页的重要程度有所提升。 页面版式 每个网页都有版式，包括标题、字体、标签等等。搜索引擎也会利用这些版式来识别搜索词与页面内容的相关程度。以静态的html格式的网页为例，搜索引擎通过网络蜘蛛把网页抓取下来后，需要提取里面的正文内容，过滤其他html代码。在提取内容的时候，搜索引擎就可以记录所有版式信息，包括：哪些词是在标题中出现，哪些词是在正文中出现，哪些词的字体比其他的字体大，哪些词是加粗过，哪些词是用KeyWord标识过的等等。这样在搜索结果中就可以根据这些信息来确定所搜索的结果和搜索词的相关程度。例如搜索“毛泽东”，假如有两个结果，一篇文章标题是《毛泽东的一生》，另一篇文章的标题是《江青的一生》但内容有提到毛泽东，这时搜索引擎会认为前者比较重要，因为“毛泽东”在标题里出现了。 因此，合理的利用网页的页面版式，会提升网页在搜索结果页的排序位置。 收费排名 应该说收费排名并不属于排序技术（这里指的收费排名也包括竞价排名），而是一种搜索引擎的赢利模式。但收费排名已经最直接的影响到了搜索引擎的排序，在此也略做说明。 用户可以购买某个关键词的排名，只要向搜索引擎公司交纳一定的费用，就可以让用户的网站排在搜索结果的前几位，按照不同关键词、不同位置、时间长短来定义价格。价格从几千元到几十万元不等（像“六合彩”在3721上的排名费用大多是几十万）。 收费排名一方面给搜索引擎公司带来收益，一方面给企业带来访问量，另外对访问者也有一定好处。因为访问者想找“西服”，企业想卖“西服”，于是出钱让访问者能找到他，这样，买家和卖家能马上见面。但收费排名给访问者带来更多的却是不真实，结果排序已经失去了公正性，有时候还带来大量垃圾。在百度搜索引擎上搜索“星球”，排在第一位的是一家做石墨的公司，排在第二位的居然是“想找星球？上易趣吧！”（见下图）。真有些让访问者哭笑不得。
+当然，对于企业来说，收费排名是提升网站在搜索引擎中排名的最直接和最简单的办法。如今，如何提升网页在搜索引擎中的排序，已经形成了一门职业，叫SEO （Search Engine Optimization），即搜索引擎优化。SEO是针对搜索引擎排序的技术，通过修改网页（或者网站）结构和主动增加网站链接等方法来让搜索引擎认为这些网页是很重要的，从而提升网页在搜索引擎结果中的排序。 排序技术的发展趋势 各种搜索引擎的技术改进和优化，都直接反应到搜索结果的排序上。许多搜索引擎都在进一步研究新的排序方法，来提升客户的满意度。专业人士认为，目前的搜索引擎排序算法上还存在两大不足。 一、没有真正解决相关性。相关性是指搜索词和页面的相关程度。仅仅通过链接、字体、位置等表面特征，不能真正判断搜索词和文章的相关性，更何况许多时候这些特征不会都同时存在。这也是许多对搜索引擎做弊方法能有效的原因。另外，有些文章中没有出现搜索词，但说的就是和搜索词十分相关的内容，例如搜索“恐怖分子”，但有网页是介绍本拉登的一些破坏行动，文中没有出现“恐怖分子”的子眼，搜索引擎就无法搜索到该网页。表面特征只能治标，不能治本。治本的方法应该是增加语意理解，例如主题词和关键词的提取，从语意上分析，得出搜索词和网页的相关程度，分析的越准，效果就会越好。 中国站长资讯网,中国站长第一门户 二、搜索结果的单一化。在搜索引擎上，任何人搜索同一个词的结果都是一样。这样明显不能满足访问者。科学家搜索“星球”，可能是希望了解星球的知识，但普通人可能是想找“星球大战”电影，但搜索引擎所给的都是一样的结果。如何满足这些不同类型的访问者，需要对搜索结果的个性化。国外vivisimo公司（http://www.vivisimo.com）就是想解决这个问题，他们采用对搜索结果自动聚类的办法来满足不同类型客户的需要。搜索结果排序如果要实现从单一化到个性化，vivisimo已经迈出了一步，但最理想的结果应该是针对每个访问者，排序结果直接和他们的搜索习惯和意愿有关。搜索“体育”，对喜欢足球的人应该把足球的相关结果排在前面，对喜欢篮球的人应该把篮球的相关结果排在前面。 中国站长资讯网,中国站长第一门户 搜索引擎的排序技术应该也会朝着解决这两个不足的方向发展：语意相关性和排序个性化。前者需要完善的自然语言处理技术，后者需要记录庞大访问者信息和复杂的计算，要达到其中任何一个的要求均非易事，如何解决这些难题，任务落在了科学家和工程师们的肩上，哪个搜索引擎解决了这些问题，她可能会称为下一个搜索世界的霸主。</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 18:10:35 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 中文搜索引擎技术揭密：排序技术" href="http://example.org/2006/04/15/e4b8ade69687e6909ce7b4a2e5bc95e6938ee68a80e69cafe68fade5af86efbc9ae68e92e5ba8fe68a80e69caf/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>刚刚在286看到的，好长时间没笑了呀
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>从前有位秀才，某天随太太回娘家，向岳父拜寿，
+因一时高兴多喝了几杯，当场醉倒，被送回书房休息。
+没多久，他的小姨子到书房拿东西，见姐夫睡的枕头掉地上，
+便替他捡起来，顺手扶起他的脖子，想替他枕好，
+没想到秀才人醉心不醉，一见机会难得，便拉着小姨子不放.
+小姨子用力挣脱后，愤怒之余，就在墙上题诗以泄愤：
+[好心来扶枕，为何拉我衣？若非姊姊面，一定是不依。该死！该死！
+秀才等小姨子走后，下床一看，觉得很不好意思，便题诗辩白：
+[贴心来扶枕，醉心拉你衣，只当是我妻，不知是小姨。失礼！失礼！ ]
+秀才题完后再睡，其妻见墙上诗句，不禁醋火中烧，也题诗一首：
+[有意来扶枕，有心拉她衣，墙上题诗句，都是骗人地。彼此！彼此！ ]
+不久，小舅子也看到，不觉技痒，也提了一首：
+[清心来扶枕，熏心拉她衣，姊妹虽一样，大的是你妻。清醒！清醒！ ]
+后来被岳父发现，不禁大怒，也提一首诗，以作警告：
+[不该来扶枕，不该拉她衣，两个都有错，下次不可以。切记！切记！ ]
+岳母因心疼女婿，只得题诗一首诗，来打圆场：
+[既已来扶枕，也已拉她衣，姐夫戏小姨，本来不稀奇。别提！别提！ ]
+【原版】
+续一：
+小姨的未婚夫看到后，也气愤的题了一首：
+可怜来扶枕，居然拉她衣，你敢戏小姨，我要戏你妻。公平！公平！
+续二：
+秀才自己的老爸看到后，也题了一首：
+应该来扶枕，也可拉她衣，反正大已娶，多个更便宜！努力，努力！
+续三：
+秀才的老妈看到老头子题的后，觉得老头子的想法很好，也题了一首：
+既然来扶枕，拼命拉她衣。一个好洗碗，一个去拖地！幸福，幸福！
+续四：
+路人甲：
+既无人扶枕，如何来拉衣，偶想戏小姨，可惜还无妻。着急！着急！
+续五：
+路人乙：
+无人来扶枕，何处拉她衣。小子本无妻，还想戏小姨！做梦，做梦！
+续六：
+路人丙：
+小姨来扶枕，我就拉她衣。不只是小姨，还戏小小姨！加油，加油！
+续七：
+路人丁：
+贤妻来扶枕，随便拉她衣。如果娶贤妻，何处戏小姨？郁闷！郁闷！
+路人辛：
+贤妻来扶枕，只有拉她衣。贤妻无姐妹，何处戏小姨？可惜！可惜！
+路人戊：
+秀才系人妖，木有小JJ，如若能接上，定能戏小姨。可悲，可悲！
+路人己：
+医学真神奇，秀才你莫急，接个狗东西，照样戏小姨。简单！简单！
+谁人来扶枕，谁人拉她衣。既非亲眼见，和来戏小姨。谣言！谣言！
+快去扶他枕，快来拉她衣。贤妻床边坐，观夫戏小姨。3P！3P！
+来北京好长时间了
+但不知道怎么回事没有几件高兴的事</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-11 11:28:08 +0000 UTC'>April 11, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 刚刚在286看到的，好长时间没笑了呀" href="http://example.org/2006/04/11/e5889ae5889ae59ca8286e79c8be588b0e79a84efbc8ce5a5bde995bfe697b6e997b4e6b2a1e7ac91e4ba86e59180/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>SQL语句时间查询
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>from_unixtime(date, ‘%Y%m%d’) = $date</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-10 10:36:00 +0000 UTC'>April 10, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to SQL语句时间查询" href="http://example.org/2006/04/10/sqle8afade58fa5e697b6e997b4e69fa5e8afa2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>sql函数截取字符串！
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Select Substring(xx,1,2) from TABLE
+select left(xx,2) from TABLE</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-10 08:06:22 +0000 UTC'>April 10, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to sql函数截取字符串！" href="http://example.org/2006/04/10/sqle587bde695b0e688aae58f96e5ad97e7aca6e4b8b2efbc81/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>MySQL实现表中取出随机数据
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>SELECT * FROM table_name ORDER BY rand() LIMIT 5;
+rand在手册里是这么说的: RAND() RAND(N) 返回在范围0到1.0内的随机浮点值。如果一个整数参数N被指定，它被用作种子值。
+mysql&gt; select RAND(); -&gt; 0.5925 mysql&gt; select RAND(20); -&gt; 0.1811 mysql&gt; select RAND(20); -&gt; 0.1811 mysql&gt; select RAND(); -&gt; 0.2079 mysql&gt; select RAND(); -&gt; 0.7888 你不能在一个ORDER BY子句用RAND()值使用列，因为ORDER BY将重复计算列多次。然而在MySQL3.23中，你可以做： SELECT * FROM table_name ORDER BY RAND()，这是有利于得到一个来自SELECT * FROM table1,table2 WHERE a=b AND cSELECT * FROM table_name AS r1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM table_name)) AS id) AS r2 WHERE r1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-03 11:58:38 +0000 UTC'>April 3, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL实现表中取出随机数据" href="http://example.org/2006/04/03/mysqle5ae9ee78eb0e8a1a8e4b8ade58f96e587bae99a8fe69cbae695b0e68dae/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>今天才知道INT的最大数是多少
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>是2147483647
+唉，出了半天错才找到原因</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-03-28 12:31:37 +0000 UTC'>March 28, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天才知道INT的最大数是多少" href="http://example.org/2006/03/28/e4bb8ae5a4a9e6898de79fa5e98193inte79a84e69c80e5a4a7e695b0e698afe5a49ae5b091/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>一个sql取出了很多数据，用了半天才解决
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>SELECT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=’$id&#39;
+t2.SortId 有多少条取出多少条用这句话终于解决了
+SELECT DISTINCT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=’$id&#39;</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-03-22 11:42:08 +0000 UTC'>March 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一个sql取出了很多数据，用了半天才解决" href="http://example.org/2006/03/22/e4b880e4b8aasqle58f96e587bae4ba86e5be88e5a49ae695b0e68daeefbc8ce794a8e4ba86e58d8ae5a4a9e6898de8a7a3e586b3/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/31/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/33/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+mysql
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/mysql/</link>
+    <description>Recent content in 
+mysql
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Nov 2013 12:10:34 +0000</lastBuildDate><atom:link href="http://example.org/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql 5.5 半同步停止工作</title>
+      <link>http://example.org/2013/11/22/mysql-5-5-semi_sync-stop/</link>
+      <pubDate>Fri, 22 Nov 2013 12:10:34 +0000</pubDate>
+      
+      <guid>http://example.org/2013/11/22/mysql-5-5-semi_sync-stop/</guid>
+      <description>两台 mysql 5.5 服务器互为主从，使且半同步模式，网络终断后，但是 同步未能恢复
+mysql&amp;gt; show status like &#39;Rpl_%&#39;; +--------------------------------------------+-------------+ | Variable_name | Value | +--------------------------------------------+-------------+ | Rpl_semi_sync_master_clients | 0 | | Rpl_semi_sync_master_net_avg_wait_time | 213 | | Rpl_semi_sync_master_net_wait_time | 51387187879 | | Rpl_semi_sync_master_net_waits | 240543674 | | Rpl_semi_sync_master_no_times | 2 | | Rpl_semi_sync_master_no_tx | 6402 | | Rpl_semi_sync_master_status | OFF | | Rpl_semi_sync_master_timefunc_failures | 0 | | Rpl_semi_sync_master_tx_avg_wait_time | 276 | | Rpl_semi_sync_master_tx_wait_time | 68522585281 | | Rpl_semi_sync_master_tx_waits | 248230976 | | Rpl_semi_sync_master_wait_pos_backtraverse | 1101735 | | Rpl_semi_sync_master_wait_sessions | 0 | | Rpl_semi_sync_master_yes_tx | 240799932 | | Rpl_semi_sync_slave_status | ON | | Rpl_status | AUTH_MASTER | +--------------------------------------------+-------------+ 恢复操作</description>
+    </item>
+    
+    <item>
+      <title>Xtrabackup备份和恢复MySQL</title>
+      <link>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</link>
+      <pubDate>Tue, 24 Nov 2009 05:21:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/</guid>
+      <description>Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&amp;quot;innodb innodb2&amp;quot; /bak/ 压缩备份（不加&amp;ndash;databases，默认全部数据库） innobackupex-1.</description>
+    </item>
+    
+    <item>
+      <title>加快innodb 关闭</title>
+      <link>http://example.org/2009/07/03/e58aa0e5bfabinnodb-e585b3e997ad/</link>
+      <pubDate>Fri, 03 Jul 2009 14:42:27 +0000</pubDate>
+      
+      <guid>http://example.org/2009/07/03/e58aa0e5bfabinnodb-e585b3e997ad/</guid>
+      <description>mysql&amp;gt; set global innodb_max_dirty_pages_pct = 0;
+过半小时再shutdown就快了</description>
+    </item>
+    
+    <item>
+      <title>[译]Innodb 性能优化基础</title>
+      <link>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</link>
+      <pubDate>Sun, 19 Apr 2009 14:50:25 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/</guid>
+      <description>Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes).</description>
+    </item>
+    
+    <item>
+      <title>［翻译］［注解］Innodb Performance Optimization Basics</title>
+      <link>http://example.org/2009/04/19/innodb-performance-optimization-basics/</link>
+      <pubDate>Sun, 19 Apr 2009 14:47:07 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/19/innodb-performance-optimization-basics/</guid>
+      <description>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4.</description>
+    </item>
+    
+    <item>
+      <title>mysql中InnoDB的强制恢复</title>
+      <link>http://example.org/2009/04/17/mysql-innodb-force-recover/</link>
+      <pubDate>Fri, 17 Apr 2009 17:58:26 +0000</pubDate>
+      
+      <guid>http://example.org/2009/04/17/mysql-innodb-force-recover/</guid>
+      <description>如果数据库页被破坏，你可能想要用SELECT INTO OUTFILE从从数据库转储你的表，通常以这种方法获取的大多数数据是完好的。即使这样，损坏可能导致SELECT * FROM tbl_name或者InnoDB后台操作崩溃或断言，或者甚至使得InnoDB前滚恢复崩溃。 尽管如此，你可以用它来强制InnoDB存储引擎启动同时阻止后台操作运行，以便你能转储你的表。例如：你可以在重启服务器之前，在选项文件的[mysqld]节添加如下的行：
+[mysqld] innodb_force_recovery = 4 innodb_force_recovery 被允许的非零值如下。一个更大的数字包含所有更小数字的预防措施。如果你能够用一个多数是4的选项值来转储你的表，那么你是比较安全的，只有一些在损坏的单独页面上的数据会丢失。一个为6的值更夸张，因为数据库页被留在一个陈旧的状态，这个状态反过来可以引发对B树和其它数据库结构的更多破坏。
+· 1 (SRV_FORCE_IGNORE_CORRUPT)
+即使服务器检测到一个损坏的页，也让服务器运行着；试着让SELECT * FROM tbl_name 跳过损坏的索引记录和页，这样有助于转储表。
+· 2 (SRV_FORCE_NO_BACKGROUND)
+阻止主线程运行，如果崩溃可能在净化操作过程中发生，这将阻止它。
+· 3 (SRV_FORCE_NO_TRX_UNDO)
+恢复后不运行事务回滚。
+· 4 (SRV_FORCE_NO_IBUF_MERGE)
+也阻止插入缓冲合并操作。如果你可能会导致一个崩溃。最好不要做这些操作，不要计算表统计表。
+· 5 (SRV_FORCE_NO_UNDO_LOG_SCAN)
+启动数据库之时不查看未完成日志：InnoDB把未完成的事务视为已提交的。
+· 6 (SRV_FORCE_NO_LOG_REDO)
+不要在恢复连接中做日志前滚。
+数据库不能另外地带着这些选项中被允许的选项来使用。作为一个安全措施，当innodb_force_recovery被设置为大于0的值时，InnoDB阻止用户执行INSERT, UPDATE或DELETE操作.
+即使强制恢复被使用，你也可以DROP或CREATE表。如果你知道一个给定的表正在导致回滚崩溃，你可以移除它。你也可以用这个来停止由失败的大宗导入或失败的ALTER TABLE导致的失控回滚。你可以杀掉mysqld进程，然后设置innodb_force_recovery为3，使得数据库被挂起而不需要回滚，然后舍弃导致失控回滚的表。
+本文地址：http://www.bhcode.net/article/20090227/4256.html</description>
+    </item>
+    
+    <item>
+      <title>Nginx &#43; PHP mysql_pconnect = Database errors (Too many connections)</title>
+      <link>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</link>
+      <pubDate>Sat, 28 Mar 2009 15:16:29 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/28/nginx-php-mysql_pconnect-database-errors-too-many-connections/</guid>
+      <description>If you&amp;rsquo;re using NGinx spawn-cgi or FPM with PHP and calling mysql_pconnect, you are likely going to experience frequent database crashes and &amp;ldquo;Too many connections&amp;rdquo; errors.
+This took a while to trace, but once you understand the issue, it all makes sense.
+mysql_pconnect opens a &amp;ldquo;persistent&amp;rdquo; connection to the database. From the documentation: &amp;ldquo;the connection to the SQL server will not be closed when the execution of the script ends. Instead, the link will remain open for future use (mysql_close() will not close links established by mysql_pconnect()).</description>
+    </item>
+    
+    <item>
+      <title>MySQL分表优化试验</title>
+      <link>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</link>
+      <pubDate>Wed, 18 Mar 2009 10:11:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/mysqle58886e8a1a8e4bc98e58c96e8af95e9aa8c/</guid>
+      <description>我们的项目中有好多不等于的情况。今天写这篇文章简单的分析一下怎么个优化法。 这里的分表逻辑是根据t_group表的user_name组的个数来分的。 因为这种情况单独user_name字段上的索引就属于烂索引。起不了啥名明显的效果。
+1、试验PROCEDURE. DELIMITER $$ DROP PROCEDURE `t_girl`.`sp_split_table`$$ CREATE PROCEDURE `t_girl`.`sp_split_table`() BEGIN declare done int default 0; declare v_user_name varchar(20) default &#39;&#39;; declare v_table_name varchar(64) default &#39;&#39;; -- Get all users&#39; name. declare cur1 cursor for select user_name from t_group group by user_name; -- Deal with error or warnings. declare continue handler for 1329 set done = 1; -- Open cursor. open cur1; while done &amp;lt;&amp;gt; 1 do fetch cur1 into v_user_name; if not done then -- Get table name.</description>
+    </item>
+    
+    <item>
+      <title>转： 关于MySQL的查询缓存</title>
+      <link>http://example.org/2009/03/18/e8bdacefbc9a-e585b3e4ba8emysqle79a84e69fa5e8afa2e7bc93e5ad98/</link>
+      <pubDate>Wed, 18 Mar 2009 04:52:48 +0000</pubDate>
+      
+      <guid>http://example.org/2009/03/18/e8bdacefbc9a-e585b3e4ba8emysqle79a84e69fa5e8afa2e7bc93e5ad98/</guid>
+      <description>最近发现用户注册老是出错,不确定问题所在,不知道是不是SQL CACHE引起的,
+原理 QueryCache(下面简称QC)是根据SQL语句来cache的。一个SQL查询如果以select开头，那么MySQL服务器将尝试对其使用 QC。每个Cache都是以SQL文本作为key来存的。在应用QC之前，SQL文本不会被作任何处理。也就是说，两个SQL语句，只要相差哪怕是一个字符（例如大小写不一样；多一个空格等），那么这两个SQL将使用不同的一个CACHE。
+不过SQL文本有可能会被客户端做一些处理。例如在官方的命令行客户端里，在发送SQL给服务器之前，会做如下处理： 过滤所有注释 去掉SQL文本前后的空格,TAB等字符。注意，是文本前面和后面的。中间的不会被去掉。
+下面的三条SQL里，因为SELECT大小写的关系，最后一条和其他两条在QC里肯定是用的不一样的存储位置。而第一条和第二条，区别在于后者有个注释，在不同客户端，会有不一样的结果。所以，保险起见，请尽量不要使用动态的注释。在PHP的mysql扩展里，SQL的注释是不会被去掉的。也就是三条 SQL会被存储在三个不同的缓存里，虽然它们的结果都是一样的。
+select * FROM people where name=&#39;surfchen&#39;; select * FROM people where /*hey~*/name=&#39;surfchen&#39;; SELECT * FROM people where name=&#39;surfchen&#39;; 目前只有select语句会被cache，其他类似show,use的语句则不会被cache。 因为QC是如此前端，如此简单的一个缓存系统，所以如果一个表被更新，那么和这个表相关的SQL的所有QC都会被失效。假设一个联合查询里涉及到了表A和表B，如果表A或者表B的其中一个被更新（update或者delete），这个查询的QC将会失效。 也就是说，如果一个表被频繁更新，那么就要考虑清楚究竟是否应该对相关的一些SQL进行QC了。一个被频繁更新的表如果被应用了QC，可能会加重数据库的负担，而不是减轻负担。我一般的做法是默认打开QC，而对一些涉及频繁更新的表的SQL语句加上SQL_NO_CACHE关键词来对其禁用CACHE。这样可以尽可能避免不必要的内存操作，尽可能保持内存的连续性。 那些查询很分散的SQL语句，也不应该使用QC。例如用来查询用户和密码的语句——“select pass from user where name=&#39;surfchen&#39;”。这样的语句，在一个系统里，很有可能只在一个用户登陆的时候被使用。每个用户的登陆所用到的查询，都是不一样的SQL 文本，QC在这里就几乎不起作用了，因为缓存的数据几乎是不会被用到的，它们只会在内存里占地方。 存储块 在本节里“存储块”和“block”是同一个意思 QC缓存一个查询结果的时候，一般情况下不是一次性地分配足够多的内存来缓存结果的。而是在查询结果获得的过程中，逐块存储。当一个存储块被填满之后，一个新的存储块将会被创建，并分配内存（allocate）。单个存储块的内存分配大小通过query_cache_min_res_unit参数控制，默认为4KB。最后一个存储块，如果不能被全部利用，那么没使用的内存将会被释放。如果被缓存的结果很大，那么会可能会导致分配内存操作太频繁，系统系能也随之下降；而如果被缓存的结果都很小，那么可能会导致内存碎片过多，这些碎片如果太小，就很有可能不能再被分配使用。 除了查询结果需要存储块之外，每个SQL文本也需要一个存储块，而涉及到的表也需要一个存储块（表的存储块是所有线程共享的，每个表只需要一个存储块）。存储块总数量=查询结果数量*2+涉及的数据库表数量。也就是说，第一个缓存生成的时候，至少需要三个存储块：表信息存储块，SQL文本存储块，查询结果存储块。而第二个查询如果用的是同一个表，那么最少只需要两个存储块：SQL文本存储块，查询结果存储块。 通过观察Qcache_queries_in_cache和Qcache_total_blocks可以知道平均每个缓存结果占用的存储块。它们的比例如果接近1:2，则说明当前的query_cache_min_res_unit参数已经足够大了。如果Qcache_total_blocks比 Qcache_queries_in_cache多很多，则需要增加query_cache_min_res_unit的大小。 Qcache_queries_in_cache*query_cache_min_res_unit（sql文本和表信息所在的block占用的内存很小，可以忽略）如果远远大于query_cache_size-Qcache_free_memory，那么可以尝试减小 query_cache_min_res_unit的值。 调整大小 如果Qcache_lowmem_prunes增长迅速，意味着很多缓存因为内存不够而被释放，而不是因为相关表被更新。尝试加大query_cache_size，尽量使Qcache_lowmem_prunes零增长。 启动参数 show variables like &#39;query_cache%&#39;可以看到这些信息。 query_cache_limit:如果单个查询结果大于这个值，则不Cache query_cache_size:分配给QC的内存。如果设为0，则相当于禁用QC。要注意QC必须使用大约40KB来存储它的结构，如果设定小于 40KB,则相当于禁用QC。QC存储的最小单位是1024 byte，所以如果你设定了一个不是1024的倍数的值，这个值会被四舍五入到最接近当前值的等于1024的倍数的值。 query_cache_type:0 完全禁止QC，不受SQL语句控制（另外可能要注意的是，即使这里禁用，上面一个参数所设定的内存大小还是会被分配）；1启用QC，可以在SQL语句使用 SQL_NO_CACHE禁用；2可以在SQL语句使用SQL_CACHE启用。 query_cache_min_res_unit:每次给QC结果分配内存的大小 状态 show status like &#39;Qcache%&#39;可以看到这些信息。 Qcache_free_blocks:当一个表被更新之后，和它相关的cache blocks将被free。但是这个block依然可能存在队列中，除非是在队列的尾部。这些blocks将会被统计到这个值来。可以用FLUSH QUERY CACHE语句来清空free blocks。 Qcache_free_memory:可用内存，如果很小，考虑增加query_cache_size Qcache_hits:自mysql进程启动起，cache的命中数量 Qcache_inserts:自mysql进程启动起，被增加进QC的数量 Qcache_lowmem_prunes:由于内存过少而导致QC被删除的条数。加大query_cache_size，尽可能保持这个值0增长。 Qcache_not_cached:自mysql进程启动起，没有被cache的只读查询数量（包括select,show,use,desc等） Qcache_queries_in_cache:当前被cache的SQL数量 Qcache_total_blocks:在QC中的blocks数。一个query可能被多个blocks存储，而这几个blocks中的最后一个，未用满的内存将会被释放掉。例如一个QC结果要占6KB内存，如果query_cache_min_res_unit是4KB，则最后将会生成3个 blocks，第一个block用来存储sql语句文本，这个不会被统计到query+cache_size里，第二个block为4KB，第三个 block为2KB（先allocate4KB，然后释放多余的2KB）。每个表，当第一个和它有关的SQL查询被CACHE的时候，会使用一个 block来存储表信息。也就是说，block会被用在三处地方：表信息，SQL文本，查询结果。 另外一篇： 如果 MySQL Server 负载比较高，处理非常繁忙的话，可以启动Query Cache 以加速响应时间，启动方法可以在my.</description>
+    </item>
+    
+    <item>
+      <title>mysql出现这个不知怎么回事</title>
+      <link>http://example.org/2006/05/20/mysqle587bae78eb0e8bf99e4b8aae4b88de79fa5e6808ee4b988e59b9ee4ba8b/</link>
+      <pubDate>Sat, 20 May 2006 17:12:01 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/20/mysqle587bae78eb0e8bf99e4b8aae4b88de79fa5e6808ee4b988e59b9ee4ba8b/</guid>
+      <description>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &amp;lsquo;Times New Roman&amp;rsquo;; mso-hansi-font-family: &amp;lsquo;Times New Roman
+真服了</description>
+    </item>
+    
+  </channel>
+</rss>

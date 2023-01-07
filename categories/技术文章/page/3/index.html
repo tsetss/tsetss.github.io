@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+技术文章
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+技术文章
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+技术文章
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+技术文章
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Linux主机重编译（升级）PHP支持GD库
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Linux主机重编译PHP支持GD库
+*注意：请确认以下您服务器中Apache的安装路径，如果不是 /usr/local/apache2，则在进行以下安装操作时， 注意修改Apache的安装路径！
+1、以root身份登录Linux主机；
+2、停止Web Server服务，如果使用的是Apache可以通过以下命令停止： shell&gt; /usr/local/apache2/bin/apachectl stop
+3、卸载当前PHP和Zend Optimizer： shell&gt; rm -rf /usr/local/php shell&gt; rm -rf /usr/local/Zend shell&gt; vi /usr/local/apache2/conf/httpd.conf 找到LoadModule phpX_module modules/libphpX.so 其中X是PHP版本（4或者5）一行，并将此行删除，保存退出。
+4、下载安装Discuz! GD库安装包： shell&gt; cd /usr/local/src shell&gt; wget -c http://download.discuz.net/gdinstaller.tar.gz shell&gt; tar xzvf gdinstaller.tar.gz shell&gt; cd GDInstaller shell&gt; ./install.sh
+4、下载PHP 5.1.2： shell&gt; cd /usr/local/src shell&gt; wget -c http://download.discuz.net/php-5.1.2.tar.bz2
+5、解压缩并安装PHP 5.1.2： shell&gt; tar xjvf php-5.1.2.tar.bz2 shell&gt; cd php-5.1.2 shell&gt; ./configure –prefix=/usr/local/php –with-apxs2=/usr/local/apache2/bin/apxs –with-zlib-dir –with-bz2 –with-tiff-dir –with-libxml-dir –with-gd –with-freetype-dir –with-jpeg-dir –with-png-dir –with-ttf –enable-mbstring –with-mysql –with-config-file-path=/etc –disable-ipv6 –enable-gd-native-ttf *注意：如果MySQL不是以RPM包方式安装的，则需要将上述参数中的–with-mysql 改为–with-mysql=/usr/local/mysql shell&gt; make shell&gt; make install shell&gt; cp php....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:54:15 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux主机重编译（升级）PHP支持GD库" href="http://example.org/2006/04/22/linuxe4b8bbe69cbae9878de7bc96e8af91efbc88e58d87e7baa7efbc89phpe694afe68c81gde5ba93/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>phpMyAdmin 2.8.0.3 安装配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>装好新的服务器要装pma 看别人都用这个版本了也装个试试吧
+找开一看和以前的有点不一样
+config.inc.php
+这个文件没了
+看了一下安装说明才知道
+要把./libraries/config.default.php 复制到phpMyAdmin根目录并重命名为config.inc.php
+才可以
+配置如下
+$cfg[‘PmaAbsoluteUri’] = ‘http://www.yourdomain.com/phpMyAdmin&#39;; （写出访问phpMyAdmin的绝对URL）／／其实绑了多个不填也可以的
+$cfg[‘blowfish_secret’] = ‘cookie’; （使用cookie加密）
+$cfg[‘Servers’][$i][‘connect_type’] = ‘socket’; （以socket方式连接MySQL）
+$cfg[‘Servers’][$i][‘compress’] = TRUE; （启用压缩以提高速度，如果访问不正常请改回FALSE）
+$cfg[‘Servers’][$i][‘auth_type’] = ‘cookie’; （使用cookie进行身份验证）
+在linux下要设置文件755
+要不然可能不能运行
+还有就是运行安装程序，看了一下麻烦的很
+在浏览器中运行http://…./phpMyAdmin/libraries/dbg/setup.php 以向导模式进行安装</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-22 21:38:29 +0000 UTC'>April 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to phpMyAdmin 2.8.0.3 安装配置" href="http://example.org/2006/04/22/phpmyadmin-2803-e5ae89e8a385e9858de7bdae/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>文件权限
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>检查　ls -laZ　文件或目录
+改变 chcon -t httpd_sys_content_t 文件或目录</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-20 16:40:08 +0000 UTC'>April 20, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 文件权限" href="http://example.org/2006/04/20/e69687e4bbb6e69d83e99990/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>FTP命令详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>FTP命令是Internet用户使用最频繁的命令之一，不论是在DOS还是UNIX操 作系统下使用FTP，都会遇到大量的FTP内部命令。 熟悉并灵活应用FTP的内部 命令，可以大大方便使用者，并收到事半功倍之效。 FTP的命令行格式为： ftp -v -d -i -n -g [主机名] ，其中 -v 显示远程服务器的所有响应信息； -n 限制ftp的自动登录，即不使用； .n etrc文件； -d 使用调试方式； -g 取消全局文件名。
+ftp使用的内部命令如下(中括号表示可选项):
+1.![cmd[args]]：在本地机中执行交互shell，exit回到ftp环境，如： !ls*.zip.
+2.$ macro-ame[args]：执行宏定义macro-name.
+3.account[password]：提供登录远程系统成功后访问系统资源所需的补 充口令。
+4.append local-file[remote-file]：将本地文件追加到远程系统主机， 若未指定远程系统文件名，则使用本地文件名。
+5.ascii：使用ascii类型传输方式。
+6.bell：每个命令执行完毕后计算机响铃一次。
+7.bin：使用二进制文件传输方式。
+8.bye：退出ftp会话过程。
+9.case：在使用mget时，将远程主机文件名中的大写转为小写字母。
+10.cd remote-dir：进入远程主机目录。
+11.cdup：进入远程主机目录的父目录。
+12.chmod mode file-name：将远程主机文件file-name的存取方式设置为 mode，如： chmod 777 a.out 。
+13.close：中断与远程服务器的ftp会话(与open对应)。
+14.cr：使用asscii方式传输文件时，将回车换行转换为回行。
+15.delete remote-file：删除远程主机文件。
+16.debug[debug-value]：设置调试方式， 显示发送至远程主机的每条命 令，如： deb up 3，若设为0，表示取消debug。
+17.dir[remote-dir][local-file]：显示远程主机目录，并将结果存入本 地文件local-file。
+18.disconnection：同close。
+19.form format：将文件传输方式设置为format，缺省为file方式。
+20.get remote-file[local-file]： 将远程主机的文件remote-file传至 本地硬盘的local-file。
+21.glob：设置mdelete，mget，mput的文件名扩展，缺省时不扩展文件名， 同命令行的-g参数。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-17 05:58:08 +0000 UTC'>April 17, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FTP命令详解" href="http://example.org/2006/04/17/ftpe591bde4bba4e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>trackback 有罪
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者: sadly 出自: http://www.phpx.com
+昨天 4ngle 找俺 要俺帮他测试一下trackback防spam的功能：（ 好无聊，原来的那些js早没了，随便套了一个php的httpclient类库给他写了一个， 发现他的程序效果还是不错的。
+我不晓得机制是什么样，我再说一点点。 trackback 和 comment 是不有同的，对吗？ 往下看～
+不知到有没有人考虑过，trackback应该从哪里发出来？ 如果我在一篇blog里引用了你的文章，要对你发出trackback， 那么通常向你的服务器发trackback的应该是我的BSP的服务器， 它的ip地址和trackback里面url的ip地址应该是有一致性的吧？
+如果有一个trackback发出的 ip 地址是 202.108.1.1 , url是 www.abc.com/blog/1.html 但 www.abc.com 的ip地址是 203.121.1.1 那很显然，它大概是伪造的。
+如果你在用一个很大的BSP，那么不排除这种可能性， username0.bsp.com的ip地址是 202.108.1.1 username3.bsp.com的ip地址是 202.108.1.2 username5.bsp.com的ip地址是 202.108.1.3 而系统发trackback的时候使用的是 202.108.1.5 ，因为大的集群里由于负载均衡等等的需要可能 会存在这种分工，进出的ip不一样，但是他们的差异会有多大呢？
+多动脑子，少动嘴：） trackback 没有罪， 开放也没有罪， 但是不爱思考的程序员有罪。
+刚刚在dreamhost测试了一下～ www..com 的ip地址是 64.111××× 而 www..name 的ip地址是 208.××× 用同样的wordpress程序测试，得到的服务器出口的ip是 64.111.*** ，还好，出口的ip是一致的。
+如果改用白名单来控制哪些BSP / IP地址是可信的，那效果估计比过滤关键词，ip，网址之类的要 轻松不少吧， 还有上次说过那个问题 §时间§</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 21:43:46 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to trackback 有罪" href="http://example.org/2006/04/15/trackback-e69c89e7bdaa/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>从trackback说起
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>作者: sadly 出自: http://www.phpx.com
+前两天在网上逛的时候看到了关于blog里trackback的资料,发现它在设计上是有隐患的, 后来还给某几个知名的网站发了点纪念品, 惹得人家直说我早就知到了,不过这关你屁事. 我对口水战没有什么兴趣. 在此说一点程序设计中我个人认为应该考虑的问题,希望 能够抛砖引玉一下.
+1 连续的数字id 使用数字id来标识一篇资料,比如blog的文章, 这当然最简单,最容易实现的. 因为我们设计 数据库的时候通常都会加一个自增长的id来做唯一标志. 用id来标识很直接, 也不需要 额外的存储空间. 不过这显然不是一个很安全的方式, 象村子用的DZ这个程序 viewthread.php?tid=文章编号 是看帖子.只要跑一个循环就可以把全部的文章都抓到了.被 人抓站当然是难免了,但要是被人乱发帖恐怕就不那么舒服了.
+大家都知道数据库对读是有优化的, 而对于写所能做的事情则很有限. 想一想, 如果有个 程序不停的发帖, 数据库记录疯涨 ,数据不断更新, 那你设计的静态化之类的恐怕是没 什么效果了.
+假如, 我们在数据库里加一个字段 ukey , 设计为唯一的标志, 数据取个随机数好了 当然最好是字母数字混和的长字符串. 现在用 (for $i=起始id;$i&lt;终止id;$i&#43;&#43;) 回复第$i个文章 的办法显然是不行了.
+不过还是有办法的. 它可以先抓列表页,然后分析出每个文章的ukey, 之后 再 (for $i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 回复第$all_ukey_array[$i]个文章.
+于是, 我们在回帖的时候给每个文章加上不同的随机识别码. 好了. 现在它只好先抓到 列表页, 然后再抓具体页面并分析出这个文章对应的识别码. 最后 再 ($i=起始值;$i&lt;要发送的数量;$i&#43;&#43;) 用识别码$all_seccode_array[$i] 回复第$all_ukey_array[$i]个文章
+看来还是没有解决, 图形验证码浮出了水面, 它确实够安全, 可是图形验证码对于正常使 用的用户是不够友好的, 如果每次发帖都要输一个讨厌的验证码那用户就没什么兴趣了.
+算了,还是放弃它, 用户看一篇文章会看多久然后回复它呢?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-15 21:36:58 +0000 UTC'>April 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 从trackback说起" href="http://example.org/2006/04/15/e4bb8etrackbacke8afb4e8b5b7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>sql函数截取字符串！
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Select Substring(xx,1,2) from TABLE
+select left(xx,2) from TABLE</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-10 08:06:22 +0000 UTC'>April 10, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to sql函数截取字符串！" href="http://example.org/2006/04/10/sqle587bde695b0e688aae58f96e5ad97e7aca6e4b8b2efbc81/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>MySQL实现表中取出随机数据
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>SELECT * FROM table_name ORDER BY rand() LIMIT 5;
+rand在手册里是这么说的: RAND() RAND(N) 返回在范围0到1.0内的随机浮点值。如果一个整数参数N被指定，它被用作种子值。
+mysql&gt; select RAND(); -&gt; 0.5925 mysql&gt; select RAND(20); -&gt; 0.1811 mysql&gt; select RAND(20); -&gt; 0.1811 mysql&gt; select RAND(); -&gt; 0.2079 mysql&gt; select RAND(); -&gt; 0.7888 你不能在一个ORDER BY子句用RAND()值使用列，因为ORDER BY将重复计算列多次。然而在MySQL3.23中，你可以做： SELECT * FROM table_name ORDER BY RAND()，这是有利于得到一个来自SELECT * FROM table1,table2 WHERE a=b AND cSELECT * FROM table_name AS r1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM table_name)) AS id) AS r2 WHERE r1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-03 11:58:38 +0000 UTC'>April 3, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL实现表中取出随机数据" href="http://example.org/2006/04/03/mysqle5ae9ee78eb0e8a1a8e4b8ade58f96e587bae99a8fe69cbae695b0e68dae/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>今天才知道INT的最大数是多少
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>是2147483647
+唉，出了半天错才找到原因</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-03-28 12:31:37 +0000 UTC'>March 28, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天才知道INT的最大数是多少" href="http://example.org/2006/03/28/e4bb8ae5a4a9e6898de79fa5e98193inte79a84e69c80e5a4a7e695b0e698afe5a49ae5b091/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>一个sql取出了很多数据，用了半天才解决
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>SELECT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=’$id&#39;
+t2.SortId 有多少条取出多少条用这句话终于解决了
+SELECT DISTINCT t1.*, t2.SortId FROM class_2 AS t1, class_3 AS t2 WHERE t2.SortId = t1.Typeid AND t1.SortId=’$id&#39;</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-03-22 11:42:08 +0000 UTC'>March 22, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 一个sql取出了很多数据，用了半天才解决" href="http://example.org/2006/03/22/e4b880e4b8aasqle58f96e587bae4ba86e5be88e5a49ae695b0e68daeefbc8ce794a8e4ba86e58d8ae5a4a9e6898de8a7a3e586b3/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/page/2/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/page/4/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

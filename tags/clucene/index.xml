@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+clucene
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/clucene/</link>
+    <description>Recent content in 
+clucene
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 14 May 2006 02:34:27 +0000</lastBuildDate><atom:link href="http://example.org/tags/clucene/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLUCENE-0.9.10 索引与优化过程</title>
+      <link>http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/</link>
+      <pubDate>Sun, 14 May 2006 02:34:27 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/14/clucene-0910-e7b4a2e5bc95e4b88ee4bc98e58c96e8bf87e7a88b/</guid>
+      <description>一.文件索引过程 主要流程描述
+IndexWriter writer(&amp;quot;ndx&amp;quot;, &amp;amp;an;, true); writer.setMergeFactor(10); writer.setMinMergeDocs(10); Document *lpDoc = new Document; lpDoc-&amp;gt;add(*new Field(&amp;quot;content&amp;quot;, &amp;quot;This is demo content.&amp;quot;, true, true, true) ); writer.addDocument(lpDoc); delete lpDoc; writer.close(); 下面描述该流程
+1.IndexWriter writer(&amp;quot;ndx&amp;quot;, &amp;amp;an;, true); directory = FSDirectory::getDirectory(&amp;quot;ndx&amp;quot;, true); 从一个全局的列表中取得一个对象 如果对象不存在，则新建一个并加入到列表中 主要目的是为了使用同一个目录只使用同一个FSDirectory对象 新建目录时删除该目录下所有文件级子目录 analyzer = an; 该对象由对象外部创建 segmentInfos = _CLNEW SegmentInfos; 建立一个SegmentInfos对象，该对象包含一个SegmentInfo对象的列表 建立时指定了SegmentInfo对象的列表并不在移除指针时删除SegmentInfo对象 一个SegmentInfo对象包括其名称(用于文件名前缀)和文档数 closeDir = true; 指定是否在索引对象关闭close时，是否同时调用目录的close函数 缺省为关闭目录对象 similarity = CL_NS(search)::Similarity::getDefault(); 取得缺省的文档分值score计算对象，如果不存在则建立 可以自己实现一个Similarity的继承类，然后用Similarity::setDefault方法设置成缺省的 变量Similarity* _defaultImpl用于保存缺省对象 ramDirectory = _CLNEW TransactionalRAMDirectory; 建立一个TransactionalRAMDirectory对象，该对象包含一个事务取消时的删除文件列表及恢复文件列表 同时还包含一个当前文件列表 恢复文件列表自动删除key和value，删除文件列表和当前文件列表则不自动删除 LuceneLock* newLock = directory-&amp;gt;makeLock(&amp;quot;write.</description>
+    </item>
+    
+    <item>
+      <title>一个简单的中文分词 CLucene</title>
+      <link>http://example.org/2006/05/13/e4b880e4b8aae7ae80e58d95e79a84e4b8ade69687e58886e8af8d-clucene/</link>
+      <pubDate>Sat, 13 May 2006 18:52:10 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/13/e4b880e4b8aae7ae80e58d95e79a84e4b8ade69687e58886e8af8d-clucene/</guid>
+      <description>CLucene - a C++ search engine http://sourceforge.net/projects/clucene/ 传统的全文检索都是基于数据库的，Sql Server Oracle mysql 都提供全文检索，但这些比较大，不适合单机或小应用程序(Mysql4.0以上可以作为整合开发)，Mysql也不支持中文。 后来得知Apache有一个开源的全文检索引擎，而且应用比较广，Lucene是Apache旗下的JAVA版的全文检索引擎,性能相当出色，可惜是java版的，我一直在想有没有C或C++版的，终于有一天在http://sourceforge.net 淘到一个好东东，Clucene！CLucene是C++版的全文检索引擎,完全移植于Lucene，不过对中文支持不好，而且有很多的内存泄露，:P Cluene不支持中文的分词，我就写了一个简单的中文分词，大概思路就是传统的二分词法，因为中文的分词不像英文这类的语言，一遇到空格或标点就认为是一个词的结束，所以就采用二分词法，二分词法就是例如:北京市，就切成 北京 ， 京市。这样一来词库就会很大，不过是一种简单的分词方法(过段时间我再介绍我对中文分词的一些思路) ，当然了，在检索时就不能输入“北京市”了，这样就检索不到，只要输入：“+北京 +京市”,就可以检索到北京市了，虽然精度不是很高，但适合简单的分词，而且不怕会漏掉某些单词。 我照着Clucene的分词模块，做了一个ChineseTokenizer，这个模块就负责分词工作了，我把主要的函数写出来
+ChineseTokenizer.cpp: Token* ChineseTokenizer::next() { while(!rd.Eos()) { char_t ch = rd.GetNext(); if( isSpace((char_t)ch)!=0 ) { continue; } // Read for Alpha-Nums and Chinese if( isAlNum((char_t)ch)!=0 ) { start = rd.Column(); return ReadChinese(ch); } } return NULL; } Token* ChineseTokenizer::ReadChinese(const char_t prev) { bool isChinese = false; StringBuffer str; str.append(prev); char_t ch = prev; if(((char_t)ch&amp;gt;&amp;gt;8)&amp;amp;&amp;amp;(char_t)ch&amp;gt;=0xa0) isChinese = true; while(!</description>
+    </item>
+    
+    <item>
+      <title>PECL中的clucene库</title>
+      <link>http://example.org/2006/05/13/pecle4b8ade79a84clucenee5ba93/</link>
+      <pubDate>Sat, 13 May 2006 18:27:31 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/13/pecle4b8ade79a84clucenee5ba93/</guid>
+      <description>getMessage() . ‘, ‘; echo ‘File: ‘ . $e-&amp;gt;getFile() . ‘, ‘; echo ‘Line: ‘ . $e-&amp;gt;getLine(); exit(); } $query = ”; if (isset($_SERVER[&#39;argv&#39;][1])) { $query = $_SERVER[&#39;argv&#39;][1]; } else { $query = “time”; /* Should return 3 results */ } echo “Search results for: ‘$query’\n”; $hits = $searcher-&amp;gt;search($query); $length = $hits-&amp;gt;length(); echo “Number of results: $length\n”; for ($i = 0; $i &amp;lt; $length; $i++) { echo &#39;path: &#39; . $hits-&amp;gt;get($i, ‘path’) .</description>
+    </item>
+    
+    <item>
+      <title>php &#43; clucene extension的安装</title>
+      <link>http://example.org/2006/05/13/php-clucene-extensione79a84e5ae89e8a385/</link>
+      <pubDate>Sat, 13 May 2006 18:21:41 +0000</pubDate>
+      
+      <guid>http://example.org/2006/05/13/php-clucene-extensione79a84e5ae89e8a385/</guid>
+      <description>CLucene是SF上面的一个对Lucene(一个用Java写的全文检索引擎工具包)的移植,做为Lucene的C++的重新实现，以带来更快的检索速度,但是一直还不stable.这里仅仅是尝试php+clucene扩展的安装,具体应用先不管.
+安装环境: Freebsd 6.0 + apache 2.2 + php 5.1.2
+apache+php的安装就不说了,网上一抓一大把,注意clucene扩展必须在php5以上才能安装.
+首先安装clucene 1.下载clucene 直奔它的首页–clucene.sourceforge.net,下载clucene 0.9.10 2.编译clucene
+tar xzvf clucene-0.9.10.tar.gz cd clucene-0.9.10 ./autogen.sh ./configure make 这样clucene就安装好了,为了让其它程序可以调用clucene,这里把编译好的lib放到系统lib目录下 cp src/.libs/libclucene.* /usr/local/lib cp src/CLucene.h /usr/local/include/ cp -r src/CLucene /usr/local/include/ 安装clucene php extension 1.下载clucene php extension 在pecl.php.net有下载,拖回来就是 http://pecl.php.net/package/clucene 2.编译clucene php extension tar xzvf clucene-0.0.9.tgz cd clucene-0.0.9 cp -r /usr/local/include/Clucene include/ #编译时要把clucene的include文件弄一份 cp -r /usr/local/include/Clucene.h include/ phpize ./configure make 编译完成,这里会生成一个clucene.so,我们把它放在php的extension目录下(没有就建一个),然后修改php.ini
+加入 extension=clucene.so
+重启apache之后看phpinfo
+php+clucene
+至此安装就算完成了,demo嘛在examples目录下有一个,命令行调用方式(根据已有的index检索): php clucene.</description>
+    </item>
+    
+  </channel>
+</rss>

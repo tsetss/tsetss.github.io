@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>浅谈网络服务器安全维护技巧 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。
+基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。
+如何避免网络服务器受网上那些恶意的攻击行为：
+(一) 构建好你的硬件安全防御系统
+选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。
+防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。
+(二) 选用英文的操作系统
+要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。
+如何防止网络服务器不被黑客入侵：
+首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。
+(一) 采用NTFS文件系统格式
+大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。
+(二)做好系统备份
+常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。
+(三)关闭不必要的服务，只开该开的端口
+关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。
+关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。
+总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。
+(四)软件防火墙、杀毒软件
+虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。
+(五)开启你的事件日志
+虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="浅谈网络服务器安全维护技巧" />
+<meta property="og:description" content="网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。
+基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。
+如何避免网络服务器受网上那些恶意的攻击行为：
+(一) 构建好你的硬件安全防御系统
+选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。
+防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。
+(二) 选用英文的操作系统
+要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。
+如何防止网络服务器不被黑客入侵：
+首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。
+(一) 采用NTFS文件系统格式
+大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。
+(二)做好系统备份
+常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。
+(三)关闭不必要的服务，只开该开的端口
+关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。
+关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。
+总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。
+(四)软件防火墙、杀毒软件
+虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。
+(五)开启你的事件日志
+虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:05:02+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:05:02+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="浅谈网络服务器安全维护技巧"/>
+<meta name="twitter:description" content="网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。
+基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。
+如何避免网络服务器受网上那些恶意的攻击行为：
+(一) 构建好你的硬件安全防御系统
+选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。
+防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。
+(二) 选用英文的操作系统
+要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。
+如何防止网络服务器不被黑客入侵：
+首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。
+(一) 采用NTFS文件系统格式
+大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。
+(二)做好系统备份
+常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。
+(三)关闭不必要的服务，只开该开的端口
+关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。
+关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。
+总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。
+(四)软件防火墙、杀毒软件
+虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。
+(五)开启你的事件日志
+虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "浅谈网络服务器安全维护技巧",
+      "item": "http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "浅谈网络服务器安全维护技巧",
+  "name": "浅谈网络服务器安全维护技巧",
+  "description": "网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。\n基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。\n如何避免网络服务器受网上那些恶意的攻击行为：\n(一) 构建好你的硬件安全防御系统\n选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。\n防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。\n(二) 选用英文的操作系统\n要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。\n如何防止网络服务器不被黑客入侵：\n首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。\n(一) 采用NTFS文件系统格式\n大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。\n(二)做好系统备份\n常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。\n(三)关闭不必要的服务，只开该开的端口\n关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。\n关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。\n总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。\n(四)软件防火墙、杀毒软件\n虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。\n(五)开启你的事件日志\n虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。",
+  "keywords": [
+    
+  ],
+  "articleBody": "网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。\n基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。\n如何避免网络服务器受网上那些恶意的攻击行为：\n(一) 构建好你的硬件安全防御系统\n选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。\n防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。\n(二) 选用英文的操作系统\n要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。\n如何防止网络服务器不被黑客入侵：\n首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。\n(一) 采用NTFS文件系统格式\n大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。\n(二)做好系统备份\n常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。\n(三)关闭不必要的服务，只开该开的端口\n关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。\n关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。\n总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。\n(四)软件防火墙、杀毒软件\n虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。\n(五)开启你的事件日志\n虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。\n",
+  "wordCount" : "34",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:05:02Z",
+  "dateModified": "2006-02-25T16:05:02Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/e6b585e8b088e7bd91e7bb9ce69c8de58aa1e599a8e5ae89e585a8e7bbb4e68aa4e68a80e5b7a7/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      浅谈网络服务器安全维护技巧
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:05:02 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>网络服务器的恶意网络行为包括两个方面：一是恶意的攻击行为，如拒绝服务攻击，网络病毒等等，这些行为旨在消耗服务器资源，影响服务器的正常运作，甚至服务器所在网络的瘫痪；另外一个就是恶意的入侵行为，这种行为更是会导致服务器敏感信息泄露，入侵者更是可以为所欲为，肆意破坏服务器。所以我们要保证网络服务器的安全可以说就是尽量减少网络服务器受这两种行为的影响。</p>
+<p>　　基于windows做操作系统的服务器在中国市场的份额以及国人对该操作系统的了解程度，我在这里谈谈个人对维护windows网络服务器安全的一些个人意见。</p>
+<p>　　如何避免网络服务器受网上那些恶意的攻击行为：</p>
+<p>　　(一) 构建好你的硬件安全防御系统</p>
+<p>　　选用一套好的安全系统模型。一套完善的安全模型应该包括以下一些必要的组件：防火墙、入侵检测系统、路由系统等。</p>
+<p>　　防火墙在安全系统中扮演一个保安的角色，可以很大程度上保证来自网络的非法访问以及数据流量攻击，如拒绝服务攻击等；入侵检测系统则是扮演一个监视器的角色，监视你的服务器出入口，非常智能地过滤掉那些带有入侵和攻击性质的访问。</p>
+<p>　　(二) 选用英文的操作系统</p>
+<p>　　要知道，windows毕竟美国微软的东西，而微软的东西一向都是以Bug 和 Patch多而著称，中文版的Bug远远要比英文版多，而中文版的补丁向来是比英文版出的晚，也就是说，如果你的服务器上装的是中文版的windows系统，微软漏洞公布之后你还需要等上一段时间才能打好补丁，也许黑客、病毒就利用这段时间入侵了你的系统。</p>
+<p>　　如何防止网络服务器不被黑客入侵：</p>
+<p>　　首先，作为一个黑客崇拜者，我想说一句，世界上没有绝对安全的系统。我们只可以尽量避免被入侵，最大的程度上减少伤亡。</p>
+<p>　　(一) 采用NTFS文件系统格式</p>
+<p>　　大家都知道，我们通常采用的文件系统是FAT或者FAT32，NTFS是微软Windows NT内核的系列操作系统支持的、一个特别为网络和磁盘配额、文件加密等管理安全特性设计的磁盘格式。NTFS文件系统里你可以为任何一个磁盘分区单独设置访问权限。把你自己的敏感信息和服务信息分别放在不同的磁盘分区。这样即使黑客通过某些方法获得你的服务文件所在磁盘分区的访问权限，还需要想方设法突破系统的安全设置才能进一步访问到保存在其他磁盘上的敏感信息。</p>
+<p>　　(二)做好系统备份</p>
+<p>　　常言道，“有备无患”，虽然谁都不希望系统突然遭到破坏，但是不怕一万，就怕万一，作好服务器系统备份，万一遭破坏的时候也可以及时恢复。</p>
+<p>　　(三)关闭不必要的服务，只开该开的端口</p>
+<p>　　关闭那些不必要开的服务，做好本地管理和组管理。Windows系统有很多默认的服务其实没必要开的，甚至可以说是危险的，比如：默认的共享远程注册表访问(Remote Registry Service)，系统很多敏感的信息都是写在注册表里的，如pcanywhere的加密密码等。</p>
+<p>　　关闭那些不必要的端口。一些看似不必要的端口，确可以向黑客透露许多操作系统的敏感信息，如windows 2000 server 默认开启的IIS服务就告诉对方你的操作系统是windows 2000。69端口告诉黑客你的操作系统极有可能是linux或者unix系统，因为69是这些操作系统下默认的tftp服务使用的端口。对端口的进一步访问，还可以返回该服务器上软件及其版本的一些信息，这些对黑客的入侵都提供了很大的帮助。此外，开启的端口更有可能成为黑客进入服务器的门户。</p>
+<p>　　总之，做好TCP/IP端口过滤不但有助于防止黑客入侵，而且对防止病毒也有一定的帮助。</p>
+<p>　　(四)软件防火墙、杀毒软件</p>
+<p>　　虽然我们已经有了一套硬件的防御系统，但是“保镖”多几个也不是坏事。</p>
+<p>　　(五)开启你的事件日志</p>
+<p>　　虽然开启日志服务虽然说对阻止黑客的入侵并没有直接的作用，但是通过他记录黑客的行踪，我们可以分析入侵者在我们的系统上到底做过什么手脚，给我们的系统到底造成了哪些破坏及隐患，黑客到底在我们的系统上留了什么样的后门，我们的服务器到底还存在哪些安全漏洞等等。如果你是高手的话，你还可以设置密罐，等待黑客来入侵，在他入侵的时候把他逮个正着。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>freebsd ports 装完php-ftp 不能起动
+[ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool ‘default’
+出现些错误提示，请修改 php-fpm.conf
+Unix user of processes Unix group of processes 换成
+Unix user of processes &lt;value name=&#34;user&#34;&gt;www&lt;/value&gt; Unix group of processes &lt;value name=&#34;group&#34;&gt;www&lt;/value&gt; /usr/local/etc/rc.d/php-fpm start Starting php_fpm.</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:29:35 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [ERROR] fpm_unix_conf_wp(), line 124: please specify user and group other than root, pool &#39;default&#39;" href="http://example.org/2009/03/23/error-fpm_unix_conf_wp-line-124-please-specify-user-and-group-other-than-root-pool-default/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>pecl::memcache和pecl::memcached
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文地址：http://www.surfchen.org/?p=371
+终于，基于libmemached的php扩展在pecl发布了。
+于是，现在pecl上有两个memcache客户端了。一个是完全在PHP框架内开发的memcache，一个是使用libmemcached的memecached。
+功能嘛，我没看过libmemcached，但是理论上来说，在其他语言里已经很流行的libmemcached应该会有更完善的功能。而程序上性能（内存和CPU使用率），不好说，虽然pecl::memcache是原生实现的，但是使用libmemcached的pecl::memached只支持OO接口，而pecl::memcache则是OO和非OO两套接口并存，这点拖累了它。
+其实这些都不是最重要的。使用libmemcached有个明显的优点，就是以后随着memcached服务器端的改进，这个lib也必定会马上跟进的。而pecl::memcache却不一定能做到按时跟进。
+pecl::memcached，还有个非常称赞的地方，就是flag不是在操作的时候设置了。而是有一个统一的setOption()。冲着这个方法，就非常值得从pecl::memcache转到pecl::memcached了。具体的接口可以看这里：http://cvs.php.net/viewvc.cgi/pecl/memcached/memcached-api.php?view=markup
+我在pecl-dev@里提到是否可以做成driver-based的架构。跟现在的MySQL一样，可以选择使用mysqlnd或者libmysql作为底层的引擎。但是之后想想，其实我并不是很支持对memcached使用这样的架构，它和MySQL的情况不一样。
+mysqlnd作为一个引擎而不是一个新的api来开发，可以使得大量的应用程序不需要对数据库操作做修改即可用上新的引擎。如果mysqlnd作为一个新的extension，那么如果它想兼容以前的程序，就面临一个很困难的选择。因为目前为止，存在3个官方的使用libmysql的，并具有不同对外接口的MySQL类集。mysqlnd能兼容mysql，就无法兼容mysqli或者pdo。当然对于使用自己的抽象数据库类的程序来说，这个可以通过改写类或者更换driver(php层面)来实现兼容。但是要想想，就算是使用抽象库，这个世界如此之多的数据库抽象库，如果要让所有人都用得起nd，那得改多少个库，加多少个driver阿。
+memcached的情况就简单很多了，目前和官方关系比较密切的只有pecl::memcache，而且接口基本上都是根据memcached的协议来的，和libmemcache相差无几。它们其实都可以被看作是一个抽象类里的不同driver。所以虽然是两套不同的客户端，但是更换起来，几乎不需要做什么改动，只需要在类初始化的地方更改一下，set/get等等这些方法的flag去掉即可，除非你使用了非OO的接口。
+另外mysql在通讯和数据获取上也比memcache复杂，nd可以做到一些libmysql无法做到的事情。例如buffer可以直接用php内部的HashTable和zval存储；再例如一些作为持久链接的结构可以更多地缓存起来。(这些例如只是我的猜测，我并没有去阅读过mysqlnd的代码)
+相关文章：
+pecl上有三个memcached客户端了 pecl::memcache的哈希策略 影响memcached性能的事件提醒机制</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:05:39 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to pecl::memcache和pecl::memcached" href="http://example.org/2009/03/23/peclmemcachee5928cpeclmemcached/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>nginx源代码分析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Nginx可以开启多个进程，每个进程拥有最大上限128个子线程以及一定的可用连接数。如果你希望使用线程可以在配置文件中设置worker_threads这个参数，但这个参数在Nginx官方手册上没有。只有通过阅读源代码才看到。最大客户端连接数等于进程数与连接数的乘积，连接是在主进程中初始化的，一开始所有连接处于空闲状态。
+每一个客户端请求进来以后会通过事件处理机制，在Linux是Epoll，在FreeBSD下是KQueue放到空闲的连接里。
+如果设置了线程数，那么被填充的连接会在子线程中处理，否则会在主线程中依次处理。
+如果解析出是动态脚本请求，会根据fast-cgi的设置访问php-cgi进程，php进程数量的多少依据php-fpm.conf中max_children的设置。
+因此Nginx的动态请求能力不仅仅依靠Nginx本身的设置，还要调试php-fpm。
+从源代码级别上看nginx由以下几个元素组成：
+1. worker（进程） 2. thread（线程） 3. connection（连接） 4. event（事件） 5. module（模块） 6. pool（内存池） 7. cycle（全局设置） 8. log（日志） 大概就这些元素组成的。 整个程序从main()开始算 ngx_max_module = 0; for (i = 0; ngx_modules[i]; i&#43;&#43;) { ngx_modules[i]-&gt;index = ngx_max_module&#43;&#43;; } 这几句比较关键，对加载的模块点一下数，看有多少个。ngx_modules并不是在原代码中被赋值的，你先执行一下./configure命令生成用于编译的make环境。在根目录会多出来一个文件夹objs，找到ngx_modules.c文件，默认情况下nginx会加载大约30个模块，的确不少，如果你不需要那个模块尽量还是去掉好一些。 接下来比较重要的函数是 ngx_init_cycle()，这个函数初始化系统的配置以及网络连接等，如果是多进程方式加载的会继续调用ngx_master_process_cycle()，这是main函数中调用的最关键的两个函数。 ngx_init_cycle()实际上是个复杂的初始化函数，首先是加载各子模块的配置信息、并初始化各组成模块。 任何模块都有两个重要接口组成，一个是create_conf，一个是init_conf。分别是创建配置和初始化配置信息。 模块按照先后顺序依次初始化，大概是这样的： &amp;ngx;_core_module, &amp;ngx;_errlog_module, &amp;ngx;_conf_module, &amp;ngx;_events_module, &amp;ngx;_event_core_module, &amp;ngx;_epoll_module, &amp;ngx;_http_module, &amp;ngx;_http_core_module, &amp;ngx;_http_log_module, 首先是内核模块、错误日志、配置模块、事件模块、时间内核模块、EPOLL模块、http模块、http内核模块、http日志模块，剩下的模块都算不上关键。 epoll是比较关键的核心模块之一，nginx兼容多种IO控制模型，memecached用的是libevent不如nginx彻头彻尾是自己实现的。 在ngx_init_cycle()中对模块初始化完毕后，调用ngx_open_listening_sockets()函数对socket进行了初始化。 在listen上80端口以后，调用模块的另外一个重要接口init_module对各模块进行初始化。 并不是每个模块都对init_module接口进行了定义，在比较重要的模块中仅有 ngx_http_log_module 对这个接口进行了定义。 ngx_init_cycle()返回后，主要的工作都是在ngx_master_process_cycle()函数中继续进行的。 ngx_master_process_cycle()函数中的重要过程有调用ngx_start_worker_processes()生成多个子进程，一般nginx是多进程的。 ngx_start_worker_processes()函数内部调用ngx_worker_process_cycle()函数建立每个进程的实际工 作内容，在这个函数中首先调用ngx_create_thread()初始化各线程。我们知道每个线程都有一个启动处理函数，nginx的线程处理函数为 ngx_worker_thread_cycle()，内部过程中最重要的是对ngx_event_thread_process_posted()函数 的调用，用于实际处理每一次请求。 在初始化线程结束后，首先调用ngx_process_events_and_timers()函数，该函数继续调用 ngx_process_events接口监听事件，一般情况下对应的函数是ngx_epoll_process_events()，如果使用的是其它种 类的IO模型，则应该实现相应的实际函数。这个接口负责把事件投递到ngx_posted_events事件队列里，并在 ngx_event_thread_process_posted()函数中进行处理。 nginx的connection和event是按照链表的方式进行存放的，区别在于connection是单向链表而event是双向链表。 nginx中的connection链表是提前分配的，定义在ngx_event_process_init()函数内，具体代码如下： ....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 15:07:27 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to nginx源代码分析" href="http://example.org/2009/03/23/nginxe6ba90e4bba3e7a081e58886e69e90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Linux基金会本周买下Linux.com域名
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Linux基金会本周买下了Linux.com域名,将把它建设为Linux用户和开发者的活跃社区,有分析人士认为,Linux基金会此举是为了吸引更多的商业用户使用Linux操作系统.
+Linux.com之前只是一个简单的新闻站点,去年的访问量上升了21%.目前Linux基金会正在准备重新发布新网站,预计新网站将在数月之内上线.SourceFourge也表示将继续销售Linux.com的推广广告来支持Linux基金会.
+Linux基金会还计划把当前的www.linuxfoundation.org网站上内容与社区项目都移植到新网站,并向商业用户提供更多有关使用Linux的信息,以吸引更多的商业用户使用Linux这样的开源操作系统.
+Linux基金会执行主管吉姆·泽姆林(Jim Zemlin)表示,“能够得到Linux.com这个域名并通过它为用户提供信息与服务,Linux社区感到非常兴奋.我们将向世人展示Linux社区成员是如何通过Linux.com网站进行协作的.”</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-21 16:03:47 +0000 UTC'>March 21, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Linux基金会本周买下Linux.com域名" href="http://example.org/2009/03/21/linuxe59fbae98791e4bc9ae69cace591a8e4b9b0e4b88blinuxcome59f9fe5908d/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>web 2.0系统的Cache化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>已经有很久了。几位同事不断的跟我谈论着做静态化内容的改造。由于我们系统和用户的增涨过快，大量的web 2.0产品都面临着用户的增涨过快，极大的消耗了服务器资源。当年的三板斧的静态化板斧又冲上来了。但是显然，将一个动态的web 2.0系统做成一个静态化的系统，不是一天两天的事，但我认为大量的人力资源消耗在这件事上显然不值得。这里记下自己尝试着需要记录的为动态加入 Cache功能的要点。
+先来看看新浪的blog首页和我的页面：
+访问http://blog.sina.com.cn的首页，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:26:19 GMT Server: Apache/1.3.37 (Unix) Cache-Control: max-age=600 Expires: Mon, 09 Jul 2007 11:36:19 GMT Last-Modified: Mon, 09 Jul 2007 11:15:11 GMT ETag: “451ed-4d003-469218bf” Accept-Ranges: bytes Content-Length: 315395 Content-Type: text/html
+访问http://blog.sina.com.cn/hdcola，它返回的Header如下： HTTP/1.1 200 OK Date: Mon, 09 Jul 2007 11:28:01 GMT Server: Apache/1.3.37 (Unix) Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0 Expires: Thu, 19 Nov 1981 08:52:00 GMT Set-Cookie: SessionID=xxxxxxxxxxxxxxxxxx; path=/ Pragma: no-cache Transfer-Encoding: chunked Content-Type: text/html...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-21 15:23:16 +0000 UTC'>March 21, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to web 2.0系统的Cache化" href="http://example.org/2009/03/21/web-20e7b3bbe7bb9fe79a84cachee58c96/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>IBM欲斥资65亿美元收购Sun 同时涉足Linux和Unix
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>华尔街日报周三发表文章称，消息人士透露，IBM欲斥资65亿美元收购Sun，该交易最早将于本周宣布。但业内人士认为，这一消息并不出乎意料。并列出了IBM收购Sun的9大积极因素。Sun 在金融和通信等关键领域的硬件市场仍然占据很大的份额。Sun对美国市场非常依赖，但现在看来，这一市场的情况不容乐观。
+1、IBM提升服务器和存储器市场
+随着思科进入服务器市场，这一领 域的利润率也将受到挤压，尤其是当服务器增加了存储器和网络设备的功能后。而被并购后，由于IBM规模更大，因此能够承受较小的利润率。存储器市场也是如 此。
+当然，双方还存在一些问题需要调和。IBM已经撤出了商品服务器（commodity server）市场，而Sun仍然涉足这一市场。与此同时，两家公司的服务器所使用的芯片也有所不同，Sun使用的是Sparc处理器，而IBM则是基于Power架构。
+2、通过硬件增强软件业务
+IBM是一家软件和服务公司，但是它同样需要硬件以销售其他产品。硬件是IBM所提供的软件及服务的入口。如果能够增强硬件业务，就可以在这一市场上更好的防御惠普。
+3、横跨Linux和Unix两大市场
+Sun 是Unix领域的重要厂商，旗下的Solaris至今仍是非常重要的平台，但是其市场近期却没有太大进展。IBM收购Sun后可以建立两大阵地：Linux和Unix。前者最终会在数据中心市场代替后者。IBM可以同时涉足两个领域，并对用户出售相关的服务以实现平台之间的迁移。除此之外，收购Sun还能对惠普的Unix业务形成一定的压力。
+不过这里同样存在一个问题，IBM出售的是AIX Unix服务器，而Sun出售的则是Solaris服务器。
+4、Sun可借此解脱
+Sun希望从一家传统的硬件公司转型为一家开源软件和服务企业。这一举措恐怕难以奏效。而此时选择放弃则是明智之举。除此之外，此前还有报道称Sun曾被惠普和戴尔拒绝过。
+5、回击惠普
+《华尔街日报》的文章认为IBM此举是为应对思科进军数据中心业务。事实上，IBM真正的目标在于惠普。通过收购EDS，惠普将矛头直接指向IBM。而IBM则可凭借收购Sun在硬件领域给予惠普以有力的回击。
+6、整合开源软件
+Sun 的未来是以MySQL为核心推出一系列开源软件。而IBM也在大力拓展开源市场。因此两家公司的合并就在情理之中，而且IBM还可借此将MySQL、 Lotus、OpenSolaris和其他产品整合到一起。另外，Sun的开源软件需要分销渠道，因此它最近刚刚与惠普签署了分销协议。而IBM恰好拥有丰富的分销渠道。
+面临问题：双方有许多重叠的软件。例如，在数据库领域IBM有DB2而Sun有MySQL。
+7、使Java盈利
+一直以来，Java都被认为是Sun最为优秀的资产，但这一平台从未实现盈利。或许IBM有能力帮助Java盈利。
+8、丰富云计算服务
+Sun在云计算领域有着一些非常有趣的想法其计划也切实可行。Sun还在云计算领域进行了一些有针对性的并购。而IBM则可以通过并购将Sun的这些计划纳入到其庞大的云计算计划中。
+9、平衡数据中心市场格局
+数据中心的管理人员都希望能够尽量少的出现瓶颈，而思科的产品则希望简化数据中心的管理。在思科进军该领域后，IBM对Sun的并购又可以使市场重新获得平衡。
+垄断问题和文化差异 不 过，双方的交易可能会面临反垄断审查。根据美国市场研究公司IDC的数据，2008年全年，IBM和Sun分列服务器市场第一和第四位，份额分别为 31.9%和10.13%，合并后份额则达到42%。惠普和戴尔分列二、三，份额分别为29.5%和11.6%。IBM和Sun的交易能否通过政府审查还是个未知数。除此之外，双方还存在这相当的文化差异。
+原文 http://bbs2.chinaunix.net/thread-1400664-1-1.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-21 14:57:58 +0000 UTC'>March 21, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to IBM欲斥资65亿美元收购Sun 同时涉足Linux和Unix" href="http://example.org/2009/03/21/ibme6acb2e696a5e8b58465e4babfe7be8ee58583e694b6e8b4adsun-e5908ce697b6e6b689e8b6b3linuxe5928cunix/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>QQ 批量查询显示状态 js!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>&lt;script src=&#34;http://webpresence.qq.com/getonline?Type=1&amp;669811:1026811:65861413:&#34;&gt;&lt;/script&gt; 调用
+&lt;script&gt;line(online[0],&#39;白天&#39;,669811)&lt;/script&gt; 效果页面见 http://cd-dns.com/freebsd-hosting
+不过现在已经被TX禁了,找个时间在重写一下吧</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 18:31:19 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to QQ 批量查询显示状态 js!" href="http://example.org/2009/03/19/qq-e689b9e9878fe69fa5e8afa2e698bee7a4bae78ab6e68081-js/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PHP 5.2.9 Released!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 14:36:17 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP 5.2.9 Released!" href="http://example.org/2009/03/19/php-529-released/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Find 指令用法教學
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>筆記一下自己常用的 find 指令，適用於 FreeBSD 或者是 Linux 各大 distribution，系統管理這個指令就相當重要了，在搭配 grep，sed，awk，perl 可以快速找到自己要的檔案。我自己本身很常用到 grep，find，awk 這些撰寫 shell script。
+底下先來介紹一下 find：
+找出 . 底下的 php 檔案
+find . -name “*.php”
+找出 . 底下非 php 副檔名檔案
+find . -not -name “*.php”
+刪除 . 底下 php 檔案，有兩種作法
+系統詢問之後才刪除 先把 -exec 後面的東西先清掉， 用 -print 來先確認輸出 rm 可以多用 -i 的參數來加以確認 find . -name “*.php” -exec rm -i {} ;
+系統直接刪除 find . -delete -name “.php” find . -name “.php” | xargs /bin/rm -rf...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 13:47:18 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Find 指令用法教學" href="http://example.org/2009/03/19/find-e68c87e4bba4e794a8e6b395e69599e5adb8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>利用 portmaster 升級 PHP 5.26 -&gt; 5.28
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 13:12:10 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 利用 portmaster 升級 PHP 5.26 -&gt; 5.28" href="http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/19/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/21/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.109.0"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>白天’s Blog</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="白天’s Blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="白天’s Blog"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "白天’s Blog",
+  "url": "http://example.org/",
+  "description": "",
+  "thumbnailUrl": "http://example.org/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>mysql化化
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。
+安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf
+my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的
+配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache
+1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实
+际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和
+Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可
+能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如
+果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人
+通过phpmyadmin获得的
+实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好
+另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大
+2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今
+后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最
+多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks...</p>
+  </div>
+  <footer class="entry-footer"><span title='2007-06-27 10:05:46 +0000 UTC'>June 27, 2007</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql化化" href="http://example.org/2007/06/27/mysqle58c96e58c96/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>php &#43; xapian extension的安装
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>xapian是啥玩意?
+xapian 是一个“Xapian 是一个开源概率论信息检索库，基于GPL发布。它是用C&#43;&#43;编写的，提供的绑定可以支持其它语言(支持Perl, Python, PHP, Java, and TCL )的开发。 Xapian 设计为一个高度可适应的工具集，可以让开发人员方便地为他们自己的应用程序增加高级索引和搜索功能。”
+在网上找到这段介绍后,俺手痒痒就想试试xapian —- 一定要给php整个这东东上去.参考了若干文档以后,这就开始动手了(我的环境仍然是freebsd &#43; apache 2.2 &#43; php 5.1.2,apache和php原来就已经安装好):
+1.下载xapian
+cd /usr/local/src wget &lt;a href=&#34;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&#34;&gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-core-0.9.4.tar.gz&lt;/a&gt; wget &lt;a href=&#34;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&#34;&gt;http://www.oligarchy.co.uk/xapian/0.9.4/xapian-bindings-0.9.4.tar.gz&lt;/a&gt; 前者是xapian的核心lib代码,后者是给其它语言调用的接口
+2.安装Xapian-core
+cd /usr/local/src tar xzvf xapian-core-0.9.4.tar.gz cd xapian-core-0.9.4 ./configure –prefix=/usr/local/xapian make make install 3.安装Xapian-bindings
+cd /usr/local/src tar xzvf xapian-bindings-0.9.4.tar.gz cd xapian-bindings-0.9.4 ln -s /usr/local/xapian/bin/xapian-config /usr/local/bin/xapian-config #这里需要做个软连接,编译的时候需要用到 ./configure –without-python #我没用到python,就不编译了 make make install 进行到这一步,Xapian-bindings应该算是安装好了,但是不知道为何,编译好的xapian.so没有按说明文档所说的自动复制到php的extension目录,于是我手工完成这一步骤
+cp php/.libs/xapian.so /usr/local/lib/php #/usr/local/lib/php是我在php.ini设置的extension目录 然后修改php.ini extension_dir = “/usr/local/lib/php/” #没有就加上 extension=xapian....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-12-11 05:56:16 +0000 UTC'>December 11, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php &#43; xapian extension的安装" href="http://example.org/2006/12/11/php-xapian-extensione79a84e5ae89e8a385/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>网络最大的赢家是谁？
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文来自中国站长站论坛
+大型娱乐站、旅游站、咨询站、门户站，中国某某第一站？？？？
+你知道你上面说的这几个字，如何能实现嘛？ 我来告诉你， 1年广告费用（价格都是2004年的）
+首先， SINA 一天的首页 LOGO图片价格：15000/天 SOHU 一天的首页 LOGO图片价格：15000/天 163 一天的首页 LOGO图片价格：18000/天
+SINA 一天的首页 通栏价格：16万/天 SOHU 一天的首页 通栏价格：15.2万/天 163 一天的首页 通栏价格：15.4万/天
+SINA 首页 弹出页面价格：10万/小时 SOHU 首页 弹出页面价格：12万/小时 163 首页 弹出页面价格：11.5万/小时
+SINA 首页 弹出窗口价格：13万/天 SOHU 首页 弹出窗口价格：14万/天 163 首页 弹出窗口价格：13万/天
+SINA 所有用户邮件价格：12万/天 SOHU 所有用户邮件价格：10万/天 163 所有用户邮件价格：15万/天
+这只是广告费用，
+其次，你在机房的投资，
+DELL 主服务器系统 40万/台（全套） IBM 主服务器系统 48万/台（全套） HP 没有主服务器系统
+你至少不上3台？1台网站，1台论坛，1台邮件
+然后是人工， 现在网络雇员的费用应该是
+北京 高级管理人员 10-20万/月 一般管理人员 1-5万/月 技术骨干 50-200万/年 一般技术 2000-5万/月 普通维护 1000-8000/月 普通雇员 600-2000月...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-11-07 08:16:08 +0000 UTC'>November 7, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 网络最大的赢家是谁？" href="http://example.org/2006/11/07/e7bd91e7bb9ce69c80e5a4a7e79a84e8b5a2e5aeb6e698afe8b081efbc9f/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>今天使用HessianPHP
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &#34;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&#34;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &#34;club&#34;; $conn = mysql_connect(&#34;localhost&#34;,&#34;club&#34;, &#34;club_test&#34;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;new; HessianService(); $service-&gt;registerObject(new bbs_api); $service-&gt;displayInfo = true; $service-&gt;service(); ?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-30 09:26:43 +0000 UTC'>October 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天使用HessianPHP" href="http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>今天又开始新折工作了！
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本来还想多呆几天呢，唉没想到休息两天就又开始新的工作了，希望这里能有一个新的发展空间，
+不过第一天上班给我的印像真的不好，唉没想到在这种公司也会有这种人，不过希望我能在这里能多学点东东在走！</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-24 14:41:10 +0000 UTC'>October 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天又开始新折工作了！" href="http://example.org/2006/10/24/e4bb8ae5a4a9e58f88e5bc80e5a78be696b0e68a98e5b7a5e4bd9ce4ba86efbc81/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>正则表达式30分钟入门教程。。
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。一旦入门后，你可以从网上找到更多更详细的资料来继续学习。 别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并不像你想像中的那么困难。当然，如果你看完了这篇教程之后发现自己明白了很多，却又几乎什么都记不得，那也是很正常的–其实我认为没接触过正则表达式的人在看完这篇教程后能把提到过的语法记住80%以上的可能性为零。这里只是让你明白基本道理，以后你还需要多练习，多查资料，才能熟练掌握正则表达式。 说明正则表达式是用于进行文本匹配的工具，所以本文里多次提到了在字符串里搜索/查找，这种说法的意思是在给定的字符串中，查找与给定的正则表达式相匹配的部分。有可能字符串里有不止一个部分满足给定的正则表达式，这时每一个这样的部分被称为一个匹配。匹配在本文里可能会有三种意思：一种是形容词性的，比如说一个字符串匹配一个表达式；一种是动词性的，比如说在字符串里匹配正则表达式；还有一种是名词性的，就是刚刚说到的“字符串中满足给定的正则表达式的一部分”。 文本格式约定：专业术语 特殊代码/语法格式 正则表达式 正则表达式中的一部分(用于分析) 用于在其中搜索的字符串 对正则表达式或其中一部分的说明 什么是正则表达式？很可能你使用过Windows/Dos下用于文件查找的通配符，也就是和?。如果你想查找某个目录下的所有的Word文档的话，你会搜索.doc。在这里，会被解释成任意的字符串。和通配符类似，正则表达式也是用来进行文本匹配的工具，只不过比通配符更能精确地描述你的需求–当然，代价就是更复杂。比如你可以编写一个正则表达式来查找所有以0开头，后面跟着2-3个数字，然后是一个连字号“-”，最后是7或8位数字的字符串(像010-12345678或0376-7654321)。 入门在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。例如，\d&#43;就是一个简洁的代码，代表着规则1位或更多位数字，2008就符合这个规则，而A3则不符合(它包含了不是数字的字符)。 学习正则表达式的最好方法是从例子开始，理解例子之后再自己对例子进行修改，实验。下面给出了不少简单的例子，并对它们作了详细的说明。 假设你在一篇英文小说里查找hi，你可以使用正则正则表达式hi。 这是最简单的正则表达式了，它可以精确匹配这样的字符串：由两个字符组成，前一个字符是h,后一个是i。通常，处理正则表达式的工具会提供一个忽略大小写的选项，如果选中了这个选项，它可以匹配hi,HI,Hi,hI。 不幸的是，很多单词里包含hi这两个连续的字符，比如him,history,high等等。用hi来查找的话，这里边的hi也会被找出来。如果要精确地查找hi这个单词的话，我们应该使用\bhi\b。 \b是正则表达式规定的一个特殊代码，代表着单词的开头或结尾。虽然通常英文的单词是由空格或标点符号或换行为分隔的，但是\b并不代表这些单词分隔符中的任何一个，只代表一个位置。 假如你要找的是hi后面不远处跟着一个Lucy，你应该用\bhi\b.\bLucy\b。 这里，.是另一个特殊代码，代表除了换行符以外的任意字符。同样是特殊的代码，不过它代表的不是字符，也不是位置，而是数量–它指定前边的内容可以重复任意次以使整个表达式得到匹配。因此，.连在一起就意味着任意数量的不包含换行的字符。现在\bhi\b.\bLucy\b的意思就很明显了：先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词。 如果同时使用其它的一些特殊代码，我们就能构造出功能更强大的正则表达式。比如下面这个例子： 0\d\d-\d\d\d\d\d\d\d\d代表着这样的字符串：以0开头，然后是两个数字，然后是一个连字号“-”，最后是8个数字(也就是中国的电话号码，当然，这个例子只能匹配区号为3位的情形，想同时匹配区号为4位的话，请在教程的下面寻找答案)。 这里的\d是一个新的特殊代码，代表任意的数字(0，或1，或2，或。。。)。-不是特殊代码，只代表它本身–连字号。 为了避免那么多烦人的重复，我们也可以这样写这个表达式：0\d{2}-\d{8} 这里\d后面的{2}({8})指定的是前面\d必须连续重复出现2次(8次)。 测试正则表达式如果你不觉得正则表达式很难读写的话，要么你是一个天才，要么，你不是地球人。正则表达式的语法很令人头疼，即使对经常使用它的人来说也是如此。由于难于读写，容易出错，所以很有必要创建一种工具来测试正则表达式。 由于在不同的环境下正则表达式的一些细节是不相同的，本教程介绍的是Microsoft .net下正则表达式的行为，所以，我向你介绍一个.net下的工具The Regulator。首先你确保已经安装了.net Framework1.1，然后下载The Regulator，下载完后打开压缩包，运行setup.exe安装。 下面是the Regulator运行时的截图：
+特殊代码现在你已经知道几个具有特殊意义的代码了，如\b,.,*，还有\d.事实上还有更多的特殊代码，比如\s代表任意的空白符，包括空格，制表符(Tab),换行符。\w代表着字母或数字。 下面来试试更多的例子：
+\ba\w*\b匹配以字母a开头的单词-先是某个单词开始处(\b)，然后是字母a,然后是任意数量的字母或数字(\w*)，最后是单词结束处(\b)。 \d&#43;匹配1个或更多连续的数字。这里的&#43;是和*类似的特殊代码，不同的是*代表重复任意次(可能是0次)，而&#43;则代表重复1次或更多次。 \b\w{6}\b 匹配刚好6个字母/数字的单词。 . 匹配除换行符以外的任意字符 \w 匹配字母或数字 \s 匹配任意的空白符 \d 匹配数字 \b 匹配单词的开始或结束 ^ 匹配字符串的开始 $ 匹配字符串的结束 特殊代码^以及$和\b有点类似，都匹配一个位置。^匹配你要用来查找的字符串的开头，$匹配结尾。这两个代码在验证输入的内容时非常有用，比如一个网站如果要求你填写的QQ号必须为5位到12位数字时，可以使用：^\d{5,12}$。 这里的{5,12}和前面介绍过的{2}是类似的，只不过{2}代表只能不多不少重复2次，{5,12}则是必须重复最少5次，最多12次，否则都不匹配。 因为使用了^和$，所以输入的整个字符串都要用来和\d{5,12}来匹配，也就是说整个输入必须是5到12个数字，因此如果输入的QQ号能匹配这个正则表达式的话，那就符合要求了。 和忽略大小写的选项类似，有些正则表达式处理工具还有一个处理多行的选项。如果选中了这个选项，^和$的意义就变成了匹配行的开始处和结束处。 字符转义如果你想查找特殊代码本身的话，比如你查找.,或者*,就出现了问题：你没法指定它们，因为它们会被解释成其它的意思。这时你就必须使用\来取消这些字符的特殊意义。因此，你应该使用\.和\*。当然，要查找\本身，你也得用\\. 例如：www\.unibetter\.com匹配www.unibetter.com，c:\\windows匹配c:\windows,2\^8匹配2^8(通常这是2的8次方的书写方式)。 重复你已经看过了前面的*,&#43;,{2},{5,12}这几个代表重复的方式了。下面是正则表达式中所有指定重复的方式： * 重复零次或更多次 &#43; 重复一次或更多次 ? 重复零次或一次 {n} 重复n次 {n,} 重复n次或更多次 {n,m} 重复n到m次 下面是一些使用重复的例子： Windows\d&#43;匹配Windows后面跟1个或更多数字 13\d{9}匹配以13后面跟9个数字(中国的手机号) ^\w&#43;匹配一行的第一个单词(或整个字符串的第一个单词，具体代表哪个意思得看选项设置) 字符类要想查找数字，字母或数字，空白是很简单的，因为已经有了对应这些字符集的特殊代码，但是如果你想匹配没有预定义特殊代码的字符集比如元音字母(a,e,i,o,u),怎么办？ 很简单，你只需要在中括号里列出它们就行了，像[aeiou]就匹配任何一个元音字母，[....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-24 14:16:00 +0000 UTC'>October 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 正则表达式30分钟入门教程。。" href="http://example.org/2006/10/24/e6ada3e58899e8a1a8e8bebee5bc8f30e58886e9929fe585a5e997a8e69599e7a88be38082e38082/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>明天就要离开了,
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>明天就要离开网友了,不知道这回结果怎么样,不知道当时的到时候怎么想的,没想到结果会这样,
+也不知道自己以后会怎么样,唉,不过在这里还是学了很多,如刚来的时候对JS是一片空白,现在至少能实天页面免刷新了呵呵!
+PP我真的想在和你学点东西在走,唉,可是,以经不可能了..</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-20 09:39:59 +0000 UTC'>October 20, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 明天就要离开了," href="http://example.org/2006/10/20/e6988ee5a4a9e5b0b1e8a681e7a6bbe5bc80e4ba86/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>test
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>function all () { global $HTTP_GET_VARS, $HTTP_POST_VARS;
+$args = func_get_args(); while (list(,$key) = each ($args)) { if (isset($HTTP_GET_VARS[$key])) $value = $HTTP_GET_VARS[$key]; if (isset($HTTP_POST_VARS[$key])) $value = $HTTP_POST_VARS[$key]; if (isset($value)) { if (!ini_get (&#39;magic_quotes_gpc&#39;)) { if (!is_array($value)) $value = addslashes($value); else $value = ary($value); } $GLOBALS[$key] = $value; unset($value); } } } function ary ($a) { while (list($k,$v) = each($a)) { if (!is_array($v)) $a[$k] = addslashes($v); else $a[$k] = ary($v); } reset ($a); return ($a); } </p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-18 09:23:53 +0000 UTC'>October 18, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to test" href="http://example.org/2006/10/18/test-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>FreeBSD 下的TOP的使用方法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况
+top监控命令在FreeBSD上的使用 top监控工具可以显示CPU占用率为前几位的进程，并提供CPU的实时活动情况 语法：top [-s time] [-d count] [-q] [-h] [-n number] [-f filename] [-o field][-U usename] -S 将系统进程信息也显示到屏幕上，默认情况下，top不显示系统进程的信息 -b 使用”batch”方式运行top。在此种方式下，所有来自终端的输入都将被忽略，但交互键(比如C and ) 依然起使用。这是运行top输出到哑终端或输到非终端的默认运行方式 -i 使用交互运行top程序，在此种方式下，命令会被进程立即被处理。不管命令是不是能被top所理解执行， 屏幕都将立即更新。这是top的默认运行方式。 -I 不显示空闲进程，在默认情况下，top连同空闲进程的信息一同输出。 -t 不显示top进程自己 -n 不以交互方式使用top命令，作用同”batch”方式。 -s time 设置屏幕刷新的延时，单位为秒，默认值5秒 -d count 设置屏幕刷新的次数，刷新显示完count次后退出 -q 如果经过nice授权，使用-q可以使top运行的更快一些，这样，在系统反应缓慢的时候，可以会更快的找到存在的问题。 此选项在FreeBSD下只有root可以使用 -n number 设置每一屏幕显示的进程数目，number值超过进程最大数目，则设置无效 -u 用显示User ID代替username，提高命令运行速度 -v 显示程序版本号后，立即退出。如果要在top运行时查看版本号，输入”?” -o 以指定的字段排序显示进行信息。字段名必须为输入在屏幕的可见列的名字，而且必须是小写。 比如”cpu”、”size”、”res”与”time”,但不同的操作系统间有许多的不同。注意不是每个UNIX操 作系统都支持此选项。
+-U 只显示属于后面所跟用户名的进程的信息 屏幕控制命令 交换方式下，可以使用以下命令控制top ^L – 刷新屏幕 q – 退出 h or ? – 显示帮助 d – 修改刷新显示的次数 e – 显示最近”kill”或”renice”命令所产生的错误 i – 显示/不显示处于空闲的进程 I – 作用同 ‘i’ k – kill 进程; 发送一个信号到某个进程列表 n or # – 修改显示进程的数目 o – 以特定的字段排序 (pri, size, res, cpu, time) r – renice 一个进程 s – 修改输入的更新时间 u – 只显示属于某个用户的进程 (&#43; selects all users) 顺序显示下面三个常规的信息...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-18 03:46:13 +0000 UTC'>October 18, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to FreeBSD 下的TOP的使用方法" href="http://example.org/2006/10/18/freebsd-e4b88be79a84tope79a84e4bdbfe794a8e696b9e6b395/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>freebsd命令大全
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1 man 在线查询 man ls
+2 ls 查看目录与档案 ls -la 3 ln 建立链接文件 ln -fs /usr/local/apache/etc/httpd.conf /etc/httpd.conf
+4 more 分页显示 more 文件名称
+5 cd 切换目录 cd /usr/local/apache
+6 mkdir 建立新的目录 mkdir /usr/temp
+7 rmdir 删除目录 rmdir /usr/temp
+8 rm 删除目录或档案 rm -f 文件名称
+9 cp 复制目录或档案 cp 来源档案 目标档案
+10 pwd 显示目前的工作目录 Pwd
+11 mv 目录或档案更名或搬移 mv 来源档案 目标档案
+12 find 寻找目录或档案 find /etc -name 文件名称
+13 fetch 取得档案 fetch ftp://ftp....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-16 01:33:39 +0000 UTC'>October 16, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd命令大全" href="http://example.org/2006/10/16/freebsde591bde4bba4e5a4a7e585a8/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/page/21/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://example.org/page/23/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>mysql化化 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。
+安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf
+my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的
+配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache
+1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实
+际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和
+Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可
+能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如
+果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人
+通过phpmyadmin获得的
+实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好
+另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大
+2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今
+后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最
+多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2007/06/27/mysqle58c96e58c96/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="mysql化化" />
+<meta property="og:description" content="同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。
+安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf
+my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的
+配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache
+1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实
+际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和
+Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可
+能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如
+果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人
+通过phpmyadmin获得的
+实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好
+另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大
+2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今
+后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最
+多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2007/06/27/mysqle58c96e58c96/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2007-06-27T10:05:46+00:00" />
+<meta property="article:modified_time" content="2007-06-27T10:05:46+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mysql化化"/>
+<meta name="twitter:description" content="同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。
+安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf
+my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的
+配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache
+1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实
+际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和
+Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可
+能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如
+果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人
+通过phpmyadmin获得的
+实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好
+另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大
+2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今
+后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最
+多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "mysql化化",
+      "item": "http://example.org/2007/06/27/mysqle58c96e58c96/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "mysql化化",
+  "name": "mysql化化",
+  "description": "同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。\n安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf\nmy-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的\n配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache\n1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实\n际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和\nKey_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可\n能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如\n果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人\n通过phpmyadmin获得的\n实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好\n另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大\n2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今\n后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最\n多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks",
+  "keywords": [
+    
+  ],
+  "articleBody": "同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力 严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月 MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。\n安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf\nmy-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的\n配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要； 一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了 使用mysqladmin variables extended-status –u root –p 可以看到目前的参数 有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache\n1.key_buffer_size key_buffer_size只对MyISAM表起作用 key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实\n际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和\nKey_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可\n能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如\n果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人\n通过phpmyadmin获得的\n实例分析: 这个服务器已经运行了20天 key_buffer_size – 128M key_read_requests – 650759289 key_reads - 79112 比例接近1:8000 健康状况非常好\n另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看 以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大\n2.query_cache_size 从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今\n后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最\n多可以达到238%的效率。 通过调节以下几个参数可以知道query_cache_size设置得是否合理 Qcache inserts Qcache hits Qcache lowmem prunes Qcache free blocks Qcache total blocks\nQcache_lowmem_prunes的值非常大，则表明经常出现缓冲不够的情况,同时Qcache_hits的值非常大，则表明查\n询缓冲使用非常频繁，此时需要增加缓冲大小 Qcache_hits的值不大，则表明你的查询重复率很低，这种情况下使用查询缓冲反而会影响效率，那么可以考虑\n不用查询缓冲。此外，在SELECT语句中加入SQL_NO_CACHE可以明确表示不使用查询缓冲。 Qcache_free_blocks，如果该值非常大，则表明缓冲区中碎片很多 query_cache_type指定是否使用查询缓冲 我设置: query_cache_size = 32M query_cache_type= 1 得到如下状态值: Qcache queries in cache 12737 表明目前缓存的条数 Qcache inserts 20649006 Qcache hits 79060095 看来重复查询率还挺高的 Qcache lowmem prunes 617913　有这么多次出现缓存过低的情况 Qcache not cached 189896 Qcache free memory 18573912　目前剩余缓存空间 Qcache free blocks 5328 这个数字似乎有点大　碎片不少 Qcache total blocks 30953 如果内存允许32M应该要往上加点\n3.table_cache table_cache指定表高速缓存的大小。每当MySQL访问一个表时，如果在表缓冲区中还有空间，该表就被打开并\n放入其中，这样可以更快地访问表内容。通过检查峰值时间的状态值Open_tables和Opened_tables，可以决定\n是否需要增加table_cache的值。如果你发现open_tables等于table_cache，并且opened_tables在不断增长，\n那么你就需要增加table_cache的值了（上述状态值可以使用SHOW STATUS LIKE ‘Open%tables’获得）。注意\n，不能盲目地把table_cache设置成很大的值。如果设置得太高，可能会造成文件描述符不足，从而造成性能不\n稳定或者连接失败。\n对于有1G内存的机器，推荐值是128－256。\n笔者设置table_cache = 256 得到以下状态: Open tables 256 Opened tables 9046 虽然open_tables已经等于table_cache，但是相对于服务器运行时间来说,已经运行了20天，opened_tables的\n值也非常低。因此，增加table_cache的值应该用处不大。 如果运行了6个小时就出现上述值 那就要考虑增大table_cache\n4.log-bin 如果你不需要记录2进制log 就把这个功能关掉,注意关掉以后就不能恢复出问题前的数据了，需要您手动备份\n，二进制日志包含所有更新数据的语句，其目的是在恢复数据库时用它来把数据尽可能恢复到最后的状态。另\n外，如果做同步复制( Replication )的话，也需要使用二进制日志传送修改情况。 log_bin指定日志文件，如果不提供文件名，MySQL将自己产生缺省文件名。MySQL会在文件名后面自动添加数\n字引，每次启动服务时，都会重新生成一个新的二进制文件。 此外，使用log-bin-index可以指定索引文件；使用binlog-do-db可以指定记录的数据库；使用binlog-\nignore-db可以指定不记录的数据库。注意的是：binlog-do-db和binlog-ignore-db一次只指定一个数据库，指\n定多个数据库需要多个语句。而且，MySQL会将所有的数据库名称改成小写，在指定数据库时必须全部使用小写\n名字，否则不会起作用。 关掉这个功能只需要在他前面加上#号 #log-bin\n5.开启慢查询日志( slow query log ) 慢查询日志对于跟踪有问题的查询非常有用。它记录所有查过long_query_time的查询，如果需要，还可以记\n录不使用索引的记录。下面是一个慢查询日志的例子：\n开启慢查询日志，需要设置参数log_slow_queries、long_query_times、log-queries-not-using-indexes。\nlog_slow_queries指定日志文件，如果不提供文件名，MySQL将自己产生缺省文件名。long_query_times指定慢\n查询的阈值，缺省是10秒。log-queries-not-using-indexes是4.1.0以后引入的参数，它指示记录不使用索引\n的查询。 笔者设置long_query_time=10\n6.其他一些重要参数 笔者设置: sort_buffer_size = 1M max_connections=120 wait_timeout =120 back_log=100 read_buffer_size = 1M thread_cache=32 interactive_timeout=120 thread_concurrency = 4 参数说明: back_log 要求MySQL能有的连接数量。当主要MySQL线程在一个很短时间内得到非常多的连接请求，这就起作用，然后\n主线程花些时间(尽管很短)检查连接并且启动一个新线程。back_log值指出在MySQL暂时停止回答新请求之前的\n短时间内多少个请求可以被存在堆栈中。只有如果期望在一个短时间内有很多连接，你需要增加它，换句话说\n，这值对到来的TCP/IP连接的侦听队列的大小。你的操作系统在这个队列大小上有它自己的限制。 Unix\nlisten(2)系统调用的手册页应该有更多的细节。检查你的OS文档找出这个变量的最大值。试图设定back_log高\n于你的操作系统的限制将是无效的。 max_connections 并发连接数目最大，120 超过这个值就会自动恢复，出了问题能自动解决 thread_cache 没找到具体说明，不过设置为32后 20天才创建了400多个线程 而以前一天就创建了上千个线程 所以还是有\n用的 thread_concurrency #设置为你的cpu数目x2,例如，只有一个cpu,那么thread_concurrency=2 #有2个cpu,那么thread_concurrency=4 skip-innodb #去掉innodb支持\n附my.cnf全部文件\nExample MySQL config file for medium systems. This is for a system with little memory (32M - 64M) where MySQL plays an important part, or systems up to 128M where MySQL is used together with other programs (such as a web server) You can copy this file to /etc/my.cnf to set global options, mysql-data-dir/my.cnf to set server-specific options (in this installation this directory is /var/lib/mysql) or ~/.my.cnf to set user-specific options. In this file, you can use all long options that a program supports. If you want to know which options a program supports, run the program with the “–help” option. The following options will be passed to all MySQL clients [client] #password = your_password port = 3306 socket = /tmp/mysql.sock #socket = /var/lib/mysql/mysql.sock\nHere follows entries for some specific programs The MySQL server [mysqld] port = 3306 socket = /tmp/mysql.sock #socket = /var/lib/mysql/mysql.sock skip-locking key_buffer = 128M max_allowed_packet = 1M table_cache = 256 sort_buffer_size = 1M net_buffer_length = 16K myisam_sort_buffer_size = 1M max_connections=120 #addnew config wait_timeout =120 back_log=100 read_buffer_size = 1M thread_cache=32 skip-innodb skip-bdb skip-name-resolve join_buffer_size=512k query_cache_size = 32M interactive_timeout=120 long_query_time=10 log_slow_queries= /usr/local/mysql4/logs/slow_query.log query_cache_type= 1\nTry number of CPU’s*2 for thread_concurrency thread_concurrency = 4\n#end new config\nDon’t listen on a TCP/IP port at all. This can be a security enhancement, if all processes that need to connect to mysqld run on the same host. All interaction with mysqld must be made via Unix sockets or named pipes. Note that using this option without enabling named pipes on Windows (via the “enable-named-pipe” option) will render mysqld useless! #skip-networking\nReplication Master Server (default) binary logging is required for replication #log-bin\nrequired unique id between 1 and 2^32 - 1 defaults to 1 if master-host is not set but will not function as a master if omitted server-id = 1\nReplication Slave (comment out master section to use this) To configure this host as a replication slave, you can choose between two methods : 1) Use the CHANGE MASTER TO command (fully described in our manual) - the syntax is: CHANGE MASTER TO MASTER_HOST=, MASTER_PORT= ,\nMASTER_USER=, MASTER_PASSWORD= ;\nwhere you replace , , by quoted strings and\nby the master’s port number (3306 by default).\nExample: CHANGE MASTER TO MASTER_HOST=‘125.564.12.1’, MASTER_PORT=3306, MASTER_USER=‘joe’, MASTER_PASSWORD=‘secret’; OR 2) Set the variables below. However, in case you choose this method, then start replication for the first time (even unsuccessfully, for example if you mistyped the password in master-password and the slave fails to connect), the slave will create a master.info file, and any later change in this file to the variables’ values below will be ignored and overridden by the content of the master.info file, unless you shutdown the slave server, delete master.info and restart the slaver server. For that reason, you may want to leave the lines below untouched (commented) and instead use CHANGE MASTER TO (see above) required unique id between 2 and 2^32 - 1 (and different from the master) defaults to 2 if master-host is set but will not function as a slave if omitted #server-id = 2\nThe replication master for this slave - required #master-host =\nThe username the slave will use for authentication when connecting to the master - required #master-user =\nThe password the slave will authenticate with when connecting to the master - required #master-password =\nThe port the master is listening on. optional - defaults to 3306 #master-port =\nbinary logging - not required for slaves, but recommended #log-bin\nPoint the following paths to different dedicated disks #tmpdir = /tmp/ #log-update = /path-to-dedicated-directory/hostname\nUncomment the following if you are using BDB tables #bdb_cache_size = 4M #bdb_max_lock = 10000\nUncomment the following if you are using InnoDB tables #innodb_data_home_dir = /var/lib/mysql/ #innodb_data_file_path = ibdata1:10M:autoextend #innodb_log_group_home_dir = /var/lib/mysql/ #innodb_log_arch_dir = /var/lib/mysql/\nYou can set .._buffer_pool_size up to 50 - 80 % of RAM but beware of setting memory usage too high #innodb_buffer_pool_size = 16M #innodb_additional_mem_pool_size = 2M\nSet .._log_file_size to 25 % of buffer pool size #innodb_log_file_size = 5M #innodb_log_buffer_size = 8M #innodb_flush_log_at_trx_commit = 1 #innodb_lock_wait_timeout = 50\n[mysqldump] quick max_allowed_packet = 16M\n[mysql] no-auto-rehash\nRemove the next comment character if you are not familiar with SQL #safe-updates\n[isamchk] key_buffer = 20M sort_buffer_size = 20M read_buffer = 2M write_buffer = 2M\n[myisamchk] key_buffer = 20M sort_buffer_size = 20M read_buffer = 2M write_buffer = 2M\n[mysqlhotcopy] interactive-timeout\n",
+  "wordCount" : "936",
+  "inLanguage": "en",
+  "datePublished": "2007-06-27T10:05:46Z",
+  "dateModified": "2007-06-27T10:05:46Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2007/06/27/mysqle58c96e58c96/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      mysql化化
+    </h1>
+    <div class="post-meta"><span title='2007-06-27 10:05:46 +0000 UTC'>June 27, 2007</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>同时在线访问量继续增大 对于1G内存的服务器明显感觉到吃力
+严重时甚至每天都会死机 或者时不时的服务器卡一下 这个问题曾经困扰了我半个多月
+MySQL使用是很具伸缩性的算法，因此你通常能用很少的内存运行或给MySQL更多的被存以得到更好的性能。</p>
+<p>安装好mysql后，配制文件应该在/usr/local/mysql/share/mysql目录中，配制文件有几个，有my-huge.cnf</p>
+<p>my-medium.cnf my-large.cnf my-small.cnf,不同的流量的网站和不同配制的服务器环境，当然需要有不同的</p>
+<p>配制文件了。一般的情况下，my-medium.cnf这个配制文件就能满足我们的大多需要；
+一般我们会把配置文件拷贝到/etc/my.cnf 只需要修改这个配置文件就可以了
+使用mysqladmin variables extended-status –u root –p 可以看到目前的参数
+有３个配置参数是最重要的，即key_buffer_size,query_cache_size,table_cache</p>
+<p>1.key_buffer_size
+key_buffer_size只对MyISAM表起作用
+key_buffer_size指定索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。一般我们设为16M,实</p>
+<p>际上稍微大一点的站点　这个数字是远远不够的，通过检查状态值Key_read_requests和</p>
+<p>Key_reads,可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可</p>
+<p>能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。 或者如</p>
+<p>果你装了phpmyadmin 可以通过服务器运行状态看到,笔者推荐用phpmyadmin管理mysql，以下的状态值都是本人</p>
+<p>通过phpmyadmin获得的</p>
+<p>实例分析:
+这个服务器已经运行了20天
+key_buffer_size – 128M
+key_read_requests – 650759289
+key_reads - 79112
+比例接近1:8000 健康状况非常好</p>
+<p>另外一个估计key_buffer_size的办法　把你网站数据库的每个表的索引所占空间大小加起来看看
+以此服务器为例:比较大的几个表索引加起来大概125M 这个数字会随着表变大而变大</p>
+<p>2.query_cache_size
+从4.0.1开始，MySQL提供了查询缓冲机制。使用查询缓冲，MySQL将SELECT语句和查询结果存放在缓冲区中，今</p>
+<p>后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。根据MySQL用户手册，使用查询缓冲最</p>
+<p>多可以达到238%的效率。
+通过调节以下几个参数可以知道query_cache_size设置得是否合理
+Qcache inserts
+Qcache hits
+Qcache lowmem prunes
+Qcache free blocks
+Qcache total blocks</p>
+<p>Qcache_lowmem_prunes的值非常大，则表明经常出现缓冲不够的情况,同时Qcache_hits的值非常大，则表明查</p>
+<p>询缓冲使用非常频繁，此时需要增加缓冲大小
+Qcache_hits的值不大，则表明你的查询重复率很低，这种情况下使用查询缓冲反而会影响效率，那么可以考虑</p>
+<p>不用查询缓冲。此外，在SELECT语句中加入SQL_NO_CACHE可以明确表示不使用查询缓冲。
+Qcache_free_blocks，如果该值非常大，则表明缓冲区中碎片很多
+query_cache_type指定是否使用查询缓冲
+我设置:
+query_cache_size = 32M
+query_cache_type= 1
+得到如下状态值:
+Qcache queries in cache 12737 表明目前缓存的条数
+Qcache inserts 20649006
+Qcache hits 79060095 　看来重复查询率还挺高的
+Qcache lowmem prunes 617913　有这么多次出现缓存过低的情况
+Qcache not cached 189896 　　
+Qcache free memory 18573912　　目前剩余缓存空间
+Qcache free blocks 5328 这个数字似乎有点大　碎片不少
+Qcache total blocks 30953
+如果内存允许32M应该要往上加点</p>
+<p>3.table_cache
+table_cache指定表高速缓存的大小。每当MySQL访问一个表时，如果在表缓冲区中还有空间，该表就被打开并</p>
+<p>放入其中，这样可以更快地访问表内容。通过检查峰值时间的状态值Open_tables和Opened_tables，可以决定</p>
+<p>是否需要增加table_cache的值。如果你发现open_tables等于table_cache，并且opened_tables在不断增长，</p>
+<p>那么你就需要增加table_cache的值了（上述状态值可以使用SHOW STATUS LIKE ‘Open%tables’获得）。注意</p>
+<p>，不能盲目地把table_cache设置成很大的值。如果设置得太高，可能会造成文件描述符不足，从而造成性能不</p>
+<p>稳定或者连接失败。</p>
+<p>对于有1G内存的机器，推荐值是128－256。</p>
+<p>笔者设置table_cache = 256
+得到以下状态:
+Open tables 256
+Opened tables 9046
+虽然open_tables已经等于table_cache，但是相对于服务器运行时间来说,已经运行了20天，opened_tables的</p>
+<p>值也非常低。因此，增加table_cache的值应该用处不大。
+如果运行了6个小时就出现上述值 那就要考虑增大table_cache</p>
+<p>4.log-bin
+如果你不需要记录2进制log 就把这个功能关掉,注意关掉以后就不能恢复出问题前的数据了，需要您手动备份</p>
+<p>，二进制日志包含所有更新数据的语句，其目的是在恢复数据库时用它来把数据尽可能恢复到最后的状态。另</p>
+<p>外，如果做同步复制( Replication )的话，也需要使用二进制日志传送修改情况。
+log_bin指定日志文件，如果不提供文件名，MySQL将自己产生缺省文件名。MySQL会在文件名后面自动添加数</p>
+<p>字引，每次启动服务时，都会重新生成一个新的二进制文件。
+此外，使用log-bin-index可以指定索引文件；使用binlog-do-db可以指定记录的数据库；使用binlog-</p>
+<p>ignore-db可以指定不记录的数据库。注意的是：binlog-do-db和binlog-ignore-db一次只指定一个数据库，指</p>
+<p>定多个数据库需要多个语句。而且，MySQL会将所有的数据库名称改成小写，在指定数据库时必须全部使用小写</p>
+<p>名字，否则不会起作用。
+关掉这个功能只需要在他前面加上#号
+#log-bin</p>
+<p>5.开启慢查询日志( slow query log )
+慢查询日志对于跟踪有问题的查询非常有用。它记录所有查过long_query_time的查询，如果需要，还可以记</p>
+<p>录不使用索引的记录。下面是一个慢查询日志的例子：</p>
+<p>开启慢查询日志，需要设置参数log_slow_queries、long_query_times、log-queries-not-using-indexes。</p>
+<p>log_slow_queries指定日志文件，如果不提供文件名，MySQL将自己产生缺省文件名。long_query_times指定慢</p>
+<p>查询的阈值，缺省是10秒。log-queries-not-using-indexes是4.1.0以后引入的参数，它指示记录不使用索引</p>
+<p>的查询。
+笔者设置long_query_time=10</p>
+<p>6.其他一些重要参数
+笔者设置:
+sort_buffer_size = 1M
+max_connections=120
+wait_timeout =120
+back_log=100
+read_buffer_size = 1M
+thread_cache=32
+interactive_timeout=120
+thread_concurrency = 4
+参数说明:
+back_log
+要求MySQL能有的连接数量。当主要MySQL线程在一个很短时间内得到非常多的连接请求，这就起作用，然后</p>
+<p>主线程花些时间(尽管很短)检查连接并且启动一个新线程。back_log值指出在MySQL暂时停止回答新请求之前的</p>
+<p>短时间内多少个请求可以被存在堆栈中。只有如果期望在一个短时间内有很多连接，你需要增加它，换句话说</p>
+<p>，这值对到来的TCP/IP连接的侦听队列的大小。你的操作系统在这个队列大小上有它自己的限制。 Unix</p>
+<p>listen(2)系统调用的手册页应该有更多的细节。检查你的OS文档找出这个变量的最大值。试图设定back_log高</p>
+<p>于你的操作系统的限制将是无效的。
+max_connections
+并发连接数目最大，120 超过这个值就会自动恢复，出了问题能自动解决
+thread_cache
+没找到具体说明，不过设置为32后 20天才创建了400多个线程 而以前一天就创建了上千个线程 所以还是有</p>
+<p>用的
+thread_concurrency
+#设置为你的cpu数目x2,例如，只有一个cpu,那么thread_concurrency=2
+#有2个cpu,那么thread_concurrency=4
+skip-innodb
+#去掉innodb支持</p>
+<p>附my.cnf全部文件</p>
+<h1 id="example-mysql-config-file-for-medium-systems">Example MySQL config file for medium systems.<a hidden class="anchor" aria-hidden="true" href="#example-mysql-config-file-for-medium-systems">#</a></h1>
+<h1 id="heading"><a hidden class="anchor" aria-hidden="true" href="#heading">#</a></h1>
+<h1 id="this-is-for-a-system-with-little-memory-32m---64m-where-mysql-plays">This is for a system with little memory (32M - 64M) where MySQL plays<a hidden class="anchor" aria-hidden="true" href="#this-is-for-a-system-with-little-memory-32m---64m-where-mysql-plays">#</a></h1>
+<h1 id="an-important-part-or-systems-up-to-128m-where-mysql-is-used-together-with">an important part, or systems up to 128M where MySQL is used together with<a hidden class="anchor" aria-hidden="true" href="#an-important-part-or-systems-up-to-128m-where-mysql-is-used-together-with">#</a></h1>
+<h1 id="other-programs-such-as-a-web-server">other programs (such as a web server)<a hidden class="anchor" aria-hidden="true" href="#other-programs-such-as-a-web-server">#</a></h1>
+<h1 id="heading-1"><a hidden class="anchor" aria-hidden="true" href="#heading-1">#</a></h1>
+<h1 id="you-can-copy-this-file-to">You can copy this file to<a hidden class="anchor" aria-hidden="true" href="#you-can-copy-this-file-to">#</a></h1>
+<h1 id="etcmycnf-to-set-global-options">/etc/my.cnf to set global options,<a hidden class="anchor" aria-hidden="true" href="#etcmycnf-to-set-global-options">#</a></h1>
+<h1 id="mysql-data-dirmycnf-to-set-server-specific-options-in-this">mysql-data-dir/my.cnf to set server-specific options (in this<a hidden class="anchor" aria-hidden="true" href="#mysql-data-dirmycnf-to-set-server-specific-options-in-this">#</a></h1>
+<h1 id="installation-this-directory-is-varlibmysql-or">installation this directory is /var/lib/mysql) or<a hidden class="anchor" aria-hidden="true" href="#installation-this-directory-is-varlibmysql-or">#</a></h1>
+<h1 id="mycnf-to-set-user-specific-options">~/.my.cnf to set user-specific options.<a hidden class="anchor" aria-hidden="true" href="#mycnf-to-set-user-specific-options">#</a></h1>
+<h1 id="heading-2"><a hidden class="anchor" aria-hidden="true" href="#heading-2">#</a></h1>
+<h1 id="in-this-file-you-can-use-all-long-options-that-a-program-supports">In this file, you can use all long options that a program supports.<a hidden class="anchor" aria-hidden="true" href="#in-this-file-you-can-use-all-long-options-that-a-program-supports">#</a></h1>
+<h1 id="if-you-want-to-know-which-options-a-program-supports-run-the-program">If you want to know which options a program supports, run the program<a hidden class="anchor" aria-hidden="true" href="#if-you-want-to-know-which-options-a-program-supports-run-the-program">#</a></h1>
+<h1 id="with-the---help-option">with the &ldquo;&ndash;help&rdquo; option.<a hidden class="anchor" aria-hidden="true" href="#with-the---help-option">#</a></h1>
+<h1 id="the-following-options-will-be-passed-to-all-mysql-clients">The following options will be passed to all MySQL clients<a hidden class="anchor" aria-hidden="true" href="#the-following-options-will-be-passed-to-all-mysql-clients">#</a></h1>
+<p>[client]
+#password = your_password
+port = 3306
+socket = /tmp/mysql.sock
+#socket = /var/lib/mysql/mysql.sock</p>
+<h1 id="here-follows-entries-for-some-specific-programs">Here follows entries for some specific programs<a hidden class="anchor" aria-hidden="true" href="#here-follows-entries-for-some-specific-programs">#</a></h1>
+<h1 id="the-mysql-server">The MySQL server<a hidden class="anchor" aria-hidden="true" href="#the-mysql-server">#</a></h1>
+<p>[mysqld]
+port = 3306
+socket = /tmp/mysql.sock
+#socket = /var/lib/mysql/mysql.sock
+skip-locking
+key_buffer = 128M
+max_allowed_packet = 1M
+table_cache = 256
+sort_buffer_size = 1M
+net_buffer_length = 16K
+myisam_sort_buffer_size = 1M
+max_connections=120
+#addnew config
+wait_timeout =120
+back_log=100
+read_buffer_size = 1M
+thread_cache=32
+skip-innodb
+skip-bdb
+skip-name-resolve
+join_buffer_size=512k
+query_cache_size = 32M
+interactive_timeout=120
+long_query_time=10
+log_slow_queries= /usr/local/mysql4/logs/slow_query.log
+query_cache_type= 1</p>
+<h1 id="try-number-of-cpus2-for-thread_concurrency">Try number of CPU&rsquo;s*2 for thread_concurrency<a hidden class="anchor" aria-hidden="true" href="#try-number-of-cpus2-for-thread_concurrency">#</a></h1>
+<p>thread_concurrency = 4</p>
+<p>#end new config</p>
+<h1 id="dont-listen-on-a-tcpip-port-at-all-this-can-be-a-security-enhancement">Don&rsquo;t listen on a TCP/IP port at all. This can be a security enhancement,<a hidden class="anchor" aria-hidden="true" href="#dont-listen-on-a-tcpip-port-at-all-this-can-be-a-security-enhancement">#</a></h1>
+<h1 id="if-all-processes-that-need-to-connect-to-mysqld-run-on-the-same-host">if all processes that need to connect to mysqld run on the same host.<a hidden class="anchor" aria-hidden="true" href="#if-all-processes-that-need-to-connect-to-mysqld-run-on-the-same-host">#</a></h1>
+<h1 id="all-interaction-with-mysqld-must-be-made-via-unix-sockets-or-named-pipes">All interaction with mysqld must be made via Unix sockets or named pipes.<a hidden class="anchor" aria-hidden="true" href="#all-interaction-with-mysqld-must-be-made-via-unix-sockets-or-named-pipes">#</a></h1>
+<h1 id="note-that-using-this-option-without-enabling-named-pipes-on-windows">Note that using this option without enabling named pipes on Windows<a hidden class="anchor" aria-hidden="true" href="#note-that-using-this-option-without-enabling-named-pipes-on-windows">#</a></h1>
+<h1 id="via-the-enable-named-pipe-option-will-render-mysqld-useless">(via the &ldquo;enable-named-pipe&rdquo; option) will render mysqld useless!<a hidden class="anchor" aria-hidden="true" href="#via-the-enable-named-pipe-option-will-render-mysqld-useless">#</a></h1>
+<h1 id="heading-3"><a hidden class="anchor" aria-hidden="true" href="#heading-3">#</a></h1>
+<p>#skip-networking</p>
+<h1 id="replication-master-server-default">Replication Master Server (default)<a hidden class="anchor" aria-hidden="true" href="#replication-master-server-default">#</a></h1>
+<h1 id="binary-logging-is-required-for-replication">binary logging is required for replication<a hidden class="anchor" aria-hidden="true" href="#binary-logging-is-required-for-replication">#</a></h1>
+<p>#log-bin</p>
+<h1 id="required-unique-id-between-1-and-232---1">required unique id between 1 and 2^32 - 1<a hidden class="anchor" aria-hidden="true" href="#required-unique-id-between-1-and-232---1">#</a></h1>
+<h1 id="defaults-to-1-if-master-host-is-not-set">defaults to 1 if master-host is not set<a hidden class="anchor" aria-hidden="true" href="#defaults-to-1-if-master-host-is-not-set">#</a></h1>
+<h1 id="but-will-not-function-as-a-master-if-omitted">but will not function as a master if omitted<a hidden class="anchor" aria-hidden="true" href="#but-will-not-function-as-a-master-if-omitted">#</a></h1>
+<p>server-id = 1</p>
+<h1 id="replication-slave-comment-out-master-section-to-use-this">Replication Slave (comment out master section to use this)<a hidden class="anchor" aria-hidden="true" href="#replication-slave-comment-out-master-section-to-use-this">#</a></h1>
+<h1 id="heading-4"><a hidden class="anchor" aria-hidden="true" href="#heading-4">#</a></h1>
+<h1 id="to-configure-this-host-as-a-replication-slave-you-can-choose-between">To configure this host as a replication slave, you can choose between<a hidden class="anchor" aria-hidden="true" href="#to-configure-this-host-as-a-replication-slave-you-can-choose-between">#</a></h1>
+<h1 id="two-methods-">two methods :<a hidden class="anchor" aria-hidden="true" href="#two-methods-">#</a></h1>
+<h1 id="heading-5"><a hidden class="anchor" aria-hidden="true" href="#heading-5">#</a></h1>
+<h1 id="1-use-the-change-master-to-command-fully-described-in-our-manual--">1) Use the CHANGE MASTER TO command (fully described in our manual) -<a hidden class="anchor" aria-hidden="true" href="#1-use-the-change-master-to-command-fully-described-in-our-manual--">#</a></h1>
+<h1 id="the-syntax-is">the syntax is:<a hidden class="anchor" aria-hidden="true" href="#the-syntax-is">#</a></h1>
+<h1 id="heading-6"><a hidden class="anchor" aria-hidden="true" href="#heading-6">#</a></h1>
+<h1 id="change-master-to-master_host-master_port">CHANGE MASTER TO MASTER_HOST=, MASTER_PORT=<a hidden class="anchor" aria-hidden="true" href="#change-master-to-master_host-master_port">#</a></h1>
+<p>,</p>
+<h1 id="master_user-master_password">MASTER_USER=, MASTER_PASSWORD=<a hidden class="anchor" aria-hidden="true" href="#master_user-master_password">#</a></h1>
+<p>;</p>
+<h1 id="heading-7"><a hidden class="anchor" aria-hidden="true" href="#heading-7">#</a></h1>
+<h1 id="where-you-replace--">where you replace , ,<a hidden class="anchor" aria-hidden="true" href="#where-you-replace--">#</a></h1>
+<p>by quoted strings and</p>
+<h1 id="heading-8"><a hidden class="anchor" aria-hidden="true" href="#heading-8">#</a></h1>
+<p>by the master&rsquo;s port number (3306 by default).</p>
+<h1 id="heading-9"><a hidden class="anchor" aria-hidden="true" href="#heading-9">#</a></h1>
+<h1 id="example">Example:<a hidden class="anchor" aria-hidden="true" href="#example">#</a></h1>
+<h1 id="heading-10"><a hidden class="anchor" aria-hidden="true" href="#heading-10">#</a></h1>
+<h1 id="change-master-to-master_host125564121-master_port3306">CHANGE MASTER TO MASTER_HOST=&lsquo;125.564.12.1&rsquo;, MASTER_PORT=3306,<a hidden class="anchor" aria-hidden="true" href="#change-master-to-master_host125564121-master_port3306">#</a></h1>
+<h1 id="master_userjoe-master_passwordsecret">MASTER_USER=&lsquo;joe&rsquo;, MASTER_PASSWORD=&lsquo;secret&rsquo;;<a hidden class="anchor" aria-hidden="true" href="#master_userjoe-master_passwordsecret">#</a></h1>
+<h1 id="heading-11"><a hidden class="anchor" aria-hidden="true" href="#heading-11">#</a></h1>
+<h1 id="or">OR<a hidden class="anchor" aria-hidden="true" href="#or">#</a></h1>
+<h1 id="heading-12"><a hidden class="anchor" aria-hidden="true" href="#heading-12">#</a></h1>
+<h1 id="2-set-the-variables-below-however-in-case-you-choose-this-method-then">2) Set the variables below. However, in case you choose this method, then<a hidden class="anchor" aria-hidden="true" href="#2-set-the-variables-below-however-in-case-you-choose-this-method-then">#</a></h1>
+<h1 id="start-replication-for-the-first-time-even-unsuccessfully-for-example">start replication for the first time (even unsuccessfully, for example<a hidden class="anchor" aria-hidden="true" href="#start-replication-for-the-first-time-even-unsuccessfully-for-example">#</a></h1>
+<h1 id="if-you-mistyped-the-password-in-master-password-and-the-slave-fails-to">if you mistyped the password in master-password and the slave fails to<a hidden class="anchor" aria-hidden="true" href="#if-you-mistyped-the-password-in-master-password-and-the-slave-fails-to">#</a></h1>
+<h1 id="connect-the-slave-will-create-a-masterinfo-file-and-any-later">connect), the slave will create a master.info file, and any later<a hidden class="anchor" aria-hidden="true" href="#connect-the-slave-will-create-a-masterinfo-file-and-any-later">#</a></h1>
+<h1 id="change-in-this-file-to-the-variables-values-below-will-be-ignored-and">change in this file to the variables&rsquo; values below will be ignored and<a hidden class="anchor" aria-hidden="true" href="#change-in-this-file-to-the-variables-values-below-will-be-ignored-and">#</a></h1>
+<h1 id="overridden-by-the-content-of-the-masterinfo-file-unless-you-shutdown">overridden by the content of the master.info file, unless you shutdown<a hidden class="anchor" aria-hidden="true" href="#overridden-by-the-content-of-the-masterinfo-file-unless-you-shutdown">#</a></h1>
+<h1 id="the-slave-server-delete-masterinfo-and-restart-the-slaver-server">the slave server, delete master.info and restart the slaver server.<a hidden class="anchor" aria-hidden="true" href="#the-slave-server-delete-masterinfo-and-restart-the-slaver-server">#</a></h1>
+<h1 id="for-that-reason-you-may-want-to-leave-the-lines-below-untouched">For that reason, you may want to leave the lines below untouched<a hidden class="anchor" aria-hidden="true" href="#for-that-reason-you-may-want-to-leave-the-lines-below-untouched">#</a></h1>
+<h1 id="commented-and-instead-use-change-master-to-see-above">(commented) and instead use CHANGE MASTER TO (see above)<a hidden class="anchor" aria-hidden="true" href="#commented-and-instead-use-change-master-to-see-above">#</a></h1>
+<h1 id="heading-13"><a hidden class="anchor" aria-hidden="true" href="#heading-13">#</a></h1>
+<h1 id="required-unique-id-between-2-and-232---1">required unique id between 2 and 2^32 - 1<a hidden class="anchor" aria-hidden="true" href="#required-unique-id-between-2-and-232---1">#</a></h1>
+<h1 id="and-different-from-the-master">(and different from the master)<a hidden class="anchor" aria-hidden="true" href="#and-different-from-the-master">#</a></h1>
+<h1 id="defaults-to-2-if-master-host-is-set">defaults to 2 if master-host is set<a hidden class="anchor" aria-hidden="true" href="#defaults-to-2-if-master-host-is-set">#</a></h1>
+<h1 id="but-will-not-function-as-a-slave-if-omitted">but will not function as a slave if omitted<a hidden class="anchor" aria-hidden="true" href="#but-will-not-function-as-a-slave-if-omitted">#</a></h1>
+<p>#server-id = 2</p>
+<h1 id="heading-14"><a hidden class="anchor" aria-hidden="true" href="#heading-14">#</a></h1>
+<h1 id="the-replication-master-for-this-slave---required">The replication master for this slave - required<a hidden class="anchor" aria-hidden="true" href="#the-replication-master-for-this-slave---required">#</a></h1>
+<p>#master-host =</p>
+<h1 id="heading-15"><a hidden class="anchor" aria-hidden="true" href="#heading-15">#</a></h1>
+<h1 id="the-username-the-slave-will-use-for-authentication-when-connecting">The username the slave will use for authentication when connecting<a hidden class="anchor" aria-hidden="true" href="#the-username-the-slave-will-use-for-authentication-when-connecting">#</a></h1>
+<h1 id="to-the-master---required">to the master - required<a hidden class="anchor" aria-hidden="true" href="#to-the-master---required">#</a></h1>
+<p>#master-user =</p>
+<h1 id="heading-16"><a hidden class="anchor" aria-hidden="true" href="#heading-16">#</a></h1>
+<h1 id="the-password-the-slave-will-authenticate-with-when-connecting-to">The password the slave will authenticate with when connecting to<a hidden class="anchor" aria-hidden="true" href="#the-password-the-slave-will-authenticate-with-when-connecting-to">#</a></h1>
+<h1 id="the-master---required">the master - required<a hidden class="anchor" aria-hidden="true" href="#the-master---required">#</a></h1>
+<p>#master-password =</p>
+<h1 id="heading-17"><a hidden class="anchor" aria-hidden="true" href="#heading-17">#</a></h1>
+<h1 id="the-port-the-master-is-listening-on">The port the master is listening on.<a hidden class="anchor" aria-hidden="true" href="#the-port-the-master-is-listening-on">#</a></h1>
+<h1 id="optional---defaults-to-3306">optional - defaults to 3306<a hidden class="anchor" aria-hidden="true" href="#optional---defaults-to-3306">#</a></h1>
+<p>#master-port =</p>
+<h1 id="heading-18"><a hidden class="anchor" aria-hidden="true" href="#heading-18">#</a></h1>
+<h1 id="binary-logging---not-required-for-slaves-but-recommended">binary logging - not required for slaves, but recommended<a hidden class="anchor" aria-hidden="true" href="#binary-logging---not-required-for-slaves-but-recommended">#</a></h1>
+<p>#log-bin</p>
+<h1 id="point-the-following-paths-to-different-dedicated-disks">Point the following paths to different dedicated disks<a hidden class="anchor" aria-hidden="true" href="#point-the-following-paths-to-different-dedicated-disks">#</a></h1>
+<p>#tmpdir = /tmp/
+#log-update = /path-to-dedicated-directory/hostname</p>
+<h1 id="uncomment-the-following-if-you-are-using-bdb-tables">Uncomment the following if you are using BDB tables<a hidden class="anchor" aria-hidden="true" href="#uncomment-the-following-if-you-are-using-bdb-tables">#</a></h1>
+<p>#bdb_cache_size = 4M
+#bdb_max_lock = 10000</p>
+<h1 id="uncomment-the-following-if-you-are-using-innodb-tables">Uncomment the following if you are using InnoDB tables<a hidden class="anchor" aria-hidden="true" href="#uncomment-the-following-if-you-are-using-innodb-tables">#</a></h1>
+<p>#innodb_data_home_dir = /var/lib/mysql/
+#innodb_data_file_path = ibdata1:10M:autoextend
+#innodb_log_group_home_dir = /var/lib/mysql/
+#innodb_log_arch_dir = /var/lib/mysql/</p>
+<h1 id="you-can-set-_buffer_pool_size-up-to-50---80-">You can set .._buffer_pool_size up to 50 - 80 %<a hidden class="anchor" aria-hidden="true" href="#you-can-set-_buffer_pool_size-up-to-50---80-">#</a></h1>
+<h1 id="of-ram-but-beware-of-setting-memory-usage-too-high">of RAM but beware of setting memory usage too high<a hidden class="anchor" aria-hidden="true" href="#of-ram-but-beware-of-setting-memory-usage-too-high">#</a></h1>
+<p>#innodb_buffer_pool_size = 16M
+#innodb_additional_mem_pool_size = 2M</p>
+<h1 id="set-_log_file_size-to-25--of-buffer-pool-size">Set .._log_file_size to 25 % of buffer pool size<a hidden class="anchor" aria-hidden="true" href="#set-_log_file_size-to-25--of-buffer-pool-size">#</a></h1>
+<p>#innodb_log_file_size = 5M
+#innodb_log_buffer_size = 8M
+#innodb_flush_log_at_trx_commit = 1
+#innodb_lock_wait_timeout = 50</p>
+<p>[mysqldump]
+quick
+max_allowed_packet = 16M</p>
+<p>[mysql]
+no-auto-rehash</p>
+<h1 id="remove-the-next-comment-character-if-you-are-not-familiar-with-sql">Remove the next comment character if you are not familiar with SQL<a hidden class="anchor" aria-hidden="true" href="#remove-the-next-comment-character-if-you-are-not-familiar-with-sql">#</a></h1>
+<p>#safe-updates</p>
+<p>[isamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M</p>
+<p>[myisamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M</p>
+<p>[mysqlhotcopy]
+interactive-timeout</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

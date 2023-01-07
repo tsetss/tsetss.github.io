@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ASP安全配置不完全手册 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。
+ASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=&lsquo;1&rsquo;就得变为news.asp?id=1&rsquo; and &lsquo;1&rsquo;=&lsquo;1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（&ldquo;字符串&rdquo;），如：asc(&ldquo;a&rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输&rsquo;or &lsquo;1&rsquo;=&lsquo;1，构造SQL语句Select * form 表单名 where username=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo; and pwd=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo;就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、&rsquo;、&quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&quot;&amp;&ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： &lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：
+If Request.QueryString&quot;&quot; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request.">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="ASP安全配置不完全手册" />
+<meta property="og:description" content="从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。
+ASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=&lsquo;1&rsquo;就得变为news.asp?id=1&rsquo; and &lsquo;1&rsquo;=&lsquo;1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（&ldquo;字符串&rdquo;），如：asc(&ldquo;a&rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输&rsquo;or &lsquo;1&rsquo;=&lsquo;1，构造SQL语句Select * form 表单名 where username=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo; and pwd=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo;就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、&rsquo;、&quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&quot;&amp;&ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： &lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：
+If Request.QueryString&quot;&quot; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2006-02-25T16:06:27+00:00" />
+<meta property="article:modified_time" content="2006-02-25T16:06:27+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ASP安全配置不完全手册"/>
+<meta name="twitter:description" content="从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。
+ASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=&lsquo;1&rsquo;就得变为news.asp?id=1&rsquo; and &lsquo;1&rsquo;=&lsquo;1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（&ldquo;字符串&rdquo;），如：asc(&ldquo;a&rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输&rsquo;or &lsquo;1&rsquo;=&lsquo;1，构造SQL语句Select * form 表单名 where username=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo; and pwd=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo;就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、&rsquo;、&quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&quot;&amp;&ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： &lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：
+If Request.QueryString&quot;&quot; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ASP安全配置不完全手册",
+      "item": "http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ASP安全配置不完全手册",
+  "name": "ASP安全配置不完全手册",
+  "description": "从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。\nASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=\u0026lsquo;1\u0026rsquo;就得变为news.asp?id=1\u0026rsquo; and \u0026lsquo;1\u0026rsquo;=\u0026lsquo;1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（\u0026ldquo;字符串\u0026rdquo;），如：asc(\u0026ldquo;a\u0026rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))\u0026gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输\u0026rsquo;or \u0026lsquo;1\u0026rsquo;=\u0026lsquo;1，构造SQL语句Select * form 表单名 where username=\u0026rsquo;\u0026rsquo; or \u0026lsquo;1\u0026rsquo;=\u0026lsquo;1\u0026rsquo; and pwd=\u0026rsquo;\u0026rsquo; or \u0026lsquo;1\u0026rsquo;=\u0026lsquo;1\u0026rsquo;就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、\u0026rsquo;、\u0026quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据\u0026quot;\u0026amp;\u0026ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： \u0026lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：\nIf Request.QueryString\u0026quot;\u0026quot; Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request.",
+  "keywords": [
+    
+  ],
+  "articleBody": "从asp程序编写到服务器配置 ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。\nASP程序安全篇： 在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。 首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为： http://www.scccn.com/news.asp?id=1 一般会以提交两个地址来测试，如： http://www.scccn.com/news.asp?id=1 and 1=1 http://www.scccn.com/news.asp?id=1 and 1=2 第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=‘1’就得变为news.asp?id=1’ and ‘1’=‘1来补全引号了） 那么，知道可以注入后入侵者可以做什么呢？ 这里就简单的说一下，比如提交这样的地址： http://www.scccn.com/news.asp?id=1 and exists (select * from 表名 where 列名=数据) 根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（“字符串”），如：asc(“a”)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))\u003e97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输’or ‘1’=‘1，构造SQL语句Select * form 表单名 where username=’’ or ‘1’=‘1’ and pwd=’’ or ‘1’=‘1’就可以达到绕过密码验证的目的。 说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、’、\"）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。 那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据\"\u0026“来分出各个数组内的数据。现在我们要让get方式不能提交以下字符： ‘、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare 那么，防止get方式注入的代码就如下：\nIf Request.QueryString\"\" Then For Each SQL_Get In Request.QueryString For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request.QueryString(SQL_Get),sql_leach_0(Sql_DATA))\u003e0 Then Response.Write \"请不要尝试进行SQL注入！\" Response.end end if next Next End If %\u003e 其中，变量sql_leach中的字符串就是指定过滤的字符，以\",\"隔开。 接着过滤post提交方式的注入，我们可以看到，request.form也是以数组形式存在的，只要对它再进行一次循环判断就可以了。防止以post方式注入的ASP代码如下： \"\" Then For Each Sql_Post In Request.Form For SQL_Data=0 To Ubound(sql_leach_0) if instr(Request.Form(Sql_Post),sql_leach_0(Sql_DATA))\u003e0 Then Response.Write \"请不要尝试进行SQL注入！\" Response.end end if next next end if %\u003e 这样，get和post注入都被禁止了。 另外就是数据库的问题，首先现在很流行的用*.asp命名数据库已经没什么意义了，因为可以用下载软件来下载；在数据库名前加#的作用也不大，虽然访问时浏览器只访问#前面的内容，但是如果将#用其unicode表达法（%23）替换掉就可以访问了。既然这样，那么我们禁止入侵者暴库就可以了。一般暴数据库的方法，是将读取数据库的文件名（如conn.asp）前的”/“替换为”%5c\"（\"\"的unicode表达法）这样就可以使ASP将%5c解释为访问网站根目录，而实际是数据库不在指定位置，找不到数据库，再将IE设置为\"显示友好的HTTP错误信息\"的情况下自然就暴出了数据库的路径。 防范的方法也比较简单，就是让ASP程序即使在出错的情况下也不报错直接执行下一步就可以了。在ASP文件中加这么一句：on error resume next就OK了。 还有几点要注意的： 1.数据库命名长些并尽量放在网站根目录下，数据库的表名和字段名尽量不合常规；2.保存敏感信息（如用户和密码）的数据库尽量和在前台页面引用的数据库分开（如果用新的暴库方法由前台页面暴出了数据库，那么入侵者也得不到有价值的信息）；3.后台的目录名和登陆页面的名字要改的不寻常些，千万不可出现admin或者login之类的字符，以免被注入软件扫描到后台。4.如果前台或后台有上传文件的功能，切记不能有任何其他功能直接的或间接的拥有更改文件名的权限。这样的多重保障就更加安全些了。\nASP服务器安全配置篇（针对win2k和win2003）： 我们从裸机说起—— 首先，拔掉网线，按需求分区之后将所有盘格式化为NTFS，在D盘安装系统。系统装完之后立刻做一个裸系统的ghost备份，以防后面配置的过程中出意外。 先把驱动都装上是必要的。之后先装防火墙，选择一款好的防火墙是很重要的。能买硬件防火墙最好，推荐的选择：cisco pix系列、天融信 NGFW系列、冰之眼（入侵检测系统）。没有硬件防火墙的情况下，使用软件防火墙，推荐：Blackice（我个人的最爱）、Checkpoint（以色列国家级防火墙）、ZoneAlarm（不太熟悉，但口碑不错），虽然比较喜欢天网防火墙，但是不推荐服务器用天网。 装完防火墙装杀毒软件，推荐：KV江民杀毒软件（好东西）、诺顿（虽然好，但比较霸道）、卡巴斯基（听说比较耗内存，但对病毒疗效狂好）。 开始安装各种需要的软件，如果是2003系统，别忘了装IIS。以上所有软件都装在一个非系统盘的指定盘里。 下面开始给系统打补丁，首先用手头有的光盘给2k打上SP4或给2003打上SP1。在本地操作的情况下将能打系统和软件的补丁都打上。之后，在确认防火墙和杀毒软件都设置好的情况下插上网线，开始window update，并升级杀毒软件至最新病毒库。打完所有的系统和软件的补丁之后，将网线拔掉，把所有临时文件和系统补丁留下的卸载文件全部删除，如果觉得占用空间太多还可以把%systemroot%\\System32\\dllcache\\下的所有文件删除（系统备份文件），这将使最后的ghost备份文件体积比较小。然后再次用ghost备份系统。 之后删除不安全的组件，需要将WScript.Shell, WScript.Network, Shell.application删除掉。在cmd下分别输入（以2k为例，2003路经为D:\\windows）： regsvr32/u D:\\WINNT\\System32\\wshom.ocx del D:\\WINNT\\System32\\wshom.ocx 重新启动，就OK了。另外入侵者可以利用getobject(“WINNT”)获得用户和进程的列表，可以将Workstation服务禁用作为防范措施。 设置权限是必要的。首先，确定IIS里要建立几个站点，之后为每个站点建立一个用户。在IIS站点的目录安全性里选择让这个用户作为匿名访问的帐户。再设置所有分区都禁止这个用户访问，而在站点对应的文件夹设置允许此用户访问。这样即使站点被入侵，入侵者也拿不到服务器的shell。 一切做好之后用ghost再次备份，并将做好的备份文件放在与服务器不在同一局域网的机器上或相对安全的地方。插上网线，服务器就可以安全的正常工作了。之后可以在每次服务器重起时还原一次系统，这都是后话了。 好了，基本上就这么多了，以上说的可能不太完全，仅作参考之用，不足之处还请高手多多补充。欢迎各位来中国网络安全中心交流： http://www.scccn.com BY Bluephantom 作于2005年\n",
+  "wordCount" : "146",
+  "inLanguage": "en",
+  "datePublished": "2006-02-25T16:06:27Z",
+  "dateModified": "2006-02-25T16:06:27Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2006/02/25/aspe5ae89e585a8e9858de7bdaee4b88de5ae8ce585a8e6898be5868c/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ASP安全配置不完全手册
+    </h1>
+    <div class="post-meta"><span title='2006-02-25 16:06:27 +0000 UTC'>February 25, 2006</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>从asp程序编写到服务器配置
+ASP全称Active Server Pages，是微软推出的用来取代CGI（Common Gateway Interface）的动态服务器网页技术。由于ASP比较简单易学，又有微软这个强大后台的支持，所以应用比较广泛，相对来说发现的缺陷和针对各程序的漏洞也比较多。ASP可运行的服务器端平台包括：WinNT、Win2k、WinXP和Win2003，在Win98环境下装上PWS4.0也可以运行。现在我们就针对Win2k和Win2003这两个系统来谈谈ASP的安全配置。</p>
+<p>ASP程序安全篇：
+在做安全配置前，我们先了解一下入侵者的攻击手法。现在很流行注入攻击，所谓注入攻击，就是利用提交特殊地址将ASP中引用的正常SQL语句和入侵者所需要的SQL语句一并执行，使入侵者达到入侵的目的。现在更是有一些脚本注入工具发布，使菜鸟也可以轻松完成对ASP的注入攻击。那么我们先来了解一下这些工具是怎样注入的。
+首先，入侵者会对一个网站确定可不可以进行注入，假设一篇文章的地址为：
+<a href="http://www.scccn.com/news.asp?id=1">http://www.scccn.com/news.asp?id=1</a>
+一般会以提交两个地址来测试，如：
+<a href="http://www.scccn.com/news.asp?id=1">http://www.scccn.com/news.asp?id=1</a>
+and 1=1
+<a href="http://www.scccn.com/news.asp?id=1">http://www.scccn.com/news.asp?id=1</a>
+and 1=2
+第一个地址后面加了 and 1=1，构成的SQL语句也就变为了：Select * from 表单名 where id=1 and 1=1这句话要成立就必须and前后语句都成立。那么前面的文章地址是可以访问的，后面的1=1也是客观成立的，那么第一个地址就可以正常显示；相反1=2是显然不成立的，关键就看这步了，如果提交and 1=2页面还是正常显示说明他并没有将and 1=2写入SQL语句，此站也就不存在注入漏洞；但如果提交and 1=2之后返回了错误页面则说明此站点将后面的语句带入了SQL语句并执行了，也就说明他可以进行SQL注入。（注：如果地址后面跟的是news.asp?id=&lsquo;1&rsquo;就得变为news.asp?id=1&rsquo; and &lsquo;1&rsquo;=&lsquo;1来补全引号了）
+那么，知道可以注入后入侵者可以做什么呢？
+这里就简单的说一下，比如提交这样的地址：
+<a href="http://www.scccn.com/news.asp?id=1">http://www.scccn.com/news.asp?id=1</a>
+and exists (select * from 表名 where 列名=数据)
+根据返回的正确或错误页面来判断猜的表名和列名是否正确，具体实现时是先猜表名再猜列名。当猜出表名和列名之后还可以用ASC和MID函数来猜出各列的数据。MID函数的格式为：mid(变量名,第几个字符开始读取,读取几个字符)，比如：mid(pwd,1,2)就可以从变量pwd中的第一位开始读取两位的字符。ASC函数的格式为：ASC（&ldquo;字符串&rdquo;），如：asc(&ldquo;a&rdquo;)就可以读出字母a的ASCII码了。那么实际应用的时候就可以写为：asc(mid(pwd,1,1))这样读取的就是pwd列的第一个字符的ASCII码，提交： asc(mid(pwd,1,1))&gt;97以返回的页面是否为正确页面来判断pwd列的第一个字符的ASCII码是否大于97（a的ASCII码），如果正确就再试是否小于122（z的ASCII码）……这样慢慢缩小字符的ASCII码的范围，猜到真实的ASCII码也只是时间的问题。一位一位的猜就可以得到数据库中的用户名和密码了。还有一种ASP验证缺陷——就是用户名和密码都输&rsquo;or &lsquo;1&rsquo;=&lsquo;1，构造SQL语句Select * form 表单名 where username=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo; and pwd=&rsquo;&rsquo; or &lsquo;1&rsquo;=&lsquo;1&rsquo;就可以达到绕过密码验证的目的。
+说了那么多，其实防范的方法很简单，我们把特殊字符（如and、or、&rsquo;、&quot;）都禁止提交就可以防止注入了。ASP传输数据分为get和post两种， get是通过将数据添加到URL后提交的方式，post则是利用邮寄信息数据字段将数据传送到服务器。
+那么，我们先来看看如何将get方式提交数据中的特殊字符过滤。首先要知道，IIS是以字符串的形式将get请求传给asp.dll的，在将数据传递给Request.QueryString之后，asp解析器会解析出Request.QueryString的信息，然后跟据&quot;&amp;&ldquo;来分出各个数组内的数据。现在我们要让get方式不能提交以下字符：
+&lsquo;、and、exec、insert、select、delete、update、count、*、%、chr、mid、master、truncate、char、declare
+那么，防止get方式注入的代码就如下：</p>
+<pre><code>If Request.QueryString&quot;&quot; Then
+For Each SQL_Get In Request.QueryString
+For SQL_Data=0 To Ubound(sql_leach_0)
+if instr(Request.QueryString(SQL_Get),sql_leach_0(Sql_DATA))&gt;0 Then
+Response.Write &quot;请不要尝试进行SQL注入！&quot;
+Response.end
+end if
+next
+Next
+End If
+%&gt;
+其中，变量sql_leach中的字符串就是指定过滤的字符，以&quot;,&quot;隔开。
+接着过滤post提交方式的注入，我们可以看到，request.form也是以数组形式存在的，只要对它再进行一次循环判断就可以了。防止以post方式注入的ASP代码如下：
+&quot;&quot; Then
+For Each Sql_Post In Request.Form
+For SQL_Data=0 To Ubound(sql_leach_0)
+if instr(Request.Form(Sql_Post),sql_leach_0(Sql_DATA))&gt;0 Then
+Response.Write &quot;请不要尝试进行SQL注入！&quot;
+Response.end
+end if
+next
+next
+end if
+%&gt;
+</code></pre>
+<p>这样，get和post注入都被禁止了。
+另外就是数据库的问题，首先现在很流行的用*.asp命名数据库已经没什么意义了，因为可以用下载软件来下载；在数据库名前加#的作用也不大，虽然访问时浏览器只访问#前面的内容，但是如果将#用其unicode表达法（%23）替换掉就可以访问了。既然这样，那么我们禁止入侵者暴库就可以了。一般暴数据库的方法，是将读取数据库的文件名（如conn.asp）前的&rdquo;/&ldquo;替换为&rdquo;%5c&quot;（&quot;&quot;的unicode表达法）这样就可以使ASP将%5c解释为访问网站根目录，而实际是数据库不在指定位置，找不到数据库，再将IE设置为&quot;显示友好的HTTP错误信息&quot;的情况下自然就暴出了数据库的路径。
+防范的方法也比较简单，就是让ASP程序即使在出错的情况下也不报错直接执行下一步就可以了。在ASP文件中加这么一句：on error resume next就OK了。
+还有几点要注意的：
+1.数据库命名长些并尽量放在网站根目录下，数据库的表名和字段名尽量不合常规；2.保存敏感信息（如用户和密码）的数据库尽量和在前台页面引用的数据库分开（如果用新的暴库方法由前台页面暴出了数据库，那么入侵者也得不到有价值的信息）；3.后台的目录名和登陆页面的名字要改的不寻常些，千万不可出现admin或者login之类的字符，以免被注入软件扫描到后台。4.如果前台或后台有上传文件的功能，切记不能有任何其他功能直接的或间接的拥有更改文件名的权限。这样的多重保障就更加安全些了。</p>
+<p>ASP服务器安全配置篇（针对win2k和win2003）：
+我们从裸机说起——
+首先，拔掉网线，按需求分区之后将所有盘格式化为NTFS，在D盘安装系统。系统装完之后立刻做一个裸系统的ghost备份，以防后面配置的过程中出意外。
+先把驱动都装上是必要的。之后先装防火墙，选择一款好的防火墙是很重要的。能买硬件防火墙最好，推荐的选择：cisco pix系列、天融信 NGFW系列、冰之眼（入侵检测系统）。没有硬件防火墙的情况下，使用软件防火墙，推荐：Blackice（我个人的最爱）、Checkpoint（以色列国家级防火墙）、ZoneAlarm（不太熟悉，但口碑不错），虽然比较喜欢天网防火墙，但是不推荐服务器用天网。
+装完防火墙装杀毒软件，推荐：KV江民杀毒软件（好东西）、诺顿（虽然好，但比较霸道）、卡巴斯基（听说比较耗内存，但对病毒疗效狂好）。
+开始安装各种需要的软件，如果是2003系统，别忘了装IIS。以上所有软件都装在一个非系统盘的指定盘里。
+下面开始给系统打补丁，首先用手头有的光盘给2k打上SP4或给2003打上SP1。在本地操作的情况下将能打系统和软件的补丁都打上。之后，在确认防火墙和杀毒软件都设置好的情况下插上网线，开始window update，并升级杀毒软件至最新病毒库。打完所有的系统和软件的补丁之后，将网线拔掉，把所有临时文件和系统补丁留下的卸载文件全部删除，如果觉得占用空间太多还可以把%systemroot%\System32\dllcache\下的所有文件删除（系统备份文件），这将使最后的ghost备份文件体积比较小。然后再次用ghost备份系统。
+之后删除不安全的组件，需要将WScript.Shell, WScript.Network, Shell.application删除掉。在cmd下分别输入（以2k为例，2003路经为D:\windows）：
+regsvr32/u D:\WINNT\System32\wshom.ocx
+del D:\WINNT\System32\wshom.ocx
+重新启动，就OK了。另外入侵者可以利用getobject(&ldquo;WINNT&rdquo;)获得用户和进程的列表，可以将Workstation服务禁用作为防范措施。
+设置权限是必要的。首先，确定IIS里要建立几个站点，之后为每个站点建立一个用户。在IIS站点的目录安全性里选择让这个用户作为匿名访问的帐户。再设置所有分区都禁止这个用户访问，而在站点对应的文件夹设置允许此用户访问。这样即使站点被入侵，入侵者也拿不到服务器的shell。
+一切做好之后用ghost再次备份，并将做好的备份文件放在与服务器不在同一局域网的机器上或相对安全的地方。插上网线，服务器就可以安全的正常工作了。之后可以在每次服务器重起时还原一次系统，这都是后话了。
+好了，基本上就这么多了，以上说的可能不太完全，仅作参考之用，不足之处还请高手多多补充。欢迎各位来中国网络安全中心交流：
+<a href="http://www.scccn.com">http://www.scccn.com</a>
+BY Bluephantom 作于2005年</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

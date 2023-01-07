@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+技术文章
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+技术文章
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+技术文章
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+技术文章
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>PHP对象相互引用的内存溢出
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用脚本语言最大的好处之一就是可利用其拥有的自动垃圾回收机制（释放内存）。你不需要在使用完变量后做任何释放内存的处理，PHP会帮你完成。
+当然，我们可以按自己的意愿调用 unset() 函数来释放内存，但通常不需要这么做。
+不过在PHP里，至少有一种情况内存不会得到自动释放，即便是手动调用 unset()。详情可考：http://bugs.php.net/bug.php?id=33595。
+问题症状 如果两个对象之间存在着相互引用的关系，如“父对象-子对象”，对父对象调用 unset() 不会释放在子对象中引用父对象的内存（即便父对象被垃圾回收，也不行）。
+有些糊涂了？我们来看下面的这段代码：
+bar = new Bar($this); } } class Bar { function __construct($foo = null) { $this-&gt;foo = $foo; } } while (true) { $foo = new Foo(); unset($foo); echo number_format(memory_get_usage()) . &#34;\n&#34;; } ?&gt; 运行这段代码，你会看到内存使用率越来越高越来越高，直到用光光。
+…33,551,61633,551,97633,552,33633,552,696PHP Fatal error: Allowed memory size of 33554432 bytes exhausted(tried to allocate 16 bytes) in memleak.php on line 17对大部分PHP程序员来讲这种情况不算是什么问题。
+可如果你在一个长期运行的代码中使用到了一大堆相互引用的对象，尤其是在对象相对较大的情况下，内存会迅速地消耗殆尽。
+Userland解决方案 虽然有些乏味、不优雅，但之前提到的 bugs.php.net 链接中提供了一个解决方案。
+这个方案在释放对象前使用一个 destructor 方法以达到目的。Destructor 方法可将所有内部的父对象引用全部清除，也就是说可以将这部分本来会溢出的内存释放掉。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-06-10 16:22:57 +0000 UTC'>June 10, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP对象相互引用的内存溢出" href="http://example.org/2009/06/10/phpe5afb9e8b1a1e79bb8e4ba92e5bc95e794a8e79a84e58685e5ad98e6baa2e587ba/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>[转]MySQL与事务
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2006年08月05日 星期六 下午 02:23 作者：老王 MySQL5.X都已经发布好久了，但是还有很多人认为MySQL是不支持事务处理的，这不得不怪他们是孤陋寡闻的，其实，只要你的MySQL版本支持BDB或InnoDB表类型，那么你的MySQL就具有事务处理的能力。这里面，又以InnoDB表类型用的最多，虽然后来发生了诸如Oracle收购InnoDB等令MySQL不爽的事情，但那些商业上的斗争与技术无关，下面以InnoDB表类型为例简单说一下MySQL中的事务。 先来明确一下事务涉及的相关知识： 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持续性）四个词的首字母所写，下面以“银行转帐”为例来分别说明一下它们的含义： 原子性：组成事务处理的语句形成了一个逻辑单元，不能只执行其中的一部分。换句话说，事务是不可分割的最小单元。比如：银行转帐过程中，必须同时从一个帐户减去转帐金额，并加到另一个帐户中，只改变一个帐户是不合理的。 一致性：在事务处理执行前后，数据库是一致的。也就是说，事务应该正确的转换系统状态。比如：银行转帐过程中，要么转帐金额从一个帐户转入另一个帐户，要么两个帐户都不变，没有其他的情况。 隔离性：一个事务处理对另一个事务处理没有影响。就是说任何事务都不可能看到一个处在不完整状态下的事务。比如说，银行转帐过程中，在转帐事务没有提交之前，另一个转帐事务只能处于等待状态。 持续性：事务处理的效果能够被永久保存下来。反过来说，事务应当能够承受所有的失败，包括服务器、进程、通信以及媒体失败等等。比如：银行转帐过程中，转帐后帐户的状态要能被保存下来。 再来看看哪些问题会用到事务处理：
+这里不说“银行转帐”的例子了，说一个大家实际更容易遇到的“网上购书”的例子。先假设一下问题的背景：网上购书，某书（数据库编号为123）只剩最后一本，而这个时候，两个用户对这本书几乎同时发出了购买请求，让我们看看整个过程： 在具体分析之前，先来看看数据表的定义： create table book ( book_id unsigned int(10) not null auto_increment, book_name varchar(100) not null, book_price float(5, 2) not null, #我假设每本书的价格不会超过999.99元 book_number int(10) not null, primary key (book_id) ) type = innodb; #engine = innodb也行 对于用户甲来说，他的动作稍微比乙快一点点，其购买过程所触发的动作大致是这样的： 1. SELECT book_number FROM book WHERE book_id = 123; book_number大于零，确认购买行为并更新book_number 2. UPDATE book SET book_number = book_number - 1 WHERE book_id = 123; 购书成功 而对于用户乙来说，他的动作稍微比甲慢一点点，其购买过程所触发的动作和甲相同： 1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-29 12:51:33 +0000 UTC'>March 29, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [转]MySQL与事务" href="http://example.org/2009/03/29/e8bdacmysqle4b88ee4ba8be58aa1/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Lighttpd中为php加上open_basedir
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>举例说明 一、
+fastcgi.server = ( &#34;.php&#34; =&gt; (( &#34;socket&#34; =&gt; &#34;/tmp/php-fastcgi.socket&#34;, &#34;bin-path&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34;, &#34;max-procs&#34; =&gt; 10, &#34;bin-environment&#34; =&gt; ( &#34;PHP_FCGI_CHILDREN&#34; =&gt; &#34;16&#34;, &#34;PHP_FCGI_MAX_REQUESTS&#34; =&gt; &#34;1000&#34;, ), &#34;broken-scriptfilename&#34; =&gt; &#34;enable&#34; )) ) 二、
+cgi.assign = ( &#34;.php&#34; =&gt; &#34;/usr/bin/php5/bin/php-cgi -d open_basedir=/web/www/php5:/web/www/php&#34; ) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-24 09:58:30 +0000 UTC'>March 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Lighttpd中为php加上open_basedir" href="http://example.org/2009/03/24/lighttpde4b8ade4b8baphpe58aa0e4b88aopen_basedir/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>利用 portmaster 升級 PHP 5.26 -&gt; 5.28
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>之前在 大神 那边看到一篇 升级 PHP 5.2.8 的一些小细节，就来把我的机器升级一下，发现 php 5.2.7 之后已经把 pcre extension 纳入在裡面，参考 /usr/ports/UPDATING 裡面的 20081211 这个项目，可以利用 portupgrade 或者是 portmaster 来升级，之前都是利用 ruby 写的 portupgrade 来升级系统或者是更新安全性，现在利用 portmaster 这一套也是不错用，portmaster 是用 sh 写出来的，在 gslin 大神这一篇：portupgrade、portmaster、portconf 说到速度方面比 portupgrade 还要好，这我没有实际测试过，自己在实际用了一下，还蛮方便的。
+安装 portmaster 跟 portconf 搭配：
+cd /usr/ports/ports-mgmt/portconf make install clean cd /usr/ports/ports-mgmt/portmaster make install clean 先找出需要升级的套件：
+pkg_version -v 在利用 portmaster 升级 php5
+pkg_delete -f php5-pcre\* portmaster pecl\* portmaster php5\* 如果是利用 portupgrade：
+pkg_delete -f php5-pcre-* pkgdb -F portupgrade -f php5* portupgrade -f pecl* 之前还没升级的时候，利用 portaudit 检查套件的安全性，发现 php5-gd 在 5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 13:12:10 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 利用 portmaster 升級 PHP 5.26 -&gt; 5.28" href="http://example.org/2009/03/19/e588a9e794a8-portmaster-e58d87e7b49a-php-526-528/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>软件开发版本及区别
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>alpha 内部测试版 beta 外部测试版 demo 演示版 Enhance 增强版或者加强版 属于正式版 Free 自由版 Full version 完全版 属于正式版 shareware 共享版 Release 发行版 有时间限制 Upgrade 升级版 Retail 零售版 Cardware 属共享软件的一种，只要给作者回复一封电邮或明信片即可。（有的作者并由此提供注册码等），目前这种形式已不多见。 Plus 属增强版，不过这种大部分是在程序界面及多媒体功能上增强。 Preview 预览版 Corporation &amp; Enterprise 企业版 Standard 标准版 Mini 迷你版也叫精简版只有最基本的功能 Premium — 贵价版 Professional — 专业版 Express — 特别版 Deluxe — 豪华版 Regged — 已注册版 CN — 简体中文版 CHT — 繁体中文版 EN — 英文版 Multilanguage — 多语言版
+α版 此版本表示该软件仅仅是一个初步完成品，通常只在软件开发者内部交流，也有很少一部分发布给专业测试人员。一般而言，该版本软件的 bug 较多，普通用户最好不要安装。
+β（beta）版 该版本相对于α版已有了很大的改进，消除了严重的错误，但还是存在着一些缺陷，需要经过大规模的发布测试来进一步消除。这一版本通常由软件公司免费发布，用户可从相关的站点下载。通过一些专业爱好者的测试，将结果反馈给开发者，开发者们再进行有针对性的修改。该版本也不适合一般用户安装。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-18 11:49:49 +0000 UTC'>March 18, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 软件开发版本及区别" href="http://example.org/2009/03/18/e8bdafe4bbb6e5bc80e58f91e78988e69cace58f8ae58cbae588ab/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>转换成utf8成功!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>准备从baidu 搬回来哦!</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-15 09:03:55 +0000 UTC'>March 15, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 转换成utf8成功!" href="http://example.org/2009/03/15/e8bdace68da2e68890utf8e68890e58a9f/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>模仿IE自动完成功能
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>&lt; !DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 4.0 Transitional//EN&#34;&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt; New Document &lt;/title&gt; &lt;meta content=&#34;EditPlus&#34; name=&#34;Generator&#34;&gt; &lt;/meta&gt;&lt;meta content=&#34;&#34; name=&#34;Author&#34;&gt; &lt;/meta&gt;&lt;meta content=&#34;&#34; name=&#34;Keywords&#34;&gt; &lt;/meta&gt;&lt;meta content=&#34;&#34; name=&#34;Description&#34;&gt; &lt;style&gt; body,div { font-family:verdana; line-height:100%; font-size:9pt; } input { width:300px; } h1 { text-align:center; font-size:2.2em; } #divf { margin:10px; font-size:0.8em; text-align:center; } #divc { border:1px solid #333333; } .des { width:500px; background-color:lightyellow; border:1px solid #333; padding:20px; margin-top:20px; } .mouseover { color:#ffffff; background-color:highlight; width:100%; cursor:default; } ....</p>
+  </div>
+  <footer class="entry-footer"><span title='2007-08-16 09:22:37 +0000 UTC'>August 16, 2007</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 模仿IE自动完成功能" href="http://example.org/2007/08/16/e6a8a1e4bbbfiee887aae58aa8e5ae8ce68890e58a9fe883bd/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>今天使用HessianPHP
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天要做一个bbs的API不知道七夜怎么样的,要我用HessianPHP下载了个看看代码!
+确实他的机制很好,等有时间好好看看,把自己的写的代码贴出来,大家看下!
+service.php
+opendb(); $s_sql = &#34;SELECT * FROM cdb_threads WHERE fid IN($id) ORDER BY lastpost DESC LIMIT $num&#34;; $r_query = mysql_query( $s_sql ); while ( FALSE !== ( $a_rec = mysql_fetch_assoc( $r_query ) ) ){ $show[] = $a_rec; } return $show; } function opendb(){ $dbname = &#34;club&#34;; $conn = mysql_connect(&#34;localhost&#34;,&#34;club&#34;, &#34;club_test&#34;); if(!$conn) die(mysql_error()); @mysql_select_db($dbname, $conn); if(mysql_errno()) die(mysql_error()); return $conn; } } $service = &amp;new; HessianService(); $service-&gt;registerObject(new bbs_api); $service-&gt;displayInfo = true; $service-&gt;service(); ?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-30 09:26:43 +0000 UTC'>October 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 今天使用HessianPHP" href="http://example.org/2006/10/30/e4bb8ae5a4a9e4bdbfe794a8hessianphp/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>正则表达式30分钟入门教程。。
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文目标30分钟内让你明白正则表达式是什么，并对它有一些基本的了解，让你可以在自己的程序或网页里使用它。一旦入门后，你可以从网上找到更多更详细的资料来继续学习。 别被下面那些复杂的表达式吓倒，只要跟着我一步一步来，你会发现正则表达式其实并不像你想像中的那么困难。当然，如果你看完了这篇教程之后发现自己明白了很多，却又几乎什么都记不得，那也是很正常的–其实我认为没接触过正则表达式的人在看完这篇教程后能把提到过的语法记住80%以上的可能性为零。这里只是让你明白基本道理，以后你还需要多练习，多查资料，才能熟练掌握正则表达式。 说明正则表达式是用于进行文本匹配的工具，所以本文里多次提到了在字符串里搜索/查找，这种说法的意思是在给定的字符串中，查找与给定的正则表达式相匹配的部分。有可能字符串里有不止一个部分满足给定的正则表达式，这时每一个这样的部分被称为一个匹配。匹配在本文里可能会有三种意思：一种是形容词性的，比如说一个字符串匹配一个表达式；一种是动词性的，比如说在字符串里匹配正则表达式；还有一种是名词性的，就是刚刚说到的“字符串中满足给定的正则表达式的一部分”。 文本格式约定：专业术语 特殊代码/语法格式 正则表达式 正则表达式中的一部分(用于分析) 用于在其中搜索的字符串 对正则表达式或其中一部分的说明 什么是正则表达式？很可能你使用过Windows/Dos下用于文件查找的通配符，也就是和?。如果你想查找某个目录下的所有的Word文档的话，你会搜索.doc。在这里，会被解释成任意的字符串。和通配符类似，正则表达式也是用来进行文本匹配的工具，只不过比通配符更能精确地描述你的需求–当然，代价就是更复杂。比如你可以编写一个正则表达式来查找所有以0开头，后面跟着2-3个数字，然后是一个连字号“-”，最后是7或8位数字的字符串(像010-12345678或0376-7654321)。 入门在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。例如，\d&#43;就是一个简洁的代码，代表着规则1位或更多位数字，2008就符合这个规则，而A3则不符合(它包含了不是数字的字符)。 学习正则表达式的最好方法是从例子开始，理解例子之后再自己对例子进行修改，实验。下面给出了不少简单的例子，并对它们作了详细的说明。 假设你在一篇英文小说里查找hi，你可以使用正则正则表达式hi。 这是最简单的正则表达式了，它可以精确匹配这样的字符串：由两个字符组成，前一个字符是h,后一个是i。通常，处理正则表达式的工具会提供一个忽略大小写的选项，如果选中了这个选项，它可以匹配hi,HI,Hi,hI。 不幸的是，很多单词里包含hi这两个连续的字符，比如him,history,high等等。用hi来查找的话，这里边的hi也会被找出来。如果要精确地查找hi这个单词的话，我们应该使用\bhi\b。 \b是正则表达式规定的一个特殊代码，代表着单词的开头或结尾。虽然通常英文的单词是由空格或标点符号或换行为分隔的，但是\b并不代表这些单词分隔符中的任何一个，只代表一个位置。 假如你要找的是hi后面不远处跟着一个Lucy，你应该用\bhi\b.\bLucy\b。 这里，.是另一个特殊代码，代表除了换行符以外的任意字符。同样是特殊的代码，不过它代表的不是字符，也不是位置，而是数量–它指定前边的内容可以重复任意次以使整个表达式得到匹配。因此，.连在一起就意味着任意数量的不包含换行的字符。现在\bhi\b.\bLucy\b的意思就很明显了：先是一个单词hi,然后是任意个任意字符(但不能是换行)，最后是Lucy这个单词。 如果同时使用其它的一些特殊代码，我们就能构造出功能更强大的正则表达式。比如下面这个例子： 0\d\d-\d\d\d\d\d\d\d\d代表着这样的字符串：以0开头，然后是两个数字，然后是一个连字号“-”，最后是8个数字(也就是中国的电话号码，当然，这个例子只能匹配区号为3位的情形，想同时匹配区号为4位的话，请在教程的下面寻找答案)。 这里的\d是一个新的特殊代码，代表任意的数字(0，或1，或2，或。。。)。-不是特殊代码，只代表它本身–连字号。 为了避免那么多烦人的重复，我们也可以这样写这个表达式：0\d{2}-\d{8} 这里\d后面的{2}({8})指定的是前面\d必须连续重复出现2次(8次)。 测试正则表达式如果你不觉得正则表达式很难读写的话，要么你是一个天才，要么，你不是地球人。正则表达式的语法很令人头疼，即使对经常使用它的人来说也是如此。由于难于读写，容易出错，所以很有必要创建一种工具来测试正则表达式。 由于在不同的环境下正则表达式的一些细节是不相同的，本教程介绍的是Microsoft .net下正则表达式的行为，所以，我向你介绍一个.net下的工具The Regulator。首先你确保已经安装了.net Framework1.1，然后下载The Regulator，下载完后打开压缩包，运行setup.exe安装。 下面是the Regulator运行时的截图：
+特殊代码现在你已经知道几个具有特殊意义的代码了，如\b,.,*，还有\d.事实上还有更多的特殊代码，比如\s代表任意的空白符，包括空格，制表符(Tab),换行符。\w代表着字母或数字。 下面来试试更多的例子：
+\ba\w*\b匹配以字母a开头的单词-先是某个单词开始处(\b)，然后是字母a,然后是任意数量的字母或数字(\w*)，最后是单词结束处(\b)。 \d&#43;匹配1个或更多连续的数字。这里的&#43;是和*类似的特殊代码，不同的是*代表重复任意次(可能是0次)，而&#43;则代表重复1次或更多次。 \b\w{6}\b 匹配刚好6个字母/数字的单词。 . 匹配除换行符以外的任意字符 \w 匹配字母或数字 \s 匹配任意的空白符 \d 匹配数字 \b 匹配单词的开始或结束 ^ 匹配字符串的开始 $ 匹配字符串的结束 特殊代码^以及$和\b有点类似，都匹配一个位置。^匹配你要用来查找的字符串的开头，$匹配结尾。这两个代码在验证输入的内容时非常有用，比如一个网站如果要求你填写的QQ号必须为5位到12位数字时，可以使用：^\d{5,12}$。 这里的{5,12}和前面介绍过的{2}是类似的，只不过{2}代表只能不多不少重复2次，{5,12}则是必须重复最少5次，最多12次，否则都不匹配。 因为使用了^和$，所以输入的整个字符串都要用来和\d{5,12}来匹配，也就是说整个输入必须是5到12个数字，因此如果输入的QQ号能匹配这个正则表达式的话，那就符合要求了。 和忽略大小写的选项类似，有些正则表达式处理工具还有一个处理多行的选项。如果选中了这个选项，^和$的意义就变成了匹配行的开始处和结束处。 字符转义如果你想查找特殊代码本身的话，比如你查找.,或者*,就出现了问题：你没法指定它们，因为它们会被解释成其它的意思。这时你就必须使用\来取消这些字符的特殊意义。因此，你应该使用\.和\*。当然，要查找\本身，你也得用\\. 例如：www\.unibetter\.com匹配www.unibetter.com，c:\\windows匹配c:\windows,2\^8匹配2^8(通常这是2的8次方的书写方式)。 重复你已经看过了前面的*,&#43;,{2},{5,12}这几个代表重复的方式了。下面是正则表达式中所有指定重复的方式： * 重复零次或更多次 &#43; 重复一次或更多次 ? 重复零次或一次 {n} 重复n次 {n,} 重复n次或更多次 {n,m} 重复n到m次 下面是一些使用重复的例子： Windows\d&#43;匹配Windows后面跟1个或更多数字 13\d{9}匹配以13后面跟9个数字(中国的手机号) ^\w&#43;匹配一行的第一个单词(或整个字符串的第一个单词，具体代表哪个意思得看选项设置) 字符类要想查找数字，字母或数字，空白是很简单的，因为已经有了对应这些字符集的特殊代码，但是如果你想匹配没有预定义特殊代码的字符集比如元音字母(a,e,i,o,u),怎么办？ 很简单，你只需要在中括号里列出它们就行了，像[aeiou]就匹配任何一个元音字母，[....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-24 14:16:00 +0000 UTC'>October 24, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 正则表达式30分钟入门教程。。" href="http://example.org/2006/10/24/e6ada3e58899e8a1a8e8bebee5bc8f30e58886e9929fe585a5e997a8e69599e7a88be38082e38082/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>freebsd cp命令
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>文件 cp xx /xx/xx
+文件夹 cp -Rp xx /xxx/xxx</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-10-15 08:19:22 +0000 UTC'>October 15, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to freebsd cp命令" href="http://example.org/2006/10/15/freebsd-cpe591bde4bba4/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

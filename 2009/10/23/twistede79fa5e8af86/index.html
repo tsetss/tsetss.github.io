@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>twisted知识 | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信
+中可能出现的各种情况。
+Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。
+1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这
+里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主
+机的交互功能。
+一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承
+。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空
+的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后
+就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行
+reactor.run()启动 事件循环。
+二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同
+的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。
+BaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：
+class Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型
+从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。
+三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就
+可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载
+。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/10/23/twistede79fa5e8af86/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="twisted知识" />
+<meta property="og:description" content="一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信
+中可能出现的各种情况。
+Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。
+1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这
+里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主
+机的交互功能。
+一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承
+。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空
+的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后
+就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行
+reactor.run()启动 事件循环。
+二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同
+的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。
+BaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：
+class Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型
+从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。
+三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就
+可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载
+。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/10/23/twistede79fa5e8af86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-10-23T10:15:37+00:00" />
+<meta property="article:modified_time" content="2009-10-23T10:15:37+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="twisted知识"/>
+<meta name="twitter:description" content="一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信
+中可能出现的各种情况。
+Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。
+1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这
+里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主
+机的交互功能。
+一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承
+。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空
+的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后
+就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行
+reactor.run()启动 事件循环。
+二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同
+的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。
+BaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：
+class Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型
+从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。
+三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就
+可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载
+。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "twisted知识",
+      "item": "http://example.org/2009/10/23/twistede79fa5e8af86/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "twisted知识",
+  "name": "twisted知识",
+  "description": "一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信\n中可能出现的各种情况。\nTwisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。\n1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这\n里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主\n机的交互功能。\n一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承\n。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空\n的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后\n就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行\nreactor.run()启动 事件循环。\n二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同\n的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。\nBaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：\nclass Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型\n从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。\n三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就\n可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载\n。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应",
+  "keywords": [
+    
+  ],
+  "articleBody": "一、Twisted基本模型 Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信\n中可能出现的各种情况。\nTwisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。\n1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。 2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这\n里处理。注意是在连接建立之后protacal才开始负责下面的工作的。 3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主\n机的交互功能。\n一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承\n。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空\n的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后\n就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行\nreactor.run()启动 事件循环。\n二、协议模型 所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同\n的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。\nBaseProtocol的接口如下： class BaseProtocol: connected=0 #是否已经连接了 transport=None #用于数据发送的传输对象 def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载 def connectionMade(self): #连接成功事件，可重载 可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：\nclass Protocol(BaseProtocol): def dataReceived(self,data): #接收到数据事件，可重载 def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型\n从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。\n三、工厂模型 相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下： class Factory: protocol=None #指向一个协议类 def startFactory(self): #开启工厂 def stopFactory(self): #关闭工厂 def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载 从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就\n可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载\n。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应\n该注意在方法内继承原方法内容。\n工厂还分为客户端工厂和服务器工厂。服务器工厂继承自Factory，而没有任何修改，定义如下： class ServerFactory(Factory):\n客户端工厂则有较多内容，接口定义如下：\nclass ClientFactory(Factory): def startedConnecting(self,connector): #连接建立成功时 def clientConnectionFailed(self,connector,reason): #客户端连接失败 def clientConnectionLost(self,connector,reason): #连接断开 这三个方法都传递了一个connector对象，这个对象有如下方法可用： connector.stopConnection() #关闭会话 connector.connect() #一般在连接失败时用于重新连接 四、连接器 连接器指客户端用来连接的包装。 twisted.internet.protocol.ClientCreator是一个连接器，用来连接远程主机，接口定义如下：\nclass ClientCreator: def __init__(self,reactor,protocolClass,*args,**kwargs): def connectTCP(self,host,port,timeout=30,bindAddress=None): def connectUNIX(self,address,timeout=30,checkPID=0): def connectSSL(self,host,port,contextFactory,timeout=30,bindAddress=None): 三个连接方法都是返回Deferred对象作为Protocol实例，在不需要工厂时可以直接使用这个类来产生仅使用一次的客\n户端连接。这时，协议对象之间没有共享状态，也不需要重新连接。\n在Twisted中，有一种特殊的对象用于实现事件循环。这个对象叫做reactor。 可以把反应器(reactor)想象为Twisted程序的中枢神经。 reactor根据平台的不同，提供了不同的实现，在使用的时候，可以根据平台的不同，选择不同的reactor 除了分发事件循环之外，反应器还做很多重要的工作：定时任务、线程、建立网络连接、监听连接。 为了让反应器可以正常工作，需要启动事件循环。\nfrom twisted.internet import reactor print 'Running the reactor ...' reactor.run() print 'Reactor stopped.' 这样就建立了一个事件循环。\nreactor.callLater方法用于设置定时事件： reactor.callLater函数包含两个必须参数，等待的秒数，和需要调用的函数 意思是多少秒钟之后调用某个函数 在实际应用中，reactor.callLater是常用于超时处理和定时事件。可以设置函数按照指定的时间间隔来执行关闭非活\n动连接或者保存内存数据到硬盘。\nreactor.stop()停止循环，退出循环\n",
+  "wordCount" : "131",
+  "inLanguage": "en",
+  "datePublished": "2009-10-23T10:15:37Z",
+  "dateModified": "2009-10-23T10:15:37Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/10/23/twistede79fa5e8af86/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      twisted知识
+    </h1>
+    <div class="post-meta"><span title='2009-10-23 10:15:37 +0000 UTC'>October 23, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>一、Twisted基本模型
+Twisted 网络编程框架是一种基于事件的网络编程框架，用户需要继承特定的类，并重载其中的方法来处理网络通信</p>
+<p>中可能出现的各种情况。</p>
+<p>Twisted的网络通信模型 最基本的也要由三部分组成：反应器(reactor)、协议(protocol)、工厂(factory)。</p>
+<p>1、其中反应器reactor用来执行事件循环，分发事件处理等 等，每个应用程序中一般只能启动一个reactor。
+2、协议用来完成与一个已经连接成功的主机的交互功能，主要有数据的接收和发送功能。连接的断开事件也可以在这</p>
+<p>里处理。注意是在连接建立之后protacal才开始负责下面的工作的。
+3、工厂负责与一个协议的启动和关闭功能，而且还负责在连接成功时生成一个协议对象，(by gashero)用于与远程主</p>
+<p>机的交互功能。</p>
+<p>一个典型的Twisted应用程序会建立至少一个协议，可以从twisted.internet.protocol.BaseProtocol类或其子类继承</p>
+<p>。协议还需要实现数据的接收处理，即收到数据之后需要做出何种响应。比较简单的Twisted应用程序可以继承一个空</p>
+<p>的工厂，来自 twisted.internet.protocol.Factory或其子类。工厂至少应该指定protocol属性，指向协议类。最后</p>
+<p>就是要启动事件 循环，根据连接方向的不同，可以选择用reactor的connectXXX()或listenXXX()方法，然后执行</p>
+<p>reactor.run()启动 事件循环。</p>
+<p>二、协议模型
+所有协议类的基类是 twisted.internet.protocol.BaseProtocol，但是一般使用其子类。不同的协议子类提供了不同</p>
+<p>的数据接收方法，如 LineReceiver子类就允许同时使用行和原始数据两种方法接收数据，使用非常方便。</p>
+<p>BaseProtocol的接口如下：
+class BaseProtocol:
+connected=0 #是否已经连接了
+transport=None #用于数据发送的传输对象
+def makeConnection(self,transport): #建立连接的方法，不是事件方法，一般不要重载
+def connectionMade(self): #连接成功事件，可重载
+可以看到BaseProtocol可以理解为一个虚基类，实现的功能十分简陋。实际的应用程序一般也不是直接继承BaseProtocol来实现协议，而是继承Protocol类。Protocol类提供了基本完善的协议功能，接口定义如下：</p>
+<p>class Protocol(BaseProtocol):
+def dataReceived(self,data): #接收到数据事件，可重载
+def connectionLost(self,reason=connectionDone): #连接断开事件，可重载，依靠reason区分断开类型</p>
+<p>从Protocol类继承就可以完成协议的基本处理了，包括连接的建立和断开事件，还有数据接收事件。</p>
+<p>三、工厂模型
+相对于协议，工厂可以发挥的空间就很小了。所有工厂的基类是twisted.internet.protocol.Factory。这个类定义了三个方法，接口如下：
+class Factory:
+protocol=None #指向一个协议类
+def startFactory(self): #开启工厂
+def stopFactory(self): #关闭工厂
+def buildProtocol(self,addr): #构造协议对象，并给协议对象添加一个factory属性指向工厂，可以重载
+从 这里可以看到，工厂类中最重要的部分就是protocol属性，将这个属性设置为一个协议类(注意不是协议对象)，就</p>
+<p>可以将这个工厂设置为对应协议的工厂 了。前两个方法控制工厂的开启和关闭，用于资源的初始化和释放，可以重载</p>
+<p>。buildProtocol()方法可以控制协议对象的生成，(by gashero)如果需要多传递一个属性，可以重载，但是重载时应</p>
+<p>该注意在方法内继承原方法内容。</p>
+<p>工厂还分为客户端工厂和服务器工厂。服务器工厂继承自Factory，而没有任何修改，定义如下：
+class ServerFactory(Factory):</p>
+<p>客户端工厂则有较多内容，接口定义如下：</p>
+<pre><code>class ClientFactory(Factory):
+def startedConnecting(self,connector): #连接建立成功时
+def clientConnectionFailed(self,connector,reason): #客户端连接失败
+def clientConnectionLost(self,connector,reason): #连接断开
+这三个方法都传递了一个connector对象，这个对象有如下方法可用：
+connector.stopConnection() #关闭会话
+connector.connect() #一般在连接失败时用于重新连接
+</code></pre>
+<p>四、连接器
+连接器指客户端用来连接的包装。
+twisted.internet.protocol.ClientCreator是一个连接器，用来连接远程主机，接口定义如下：</p>
+<pre><code>class ClientCreator:
+def __init__(self,reactor,protocolClass,*args,**kwargs):
+def connectTCP(self,host,port,timeout=30,bindAddress=None):
+def connectUNIX(self,address,timeout=30,checkPID=0):
+def connectSSL(self,host,port,contextFactory,timeout=30,bindAddress=None):
+</code></pre>
+<p>三个连接方法都是返回Deferred对象作为Protocol实例，在不需要工厂时可以直接使用这个类来产生仅使用一次的客</p>
+<p>户端连接。这时，协议对象之间没有共享状态，也不需要重新连接。</p>
+<p>在Twisted中，有一种特殊的对象用于实现事件循环。这个对象叫做reactor。
+可以把反应器(reactor)想象为Twisted程序的中枢神经。
+reactor根据平台的不同，提供了不同的实现，在使用的时候，可以根据平台的不同，选择不同的reactor
+除了分发事件循环之外，反应器还做很多重要的工作：定时任务、线程、建立网络连接、监听连接。
+为了让反应器可以正常工作，需要启动事件循环。</p>
+<pre><code>from twisted.internet import reactor
+print 'Running the reactor ...'
+reactor.run()
+print 'Reactor stopped.'
+</code></pre>
+<p>这样就建立了一个事件循环。</p>
+<p>reactor.callLater方法用于设置定时事件：
+reactor.callLater函数包含两个必须参数，等待的秒数，和需要调用的函数
+意思是多少秒钟之后调用某个函数
+在实际应用中，reactor.callLater是常用于超时处理和定时事件。可以设置函数按照指定的时间间隔来执行关闭非活</p>
+<p>动连接或者保存内存数据到硬盘。</p>
+<p>reactor.stop()停止循环，退出循环</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

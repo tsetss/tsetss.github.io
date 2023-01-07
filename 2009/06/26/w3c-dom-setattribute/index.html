@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>W3C DOM - {setAttribute()} | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。
+1、setAttribute()的差异 我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。
+var bar = document.getElementById(&quot;foo&quot;); bar.setAttribute(&quot;onclick&quot;, &quot;javascript:alert(&#39;This is a test!&#39;);&quot;); 这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。
+document.getElementById(&quot;foo&quot;).className = &quot;fruit&quot;; document.getElementById(&quot;foo&quot;).style.cssText = &quot;color: #00f;&quot;; document.getElementById(&quot;foo&quot;).style.color = &quot;#00f&quot;; document.getElementById(&quot;foo&quot;).onclick= function () { alert(&quot;This is a test!&quot;); } 2、关于class和className class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(&ldquo;class&rdquo;, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 &ldquo;class&rdquo;，要改用&quot;className&quot;；同样，firefox 也不认识&quot;className&quot;。所以常用的方法是二者兼备：
+element.setAttribute(&quot;class&quot;, vName); element.setAttribute(&quot;className&quot;, vName); // for IE 3、cellspacing和cellpadding 虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(&ldquo;cellpadding&rdquo;, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(&ldquo;cellPadding&rdquo;, value)。所以二者兼容的代码是：
+element.setAttribute(&quot;cellSpacing&quot;, value); element.setAttribute(&quot;cellPadding&quot;, value); ">
+<meta name="author" content="admin">
+<link rel="canonical" href="http://example.org/2009/06/26/w3c-dom-setattribute/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="W3C DOM - {setAttribute()}" />
+<meta property="og:description" content="setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。
+1、setAttribute()的差异 我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。
+var bar = document.getElementById(&quot;foo&quot;); bar.setAttribute(&quot;onclick&quot;, &quot;javascript:alert(&#39;This is a test!&#39;);&quot;); 这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。
+document.getElementById(&quot;foo&quot;).className = &quot;fruit&quot;; document.getElementById(&quot;foo&quot;).style.cssText = &quot;color: #00f;&quot;; document.getElementById(&quot;foo&quot;).style.color = &quot;#00f&quot;; document.getElementById(&quot;foo&quot;).onclick= function () { alert(&quot;This is a test!&quot;); } 2、关于class和className class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(&ldquo;class&rdquo;, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 &ldquo;class&rdquo;，要改用&quot;className&quot;；同样，firefox 也不认识&quot;className&quot;。所以常用的方法是二者兼备：
+element.setAttribute(&quot;class&quot;, vName); element.setAttribute(&quot;className&quot;, vName); // for IE 3、cellspacing和cellpadding 虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(&ldquo;cellpadding&rdquo;, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(&ldquo;cellPadding&rdquo;, value)。所以二者兼容的代码是：
+element.setAttribute(&quot;cellSpacing&quot;, value); element.setAttribute(&quot;cellPadding&quot;, value); " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/2009/06/26/w3c-dom-setattribute/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-06-26T01:06:35+00:00" />
+<meta property="article:modified_time" content="2009-06-26T01:06:35+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="W3C DOM - {setAttribute()}"/>
+<meta name="twitter:description" content="setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。
+1、setAttribute()的差异 我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。
+var bar = document.getElementById(&quot;foo&quot;); bar.setAttribute(&quot;onclick&quot;, &quot;javascript:alert(&#39;This is a test!&#39;);&quot;); 这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。
+document.getElementById(&quot;foo&quot;).className = &quot;fruit&quot;; document.getElementById(&quot;foo&quot;).style.cssText = &quot;color: #00f;&quot;; document.getElementById(&quot;foo&quot;).style.color = &quot;#00f&quot;; document.getElementById(&quot;foo&quot;).onclick= function () { alert(&quot;This is a test!&quot;); } 2、关于class和className class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(&ldquo;class&rdquo;, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 &ldquo;class&rdquo;，要改用&quot;className&quot;；同样，firefox 也不认识&quot;className&quot;。所以常用的方法是二者兼备：
+element.setAttribute(&quot;class&quot;, vName); element.setAttribute(&quot;className&quot;, vName); // for IE 3、cellspacing和cellpadding 虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(&ldquo;cellpadding&rdquo;, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(&ldquo;cellPadding&rdquo;, value)。所以二者兼容的代码是：
+element.setAttribute(&quot;cellSpacing&quot;, value); element.setAttribute(&quot;cellPadding&quot;, value); "/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://example.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "W3C DOM - {setAttribute()}",
+      "item": "http://example.org/2009/06/26/w3c-dom-setattribute/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "W3C DOM - {setAttribute()}",
+  "name": "W3C DOM - {setAttribute()}",
+  "description": "setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。\n1、setAttribute()的差异 我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。\nvar bar = document.getElementById(\u0026quot;foo\u0026quot;); bar.setAttribute(\u0026quot;onclick\u0026quot;, \u0026quot;javascript:alert('This is a test!');\u0026quot;); 这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。\ndocument.getElementById(\u0026quot;foo\u0026quot;).className = \u0026quot;fruit\u0026quot;; document.getElementById(\u0026quot;foo\u0026quot;).style.cssText = \u0026quot;color: #00f;\u0026quot;; document.getElementById(\u0026quot;foo\u0026quot;).style.color = \u0026quot;#00f\u0026quot;; document.getElementById(\u0026quot;foo\u0026quot;).onclick= function () { alert(\u0026quot;This is a test!\u0026quot;); } 2、关于class和className class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(\u0026ldquo;class\u0026rdquo;, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 \u0026ldquo;class\u0026rdquo;，要改用\u0026quot;className\u0026quot;；同样，firefox 也不认识\u0026quot;className\u0026quot;。所以常用的方法是二者兼备：\nelement.setAttribute(\u0026quot;class\u0026quot;, vName); element.setAttribute(\u0026quot;className\u0026quot;, vName); // for IE 3、cellspacing和cellpadding 虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(\u0026ldquo;cellpadding\u0026rdquo;, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(\u0026ldquo;cellPadding\u0026rdquo;, value)。所以二者兼容的代码是：\nelement.setAttribute(\u0026quot;cellSpacing\u0026quot;, value); element.setAttribute(\u0026quot;cellPadding\u0026quot;, value); ",
+  "keywords": [
+    
+  ],
+  "articleBody": "setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。\n1、setAttribute()的差异 我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。\nvar bar = document.getElementById(\"foo\"); bar.setAttribute(\"onclick\", \"javascript:alert('This is a test!');\"); 这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。\ndocument.getElementById(\"foo\").className = \"fruit\"; document.getElementById(\"foo\").style.cssText = \"color: #00f;\"; document.getElementById(\"foo\").style.color = \"#00f\"; document.getElementById(\"foo\").onclick= function () { alert(\"This is a test!\"); } 2、关于class和className class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(“class”, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 “class”，要改用\"className\"；同样，firefox 也不认识\"className\"。所以常用的方法是二者兼备：\nelement.setAttribute(\"class\", vName); element.setAttribute(\"className\", vName); // for IE 3、cellspacing和cellpadding 虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(“cellpadding”, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(“cellPadding”, value)。所以二者兼容的代码是：\nelement.setAttribute(\"cellSpacing\", value); element.setAttribute(\"cellPadding\", value); ",
+  "wordCount" : "60",
+  "inLanguage": "en",
+  "datePublished": "2009-06-26T01:06:35Z",
+  "dateModified": "2009-06-26T01:06:35Z",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://example.org/2009/06/26/w3c-dom-setattribute/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "白天’s Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://example.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      W3C DOM - {setAttribute()}
+    </h1>
+    <div class="post-meta"><span title='2009-06-26 01:06:35 +0000 UTC'>June 26, 2009</span>&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <div class="post-content"><p>setAttribute(string name, string value)：增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。</p>
+<p>1、setAttribute()的差异
+我们经常需要在JavaScript中给Element动态添加各种属性，这可以通过使用setAttribute()来实现，这就涉及到了浏览器的兼容性问题。</p>
+<pre><code>var bar = document.getElementById(&quot;foo&quot;);
+bar.setAttribute(&quot;onclick&quot;, &quot;javascript:alert('This is a test!');&quot;);
+</code></pre>
+<p>这里利用setAttribute指定Element的onclick属性，简单，很好理解。但是IE不支持，IE并不是不支持setAttribute这个函数，而是不支持用setAttribute设置某些属性，例如对象属性、集合属性、事件属性，也就是说用setAttribute设置style和onclick 这些属性在IE中是行不通的。为达到兼容各种浏览器的效果，可以用点符号法来设置Element的对象属性、集合属性和事件属性。</p>
+<pre><code>document.getElementById(&quot;foo&quot;).className = &quot;fruit&quot;;
+document.getElementById(&quot;foo&quot;).style.cssText = &quot;color: #00f;&quot;;
+document.getElementById(&quot;foo&quot;).style.color = &quot;#00f&quot;;
+document.getElementById(&quot;foo&quot;).onclick= function () { alert(&quot;This is a test!&quot;); }
+</code></pre>
+<p>2、关于class和className
+class 属性在W3C DOM中扮演着很重要的角色，但由于浏览器差异性仍然存在。使用setAttribute(&ldquo;class&rdquo;, vName)语句动态设置element的class属性在firefox中是行的通的，在IE中却不行。因为使用IE内核的浏览器不认识 &ldquo;class&rdquo;，要改用&quot;className&quot;；同样，firefox 也不认识&quot;className&quot;。所以常用的方法是二者兼备：</p>
+<pre><code>element.setAttribute(&quot;class&quot;, vName);
+element.setAttribute(&quot;className&quot;, vName);    // for IE
+</code></pre>
+<p>3、cellspacing和cellpadding
+虽然在CSS中存在与cellpadding和cellspacing这两个属性等价的样式属性padding和 border-spacing。然而，浏览器对这些样式属性支持的不一致，有时仍会使用cellpadding和 cellspacing来调整表格的间距。不过，在firefox中有效的setAttribute(&ldquo;cellpadding&rdquo;, value)到了IE下就不行了，必须改成cellPadding才可以(注意：p大写)。幸好firefox也支持setAttribute(&ldquo;cellPadding&rdquo;, value)。所以二者兼容的代码是：</p>
+<pre><code>element.setAttribute(&quot;cellSpacing&quot;, value);
+element.setAttribute(&quot;cellPadding&quot;, value);</code></pre>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

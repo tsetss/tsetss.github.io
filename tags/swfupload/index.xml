@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>
+SWFUpload
+       on 白天’s Blog</title>
+    <link>http://example.org/tags/swfupload/</link>
+    <description>Recent content in 
+SWFUpload
+       on 白天’s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 May 2009 08:49:18 +0000</lastBuildDate><atom:link href="http://example.org/tags/swfupload/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SWFUpload V2</title>
+      <link>http://example.org/2009/05/20/swfupload-v2/</link>
+      <pubDate>Wed, 20 May 2009 08:49:18 +0000</pubDate>
+      
+      <guid>http://example.org/2009/05/20/swfupload-v2/</guid>
+      <description>Flash Player 10的安全机制更严格，类似打开文件上传的对话框的操作，一定需要用户交互才触发，如果用脚本触发，会报#2176的运行时错误。
+void selectFile() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，只能选择单个文件。
+void selectFiles() 不赞成使用，不兼容Flash Player 10 弹出flash的文件选择对话框，可一次性选择多个文件。
+flash_width 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的宽度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_height 固定值：1px (v2.1.0已删除) 设置插入flash影片的HTML元素容器的高度。如果此设置小于1像素，一些浏览器会出现功能异常。 因此该值在v2.1.0中删除了自定义设置，默认设置为1像素了。
+flash_color 默认值：#FFFFFF (v2.2.0已删除) 设置HTML页面中的flash背景色，默认为#FFFFFF
+prevent_swf_caching 默认值：true (v2.2.0新增)该布尔值设置是否在Flash URL后添加一个随机值，用来防止浏览器缓存了该SWF影片。这是为了解决一些基于IE-engine的浏览器上的出现一个BUG。
+提醒：SWFUpload是直接在flash_url后添加了一个swfuploadrnd的随机参数。如果你给定的flash_url中已经存在了GET类型的参数，那么就会出现两个问号连接符导致错误。
+button_placeholder_id 默认值：null (v2.2.0新增) 该必要参数指定了swfupload.swf将要替换的页面内的DOM元素的ID值。当对应的DOM元素被替换为SWF元素时，SWF的容器会被添加一个名称为&amp;quot;swfupload&amp;quot;的样式选择器供CSS自定义使用。
+button_image_url 默认值：空字符串 (v2.2.0新增) V2.2.0版最大的改变就是引入了一个按钮到SWF中，利用该参数可以设置一个相对于该swf文件或者是绝对地址的图片（或者是SWF），作为按钮的UI展现。所有FLASH支持的图片类型都可以使用（gif,jpg,png,或者是一个SWF）。 该按钮图片需要经过一定规则（CSS Sprite）的处理。按钮图片中需要包括按钮的4个状态，从上到下依次是normal, hover, down/click, disabled.(可以参照官方demo中的图片)
+button_width 默认值：1 (v2.2.0新增) 设置该SWF的宽度属性。
+button_height 默认值：1 (v2.2.0新增)设置该SWF的高度属性（按钮图片高度的1/4）
+button_text 默认值：空字符串 (v2.2.0新增) 该属性设置Flash Button中显示的文字，支持HTML。HTML文本的样式可以通过CSS选择器并配合button_text_style参数来设置。关于Flash文本对HTML的支持详细可见 Adobe&amp;rsquo;s Flash documentation。
+button_text_style 默认值：&amp;ldquo;color: #000000; font-size: 16pt;&amp;rdquo; (v2.2.0新增)此参数配合button_text参数，可以通过CSS样式来设置Flash Button中的文字样式。关于Flash文本对CSS的支持详细可见Adobe&amp;rsquo;s Flash documentation</description>
+    </item>
+    
+  </channel>
+</rss>

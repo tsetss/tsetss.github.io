@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+php
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/php/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/php/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+php
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/php/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+php
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+php
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>pecl::memcache和pecl::memcached
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文地址：http://www.surfchen.org/?p=371
+终于，基于libmemached的php扩展在pecl发布了。
+于是，现在pecl上有两个memcache客户端了。一个是完全在PHP框架内开发的memcache，一个是使用libmemcached的memecached。
+功能嘛，我没看过libmemcached，但是理论上来说，在其他语言里已经很流行的libmemcached应该会有更完善的功能。而程序上性能（内存和CPU使用率），不好说，虽然pecl::memcache是原生实现的，但是使用libmemcached的pecl::memached只支持OO接口，而pecl::memcache则是OO和非OO两套接口并存，这点拖累了它。
+其实这些都不是最重要的。使用libmemcached有个明显的优点，就是以后随着memcached服务器端的改进，这个lib也必定会马上跟进的。而pecl::memcache却不一定能做到按时跟进。
+pecl::memcached，还有个非常称赞的地方，就是flag不是在操作的时候设置了。而是有一个统一的setOption()。冲着这个方法，就非常值得从pecl::memcache转到pecl::memcached了。具体的接口可以看这里：http://cvs.php.net/viewvc.cgi/pecl/memcached/memcached-api.php?view=markup
+我在pecl-dev@里提到是否可以做成driver-based的架构。跟现在的MySQL一样，可以选择使用mysqlnd或者libmysql作为底层的引擎。但是之后想想，其实我并不是很支持对memcached使用这样的架构，它和MySQL的情况不一样。
+mysqlnd作为一个引擎而不是一个新的api来开发，可以使得大量的应用程序不需要对数据库操作做修改即可用上新的引擎。如果mysqlnd作为一个新的extension，那么如果它想兼容以前的程序，就面临一个很困难的选择。因为目前为止，存在3个官方的使用libmysql的，并具有不同对外接口的MySQL类集。mysqlnd能兼容mysql，就无法兼容mysqli或者pdo。当然对于使用自己的抽象数据库类的程序来说，这个可以通过改写类或者更换driver(php层面)来实现兼容。但是要想想，就算是使用抽象库，这个世界如此之多的数据库抽象库，如果要让所有人都用得起nd，那得改多少个库，加多少个driver阿。
+memcached的情况就简单很多了，目前和官方关系比较密切的只有pecl::memcache，而且接口基本上都是根据memcached的协议来的，和libmemcache相差无几。它们其实都可以被看作是一个抽象类里的不同driver。所以虽然是两套不同的客户端，但是更换起来，几乎不需要做什么改动，只需要在类初始化的地方更改一下，set/get等等这些方法的flag去掉即可，除非你使用了非OO的接口。
+另外mysql在通讯和数据获取上也比memcache复杂，nd可以做到一些libmysql无法做到的事情。例如buffer可以直接用php内部的HashTable和zval存储；再例如一些作为持久链接的结构可以更多地缓存起来。(这些例如只是我的猜测，我并没有去阅读过mysqlnd的代码)
+相关文章：
+pecl上有三个memcached客户端了 pecl::memcache的哈希策略 影响memcached性能的事件提醒机制</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-23 16:05:39 +0000 UTC'>March 23, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to pecl::memcache和pecl::memcached" href="http://example.org/2009/03/23/peclmemcachee5928cpeclmemcached/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>PHP 5.2.9 Released!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Security Enhancements and Fixes in PHP 5.2.9:
+Fixed security issue in imagerotate(), background colour isn’t validated correctly with a non truecolour image. Reported by Hamid Ebadi, APA Laboratory (Fixes CVE-2008-5498). (Scott) Fixed a crash on extract in zip when files or directories entry names contain a relative path. (Pierre) Fixed explode() behavior with empty string to respect negative limit. (Shire) Fixed a segfault when malformed string is passed to json_decode(). (Scott) </p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-19 14:36:17 +0000 UTC'>March 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to PHP 5.2.9 Released!" href="http://example.org/2009/03/19/php-529-released/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php-fpm文档中文翻译
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>版权声明：转载时请以超链接形式标明文章原始出处和作者信息及本声明 http://syre.blogbus.com/logs/20092011.html
+原文链接：http://php-fpm.anight.org/ wiki：http://www.php-fpm.com/
+什么是 FastCGI FastCGI 是一个可伸缩、高速的在web server和脚本语言间通迅的接口。关于FastCGI技术的更多信息可以在官方网站和Wikipedia看到。
+FastCGI 被许多脚本语言所支持，包括 php，如果用 –enable-fastcgi 选项编译的话。
+多数流行的web server都支持 FastCGI。包括Apache（mod_fastcgi和mod_fcgid），Zeus，nginx和lighttpd。
+FastCGI 的主要优点是把动态语言和 web server 分离开来。这种技术允许 web server 和动态语言运行在不同的主机上。这可以改进可扩展性和安全性而没有大的效率损失。
+php-fpm 可以和任何支持外部 FastCGI 技术的 web server 一起使用。
+php-fpm是做啥用的 很不幸，官方网站 php.net 上的 php 在将 FastCGI SAPI 用于生产环境方面有许多已知的问题。
+下面是关于启用 FastCGI SAPI 时的问题和 php-fpm 是如何解决他们的对比列表。
+特色功能 所有这些特性都是“不打断”的方式实现的。也就是说，如果你不使用它们，它们的存在不会影响php的功能性——他们都是“透明”的。
+Error header 范围：php.ini 选项 分类：便利性
+默认情况下，如果被访问的php脚本包含语法错误，用户会收到一个空的“200 ok”页。这是不方便的。Error header 这个 php.ini 选项允许在这种情况下产生一个 HTTP 错误码，比如“HTTP/1.0 550 Server Made Big Boo”，从而中断web server请求并显示一个正确的错误页。
+如果要实现这样的功能，需要在 php.ini 中添加一条 fastcgi....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-03-14 20:59:51 +0000 UTC'>March 14, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php-fpm文档中文翻译" href="http://example.org/2009/03/14/php-fpme69687e6a1a3e4b8ade69687e7bfbbe8af91/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php 编译支持ImageMagick
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>首先你要先成功的编译一次php
+在phpbin目录中会产生 phpize 这个文件，是待会咱们要使用到的。
+按照网上说的方法，试验了N遍总是失败。
+总是提示：
+Cannot find config.m4.
+Make sure that you run ‘/usr/local/php/bin/phpize’ in the top level source directory of the module
+无奈，去 官方网站
+然后进入 program interface 的链接
+找到php的部分，点击进入，下载了 magickwand-0.1.8.tar.bz2
+然后再次按照网上的方法
+解压缩到php源代码目录的ext目录下
+然后cd进去
+/usr/local/php/bin/phpize
+成功了。。。
+然后cd到php源代码目录，也就是 cd ../../
+rm -rf ./configure
+再执行： ./buildconf –force
+rebuild的时候可能会出现
+autoheader: WARNING: Using auxiliary files such as acconfig.h&#39;, config.h.bot’
+autoheader: WARNING: and config.h.top&#39;, to define templates for config.h.in&#39;
+autoheader: WARNING: is deprecated and discouraged....</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-06-25 11:21:11 +0000 UTC'>June 25, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php 编译支持ImageMagick" href="http://example.org/2006/06/25/php-e7bc96e8af91e694afe68c81imagemagick/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>php4支持xslt
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>首先需要下载如下软件包：
+sourceforge.net/projects/expat/
+从这里下载最新的 expat
+我下载的是：expat-2.0.0.tar.gz
+www.gingerall.com/charlie/ga/xml/d_sab.xml
+从这里下载sablot
+我下载的是：Sablot-1.0.2.tar.gz
+xmlsoft.org/
+从这里下载 libxslt
+我下载的是：libxslt-1.1.9.tar.gz
+三个包分别解压缩
+先来libxslt
+./configure –prefix=/usr/local/libxslt –with-libxml-prefix=/usr/local/libxml2 &amp;&amp; make &amp;&amp; make install
+再来expat
+./configure &amp;&amp; make &amp;&amp; make install
+继续sablot
+./configure &amp;&amp; make &amp;&amp; make install
+最后重新编译php
+./configure –prefix=/usr/local/php/ –enable-force-cgi-redirect –enable-mbstring=all –enable-mbregex –enable-mbstr-enc-trans –enable-versioning –enable-trans-sid –enable-ftp –with-mysql=/usr/local/mysql/ –with-apxs2=/usr/local/apache2/bin/apxs –with-openssl=/usr/local/openssl –with-soap=yes –with-curl=/usr/local/curl/ –with-zlib-dir=/usr/local/zlib/ –with-mcrypt=/usr/local/libmcrypt/ –with-gd=/usr/local/gd2 –with-jpeg-dir=/usr –with-freetype-dir=/usr/local/freetype –with-ttf –with-png-dir=/usr –with-mhash=/usr/local/mhash/ –with-dom=/usr/local/libxml2 –with-iconv=/usr/local/libiconv –enable-xslt –with-xslt-sablot –with-xsl=/usr/local/libxslt
+make &amp;&amp; make insteall
+重新安装zend吧。
+over this~~~</p>
+  </div>
+  <footer class="entry-footer"><span title='2006-04-30 09:05:44 +0000 UTC'>April 30, 2006</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to php4支持xslt" href="http://example.org/2006/04/30/php4e694afe68c81xslt/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://example.org/categories/php/page/2/">
+      «&nbsp;Prev&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

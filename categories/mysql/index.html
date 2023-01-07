@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>
+mysql
+       | 白天’s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="http://example.org/categories/mysql/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://example.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/mysql/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="
+mysql
+      " />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/categories/mysql/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="
+mysql
+      "/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://example.org/" accesskey="h" title="白天’s Blog (Alt + H)">白天’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    
+mysql
+      
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mysql my.cnf 详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Mysql my.ini 配置文件详解 #BEGIN CONFIG INFO #DESCR: 4GB RAM, 只使用InnoDB, ACID, 少量的连接, 队列负载大 #TYPE: SYSTEM #END CONFIG INFO # # 此mysql配置文件例子针对4G内存 # 主要使用INNODB #处理复杂队列并且连接数量较少的mysql服务器 # # 将此文件复制到/etc/my.cnf 作为全局设置, # mysql-data-dir/my.cnf 作为服务器指定设置 # (@localstatedir@ for this installation) 或者放入 # ~/.my.cnf 作为用户设置. # # 在此配置文件中, 你可以使用所有程序支持的长选项. # 如果想获悉程序支持的所有选项 # 请在程序后加上&#34;–help&#34;参数运行程序. # # 关于独立选项更多的细节信息可以在手册内找到 # # # 以下选项会被MySQL客户端应用读取. # 注意只有MySQL附带的客户端应用程序保证可以读取这段内容. # 如果你想你自己的MySQL应用程序获取这些值 # 需要在MySQL客户端库初始化的时候指定这些选项 # [client] #password = [your_password] port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # *** 应用定制选项 *** # # MySQL 服务端 # [mysqld] # 一般配置选项 port = @MYSQL_TCP_PORT@ socket = @MYSQL_UNIX_ADDR@ # back_log 是操作系统在监听队列中所能保持的连接数, # 队列保存了在MySQL连接管理器线程处理之前的连接....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-12-31 04:00:57 +0000 UTC'>December 31, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql my.cnf 详解" href="http://example.org/2009/12/31/mysql-my-cnf-e8afa6e8a7a3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Xtrabackup备份和恢复MySQL
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Xtrabackup是一个对InnoDB做数据备份的工具，支持在线热备份（备份时不影响数据读写），是商业备份工具InnoDB Hotbackup的一个很好的替代品。Xtrabackup中包含两个工具：
+* xtrabackup - 用于热备份innodb, xtradb表的工具，不能备份其他表。 * innobackupex - 对xtrabackup封装的perl脚本，提供了myisam表备份的能力。 Xtrabackup可以做什么
+* 在线(热)备份整个库的InnoDB, XtraDB表 * 在xtrabackup的上一次整库备份基础上做增量备份（innodb only） * 以流的形式产生备份，可以直接保存到远程机器上（本机硬盘空间不足时很有用） Xtrabackup如何工作的
+* xtrabackup - 具体原理有待研究。。。 * innobackupex整库备份 1. 调用xtrabackup对innodb表空间文件（这一瞬间的映像Time1）备份，而在这个innodb表备份期间数据库是不加锁的，外部可以继续往库里增减数据（这才能叫热备份）。而在Time1和Time2这两个时间点之间的改动由一个线程不断地扫innodb log获得(ChangeSet1)。 2. 锁所有库。 3. 以直接拷贝的方式备份frm,MYD,MYI,MRG,TRG,TRN,opt格式的文件。 4. 步骤3中的数据备份完毕时(Time2)，停止扫innodb log的线程，把ChangeSet1的数据拷贝到备份中。 5. 解锁所有库。 6. 终止挂起，备份完毕。 注意要点
+* 根据innobackupex的原理可知它不是真正的热备份，MyISAM表越少越小就越有利。要利用Xtrabackup的好处就尽量用innodb表。 * 还原备份前关闭mysql服务；还原备份后检查数据文件权限是否正确。 * 性能：备份一个数据目录总大小5.6G，其中ibdata 2G，总时间4分钟，锁表时间2.5分钟。如果用mysqldump做这个库的备份锁表时间是5-8倍。 安装
+tar zxf xtrabackup-0.7.tar.gz cd xtrabackup-0.7 ./configure make 进行到这里时，千万别惯性使用make install，那样就会接着安装MySQL了，正确方法是接着：
+cd innobase/xtrabackup/ make make install 然后，就会在你的/usr/bin目录里安装上两个工具：xtrabackup，innobackupex-1.5.1
+制定备份多个数据库 innobackupex-1.5.1 --user=root --databases=&#34;innodb innodb2&#34; /bak/ 压缩备份（不加–databases，默认全部数据库） innobackupex-1....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-11-24 05:21:29 +0000 UTC'>November 24, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to Xtrabackup备份和恢复MySQL" href="http://example.org/2009/11/24/xtrabackup-backup-recover-mysql/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mydns-ng mydns 的后继版
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>无意间在 ports 看到 mydns-ng
+MyDNS-ng is a free DNS server for UNIX. It was implemented from scratch and is designed to serve records directly from an SQL database (currently either MySQL or PostgreSQL).
+MyDNS-ng is based on MyDNS originaly writen by Don Moore bboy@bboy.net Oficial Site http://mydns.bboy.net.
+MyDNS is licensed under the GNU General Public License.
+以后可以用它了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-09-30 03:33:28 +0000 UTC'>September 30, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mydns-ng mydns 的后继版" href="http://example.org/2009/09/30/mydns-ng-mydns-e79a84e5908ee7bba7e78988/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>加快innodb 关闭
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>mysql&gt; set global innodb_max_dirty_pages_pct = 0;
+过半小时再shutdown就快了</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-07-03 14:42:27 +0000 UTC'>July 3, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 加快innodb 关闭" href="http://example.org/2009/07/03/e58aa0e5bfabinnodb-e585b3e997ad/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>MySQL内存使用分析-全局共享[转]
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>全局共享内则主要是 MySQLInstance（mysqld进程）以及底层存储引擎用来暂存各种全局运算及可共享的暂存信息，如存储查询缓存的 QueryCache，缓存连接线程的 Thread Cache，缓存表文件句柄信息的 Table Cache，缓存二进制日志的 BinLogBuffer， 缓存 MyISAM 存储引擎索引键的 Key Buffer以及存储 InnoDB 数据和索引的 InnoDB BufferPool 等等。下面针对 MySQL 主要的共享内存进行一个简单的分析。 查询缓存（Query Cache）：查询缓存是 MySQL 比较独特的一个缓存区域，用来缓存特定Query 的结果集（Result Set）信息，且共享给所有客户端。通过对 Query 语句进行特定的 Hash 计算之后与结果集对应存放在Query Cache 中，以提高完全相同的 Query 语句的相应速度。当我们打开 MySQL 的 Query Cache 之后，MySQL接收到每一个 SELECT 类型的 Query 之后都会首先通过固定的 Hash 算法得到该 Query 的 Hash 值，然后到 QueryCache 中查找是否有对应的 Query Cache。如果有，则直接将 Cache的结果集返回给客户端。如果没有，再进行后续操作，得到对应的结果集之后将该结果集缓存到 Query Cache中，再返回给客户端。当任何一个表的数据发生任何变化之后，与该表相关的所有 Query Cache 全部会失效，所以 Query Cache对变更比较频繁的表并不是非常适用，但对那些变更较少的表是非常合适的，可以极大程度的提高查询效率，如那些静态资源表，配置表等等。为了尽可能高效的利用 Query Cache，MySQL 针对 Query Cache 设计了多个 query_cache_type 值和两个 QueryHint：SQL_CACHE 和 SQL_NO_CACHE。当 query_cache_type 设置为0（或者 OFF）的时候不使用Query Cache，当设置为1（或者 ON）的时候，当且仅当 Query 中使用了 SQL_NO_CACHE 的时候 MySQL 会忽略Query Cache，当 query_cache_type 设置为2（或者DEMAND）的时候，当且仅当Query 中使用了SQL_CACHE 提示之后，MySQL 才会针对该 Query 使用 Query Cache。可以通过 query_cache_size来设置可以使用的最大内存空间。 连接线程缓存（Thread Cache）：连接线程是 MySQL为了提高创建连接线程的效率，将部分空闲的连接线程保持在一个缓存区以备新进连接请求的时候使用，这尤其对那些使用短连接的应用程序来说可以极大的提高创建连接的效率。当我们通过 thread_cache_size设置了连接线程缓存池可以缓存的连接线程的大小之后，可以通过(Connections - Threads_created) /Connections * 100% 计算出连接线程缓存的命中率。注意，这里设置的是可以缓存的连接线程的数目，而不是内存空间的大小。 表缓存（Table Cache）：表缓存区主要用来缓存表文件的文件句柄信息，在MySQL5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-15 01:59:40 +0000 UTC'>May 15, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL内存使用分析-全局共享[转]" href="http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e585a8e5b180e585b1e4baabe8bdac/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>MySQL内存使用分析-线程独享[转]
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>对于任何一个数据库管理系统来说，内存的分配使用绝对可以算的上是其核心之一了，所以很多希望更为深入了解某数据库管理系统的人，都会希望一窥究竟，我也不例外。 从内存的使用方式MySQL 数据库的内存使用主要分为以下两类
+线程独享内存
+全局共享内存
+今天这篇文章暂时先分析 MySQL 中主要的 “线程独享内存” 的。
+在 MySQL 中，线程独享内存主要用于各客户端连接线程存储各种操作的独享数据，如线程栈信息，分组排序操作，数据读写缓冲，结果集暂存等等，而且大多数可以通过相关参数来控制内存的使用量。
+线程栈信息使用内存(thread_stack)：主要用来存放每一个线程自身的标识信息，如线程id，线程运行时基本信息等等，我们可以通过 thread_stack 参数来设置为每一个线程栈分配多大的内存。
+排序使用内存(sort_buffer_size)：MySQL用此内存区域进行排序操作（filesort），完成客户端的排序请求。当我们设置的排序区缓存大小无法满足排序实际所需内存的时候，MySQL会将数据写入磁盘文件来完成排序。由于磁盘和内存的读写性能完全不在一个数量级，所以sort_buffer_size参数对排序操作的性能影响绝对不可小视。排序操作的实现原理请参考：MySQL Order By 的实现分析。
+Join操作使用内存(join_buffer_size)：应用程序经常会出现一些两表（或多表）Join的操作需求，MySQL在完成某些 Join 需求的时候（all/indexjoin），为了减少参与Join的“被驱动表”的读取次数以提高性能，需要使用到 Join Buffer 来协助完成 Join操作（具体Join 实现算法请参考：MySQL 中的 Join 基本实现原理）。当 Join Buffer 太小，MySQL 不会将该 Buffer 存入磁盘文件，而是先将Join Buffer中的结果集与需要 Join的表进行 Join 操作，然后清空 Join Buffer 中的数据，继续将剩余的结果集写入此 Buffer中，如此往复。这势必会造成被驱动表需要被多次读取，成倍增加 IO 访问，降低效率。
+顺序读取数据缓冲区使用内存(read_buffer_size)：这部分内存主要用于当需要顺序读取数据的时候，如无发使用索引的情况下的全表扫描，全索引扫描等。在这种时候，MySQL按照数据的存储顺序依次读取数据块，每次读取的数据快首先会暂存在read_buffer_size中，当 buffer空间被写满或者全部数据读取结束后，再将buffer中的数据返回给上层调用者，以提高效率。
+随机读取数据缓冲区使用内存(read_rnd_buffer_size)：和顺序读取相对应，当MySQL进行非顺序读取（随机读取）数据块的时候，会利用这个缓冲区暂存读取的数据。如根据索引信息读取表数据，根据排序后的结果集与表进行Join等等。总的来说，就是当数据块的读取需要满足一定的顺序的情况下，MySQL 就需要产生随机读取，进而使用到 read_rnd_buffer_size参数所设置的内存缓冲区。
+连接信息及返回客户端前结果集暂存使用内存(net_buffer_size)：这部分用来存放客户端连接线程的连接信息和返回客户端的结果集。当 MySQL 开始产生可以返回的结果集，会在通过网络返回给客户端请求线程之前，会先暂存在通过net_buffer_size所设置的缓冲区中，等满足一定大小的时候才开始向客户端发送，以提高网络传输效率。不过，net_buffer_size参数所设置的仅仅只是该缓存区的初始化大小，MySQL 会根据实际需要自行申请更多的内存以满足需求，但最大不会超过max_allowed_packet 参数大小。
+**批量插入暂存使用内存(bulk_insert_buffer_size)：**当我们使用如 insert …values(…),(…),(…)… 的方式进行批量插入的时候，MySQL会先将提交的数据放如一个缓存空间中，当该缓存空间被写满或者提交完所有数据之后，MySQL才会一次性将该缓存空间中的数据写入数据库并清空缓存。此外，当我们进行 LOAD DATA INFILE 操作来将文本文件中的数据 Load进数据库的时候，同样会使用到此缓冲区。
+**临时表使用内存(tmp_table_size)：**当我们进行一些特殊操作如需要使用临时表才能完成的Order By，Group By 等等，MySQL 可能需要使用到临时表。当我们的临时表较小（小于 tmp_table_size参数所设置的大小）的时候，MySQL 会将临时表创建成内存临时表，只有当 tmp_table_size所设置的大小无法装下整个临时表的时候，MySQL 才会将该表创建成 MyISAM 存储引擎的表存放在磁盘上。不过，当另一个系统参数max_heap_table_size 的大小还小于 tmp_table_size 的时候，MySQL 将使用max_heap_table_size 参数所设置大小作为最大的内存临时表大小，而忽略 tmp_table_size 所设置的值。而且tmp_table_size 参数从 MySQL 5....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-05-15 01:58:26 +0000 UTC'>May 15, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to MySQL内存使用分析-线程独享[转]" href="http://example.org/2009/05/15/mysqle58685e5ad98e4bdbfe794a8e58886e69e90-e7babfe7a88be78bace4baabe8bdac/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>[译]Innodb 性能优化基础
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Innodb 性能优化基础
+原文链接 http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 以便于理解,略作删改
+问一个基础的问题–如果你有一个16G内存的服务器,专用于mysql大型的Innodb数据库.应该做什么样的设置?
+硬件 如果你的Innodb数据库很大,内存是首要的.16-32G现在很便宜了.CPU方面 2个双核的core 就非常好了.但是这跟应用也有很大的关系.第三是IO系统-DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多.而且新的2.5″的SAS硬盘,小却速度快.RAID10对于数据存储和主要是读的场合下十分好.需要冗余性的话RAID5也不错但注意对于RAID5的随机写操作.
+操作系统 首先 运行64位的操作系统.现在还有很多32位的系统带着很大的内存运行着.建议不要这么做.如果系统是linux,对数据库的目录使用LVM可以获得更高效的备份.ext3文件系统大部分情况下都不会出问题,如果碰到问题的话,试试XFS.如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项,但是这样做效果不是很大.Also make sure you wrestle OS so it would not swap out MySQL out of memory. (最后这句话不知道该如何翻译)
+MYSQL 的Innodb 设置 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的.我在一个16G的机器上把它设成12G. UPDATE 关于它具体的查看http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/ innodb_log_file_size 这取决于你需要的回复速度.256M这个数值是适当的恢复时间和良好性能之间的一个好的平衡. innodb_log_buffer_size=4M 大多数情况4M足够,除非正将很大的blob数据导入到Innodb中可以增加一点. innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID,可以容许在系统完全crash的情况下丢失最后一两秒的事务,那么可以设置这个值.它可以极大的提高“短“的写事务的效率. innodb_thread_concurrency=8 这个值取决于你的程序,可能高或者低.8是代表起始值. innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力.大多数情况下可以提高性能.但是注意如果你RAID cache不够的话,写IO的操作会有麻烦. innodb_file_per_table 如果你的表不多可以使用这个选项.这样你就不会有不受控的innodb主表空间的增长,这个主表空间是不能重新定义的.这个选项在4.1版中引入,现在可以放心使用. 查看你的程序是否可以运行在READ-COMMITED 隔离模式下,如果可以,就可以设为默认的transaction-isolation=READ-COMMITTED.这个选项有一些性能的优势,特别是在5.0,5.1版和行级别的复制方面.
+其他的可以参考 http://www.mysqlperformanceblog.com/2006/09/29/what-to-tune-in-mysql-server-after-installation/ http://www.mysqlperformanceblog.com/mysql-performance-presentations/
+应用程序的优化 如果原来是MyISAM,现在你可能需要对应用做一些修改.首先确保你在进行数据库更新的时候使用事务,这对数据一致性和性能都有好处. 其次如果你的应用有写操作的话要注意处理死锁问题. 第三你要重新检视你的表结构,尽可能利用Innodb的优势–主键的群集(clustering by primary key),在所有的索引里面有主键,让主键简单.使用主键来快速查询(在连接中使用),large unpacked indexes (try to be easy on indexes)....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-19 14:50:25 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to [译]Innodb 性能优化基础" href="http://example.org/2009/04/19/e8af91innodb-e680a7e883bde4bc98e58c96e59fbae7a180/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>［翻译］［注解］Innodb Performance Optimization Basics
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文链接地址如下：http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/ 这篇文章写于2007年11月 翻译参考了这篇译稿：http://yahoon.blog.51cto.com/13184/76592 推荐详细阅读原作者的这篇演讲稿 Innodb性能优化基础 面试别人的时候我喜欢问一个基础的问题：如果你有一个16G内存，专用于mysql大型innodb的数据库服务器， 对于典型的web负载，你应该怎样调整mysql的设置？有趣的是其中大多数并不能提出任何有益的建议。 所以我决定公布答案，并且我很乐意在硬件，操作系统和应用方面谈谈基础的一些优化。 这篇文章的标题是‘Inodb性能优化基础’，所以这里面的是一些普遍的准则，适用于很多的应用场景， 当然最佳的设置要依据具体的应用而定。
+硬件 如果你的Innodb数据库很大,那么内存是最重要的。现在16-32G的内存性价比就不错。 From CPU standpoint 2*Dual Core CPUs seems to do very well, while with even just two Quad Core CPUs scalability issues can be observed on many workloads. CPU方面，两个双核的CPU，似乎就不错了，而即使只有两个四核心CPU的可扩展性问题都可以观察到很多的工作量，但是这跟应用也有很大的关系。（这里翻译的很别扭，大家看原文） 第三是IO系统－－DAS和RAID是很好的选择.一般来说6-8块硬盘就够了,有时可能需要更多。同时注意新的2.5″的SAS硬盘,小却速度快。RAID10对于数据存储和主要是读的场合下十分合适。需要冗余性的话RAID5也不错，但注意对于RAID5的随机写操作。
+操作系统
+首先－－运行64位的操作系统。现在不少有大内存的服务器，上面还跑着32位的操作系统。建议不要这么做。 如果系统是linux，对数据库的目录使用LVM可以获得更高效的备份。 ext3文件系统大部分情况下都不会出问题，如果碰到问题的话，试试XFS。 如果你使用innodb_file_per_table而且表很多的话可以使用noatime和nodiratime选项，但是这样做效果不是很大。 同时注意给系统留出足够的内存，防止mysql和系统发生内存竞争导致被交换出内存。
+MYSQL 的Innodb 设置
+（关于更多更详细的参数说明，请参考这里（中文文档）） 最重要的地方有:
+innodb_buffer_pool_size 设为内存的70%-80%都是安全的。我在一个16G的服务器上把它设成12G。 UPDATE： 如果你想了解更多的细节，请查看tuning innodb buffer pool innodb_log_file_size 这取决于你需要的出错恢复速度。256M是合理的恢复时间和良好性能之间不错的一个平衡值。 innodb_log_buffer_size=4M 大多数情况4M就够了。如果你有大量的事务处理，这个数值可以增加一点儿。 innodb_flush_log_at_trx_commit=2 如果你不是很关心ACID，可以容许在系统完全崩溃的情况下丢失最后一两秒的事务，那么可以设置这个值为2。它可以极大的提高短的写事务的效率。 innodb_thread_concurrency=8 即使目前的InnoDB可扩展性修复后，对并发的支持也是有限的。这个值取决于你的程序，可能高或者低一些。8是可以接受的默认值。 innodb_flush_method=O_DIRECT 避免双缓冲(double buffering)和降低swap的压力，大多数情况下可以提高性能。但是注意如果你RAID cache不够的话，写IO的操作会有麻烦。 innodb_file_per_table 如果你的表不多可以使用这个选项。这样你就不会有不受控的innodb主表空间的增长，这个主表空间是不能重新定义的。这个选项在4....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-19 14:47:07 +0000 UTC'>April 19, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to ［翻译］［注解］Innodb Performance Optimization Basics" href="http://example.org/2009/04/19/innodb-performance-optimization-basics/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>什么时候该增加MySQL数据库的内存？
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>除了优化好数据库配置文件外，更换/增加MySQL数据库服务器的硬件，是提高数据库性能最直接有效的方法。
+这里先从最便宜的内存入手。（服务器内存和硬盘价格一般是台式机的5倍左右）
+最便捷的方法是使用 mysqlreport，来持续关注报告里面‘Key’和‘InnoDB Buffer Pool’这两个部分。如果你的my.cnf参数设置正确，但是Read hit一直低于99%，那么就要考虑增加内存了。
+那么Read hit是怎么计算出来的呢？为什么要持续关注？在MySQL的命令行下：
+mysql&gt; show status like &#39;key_read%&#39;; &#43;-------------------&#43;------------&#43; | Variable_name | Value | &#43;-------------------&#43;------------&#43; | Key_read_requests | 3041374401 | | Key_reads | 60959876 | &#43;-------------------&#43;------------&#43; 2 rows in set (0.02 sec) key_efficiency(Read hit) = 1 - (Key_reads / Key_read_requests) = 97.995647100207184% mysql&gt; show status like &#39;Innodb_buffer_pool_read%&#39;; &#43;-----------------------------------&#43;------------&#43; | Variable_name | Value | &#43;-----------------------------------&#43;------------&#43; | Innodb_buffer_pool_read_ahead_rnd | 1660545 | | Innodb_buffer_pool_read_ahead_seq | 576767 | | Innodb_buffer_pool_read_requests | 2080081461 | | Innodb_buffer_pool_reads | 292415839 | &#43;-----------------------------------&#43;------------&#43; 4 rows in set (0....</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-18 22:46:45 +0000 UTC'>April 18, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to 什么时候该增加MySQL数据库的内存？" href="http://example.org/2009/04/18/mysql-when-add-memory/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>mysql中InnoDB的强制恢复
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如果数据库页被破坏，你可能想要用SELECT INTO OUTFILE从从数据库转储你的表，通常以这种方法获取的大多数数据是完好的。即使这样，损坏可能导致SELECT * FROM tbl_name或者InnoDB后台操作崩溃或断言，或者甚至使得InnoDB前滚恢复崩溃。 尽管如此，你可以用它来强制InnoDB存储引擎启动同时阻止后台操作运行，以便你能转储你的表。例如：你可以在重启服务器之前，在选项文件的[mysqld]节添加如下的行：
+[mysqld] innodb_force_recovery = 4 innodb_force_recovery 被允许的非零值如下。一个更大的数字包含所有更小数字的预防措施。如果你能够用一个多数是4的选项值来转储你的表，那么你是比较安全的，只有一些在损坏的单独页面上的数据会丢失。一个为6的值更夸张，因为数据库页被留在一个陈旧的状态，这个状态反过来可以引发对B树和其它数据库结构的更多破坏。
+· 1 (SRV_FORCE_IGNORE_CORRUPT)
+即使服务器检测到一个损坏的页，也让服务器运行着；试着让SELECT * FROM tbl_name 跳过损坏的索引记录和页，这样有助于转储表。
+· 2 (SRV_FORCE_NO_BACKGROUND)
+阻止主线程运行，如果崩溃可能在净化操作过程中发生，这将阻止它。
+· 3 (SRV_FORCE_NO_TRX_UNDO)
+恢复后不运行事务回滚。
+· 4 (SRV_FORCE_NO_IBUF_MERGE)
+也阻止插入缓冲合并操作。如果你可能会导致一个崩溃。最好不要做这些操作，不要计算表统计表。
+· 5 (SRV_FORCE_NO_UNDO_LOG_SCAN)
+启动数据库之时不查看未完成日志：InnoDB把未完成的事务视为已提交的。
+· 6 (SRV_FORCE_NO_LOG_REDO)
+不要在恢复连接中做日志前滚。
+数据库不能另外地带着这些选项中被允许的选项来使用。作为一个安全措施，当innodb_force_recovery被设置为大于0的值时，InnoDB阻止用户执行INSERT, UPDATE或DELETE操作.
+即使强制恢复被使用，你也可以DROP或CREATE表。如果你知道一个给定的表正在导致回滚崩溃，你可以移除它。你也可以用这个来停止由失败的大宗导入或失败的ALTER TABLE导致的失控回滚。你可以杀掉mysqld进程，然后设置innodb_force_recovery为3，使得数据库被挂起而不需要回滚，然后舍弃导致失控回滚的表。
+本文地址：http://www.bhcode.net/article/20090227/4256.html</p>
+  </div>
+  <footer class="entry-footer"><span title='2009-04-17 17:58:26 +0000 UTC'>April 17, 2009</span>&nbsp;·&nbsp;admin</footer>
+  <a class="entry-link" aria-label="post link to mysql中InnoDB的强制恢复" href="http://example.org/2009/04/17/mysql-innodb-force-recover/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://example.org/categories/mysql/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="http://example.org/">白天’s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
